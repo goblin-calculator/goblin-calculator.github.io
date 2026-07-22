@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://sfl-proxy.bossweki.workers.dev https://sfl-community-proxy.bossweki.workers.dev; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Goblin Calculator</title>
+<meta name="description" content="Goblin Calculator — an unofficial profit/loss calculator for Sunflower Land. Know your real profit before you list it." />
+<link rel="canonical" href="https://goblin-calculator.github.io/" />
+<meta name="theme-color" content="#3a4a2f" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Goblin Calculator" />
+<meta property="og:description" content="Know your real profit before you list it — an unofficial profit/loss calculator for Sunflower Land." />
+<meta property="og:url" content="https://goblin-calculator.github.io/" />
+<meta property="og:image" content="https://goblin-calculator.github.io/icons/goblin-logo.png" />
+
+<link rel="manifest" href="./manifest.json" />
+<link rel="icon" href="./icons/goblin-logo.png" />
+<link rel="apple-touch-icon" href="./icons/goblin-logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<div id="appLoadingScreen" aria-hidden="true">
+  <div class="loading-content">
+    <div class="goblin-thought-bubble" id="goblinThoughtBubble">
+      <span id="goblinThoughtText">Goblin tinkin'...</span>
+    </div>
+    <div class="loading-stage">
+      <div class="loading-shadow"></div>
+      <img class="loading-char" src="icons/goblin.png" alt="">
+      <div class="loading-wood">
+        <div class="loading-wood-log"></div>
+        <div class="loading-wood-plank"></div>
+      </div>
+    </div>
+    <div class="loading-progress-wrap">
+      <div class="loading-progress-track">
+        <div class="loading-progress-fill" id="loadingProgressFill"></div>
+      </div>
+      <div class="loading-progress-label" id="loadingProgressLabel">SYNCING FARM... 0%</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="farm-panel-overlay" id="farmPanelOverlay"></div>
+<div class="farm-side-panel" id="farmSidePanel">
+  <button type="button" class="farm-panel-tab" id="farmPanelToggle" aria-label="Open farm sync panel">
+    <span class="farm-panel-tab-arrow" id="farmPanelToggleArrow">›</span>
+  </button>
+  <div class="farm-panel-card">
+    <button type="button" class="farm-panel-debug-toggle" id="farmPanelDebugToggle" aria-label="Toggle debug tools" title="Debug tools">🐞</button>
+    <div class="farm-panel-header">
+      <div class="farm-panel-name" id="farmPanelName">No farm synced</div>
+      <div class="farm-panel-id" id="farmPanelId">Farm Id: —</div>
+      <div class="farm-panel-level" id="farmPanelLevel">Bumpkin Level: —</div>
+      <div class="farm-panel-vip" id="farmPanelVip"></div>
+    </div>
+    <div class="farm-panel-divider"></div>
+    <div class="farm-panel-sync-row">
+      <input type="text" id="farmPanelIdInput" inputmode="numeric" placeholder="Farm ID e.g. 114779" />
+      <button type="button" class="btn btn-sun" id="farmPanelSyncBtn">Sync</button>
+    </div>
+    <div class="farm-panel-divider"></div>
+    <div class="farm-panel-status" id="farmPanelStatus">Not synced yet</div>
+    <div class="farm-panel-debug-panel" id="farmPanelDebugPanel">
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Salt/Honey/Lava data shape</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugBoostsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show equipped/placed boost matches</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugNodesBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show mining node data shape</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugFertBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show fertiliser/BUD/spice data shape</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugCrowBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show crow AoE plot-by-plot detection</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugFactionBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Faction Wings/Green Amulet detection</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugPetsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Pets data shape</button>
+      <textarea id="farmPanelDebugOutput" readonly style="display:none;width:100%;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:7.5px;height:160px;border:1.25px solid var(--line);border-radius:6px;padding:4px;"></textarea>
+    </div>
+    <div class="farm-panel-divider-solid"></div>
+    <div class="farm-panel-tabs">
+      <button type="button" class="farm-panel-tab-btn active" id="farmTabInprogressBtn">⏳ IN PROGRESS</button>
+      <button type="button" class="farm-panel-tab-btn" id="farmTabStocksBtn">📦 STOCKS</button>
+    </div>
+    <div class="farm-panel-tab-content retro-scroll on-parchment" id="farmPanelTabContent">
+      <div class="farm-panel-empty">Sync a Farm ID above to see what's growing and what's in your barn/shed.</div>
+    </div>
+  </div>
+</div>
+
+<div id="installBanner">
+  <span class="install-banner-text"><img class="install-banner-logo" src="./icons/goblin-logo.png" alt="" /> Install Goblin Calculator for quick access</span>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <button id="installBtn">Install</button>
+    <button class="dismiss" id="dismissBanner">✕</button>
+  </div>
+</div>
+
+<header>
+  <span class="app-version-badge">V1.0</span>
+  <div class="header-inner">
+    <div class="mark"><img src="./icons/goblin-logo.png" alt="Goblin Calculator logo" /></div>
+    <div>
+      <h1>Goblin Calculator</h1>
+      <div class="tagline">know your real profit before you list it</div>
+    </div>
+    <div class="boost-btn-stack">
+      <div class="header-q-row">
+        <button id="openTicketCalcBtn" type="button" class="ticket-calc-btn" aria-label="Seasonal Ticket Calculator">🎟️</button>
+        <button id="openTradeShopBtn" type="button" class="trade-shop-btn" aria-label="Trade Post — track buy &amp; sell trades">
+          <img src="data:image/png;base64,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" alt="Trade Post" />
+        </button>
+        <button id="openBettyShopBtn" type="button" class="betty-shop-btn" aria-label="Betty Shop — coin converter">
+          <img src="data:image/png;base64,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" alt="Betty" />
+        </button>
+        <button id="openDisclaimerBtn" type="button" class="disclaimer-q-btn" aria-label="About Goblin Calculator">?</button>
+      </div>
+      <div class="boost-top10-row" style="display:flex;align-items:center;gap:6px;">
+        <button id="openTop10HeaderBtn" type="button" class="top10-header-btn" aria-label="Top 10 Most Profitable">
+        <img src="data:image/png;base64,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" alt="Top 10" />
+        </button>
+        <button id="openBoostPanelBtn" type="button" style="background:var(--sun);border:2px solid #5c3d1e;border-radius:8px;padding:8px 10px;font-weight:700;font-size:11px;cursor:pointer;color:var(--soil-dark);white-space:nowrap;flex-shrink:0;">⚡ Boosts</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="settings-panel" id="settingsPanel">
+    <button class="settings-toggle" id="settingsToggle" type="button">
+      <span id="settingsSummary">1 FLOWER = 1000 Coins · Fee 0%</span>
+      <span class="chev">▾</span>
+    </button>
+    <div class="settings-body" id="settingsBody">
+      <div class="setting-row">
+        <label for="rateInput">Coin ⇄ FLOWER rate</label>
+        <div class="input-wrap">
+          <span class="unit-text">1 FLOWER =</span>
+          <input type="number" id="rateInput" min="1" step="1" value="1000" />
+          <span class="unit-text">Coins</span>
+        </div>
+      </div>
+      <div class="setting-hint">Seeds and tools are bought with Coins, but items sell for FLOWER. This rate converts Coin cost into FLOWER so profit is calculated on the same currency.</div>
+
+      <div class="setting-row">
+        <label>Gem purchase reference</label>
+        <div class="input-wrap">
+          <span class="unit-text">Spent</span>
+          <input type="number" id="gemFlowerSpentInput" min="0" step="0.0001" value="134.7111" />
+          <span class="unit-text">FLOWER for</span>
+          <input type="number" id="gemsReceivedInput" min="1" step="1" value="1350" />
+          <span class="unit-text">Gems</span>
+        </div>
+        <div class="setting-hint" id="gemRatioDisplay" style="font-weight:700;color:var(--soil);"></div>
+      </div>
+      <div class="setting-hint">Gems get cheaper the more you buy at once (bonding curve pricing), so there's no single fixed rate. Open the Buy Gems → FLOWER purchase screen, pick whatever bundle you actually buy, and enter the exact FLOWER cost and Gems amount shown there. The ratio below recalculates live — re-enter these anytime you buy a different (discounted) bundle to keep it accurate.</div>
+
+      <div class="setting-row">
+        <label>Gem restock strategy</label>
+        <div class="input-wrap" id="restockModeGroup" style="gap:6px;flex-wrap:wrap;">
+          <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="tools_only" style="padding:6px 8px;font-size:10px;">🔧 10 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — Tools only</button>
+          <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="seeds_only" style="padding:6px 8px;font-size:10px;">🌱 15 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — Seeds only</button>
+          <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="all" style="padding:6px 8px;font-size:10px;">📦 20 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — All (Seeds+Tools)</button>
+        </div>
+        <div class="setting-hint" id="restockModeHint" style="font-weight:700;color:var(--soil);"></div>
+      </div>
+      <div class="setting-hint">Tools always cost 10 Gems to restock — that doesn't change no matter which button you pick. Seeds cost 15 Gems restocked alone, or effectively 10 Gems when bundled into a 20-Gem "All" restock (20 ÷ 2). Pick "All" only if you actually need both a tool and a seed restock at the same time — otherwise you're paying for a restock you didn't need. This choice feeds directly into every 24h profit calc.</div>
+
+      <div class="setting-row">
+        <label for="feeInput">My marketplace sell fee</label>
+        <div class="input-wrap">
+          <input type="number" id="feeInput" min="0" max="100" step="0.1" value="0" />
+          <span class="unit-text">%</span>
+        </div>
+      </div>
+      <div class="setting-hint">Auto-filled from your farm's island tier + VIP status every time you sync. You can still override it manually below if needed.</div>
+
+      <div class="setting-row">
+        <label>Profit mode</label>
+        <div class="input-wrap" id="profitModeGroup" style="gap:6px;">
+          <button type="button" class="btn btn-ghost profit-mode-btn" data-mode="24h" style="padding:6px 10px;font-size:10px;">⏱ 24hrs</button>
+          <button type="button" class="btn btn-ghost profit-mode-btn" data-mode="stock" style="padding:6px 10px;font-size:10px;">📦 Per Stock</button>
+        </div>
+      </div>
+      <div class="setting-hint">24hrs (default) shows profit/loss as a daily rate — this is what every calculation in the app is based on and nothing changes when you switch. Per Stock only changes what's <em>displayed</em> on each card: instead of a daily rate, it shows the total cost, yield, and profit for using up everything currently in stock for that item (e.g. all 200 Axes you have banked) — a snapshot, not a new calculation mode.</div>
+
+      <button class="btn btn-sun btn-block" id="confirmSettingsBtn">✅ Save &amp; continue</button>
+    </div>
+  </div>
+
+  <div class="library-panel" id="marketPanel">
+    <button class="library-toggle" id="marketToggle" type="button">
+      <span>💰 Marketplace Prices</span>
+      <span class="chev">▾</span>
+    </button>
+    <div class="library-body" id="marketBody">
+      <div class="market-source-note">📡 All price data is pulled from <a href="https://sfl.world" target="_blank" rel="noopener">sfl.world</a> — for more details, visit <a href="https://sfl.world" target="_blank" rel="noopener">sfl.world</a>.</div>
+      <div class="library-sub">What each item currently sells for on the marketplace, in FLOWER. Every seed, tool, or animal produce you add above shows up here automatically — set or update its price any time and every Harvested item recalculates instantly. Delete the source above to remove it from here too.</div>
+
+      <div class="live-sync-row">
+        <div class="live-sync-status" id="liveSyncStatus">🔄 Live prices not synced yet</div>
+        <button class="btn btn-sun" id="syncLivePricesBtn" type="button">🔄 Sync live prices</button>
+      </div>
+      <button type="button" class="live-paste-toggle" id="livePasteToggleBtn">Fetch blocked by browser? Paste the API response manually →</button>
+      <div class="live-paste-wrap" id="livePasteWrap">
+        <textarea id="livePasteInput" placeholder='Paste the full JSON from https://sfl.world/api/v1/prices here...'></textarea>
+        <button class="btn btn-outline" id="livePasteImportBtn" type="button" style="color:#4a2f16;border-color:#a97c3f;">📥 Import pasted prices</button>
+      </div>
+
+      <div class="lib-search-wrap">
+        <input type="text" id="marketSearchInput" placeholder="🔍 Search marketplace items..." />
+      </div>
+      <div id="marketItemList" class="retro-scroll on-parchment" style="max-height:220px;"></div>
+    </div>
+  </div>
+
+  <div class="library-panel" id="libraryPanel">
+    <button class="library-toggle" id="libraryToggle" type="button">
+      <span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQBAMAAADUulMJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAAAAAAK9IMf6uNP7nYfd2Iv///8kLUD8AAAACdFJOUwAzyUOsLgAAAAFiS0dEBmFmuH0AAAAHdElNRQfoBAMBCyeWyjz2AAAAW0lEQVQI103N0RGAIAwD0OgE4ASSygIWFrBMgPvvYuuP9if3LncpAKwk4mTYHmzazkhTvT6T3k/XOLUTYmrkxKHa5OfaRpdewFsnmVDJWjKwuZOvLWR5v+UcfADJng8ZS5A75AAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNC0wNC0wM1QwMToxMTozOCswMDowMN4naB0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjQtMDQtMDNUMDE6MTE6MzgrMDA6MDCvetChAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDI0LTA0LTAzVDAxOjExOjM5KzAwOjAwXhj6ygAAAABJRU5ErkJggg==" alt="Coins" style="width:14px;height:14px;vertical-align:-2px;image-rendering:pixelated;"> Base Coin Cost</span>
+      <span class="chev">▾</span>
+    </button>
+    <div class="library-body" id="libraryBody">
+      <div class="library-sub">The base game cost of every tool, crop, fruit, resource and animal — what it produces and how much, loaded automatically. Nothing here is hand-editable: it's the game's own numbers. When a boost changes a cost or a yield, the new number is shown with the original struck through and the boost named next to it.</div>
+
+      <div class="lib-search-wrap">
+        <input type="text" id="librarySearchInput" placeholder="🔍 Search everything below..." />
+      </div>
+
+      <div class="lib-section-title">🔨 Tools <span class="count" id="toolCount"></span></div>
+      <div id="toolLibList" class="retro-scroll on-parchment lib-list-scroll"></div>
+
+      <div class="lib-add-row" id="addToolRow" style="display:none;">
+        <button class="btn btn-outline" id="addToolLibBtn" type="button">+ Tool</button>
+      </div>
+
+      <div class="lib-section-title"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAD1BMVEUAAAD3diL/3h/7qiD/+U7mGOxUAAAAAXRSTlMAQObYZgAAADVJREFUCNdjYBQUYAABIWVFGA0WEDaGCAgpQQQYkQUYIAJQHUqOYJpRUFiAAcIyZIAAuIABAAQBBIwhksxUAAAAAElFTkSuQmCC" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crops <span class="count" id="baseCropCount"></span></div>
+      <div id="baseCropLibList" class="retro-scroll on-parchment lib-list-scroll"></div>
+
+      <div class="lib-section-title"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAM1JREFUKJGFkD8OAUEUh79hmo0b0IhCaZttNXsAoncDap1e9BIHcAGFdiW029hEQyJR4AKExMYqZMaMXfyq+fN9894bwZ9U236i1ptJIKR5ee1VEnPvHsvUOwXjxE+kCUvvgWzWAJi39tT7BbaLu1VRpuDDCoDZuchydLHgzSQQUsGAhuNQALBu7JDeq8vbOI8D5LIGlV7CoHvSsJlMQUk6JdeeQSUORSYYTyP9tiWY/QMQRqnKAt6/9C1xmMMZ7oQWfkkmbAlK+hRMGOAJOLpMxjYgUowAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fruits <span class="count" id="baseFruitCount"></span></div>
+      <div id="baseFruitLibList" class="retro-scroll on-parchment lib-list-scroll"></div>
+
+      <div class="lib-section-title"><img src="data:image/webp;base64,UklGRr4AAABXRUJQVlA4TLEAAAAvDoADEF+gppEU6M4Cb0muwr8FLGBOUWwb1FNAgG8Ae1uxdZBBATEURZLU3C9nMIJ/DwiCz/wHALbPLkICGcjYTA7JpnHY6+77f+A2kmTV2Trze99mUgQy5akUASXA4DFm8ELYJzKle2F+iCGi/wSTNNV2DL74wgNgPKM/IKVS/zmmalS5lb0hlXfZU8kaJN1D9s46G+xk79ug193J9FK5kuGkpvQHNVuvzPPadZBOJgIA" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Greenhouse <span class="count" id="baseGreenhouseCount"></span></div>
+      <div id="baseGreenhouseLibList" class="retro-scroll on-parchment lib-list-scroll"></div>
+
+      <div class="lib-section-title"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAFVBMVEUAAAAYFCXkpnLChWlzPjnq1Kq+Si+8xtD3AAAAAXRSTlMAQObYZgAAAE5JREFUCNdjYBAUFGAAAkal0EBGEEtYSVXMESQgbBToCJYxVhWA0EaBIFrMGSzAmOIoDKLFXAQYgTSQy8BoJADkAsWEBBhEwGYAEVgvAwCyQwfhatKS0wAAAABJRU5ErkJggg==" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Resources <span class="count" id="baseResourceCount"></span></div>
+      <div id="baseResourceLibList" class="retro-scroll on-parchment lib-list-scroll"></div>
+
+      <div class="lib-section-title"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALBAMAAAC0QAErAAAABGdBTUEAALGPC/xhBQAAABVQTFRFAAAAuG9Q////vkov6tSqwoVp6LeWFD5WfgAAAAF0Uk5TAEDm2GYAAABDSURBVAjXY2BgDQ1gYGAIS0tlYGBNc0oLAJJpQDIsTQkoFJai5JbKIJbiAiRF01zSAhlEgSoDGZhDQ0MNGBiMjY0ZAM3UDhfpAMERAAAAAElFTkSuQmCC" style="width:12px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Animals <span class="count" id="baseAnimalCount"></span></div>
+      <div id="baseAnimalLibList" class="retro-scroll on-parchment lib-list-scroll"></div>
+
+      <div class="lib-section-title"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAATBAMAAABrSZD8AAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAqUExURQAAABgUJb5KL/6uNP7nYWPHTXQ/Ofd2Ij6JSKT1k02nbyZcQnToW////xdnfRkAAAACdFJOUwAzyUOsLgAAAAFiS0dEDfa0YfUAAAAHdElNRQfoAhYHIB8ksle+AAAAiUlEQVQI12NgYFACAgYgYDJ2cTFWADJUTJSUnJ0CGJic3dLSUkwUEAxlZ5O0NGcTIwZlF5BiFyDDxMXY2MXZiEEdKAAUKmJQLwZJmRcxKJcXGxublxsxBBmXA4GxKkNQuTEQlKsytE4HiVRGMKw+CWRVztnFwNUzSUlJ88RCBkZBCIAxBBgYoAIAynwlHfBeyckAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjQtMDItMjJUMDc6MzI6MzArMDA6MDAZ/vEgAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI0LTAyLTIyVDA3OjMyOjMwKzAwOjAwaKNJnAAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNC0wMi0yMlQwNzozMjozMSswMDowMJnBY/cAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Honey &amp; Flowers <span class="count" id="baseHoneyCount"></span></div>
+      <div id="baseHoneyLibList" class="retro-scroll on-parchment lib-list-scroll"></div>
+    </div>
+  </div>
+
+<div class="type-toggle" id="mainCategoryToggle" style="margin:0 0 8px;">
+  <button type="button" data-view="crops"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAKCAYAAABv7tTEAAAAAXNSR0IArs4c6QAAAKNJREFUKJGNkSEOwzAMRX8mb3CoIKSoytiuMNwL7RS9UPCuUGhYEhBU2IEMtE68dJX2Ufzft2U5wB+yjUu2cUlq0kDeIbLR/u3ZrcWAFCIb2gEFxXeP8wY6YECiPShQfH691w3GpawnBYDcfO1bAMgNWlQbdUgPnP2EENlQiGzgkYD2K2zvF4RxweynMmA7EOXCI19PVqvDopMGNTzSz9DRn4k+drNQZqnfgIoAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crops</button>
+  <button type="button" data-view="resources"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAFVBMVEUAAAAYFCXkpnLChWlzPjnq1Kq+Si+8xtD3AAAAAXRSTlMAQObYZgAAAE5JREFUCNdjYBAUFGAAAkal0EBGEEtYSVXMESQgbBToCJYxVhWA0EaBIFrMGSzAmOIoDKLFXAQYgTSQy8BoJADkAsWEBBhEwGYAEVgvAwCyQwfhatKS0wAAAABJRU5ErkJggg==" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Resources</button>
+  <button type="button" data-view="fruits"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAM1JREFUKJGFkD8OAUEUh79hmo0b0IhCaZttNXsAoncDap1e9BIHcAGFdiW029hEQyJR4AKExMYqZMaMXfyq+fN9894bwZ9U236i1ptJIKR5ee1VEnPvHsvUOwXjxE+kCUvvgWzWAJi39tT7BbaLu1VRpuDDCoDZuchydLHgzSQQUsGAhuNQALBu7JDeq8vbOI8D5LIGlV7CoHvSsJlMQUk6JdeeQSUORSYYTyP9tiWY/QMQRqnKAt6/9C1xmMMZ7oQWfkkmbAlK+hRMGOAJOLpMxjYgUowAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fruits</button>
+  <button type="button" data-view="honey"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAATBAMAAABrSZD8AAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAqUExURQAAABgUJb5KL/6uNP7nYWPHTXQ/Ofd2Ij6JSKT1k02nbyZcQnToW////xdnfRkAAAACdFJOUwAzyUOsLgAAAAFiS0dEDfa0YfUAAAAHdElNRQfoAhYHIB8ksle+AAAAiUlEQVQI12NgYFACAgYgYDJ2cTFWADJUTJSUnJ0CGJic3dLSUkwUEAxlZ5O0NGcTIwZlF5BiFyDDxMXY2MXZiEEdKAAUKmJQLwZJmRcxKJcXGxublxsxBBmXA4GxKkNQuTEQlKsytE4HiVRGMKw+CWRVztnFwNUzSUlJ88RCBkZBCIAxBBgYoAIAynwlHfBeyckAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjQtMDItMjJUMDc6MzI6MzArMDA6MDAZ/vEgAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI0LTAyLTIyVDA3OjMyOjMwKzAwOjAwaKNJnAAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNC0wMi0yMlQwNzozMjozMSswMDowMJnBY/cAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Honey</button>
+  <button type="button" data-view="animals"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALBAMAAAC0QAErAAAABGdBTUEAALGPC/xhBQAAABVQTFRFAAAAuG9Q////vkov6tSqwoVp6LeWFD5WfgAAAAF0Uk5TAEDm2GYAAABDSURBVAjXY2BgDQ1gYGAIS0tlYGBNc0oLAJJpQDIsTQkoFJai5JbKIJbiAiRF01zSAhlEgSoDGZhDQ0MNGBiMjY0ZAM3UDhfpAMERAAAAAElFTkSuQmCC" style="width:12px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Animals</button>
+  <button type="button" data-view="salt"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAA9UlEQVQokY2RsU4CQRCGvzMEg+Y6LIjG1saSZpvrfBdaci9wL+AT2dkYAiWNDYXxjuKoIHdkacaCzGRPXORvdrOz33yzWYgkz5zkmZNYPQpVrZeq9ZfBaqlaLxqFow3yzNnFeb01o+5F5BT+yzKvtx0otAP08szJdOIoG99pdn97zWjQZ70/sN4fACgbz3TiAORKL46HKWXjrcFo0LdVz8fD1Br3QosW1KJGtYcx42KzM0Ctv/eLza5rXM5WPFNQvhRWCN9s478VLGer7qgKn4tCJ28MC7F81cdxEzj+49PDDY936b/Q53fL6/tHkuihwueiEMAPcDTaSZl9MeEAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Salt</button>
+  <button type="button" data-view="greenhouse"><img src="data:image/webp;base64,UklGRr4AAABXRUJQVlA4TLEAAAAvDoADEF+gppEU6M4Cb0muwr8FLGBOUWwb1FNAgG8Ae1uxdZBBATEURZLU3C9nMIJ/DwiCz/wHALbPLkICGcjYTA7JpnHY6+77f+A2kmTV2Trze99mUgQy5akUASXA4DFm8ELYJzKle2F+iCGi/wSTNNV2DL74wgNgPKM/IKVS/zmmalS5lb0hlXfZU8kaJN1D9s46G+xk79ug193J9FK5kuGkpvQHNVuvzPPadZBOJgIA" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Greenhouse</button>
+  <button type="button" data-view="cropmachine"><img src="data:image/webp;base64,UklGRvgCAABXRUJQVlA4TOwCAAAvT0ARENegKJKk5sg5h+9ZQDZ6MIEDvthgEwBgkvnr2kDho6uWogcBHFTVtg29yTz8amCpIYbGvjSggAwWgmybio3+YA8A4P//I9YIRM6ZKS6kAFoIY4XHWmBZM4rwCOSjsJW4BkcAmzePbg2NKcu5pt0XL213P3C8cB0MEmzbjdsmtiMFHigzphWy3v9KSRAE6aFzix/Rfwhu20iSpO0aVM+VOZzsfOHtt5uuqb+7bm3o/Cp6NT+8jowTXR38JIo71KFgJdH71PFmBFS3ewAUC423n/NoNXyIVoDbQ+QWkqQeTFcrO5y9rHhszNj5zEYywbv2954WR9dvK8rOyJuJX2kAixkQN4Fdhk1caBMEUymuZVngKhw5PxHXvBMv4yWYXWK+oJtk0uQyM8msAmuDYHnHSMVoZsk0uVRR2SLEi1kMBT+Zpcsto8wlLR2LcDrdqpsgLXQkoJB0uRy1SdIndabjDGTSDBBWN27T5At5JxETBiF2LbTIK2eda7W5XGT8VUD63p9SrBZLJ5Zzduhz3kBapFxm7Fa0gq+gjC6XZ/0igRS5CSAhuQA0uew7LYEKZLrnFi3au8nf+5PQh7CQOLfum0sz47lszq2RqPtQ59zqQd+HeufMqNNiH1pGzK0MXQ1m0OdS7EPdc4tzddzmXND0oWE4kE5tH/IiyrlVNqtKEvqu2IeWQbk0wNCeaMIi96HuXNYbqxVKyCj70JBcGup3gkEAUFD2oQG5XCYTZksD4fQJSPWBEbk8TZKQFe4m1tKdS4Ze0/yZPd//dRNGawNI0SxNxh+pX1hnLhnhhkIAxtCby8ImMDZhEN253B8ZRzA+D/uj6Keqju5c7g+Md2Mc9nZ4F1XVMeB3D4PAeIzfPXMKCQT2SHeguTBgKMDwINAMEMAeaQjdOcJKmIk502PQytmIOrpz6Zs5G18HNYfT/VUgdza7Sx34QON2rtEW7lBHc8QX6veKYG58He3N/ZcHPL1rur27Lw8A" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crop Machine</button>
+  <button type="button" data-view="composter"><img src="data:image/webp;base64,UklGRkoBAABXRUJQVlA4TD4BAAAvE8AHEK/ANACANJDcNWvn/zdoJBo7QQ9hGtlWK7BR5YzG0wQl0wEV0AKDRP7IJgCANLxE4HLrQnLPsNfdVSCQZLK/1SgBAOC1LDH8r1vaQMj/IARY2/SLigiJwxrVICXLvbSmc6/R3sw5he8/zXW5uNAzA4iRbdVtHPx5EYZc+R5e/8UCikuI6P8E3NaxvF2uFy/UcbHuRrk4FhFRxsUSEbdorZVRtqO01uJrn2swff6unWLxKWNbZCbId81lfScWYfWSY5sFe1LW+7amz05w+j8igKyP+fV61DxFBFbWx+saml6v12OuCQSGrLmtqU4EOvNdt++URXB6XAZPGllyWXLgFshcOzuBzQASEhinCKTubqGO1DECy5ItyZYsdQLbxjM22EQDOJgPOA6IaK0dl1tri3/H8/eLz+/8fBU=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Composter</button>
+  <button type="button" data-view="cooking"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAKCAYAAABi8KSDAAAAAXNSR0IArs4c6QAAAO9JREFUGJVtkbFqwlAUhr+bRTSkxSSFULKVgNCA4CBesQ+QRcjQVyiFFvoqjsW9jlWcfQDByU0QN5EMGimZ7GA63ZjE/tPhnO9wDv8vKMmxvVTV0X4t8jNRhkbtGtJPODdDHj6mhSWhwFG7BsCrafEZH5B+QqVjAnD/8kO0XwvNsb3067mVgU9vOtJPeA8faXzfcJrH7Ia3OLaXCsf20rvKiUFf0um5aMtx9uO5GaItxwSTKqv4lwxWGvQlAF1jQTCpAuDWTWab6Bq2dAO3bpZNYraJ0K66wPYY/9e+uAGgLli6UTiv7CuYng9EKR/MH0NNTSwXCPCyAAAAAElFTkSuQmCC" style="width:13px;height:12px;vertical-align:-2px;image-rendering:pixelated;"> Cooking</button>
+  <button type="button" data-view="pets">🐾 Pets</button>
+</div>
+
+  <div class="library-panel" id="cropsPanel">
+    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAD1BMVEUAAAD3diL/3h/7qiD/+U7mGOxUAAAAAXRSTlMAQObYZgAAADVJREFUCNdjYBQUYAABIWVFGA0WEDaGCAgpQQQYkQUYIAJQHUqOYJpRUFiAAcIyZIAAuIABAAQBBIwhksxUAAAAAElFTkSuQmCC" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crops (auto)</span></div>
+    <div class="library-body" id="cropsBody">
+      <div class="library-sub">All base crops, loaded automatically — cost, yield & profit update live with your boosts and plot count. Edit sell price in Marketplace Prices below.</div>
+      <div class="season-toggle" id="cropsSeasonToggle" style="margin-top:2px;">
+        <button type="button" data-season="Spring"><span class="season-emoji">🌸</span>Spring</button>
+        <button type="button" data-season="Summer"><span class="season-emoji">☀️</span>Summer</button>
+        <button type="button" data-season="Autumn"><span class="season-emoji">🍁</span>Autumn</button>
+        <button type="button" data-season="Winter"><span class="season-emoji">❄️</span>Winter</button>
+      </div>
+      <div class="season-toggle-note" id="cropsSeasonToggleNote"></div>
+      <div class="tier-toggle" id="cropTierToggle">
+        <button type="button" data-tier="All" class="active">All</button>
+        <button type="button" data-tier="Basic">Basic</button>
+        <button type="button" data-tier="Medium">Medium</button>
+        <button type="button" data-tier="Advanced">Advanced</button>
+      </div>
+      <div id="cropsItemList" class="retro-scroll" style="max-height:48vh;"></div>
+    </div>
+  </div>
+
+  <div class="library-panel" id="resourcePanel">
+    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAFVBMVEUAAAAYFCXkpnLChWlzPjnq1Kq+Si+8xtD3AAAAAXRSTlMAQObYZgAAAE5JREFUCNdjYBAUFGAAAkal0EBGEEtYSVXMESQgbBToCJYxVhWA0EaBIFrMGSzAmOIoDKLFXAQYgTSQy8BoJADkAsWEBBhEwGYAEVgvAwCyQwfhatKS0wAAAABJRU5ErkJggg==" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Resources &amp; Tools (auto)</span></div>
+    <div class="library-body" id="resourceBody">
+      <div class="library-sub">Wood → Stone → Iron → Gold → Crimstone → Oil. Tap a resource to see its tool's full recipe. Choose Collect or Buy per material.</div>
+      <div id="resourceItemList" class="retro-scroll" style="max-height:48vh;"></div>
+    </div>
+  </div>
+  
+  <div class="library-panel" id="fruitsPanel">
+    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAM1JREFUKJGFkD8OAUEUh79hmo0b0IhCaZttNXsAoncDap1e9BIHcAGFdiW029hEQyJR4AKExMYqZMaMXfyq+fN9894bwZ9U236i1ptJIKR5ee1VEnPvHsvUOwXjxE+kCUvvgWzWAJi39tT7BbaLu1VRpuDDCoDZuchydLHgzSQQUsGAhuNQALBu7JDeq8vbOI8D5LIGlV7CoHvSsJlMQUk6JdeeQSUORSYYTyP9tiWY/QMQRqnKAt6/9C1xmMMZ7oQWfkkmbAlK+hRMGOAJOLpMxjYgUowAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fruits (auto)</span></div>
+    <div class="library-body" id="fruitsBody">
+      <div class="library-sub">Tomato, Lemon, Blueberry, Orange, Apple &amp; Banana — cost, yield &amp; profit update live with your boosts. Grapes are excluded (greenhouse crop). Edit sell price in Marketplace Prices below.</div>
+      <div id="fruitsItemList" class="retro-scroll" style="max-height:48vh;"></div>
+    </div>
+  </div>
+  <div class="library-panel" id="composterPanel">
+    <div class="library-toggle"><span><img src="data:image/webp;base64,UklGRkoBAABXRUJQVlA4TD4BAAAvE8AHEK/ANACANJDcNWvn/zdoJBo7QQ9hGtlWK7BR5YzG0wQl0wEV0AKDRP7IJgCANLxE4HLrQnLPsNfdVSCQZLK/1SgBAOC1LDH8r1vaQMj/IARY2/SLigiJwxrVICXLvbSmc6/R3sw5he8/zXW5uNAzA4iRbdVtHPx5EYZc+R5e/8UCikuI6P8E3NaxvF2uFy/UcbHuRrk4FhFRxsUSEbdorZVRtqO01uJrn2swff6unWLxKWNbZCbId81lfScWYfWSY5sFe1LW+7amz05w+j8igKyP+fV61DxFBFbWx+saml6v12OuCQSGrLmtqU4EOvNdt++URXB6XAZPGllyWXLgFshcOzuBzQASEhinCKTubqGO1DECy5ItyZYsdQLbxjM22EQDOJgPOA6IaK0dl1tri3/H8/eLz+/8fBU=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Composter (auto)</span></div>
+    <div class="library-body" id="composterBody">
+      <div class="library-sub">
+        Compost Bin, Turbo Composter &amp; Premium Composter — <b>not tradable</b>, but every cycle turns crops/fruit (+ sometimes Eggs) into
+        a fertiliser you can apply to a growing crop or fruit tree. Ingredient requirements change every season, so cost per
+        fertiliser updates automatically with the season toggle above. Worms are a free by-product (fishing bait) — not counted as cost.
+        Turn fertilisers <b>on/off per-crop-type in ⚡ Boost Settings → 🪱 Composter</b> to see their yield/time effect and coin cost
+        show up on the Crops &amp; Fruits cards.
+      </div>
+      <div id="composterItemList" class="retro-scroll" style="max-height:48vh;"></div>
+    </div>
+  </div>
+
+  <div class="library-panel tab-hidden" id="cookingPanel">
+    <div class="library-toggle"><span>🍳 Cooking</span></div>
+    <div class="library-body" id="cookingBody">
+      <div class="library-sub">
+        Pre-calculate the total EXP and FLOWER cost of a cooking plan across every kitchen building. Set how many of
+        each dish you plan to cook (auto-filled from your synced inventory) and watch your Bumpkin's level bar update live.
+        Every food-EXP boost is wired in automatically once selected: skills (Munching Mastery, Drive-Through Deli,
+        Juicy Boost — 🍳 Cooking skill tree; Fishy Feast — 🎣 Fishing skill tree, Tier 3; Buzzworthy Treats — 🐝 Bees
+        skill tree, Tier 2 — all ranked via Ascension if you use it), wearables &amp; collectibles
+        (⚡ <b>Boosts → 🍳 Cooking</b> tab), and VIP.
+      </div>
+
+      <div class="cook-header" id="cookHeader"></div>
+      <div class="cook-divider"></div>
+
+      <div class="cook-mode-toggle" id="cookModeToggle">
+        <button type="button" class="btn btn-ghost" data-mode="collect">🧺 Collect</button>
+        <button type="button" class="btn btn-ghost" data-mode="buy">🛒 Buy</button>
+      </div>
+
+      <div class="cook-building-tabs" id="cookBuildingTabs"></div>
+
+      <div id="cookFoodList" class="retro-scroll" style="max-height:52vh;"></div>
+    </div>
+  </div>
+
+  <div class="library-panel tab-hidden" id="petsPanel">
+    <div class="library-toggle"><span>🐾 Pets</span></div>
+    <div class="library-body" id="petsBody">
+      <div id="petTotalYieldWrap" class="pet-total-yield-wrap"></div>
+
+      <div class="library-sub">
+        Feed pets Easy/Medium/Hard meals (costs wired from 🍳 Cooking) to earn XP &amp; Energy, then spend that Energy
+        to fetch resources. Every yield except Acorn is tradable. Pet-specific boosts (Walrus Onesie, Beast Shoes,
+        Hound Shrine, Pet Bowls, Squirrel Onesie, Oaken, Paw Aura, Victoria's Apron) live in
+        ⚡ <b>Boosts → 🐾 Pets</b> tab.
+      </div>
+
+      <div id="petProfitList" class="pet-profit-grid retro-scroll" style="max-height:38vh;"></div>
+
+      <div class="pet-add-toggle-wrap">
+        <button type="button" class="btn btn-sun" id="petAddToggleBtn">➕ Add Pet</button>
+        <div class="hint-collapsible" id="petCalcHelpWrap" style="display:inline-block;margin:0 0 0 8px;vertical-align:middle;">
+          <button type="button" class="hint-q-btn" aria-label="How is this calculated?">❓</button>
+          <div class="hint-slide" style="max-width:100%;">
+            <div class="field-hint" style="background:#eef3fb;border:1.5px solid #3a6ea5;padding:8px 10px;border-radius:8px;margin-top:6px;font-weight:600;color:#20456b;">
+              <div style="margin-bottom:6px;">📐 <b>How Cost/u is calculated</b></div>
+              <div style="font-weight:400;margin-bottom:8px;">
+                <b>Avg feed cost</b> = the coin cost of feeding this pet Easy + Medium + Hard once each (averaged
+                across whichever foods you've checked in each list), converted to FLOWER. That's a <b>full day's food bill</b>.<br><br>
+                For each resource: <b>Cost/u</b> = Avg feed cost ÷ (units you'd get <b>if every bit of the day's energy
+                went into fetching only that resource</b>). It's a "what if" per resource, not a blended real-day cost —
+                so Acorn/Fossil Shell (not tradable) always show as a full loss, since they get charged the whole day's
+                food bill with no sale to offset it.
+              </div>
+              <div style="margin-bottom:6px;">💰 <b>How 24h Profit/Loss is calculated</b></div>
+              <div style="font-weight:400;">
+                For each resource: <b>Gross</b> = totalYield × marketplace sell price. <b>Sell fee</b> = Gross × your
+                trade fee %. <b>Net</b> = Gross − Sell fee − the full day's Avg feed cost. The 🏆 Best resource is
+                whichever tradable resource has the highest Net if you spent 100% of the day's energy on it alone.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="petAddFormWrap" style="display:none;"></div>
+
+      <div class="pet-section-divider"></div>
+      <div id="petHouseList"></div>
+
+      <div id="petCardsWrap" class="pet-cards-wrap"></div>
+
+      <div class="pet-section-divider"></div>
+      <div class="pet-food-tab-toggle" id="petFoodTabToggle"></div>
+      <div id="petFoodTabList" class="retro-scroll" style="max-height:42vh;"></div>
+    </div>
+  </div>
+
+  <div class="library-panel" id="honeyPanel">
+    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAATBAMAAABrSZD8AAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAqUExURQAAABgUJb5KL/6uNP7nYWPHTXQ/Ofd2Ij6JSKT1k02nbyZcQnToW////xdnfRkAAAACdFJOUwAzyUOsLgAAAAFiS0dEDfa0YfUAAAAHdElNRQfoAhYHIB8ksle+AAAAiUlEQVQI12NgYFACAgYgYDJ2cTFWADJUTJSUnJ0CGJic3dLSUkwUEAxlZ5O0NGcTIwZlF5BiFyDDxMXY2MXZiEEdKAAUKmJQLwZJmRcxKJcXGxublxsxBBmXA4GxKkNQuTEQlKsytE4HiVRGMKw+CWRVztnFwNUzSUlJ88RCBkZBCIAxBBgYoAIAynwlHfBeyckAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjQtMDItMjJUMDc6MzI6MzArMDA6MDAZ/vEgAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI0LTAyLTIyVDA3OjMyOjMwKzAwOjAwaKNJnAAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNC0wMi0yMlQwNzozMjozMSswMDowMJnBY/cAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Honey &amp; Flowers (auto)</span></div>
+    <div class="library-body" id="honeyBody">
+      <div class="library-sub">
+        Every hive is paired to a flower bed. As long as that bed keeps a flower growing, the hive fills with Honey
+        over 24h (boostable). Flowers themselves aren't tradable — only the Honey a full hive produces is. Set your
+        <b>Hives</b> count below (1 per flower bed), pick which flower you keep replanting, and the numbers update live.
+        Seed &amp; ingredient costs are editable estimates — correct them to match your farmer's market prices.
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 90px;gap:6px 8px;align-items:center;margin-bottom:10px;">
+        <label style="font-size:9.5px;color:#fff;"><img src="data:image/webp;base64,UklGRigBAABXRUJQVlA4TBwBAAAvM4AEEE+gGJIkZukP5aAywH0jipIIaCD6xyMAap/FchOKGklSVgMKXc1rgA9e8x8A4LKpo1P2m/Ajo79QVh0HuLW1t21YiXUcgDwJA2iBtIBs/70rhk4VP9RKABfw0bzC9/tghIj+M3DbtpHd3sjUO5IrHADLcQcojDTc0znCe4sUzpRZhA83C/gjMdR59v+C1mMyLVF8dayvjlLH2+pMSxQiWdY0YQGljje7mZYoLlVWi+SfBZQ63t4v0waK4IuIAqg+mkOYTWXKIQzTqk7thgUSd6pRkrPUj4jWRSr+eZF0C8Hxz7yZNs8iXIdB/thEufXz5Mw5yje7Aj7u4YHr9PLzGOLejyGuMNY0+R03jHiP45+dVreMCmOXAA==" alt="Flower Bed" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;"> Hives (Count of your flower bed)</label>
+        <input type="number" min="0" step="1" id="hiveCountInput" placeholder="0"
+          style="width:100%;font-family:'JetBrains Mono',monospace;font-size:11px;border:1.5px solid var(--line);border-radius:6px;padding:5px 6px;">
+      </div>
+      <div id="honeySummaryCard"></div>
+      <div class="lib-section-title" style="margin-top:10px;">🔍 Flower Finder</div>
+      <div class="library-sub" style="margin:-3px 0 8px;">Pick a Seed and what you're pairing it with — see exactly which flower grows, and what it costs (using its saved pairing below).</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 8px;margin-bottom:6px;">
+        <div class="seed-picker" id="finderSeedPicker">
+          <select id="finderSeedSelect" style="display:none;"></select>
+          <button type="button" class="seed-picker-btn" id="finderSeedPickerBtn"></button>
+          <div class="seed-picker-menu" id="finderSeedPickerMenu" style="display:none;"></div>
+        </div>
+        <div class="seed-picker" id="finderIngredientPicker">
+          <select id="finderIngredientSelect" style="display:none;"></select>
+          <button type="button" class="seed-picker-btn" id="finderIngredientPickerBtn"></button>
+          <div class="seed-picker-menu" id="finderIngredientPickerMenu" style="display:none;"></div>
+        </div>
+      </div>
+      <div id="finderResult" style="margin-bottom:10px;"></div>
+      <div class="lib-section-title" style="margin-top:10px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQBAMAAAA/jegKAAAAIVBMVEUAAAC+Si//+U5zPjn/3h8+iUgmXEL7qiD3diJjx03/6zYeKP1jAAAAAXRSTlMAQObYZgAAAF5JREFUCNdjYGBgFAQSQEpICcwQaVJqEQByXdyXuzgC6ZZi45JGBgYhdWNjcyUBBiEtY2MrIA3lQ+UR6iOh+lMDgeaFAunQRMHImQEMbGlsYTNDE4AWsIWlQmm2NAYA4kUWKrbsMb4AAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Flowers <span class="count" id="flowerCount"></span></div>
+      <div class="library-sub" style="margin:-3px 0 8px;">Grouped by seed. Each variety's true cost = that seed's coin cost + whatever you paired it with — if the pairing is itself a flower, its own cost is priced in too, so rarer chained flowers cost more than ones grown straight from a crop.</div>
+      <div id="flowerItemList" class="retro-scroll" style="max-height:48vh;"></div>
+    </div>
+  </div>
+  <div class="library-panel" id="animalsPanel">
+    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALBAMAAAC0QAErAAAABGdBTUEAALGPC/xhBQAAABVQTFRFAAAAuG9Q////vkov6tSqwoVp6LeWFD5WfgAAAAF0Uk5TAEDm2GYAAABDSURBVAjXY2BgDQ1gYGAIS0tlYGBNc0oLAJJpQDIsTQkoFJai5JbKIJbiAiRF01zSAhlEgSoDGZhDQ0MNGBiMjY0ZAM3UDhfpAMERAAAAAElFTkSuQmCC" style="width:12px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Animals (auto)</span></div>
+    <div class="library-body" id="animalsBody">
+      <div class="library-sub">Chicken, Sheep &amp; Cow — set level and head count in ⚡ Boosts → Plots &amp; Nodes. Cost, feed and profit update live with your boosts, feed ingredient choice (Collect/Buy) and consumables/medicine.</div>
+      <div class="lib-item-row" id="omnifeedToggleRow" style="margin-bottom:8px;cursor:pointer;">
+        <span class="lib-item-icon"><img src="data:image/webp;base64,UklGRrIAAABXRUJQVlA4TKUAAAAvCsADEF+gJgAIRghBnN5VWpjZwqeGkQBIaHxgAd0LZgc42hleMKo0kqToLoU/lpf880ChUGjmPwDg/884YtBeYJLbRXS5N6yH0nUHOJEk222WqhYph8ekE6gW/vso8GQauamomT9ygP98vkNE/wOP4wAwD0P0//I+wvvp/Reua1vRSRJNV6W0uKpi2jm/x7RTuVe083KL6eJT1dPpKvEt6QeEEAgA" alt="Omnifeed" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;"></span>
+        <div class="lib-item-main">
+          <div class="lib-item-name">Use Omnifeed</div>
+          <div class="lib-item-meta">Replaces normal feed for all animals — costs 1 gem per unit, priced by your Flower→Gem ratio</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="omnifeedToggleInput">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div id="animalsItemList" class="retro-scroll" style="max-height:48vh;"></div>
+    </div>
+  </div>
+  <div class="library-panel" id="saltPanel">
+    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAA9UlEQVQokY2RsU4CQRCGvzMEg+Y6LIjG1saSZpvrfBdaci9wL+AT2dkYAiWNDYXxjuKoIHdkacaCzGRPXORvdrOz33yzWYgkz5zkmZNYPQpVrZeq9ZfBaqlaLxqFow3yzNnFeb01o+5F5BT+yzKvtx0otAP08szJdOIoG99pdn97zWjQZ70/sN4fACgbz3TiAORKL46HKWXjrcFo0LdVz8fD1Br3QosW1KJGtYcx42KzM0Ctv/eLza5rXM5WPFNQvhRWCN9s478VLGer7qgKn4tCJ28MC7F81cdxEzj+49PDDY936b/Q53fL6/tHkuihwueiEMAPcDTaSZl9MeEAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Salt (auto)</span></div>
+    <div class="library-body" id="saltBody">
+      <div class="library-sub">
+        The Salt Awakening chapter: rake Salt from Salt Nodes, upgrade the Sculpture for bonuses, then run the Aging Rack →
+        Fermentation Rack → Spice Rack chain to turn Salt into tradable <b>Baits</b> and upgraded <b>Fertilisers</b>.
+        Salt and Baits are tradable — edit sell price in 🛒 Marketplace Prices. Fertilisers made here are an
+        <b>upgrade</b> of your existing Composter fertilisers — turning one on in 🪱 Composter automatically turns its
+        classic counterpart off (and vice versa), since only one fertiliser can sit on a plot at a time.
+      </div>
+      <div id="saltFarmCardWrap"></div>
+      <div id="saltSculptureCardWrap" style="margin-top:10px;"></div>
+      <div class="lib-section-title" style="margin-top:12px;">🥒 Vegs <span style="font-weight:400;color:var(--ink-soft);font-size:8px;">(pickling cost, wired to Salt)</span></div>
+      <div id="saltVegCardWrap"></div>
+      <div class="lib-section-title" style="margin-top:12px;">🧪 Aging Rack &amp; Fermentation Rack — Baits <span style="font-weight:400;color:var(--ink-soft);font-size:8px;">(tradable)</span></div>
+      <div id="saltBaitCardWrap"></div>
+      <div class="lib-section-title" style="margin-top:12px;">🌿 Fermentation Rack — Fertilisers <span style="font-weight:400;color:var(--ink-soft);font-size:8px;">(applies in 🪱 Composter, not tradable)</span></div>
+      <div id="saltFertCardWrap"></div>
+      <div class="lib-section-title" style="margin-top:12px;">🥫 Spice Rack</div>
+      <div id="saltSpiceCardWrap"></div>
+    </div>
+  </div>
+  <div class="library-panel" id="greenhousePanel">
+    <div class="library-toggle"><span><img src="data:image/webp;base64,UklGRr4AAABXRUJQVlA4TLEAAAAvDoADEF+gppEU6M4Cb0muwr8FLGBOUWwb1FNAgG8Ae1uxdZBBATEURZLU3C9nMIJ/DwiCz/wHALbPLkICGcjYTA7JpnHY6+77f+A2kmTV2Trze99mUgQy5akUASXA4DFm8ELYJzKle2F+iCGi/wSTNNV2DL74wgNgPKM/IKVS/zmmalS5lb0hlXfZU8kaJN1D9s46G+xk79ug193J9FK5kuGkpvQHNVuvzPPadZBOJgIA" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Greenhouse (auto)</span></div>
+    <div class="library-body" id="greenhouseBody">
+      <div class="library-sub">Grape, Rice &amp; Olive — grown in the Greenhouse building. Cost = Seed (coins) + Oil (always collected — Oil can't be bought). Set your plot count per crop in ⚡ Boosts → Plots &amp; Nodes. All three are tradable — edit sell price in Marketplace Prices below.</div>
+      <div id="greenhouseItemList" class="retro-scroll" style="max-height:48vh;"></div>
+    </div>
+  </div>
+
+  <div class="library-panel" id="cropMachinePanel">
+    <div class="library-toggle"><span><img src="data:image/webp;base64,UklGRvgCAABXRUJQVlA4TOwCAAAvT0ARENegKJKk5sg5h+9ZQDZ6MIEDvthgEwBgkvnr2kDho6uWogcBHFTVtg29yTz8amCpIYbGvjSggAwWgmybio3+YA8A4P//I9YIRM6ZKS6kAFoIY4XHWmBZM4rwCOSjsJW4BkcAmzePbg2NKcu5pt0XL213P3C8cB0MEmzbjdsmtiMFHigzphWy3v9KSRAE6aFzix/Rfwhu20iSpO0aVM+VOZzsfOHtt5uuqb+7bm3o/Cp6NT+8jowTXR38JIo71KFgJdH71PFmBFS3ewAUC423n/NoNXyIVoDbQ+QWkqQeTFcrO5y9rHhszNj5zEYywbv2954WR9dvK8rOyJuJX2kAixkQN4Fdhk1caBMEUymuZVngKhw5PxHXvBMv4yWYXWK+oJtk0uQyM8msAmuDYHnHSMVoZsk0uVRR2SLEi1kMBT+Zpcsto8wlLR2LcDrdqpsgLXQkoJB0uRy1SdIndabjDGTSDBBWN27T5At5JxETBiF2LbTIK2eda7W5XGT8VUD63p9SrBZLJ5Zzduhz3kBapFxm7Fa0gq+gjC6XZ/0igRS5CSAhuQA0uew7LYEKZLrnFi3au8nf+5PQh7CQOLfum0sz47lszq2RqPtQ59zqQd+HeufMqNNiH1pGzK0MXQ1m0OdS7EPdc4tzddzmXND0oWE4kE5tH/IiyrlVNqtKEvqu2IeWQbk0wNCeaMIi96HuXNYbqxVKyCj70JBcGup3gkEAUFD2oQG5XCYTZksD4fQJSPWBEbk8TZKQFe4m1tKdS4Ze0/yZPd//dRNGawNI0SxNxh+pX1hnLhnhhkIAxtCby8ImMDZhEN253B8ZRzA+D/uj6Keqju5c7g+Md2Mc9nZ4F1XVMeB3D4PAeIzfPXMKCQT2SHeguTBgKMDwINAMEMAeaQjdOcJKmIk502PQytmIOrpz6Zs5G18HNYfT/VUgdza7Sx34QON2rtEW7lBHc8QX6veKYG58He3N/ZcHPL1rur27Lw8A" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crop Machine (auto)</span></div>
+    <div class="library-body" id="cropMachineBody">
+      <div class="library-sub">Queue seed packs, add Oil, and the machine grows them in bulk over a fixed runtime — no plots needed. Sunflower, Potato &amp; Pumpkin are unlocked from the start; the rest need the matching Crop Machine module skill (tick the box below once you actually own it in-game). Oil cost pulls straight from your ⛏️ Resources → 🛢️ Oil boosts; crop yield pulls from your 🌾 Crops boosts.</div>
+
+      <div class="cm-modules-row" id="cmModulesRow"></div>
+
+      <div class="cm-subtoggle" id="cmSubToggle">
+        <button type="button" data-cmview="calculator" class="active">🧮 Calculator</button>
+        <button type="button" data-cmview="machine">🚜 Machine</button>
+      </div>
+
+      <div id="cmCalculatorView">
+        <div class="cm-viewtoggle" id="cmCalcModeToggle">
+          <button type="button" data-cmmode="cards" class="active">Cards</button>
+          <button type="button" data-cmmode="table">Table</button>
+        </div>
+        <div id="cmCalcSummary"></div>
+        <div id="cmCalcList" class="retro-scroll" style="max-height:52vh;"></div>
+      </div>
+
+      <div id="cmMachineView" style="display:none;">
+        <div class="lib-section-title">Select a seed</div>
+        <div class="cm-seed-grid" id="cmSeedGrid"></div>
+
+        <div id="cmSelectedDetail"></div>
+
+        <div class="cm-qty-row" id="cmQtyRow">
+          <button type="button" data-cmqty="-10">-10</button>
+          <button type="button" data-cmqty="+10">+10</button>
+          <button type="button" data-cmqty="all">All</button>
+          <button type="button" class="cm-add-btn" id="cmAddBtn">Add</button>
+        </div>
+
+        <div class="lib-section-title">Seed packs <span style="font-weight:400;color:var(--wheat-dim);" id="cmPackCountLabel"></span></div>
+        <div class="cm-packs-grid" id="cmPacksGrid"></div>
+
+        <div class="lib-section-title">Oil Tank</div>
+        <div class="cm-oil-row" id="cmOilRow">
+          <div class="cm-oil-readout" id="cmOilReadout">0.00 oil</div>
+          <button type="button" data-cmoil="-1">-1.00 oil</button>
+          <button type="button" data-cmoil="+1">+1.00 oil</button>
+          <button type="button" data-cmoil="full">Full tank</button>
+        </div>
+        <div class="cm-oil-bar-wrap"><div class="cm-oil-bar-fill" id="cmOilBarFill"></div></div>
+        <div class="cm-oil-bar-marks" id="cmOilBarMarks"></div>
+
+        <div class="lib-section-title" style="margin-top:12px;">Summary <button type="button" class="lib-item-price" id="cmResetBtn" style="float:right;padding:3px 8px;font-size:8px;">Reset</button></div>
+        <div class="cm-summary-grid" id="cmSummaryGrid"></div>
+        <div id="cmRestockBreakdown"></div>
+      </div>
+    </div>
+  </div>
+
+<div class="ledger-section calc-section" id="ledgerSection">
+    <div class="calc-shell" id="calcShell">
+      <div class="calc-topbar">
+        <span class="calc-topbar-dot"></span>
+        <span class="calc-topbar-dot"></span>
+        <span class="calc-topbar-dot"></span>
+        <span class="calc-title">🧮 PROFIT CALCULATOR</span>
+      </div>
+
+      <div class="calc-screen">
+        <div class="calc-screen-row">
+          <div class="calc-selected-empty" id="calcSelectedEmpty">No item selected</div>
+          <div class="calc-selected hidden" id="calcSelectedWrap">
+            <span class="calc-selected-icon" id="calcSelectedIcon"></span>
+            <span class="calc-selected-name" id="calcSelectedName"></span>
+            <button type="button" class="calc-clear-btn" id="calcClearItemBtn">✕</button>
+          </div>
+        </div>
+        <div class="calc-readout">
+          <div class="calc-readout-cell"><span class="crlabel">COST</span><span class="crvalue" id="calcCost">0</span></div>
+          <div class="calc-readout-cell"><span class="crlabel">REVENUE</span><span class="crvalue" id="calcRevenue">0</span></div>
+          <div class="calc-readout-cell wide"><span class="crlabel">PROFIT</span><span class="crvalue big" id="calcProfit">0</span></div>
+          <div class="calc-readout-cell"><span class="crlabel">ROI</span><span class="crvalue" id="calcRoi">0%</span></div>
+        </div>
+        <div class="calc-restock-note hidden" id="calcRestockNote" style="grid-column:1/-1;font-size:9.5px;font-weight:700;color:#e0a63f;padding:6px 10px 0;line-height:1.4;"></div>
+      </div>
+
+      <div class="calc-ingredients hidden" id="calcIngredientsWrap">
+        <div class="calc-ingredients-title">🌾 Ingredients</div>
+        <div id="calcIngredientsList"></div>
+      </div>
+
+      <div class="calc-fields" id="calcFieldsWrap">
+        <div class="calc-field" id="calcHarvestQtyField">
+          <label>Qty harvested</label>
+          <input type="number" id="calcHarvestQty" min="0" step="1" value="1" />
+        </div>
+        <div class="calc-field-row3 hidden" id="calcBuySellFields">
+          <div class="calc-field">
+            <label>Quantity</label>
+            <input type="number" id="calcBSQty" min="0" step="1" value="1" />
+          </div>
+          <div class="calc-field">
+            <label>Buy price (F)</label>
+            <input type="number" id="calcBSBuyPrice" min="0" step="0.0001" value="0" />
+          </div>
+          <div class="calc-field">
+            <label>Sell price (F)</label>
+            <input type="number" id="calcBSSellPrice" min="0" step="0.0001" value="0" />
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-btn-grid">
+        <button type="button" class="calc-btn calc-btn-mode active" id="calcModeHarvestBtn">🌿 Harvest</button>
+        <button type="button" class="calc-btn calc-btn-mode" id="calcModeBoughtBtn">💰 Buy &amp; Sell</button>
+        <button type="button" class="calc-btn calc-btn-wide" id="calcPickItemBtn">🔍 Select item</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="footer-block">
+      <div class="footer-block-title">👺 A Word From Da Goblin</div>
+      <p><b>GOBLIN CALCULATOR</b> is <b>FREE</b> for all Sunflower Land players to use — and I will never ask for payment to use it.</p>
+      <p>But if you like this app, you can always buy me a coffee:</p>
+      <div class="footer-donate-row">
+        <span class="footer-donate-label">Donate:</span>
+        <code class="footer-donate-address" id="footerDonateAddress">0x867B141B909a5baA9245D80ce49425050aF8F7B5</code>
+        <button type="button" class="footer-copy-btn" id="footerCopyAddressBtn" aria-label="Copy donation address">📋</button>
+      </div>
+      <p class="footer-or-row">Or you can give a cheer to my farm — IGN: <a href="https://sunflower-land.com/play/?ref=LAKAY" target="_blank" rel="noopener"><b>LAKAY</b></a></p>
+    </div>
+
+    <div class="footer-block footer-block-oss">
+      <div class="footer-block-title">🔓 Open Source</div>
+      <p><b>GOBLIN CALCULATOR</b> is a fully open-source tool for Sunflower Land — everyone is free to clone and host this app, but I just need you to give me credit when you do.</p>
+      <p>Source code: <a href="https://github.com" target="_blank" rel="noopener"><b>GitHub</b></a></p>
+      <p>Found a bug or have a suggestion? Reach out on <a href="https://discord.com" target="_blank" rel="noopener"><b>Discord</b></a>.</p>
+    </div>
+  </div>
+</footer>
+
+
+
+<div class="modal-overlay" id="libModal">
+  <div class="modal-sheet retro-scroll on-parchment">
+    <button class="modal-close" id="closeLibModal">✕</button>
+    <h2 id="libModalTitle">Add tool</h2>
+    <div class="modal-sub" id="libModalSub">Add what it costs to craft, then what it produces per use.</div>
+
+    <div class="field" id="libNameField">
+      <label>Name</label>
+      <input type="text" id="libNameInput" placeholder="e.g. Axe, Pickaxe, Stone Axe..." />
+    </div>
+
+    <div id="libToolFields">
+      <div class="field">
+        <label>Materials needed to craft (optional)</label>
+        <div id="materialList"></div>
+        <button type="button" class="add-ingredient" id="addMaterialBtn">+ Add material</button>
+      </div>
+      <div class="field">
+        <label>Coins needed to craft</label>
+        <input type="number" id="libToolCoinCost" min="0" step="0.01" value="0" />
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>What it produces</label>
+          <input type="text" id="libProducesName" placeholder="e.g. Wood" />
+        </div>
+        <div class="field">
+          <label>Yield per tool</label>
+          <input type="number" id="libProducesQty" min="0.0001" step="0.01" value="1" />
+        </div>
+      </div>
+      <div class="ingredient-total" id="libCraftTotal">0 Coins craft cost <span class="eq">→</span> <span class="flower">0 Coins / unit</span></div>
+    </div>
+
+    <button class="btn btn-sun btn-block" id="saveLibBtn">💾 Save tool</button>
+  </div>
+</div>
+
+
+<div class="modal-overlay" id="materialPickerOverlay">
+  <div class="modal-sheet">
+    <button class="modal-close" id="closeMaterialPicker">✕</button>
+    <h2 id="pickerTitle">Select a material</h2>
+    <div class="modal-sub" id="pickerSub">Pulled from your Item Library — tap one to add it.</div>
+    <div class="picker-search-wrap">
+      <input type="text" id="pickerSearchInput" placeholder="🔍 Search items..." />
+    </div>
+    <div id="pickerList" class="retro-scroll on-parchment"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="budPickerOverlay">
+  <div class="modal-sheet bud-picker-sheet">
+    <button class="modal-close" id="closeBudPicker">✕</button>
+    <h2 id="budPickerTitle">Select Type</h2>
+    <div class="modal-sub" id="budPickerSub">Tap one to select it.</div>
+    <div id="budPickerList" class="bud-picker-list retro-scroll on-parchment"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="petTraitPickerOverlay">
+  <div class="modal-sheet bud-picker-sheet">
+    <button class="modal-close" id="closePetTraitPicker">✕</button>
+    <h2 id="petTraitPickerTitle">Select Aura</h2>
+    <div class="modal-sub" id="petTraitPickerSub">Tap one to select it.</div>
+    <div id="petTraitPickerList" class="bud-picker-list retro-scroll on-parchment"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="disclaimerOverlay">
+  <div class="disclaimer-sheet">
+    <button class="modal-close" id="closeDisclaimer">✕</button>
+    <div class="disclaimer-title"><span class="g-icon">👺</span> A Word From Da Goblin</div>
+    <div class="disclaimer-body retro-scroll on-parchment">
+      <p>Oi oi, welcome traveler! Before ya start clickin' buttons and countin' coins, lil' Goblin's gotta say his piece.</p>
+      <p><b>GOBLIN CALCULATOR</b> is <b>NOT</b> official, not affiliated, not secretly run by them big Sunflower Land folks — nope, just a scrappy lil goblin app made by, well... a goblin. All the credit for Sunflower Land itself (the real game, the real farm, the real fun) goes to them. Go give the real bosses a visit: <a href="https://www.sunflower-land.com/" target="_blank" rel="noopener">sunflower-land.com</a></p>
+      <p>Every pretty picture, icon, and lil sprite floatin' around this app? Belongs to Sunflower Land. Goblin just borrowed 'em to make counting coins less boring. 🍂</p>
+      <p>I'm just a regular Goblin who plays the game like you, got tired of guessin' numbers on me own farm, and built this lil tool in me workshop to help figure it all out.</p>
+      <p>Any farmer — big, small, or still growin' their first cauliflower — can use GOBLIN CALCULATOR to sniff out real profit <i>before</i> spendin' hard-earned coins on a shiny new boost. Test it here first, buy it there later. Smart goblin business, that.</p>
+      <p>This calculator is a <b>mimicker</b>, heh heh — it just copies how <i>your</i> farm flows, so feed it your real numbers and make good use of it, ya hear?</p>
+      <p class="goblin-sig">My IGN's <b>LAKAY</b>. If this lil gadget saved ya some coin (or some headache), toss my farm a cheer: <a href="https://sunflower-land.com/play/?ref=LAKAY" target="_blank" rel="noopener">sunflower-land.com/play/?ref=LAKAY</a><br>Now go on, git farmin'! 🥕</p>
+    </div>
+  </div>
+</div>
+
+<div id="bettyShopOverlay">
+  <div class="betty-shop-card">
+    <div class="betty-shop-titlebar">
+      <div class="betty-shop-icon-wrap"><img src="data:image/png;base64,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" alt="Betty" /></div>
+      <div>
+        <div class="betty-shop-title-text">BETTY SHOP</div>
+        <div class="betty-shop-title-sub">Sell your crops &amp; fruit for coins</div>
+      </div>
+      <button type="button" class="betty-shop-close" id="bettyShopCloseBtn">✕</button>
+    </div>
+    <div class="betty-shop-body retro-scroll on-parchment">
+
+      <div class="betty-rate-banner">
+        <div class="betty-rate-banner-label">HIGHEST<br>RATE</div>
+        <div class="betty-rate-banner-value" id="bettyHighestRateValue">—<small>coins / FLOWER</small></div>
+      </div>
+
+      <div class="betty-boost-label">⚡ Boost</div>
+      <div class="betty-boost-row">
+        <div class="betty-boost-row-main">
+          <div class="betty-boost-row-name">🌱 Green Thumb Legacy</div>
+          <div class="betty-boost-row-desc">+5% coins on every conversion below</div>
+        </div>
+        <button type="button" class="betty-toggle" id="bettyGreenThumbToggle" aria-label="Toggle Green Thumb Legacy"><span class="knob"></span></button>
+      </div>
+      <div class="betty-swindler-note" id="bettySwindlerNote"></div>
+
+      <div class="betty-divider"></div>
+
+      <div class="betty-tabs">
+        <button type="button" class="betty-tab-btn active" id="bettyTabTop" data-tab="top">Top Coin Conversions</button>
+        <button type="button" class="betty-tab-btn" id="bettyTabBase" data-tab="base">Base Coin</button>
+      </div>
+      <div class="betty-sort-row">
+        <span class="betty-sort-label">Sort</span>
+        <button type="button" class="betty-sort-btn active" data-sort="rate">Rate</button>
+        <button type="button" class="betty-sort-btn" data-sort="name">Name</button>
+        <button type="button" class="betty-sort-btn" data-sort="price">Price</button>
+      </div>
+
+      <div class="betty-list retro-scroll on-parchment" id="bettyList"></div>
+      <div class="betty-footer-note">Prices pulled from your synced P2P market data · updates when you Sync Live Prices.</div>
+    </div>
+  </div>
+</div>
+
+<div id="tradeShopOverlay">
+  <div class="trade-shop-card">
+    <div class="trade-shop-titlebar">
+      <div class="trade-shop-icon-wrap"><img src="data:image/png;base64,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" alt="Trade Post" /></div>
+      <div>
+        <div class="trade-shop-title-text">TRADE POST</div>
+        <div class="trade-shop-title-sub">Track your buy &amp; sell trades</div>
+      </div>
+      <button type="button" class="trade-shop-close" id="tradeShopCloseBtn">✕</button>
+    </div>
+    <div class="trade-shop-body retro-scroll on-parchment">
+
+      <button type="button" class="trade-add-btn" id="openNewTradeBtn">➕ ADD TRADE</button>
+
+      <div class="trade-tabs">
+        <button type="button" class="trade-tab-btn active" id="tradeTabActive" data-tab="active">📈 Active Trades</button>
+        <button type="button" class="trade-tab-btn" id="tradeTabHistory" data-tab="history">📜 History</button>
+      </div>
+
+      <div id="tradeLifetimeBanner" style="display:none;"></div>
+
+      <div class="trade-sort-row" id="tradeSortRow">
+        <span class="trade-sort-label">Sort</span>
+        <button type="button" class="trade-sort-btn active" data-tsort="profit">Most Profitable</button>
+        <button type="button" class="trade-sort-btn" data-tsort="date">Newest</button>
+        <button type="button" class="trade-sort-btn" data-tsort="name">Name</button>
+      </div>
+
+      <div class="trade-list retro-scroll on-parchment" id="tradeList"></div>
+      <div class="trade-footer-note">Up to 69 closed trades are kept in History · oldest trades are replaced by new ones.</div>
+    </div>
+  </div>
+</div>
+
+<div class="trade-pixel-overlay" id="newTradeOverlay">
+  <div class="trade-pixel-sheet">
+    <button type="button" class="trade-pixel-close" id="closeNewTradeBtn">✕</button>
+    <div class="trade-pixel-title">🛒 What do you want to buy?</div>
+    <div class="trade-selected-item" id="tradeItemPickBtn">
+      <span class="placeholder" id="tradeItemPickPlaceholder">Tap to choose an item…</span>
+      <span class="chev">▸</span>
+    </div>
+    <div id="newTradeFields" style="display:none;">
+      <div class="field">
+        <label>Quantity</label>
+        <input type="number" id="newTradeQtyInput" min="0" step="0.01" value="" placeholder="e.g. 100" />
+      </div>
+      <div class="field">
+        <label>Buying price per unit (FLOWER)</label>
+        <input type="number" id="newTradeBuyPriceInput" min="0" step="0.0001" value="" placeholder="e.g. 0.25" />
+      </div>
+      <div class="trade-live-total" id="newTradeLiveTotal">Total capital: <b>0</b> FLOWER</div>
+    </div>
+    <button type="button" class="btn btn-sun btn-block" id="confirmNewTradeBtn" disabled>✅ Add Trade</button>
+  </div>
+</div>
+
+<div class="trade-pixel-overlay" id="sellTradeOverlay">
+  <div class="trade-pixel-sheet">
+    <button type="button" class="trade-pixel-close" id="closeSellTradeBtn">✕</button>
+    <div class="trade-pixel-title" id="sellTradeTitle">💰 Sell trade</div>
+    <div class="field">
+      <label>Quantity to sell (<span id="sellTradeMaxQty">0</span> available)</label>
+      <input type="number" id="sellTradeQtyInput" min="0" step="0.01" value="" placeholder="e.g. 50" />
+    </div>
+    <div class="field">
+      <label>Selling price per unit (FLOWER)</label>
+      <input type="number" id="sellTradePriceInput" min="0" step="0.0001" value="" placeholder="e.g. 0.30" />
+    </div>
+    <div class="trade-live-total" id="sellTradeLiveTotal">Total sale value: <b>0</b> FLOWER</div>
+    <button type="button" class="btn btn-sun btn-block" id="confirmSellTradeBtn">✅ Confirm Sale</button>
+  </div>
+</div>
+
+<div class="trade-pixel-overlay" id="deleteTradeConfirmOverlay">
+  <div class="trade-pixel-sheet" style="max-width:340px;">
+    <button type="button" class="trade-pixel-close" id="closeDeleteTradeBtn">✕</button>
+    <div class="trade-pixel-title">🗑 Delete this trade?</div>
+    <div class="trade-delete-confirm-item" id="deleteTradeConfirmItem"></div>
+    <div class="trade-delete-confirm-warn">This can't be undone — the trade and its sale history will be gone for good.</div>
+    <div style="display:flex;gap:8px;margin-top:14px;">
+      <button type="button" class="btn btn-ghost" id="cancelDeleteTradeBtn" style="flex:1;">Cancel</button>
+      <button type="button" class="btn btn-danger" id="confirmDeleteTradeBtn" style="flex:1;background:var(--loss);color:#fff;border-color:var(--loss);">🗑 Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="tradeItemPickerOverlay">
+  <div class="modal-sheet">
+    <button class="modal-close" id="closeTradeItemPicker">✕</button>
+    <h2>Select an item</h2>
+    <div class="modal-sub">Every crop, fruit &amp; resource currently listed in your Marketplace — new items show up here automatically.</div>
+    <div class="picker-search-wrap">
+      <input type="text" id="tradeItemSearchInput" placeholder="🔍 Search items..." />
+    </div>
+    <div id="tradeItemPickerList" class="retro-scroll on-parchment"></div>
+  </div>
+</div>
+
+
+<div class="modal-overlay" id="priceEditOverlay">
+  <div class="modal-sheet" style="max-width:380px;">
+    <h2 style="font-size:18px;">Edit price</h2>
+    <p class="modal-sub" id="priceEditSub"></p>
+    <div class="field">
+      <label>Price per unit (Coins)</label>
+      <input type="number" id="priceEditInput" min="0" step="0.01" value="0" />
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:10px;">
+      <button class="btn btn-ghost" id="priceCancelBtn" style="flex:1;">Cancel</button>
+      <button class="btn btn-ghost" id="priceResetBtn" style="flex:1;">Reset to calculated</button>
+    </div>
+    <button class="btn btn-sun btn-block" id="priceSaveBtn">Save price</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="marketPriceEditOverlay">
+  <div class="modal-sheet" style="max-width:380px;">
+    <h2 style="font-size:18px;">Edit marketplace price</h2>
+    <p class="modal-sub" id="marketPriceEditSub"></p>
+    <div class="field">
+      <label>Price per unit (FLOWER)</label>
+      <input type="number" id="marketPriceInput" min="0" step="0.0001" value="0" />
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-ghost" id="marketPriceCancelBtn" style="flex:1;">Cancel</button>
+      <button class="btn btn-sun" id="marketPriceSaveBtn" style="flex:1;">Save price</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="confirmOverlay">
+  <div class="modal-sheet" style="max-width:380px;text-align:center;">
+    <h2 style="font-size:18px;">Delete this?</h2>
+    <p class="modal-sub" id="confirmSub">This entry will be removed for good. Anything referencing it will show as missing until you update it.</p>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-ghost" id="confirmCancelBtn" style="flex:1;">Cancel</button>
+      <button class="btn btn-danger" id="confirmDeleteBtn" style="flex:1;">Yes, delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="boostPanelOverlay" style="justify-content:flex-start;">
+<div class="modal-sheet retro-scroll on-parchment" id="boostPanelSheet"
+       style="max-width:340px;width:88%;height:100%;max-height:100%;border-radius:0;
+              border-right:3px solid var(--desert-dark);border-top:none;margin-right:auto;">
+    <button class="modal-close" id="closeBoostPanel">✕</button>
+    <h2 style="font-size:19px;">⚡ Boosts</h2>
+    <div class="modal-sub">Tap a boost to switch it on. Active boosts change yield, grow time,
+      and cost per unit everywhere in the app — instantly.</div>
+      
+      <div class="settings-panel open" id="plotsPanel" style="margin-bottom:12px;">
+  <button class="settings-toggle" id="plotsToggle" type="button">
+    <span id="plotsSummary">🧮 Plots &amp; Nodes — for total harvest</span>
+    <span class="chev">▾</span>
+  </button>
+ <div class="settings-body" id="plotsBody" style="display:block;">
+    <div class="hint-collapsible">
+      <button type="button" class="hint-q-btn" aria-label="More info">❓</button>
+      <div class="hint-slide"><div class="setting-hint" style="margin-bottom:8px;">
+      Enter how many plots you have per crop, how many tool-uses ("nodes") you have per resource, and how
+      many trees ("nodes") you have per fruit. This powers the Total Plots/Trees &amp; Harvest numbers shown
+      below and in the Resources/Fruits panels. <b>Crop plots and every Resource node count are required</b>
+      before any AoE boost (like Gnome on crops or Sir Goldensnout on resources) can be turned on, so the
+      boost gets diluted across your real plot/node count instead of being applied as if every single
+      plot/node got the full bonus. Fruit node counts and animals are optional — fill them in too if you
+      want accurate fruit dilution, but leaving them at 0 won't block boosts, it'll just mean that specific
+      fruit shows "0 effect right now" for an AoE boost until you enter its node count.
+    </div></div>
+    </div>
+    <div class="lib-section-title">🌾 Crop plots <span style="font-weight:400;color:var(--ink-soft);">(required)</span></div>
+    <div id="cropPlotInputs" style="display:grid;grid-template-columns:1fr 70px;gap:6px 8px;align-items:center;margin-bottom:10px;"></div>
+    <div class="lib-section-title">⛏️ Resource nodes (tool uses) <span style="font-weight:400;color:var(--ink-soft);">(required)</span></div>
+    <div id="resourceNodeInputs" style="display:grid;grid-template-columns:1fr 70px;gap:6px 8px;align-items:center;margin-bottom:10px;"></div>
+    <div class="lib-section-title">🍎 Fruit nodes (trees) <span style="font-weight:400;color:var(--ink-soft);">(optional — 0 is fine)</span></div>
+    <div id="fruitNodeInputs" style="display:grid;grid-template-columns:1fr 70px;gap:6px 8px;align-items:center;margin-bottom:10px;"></div>
+    <div class="lib-section-title">🍇 Greenhouse plots <span style="font-weight:400;color:var(--ink-soft);">(optional — 0 is fine)</span></div>
+    <div id="greenhouseNodeInputs" style="display:grid;grid-template-columns:1fr 70px;gap:6px 8px;align-items:center;margin-bottom:10px;"></div>
+
+    <div class="lib-section-title">🐄 Animal levels &amp; heads <span style="font-weight:400;color:var(--ink-soft);">(optional — 0 is fine)</span></div>
+    <div id="animalCountInputs" style="display:grid;grid-template-columns:1fr 60px 60px;gap:6px 8px;align-items:center;margin-bottom:10px;"></div>
+
+    <div class="lib-section-title"><img src="data:image/webp;base64,UklGRqAAAABXRUJQVlA4TJQAAAAvCoADEE9gJAASGMMGHhPZYfKPyRtkGhAC6f+bGko4XRS1kQKtlhWAC8zwxfWNA+Y/APh/QvVnNk7CJMWsQ+rgtNa2p3nli+xgYYVvBYruZQFIZP8+SVR+GcvA2SGi/4HfeQK4bpv3v46jh6Mdxw8s9X2liciDmYiEzPzc95n5ReDT/Ny/0cqyfNKaslQeqvoFnHME" alt="Barn Delight" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;"> Sickness &amp; Barn Delight (estimate)</div>
+    <div class="hint-collapsible">
+      <button type="button" class="hint-q-btn" aria-label="More info">❓</button>
+      <div class="hint-slide"><div class="setting-hint" style="margin-bottom:6px;">
+      Sickness odds aren't published — enter what you actually observe: roughly how many heads of
+      each animal type tend to get sick per day, and how many cures each of those heads needs. The
+      app divides that across your total head count automatically, so you don't have to do the math.
+      The cost of each cure (Barn Delight = 5 🍋 Lemon + 3 🍯 Honey) is calculated automatically from
+      your Lemon/Honey source and any active boosts like Medic Apron.
+    </div></div>
+    </div>
+    <div id="medicineCostDisplay" style="margin-bottom:8px;"></div>
+    <div id="medicineIngredientInputs" style="margin-bottom:8px;"></div>
+    <div id="animalCuresInputs" style="display:grid;grid-template-columns:1fr 90px;gap:6px 8px;align-items:center;"></div>
+  </div>
+</div>
+      
+      <div class="lib-section-title" style="margin-top:10px;">📅 Weekly Seasons</div>
+      <div class="season-toggle" id="seasonToggle">
+        <button type="button" data-season="Spring"><span class="season-emoji">🌸</span>Spring</button>
+        <button type="button" data-season="Summer"><span class="season-emoji">☀️</span>Summer</button>
+        <button type="button" data-season="Autumn"><span class="season-emoji">🍁</span>Autumn</button>
+        <button type="button" data-season="Winter"><span class="season-emoji">❄️</span>Winter</button>
+      </div>
+      <div class="season-toggle-note" id="seasonToggleNote"></div>
+
+      <div class="ascension-bar" id="ascensionBar">
+        <div class="ascension-row">
+          <span class="ascension-label">🌌 Ascension</span>
+          <button type="button" class="ascension-toggle" id="ascensionToggleBtn" role="switch" aria-checked="false">
+            <span class="ascension-toggle-track"><span class="ascension-toggle-thumb"></span></span>
+            <span class="ascension-toggle-state" id="ascensionToggleState">Inactive</span>
+          </button>
+        </div>
+        <div class="ascension-totals" id="ascensionTotals" style="display:none;">
+          <span class="ascension-total-chip">🎓 <b id="ascensionPointsUsed">0</b> pts used</span>
+          <span class="ascension-total-chip">💎 <b id="ascensionShardsUsed">0</b> shards used</span>
+        </div>
+      </div>
+      <div class="skill-tree-wrap collapsed" id="skillTreeWrap">
+        <div class="lib-section-title section-collapse-header" id="skillTreeToggleHeader">🎓 Skill Tree <span class="collapse-arrow" id="skillTreeArrow">▸</span></div>
+        <div class="type-toggle" id="skillCategoryToggle"></div>
+        <div id="skillListWrap"></div>
+      </div>
+
+      <div class="all-boost-settings-wrap collapsed" id="allBoostSettingsWrap">
+      <div class="lib-section-title section-collapse-header" id="allBoostToggleHeader">⚡ All Boost Settings <span class="collapse-arrow" id="allBoostArrow">▸</span></div>
+       <div class="type-toggle" id="boostCategoryToggle" style="margin-bottom:10px;">
+      <button type="button" data-cat="crops" class="active"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAKCAYAAABv7tTEAAAAAXNSR0IArs4c6QAAAKNJREFUKJGNkSEOwzAMRX8mb3CoIKSoytiuMNwL7RS9UPCuUGhYEhBU2IEMtE68dJX2Ufzft2U5wB+yjUu2cUlq0kDeIbLR/u3ZrcWAFCIb2gEFxXeP8wY6YECiPShQfH691w3GpawnBYDcfO1bAMgNWlQbdUgPnP2EENlQiGzgkYD2K2zvF4RxweynMmA7EOXCI19PVqvDopMGNTzSz9DRn4k+drNQZqnfgIoAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crops</button>
+      <button type="button" data-cat="resources"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAFVBMVEUAAAAYFCXkpnLChWlzPjnq1Kq+Si+8xtD3AAAAAXRSTlMAQObYZgAAAE5JREFUCNdjYBAUFGAAAkal0EBGEEtYSVXMESQgbBToCJYxVhWA0EaBIFrMGSzAmOIoDKLFXAQYgTSQy8BoJADkAsWEBBhEwGYAEVgvAwCyQwfhatKS0wAAAABJRU5ErkJggg==" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Resources</button>
+      <button type="button" data-cat="fruits"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAM1JREFUKJGFkD8OAUEUh79hmo0b0IhCaZttNXsAoncDap1e9BIHcAGFdiW029hEQyJR4AKExMYqZMaMXfyq+fN9894bwZ9U236i1ptJIKR5ee1VEnPvHsvUOwXjxE+kCUvvgWzWAJi39tT7BbaLu1VRpuDDCoDZuchydLHgzSQQUsGAhuNQALBu7JDeq8vbOI8D5LIGlV7CoHvSsJlMQUk6JdeeQSUORSYYTyP9tiWY/QMQRqnKAt6/9C1xmMMZ7oQWfkkmbAlK+hRMGOAJOLpMxjYgUowAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fruits</button>
+      <button type="button" data-cat="greenhouse" class="is-greenhouse"><img src="data:image/webp;base64,UklGRr4AAABXRUJQVlA4TLEAAAAvDoADEF+gppEU6M4Cb0muwr8FLGBOUWwb1FNAgG8Ae1uxdZBBATEURZLU3C9nMIJ/DwiCz/wHALbPLkICGcjYTA7JpnHY6+77f+A2kmTV2Trze99mUgQy5akUASXA4DFm8ELYJzKle2F+iCGi/wSTNNV2DL74wgNgPKM/IKVS/zmmalS5lb0hlXfZU8kaJN1D9s46G+xk79ug193J9FK5kuGkpvQHNVuvzPPadZBOJgIA" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Greenhouse</button>
+      <button type="button" data-cat="cropmachine"><img src="data:image/webp;base64,UklGRvgCAABXRUJQVlA4TOwCAAAvT0ARENegKJKk5sg5h+9ZQDZ6MIEDvthgEwBgkvnr2kDho6uWogcBHFTVtg29yTz8amCpIYbGvjSggAwWgmybio3+YA8A4P//I9YIRM6ZKS6kAFoIY4XHWmBZM4rwCOSjsJW4BkcAmzePbg2NKcu5pt0XL213P3C8cB0MEmzbjdsmtiMFHigzphWy3v9KSRAE6aFzix/Rfwhu20iSpO0aVM+VOZzsfOHtt5uuqb+7bm3o/Cp6NT+8jowTXR38JIo71KFgJdH71PFmBFS3ewAUC423n/NoNXyIVoDbQ+QWkqQeTFcrO5y9rHhszNj5zEYywbv2954WR9dvK8rOyJuJX2kAixkQN4Fdhk1caBMEUymuZVngKhw5PxHXvBMv4yWYXWK+oJtk0uQyM8msAmuDYHnHSMVoZsk0uVRR2SLEi1kMBT+Zpcsto8wlLR2LcDrdqpsgLXQkoJB0uRy1SdIndabjDGTSDBBWN27T5At5JxETBiF2LbTIK2eda7W5XGT8VUD63p9SrBZLJ5Zzduhz3kBapFxm7Fa0gq+gjC6XZ/0igRS5CSAhuQA0uew7LYEKZLrnFi3au8nf+5PQh7CQOLfum0sz47lszq2RqPtQ59zqQd+HeufMqNNiH1pGzK0MXQ1m0OdS7EPdc4tzddzmXND0oWE4kE5tH/IiyrlVNqtKEvqu2IeWQbk0wNCeaMIi96HuXNYbqxVKyCj70JBcGup3gkEAUFD2oQG5XCYTZksD4fQJSPWBEbk8TZKQFe4m1tKdS4Ze0/yZPd//dRNGawNI0SxNxh+pX1hnLhnhhkIAxtCby8ImMDZhEN253B8ZRzA+D/uj6Keqju5c7g+Md2Mc9nZ4F1XVMeB3D4PAeIzfPXMKCQT2SHeguTBgKMDwINAMEMAeaQjdOcJKmIk502PQytmIOrpz6Zs5G18HNYfT/VUgdza7Sx34QON2rtEW7lBHc8QX6veKYG58He3N/ZcHPL1rur27Lw8A" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crop Machine</button>
+      <button type="button" data-cat="honey"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAATBAMAAABrSZD8AAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAqUExURQAAABgUJb5KL/6uNP7nYWPHTXQ/Ofd2Ij6JSKT1k02nbyZcQnToW////xdnfRkAAAACdFJOUwAzyUOsLgAAAAFiS0dEDfa0YfUAAAAHdElNRQfoAhYHIB8ksle+AAAAiUlEQVQI12NgYFACAgYgYDJ2cTFWADJUTJSUnJ0CGJic3dLSUkwUEAxlZ5O0NGcTIwZlF5BiFyDDxMXY2MXZiEEdKAAUKmJQLwZJmRcxKJcXGxublxsxBBmXA4GxKkNQuTEQlKsytE4HiVRGMKw+CWRVztnFwNUzSUlJ88RCBkZBCIAxBBgYoAIAynwlHfBeyckAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjQtMDItMjJUMDc6MzI6MzArMDA6MDAZ/vEgAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI0LTAyLTIyVDA3OjMyOjMwKzAwOjAwaKNJnAAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNC0wMi0yMlQwNzozMjozMSswMDowMJnBY/cAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Honey</button>
+      <button type="button" data-cat="animals"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALBAMAAAC0QAErAAAABGdBTUEAALGPC/xhBQAAABVQTFRFAAAAuG9Q////vkov6tSqwoVp6LeWFD5WfgAAAAF0Uk5TAEDm2GYAAABDSURBVAjXY2BgDQ1gYGAIS0tlYGBNc0oLAJJpQDIsTQkoFJai5JbKIJbiAiRF01zSAhlEgSoDGZhDQ0MNGBiMjY0ZAM3UDhfpAMERAAAAAElFTkSuQmCC" style="width:12px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Animals</button>
+      <button type="button" data-cat="tools"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAXdJREFUOI2tkTFowmAQhb8UyeQszp0KNnOJQycLTlIXXeriIG5FCgUVMgi1IBTpJg4uneKS4lRQOnRokA4WjNDJ2WR2ypIOmpiIphD6psvPl3t37wS2SmcqDoCSsmgtEgB8TvoCPoUxMRdoP94D8PX9Q/vmDIAGOC74FyOkMxUnX8yhqSMA/PW+u6tDfGzr6AzLcbo9Hcmw0Ehw0L3eQbbnSIbFyjapVWUKgxGfk74Qc10hDkBrkSBfzNGodzxHf62pcIUVmDg72Wbkl5KyaKkjlJTFeGZ67gCauuN0UUIfrFFSm+9AI12U0Be+XMSE566L0tF1A40Kg/VxUAxfF3C80x67nL/2X1C259uw18Gww3I5NmntUNjDchxjuruGm0v4Su8eKwC83V475xenRJExXZJ9ft2sNp6ZkZr4/z2J3GFPXkbjmUmy1ARg9fLgAclSE00dIdvzwNs+JwDcXcpOrSpHmqTb03n60AVvImO6jNTI1b9l9Au6ZOY1fmKPvgAAAABJRU5ErkJggg==" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Buildings</button>
+      <button type="button" data-cat="composter"><img src="data:image/webp;base64,UklGRkoBAABXRUJQVlA4TD4BAAAvE8AHEK/ANACANJDcNWvn/zdoJBo7QQ9hGtlWK7BR5YzG0wQl0wEV0AKDRP7IJgCANLxE4HLrQnLPsNfdVSCQZLK/1SgBAOC1LDH8r1vaQMj/IARY2/SLigiJwxrVICXLvbSmc6/R3sw5he8/zXW5uNAzA4iRbdVtHPx5EYZc+R5e/8UCikuI6P8E3NaxvF2uFy/UcbHuRrk4FhFRxsUSEbdorZVRtqO01uJrn2swff6unWLxKWNbZCbId81lfScWYfWSY5sFe1LW+7amz05w+j8igKyP+fV61DxFBFbWx+saml6v12OuCQSGrLmtqU4EOvNdt++URXB6XAZPGllyWXLgFshcOzuBzQASEhinCKTubqGO1DECy5ItyZYsdQLbxjM22EQDOJgPOA6IaK0dl1tri3/H8/eLz+/8fBU=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Composter</button>
+      <button type="button" data-cat="cooking"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAKCAYAAABi8KSDAAAAAXNSR0IArs4c6QAAAO9JREFUGJVtkbFqwlAUhr+bRTSkxSSFULKVgNCA4CBesQ+QRcjQVyiFFvoqjsW9jlWcfQDByU0QN5EMGimZ7GA63ZjE/tPhnO9wDv8vKMmxvVTV0X4t8jNRhkbtGtJPODdDHj6mhSWhwFG7BsCrafEZH5B+QqVjAnD/8kO0XwvNsb3067mVgU9vOtJPeA8faXzfcJrH7Ia3OLaXCsf20rvKiUFf0um5aMtx9uO5GaItxwSTKqv4lwxWGvQlAF1jQTCpAuDWTWab6Bq2dAO3bpZNYraJ0K66wPYY/9e+uAGgLli6UTiv7CuYng9EKR/MH0NNTSwXCPCyAAAAAElFTkSuQmCC" style="width:13px;height:12px;vertical-align:-2px;image-rendering:pixelated;"> Cooking</button>
+      <button type="button" data-cat="pets">🐾 Pets</button>
+      <button type="button" data-cat="spicerack"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAYAAABr5z2BAAAAxUlEQVQokWNgIAJIiKj+lxBR/Y9NjokYzcvMuBiitUQYsBnCSIzmrV+4GJZee4Mh/+LNbUYWfJqL2/sZoioLGRgYvjE4hSajyKclhTBEeHr+x2oATDMDAwMujQyGRjoMDAxYwgDm7BeLWxnOn7uConHf6rkMpy/cQFHPgk3z1i9cDAwMDAz7Vs9lWLF9O4qNMNBbWYgaBuiaYYGGbiNMI4zPhEszsiJkjejijIQ0S4io/kfXhAyYGBgY8NqMTzMc4EuqhAAAk7xvIP+muWkAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fertilizers &amp; Spices</button>
+      <button type="button" data-cat="salt"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAA9UlEQVQokY2RsU4CQRCGvzMEg+Y6LIjG1saSZpvrfBdaci9wL+AT2dkYAiWNDYXxjuKoIHdkacaCzGRPXORvdrOz33yzWYgkz5zkmZNYPQpVrZeq9ZfBaqlaLxqFow3yzNnFeb01o+5F5BT+yzKvtx0otAP08szJdOIoG99pdn97zWjQZ70/sN4fACgbz3TiAORKL46HKWXjrcFo0LdVz8fD1Br3QosW1KJGtYcx42KzM0Ctv/eLza5rXM5WPFNQvhRWCN9s478VLGer7qgKn4tCJ28MC7F81cdxEzj+49PDDY936b/Q53fL6/tHkuihwueiEMAPcDTaSZl9MeEAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Salt</button>
+      <button type="button" data-cat="limitedtime">⏳ Limited Time Boost</button>
+    </div>
+    <div class="lib-search-wrap"><input type="text" id="boostSearchInput" placeholder="🔍 Search boosts..." /></div>
+    <div id="boostListWrap"></div>
+
+    <div style="margin-top:16px;border-top:1.5px dashed var(--line);padding-top:12px;display:none;" id="budSection">
+      <div class="lib-section-title">🌿 BUD NFTs</div>
+      <div class="hint-collapsible"><button type="button" class="hint-q-btn" aria-label="More info">❓</button><div class="hint-slide"><div class="field-hint" style="margin-bottom:10px;">BUDs are 1:1 NFT companions — each one has a Type, a Stem and an Aura. Pick the combination on your BUD and it's added below as its own always-on boost. Each Type/Stem/Aura combo can only be added once — you can't add two identical BUDs.</div></div></div>
+      <div id="budCreatedList"></div>
+      <div class="bud-field-grid">
+        <div class="field">
+          <label>Type</label>
+          <button type="button" class="bud-dropdown-toggle" id="budTypeToggle" data-field="type"></button>
+        </div>
+        <div class="field">
+          <label>Stem</label>
+          <button type="button" class="bud-dropdown-toggle" id="budStemToggle" data-field="stem"></button>
+        </div>
+      </div>
+      <div class="field bud-aura-field">
+        <label>Aura</label>
+        <button type="button" class="bud-dropdown-toggle" id="budAuraToggle" data-field="aura"></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="btn btn-outline btn-block" id="createBudBtn" type="button" style="flex:1;">+ Add this BUD</button>
+        <span id="budDuplicateNote" style="display:none;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;border-top:1.5px dashed var(--line);padding-top:12px;display:none;" id="animalBudSection">
+      <div class="lib-section-title">🌿 BUD NFTs</div>
+      <div class="hint-collapsible"><button type="button" class="hint-q-btn" aria-label="More info">❓</button><div class="hint-slide"><div class="field-hint" style="margin-bottom:10px;">BUDs are 1:1 NFT companions — each one has a Type, a Stem and an Aura. Pick the combination on your BUD and it's added below as its own always-on boost. Each Type/Stem/Aura combo can only be added once — you can't add two identical BUDs.</div></div></div>
+      <div id="animalBudCreatedList"></div>
+      <div class="bud-field-grid">
+        <div class="field">
+          <label>Type</label>
+          <button type="button" class="bud-dropdown-toggle" id="animalBudTypeToggle" data-context="animal" data-field="type"></button>
+        </div>
+        <div class="field">
+          <label>Stem</label>
+          <button type="button" class="bud-dropdown-toggle" id="animalBudStemToggle" data-context="animal" data-field="stem"></button>
+        </div>
+      </div>
+      <div class="field bud-aura-field">
+        <label>Aura</label>
+        <button type="button" class="bud-dropdown-toggle" id="animalBudAuraToggle" data-context="animal" data-field="aura"></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="btn btn-outline btn-block" id="createAnimalBudBtn" type="button" style="flex:1;">+ Add this BUD</button>
+        <span id="animalBudDuplicateNote" style="display:none;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;border-top:1.5px dashed var(--line);padding-top:12px;display:none;" id="fruitBudSection">
+      <div class="lib-section-title">🌿 BUD NFTs</div>
+      <div class="hint-collapsible"><button type="button" class="hint-q-btn" aria-label="More info">❓</button><div class="hint-slide"><div class="field-hint" style="margin-bottom:10px;">BUDs are 1:1 NFT companions — each one has a Type, a Stem and an Aura. Pick the combination on your BUD and it's added below as its own always-on boost. Each Type/Stem/Aura combo can only be added once — you can't add two identical BUDs.</div></div></div>
+      <div id="fruitBudCreatedList"></div>
+      <div class="bud-field-grid">
+        <div class="field">
+          <label>Type</label>
+          <button type="button" class="bud-dropdown-toggle" id="fruitBudTypeToggle" data-context="fruit" data-field="type"></button>
+        </div>
+        <div class="field">
+          <label>Stem</label>
+          <button type="button" class="bud-dropdown-toggle" id="fruitBudStemToggle" data-context="fruit" data-field="stem"></button>
+        </div>
+      </div>
+      <div class="field bud-aura-field">
+        <label>Aura</label>
+        <button type="button" class="bud-dropdown-toggle" id="fruitBudAuraToggle" data-context="fruit" data-field="aura"></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="btn btn-outline btn-block" id="createFruitBudBtn" type="button" style="flex:1;">+ Add this BUD</button>
+        <span id="fruitBudDuplicateNote" style="display:none;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;border-top:1.5px dashed var(--line);padding-top:12px;display:none;" id="cropBudSection">
+      <div class="lib-section-title">🌿 BUD NFTs</div>
+      <div class="hint-collapsible"><button type="button" class="hint-q-btn" aria-label="More info">❓</button><div class="hint-slide"><div class="field-hint" style="margin-bottom:10px;">BUDs are 1:1 NFT companions — each one has a Type, a Stem and an Aura. Pick the combination on your BUD and it's added below as its own always-on boost. Each Type/Stem/Aura combo can only be added once — you can't add two identical BUDs.</div></div></div>
+      <div id="cropBudCreatedList"></div>
+      <div class="bud-field-grid">
+        <div class="field">
+          <label>Type</label>
+          <button type="button" class="bud-dropdown-toggle" id="cropBudTypeToggle" data-context="crop" data-field="type"></button>
+        </div>
+        <div class="field">
+          <label>Stem</label>
+          <button type="button" class="bud-dropdown-toggle" id="cropBudStemToggle" data-context="crop" data-field="stem"></button>
+        </div>
+      </div>
+      <div class="field bud-aura-field">
+        <label>Aura</label>
+        <button type="button" class="bud-dropdown-toggle" id="cropBudAuraToggle" data-context="crop" data-field="aura"></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="btn btn-outline btn-block" id="createCropBudBtn" type="button" style="flex:1;">+ Add this BUD</button>
+        <span id="cropBudDuplicateNote" style="display:none;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;border-top:1.5px dashed var(--line);padding-top:12px;display:none;" id="resourceBudSection">
+      <div class="lib-section-title">🌿 BUD NFTs</div>
+      <div class="hint-collapsible"><button type="button" class="hint-q-btn" aria-label="More info">❓</button><div class="hint-slide"><div class="field-hint" style="margin-bottom:10px;">BUDs are 1:1 NFT companions — each one has a Type, a Stem and an Aura. Pick the combination on your BUD and it's added below as its own always-on boost. Each Type/Stem/Aura combo can only be added once — you can't add two identical BUDs.</div></div></div>
+      <div id="resourceBudCreatedList"></div>
+      <div class="bud-field-grid">
+        <div class="field">
+          <label>Type</label>
+          <button type="button" class="bud-dropdown-toggle" id="resourceBudTypeToggle" data-context="resource" data-field="type"></button>
+        </div>
+        <div class="field">
+          <label>Stem</label>
+          <button type="button" class="bud-dropdown-toggle" id="resourceBudStemToggle" data-context="resource" data-field="stem"></button>
+        </div>
+      </div>
+      <div class="field bud-aura-field">
+        <label>Aura</label>
+        <button type="button" class="bud-dropdown-toggle" id="resourceBudAuraToggle" data-context="resource" data-field="aura"></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="btn btn-outline btn-block" id="createResourceBudBtn" type="button" style="flex:1;">+ Add this BUD</button>
+        <span id="resourceBudDuplicateNote" style="display:none;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
+      </div>
+    </div>
+      </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="sync-modal" id="syncCompleteModal" aria-live="polite">
+  <div class="sync-modal-box">
+    <div class="sync-modal-titlebar">
+      <span class="sync-modal-dot"></span>
+      <span id="syncCompleteModalTitle">SYNC COMPLETE</span>
+      <span class="sync-modal-dot"></span>
+    </div>
+    <div class="sync-modal-msg" id="syncCompleteModalMsg"></div>
+  </div>
+</div>
+
+<div class="sync-modal sync-progress-modal" id="syncProgressModal" aria-live="polite">
+  <div class="sync-modal-box">
+    <div class="sync-modal-titlebar">
+      <span class="sync-modal-dot"></span>
+      <span>SYNCING FARM</span>
+      <span class="sync-modal-dot"></span>
+    </div>
+    <div class="sync-progress-track">
+      <div class="sync-progress-fill" id="syncProgressFill"></div>
+    </div>
+    <div class="sync-modal-msg sync-progress-step" id="syncProgressStep">Connecting to farm…</div>
+  </div>
+</div>
+
+<div id="ticketCalcOverlay">
+  <div class="trade-shop-card">
+    <div class="trade-shop-titlebar">
+      <div class="trade-shop-icon-wrap" style="font-size:26px;">🎟️</div>
+      <div>
+        <div class="trade-shop-title-text">Seasonal Ticket Calculator</div>
+        <div class="trade-shop-title-sub">Project delivery ticket income over time</div>
+      </div>
+      <button class="trade-shop-close" id="ticketCalcCloseBtn" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="trade-shop-body" id="ticketCalcBody"></div>
+  </div>
+</div>
+
+<div id="top10Overlay">
+  <div class="top10-card">
+    <div class="top10-titlebar">
+      <div class="top10-title-wrap">
+        <div class="top10-title-text">TOP 10 MOST<br>PROFITABLE TODAY</div>
+        <div class="top10-title-sub" id="top10Sub">Ranked by 24h profit across crops, resources, fruits &amp; animals</div>
+      </div>
+      <button type="button" class="top10-close" id="top10CloseBtn">✕</button>
+    </div>
+    <div class="top10-body retro-scroll" id="top10Body"></div>
+  </div>
+</div>
+
+<div id="pixelPickerOverlay">
+  <div class="pixel-picker-card">
+    <div class="pixel-picker-titlebar">
+      <div class="pixel-picker-title-text" id="pixelPickerTitle">CHOOSE</div>
+      <button type="button" class="pixel-picker-close" id="pixelPickerCloseBtn">✕</button>
+    </div>
+    <div class="pixel-picker-body retro-scroll" id="pixelPickerBody"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

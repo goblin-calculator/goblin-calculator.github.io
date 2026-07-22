@@ -1,0 +1,37 @@
+{
+  "name": "Goblin Calculator",
+  "short_name": "Goblin Calc",
+  "description": "Know your real profit before you list it — a farm profit/cost calculator.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#3a4a2f",
+  "theme_color": "#3a4a2f",
+  "icons": [
+    {
+      "src": "./icons/goblin-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/goblin-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/goblin-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./icons/goblin-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
