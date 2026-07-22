@@ -1,6 +1,6 @@
 {
   "name": "Goblin Calculator",
-  "short_name": "Goblin Calc",
+  "short_name": "Goblin Calculator",
   "description": "Know your real profit before you list it — a farm profit/cost calculator.",
   "start_url": "./index.html",
   "scope": "./",
