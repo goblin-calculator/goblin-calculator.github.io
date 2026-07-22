@@ -9397,6 +9397,7 @@ async function performFarmPanelSync(farmId){
       if(typeof renderSaltList === "function") renderSaltList();
       if(typeof updateCalcSummary === "function") updateCalcSummary();
     }
+    farmPanelSaveGameState(communityResult.ok ? communityResult.data : json);
     if(typeof syncCookingCountsFromInventory === "function") syncCookingCountsFromInventory(farmPanelGameState);
     if(typeof renderCookingPanel === "function") renderCookingPanel();
 
@@ -9405,7 +9406,6 @@ async function performFarmPanelSync(farmId){
     if(boostResult.vipStatus){
       localStorage.setItem("hl_ticket_vip_enabled", boostResult.vipStatus.active ? "1" : "0");
     }
-    farmPanelSaveGameState(communityResult.ok ? communityResult.data : json);
     if(typeof renderBoostPanel === "function" && typeof boostCategory !== "undefined" && boostCategory === "limitedtime") renderBoostPanel();
     renderFarmPanelInfo();
     if(anythingChanged) renderFarmPanelTabContent();
@@ -14957,11 +14957,42 @@ setTimeout(() => {
   farmPanelLoadCachedGameState();
   renderFarmPanelTabContent();
 }, 0);
+let goblinLoadingDoneResolve = null;
+let goblinLoadingDonePromise = new Promise(resolve => { goblinLoadingDoneResolve = resolve; });
+
+async function farmIdPromptStartSync(farmId){
+  $("farmPanelIdInput").value = farmId;
+  beginLoadingSequence();
+  const res = await performFarmPanelSync(farmId);
+  if(!res){ return; }
+  await goblinLoadingDonePromise;
+  setTimeout(() => {
+    if(res.ok) showSyncCompleteModal(res.message, { title:"SYNC COMPLETE" });
+    else showSyncCompleteModal("⚠️ Couldn't reach the farm data. Check the Farm ID and try again.", { title:"SYNC FAILED" });
+  }, 280);
+}
+
 {
   const { id: savedFarmId } = farmPanelGetLastInfo();
   if(savedFarmId){
-    $("farmPanelIdInput").value = savedFarmId;
-    performFarmPanelSync(savedFarmId);
+    farmIdPromptStartSync(savedFarmId);
+  } else {
+    const screen = document.getElementById("appLoadingScreen");
+    const input = document.getElementById("farmIdPromptInput");
+    const openBtn = document.getElementById("farmIdPromptOpenBtn");
+    if(screen) screen.classList.add("show-prompt");
+    if(input) setTimeout(() => input.focus(), 50);
+    function handleOpen(){
+      const farmId = ((input && input.value) || "").trim();
+      if(!farmId){
+        if(input) input.focus();
+        return;
+      }
+      if(screen) screen.classList.remove("show-prompt");
+      farmIdPromptStartSync(farmId);
+    }
+    if(openBtn) openBtn.addEventListener("click", handleOpen);
+    if(input) input.addEventListener("keydown", (e) => { if(e.key === "Enter") handleOpen(); });
   }
 }
 
@@ -15046,16 +15077,18 @@ function generateGoblinThought(){
 
 
 
-(function(){
+function beginLoadingSequence(){
   const LOAD_DURATION = 17000;
   const screen = document.getElementById("appLoadingScreen");
   const fill = document.getElementById("loadingProgressFill");
   const label = document.getElementById("loadingProgressLabel");
   if(!screen || screen.dataset.loadingStarted){
     window.dispatchEvent(new Event("goblinAppReady"));
+    if(goblinLoadingDoneResolve) goblinLoadingDoneResolve();
     return;
   }
   screen.dataset.loadingStarted = "1";
+  screen.classList.remove("show-prompt");
 
   document.documentElement.style.overflow = "hidden";
 
@@ -15074,10 +15107,11 @@ function generateGoblinThought(){
       document.documentElement.style.overflow = "";
       setTimeout(() => { screen.remove(); }, 550);
       window.dispatchEvent(new Event("goblinAppReady"));
+      if(goblinLoadingDoneResolve) goblinLoadingDoneResolve();
     }
   }
   requestAnimationFrame(tick);
-})();
+}
 
 (function(){
   const btn = document.getElementById("footerCopyAddressBtn");
