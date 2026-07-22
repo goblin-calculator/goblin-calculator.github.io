@@ -28,7 +28,7 @@
 
 
 <div id="appLoadingScreen" aria-hidden="true">
-  <div class="loading-content">
+  <div class="loading-content" id="loadingContentView">
     <div class="goblin-thought-bubble" id="goblinThoughtBubble">
       <span id="goblinThoughtText">Goblin tinkin'...</span>
     </div>
@@ -47,8 +47,21 @@
       <div class="loading-progress-label" id="loadingProgressLabel">SYNCING FARM... 0%</div>
     </div>
   </div>
-</div>
 
+  <div class="farm-id-prompt-content" id="farmIdPromptView">
+    <div class="farm-id-prompt-welcome">Welcome to<br>Goblin Calculator</div>
+    <div class="farm-id-prompt-box">
+      <div class="sync-modal-titlebar">
+        <span class="sync-modal-dot"></span>
+        <span>ENTER FARM ID</span>
+        <span class="sync-modal-dot"></span>
+      </div>
+      <div class="farm-id-prompt-msg">Type your Farm ID to sync your Sunflower Land Farm</div>
+      <input type="text" class="farm-id-prompt-input" id="farmIdPromptInput" inputmode="numeric" placeholder="e.g. 114779" />
+      <button type="button" class="btn btn-sun farm-id-prompt-btn" id="farmIdPromptOpenBtn">Open</button>
+    </div>
+  </div>
+</div>
 
 <div class="farm-panel-overlay" id="farmPanelOverlay"></div>
 <div class="farm-side-panel" id="farmSidePanel">
@@ -100,7 +113,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V1.0</span>
+  <span class="app-version-badge">V1.1</span>
   <div class="header-inner">
     <div class="mark"><img src="./icons/goblin-logo.png" alt="Goblin Calculator logo" /></div>
     <div>
