@@ -17180,7 +17180,12 @@ function getAgingSaltCostLocal(baseXP){
 function fishEffectiveBasicCostCoins(fishName){
   if(typeof cookingGuaranteedCatchOn !== "undefined" && cookingGuaranteedCatchOn){
     const item = fishMarketItemForFish(fishName);
-    if(item) return fishMarketItemCostCoins(item, "collect", previewSeason);
+    if(item){
+      const itemCostCoins = fishMarketItemCostCoins(item, "collect", previewSeason);
+      const d = FISH_CATCH_DATA[fishName];
+      const yieldMult = d ? fishCatchYieldMult(d.tier) : 1;
+      return yieldMult > 0 ? (itemCostCoins / yieldMult) : itemCostCoins;
+    }
   }
   const bf = computeBasicFishFigures(fishName);
   return bf ? bf.costCoins : 0;
@@ -17338,10 +17343,13 @@ function renderFishCatchCard(fishName, cat){
   let ingredientRows = "";
   if(stage === "basic"){
     if(marketItem){
-      const itemCostCoins = fishMarketItemCostCoins(marketItem, "collect", previewSeason);
+      const marketItemTotalCoins = fishMarketItemCostCoins(marketItem, "collect", previewSeason);
+      const fishYieldMult = fishCatchYieldMult(d.tier);
+      const itemCostCoins = fishEffectiveBasicCostCoins(fishName);
       ingredientRows = `
-        <div class="cook-ingredient-row"><span>${getIcon(marketItem)}</span><span class="ing-name">${escapeHtml(marketItem)} ×1</span><span class="ing-cost">${fmt(coinsToFlower(itemCostCoins))}${FLOWER_ICON}/u</span></div>
-        <div style="font-size:7.5px;color:var(--ink-soft);margin-top:2px;">Guaranteed Catch active — cost uses the Fish Market's ${escapeHtml(marketItem)} recipe instead of Rod + Bait + Chum.</div>
+        <div class="cook-ingredient-row"><span>${getIcon(marketItem)}</span><span class="ing-name">${escapeHtml(marketItem)} ×1</span><span class="ing-cost">${fmt(coinsToFlower(marketItemTotalCoins))}${FLOWER_ICON}</span></div>
+        <div class="cook-ingredient-row"><span class="ing-name">÷ avg yield ×${fmt(fishYieldMult)}/rod</span><span class="ing-cost">= ${fmt(coinsToFlower(itemCostCoins))}${FLOWER_ICON}/u</span></div>
+        <div style="font-size:7.5px;color:var(--ink-soft);margin-top:2px;">Guaranteed Catch active — cost uses the Fish Market's ${escapeHtml(marketItem)} recipe cost divided by ${escapeHtml(fishName)}'s avg catch yield instead of Rod + Bait + Chum.</div>
       `;
     } else {
       const bf = computeBasicFishFigures(fishName);
