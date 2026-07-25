@@ -7372,6 +7372,7 @@ const SFL_PRICE_API = SFL_PROXY_BASE + "/api/v1/prices";
 const SFL_NFT_PRICE_API = SFL_PROXY_BASE + "/api/v1/nfts";
 let livePrices = safeLSJSON(localStorage.getItem("hl_live_prices"), {});
 let livePricesUpdatedAt = parseInt(localStorage.getItem("hl_live_prices_updated") || "0") || null;
+let liveNftPrices = safeLSJSON(localStorage.getItem("hl_live_nft_prices"), {});
 let liveSyncInFlight = false;
 
 function normalizeItemName(name){
@@ -7384,16 +7385,29 @@ function normalizeItemName(name){
     .replace(/[^a-z0-9]/g, "");
 }
 
-function findLivePriceForName(name){
+function findPriceInPool(pool, name){
   if(!name) return null;
   const isRealPrice = v => typeof v === "number" && isFinite(v) && v > 0;
-  if(isRealPrice(livePrices[name])) return livePrices[name];
-  const exactKey = Object.keys(livePrices).find(k => k.toLowerCase() === name.trim().toLowerCase());
-  if(exactKey != null && isRealPrice(livePrices[exactKey])) return livePrices[exactKey];
+  if(isRealPrice(pool[name])) return pool[name];
+  const exactKey = Object.keys(pool).find(k => k.toLowerCase() === name.trim().toLowerCase());
+  if(exactKey != null && isRealPrice(pool[exactKey])) return pool[exactKey];
   const target = normalizeItemName(name);
   if(!target) return null;
-  const fuzzyKey = Object.keys(livePrices).find(k => normalizeItemName(k) === target);
-  return (fuzzyKey != null && isRealPrice(livePrices[fuzzyKey])) ? livePrices[fuzzyKey] : null;
+  const fuzzyKey = Object.keys(pool).find(k => normalizeItemName(k) === target);
+  return (fuzzyKey != null && isRealPrice(pool[fuzzyKey])) ? pool[fuzzyKey] : null;
+}
+
+function findLivePriceForName(name){
+  return findPriceInPool(livePrices, name);
+}
+
+function findLiveNftPriceForName(name){
+  return findPriceInPool(liveNftPrices, name);
+}
+
+function findLivePriceForItem(m){
+  if(m && (m.isNftCollectible || m.isWearable)) return findLiveNftPriceForName(m.name);
+  return findLivePriceForName(m.name);
 }
 
 function timeAgo(ts){
@@ -7408,7 +7422,7 @@ function timeAgo(ts){
 }
 
 function updateLiveSyncStatus(){
-  const count = Object.keys(livePrices).length;
+  const count = Object.keys(livePrices).length + Object.keys(liveNftPrices).length;
   const el = $("liveSyncStatus");
   if(!count){
     el.innerHTML = `⚠️ No live prices loaded yet. Tap Sync, or paste the API response below.`;
@@ -7418,15 +7432,19 @@ function updateLiveSyncStatus(){
     el.innerHTML = `✅ <b>${count}</b> live prices loaded · updated ${timeAgo(livePricesUpdatedAt)} · add a seed/tool/animal to your library to start matching them`;
     return;
   }
-  const matched = marketItems.filter(m => findLivePriceForName(m.name) != null).length;
+  const matched = marketItems.filter(m => findLivePriceForItem(m) != null).length;
   el.innerHTML = `✅ <b>${count}</b> live prices loaded · updated ${timeAgo(livePricesUpdatedAt)} · matching <b>${matched}/${marketItems.length}</b> of your items`;
 }
 
-function setLivePrices(p2p, updatedAt){
+function setLivePrices(p2p, updatedAt, nft){
   livePrices = p2p || {};
   livePricesUpdatedAt = updatedAt || Date.now();
   localStorage.setItem("hl_live_prices", JSON.stringify(livePrices));
   localStorage.setItem("hl_live_prices_updated", String(livePricesUpdatedAt));
+  if(nft){
+    liveNftPrices = nft;
+    localStorage.setItem("hl_live_nft_prices", JSON.stringify(liveNftPrices));
+  }
   updateLiveSyncStatus();
   
   
@@ -7438,7 +7456,7 @@ function applyLivePricesToMarket(overwriteExisting){
   let updated = 0;
   const unmatched = [];
   marketItems.forEach(m => {
-    const price = findLivePriceForName(m.name);
+    const price = findLivePriceForItem(m);
     if(price == null){ unmatched.push(m.name); return; }
     if(overwriteExisting || !m.flowerPrice){
       m.flowerPrice = price;
@@ -7460,7 +7478,7 @@ function applyLivePricesToMarket(overwriteExisting){
 }
 
 function autoFillLivePricesForNewEntries(){
-  if(!Object.keys(livePrices).length) return;
+  if(!Object.keys(livePrices).length && !Object.keys(liveNftPrices).length) return;
   applyLivePricesToMarket(false);
 }
 
@@ -7493,7 +7511,7 @@ async function fetchLivePrices(){
   }catch(e){
     console.warn("NFT price fetch failed:", e);
   }
-  return { p2p: { ...p2p, ...nftPrices }, updatedAt };
+  return { p2p, nft: nftPrices, updatedAt };
 }
 
 async function performLiveSync(){
@@ -7502,8 +7520,8 @@ async function performLiveSync(){
   const btn = $("syncLivePricesBtn");
   if(btn){ btn.classList.add("is-loading"); btn.textContent = "🔄 Syncing..."; }
   try{
-    const { p2p, updatedAt } = await fetchLivePrices();
-    setLivePrices(p2p, updatedAt);
+    const { p2p, nft, updatedAt } = await fetchLivePrices();
+    setLivePrices(p2p, updatedAt, nft);
     const result = applyLivePricesToMarket(true);
     return { ok:true, result };
   }catch(e){
@@ -7566,8 +7584,8 @@ async function initLivePricesOnLoad(){
   updateLiveSyncStatus();
   if(Object.keys(livePrices).length) applyLivePricesToMarket(false);
   try{
-    const { p2p, updatedAt } = await fetchLivePrices();
-    setLivePrices(p2p, updatedAt);
+    const { p2p, nft, updatedAt } = await fetchLivePrices();
+    setLivePrices(p2p, updatedAt, nft);
     autoFillLivePricesForNewEntries();
   }catch(e){
     console.warn("Background live price fetch failed (likely CORS):", e);
@@ -12051,7 +12069,7 @@ $("marketTabWearables").onclick = () => {
 };
 
 function renderMarketRow(m){
-  const isLive = findLivePriceForName(m.name) != null;
+  const isLive = findLivePriceForItem(m) != null;
   const liveTag = isLive ? " · 🔄 live" : "";
   let meta;
   if(BASE_CROPS[m.name]) meta = "🌾 Crop" + liveTag;
