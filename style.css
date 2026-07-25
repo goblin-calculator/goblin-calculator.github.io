@@ -3009,9 +3009,6 @@
 .pet-food-name{ flex:1; }
 .pet-food-cost{ opacity:.75; }
 
-/* ===== Seasonal Ticket Calculator (merged into #ticketCalcBody, no iframe) =====
-   Color/shadow variables are scoped to #ticketCalcOverlay only, so they don't
-   override the app's global theme variables of the same name. */
 #ticketCalcOverlay{
   --ink:#1a1410;
   --paper:#fdf8ef;
