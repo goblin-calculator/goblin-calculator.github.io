@@ -8,6 +8,7 @@
 <meta name="description" content="Goblin Calculator — an unofficial profit/loss calculator for Sunflower Land. Know your real profit before you list it." />
 <link rel="canonical" href="https://goblin-calculator.github.io/" />
 <meta name="theme-color" content="#3a4a2f" />
+<meta name="color-scheme" content="light" />
 
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Goblin Calculator" />
@@ -74,6 +75,7 @@
       <div class="farm-panel-name" id="farmPanelName">No farm synced</div>
       <div class="farm-panel-id" id="farmPanelId">Farm Id: —</div>
       <div class="farm-panel-level" id="farmPanelLevel">Bumpkin Level: —</div>
+      <div class="farm-panel-faction" id="farmPanelFaction">Faction: —</div>
       <div class="farm-panel-vip" id="farmPanelVip"></div>
     </div>
     <div class="farm-panel-divider"></div>
@@ -113,7 +115,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V1.1</span>
+  <span class="app-version-badge">V1.2</span>
   <div class="header-inner">
     <div class="mark"><img src="./icons/goblin-logo.png" alt="Goblin Calculator logo" /></div>
     <div>
@@ -224,6 +226,12 @@
         <button class="btn btn-outline" id="livePasteImportBtn" type="button" style="color:#4a2f16;border-color:#a97c3f;">📥 Import pasted prices</button>
       </div>
 
+      <div class="market-tabs" id="marketTabs">
+        <button type="button" class="market-tab-btn active" id="marketTabResources" data-tab="resources"><span id="marketTabResourcesIcon"></span> Resources</button>
+        <button type="button" class="market-tab-btn" id="marketTabNft" data-tab="nft"><span id="marketTabNftIcon"></span> Collectibles</button>
+        <button type="button" class="market-tab-btn" id="marketTabWearables" data-tab="wearables"><span id="marketTabWearablesIcon"></span> Wearables</button>
+      </div>
+
       <div class="lib-search-wrap">
         <input type="text" id="marketSearchInput" placeholder="🔍 Search marketplace items..." />
       </div>
@@ -281,6 +289,7 @@
   <button type="button" data-view="cropmachine"><img src="data:image/webp;base64,UklGRvgCAABXRUJQVlA4TOwCAAAvT0ARENegKJKk5sg5h+9ZQDZ6MIEDvthgEwBgkvnr2kDho6uWogcBHFTVtg29yTz8amCpIYbGvjSggAwWgmybio3+YA8A4P//I9YIRM6ZKS6kAFoIY4XHWmBZM4rwCOSjsJW4BkcAmzePbg2NKcu5pt0XL213P3C8cB0MEmzbjdsmtiMFHigzphWy3v9KSRAE6aFzix/Rfwhu20iSpO0aVM+VOZzsfOHtt5uuqb+7bm3o/Cp6NT+8jowTXR38JIo71KFgJdH71PFmBFS3ewAUC423n/NoNXyIVoDbQ+QWkqQeTFcrO5y9rHhszNj5zEYywbv2954WR9dvK8rOyJuJX2kAixkQN4Fdhk1caBMEUymuZVngKhw5PxHXvBMv4yWYXWK+oJtk0uQyM8msAmuDYHnHSMVoZsk0uVRR2SLEi1kMBT+Zpcsto8wlLR2LcDrdqpsgLXQkoJB0uRy1SdIndabjDGTSDBBWN27T5At5JxETBiF2LbTIK2eda7W5XGT8VUD63p9SrBZLJ5Zzduhz3kBapFxm7Fa0gq+gjC6XZ/0igRS5CSAhuQA0uew7LYEKZLrnFi3au8nf+5PQh7CQOLfum0sz47lszq2RqPtQ59zqQd+HeufMqNNiH1pGzK0MXQ1m0OdS7EPdc4tzddzmXND0oWE4kE5tH/IiyrlVNqtKEvqu2IeWQbk0wNCeaMIi96HuXNYbqxVKyCj70JBcGup3gkEAUFD2oQG5XCYTZksD4fQJSPWBEbk8TZKQFe4m1tKdS4Ze0/yZPd//dRNGawNI0SxNxh+pX1hnLhnhhkIAxtCby8ImMDZhEN253B8ZRzA+D/uj6Keqju5c7g+Md2Mc9nZ4F1XVMeB3D4PAeIzfPXMKCQT2SHeguTBgKMDwINAMEMAeaQjdOcJKmIk502PQytmIOrpz6Zs5G18HNYfT/VUgdza7Sx34QON2rtEW7lBHc8QX6veKYG58He3N/ZcHPL1rur27Lw8A" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crop Machine</button>
   <button type="button" data-view="composter"><img src="data:image/webp;base64,UklGRkoBAABXRUJQVlA4TD4BAAAvE8AHEK/ANACANJDcNWvn/zdoJBo7QQ9hGtlWK7BR5YzG0wQl0wEV0AKDRP7IJgCANLxE4HLrQnLPsNfdVSCQZLK/1SgBAOC1LDH8r1vaQMj/IARY2/SLigiJwxrVICXLvbSmc6/R3sw5he8/zXW5uNAzA4iRbdVtHPx5EYZc+R5e/8UCikuI6P8E3NaxvF2uFy/UcbHuRrk4FhFRxsUSEbdorZVRtqO01uJrn2swff6unWLxKWNbZCbId81lfScWYfWSY5sFe1LW+7amz05w+j8igKyP+fV61DxFBFbWx+saml6v12OuCQSGrLmtqU4EOvNdt++URXB6XAZPGllyWXLgFshcOzuBzQASEhinCKTubqGO1DECy5ItyZYsdQLbxjM22EQDOJgPOA6IaK0dl1tri3/H8/eLz+/8fBU=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Composter</button>
   <button type="button" data-view="cooking"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAKCAYAAABi8KSDAAAAAXNSR0IArs4c6QAAAO9JREFUGJVtkbFqwlAUhr+bRTSkxSSFULKVgNCA4CBesQ+QRcjQVyiFFvoqjsW9jlWcfQDByU0QN5EMGimZ7GA63ZjE/tPhnO9wDv8vKMmxvVTV0X4t8jNRhkbtGtJPODdDHj6mhSWhwFG7BsCrafEZH5B+QqVjAnD/8kO0XwvNsb3067mVgU9vOtJPeA8faXzfcJrH7Ia3OLaXCsf20rvKiUFf0um5aMtx9uO5GaItxwSTKqv4lwxWGvQlAF1jQTCpAuDWTWab6Bq2dAO3bpZNYraJ0K66wPYY/9e+uAGgLli6UTiv7CuYng9EKR/MH0NNTSwXCPCyAAAAAElFTkSuQmCC" style="width:13px;height:12px;vertical-align:-2px;image-rendering:pixelated;"> Cooking</button>
+  <button type="button" data-view="fishing"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOBAMAAADUAYG5AAAAHlBMVEUAAAAYFCXXdkO+Si/Ay9zkO0RzPjn///+Lm7RaaYge9Cq/AAAAAXRSTlMAQObYZgAAAE9JREFUCNdjgABGASgtJAClDSEMIWVxMINR2RDCEDITADJAAokMQAZYgFFUECigKCjAGBoIFBBxAYkAVYjMEGAQFACqEOkA6xVOZBREsQ4AdZMHIu0fKyEAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fishing</button>
   <button type="button" data-view="pets">🐾 Pets</button>
 </div>
 
@@ -346,6 +355,8 @@
         (⚡ <b>Boosts → 🍳 Cooking</b> tab), and VIP.
       </div>
 
+      <div class="fp-section" id="factionPetSection"></div>
+
       <div class="cook-header" id="cookHeader"></div>
       <div class="cook-divider"></div>
 
@@ -354,9 +365,80 @@
         <button type="button" class="btn btn-ghost" data-mode="buy">🛒 Buy</button>
       </div>
 
+      <div class="cook-building-tabs" id="cookFishTabs"></div>
       <div class="cook-building-tabs" id="cookBuildingTabs"></div>
 
-      <div id="cookFoodList" class="retro-scroll" style="max-height:52vh;"></div>
+      <div class="lib-item-row" id="cookGuaranteedCatchToggleRow" style="display:none;margin-bottom:8px;cursor:pointer;">
+        <span class="lib-item-icon">🎯</span>
+        <div class="lib-item-main">
+          <div class="lib-item-name">Guaranteed Catch</div>
+          <div class="lib-item-meta">Cost uses the Fish Market's Fish Flake / Fish Stick / Crab Stick / Fish Oil recipe instead of Rod + Bait + Chum</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="cookGuaranteedCatchToggleInput">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div id="cookFoodList" class="retro-scroll on-parchment" style="max-height:52vh;"></div>
+    </div>
+  </div>
+
+  <div class="library-panel tab-hidden" id="fishingPanel">
+    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOBAMAAADUAYG5AAAAHlBMVEUAAAAYFCXXdkO+Si/Ay9zkO0RzPjn///+Lm7RaaYge9Cq/AAAAAXRSTlMAQObYZgAAAE9JREFUCNdjgABGASgtJAClDSEMIWVxMINR2RDCEDITADJAAokMQAZYgFFUECigKCjAGBoIFBBxAYkAVYjMEGAQFACqEOkA6xVOZBREsQ4AdZMHIu0fKyEAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fishing</span></div>
+    <div class="library-body" id="fishingBody">
+      <div class="library-sub">
+        Cost per fish for Basic/Advance/Expert catches (rod + bait + chum, with Fishy Chance/Roll/Gamble yield skills
+        and every ⚡ <b>Boosts → 🎣 Fishing</b> boost wired in), plus the Fish Market's Fish Flake, Fish Stick, Crab
+        Stick &amp; Fish Oil — whose ingredients, yield and processing time change with season and boosts. <b>Crab</b>
+        is listed at the bottom of Basic Fish — 1 Rod = 1 Crab (no bait/chum), so its cost is just the rod, with its
+        yield boost (e.g. Crab Hat) applied automatically.
+      </div>
+
+      <div class="cook-mode-toggle" id="fishingCostModeToggle">
+        <button type="button" class="btn btn-ghost" data-mode="collect">🧺 Collect</button>
+        <button type="button" class="btn btn-ghost" data-mode="buy">🛒 Buy</button>
+      </div>
+      <div class="season-toggle-note" id="fishingCostModeNote"></div>
+
+      <div class="fishing-section-title">Basic Fish cost</div>
+      <div class="tier-toggle" id="fishingTierToggle">
+        <button type="button" data-tier="basic">Basic Fish</button>
+        <button type="button" data-tier="advanced">Advance Fish</button>
+        <button type="button" data-tier="expert">Expert Fish</button>
+      </div>
+      <div id="fishingTierList" class="retro-scroll" style="max-height:40vh;"></div>
+
+      <div class="cook-divider"></div>
+
+      <div class="season-toggle" id="fishMarketSeasonToggle">
+        <button type="button" data-season="Spring"><span class="season-emoji">🌸</span>Spring</button>
+        <button type="button" data-season="Summer"><span class="season-emoji">☀️</span>Summer</button>
+        <button type="button" data-season="Autumn"><span class="season-emoji">🍁</span>Autumn</button>
+        <button type="button" data-season="Winter"><span class="season-emoji">❄️</span>Winter</button>
+      </div>
+      <div class="season-toggle-note" id="fishMarketSeasonToggleNote"></div>
+
+      <div class="cook-building-tabs" id="fishMarketMainTabs">
+        <button type="button" data-fm-tab="market">🐟 Fish Market</button>
+        <button type="button" data-fm-tab="crustaceans">🦀 Crustaceans</button>
+      </div>
+
+      <div id="fishMarketCardsList" class="retro-scroll" style="max-height:52vh;"></div>
+      <div id="fishCrustaceansWrap" style="display:none;">
+        <div class="fishing-section-title">Crustaceans</div>
+        <div class="cook-building-tabs" id="crustaceanTrapTabs">
+          <button type="button" data-trap="Crab Pot">🦀 Crab Pot</button>
+          <button type="button" data-trap="Mariner Pot">🦐 Mariner Pot</button>
+        </div>
+        <div id="crustaceanCardsList" class="retro-scroll" style="max-height:52vh;"></div>
+      </div>
+
+      <div class="cook-divider"></div>
+
+      <div class="fishing-section-title">Guaranteed Catch</div>
+      <div class="cook-building-tabs" id="guaranteedCatchTabs"></div>
+      <div id="guaranteedCatchList" class="retro-scroll" style="max-height:36vh;"></div>
     </div>
   </div>
 
@@ -1008,6 +1090,7 @@
       <button type="button" data-cat="tools"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAXdJREFUOI2tkTFowmAQhb8UyeQszp0KNnOJQycLTlIXXeriIG5FCgUVMgi1IBTpJg4uneKS4lRQOnRokA4WjNDJ2WR2ypIOmpiIphD6psvPl3t37wS2SmcqDoCSsmgtEgB8TvoCPoUxMRdoP94D8PX9Q/vmDIAGOC74FyOkMxUnX8yhqSMA/PW+u6tDfGzr6AzLcbo9Hcmw0Ehw0L3eQbbnSIbFyjapVWUKgxGfk74Qc10hDkBrkSBfzNGodzxHf62pcIUVmDg72Wbkl5KyaKkjlJTFeGZ67gCauuN0UUIfrFFSm+9AI12U0Be+XMSE566L0tF1A40Kg/VxUAxfF3C80x67nL/2X1C259uw18Gww3I5NmntUNjDchxjuruGm0v4Su8eKwC83V475xenRJExXZJ9ft2sNp6ZkZr4/z2J3GFPXkbjmUmy1ARg9fLgAclSE00dIdvzwNs+JwDcXcpOrSpHmqTb03n60AVvImO6jNTI1b9l9Au6ZOY1fmKPvgAAAABJRU5ErkJggg==" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Buildings</button>
       <button type="button" data-cat="composter"><img src="data:image/webp;base64,UklGRkoBAABXRUJQVlA4TD4BAAAvE8AHEK/ANACANJDcNWvn/zdoJBo7QQ9hGtlWK7BR5YzG0wQl0wEV0AKDRP7IJgCANLxE4HLrQnLPsNfdVSCQZLK/1SgBAOC1LDH8r1vaQMj/IARY2/SLigiJwxrVICXLvbSmc6/R3sw5he8/zXW5uNAzA4iRbdVtHPx5EYZc+R5e/8UCikuI6P8E3NaxvF2uFy/UcbHuRrk4FhFRxsUSEbdorZVRtqO01uJrn2swff6unWLxKWNbZCbId81lfScWYfWSY5sFe1LW+7amz05w+j8igKyP+fV61DxFBFbWx+saml6v12OuCQSGrLmtqU4EOvNdt++URXB6XAZPGllyWXLgFshcOzuBzQASEhinCKTubqGO1DECy5ItyZYsdQLbxjM22EQDOJgPOA6IaK0dl1tri3/H8/eLz+/8fBU=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Composter</button>
       <button type="button" data-cat="cooking"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAKCAYAAABi8KSDAAAAAXNSR0IArs4c6QAAAO9JREFUGJVtkbFqwlAUhr+bRTSkxSSFULKVgNCA4CBesQ+QRcjQVyiFFvoqjsW9jlWcfQDByU0QN5EMGimZ7GA63ZjE/tPhnO9wDv8vKMmxvVTV0X4t8jNRhkbtGtJPODdDHj6mhSWhwFG7BsCrafEZH5B+QqVjAnD/8kO0XwvNsb3067mVgU9vOtJPeA8faXzfcJrH7Ia3OLaXCsf20rvKiUFf0um5aMtx9uO5GaItxwSTKqv4lwxWGvQlAF1jQTCpAuDWTWab6Bq2dAO3bpZNYraJ0K66wPYY/9e+uAGgLli6UTiv7CuYng9EKR/MH0NNTSwXCPCyAAAAAElFTkSuQmCC" style="width:13px;height:12px;vertical-align:-2px;image-rendering:pixelated;"> Cooking</button>
+      <button type="button" data-cat="fishing"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOBAMAAADUAYG5AAAAHlBMVEUAAAAYFCXXdkO+Si/Ay9zkO0RzPjn///+Lm7RaaYge9Cq/AAAAAXRSTlMAQObYZgAAAE9JREFUCNdjgABGASgtJAClDSEMIWVxMINR2RDCEDITADJAAokMQAZYgFFUECigKCjAGBoIFBBxAYkAVYjMEGAQFACqEOkA6xVOZBREsQ4AdZMHIu0fKyEAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fishing</button>
       <button type="button" data-cat="pets">🐾 Pets</button>
       <button type="button" data-cat="spicerack"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAYAAABr5z2BAAAAxUlEQVQokWNgIAJIiKj+lxBR/Y9NjokYzcvMuBiitUQYsBnCSIzmrV+4GJZee4Mh/+LNbUYWfJqL2/sZoioLGRgYvjE4hSajyKclhTBEeHr+x2oATDMDAwMujQyGRjoMDAxYwgDm7BeLWxnOn7uConHf6rkMpy/cQFHPgk3z1i9cDAwMDAz7Vs9lWLF9O4qNMNBbWYgaBuiaYYGGbiNMI4zPhEszsiJkjejijIQ0S4io/kfXhAyYGBgY8NqMTzMc4EuqhAAAk7xvIP+muWkAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fertilizers &amp; Spices</button>
       <button type="button" data-cat="salt"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAA9UlEQVQokY2RsU4CQRCGvzMEg+Y6LIjG1saSZpvrfBdaci9wL+AT2dkYAiWNDYXxjuKoIHdkacaCzGRPXORvdrOz33yzWYgkz5zkmZNYPQpVrZeq9ZfBaqlaLxqFow3yzNnFeb01o+5F5BT+yzKvtx0otAP08szJdOIoG99pdn97zWjQZ70/sN4fACgbz3TiAORKL46HKWXjrcFo0LdVz8fD1Br3QosW1KJGtYcx42KzM0Ctv/eLza5rXM5WPFNQvhRWCN9s478VLGer7qgKn4tCJ28MC7F81cdxEzj+49PDDY936b/Q53fL6/tHkuihwueiEMAPcDTaSZl9MeEAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Salt</button>

@@ -1,4 +1,5 @@
   :root{
+    color-scheme: light;
     --soil-dark:#231509;
     --soil:#3d2410;
     --moss:#6b3a1f;
@@ -128,6 +129,11 @@
   .retro-scroll.on-parchment{ scrollbar-color:var(--sun-deep) var(--wheat-dim); }
   .retro-scroll.on-parchment::-webkit-scrollbar-track{ background:var(--wheat-dim); border-left:2px solid var(--line); }
   .retro-scroll.on-parchment::-webkit-scrollbar-thumb{ background:var(--sun-deep); border-color:var(--wheat-dim); box-shadow: inset 0 0 0 1px var(--soil); }
+
+  #cookFoodList{
+    background:var(--wheat-dim); border:2px solid var(--line); border-radius:6px; padding:6px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
+  }
 
   #installBanner{
     display:none;
@@ -281,11 +287,12 @@
   .lib-item-price{
     font-family:'JetBrains Mono',monospace; font-weight:700; font-size:9px; color:var(--soil); text-align:center;
     background:var(--wheat); border-radius:6px; padding:4px 6px; cursor:pointer; border:1.25px dashed var(--sun-deep);
-    white-space:nowrap; line-height:1.25;
+    white-space:nowrap; line-height:1.25; min-width:52px;
   }
   .lib-item-price.is-flower{ border-color:var(--flower); color:var(--flower); }
   .lib-item-price.is-live{ border-style:solid; border-color:var(--profit); }
   .lib-item-price small{ display:block; font-size:7.5px; font-weight:600; color:var(--ink-soft); }
+  .lib-item-price-inline{ display:inline-flex; align-items:center; gap:3px; white-space:nowrap; }
   .lib-item-actions{ display:flex; gap:1px; flex-shrink:0; }
   .lib-item-actions .icon-btn{
     background:transparent; border:none; cursor:pointer; font-size:11px; padding:2px 4px; border-radius:5px;
@@ -1215,9 +1222,13 @@
     line-height:1.4; letter-spacing:.5px; word-break:break-word;
     text-shadow:1px 1px 0 rgba(255,255,255,.5);
   }
-  .farm-panel-id, .farm-panel-level, .farm-panel-vip{
+  .farm-panel-id, .farm-panel-level, .farm-panel-vip, .farm-panel-faction{
     font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft);
     margin-top:3px;
+  }
+  .farm-panel-faction{ display:flex; align-items:center; gap:4px; flex-wrap:wrap; }
+  .farm-panel-faction-icon{
+    width:14px; height:14px; object-fit:contain; image-rendering:pixelated; flex-shrink:0;
   }
   .farm-panel-divider{
     border-top:2px dashed var(--line); margin:8px 0; flex-shrink:0;
@@ -2618,6 +2629,114 @@
     background: repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 12px);
     image-rendering:pixelated;
   }
+  .fp-section{ margin-bottom:10px; }
+  .fp-title-bar{
+    font-family:var(--pixel-font); font-size:10.5px; color:var(--wheat);
+    background:var(--sun-deep); border:2px solid var(--soil-dark);
+    padding:6px 8px; letter-spacing:.4px;
+    box-shadow:2px 2px 0 rgba(0,0,0,.3);
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+  }
+  .fp-manual-toggle{
+    display:flex; align-items:center; gap:5px; cursor:pointer; flex-shrink:0;
+  }
+  .fp-manual-toggle-label{
+    font-family:var(--pixel-font); font-size:7.5px; letter-spacing:.3px; color:var(--wheat);
+  }
+  .fp-manual-toggle-state{
+    font-family:'JetBrains Mono',monospace; font-size:8px; font-weight:700; color:var(--wheat); min-width:20px;
+  }
+  .fp-manual-toggle .switch{ width:32px; height:18px; }
+  .fp-manual-toggle .switch .slider::before{ width:10px; height:10px; }
+  .fp-manual-toggle .switch input:checked + .slider::before{ transform:translateX(14px); }
+  .fp-card{
+    background:var(--parchment); border:2px solid var(--soil-dark); border-top:none;
+    padding:9px 9px 10px;
+  }
+  .fp-top-row{ display:flex; align-items:center; gap:9px; cursor:pointer; }
+  .fp-icon-frame{
+    width:44px; height:44px; flex-shrink:0; position:relative;
+    background:var(--wheat); border:2.5px solid var(--soil-dark);
+    box-shadow:
+      inset 0 0 0 2px var(--parchment),
+      2px 2px 0 rgba(0,0,0,.3),
+      0 0 0 2px var(--sun) ;
+    display:flex; align-items:center; justify-content:center;
+    image-rendering:pixelated; overflow:hidden;
+  }
+  .fp-icon-frame img{ width:32px; height:32px; object-fit:contain; image-rendering:pixelated; }
+  .fp-icon-unknown{
+    font-family:var(--pixel-font); font-size:26px; line-height:1; color:var(--ink-soft);
+  }
+  .fp-name-col{ flex:1; min-width:0; }
+  .fp-name{ font-weight:700; font-size:12.5px; color:var(--soil); word-break:break-word; }
+  .fp-name-sub{ font-size:8.5px; color:var(--ink-soft); letter-spacing:.3px; text-transform:uppercase; margin-top:1px; }
+  .fp-chev{ font-size:10px; color:var(--ink-soft); flex-shrink:0; transition:transform .2s ease; }
+  .fp-top-row.open .fp-chev{ transform:rotate(180deg); }
+
+  .fp-progress-wrap{ margin-top:9px; }
+  .fp-bar-track{
+    width:100%; height:12px; background:var(--soil-dark,#231509);
+    border:2px solid #1a1108; overflow:hidden; position:relative;
+    image-rendering:pixelated;
+  }
+  .fp-bar-fill{
+    height:100%; width:0%;
+    background:repeating-linear-gradient(90deg,#e0a63f 0 6px,#c98a2a 6px 12px);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.25);
+    position:absolute; top:0; left:0; transition:width .3s ease;
+  }
+  .fp-bar-caption{
+    font-family:'JetBrains Mono',monospace; font-size:8.5px; color:var(--ink-soft);
+    margin-top:3px; display:flex; justify-content:space-between; gap:6px; flex-wrap:wrap;
+  }
+
+  .fp-status-msg{
+    margin-top:8px; font-size:9.5px; line-height:1.4; padding:6px 7px;
+    border:1.25px dashed var(--sun-deep); background:var(--wheat-dim); color:var(--ink-soft);
+  }
+  .fp-status-msg.is-good{ border-style:solid; border-color:var(--profit); color:var(--profit); background:var(--wheat); }
+  .fp-status-msg.is-warn{ border-style:solid; border-color:var(--sun-deep); color:var(--sun-deep); background:var(--wheat); }
+
+  .fp-streak-row{
+    display:flex; align-items:center; gap:6px; margin-top:8px; flex-wrap:wrap;
+  }
+  .fp-streak-row label{
+    font-family:var(--pixel-font); font-size:7.5px; color:var(--ink-soft); letter-spacing:.3px; text-transform:uppercase;
+  }
+  .fp-streak-row input[type=number]{
+    width:56px; font-family:'JetBrains Mono',monospace; font-size:11px;
+    padding:5px 6px; border:2px solid var(--line); border-radius:0;
+    background:#fff; color:var(--ink);
+  }
+  .fp-streak-row input[type=number]:focus{ border-color:var(--sun-deep); outline:none; }
+  .fp-boost-badge{
+    font-family:var(--pixel-font); font-size:7.5px; color:var(--wheat);
+    background:var(--profit); border:1.5px solid var(--soil-dark);
+    padding:4px 6px; letter-spacing:.2px; white-space:nowrap;
+  }
+  .fp-boost-badge.none{ background:var(--ink-soft); }
+
+  .fp-boost-panel{
+    margin-top:8px; background:var(--wheat); border:2px solid var(--soil-dark);
+    padding:8px 9px; display:none;
+  }
+  .fp-boost-panel.open{ display:block; }
+  .fp-boost-panel-title{
+    font-family:var(--pixel-font); font-size:8.5px; color:var(--soil); margin-bottom:6px; letter-spacing:.3px;
+  }
+  .fp-boost-tier{
+    display:flex; align-items:center; gap:6px; font-size:9.5px; color:var(--ink-soft);
+    padding:3px 0;
+  }
+  .fp-boost-tier .fp-tier-check{
+    width:13px; height:13px; flex-shrink:0; border:1.5px solid var(--soil-dark);
+    background:#fff; display:flex; align-items:center; justify-content:center; font-size:8.5px;
+  }
+  .fp-boost-tier.active{ color:var(--soil); font-weight:700; }
+  .fp-boost-tier.active .fp-tier-check{ background:var(--profit); color:#fff; }
+  .fp-boost-note{ font-size:8px; color:var(--ink-soft); margin-top:6px; line-height:1.4; }
+
   .cook-header{ padding:2px 0 4px; }
   .cook-header-row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:8px; }
   .cook-level-badge{
@@ -2649,6 +2768,10 @@
     opacity:.9;
   }
   .cook-bar-caption{ font-family:'JetBrains Mono',monospace; font-size:8.5px; color:var(--wheat-dim); margin-top:2px; }
+  .cook-levelup-pill{
+    display:inline-block; background:var(--profit); color:#fff; font-weight:700; font-size:10.5px;
+    padding:2px 7px; border-radius:6px; margin-left:2px;
+  }
   .cook-total-row{
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;
     font-family:'JetBrains Mono',monospace; font-size:11px; margin-top:8px;
@@ -2664,6 +2787,13 @@
     border:2px solid var(--line); background:#fff; color:var(--ink); cursor:pointer; border-radius:0;
   }
   .cook-building-tabs button.active{ background:var(--sun-deep); color:#fff; border-color:var(--sun-deep); }
+  .market-tabs{ display:flex; gap:4px; margin-bottom:10px; }
+  .market-tab-btn{
+    flex:1; font-family:var(--pixel-font); font-size:8px; padding:8px 6px;
+    border:2px solid var(--line); background:#fff; color:var(--ink); cursor:pointer; border-radius:0;
+  }
+  .market-tab-btn.active{ background:var(--sun-deep); color:#fff; border-color:var(--sun-deep); }
+  .market-tab-btn:active{ transform:translate(1px,1px); }
   .cook-food-card{ border:2px solid var(--line); margin-bottom:6px; background:#fff; }
   .cook-food-card.is-ready{ border-color:var(--profit); }
   .cook-food-toggle{ display:flex; align-items:center; gap:8px; padding:8px; cursor:pointer; }
@@ -2696,6 +2826,11 @@
   .cook-ingredient-row{ display:flex; align-items:center; gap:6px; font-size:10.5px; padding:3px 0; }
   .cook-ingredient-row .ing-name{ flex:1; color:var(--ink); }
   .cook-ingredient-row .ing-cost{ font-family:'JetBrains Mono',monospace; color:var(--ink-soft); }
+  #guaranteedCatchList .cook-ingredient-row{
+    background:#fff; border-radius:6px; padding:6px 8px; margin-bottom:5px;
+    box-shadow:2px 2px 0 rgba(0,0,0,.2);
+  }
+  #fishingPanel .season-toggle-note{ color:var(--wheat-dim); }
 
 
 #petsBody{ zoom:0.7; }
@@ -2747,6 +2882,30 @@
 .pet-total-net{ border-top:1px dashed var(--line); margin-top:4px; padding-top:4px; font-weight:700; }
 
 .pet-section-divider{ border-top:3px dashed var(--sun-deep); margin:14px 0; image-rendering:pixelated; }
+
+.fishing-section-title{
+  font-family:var(--pixel-font); font-size:9px; letter-spacing:.4px; margin:10px 0 6px;
+  color:var(--wheat); text-transform:uppercase; display:inline-block;
+  background:var(--sun-deep); border:2px solid var(--ink); border-radius:4px;
+  padding:5px 9px; box-shadow:var(--pixel-shadow);
+}
+.fishmarket-meta-row{ display:flex; gap:14px; margin-top:6px; flex-wrap:wrap; }
+.fishmarket-meta-row span{ font-size:9px; color:var(--ink-soft); }
+.fishmarket-meta-row span b{ color:var(--ink); }
+.fishmarket-p2p-note{ font-size:7.5px; color:var(--ink-soft); margin-top:4px; font-style:italic; }
+.fishmarket-card .cook-food-icon img, .fishmarket-card .cook-food-icon{ image-rendering:pixelated; }
+.crustacean-chum-option{
+  display:flex; align-items:center; gap:6px; font-size:10.5px; padding:5px 6px;
+  margin-bottom:4px; border:2px solid var(--line); border-radius:4px; cursor:pointer;
+  background:#fff;
+}
+.crustacean-chum-option.selected{ border-color:var(--profit); background:#f0fbe9; }
+.crustacean-chum-check{
+  width:13px; flex-shrink:0; text-align:center; font-size:10px; color:var(--profit); font-weight:700;
+}
+.crustacean-chum-icon{ flex-shrink:0; display:flex; align-items:center; }
+.crustacean-chum-option .ing-name{ flex:1; color:var(--ink); }
+.crustacean-chum-option .ing-cost{ font-family:'JetBrains Mono',monospace; color:var(--ink-soft); }
 .pet-section-title{
   font-family:var(--pixel-font); font-size:7px; letter-spacing:.4px; margin:8px 0 4px;
   color:var(--soil-dark);
@@ -3005,4 +3164,5 @@
 .switch input:focus-visible + .slider{ outline:2px solid var(--profit); outline-offset:2px; }
 
 #omnifeedToggleRow{ border:1.5px solid var(--line); }
-#omnifeedToggleRow.is-active{ border-color:var(--sun-deep); background:var(--paper-dim); }
+#omnifeedToggleRow.is-active{ border-color:var(--sun-deep); background:var(--wheat); }
+#cookGuaranteedCatchToggleRow.is-active{ border-color:var(--sun-deep); background:var(--wheat); }
