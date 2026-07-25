@@ -43,6 +43,7 @@ const IMAGE_ICONS = {
   "Crab Stick": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAABBklEQVQokZWSMUvDQACFvxQJMZAlYwxkUaggCFIy5Ac4FLIJjhn8B479Cf4LR7tmc5YONRSEgAF1CJQOHYoYCaUUz8VLU1M98qZ3w3e8e+80fhR2e0L6OEs0FNqT0O3ZCWU+xfRcIhAquBN2e+J638A4cAAo8yl34flWgp2gNIvRGDvwK6+COwCnx4e8lMtWsFZ/49PzK0emgR34LEZjAOzA5zK+bxRWHdrCW7e0gRuV/webnks0SYmzRNu51W/Y9FzWgz665bAqZlxd3GzmqCvOEi2apFXb60EfyoLl2yO65WzmUMG65fD1+QHAqpj9hTRjz9OheM8fxDwdCrmr8jNLuJ4E4BvGl5OqK/E5UAAAAABJRU5ErkJggg==",
   "Fish Oil": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKCAYAAACE2W/HAAAA40lEQVQokZWSvQrCMBSFTyQ49AV06txRshYsmd11LPgYPoDQV3Dr2L5EqSBuxTFzQaiUgpNCh1yHVpv+LB4IgXPyXc6FMBjyHEEYKFUZm8q5aSaX3ZCDdEGpypiZSzfqIF0FpKuA6H1tTitdBfTNv/IcQdxzBCXhAqgVMHdAr3Mzrb2ZtUa4jcCsNajY/5rwXq9ajapSrWBvFqDnqTHywgDvZWPayxGIvOhyANJ/IFUZ4wCQ3zRslGOoHWrmyXEGeRDEU5UxPxYUYhrObxp+DITQsFez/o4mPJQfT+fMfPTPB/gAduqJKygL0AIAAAAASUVORK5CYII=",
   "Crab": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAMCAYAAABr5z2BAAAAAXNSR0IArs4c6QAAAQJJREFUKJFjZEAC+7z0/8PYTtsuMhIjx4isQEpHlIGBgYHh2ZXXDA/usSHrZ1BQ+sWALA8zBG6AhIiqEQMDA0ObiMBZmAZkADOw6s0HYwYGBoYXb26fgxsAc96De2wYGtEBshqnbRcZGdGdTgxAVs+I7HRCtiO7AuYVJphmBgYGBrUYZ7jpjfeY4RpgbCkdUQa1GGcGZD2M8zRM/8NC+NmV13AF0U0HGJbWOWCwby3ZC1f74B4bwgCYDciGoANkzTCvsCD7S0oHYsiupsMMSTdOoySkeRqm/638ROFqYZYywRQoKP1iOLbpI8EAPLbpI0pUM8JMhwk+uMeGYTuyK9DVAQAJ5oT8YPVLsQAAAABJRU5ErkJggg==",
+  "Seaweed": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAOBAMAAADkjZCYAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURQAAACZcQmPHTT6JSP///7wgBOMAAAABdFJOUwBA5thmAAAAAWJLR0QEj2jZUQAAAAd0SU1FB+cJFAImNYMXsEoAAAA/SURBVAjXHczBDQAwCAJA3EBxAusE1v13q/ZzCSEAmAKQjPXcDVwlfWSVKOjKGC0LHtUKuc1f9+zczijs/2R42S4FdDEPhcIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDktMjBUMDI6Mzg6NTMrMDA6MDCs+kHvAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTA5LTIwVDAyOjM4OjUzKzAwOjAw3af5UwAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyMy0wOS0yMFQwMjozODo1MyswMDowMIqy2IwAAAAASUVORK5CYII=",
   "Anchovy": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAAXNSR0IArs4c6QAAAQpJREFUKJGFkqFPw0AUxn+dmBrmWEgQqCY1rZ4mWRscFZMYFKLB8zeA3giZOlOJANcMkmIBOQQNUySwJc3MmJk5xLLjmm3HS85c3u+97/vuHADPDxVGFW8PDpZyPD9U9cc7AIa3PwB41yfWATWA7uc3i3aMSvaWjUlK6UaUbrSmQkMA78MBAEGnAcD06HSrPA09vY7Yja/4Ouv+CzqwDKJ0o0pT0GlUPJre9KbmaEDemiEyichkRWqRpBu9sdqYv3zoE4znKhjPFb2JMqG1OD0/VEWSkrdmAJwf7AOwaMdYIYC+vNF3h887iExqz1tf3pSzCklkkun9hfW3/MG9iRLHl3pIzQaYZW74Bb+xbvlRsuCLAAAAAElFTkSuQmCC",
   "Butterflyfish": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAAXNSR0IArs4c6QAAAShJREFUKJGVkaFPw0AYxX9HtoyJeczMQCCWNCFMYNYuQdU1hAS9TGBrhkSgNsNfAHoKVBVJs820pAiSVUCyzsxMLSSIUrNDkB0t6wQvueQT73fve3e4piZdU5P8QwUAo1MkrtcyoBdWADipf1Luz8QGBFCy9RQxodULAJCLNjHINLizHg5P54i9+9x1SrZOuoKC3sOn/ALeBICW80rc/alQABBWwNfVvvLt9qIMl9yOeD6PaNo6McjCNiOAfGyQ+Es0pwbOJW83H7/ryUU7F9gmAeCamjTujjIdlMEKGL1ENOcXJP6Scn8m1DPmgcIKVOq4OmB1fbYZ65qa/KvVw7EcBlPpmpqaRR6YTkz8JV5YwegUGVcHGI2DDQaAuFuT67O+aBhM1ed+A/mikAbwXs36AAAAAElFTkSuQmCC",
   "Blowfish": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAMCAYAAAC5tzfZAAAAAXNSR0IArs4c6QAAAQ5JREFUKJFtkrFKxEAQhr8cFr5BCq0C6XKQLmwVkLyApRK7g4NUQba7+rqc2ApXBp/ARrwmVTi0CF4KhXiVTd4gXSxkl2wuU83O/N/8w7AwETIUvQxFP85VnI3FAOlSqFIf+Ta7qjWGWkNgIDbi8anUeVaU1mwsuFp/cnGzAaDeH6n3R9KlIPJtrZkpl8i3adyE7/pNN73Amcy108FbAFB8/PCaXtO4yYlYGWhoXm+NZpdLGjehcRNjTQBLhqK345WGzuNs8hhdLtlVLVlRWpayBFCwArtcGkNe5N2/03hfdaWDtzDc36sv5vUWL3BMSIF2vAKgzde6Hvk2XuBweftwwmhw+HVkKPrf53v9/gNz32yDKhFpSQAAAABJRU5ErkJggg==",
@@ -1777,6 +1778,7 @@ let __fishCatchXPMemo = new Map();
 let __cookingFoodExpMemo = new Map();
 let __cookingFoodTimeMemo = new Map();
 let __crabFiguresMemo = null;
+let __seaweedFiguresMemo = null;
 function petCalcCacheReset(){
   invalidateCostCache();
 }
@@ -1790,6 +1792,7 @@ function invalidateCostCache(){
   __cookingFoodExpMemo.clear();
   __cookingFoodTimeMemo.clear();
   __crabFiguresMemo = null;
+  __seaweedFiguresMemo = null;
 }
 
 function getItemCostByName(name, visited){
@@ -1827,6 +1830,16 @@ function getItemCostByNameUncached(name, visited){
       return fig.wormAvg > 0 ? (fig.ingredientCostCoins / fig.wormAvg) : 0;
     }
   }
+  if(typeof FISH_MARKET_ITEM_NAMES !== "undefined" && FISH_MARKET_ITEM_NAMES.includes(name)){
+    const key = "fishmarket:" + name;
+    if(visited.has(key)) return 0;
+    visited.add(key);
+    const season = (typeof previewSeason !== "undefined" && previewSeason) ? previewSeason : "Spring";
+    const totalCoins = fishMarketItemCostCoins(name, "collect", season, visited);
+    const meta = (typeof getFishMarketMeta === "function") ? getFishMarketMeta(name) : null;
+    const yieldQty = (meta && meta.yield) ? meta.yield : 1;
+    return yieldQty > 0 ? (totalCoins / yieldQty) : totalCoins;
+  }
   if(typeof FISH_CATCH_DATA !== "undefined" && FISH_CATCH_DATA[name]){
     const key = "fishcatch:" + name;
     if(visited.has(key)) return 0;
@@ -1846,6 +1859,13 @@ function getItemCostByNameUncached(name, visited){
     if(visited.has(key)) return 0;
     visited.add(key);
     const fig = computeCrabFigures();
+    return fig ? fig.costCoins : 0;
+  }
+  if((name||"") === "Seaweed"){
+    const key = "seaweed";
+    if(visited.has(key)) return 0;
+    visited.add(key);
+    const fig = computeSeaweedFigures();
     return fig ? fig.costCoins : 0;
   }
   if(RESOURCE_DATA[name]){
@@ -1875,6 +1895,71 @@ function getMaterialUnitCostCoins(materialName, mode, visited){
     return (m ? (m.flowerPrice||0) : 0) * coinPerFlower;
   }
   return getItemCostByName(materialName, visited);
+}
+
+function traceZeroCostBoosts(name, visited){
+  visited = visited || new Set();
+  if(visited.has(name)) return [];
+  visited.add(name);
+  const found = [];
+  const addFound = (arr) => (arr||[]).forEach(b => { if(b && !found.some(f => f.id === b.id)) found.push(b); });
+
+  if(BASE_CROPS[name]){
+    if(hasFreeCostBoost(name)) addFound(getActiveBoostsForCrop(name).filter(b => b.freeCost));
+    return found;
+  }
+  if(BASE_FRUITS[name]){
+    if(hasFreeCostBoostFruit(name)) addFound(getActiveBoostsForFruit(name).filter(b => b.freeCost));
+    return found;
+  }
+  if(BASE_GREENHOUSE[name]){
+    if(hasFreeCostBoostGreenhouse(name)) addFound(getActiveBoostsForGreenhouse(name).filter(b => b.freeCost));
+    return found;
+  }
+  if(typeof FISH_CATCH_DATA !== "undefined" && FISH_CATCH_DATA[name]){
+    const fig = computeBasicFishFigures(name);
+    if(fig){
+      if(fig.rodCost === 0 && typeof fishingRodIsFree === "function" && fishingRodIsFree()){
+        addFound(fishingBoostsActiveByScope("fishRod").filter(b => b.rodFreeCost));
+      }
+      if(fig.chum && fig.chum.unit === 0) addFound(traceZeroCostBoosts(fig.chum.name, visited));
+      if(fig.bait && fig.bait.cost === 0) addFound(traceZeroCostBoosts(fig.bait.name, visited));
+    }
+    return found;
+  }
+  if(typeof CRUSTACEAN_CATCH_DATA !== "undefined" && CRUSTACEAN_CATCH_DATA[name]){
+    const fig = computeCrustaceanFigures(name, visited);
+    if(fig){
+      if(fig.trapCost === 0 && typeof crustaceanTrapIsFree === "function" && crustaceanTrapIsFree()){
+        addFound(fishingBoostsActiveByScope("crustacean").filter(b => b.crustaceanTrapFreeCost));
+      }
+      if(fig.chumCost === 0 && fig.selectedChum) addFound(traceZeroCostBoosts(fig.selectedChum, visited));
+    }
+    return found;
+  }
+  if(typeof FISH_MARKET_ITEM_NAMES !== "undefined" && FISH_MARKET_ITEM_NAMES.includes(name)){
+    const season = (typeof previewSeason !== "undefined" && previewSeason) ? previewSeason : "Spring";
+    const ingredients = fishMarketItemIngredients(name, season);
+    ingredients.forEach(([ing]) => addFound(traceZeroCostBoosts(ing, visited)));
+    return found;
+  }
+  if(typeof COOKING_BUILDINGS !== "undefined"){
+    for(const b of COOKING_BUILDINGS){
+      const rec = COOKING_RECIPES[b] && COOKING_RECIPES[b][name];
+      if(rec){
+        Object.keys(rec.ingredients).forEach(ing => addFound(traceZeroCostBoosts(ing, visited)));
+        return found;
+      }
+    }
+  }
+  if((name||"") === "Seaweed" || (name||"") === "Crab"){
+    const fig = (name === "Seaweed") ? computeSeaweedFigures() : computeCrabFigures();
+    if(fig && fig.costCoins === 0 && fig.rodCost === 0 && typeof fishingRodIsFree === "function" && fishingRodIsFree()){
+      addFound(fishingBoostsActiveByScope("fishRod").filter(b => b.rodFreeCost));
+    }
+    return found;
+  }
+  return found;
 }
 
 function getActiveBoostsForResource(resourceName){
@@ -4106,6 +4191,7 @@ function refreshAfterSkillChange(){
   if(typeof renderFarmPanelTabContent === "function") renderFarmPanelTabContent();
   if(typeof renderCookingPanel === "function") renderCookingPanel();
   if(typeof renderFishingPanel === "function") renderFishingPanel();
+  if(typeof renderPetsPanel === "function") renderPetsPanel();
   updateCalcSummary();
 }
 
@@ -6206,7 +6292,7 @@ function computeComposterFigures(composterName, visited){
     if(b.wormAdd) wormAvg += b.wormAdd;
   });
   const reqs = (SEASON_COMPOST_REQUIREMENTS[previewSeason] && SEASON_COMPOST_REQUIREMENTS[previewSeason][composterName]) || [];
-  const ingredientCostCoins = reqs.reduce((sum, r) => sum + (r.qty || 0) * getItemCostByName(r.item, visited), 0);
+  const ingredientCostCoins = reqs.reduce((sum, r) => sum + (r.qty || 0) * getItemCostByName(r.item, visited ? new Set(visited) : visited), 0);
   const costPerUnitCoins = outputQty > 0 ? ingredientCostCoins / outputQty : 0;
   return { fertilizer:d.fertilizer, wormName:d.wormName, outputQty, timeVal, wormAvg, reqs, ingredientCostCoins, costPerUnitCoins, activeBoosts:active };
 }
@@ -16279,6 +16365,16 @@ const COOKING_CAKE_DISHES = new Set([
   "Wheat Cake","Sunflower Cake","Potato Cake","Pumpkin Cake","Carrot Cake","Cabbage Cake","Beetroot Cake",
   "Cauliflower Cake","Parsnip Cake","Eggplant Cake","Radish Cake","Orange Cake","Honey Cake","Lemon Cheesecake"
 ]);
+function cookingFindRecipeForFood(name){
+  for(const b of COOKING_BUILDINGS){
+    const rec = COOKING_RECIPES[b] && COOKING_RECIPES[b][name];
+    if(rec) return rec;
+  }
+  return null;
+}
+function cookingIngredientIcon(name){
+  return cookingFindRecipeForFood(name) ? cookFoodIcon(name) : getIcon(name);
+}
 function cookingFoodHasIngredient(building, name, ingredientName){
   const rec = COOKING_RECIPES[building] && COOKING_RECIPES[building][name];
   return !!(rec && rec.ingredients && rec.ingredients[ingredientName]);
@@ -16382,10 +16478,11 @@ function cookingIngredientUnitCostCoinsUncached(name, mode, visited){
     if(rec){
       const key = "cook:" + name;
       if(visited.has(key)) return 0;
-      visited.add(key);
+      const branchVisited = new Set(visited);
+      branchVisited.add(key);
       let sum = 0;
       Object.keys(rec.ingredients).forEach(ing => {
-        sum += rec.ingredients[ing] * cookingIngredientUnitCostCoins(ing, mode, visited);
+        sum += rec.ingredients[ing] * cookingIngredientUnitCostCoins(ing, mode, new Set(branchVisited));
       });
       return sum;
     }
@@ -16739,11 +16836,20 @@ function renderCookingFoodCard(building, name){
     totalCostCoins += qty * unitCoins;
     const displayVal = cookingCostMode === "buy" ? coinsToFlower(unitCoins) : unitCoins;
     const displayUnit = cookingCostMode === "buy" ? ((typeof FLOWER_ICON !== "undefined") ? FLOWER_ICON : "F") : ((typeof COIN_ICON !== "undefined") ? COIN_ICON : "c");
+    let costLabel = "no cost data";
+    if(unitCoins > 0){
+      costLabel = `${fmt(displayVal)}${displayUnit}/u`;
+    } else if(cookingCostMode === "collect"){
+      const freeBoosts = traceZeroCostBoosts(ing);
+      if(freeBoosts.length){
+        costLabel = `Free — ${freeBoosts.map(b => `${getBoostIcon(b.name)}${escapeHtml(b.name)}`).join(", ")}`;
+      }
+    }
     return `
       <div class="cook-ingredient-row">
-        <span>${getIcon(ing)}</span>
+        <span>${cookingIngredientIcon(ing)}</span>
         <span class="ing-name">${escapeHtml(ing)} ×${fmt(qty)}</span>
-        <span class="ing-cost">${unitCoins > 0 ? `${fmt(displayVal)}${displayUnit}/u` : "no cost data"}</span>
+        <span class="ing-cost">${costLabel}</span>
       </div>`;
   }).join("");
 
@@ -16944,10 +17050,17 @@ function setFishingCostMode(mode){
   invalidateCostCache();
 }
 
+function fishingMaterialIsFreeCost(name){
+  if(BASE_CROPS[name]) return hasFreeCostBoost(name);
+  if(BASE_FRUITS[name]) return hasFreeCostBoostFruit(name);
+  if(BASE_GREENHOUSE[name]) return hasFreeCostBoostGreenhouse(name);
+  return false;
+}
 function fishingMaterialUnitCostCoins(name, visited){
   if(fishingCostMode === "buy") return getMaterialUnitCostCoins(name, "buy", visited);
   const collectCost = getMaterialUnitCostCoins(name, "collect", visited);
   if(collectCost > 0) return collectCost;
+  if(fishingMaterialIsFreeCost(name)) return 0;
   return getMaterialUnitCostCoins(name, "buy", visited);
 }
 
@@ -16967,6 +17080,15 @@ function computeCrabFigures(){
   const costCoins = rodCost / yieldMult;
   __crabFiguresMemo = { rodCost, yieldMult, costCoins };
   return __crabFiguresMemo;
+}
+
+function computeSeaweedFigures(){
+  if(__seaweedFiguresMemo) return __seaweedFiguresMemo;
+  const rodCost = fishRodCostCoins();
+  const yieldMult = (typeof fishingCrabYieldMult === "function") ? fishingCrabYieldMult() : 1;
+  const costCoins = rodCost / yieldMult;
+  __seaweedFiguresMemo = { rodCost, yieldMult, costCoins };
+  return __seaweedFiguresMemo;
 }
 
 function fishCatchYieldMult(tier){
@@ -17324,7 +17446,7 @@ function renderFishingTierCard(fishName){
     </div>
     <div class="cook-food-details">
       <div class="cook-food-cost-line">${fmt(totalFlower)} ${FLOWER_ICON} FLOWER — cost per fish</div>
-      <div class="cook-ingredient-row"><span>${getIcon("Rod")}</span><span class="ing-name">Rod ×1</span><span class="ing-cost">${bf.rodCost === 0 ? "🆓 Free" : `${fmt(coinsToFlower(bf.rodCost / yieldMult))}${FLOWER_ICON}/u`}</span></div>
+      <div class="cook-ingredient-row"><span>${getIcon("Rod")}</span><span class="ing-name">Rod ×1</span><span class="ing-cost">${bf.rodCost === 0 ? fishRodFreeCostLabel() : `${fmt(coinsToFlower(bf.rodCost / yieldMult))}${FLOWER_ICON}/u`}</span></div>
       <div class="cook-ingredient-row"><span>${getIcon(bf.bait ? bf.bait.name : "")}</span><span class="ing-name">${escapeHtml(bf.bait ? bf.bait.name : "?")} ×1</span><span class="ing-cost">${fmt(coinsToFlower(bf.baitCost / yieldMult))}${FLOWER_ICON}/u</span></div>
       <div class="cook-ingredient-row"><span>${getIcon(bf.chum ? bf.chum.name : "")}</span><span class="ing-name">${escapeHtml(bf.chum ? bf.chum.name : "?")} ×${fmt(bf.chum ? bf.chum.qty : 0)}</span><span class="ing-cost">${fmt(coinsToFlower(bf.chumCost / yieldMult))}${FLOWER_ICON}/u</span></div>
       <div style="font-size:7.5px;color:var(--ink-soft);margin-top:2px;">Avg yield per rod: ×${fmt(yieldMult)}${yieldMult !== 1 ? ` (Fishy Chance/Roll/Gamble skill &amp; 🎣 Fishing boosts applied)` : ``}</div>
@@ -17348,8 +17470,30 @@ function renderCrabTierCard(){
     </div>
     <div class="cook-food-details">
       <div class="cook-food-cost-line">${fmt(totalFlower)} ${FLOWER_ICON} FLOWER — cost per crab</div>
-      <div class="cook-ingredient-row"><span>${getIcon("Rod")}</span><span class="ing-name">Rod ×1</span><span class="ing-cost">${fig.rodCost === 0 ? "🆓 Free" : `${fmt(coinsToFlower(fig.rodCost / fig.yieldMult))}${FLOWER_ICON}/u`}</span></div>
+      <div class="cook-ingredient-row"><span>${getIcon("Rod")}</span><span class="ing-name">Rod ×1</span><span class="ing-cost">${fig.rodCost === 0 ? fishRodFreeCostLabel() : `${fmt(coinsToFlower(fig.rodCost / fig.yieldMult))}${FLOWER_ICON}/u`}</span></div>
       <div style="font-size:7.5px;color:var(--ink-soft);margin-top:2px;">1 Rod = 1 Crab, no bait or chum needed.${fig.yieldMult !== 1 ? ` Boosted by 🎣 Fishing boosts (e.g. Crab Hat).` : ` Turn on 🎣 Fishing boosts (e.g. Crab Hat) to boost Crab yield.`}</div>
+    </div>
+  </div>`;
+}
+
+function renderSeaweedTierCard(){
+  const fig = computeSeaweedFigures();
+  const totalFlower = coinsToFlower(fig.costCoins);
+  const isExpanded = fishingExpandedTierFish.has("Seaweed");
+  return `
+  <div class="cook-food-card${isExpanded ? " expanded" : ""}" data-fish="Seaweed">
+    <div class="cook-food-toggle">
+      <span class="cook-food-icon">${getIcon("Seaweed")}</span>
+      <div class="cook-food-main">
+        <div class="cook-food-name">Seaweed</div>
+        <div class="cook-food-exp">${fmt(totalFlower)} ${FLOWER_ICON}/u${fig.yieldMult !== 1 ? ` · avg yield ×${fmt(fig.yieldMult)}/rod` : ``}</div>
+      </div>
+      <span class="cook-food-chev">▾</span>
+    </div>
+    <div class="cook-food-details">
+      <div class="cook-food-cost-line">${fmt(totalFlower)} ${FLOWER_ICON} FLOWER — cost per seaweed</div>
+      <div class="cook-ingredient-row"><span>${getIcon("Rod")}</span><span class="ing-name">Rod ×1</span><span class="ing-cost">${fig.rodCost === 0 ? fishRodFreeCostLabel() : `${fmt(coinsToFlower(fig.rodCost / fig.yieldMult))}${FLOWER_ICON}/u`}</span></div>
+      <div style="font-size:7.5px;color:var(--ink-soft);margin-top:2px;">1 Rod = 1 Seaweed, no bait or chum needed.${fig.yieldMult !== 1 ? ` Boosted by 🎣 Fishing boosts (e.g. Crab Hat).` : ` Turn on 🎣 Fishing boosts (e.g. Crab Hat) to boost Seaweed yield.`}</div>
     </div>
   </div>`;
 }
@@ -17359,7 +17503,7 @@ function renderFishingTierList(){
   if(!wrap) return;
   const names = FISH_CATCH_NAMES.filter(f => FISH_CATCH_DATA[f].tier === fishingTierActive);
   let html = names.map(f => renderFishingTierCard(f)).join("");
-  if(fishingTierActive === "basic") html += renderCrabTierCard();
+  if(fishingTierActive === "basic") html += renderCrabTierCard() + renderSeaweedTierCard();
   wrap.innerHTML = html;
   wrap.querySelectorAll(".cook-food-toggle").forEach(el => {
     el.onclick = () => {
@@ -17447,11 +17591,11 @@ function fishMarketItemIngredients(itemName, season){
   return recipes[season] || recipes.Spring || [];
 }
 
-function fishMarketItemCostCoins(itemName, mode, season){
+function fishMarketItemCostCoins(itemName, mode, season, visited){
   const ingredients = fishMarketItemIngredients(itemName, season);
   let total = 0;
   ingredients.forEach(([name, qty]) => {
-    total += qty * getMaterialUnitCostCoins(name, mode);
+    total += qty * getMaterialUnitCostCoins(name, mode, visited ? new Set(visited) : visited);
   });
   return total;
 }
@@ -17636,6 +17780,12 @@ function fishingRodIsFree(){
   return fishingBoostsActiveByScope("fishRod").some(b => b.rodFreeCost);
 }
 
+function fishRodFreeCostLabel(){
+  const freeBoosts = fishingBoostsActiveByScope("fishRod").filter(b => b.rodFreeCost);
+  if(!freeBoosts.length) return "🆓 Free";
+  return `🆓 Free — ${freeBoosts.map(b => `${getBoostIcon(b.name)}${escapeHtml(b.name)}`).join(", ")}`;
+}
+
 function crustaceanYieldMultBoost(){
   let mult = 1;
   fishingBoostsActiveByScope("crustacean").forEach(b => { mult += b.crustaceanYieldAdd || 0; });
@@ -17650,6 +17800,12 @@ function crustaceanTrapTimeMultBoost(){
 
 function crustaceanTrapIsFree(){
   return fishingBoostsActiveByScope("crustacean").some(b => b.crustaceanTrapFreeCost);
+}
+
+function crustaceanTrapFreeCostLabel(){
+  const freeBoosts = fishingBoostsActiveByScope("crustacean").filter(b => b.crustaceanTrapFreeCost);
+  if(!freeBoosts.length) return "🆓 Free";
+  return `🆓 Free — ${freeBoosts.map(b => `${getBoostIcon(b.name)}${escapeHtml(b.name)}`).join(", ")}`;
 }
 
 function fishMarketTimeMultBoost(){
@@ -17794,7 +17950,7 @@ function renderCrustaceanCard(name){
     </div>
     <div class="cook-food-details">
       <div class="cook-food-cost-line">${escapeHtml(fig.trap)} &amp; Chum Cost</div>
-      <div class="cook-ingredient-row"><span>${getIcon(fig.trap)}</span><span class="ing-name">${escapeHtml(fig.trap)} ×1</span><span class="ing-cost">${fig.trapCost === 0 ? "🆓 Free" : `${fmt(coinsToFlower(fig.trapCost / fig.yieldMult))}${FLOWER_ICON}`}</span></div>
+      <div class="cook-ingredient-row"><span>${getIcon(fig.trap)}</span><span class="ing-name">${escapeHtml(fig.trap)} ×1</span><span class="ing-cost">${fig.trapCost === 0 ? crustaceanTrapFreeCostLabel() : `${fmt(coinsToFlower(fig.trapCost / fig.yieldMult))}${FLOWER_ICON}`}</span></div>
       ${optionsHtml}
       <div class="fishmarket-meta-row">
         <span>Yield: <b>${fmt(fig.yieldMult)}</b></span>

@@ -1,5 +1,5 @@
 
-const CACHE_VERSION = "v9";
+const CACHE_VERSION = "v14";
 const CACHE_NAME = `goblin-calc-${CACHE_VERSION}`;
 
 const PRECACHE_URLS = [
@@ -11,7 +11,7 @@ const PRECACHE_URLS = [
   "./icons/goblin-logo.png"
 ];
 
-const NETWORK_TIMEOUT_MS = 8000;
+const NAVIGATE_NETWORK_TIMEOUT_MS = 3000;
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -55,6 +55,26 @@ function networkWithTimeout(request, timeoutMs) {
   });
 }
 
+async function cacheFirst(request, cache) {
+  const cached = await cache.match(request);
+  if (cached) return cached;
+  const networkResponse = await fetch(request);
+  if (networkResponse && networkResponse.ok) cache.put(request, networkResponse.clone());
+  return networkResponse;
+}
+
+async function networkFirstForNavigation(request, cache) {
+  try {
+    const networkResponse = await networkWithTimeout(request, NAVIGATE_NETWORK_TIMEOUT_MS);
+    if (networkResponse && networkResponse.ok) cache.put(request, networkResponse.clone());
+    return networkResponse;
+  } catch (err) {
+    const cached = await cache.match(request) || await cache.match("./index.html");
+    if (cached) return cached;
+    throw err;
+  }
+}
+
 self.addEventListener("fetch", (event) => {
   const { request } = event;
 
@@ -66,21 +86,15 @@ self.addEventListener("fetch", (event) => {
     (async () => {
       const cache = await caches.open(CACHE_NAME);
 
+      if (request.mode === "navigate") {
+        return networkFirstForNavigation(request, cache);
+      }
+
       try {
-        const networkResponse = await networkWithTimeout(request, NETWORK_TIMEOUT_MS);
-        if (networkResponse && networkResponse.ok) {
-          cache.put(request, networkResponse.clone());
-        }
-        return networkResponse;
+        return await cacheFirst(request, cache);
       } catch (err) {
         const cached = await cache.match(request);
         if (cached) return cached;
-
-        if (request.mode === "navigate") {
-          const indexFallback = await cache.match("./index.html");
-          if (indexFallback) return indexFallback;
-        }
-
         throw err;
       }
     })()
