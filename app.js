@@ -1892,7 +1892,8 @@ function getItemCostByNameUncached(name, visited){
 function getMaterialUnitCostCoins(materialName, mode, visited){
   if(mode === "buy"){
     const m = marketItems.find(x => (x.name||"").toLowerCase() === materialName.toLowerCase());
-    return (m ? (m.flowerPrice||0) : 0) * coinPerFlower;
+    if(m) return (m.flowerPrice||0) * coinPerFlower;
+    return getItemCostByName(materialName, visited);
   }
   return getItemCostByName(materialName, visited);
 }
