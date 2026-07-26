@@ -15023,6 +15023,239 @@ $("top10Overlay").addEventListener("click", (e) => {
 });
 
 
+let dailyProfitCardsCache = [];
+const dailyProfitExpandedNames = new Set();
+const dailyProfitCycleOverrides = new Map();
+
+function dailyProfitDefaultCycles(card){
+  const v = card.cyclesPerDay;
+  return (typeof v === "number" && isFinite(v) && v > 0) ? v : 1;
+}
+
+function dailyProfitGetCycleCount(card){
+  const key = card.name.toLowerCase();
+  return dailyProfitCycleOverrides.has(key) ? dailyProfitCycleOverrides.get(key) : dailyProfitDefaultCycles(card);
+}
+
+function computeDailyProfitProjection(card, cycleCount){
+  const marketId = farmPanelGetMarketId(card.name);
+  const yieldPerCycle = card.totalYield || 0;
+  const totalYield24h = yieldPerCycle * cycleCount;
+  const grossPerCycle = (card.price || 0) * yieldPerCycle;
+  const gross24h = (card.price || 0) * totalYield24h;
+  const coinCostPerCycle = (card.costPerUnit || 0) * yieldPerCycle;
+  const coinCost24h = (card.costPerUnit || 0) * totalYield24h;
+  const restockInfo24h = (marketId && totalYield24h > 0) ? computeQtyRestockGems(marketId, totalYield24h) : null;
+  const restockCost24h = restockInfo24h ? (restockInfo24h.flowerCost || 0) : 0;
+  const shrineCost24h = (card.shrineCostPerCycle || 0) * cycleCount;
+  const feeAmount24h = gross24h * ((feePercent || 0) / 100);
+  const totalDeductions24h = coinCost24h + restockCost24h + shrineCost24h + feeAmount24h;
+  const netProfit24h = gross24h - totalDeductions24h;
+  return {
+    yieldPerCycle, totalYield24h, grossPerCycle, gross24h,
+    coinCostPerCycle, coinCost24h, restockCost24h, shrineCost24h, feeAmount24h,
+    totalDeductions24h, netProfit24h
+  };
+}
+
+function fmtCycleInputValue(n){
+  if(!isFinite(n)) return "0";
+  const r = Math.round(n * 100) / 100;
+  return String(r);
+}
+
+function computeDailyProfitSummaryTotals(){
+  let totalGross = 0, totalProfit = 0, totalDeductions = 0;
+  dailyProfitCardsCache.forEach(card => {
+    const cycleCount = dailyProfitGetCycleCount(card);
+    const proj = computeDailyProfitProjection(card, cycleCount);
+    if(proj.netProfit24h >= 0){
+      totalGross += proj.gross24h;
+      totalProfit += proj.netProfit24h;
+      totalDeductions += proj.totalDeductions24h;
+    }
+  });
+  return { totalGross, totalProfit, totalDeductions };
+}
+
+function updateDailyProfitSummary(){
+  const wrap = $("dailyProfitSummary");
+  if(!wrap) return;
+  if(!dailyProfitCardsCache.length){
+    wrap.innerHTML = "";
+    return;
+  }
+  const { totalGross, totalProfit, totalDeductions } = computeDailyProfitSummaryTotals();
+  wrap.innerHTML = `
+    <div class="dprofit-summary-row"><span class="dprofit-summary-label">Total Daily Gross</span><span class="dprofit-summary-value">${fmt(totalGross)} ${FLOWER_ICON}</span></div>
+    <div class="dprofit-summary-row"><span class="dprofit-summary-label">Total Deductions</span><span class="dprofit-summary-value is-loss">-${fmt(totalDeductions)} ${FLOWER_ICON}</span></div>
+    <div class="dprofit-summary-row"><span class="dprofit-summary-label">Total Daily Profit</span><span class="dprofit-summary-value is-profit">+${fmt(totalProfit)} ${FLOWER_ICON}</span></div>`;
+}
+
+function renderDailyProfitCardHtml(card){
+  const key = card.name.toLowerCase();
+  const cycleCount = dailyProfitGetCycleCount(card);
+  const proj = computeDailyProfitProjection(card, cycleCount);
+  const isProfit = proj.netProfit24h >= 0;
+  const expandedCls = dailyProfitExpandedNames.has(key) ? " expanded" : "";
+  const nodeIcon = getNodeIconHtml(card.name);
+  const nodeLabel = getNodeLabel(card.name);
+  const shrineRow = proj.shrineCost24h > 0
+    ? `<div class="dprofit-stat dprofit-stat-sub"><span class="label">Shrine Cost${card.shrineNames && card.shrineNames.length ? ` (${card.shrineNames.map(escapeHtml).join(", ")})` : ""}</span><span class="value" data-role="shrine">-${fmt(proj.shrineCost24h)} ${FLOWER_ICON}</span></div>`
+    : "";
+  return `
+  <div class="dprofit-node-card${isProfit ? " is-profit" : " is-loss"}${expandedCls}" data-node="${escapeHtml(key)}">
+    <div class="dprofit-node-toggle">
+      <span class="dprofit-node-icon">${nodeIcon}</span>
+      <div class="dprofit-node-name-wrap">
+        <div class="dprofit-node-name">${escapeHtml(nodeLabel)}</div>
+        <div class="dprofit-node-sub">${card.displayNodeCount} node${card.displayNodeCount === 1 ? "" : "s"}</div>
+      </div>
+      <div class="dprofit-node-profit-wrap">
+        <div class="dprofit-node-24h ${isProfit ? "is-profit" : "is-loss"}" data-role="profit-value">${isProfit ? "+" : ""}${fmt(proj.netProfit24h)} ${FLOWER_ICON}</div>
+        <span class="dprofit-chev">▾</span>
+      </div>
+    </div>
+    <div class="dprofit-cycle-row">
+      <label>Cycles / 24h</label>
+      <input type="number" class="dprofit-cycle-input" inputmode="decimal" min="0" step="0.1" value="${fmtCycleInputValue(cycleCount)}" data-node="${escapeHtml(key)}">
+    </div>
+    <div class="dprofit-node-details">
+      <div class="dprofit-detail-grid">
+        <div class="dprofit-stat"><span class="label">Market Sell Price</span><span class="value">${fmt(card.price || 0)} ${FLOWER_ICON}</span></div>
+        <div class="dprofit-stat"><span class="label">Total Nodes</span><span class="value">${card.displayNodeCount}</span></div>
+        <div class="dprofit-stat"><span class="label">Yield / Cycle (Total)</span><span class="value" data-role="yield-cycle">${fmt(proj.yieldPerCycle)}</span></div>
+        <div class="dprofit-stat"><span class="label">24hr Total Yield</span><span class="value" data-role="yield-24h">${fmt(proj.totalYield24h)}</span></div>
+        <div class="dprofit-stat"><span class="label">Gross (1 Cycle)</span><span class="value" data-role="gross-cycle">${fmt(proj.grossPerCycle)} ${FLOWER_ICON}</span></div>
+        <div class="dprofit-stat"><span class="label">Gross (24hr)</span><span class="value" data-role="gross-24h">${fmt(proj.gross24h)} ${FLOWER_ICON}</span></div>
+      </div>
+      <div class="dprofit-deductions-title">Deductions</div>
+      <div class="dprofit-detail-grid">
+        <div class="dprofit-stat dprofit-stat-sub"><span class="label">Coin Cost / Cycle</span><span class="value" data-role="coin-cycle">-${fmt(proj.coinCostPerCycle)} ${FLOWER_ICON}</span></div>
+        <div class="dprofit-stat dprofit-stat-sub"><span class="label">Coin Cost (24hr)</span><span class="value" data-role="coin-24h">-${fmt(proj.coinCost24h)} ${FLOWER_ICON}</span></div>
+        <div class="dprofit-stat dprofit-stat-sub"><span class="label">Restock Cost</span><span class="value" data-role="restock">${proj.restockCost24h > 0 ? `-${fmt(proj.restockCost24h)}` : "0"} ${FLOWER_ICON}</span></div>
+        ${shrineRow}
+        <div class="dprofit-stat dprofit-stat-sub"><span class="label">Total Sell Fee${feePercent > 0 ? ` (${feePercent}%)` : ""}</span><span class="value" data-role="sellfee">${proj.feeAmount24h > 0 ? `-${fmt(proj.feeAmount24h)}` : "0"} ${FLOWER_ICON}</span></div>
+      </div>
+      <div class="dprofit-deductions-total-row">
+        <span class="label">Total Deductions</span>
+        <span class="value" data-role="total-deductions">-${fmt(proj.totalDeductions24h)} ${FLOWER_ICON}</span>
+      </div>
+      <div class="dprofit-net-row">
+        <span class="label">Total Net</span>
+        <span class="value ${isProfit ? "is-profit" : "is-loss"}" data-role="net-value">${isProfit ? "+" : ""}${fmt(proj.netProfit24h)} ${FLOWER_ICON}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function updateDailyProfitCardDom(key, cycleCount){
+  const cardEl = $("dailyProfitBody")?.querySelector(`.dprofit-node-card[data-node="${CSS.escape(key)}"]`);
+  if(!cardEl) return;
+  const card = dailyProfitCardsCache.find(c => c.name.toLowerCase() === key);
+  if(!card) return;
+  const proj = computeDailyProfitProjection(card, cycleCount);
+  const isProfit = proj.netProfit24h >= 0;
+  cardEl.classList.toggle("is-profit", isProfit);
+  cardEl.classList.toggle("is-loss", !isProfit);
+  const setVal = (role, html) => {
+    const el = cardEl.querySelector(`[data-role="${role}"]`);
+    if(el) el.innerHTML = html;
+  };
+  const profitEl = cardEl.querySelector('[data-role="profit-value"]');
+  if(profitEl){
+    profitEl.innerHTML = `${isProfit ? "+" : ""}${fmt(proj.netProfit24h)} ${FLOWER_ICON}`;
+    profitEl.classList.toggle("is-profit", isProfit);
+    profitEl.classList.toggle("is-loss", !isProfit);
+  }
+  setVal("yield-cycle", fmt(proj.yieldPerCycle));
+  setVal("yield-24h", fmt(proj.totalYield24h));
+  setVal("gross-cycle", `${fmt(proj.grossPerCycle)} ${FLOWER_ICON}`);
+  setVal("gross-24h", `${fmt(proj.gross24h)} ${FLOWER_ICON}`);
+  setVal("coin-cycle", `-${fmt(proj.coinCostPerCycle)} ${FLOWER_ICON}`);
+  setVal("coin-24h", `-${fmt(proj.coinCost24h)} ${FLOWER_ICON}`);
+  setVal("restock", `${proj.restockCost24h > 0 ? `-${fmt(proj.restockCost24h)}` : "0"} ${FLOWER_ICON}`);
+  setVal("sellfee", `${proj.feeAmount24h > 0 ? `-${fmt(proj.feeAmount24h)}` : "0"} ${FLOWER_ICON}`);
+  setVal("shrine", `${proj.shrineCost24h > 0 ? `-${fmt(proj.shrineCost24h)}` : "0"} ${FLOWER_ICON}`);
+  setVal("total-deductions", `-${fmt(proj.totalDeductions24h)} ${FLOWER_ICON}`);
+  const netEl = cardEl.querySelector('[data-role="net-value"]');
+  if(netEl){
+    netEl.innerHTML = `${isProfit ? "+" : ""}${fmt(proj.netProfit24h)} ${FLOWER_ICON}`;
+    netEl.classList.toggle("is-profit", isProfit);
+    netEl.classList.toggle("is-loss", !isProfit);
+  }
+  updateDailyProfitSummary();
+}
+
+function attachDailyProfitCardEvents(container){
+  container.querySelectorAll(".dprofit-node-card").forEach(cardEl => {
+    const key = cardEl.getAttribute("data-node");
+    const toggle = cardEl.querySelector(".dprofit-node-toggle");
+    if(toggle){
+      toggle.onclick = () => {
+        const nowExpanded = cardEl.classList.toggle("expanded");
+        if(nowExpanded) dailyProfitExpandedNames.add(key);
+        else dailyProfitExpandedNames.delete(key);
+      };
+    }
+    const input = cardEl.querySelector(".dprofit-cycle-input");
+    if(input){
+      input.addEventListener("click", (e) => e.stopPropagation());
+      input.addEventListener("pointerdown", (e) => e.stopPropagation());
+      input.addEventListener("input", () => {
+        const raw = parseFloat(input.value);
+        const val = (isFinite(raw) && raw >= 0) ? raw : 0;
+        dailyProfitCycleOverrides.set(key, val);
+        updateDailyProfitCardDom(key, val);
+      });
+    }
+  });
+}
+
+function renderDailyProfitCard(){
+  const body = $("dailyProfitBody");
+  if(!body) return;
+  if(!farmPanelGameState){
+    dailyProfitCardsCache = [];
+    body.innerHTML = `<div class="dprofit-empty">🌱 Sync a Farm ID first to see your Daily Profit.</div>`;
+    updateDailyProfitSummary();
+    return;
+  }
+  const cards = farmPanelComputeInProgress(farmPanelGameState);
+  dailyProfitCardsCache = cards;
+  if(!cards.length){
+    body.innerHTML = `<div class="dprofit-empty">⏳ Nothing currently growing in this farm.</div>`;
+    updateDailyProfitSummary();
+    return;
+  }
+  const sorted = cards.slice().sort((a, b) => {
+    const projA = computeDailyProfitProjection(a, dailyProfitGetCycleCount(a));
+    const projB = computeDailyProfitProjection(b, dailyProfitGetCycleCount(b));
+    return projB.netProfit24h - projA.netProfit24h;
+  });
+  body.innerHTML = sorted.map(renderDailyProfitCardHtml).join("");
+  attachDailyProfitCardEvents(body);
+  updateDailyProfitSummary();
+}
+
+function showDailyProfitCard(){
+  const body = $("dailyProfitBody");
+  if(body) body.innerHTML = `<div class="dprofit-empty">⏳ Counting today's coin…</div>`;
+  const summary = $("dailyProfitSummary");
+  if(summary) summary.innerHTML = "";
+  $("dailyProfitOverlay").classList.add("show");
+  requestAnimationFrame(() => requestAnimationFrame(renderDailyProfitCard));
+}
+function hideDailyProfitCard(){
+  $("dailyProfitOverlay").classList.remove("show");
+}
+$("dailyProfitCloseBtn").onclick = hideDailyProfitCard;
+$("openDailyProfitHeaderBtn").onclick = showDailyProfitCard;
+$("dailyProfitOverlay").addEventListener("click", (e) => {
+  if(e.target.id === "dailyProfitOverlay") hideDailyProfitCard();
+});
+
+
 let pixelPickerOnSelect = null;
 function openPixelPicker(title, options, selectedValue, onSelect){
   pixelPickerOnSelect = onSelect;
