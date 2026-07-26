@@ -1,5 +1,5 @@
 
-const CACHE_VERSION = "v19";
+const CACHE_VERSION = "v23";
 const CACHE_NAME = `goblin-calc-${CACHE_VERSION}`;
 
 const PRECACHE_URLS = [
