@@ -14,6 +14,10 @@ const TSUNAMI_ICON = "data:image/webp;base64,UklGRpQAAABXRUJQVlA4TIgAAAAvD8ADEC+
 const INSECT_PLAGUE_ICON = "data:image/webp;base64,UklGRoYAAABXRUJQVlA4THkAAAAvDkACED+goG0UOHd+XjCALgg1MK6CnwKmiP6VKIhkg3o/KiikfxIZzPwHAHyzsDy7XcrrzAbYNpLt5PQq+f7nuPzbAlwLkH9c/xKihoj+TwDDt6dfAmCKCfEKKmnq99upuBrfZ6HiwryfEj6eOZwEth1CDAsMAzACAA==";
 const FISHING_ROD_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOBAMAAADUAYG5AAAAHlBMVEUAAAAYFCXXdkO+Si/Ay9zkO0RzPjn///+Lm7RaaYge9Cq/AAAAAXRSTlMAQObYZgAAAE9JREFUCNdjgABGASgtJAClDSEMIWVxMINR2RDCEDITADJAAokMQAZYgFFUECigKCjAGBoIFBBxAYkAVYjMEGAQFACqEOkA6xVOZBREsQ4AdZMHIu0fKyEAAAAASUVORK5CYII=";
 const GREAT_FREEZE_ICON = "data:image/webp;base64,UklGRo4AAABXRUJQVlA4TIEAAAAvDcADED+gEAATZkwD2DoAMScTQDSKGUmCBmhmb3+XFViAfZEJWMghgxh+/VP4ds9/AHL7f9jE0PpHU8wAq8i22pyfJyBNQQYDqQYQ0MFBDFT/A4mGiP5PABApTSPF8NoPEytQMQLqdVAxsQKgDmcElHaAmfQoYPb5/MP9ZgATBQAA";
+const SUMMER_GUARDIAN_ICON = "data:image/webp;base64,UklGRqABAABXRUJQVlA4TJQBAAAvIoALEJegtLadJokFn8OWzNnbAs2immYNtZFsJf8DIQ04RNYShVCzhYSqOJKk5HCLgPzf/EjJAnAnyLYp40Cv+AAA//8jovZze+CZnb0yzCnUtrR1rFBITQlBsDeIIeyNyAOVP10tBcRItts2YJYYLJP9V0t8iATtAl6I6D8Dt20b2dJ13XpHuujueF9VPfxadLWsxIdChPu8Rui8gxqhV0UADQJu5w1LR6zkN+7MpsMaHWJNhi4n0AFZJ5JOZQF6XytbCplkK3CpYCvWhq7AkQPIZQXk4E5UWhGoLK6yu9wGvlhu2yHdXtyEby3u2bsdtN0NgfdX7HeQ3Z5nO2cuKmnI0kUzh3PHpDevnh1o2JPBdbY37wOdnJ3FSNN3YJRixomc85xMsye8w+V9yHOamadMOau9MHxg0gkh+QznxTZTRDEBZIsoGyETSxQt/+eq84/tKJhibwSOxZkaAEQr+ABgtoZP7mkd0VrI9EgbPmAPVj/fEKx/vqkc8cQ7+PDd/+Cuv25btm5WO5EeQHp8ePgWAg==";
+const WINTER_GUARDIAN_ICON = "data:image/webp;base64,UklGRqYBAABXRUJQVlA4TJoBAAAvIoALEE+gqI0k5M6/P6b3iQAbZhoggZ/+MajD+PQyhoratoFa/uxKYQeFaa8QZNuUcaBXfADknyPdls2dMyhPt8SsVkCOBMCNFDV2JsSTUjaGamZESvEBzsiEOLUmPDdqhXjpA1v33zXqMx+I6D8Dt40UeWD3GF8B80Fwuw5C9NRLbsd99tLIu6Nar4/dz/Pv6AW4jXUbdxoRv/jNSl09GIVo6XoxrzDSRE987K+X5seLhxh+60lgwp2FkQwTUbS0MJwj6cjMbHyPFcTMQeCJiPQCHpCMJiKjqX9IDYAK/QPrWYwBSTXAaqQvyc6we4gdN8oym3fW+GXMOrJVjR3RDzop27HzQ/dTN9/Ul1TMu+WQ9UdyyACXvrTJOA4utmXoWgBHGUr48B+U26dgpp5ihqdEZYgFnvgDAKC08FQCUS5zx87HU04US4ZaPHHhnOog5VK4BWmQRoDEs1EaxHHugv8pzlbkbT+7ui8KYAx10QLcSNYAYF34///waNnPTnJwOIZDqQ4/h8N6Hk7j9PBwWXIoOJgjbagVAA==";
+const AUTUMN_GUARDIAN_ICON = "data:image/webp;base64,UklGRpABAABXRUJQVlA4TIQBAAAvIoALEIegNpKt5AtU8PtvCs3INLXM2lAcSVJyAvkHRwIOf3fKSCQpV4AC9Lc0wREDy8sfBAJJiovOGAAAoPHr9NrhkY9ducxAnJB8XAhaibzUtexk/72dzAAxsq26jfII5vlP/+XyHkY4KeCeiP4zcNu2kSIBvT2ecSymkc/bGqyB7UFxzClts1q0JXGsQBxqG4AQnAa8quSRvHFmVcxbfSdUm1tZLihG8Tas0ggvRmnr8GFiREkuw0IgsrISC4zq88gIOIPmNqDOwwpn3g0fmnc7Ccu/rco+DFL+uTYArCab9LGWkjlgrs5L2UUvdaqbI/HgSfekDJTy/uSBSxxE/cVtUlO3/iLkkHqsQTcvk1jx29GJZVfwhFc/BhRCCj5Qfz0hIZ6vTJJoQlMSIM2Sm99nNbfmkGsJSScIiQY7Nsht+Aso2vE3ZrRnblfp+Cdz1ReO6XpnA0jnc72cl8v1nh9wksUrwQagfzPwhS7XTX+kuIG0tZIAxZxtNX+GvpAknVwJ";
+const SPRING_GUARDIAN_ICON = "data:image/webp;base64,UklGRrYBAABXRUJQVlA4TKoBAAAvIoALEJ+gJpKt5pODgT94wARy8YKDnDpqWnQojSQp2rtDUedI4PUoUiYNQkGi0a/SSLaa/1WmBWpPZSGRDD7PCASSFBedMQAAAOXdvhi26cL/OqrfHPSlKzrjiHZ688NKXHboTVqBL5FwxGpikBjbVtg4BJFgELLZ7/6bFR9LOFvAfRH9d+C2bSTJEjD37jvCxQz/3NJsA8RiXbFrY7EUWdKS1OMW+yZsBSluuk+XpaEL67pzlKKRzEEyYro8OI9EPxWgM/9HrqPLfhw/1pWcl6FTPymmKxUHEn0e/o/oDrMsIObpisoxXZY+h0SvODLubxj6NEgS1MwjVMjF2T8K3VVyBURpqua9yGpTqRkK9cmhZk6ihIt26Ekt1FBHbW99kqne9jYkQBvHUuiWJhWT9dA0DlsYHNLeQN0SQ6WzFtB+SA3v7qjHUKOjOjQFkmCWOZDE1VQOp0mlhZtTHjLKt6nKr+MJeuVW71LC6clZKIH7hy8Af7xwOHqUsLYmPfSGsLy//LvNGybeWv/T0gJvheVJ4tfs6z/xiz/2Z94XjgC+Efw3uOjLjwA=";
 const IMAGE_ICONS = {
   "Oaken": "data:image/webp;base64,UklGRvIAAABXRUJQVlA4TOUAAAAvDsAEEHegJpKt5leJWIEDymgAP/jvsg01kSQpZwCeGaL38f79cKQmkqTo/sMDEWcA/5Ygooj+EggkgW2/WACAYKMo4w5fDmYMNV+z1vJdZ2rif4ZzSL+gPjWs4ES2tTd5dHD5XFhDBodC9R2wkOgo4ujgSE80TYf5PPUffLUo5t/EzyIi+j8BANDM42+/92fdrStr0cgBSOTxuwdwklLeSzCvPymFBfMqhFDWQoitolrAynVdt4TlwWCDXTz8Ghvhq5L6H36FXB44B2Z3CO0RDp1PFVo6IZt1aLZONCSA1AwAIsoAAA==",
   "Squirrel Onesie": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADCElEQVR42u1XX0hTURj/TW8TbEOZqRtuNEvLS/6DCEpQhFDBHgJlWCQbRPRg9CIRQtBzghQRrBcRFCxkFPjQxdZDIlILX6xtLLDQuFPnQrmy+7KxrIftnHa36737o9VDP7jsnnO++32/8/07O5r1Z8M/oQLe7YG+tgbl9ZaMtWJDHXzjEwCAxhvXkSuYbISsdhvWplyyBLJF09UxVAW8dBxmm+B9fgdFuSri3R4IKzx9tj+8hRCJqn5XFfDCP7uBMNsE/+wGJaNKIPBygXpBWOFlZdi2BgiRKBYfPVXUVTnSg4BjD5UjPXQuaw/4nNPY9K6iZMSFyOp6xnPy8RzMJr2iju8PXkt+sybgc04DAHQ6LQb6HbAvlUrW08dKOMa+yS0JhUgU5foS6HRaAMDMi0nszd5DzbkWLI4msn/hiQ2bapuoLkVViut9N79iC4BGrQxJDuh0WrRWdGJ5ex5H2FOothgkckG3B60VnRC6zAdThu8nE64q15fQueXteTwMlwHhLQBbmHnFYeByf3LViGHMw4rBwgjwbg81LFdep0/U0vf7t2+hoa7+9+JOqLBGRIwTl/8JFKUbt9ptsiREMaaoqNnP5UWASW+560sfKYm1KZekEkQxhktYltdk0sN6ZbAwAgAyshuApMEENyOyilKTFQCc7m8QdwUAwF1bizoBUYwhHspstem5YDbpYbXbJLKfk6XqG5+g8r0AOEN79jnA9nVAA0CTHK9NuWTjTsLDGC1gjJmnI/lGFGNo9nMY6j6uHIJiQ510RhuluyO7IUrlKoMxWtA4dA2LoxM0DET+gqMLP3a+5N6Igm4PRDFGDZIkVILZpIel+3z+Zbgf1MrvwPrA38K/RyAe4qnbOUN7VvE/cA809HUk4r8r4NOZ3kM9GzIIMMmyTCWRCtKe1eYK8gAhMXzxKNqC72QNxkM84iG+IOMAoAnNOVUvJqktVq4syVo+fYDJRZgYJzcgciMqpFcU5Ws836tYXh7gys7ue6yyfR0Y4xJ/xdjDygElqB02/1uxGn4Bl6UzqBU+pqIAAAAASUVORK5CYII=",
@@ -88,6 +92,10 @@ const IMAGE_ICONS = {
   "Tsunami": TSUNAMI_ICON,
   "Insect Plague": INSECT_PLAGUE_ICON,
   "Great Freeze": GREAT_FREEZE_ICON,
+  "Summer Guardian": SUMMER_GUARDIAN_ICON,
+  "Winter Guardian": WINTER_GUARDIAN_ICON,
+  "Autumn Guardian": AUTUMN_GUARDIAN_ICON,
+  "Spring Guardian": SPRING_GUARDIAN_ICON,
   "Bee Swarm": BEE_SWARM_ICON,
   "Ribbon": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4TGUAAAAvDYACECdApG2bGxyfges4QbbNGEYwmmOdXU3bBmyq/+RRAJ3/ANjXqNU9KIhsJVb0MQEfDQBqgavAFdH/8JrgNd1feH6/2368PldeY7XZWDmbVmNUAUkSCEMYdBliiQ6BZgEBEAA=",
   "Roan": "data:image/webp;base64,UklGRs4FAABXRUJQVlA4WAoAAAASAAAAEgAAGAAAQU5JTQYAAAD/////AABBTk1GHAEAAAAAAAAAABIAABgAAGQAAAJWUDhMBAEAAC8SAAYQt6AmkqRoNro78O8CHyghJ/zBhtq2bSRDG6TP/tdfdZvcIv+vOJJtaP6Ck/xDcvvp2CHItqngaA/4QEAcEc4EBLQKPvgfKCHMHkm0GEoI/3/3XTU3Y3bvPZ+nly2nygAxkiRH0aCGP7FzB+zgv68riPegOqL/E2A3umJSVY1C/4UsuQUaoarUjTkUKahzHglws7luXZqleUQBBHUBEoN72UtoK1AzXqnF8G/n2yheqcU8xjUSXrl4aZsabectpOi/pphYMC+S3jFabDH8DSWOOIIXLAZcPIpoNeJ5Fn2Cj9ZXUXOVR2+9krrKJHn5OEVcZz396qm/kel3gB8YTtACQU5NRrQAAAADAAAEAAAKAAAMAABkAAACVlA4TJsAAAAvCgADEI+gKJKcKHcC+HeBDqQggBevrA01kaRIWzggxX8VORFOcPLdayQAEkgm/0+y6RwTIBBIAtx2wSAAAanUBGKiZLt2ti786Ccnxp/Xz0CGH/jxUpY3MIwkKQp4uKO8a/7hCjlE9H8CEIxIKRy6BSsibN0fTFNt/tOmbsaLoYpzVdtVauMU4uE5bSsnVSnUoasUO19d6iX/AQBBTk1GYgAAAAcAAAMAAAQAAAkAAGQAAAJWUDhMSQAAAC8EQAIQJ6CgbRs21QOjWHYJs41jc9hvDHdE2ra5weH5uYTPfwA4/y+mNlAI2VZ1jkEfgroKGbznTxVERP+Tb8CRLN61Y8eKtQUAQU5NRtoAAAAAAAABAAASAAAPAABkAAACVlA4TMIAAAAvEsADEJegKJLUaPfH4d8FOnCCAV65Y0NNJCnSFhoI8U9OhBOcfPeqbSTFWSIi+i+JjHbsm/kPABCSQAKXAgQ+hD9ClIXQcO+R4caki+P/7/+v83I3cNi2kSN5/jfZm26u/243/JcQ0f8JsGEAYDKcN/7TMF9kJ9hi4w4md2ncBW0Nfxjx4itKojRiijFGAB8WipnS42ruEQjv5pWmu5p7RNB5yqXmMXBdRpUOnZ3Uvl31ixgRSLLrFBGB0HvnrkkRAEFOTUZqAAAAAAAAAAAACQAABwAAZAAAAlZQOExRAAAALwnAARAvQCZgGRwKyORCJm1TAZUwC7vm39pQ0LYNm2q7x+3OfwAQzMv6avgaFEKS5MwZfPRIBIeQ3l/mISL6HwAUQFQo8x+rvDKuPuy+xONNAEFOTUbAAAAAAwAABAAADAAADAAAZAAAAlZQOEyoAAAALwwAAxB3oCaSpGjvf/DvAhd4ISYkAhtqY9uUHh0I9R/IRQpRir8voyaSJGXrIvYv6PJ7OQwCgSTAbRcMAAAkyoMA+IhJyLO9mVZWpru695/Pz6ltRACjSLKdPOopeGdc8M+I4IwAJEQBf4m35AADycKTQFTzERHR/4CawDBleLsrpMTqN3+c9HriYkDxa1FdbAG3OMM1MIPZAhOYDpRD6uLoE1pTX0Q8QU5NRtgAAAAAAAABAAASAAAPAABkAAACVlA4TL8AAAAvEsADEIegJpIUaTfj8e8CGVghJ7z/bKiNJLW5oQVS+icnUiPqxHu1jaQ4S0RE/w0R0459M/8BAAgDBRRwKSBEPyIqQnj4/8vsxkyXo8vyZAwO2zZypPlwYfx7s99/uxtqkCP6PwHvcgCWY+3CE7zC5Y5rD6sjau+Y4Nib1jl4+CoFKcq2uwM+eaO8ENXVOmdw/Cf/AbXOGYfWpS5aP48ch9I4eTBo3ra8cTqOBB6tzjAcj536YWhwBvA6lGjMGQBBTk1GXAAAAAAAAAAAAAkAAAYAAGQAAABWUDhMRAAAAC8JgAEQJ6CQbQQ4NIRJ3UOYbZwbwBBmcM9T07YBG+ok17/zHwCE2Wn9AwWNpEaLg1cAFnCAf13QWojofyogLWiyi88A",
@@ -268,7 +276,6 @@ const IMAGE_ICONS = {
   "Artichoke": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAARRJREFUKJFtkT9Lw0AUwH9nkhv8MznYQBdBQegXMFACYqFjpi66lQ79EA4OfogO0tHFoTgWBKEU4ndQcImkLsUlDheOc4gXr9G3HMf9fu+9e0/gxLg/NACDUQ+A+9tHACbzqbCM78KDUQ+VKoKWBiDpxMhIAhgrCRcGCFqau5snAC6uzihXXl1tMp8Kf9wfmqQTu51xcBjSjB/G1C2pVCEjSTHTnF+eAFDMNDLyUKmqRd/NYqVyVd2bMMAWwPPXC/Z0AZWqjTcA7z3cu24Xks/dCmwH++hMo7NqUlm5JivXfLzlPBSv1ZTCbmySnaP6s6fbxxtZLZwvF6JeSNiNDYArWhAgXy5+99CUmmHhP8J/kgsDfAPRpnvMWDf+QQAAAABJRU5ErkJggg==",
   "Barley": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAQ1JREFUOI2dkz1ugzAcRx+t1QHRjYW1M1I6xosPUK6RgZX6Au0Bco3eoGuHLKyJxAUqRWJBVSsqxroDMgTz0TQ/CWGM/49nbIMTraRx+86OVtIcXx7NfyBXbke9P5Cl8mwTYb8MsFn7lEUFtBDAbHe5twS41kqaLJXE4oOyqIjikLKouPmpiT6/CKO7p/z9+DwH8KxBlkrq/WEAsffXb585EwHYl6bV7iE2m7UPyMnpCNuwkCRouuL2f/TRagwRpw/bXe6hpEmcQoAePIQId6CFtNpMmswaDKfTLm0SNLPFMLGRhhCI4rC7bu9Xo3GLmwTGZyMJmsVl/TNaSfP2sOrOy0UUraSxJpdpnEB+AWjLgi69siyHAAAAAElFTkSuQmCC",
   "Rhubarb": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAAAXNSR0IArs4c6QAAAQZJREFUKJHFkSFPw0AYhp/bOkHJUgGmbuaSKQS6HMGMpEklmh+ArkKjqvsD9huWLNnMQjuNQJHUzM1gyNIhGDnEuKNslyF51ffl/Z7vy70n+FYYKW3q5bwQ7Mjle8bIJjcAzJ6njFOlmwvCSOk4C7g6GwCQXqOX80K0wkhpmfi/rsRZYC8ZsCmZ+ISR0qIJS9UBoCo+kKrDOH0jzgLbGw+gGq0R5kK35wFwcXdsh6rRGpn4FizzGoDVYgOA9/O27ZIyr+2Cpsq8tpBhnKl2ex6rxYaH13fuT48w/e4v7MEAl/1zfUvb9kM+eXx52pttuWCjwUlwyD4M/6X/g52BwTY0U7vCAvgCXYpmgloVxg8AAAAASUVORK5CYII=",
-  "Saltwort": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAPCAYAAAAyPTUwAAAAAXNSR0IArs4c6QAAALhJREFUKJF9kL0NgzAQRp8lwwwsQDpWcEHFEFmIAdiAOSggG9BBky70EQ1EcpocsonNVb4f3/fuU0Tidi+tvKe2UwA61ATIipTcJL+stFPbKS2DbnNoVgDmfvfUtJu4zWXcPJUJ0KaubG6SY5uLMPe790lLIgMhhNwkUFc2iHFGEAUVcsIddG9QwiwxNCtZkXrb/5gPtovNUevO7AA6JhkKvYzbIRfzW265xDjXLq0DeD8/ALwevfoCIqZn9AyfZxoAAAAASUVORK5CYII=",
   "Turnip": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAQCAYAAAAiYZ4HAAAAAXNSR0IArs4c6QAAAWpJREFUKJF9jzFLw1AUhb8XYoVqBHUJ1KEgrQoNLg5GsELAsUsRp/gHdBM3BwvubuLgpoLgoEhBtyJVSHGTZigWUQTRqYNVoSo+h5i00dqzvPfO/c697zK1NgtA0rZk0rbkzx1fv33hm9NLPQCcb75yvVf41xdJ25K6EeGp/E5rEQi9fUbxR+tGJAB1I4JuREKwL5G0Lep3nzKRiQZmIt0FQLX4EXjV/Bv9Y11CBdDiqqjm3yRAIhP9AwI8XhSFFm8uTSX7LAFiG1G0uApA/e6Th2UvMLzbK26PzhCX9joT2WOJaXgtnTKjh30AVLLPtPqnO3NCfB1ONGFfTtk72/heoF3xt36aKI1SLdy1A9wo1VAdV8OkRvfkQMdQo1TDcTWU3I0iHFcjmNQBzt0oQgDk5jOkX+4lgJmqh3/jagBUYiNicfsAFcAaHwKGRHp1iwLjsjVgnVyJ/eUFUoO9/++4MmPKlRlTtqt9A/apmdWw/UZwAAAAAElFTkSuQmCC",
   "Duskberry": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAfklEQVQYlWNkgAI1bZf/DEjg1tU9jAwMDAwsMMmbVyESwn6uEA0MDP9vXd3DyAiTnK/xkYGBgYEh8QY/XJHI3d0MTMjGJuzXYUAHTDBjE2/wMzBKPobr/v/uHgPcDf/f3YNLIEsyMDAwMMIc+VpQGcVo0fd3GW5d3cPISMibAFFCLQGqBkZkAAAAAElFTkSuQmCC",
   "Soybean": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAAAXNSR0IArs4c6QAAANhJREFUGJV9kbEKwjAURc8rwaFQEFzUqUtx6h8UF+f+gOAq/oDgp7jrF+isgzg4KwjqUnDQPeJQCnGQhIhoxuTde3LvE4BW1jV4Z5w+ZKrrnGYrdyciSCvrmiQPuR9KAJppjcvySRQrAZxARAisctEO2E5G3A8lSR6ii8oAdAY95+6Ghw1Fud8B/BQE9hGgfz3+JHw4W8E/QjBOH6KLin8E5zzVdaJYfQl8gqvPGOMC6KIyUaxchf4XdVG9h/3EfiCAJA8BuCyfKFu4JdhlAJzna+C93dt2Iy+9cnvda6qhKwAAAABJRU5ErkJggg==",
@@ -907,7 +914,6 @@ const BASE_CROPS = {
   "Pepper":      { seedCost:2,    timeSec:14400,  baseYield:1, marketPrice:0.0070, tier:"Medium",   seasons:["Summer"] },
   "Cauliflower": { seedCost:3,    timeSec:28800,  baseYield:1, marketPrice:0.0095, tier:"Medium",   seasons:["Summer","Winter"] },
   "Parsnip":     { seedCost:5,    timeSec:43200,  baseYield:1, marketPrice:0.0144, tier:"Medium",   seasons:["Winter"] },
-  "Saltwort":    { seedCost:10,   timeSec:43200,  baseYield:1, marketPrice:0.05,   tier:"Medium",   seasons:["Spring","Summer","Autumn","Winter"] },
   "Eggplant":    { seedCost:6,    timeSec:57600,  baseYield:1, marketPrice:0.0122, tier:"Advanced", seasons:["Summer"] },
   "Corn":        { seedCost:7,    timeSec:72000,  baseYield:1, marketPrice:0.0147, tier:"Advanced", seasons:["Spring"] },
   "Onion":       { seedCost:7,    timeSec:72000,  baseYield:1, marketPrice:0.0130, tier:"Advanced", seasons:["Winter"] },
@@ -944,7 +950,7 @@ const BASE_STOCK_CROPS = {
   "Carrot":200, "Yam":180, "Cabbage":180, "Broccoli":180, "Soybean":180,
   "Beetroot":160, "Pepper":160, "Cauliflower":160, "Parsnip":120,
   "Eggplant":100, "Corn":100, "Onion":100, "Radish":80, "Wheat":80, "Turnip":80,
-  "Kale":60, "Artichoke":60, "Barley":60, "Saltwort":60
+  "Kale":60, "Artichoke":60, "Barley":60
 };
 const BASE_STOCK_FRUITS = {
   "Tomato":20, "Lemon":20, "Blueberry":20, "Orange":20, "Apple":20, "Banana":20,
@@ -1388,6 +1394,7 @@ function renderSeasonToggle(){
 function setPreviewSeason(season){
   previewSeason = season;
   selectedSeason = season;
+  if(typeof invalidateCostCache === "function") invalidateCostCache();
   applySeasonTheme(season);
   renderSeasonToggle();
   renderBoostPanel();
@@ -1771,6 +1778,7 @@ let expandedAnimalFeedConsumption = new Set();
 
 let __cookingCostMemo = new Map();
 let __materialCostMemo = new Map();
+let __toolCostMemo = new Map();
 let __petCardMemo = new Map();
 let __fishBasicFiguresMemo = new Map();
 let __fishAgedFiguresMemo = new Map();
@@ -1782,9 +1790,52 @@ let __seaweedFiguresMemo = null;
 function petCalcCacheReset(){
   invalidateCostCache();
 }
+const BOOSTED_STATS_CACHE_TTL_MS = 80;
+const __boostedCropStatsMemo = new Map();
+const __boostedFruitStatsMemo = new Map();
+const __boostedGreenhouseStatsMemo = new Map();
+const __boostedResourceStatsMemo = new Map();
+const __boostedLavaPitStatsMemo = new Map();
+
+function __memoWithTTL(cache, key, computeFn){
+  const now = Date.now();
+  const hit = cache.get(key);
+  if(hit && (now - hit.at) < BOOSTED_STATS_CACHE_TTL_MS) return hit.result;
+  const result = computeFn();
+  cache.set(key, { result, at: now });
+  return result;
+}
+
+function computeBoostedCropStats(cropName, baseYield, baseTimeSec, plotCountOverride, windowSec, includeBeeSwarm){
+  const key = cropName + "|" + baseYield + "|" + baseTimeSec + "|" + plotCountOverride + "|" + windowSec + "|" + includeBeeSwarm;
+  return __memoWithTTL(__boostedCropStatsMemo, key, () =>
+    computeBoostedCropStatsUncached(cropName, baseYield, baseTimeSec, plotCountOverride, windowSec, includeBeeSwarm));
+}
+function computeBoostedFruitStats(fruitName, baseYield, baseTimeSec, baseMinHarvest, nodeCountOverride, windowSec){
+  const key = fruitName + "|" + baseYield + "|" + baseTimeSec + "|" + baseMinHarvest + "|" + nodeCountOverride + "|" + windowSec;
+  return __memoWithTTL(__boostedFruitStatsMemo, key, () =>
+    computeBoostedFruitStatsUncached(fruitName, baseYield, baseTimeSec, baseMinHarvest, nodeCountOverride, windowSec));
+}
+function computeBoostedGreenhouseStats(name, baseYield, baseTimeSec, nodeCountOverride, windowSec){
+  const key = name + "|" + baseYield + "|" + baseTimeSec + "|" + nodeCountOverride + "|" + windowSec;
+  return __memoWithTTL(__boostedGreenhouseStatsMemo, key, () =>
+    computeBoostedGreenhouseStatsUncached(name, baseYield, baseTimeSec, nodeCountOverride, windowSec));
+}
+function computeBoostedResourceStats(resourceName, baseYield, baseTimeSec, windowSec){
+  const key = resourceName + "|" + baseYield + "|" + baseTimeSec + "|" + windowSec;
+  return __memoWithTTL(__boostedResourceStatsMemo, key, () =>
+    computeBoostedResourceStatsUncached(resourceName, baseYield, baseTimeSec, windowSec));
+}
+function computeBoostedLavaPitStats(baseTimeSec){
+  const key = String(baseTimeSec);
+  return __memoWithTTL(__boostedLavaPitStatsMemo, key, () =>
+    computeBoostedLavaPitStatsUncached(baseTimeSec));
+}
+
 function invalidateCostCache(){
   __cookingCostMemo.clear();
   __materialCostMemo.clear();
+  __toolCostMemo.clear();
   __petCardMemo.clear();
   __fishBasicFiguresMemo.clear();
   __fishAgedFiguresMemo.clear();
@@ -1793,12 +1844,19 @@ function invalidateCostCache(){
   __cookingFoodTimeMemo.clear();
   __crabFiguresMemo = null;
   __seaweedFiguresMemo = null;
+  __boostedCropStatsMemo.clear();
+  __boostedFruitStatsMemo.clear();
+  __boostedGreenhouseStatsMemo.clear();
+  __boostedResourceStatsMemo.clear();
+  __boostedLavaPitStatsMemo.clear();
 }
 
 function getItemCostByName(name, visited){
-  if(visited) return getItemCostByNameUncached(name, visited);
   if(__materialCostMemo.has(name)) return __materialCostMemo.get(name);
-  const result = getItemCostByNameUncached(name);
+  if(visited && visited.has(name)) return 0;
+  const branchVisited = new Set(visited || []);
+  branchVisited.add(name);
+  const result = getItemCostByNameUncached(name, branchVisited);
   __materialCostMemo.set(name, result);
   return result;
 }
@@ -2009,7 +2067,7 @@ function getAoeNodeBasis(b, resourceName){
   return { totalNodes, affectedNodes: Math.min(totalNodes, b.plotCap), perTier:null };
 }
 
-function computeBoostedResourceStats(resourceName, baseYield, baseTimeSec, windowSec){
+function computeBoostedResourceStatsUncached(resourceName, baseYield, baseTimeSec, windowSec){
   windowSec = windowSec || 86400;
   const active = getActiveBoostsForResource(resourceName);
   const tiered = isTieredResource(resourceName);
@@ -2084,12 +2142,13 @@ function getActiveBoostsForFruit(fruitName){
 function hasFreeCostBoostFruit(fruitName){
   return getActiveBoostsForFruit(fruitName).some(b => b.freeCost);
 }
-function computeBoostedFruitStats(fruitName, baseYield, baseTimeSec, baseMinHarvest, nodeCountOverride, windowSec){
+function computeBoostedFruitStatsUncached(fruitName, baseYield, baseTimeSec, baseMinHarvest, nodeCountOverride, windowSec){
   windowSec = windowSec || 86400;
   const active = getActiveBoostsForFruit(fruitName);
   let addSum = 0, multBonusSum = 0;
   let alwaysTimeMult = 1, minHarvestVal = baseMinHarvest || 1;
   let noWoodCost = false;
+  let woodReturnPenalty = 0;
   const totalNodes = nodeCountOverride != null ? nodeCountOverride : getFruitCount(fruitName);
   const limitedTimeFactors = [];
   const haveSyncData = hasLimitedBoostSyncData();
@@ -2117,6 +2176,7 @@ function computeBoostedFruitStats(fruitName, baseYield, baseTimeSec, baseMinHarv
     }
     if(b.harvestAdd) minHarvestVal += b.harvestAdd;
     if(b.noWood) noWoodCost = true;
+    if(b.woodReturnPenalty) woodReturnPenalty += b.woodReturnPenalty;
   });
   
   
@@ -2130,6 +2190,7 @@ function computeBoostedFruitStats(fruitName, baseYield, baseTimeSec, baseMinHarv
     timeVal: Math.max(1, timeVal),
     minHarvestVal: Math.max(1, minHarvestVal),
     noWoodCost,
+    woodReturnPenalty,
     activeBoosts: active
   };
 }
@@ -2195,7 +2256,7 @@ function getActiveBoostsForGreenhouse(name){
 function hasFreeCostBoostGreenhouse(name){
   return getActiveBoostsForGreenhouse(name).some(b => b.freeCost);
 }
-function computeBoostedGreenhouseStats(name, baseYield, baseTimeSec, nodeCountOverride, windowSec){
+function computeBoostedGreenhouseStatsUncached(name, baseYield, baseTimeSec, nodeCountOverride, windowSec){
   windowSec = windowSec || 86400;
   const active = getActiveBoostsForGreenhouse(name);
   let addSum = 0, multBonusSum = 0;
@@ -2455,18 +2516,14 @@ function computeHiveEconomics(visited){
   
   const swarmTrialsPerDay = Math.max(0, Math.round(hives * hiveStats.speed));
   const p = hiveStats.swarmChance;
-  function binomCoeff(n, k){
-    if(k < 0 || k > n) return 0;
-    let res = 1;
-    for(let i = 0; i < k; i++) res = res * (n - i) / (i + 1);
-    return res;
-  }
   const swarmDistribution = [];
+  let coeff = 1;
   for(let k = 0; k <= swarmTrialsPerDay; k++){
-    const chance = binomCoeff(swarmTrialsPerDay, k) * Math.pow(p, k) * Math.pow(1 - p, swarmTrialsPerDay - k);
+    const chance = coeff * Math.pow(p, k) * Math.pow(1 - p, swarmTrialsPerDay - k);
     const bonusCropYield = k * SWARM_BASE_BONUS * cropPlots;
     const flowerValue = bonusCropYield * cropSellFlower;
     swarmDistribution.push({ k, chance, bonusCropYield, flowerValue });
+    coeff = coeff * (swarmTrialsPerDay - k) / (k + 1);
   }
 
   return {
@@ -2516,7 +2573,7 @@ function computeResourceFigures(name, visited){
 function getActiveBoostsForLavaPit(){
   return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "resources" && b.scope === "lavaPit");
 }
-function computeBoostedLavaPitStats(baseTimeSec){
+function computeBoostedLavaPitStatsUncached(baseTimeSec){
   const active = getActiveBoostsForLavaPit();
   let yieldAddSum = 0, timeVal = baseTimeSec, qtyMult = 1;
   active.forEach(b => {
@@ -2666,7 +2723,16 @@ const CORE_CROP_BOOSTS = [
   { id:"insect_plague", name:"Insect Plague", scope:"global", target:null, debuffLossMult:0.5, seasons:["Spring","Summer"], limitedBoostName:"Insect Plague", syncDetected:true, isDebuff:true, debuffStack:true, calendarKey:"insectPlague", protectionItem:"Protective Pesticide",
     note:"Seasonal event - destroys roughly half of your currently growing crop plots (picked at random) unless Protective Pesticide is owned. Auto-detected via farm sync. Only affects the projected yield shown on the In Progress tab." },
   { id:"great_freeze", name:"Great Freeze", scope:"global", target:null, debuffLossMult:0.5, seasons:["Winter"], limitedBoostName:"Great Freeze", syncDetected:true, isDebuff:true, debuffStack:true, calendarKey:"greatFreeze", protectionItem:"Thermal Stone",
-    note:"Seasonal weather event - destroys roughly half of your currently growing crop plots (picked at random) unless a Thermal Stone is owned. Auto-detected via farm sync. Only affects the projected yield shown on the In Progress tab." }
+    note:"Seasonal weather event - destroys roughly half of your currently growing crop plots (picked at random) unless a Thermal Stone is owned. Auto-detected via farm sync. Only affects the projected yield shown on the In Progress tab." },
+
+  { id:"summer_guardian", name:"Summer Guardian", scope:"global", target:null, season:"Summer", guardianSeason:"Summer",
+    note:"Built collectible - while active in Summer, doubles Bountiful Harvest's yield bonus and fully protects growing crops from Tornado & Insect Plague." },
+  { id:"autumn_guardian", name:"Autumn Guardian", scope:"global", target:null, season:"Autumn", guardianSeason:"Autumn",
+    note:"Built collectible - while active in Autumn, doubles Sunshower's speed bonus and fully protects growing crops from Tornado." },
+  { id:"winter_guardian", name:"Winter Guardian", scope:"global", target:null, season:"Winter", guardianSeason:"Winter",
+    note:"Built collectible - while active in Winter, doubles Sunshower's speed bonus and fully protects growing crops from Great Freeze." },
+  { id:"spring_guardian", name:"Spring Guardian", scope:"global", target:null, season:"Spring", guardianSeason:"Spring",
+    note:"Built collectible - while active in Spring, doubles Bountiful Harvest's yield bonus and fully protects growing crops from Tsunami & Insect Plague." }
 ];
 CORE_CROP_BOOSTS.forEach(b => { if(!b.category) b.category = "crops"; });
 
@@ -2692,7 +2758,7 @@ const SKILL_CROPS = [
   { id:"skill_acre_farm", name:"Acre Farm", skillTier:3, scope:"tierEffects", tierEffects:{ Basic:-0.5, Medium:-0.5, Advanced:1 }, note:"+1 Advanced crop yield / -0.5 Basic & Medium crop yield (stacks with Hectare Farm — both active nets +0.5 to every tier)" },
   { id:"skill_hectare_farm", name:"Hectare Farm", skillTier:3, scope:"tierEffects", tierEffects:{ Basic:1, Medium:1, Advanced:-0.5 }, note:"+1 Basic & Medium crop yield / -0.5 Advanced crop yield (stacks with Acre Farm — both active nets +0.5 to every tier)" }
 ];
-SKILL_CROPS.forEach(s => { s.source = "skill"; s.skillCategory = "crops"; s.category = "crops"; if(s.scope===undefined) s.scope = "skillGlobal"; });
+SKILL_CROPS.forEach(s => { s.source = "skill"; s.skillCategory = "crops"; if(!s.category) s.category = "crops"; if(s.scope===undefined) s.scope = "skillGlobal"; });
 
 
 
@@ -2745,7 +2811,7 @@ const SKILL_FISHING = [
   { id:"skill_fishy_chance", name:"Fishy Chance", skillTier:1, notModeled:true, note:"10% chance of +1 Basic Fish" },
   { id:"skill_fishy_roll", name:"Fishy Roll", skillTier:1, notModeled:true, note:"10% chance of +1 Advanced Fish" },
   { id:"skill_fishermans_5_rod", name:"Fisherman's 5 Fold", skillTier:1, notModeled:true, note:"+5 daily fishing reels" },
-  { id:"skill_reel_deal", name:"Reel Deal", skillTier:1, notModeled:true, note:"-50% Rod coin cost" },
+  { id:"skill_reel_deal", name:"Reel Deal", skillTier:1, category:"tools", scope:"tool", target:"Rod", coinCostMult:0.5, note:"-50% Rod coin cost" },
   { id:"skill_fishermans_10_fold", name:"Fisherman's 10 Fold", skillTier:2, notModeled:true, note:"+10 daily fishing limit" },
   { id:"skill_fishy_gamble", name:"Fishy Gamble", skillTier:2, notModeled:true, note:"20% chance of +1 Expert Fish" },
   { id:"skill_fishy_fortune", name:"Fishy Fortune", skillTier:2, notModeled:true, note:"+100% coins from Corale's deliveries" },
@@ -2753,7 +2819,7 @@ const SKILL_FISHING = [
   { id:"skill_fishy_feast", name:"Fishy Feast", skillTier:3, note:"+20%/+25%/+30% Fish EXP (Cooking tab)" },
   { id:"skill_more_with_less", name:"More With Less", skillTier:3, notModeled:true, note:"+25 daily fishing reels, but +1 Rod cost per cast" }
 ];
-SKILL_FISHING.forEach(s => { s.source = "skill"; s.skillCategory = "fishing"; s.category = "fishing_na"; });
+SKILL_FISHING.forEach(s => { s.source = "skill"; s.skillCategory = "fishing"; if(!s.category) s.category = "fishing_na"; });
 
 const SKILL_COOKING = [
   { id:"skill_fast_feasts", name:"Fast Feasts", skillTier:1, notModeled:true, note:"-10% Fire Pit and Kitchen cooking time" },
@@ -2769,7 +2835,7 @@ const SKILL_COOKING = [
   { id:"skill_turbo_fry", name:"Turbo Fry", skillTier:2, notModeled:true, note:"Desert Island — -50% Kitchen cooking time with Oil" },
   { id:"skill_fry_frenzy", name:"Fry Frenzy", skillTier:3, notModeled:true, note:"Desert Island — -60% Deli cooking time with Oil" }
 ];
-SKILL_COOKING.forEach(s => { s.source = "skill"; s.skillCategory = "cooking"; s.category = "cooking_na"; });
+SKILL_COOKING.forEach(s => { s.source = "skill"; s.skillCategory = "cooking"; if(!s.category) s.category = "cooking_na"; });
 
 const SKILL_FRUITPATCH = [
   
@@ -2777,7 +2843,7 @@ const SKILL_FRUITPATCH = [
   { id:"skill_fruity_profit", name:"Fruity Profit", skillTier:1, notModeled:true, note:"+50% coins from Tango's deliveries (deliveries aren't modeled in this app yet)" },
   { id:"skill_loyal_macaw", name:"Loyal Macaw", skillTier:1, modifiesId:"macaw", extraYieldAdd:0.1, note:"Doubles Macaw's fruit yield boost (needs Macaw built)" },
   { id:"skill_fruity_heaven", name:"Fruity Heaven", skillTier:1, notModeled:true, note:"-10% fruit seed cost" },
-  { id:"skill_no_axe_no_worries", name:"No Axe No Worries", skillTier:1, category:"fruits", scope:"global", noWood:true, note:"Chop fruit branches/stems without an Axe (-1 wood return)" },
+  { id:"skill_no_axe_no_worries", name:"No Axe No Worries", skillTier:1, category:"fruits", scope:"global", noWood:true, woodReturnPenalty:1, note:"Chop fruit branches/stems without an Axe (-1 wood return)" },
   
   { id:"skill_pear_turbocharge", name:"Pear Turbocharge", skillTier:2, modifiesId:"immortal_pear", extraHarvestAdd:1, note:"Doubles Immortal Pear's +1 harvest boost (needs Immortal Pear built)" },
   { id:"skill_fruity_woody", name:"Fruity Woody", skillTier:2, notModeled:true, note:"+1 wood from fruit branches/stems when chopped" },
@@ -3027,7 +3093,7 @@ const ASCENSION_RANK_DATA = {
   skill_more_with_less:     { field:null, values:[10, 25, 50], note:"Daily reels" },
   skill_fishy_chance:       { field:null, values:[10, 12.5, 15], unit:"%", note:"+1 basic fish chance" },
   skill_fishy_roll:         { field:null, values:[10, 12.5, 15], unit:"%", note:"+1 advanced fish chance" },
-  skill_reel_deal:          { field:null, values:[0.5, 0.45, 0.4], unit:"×", note:"Rod coin cost" },
+  skill_reel_deal:          { field:"coinCostMult", values:[0.5, 0.45, 0.4] },
   skill_fishy_feast:        { field:null, values:[20, 25, 30], unit:"%", note:"Fish XP" },
 
   skill_fast_feasts:        { field:null, values:[10, 20, 30], unit:"%", note:"Cook time reduction — Fire Pit & Kitchen" },
@@ -4176,6 +4242,7 @@ function toggleSkill(id){
 }
 
 function refreshAfterSkillChange(){
+  if(typeof invalidateCostCache === "function") invalidateCostCache();
   renderBoostPanel();
   renderSkillPanel();
   renderAscensionBar();
@@ -4451,6 +4518,11 @@ function toggleBoost(id){
   
   scheduleCascade(refreshAfterSkillChange);
 }
+const SEASON_GUARDIAN_IDS = { Spring:"spring_guardian", Summer:"summer_guardian", Autumn:"autumn_guardian", Winter:"winter_guardian" };
+function isSeasonGuardianActive(){
+  const id = SEASON_GUARDIAN_IDS[previewSeason];
+  return !!id && isBoostActive(id);
+}
 function getActiveBoostsForCrop(cropName){
   const base = BASE_CROPS[cropName];
   const tier = base ? base.tier : null;
@@ -4497,10 +4569,13 @@ function getEffectiveYieldAdd(b, tier){
   if(b.composterFertilizer && b.fertilizer){
     add *= getFertilizerPotencyMult(b.fertilizer);
   }
+  if(b.limitedBoostName === "Bountiful Harvest" && isSeasonGuardianActive()){
+    add *= 2;
+  }
   return add;
 }
 
-function computeBoostedCropStats(cropName, baseYield, baseTimeSec, plotCountOverride, windowSec, includeBeeSwarm){
+function computeBoostedCropStatsUncached(cropName, baseYield, baseTimeSec, plotCountOverride, windowSec, includeBeeSwarm){
   windowSec = windowSec || 86400;
   const active = getActiveBoostsForCrop(cropName).filter(b => includeBeeSwarm || (!b.beeSwarmStack && !b.debuffStack));
   const cropTier = (BASE_CROPS[cropName] || {}).tier;
@@ -4514,7 +4589,7 @@ function computeBoostedCropStats(cropName, baseYield, baseTimeSec, plotCountOver
   const haveSyncData = hasLimitedBoostSyncData();
   active.forEach(b => {
     const coverageFraction = getBoostCoverageFraction(b, windowSec, haveSyncData);
-    if(b.debuffLossMult){
+    if(b.debuffLossMult && !(b.isDebuff && isSeasonGuardianActive())){
       const exactCropDestruction = b.calendarKey && b.calendarKey !== "insectPlague" && weatherDestructionSync.activeEvent === b.calendarKey ? weatherDestructionSync.byCrop[cropName] : null;
       if(!exactCropDestruction){
         debuffLossFraction = Math.max(debuffLossFraction, b.debuffLossMult * coverageFraction);
@@ -4531,12 +4606,13 @@ function computeBoostedCropStats(cropName, baseYield, baseTimeSec, plotCountOver
     }
     if(b.yieldMult) multBonusSum += (b.yieldMult - 1) * coverageFraction;
     if(b.timeMult){
+      const effectiveTimeMult = (b.limitedBoostName === "Sunshower" && isSeasonGuardianActive()) ? b.timeMult * 0.5 : b.timeMult;
       if(b.plotCap){
         aoeTimeBoosts.push(b);
       } else if(b.limitedBoostName && haveSyncData && getLimitedBoostRemainingSec(b.limitedBoostName) > 0){
-        limitedTimeFactors.push({ timeMult: b.timeMult, remainingSec: getLimitedBoostRemainingSec(b.limitedBoostName) });
+        limitedTimeFactors.push({ timeMult: effectiveTimeMult, remainingSec: getLimitedBoostRemainingSec(b.limitedBoostName) });
       } else {
-        globalTimeMult *= b.timeMult;
+        globalTimeMult *= effectiveTimeMult;
       }
     }
   });
@@ -6332,7 +6408,7 @@ function getFruitCostCoins(fruitName, visited){
   const boosted = computeBoostedFruitStats(fruitName, d.yieldPerHarvest || 1, d.timeSec, d.minHarvest || 1);
   const seedCoinCost = hasFreeCostBoostFruit(fruitName) ? 0 : (d.seedCost || 0);
   const axeQty = d.axeQty || 0;
-  const woodReturnQty = d.woodReturnQty || 0;
+  const woodReturnQty = Math.max(0, (d.woodReturnQty || 0) - (boosted.woodReturnPenalty || 0));
   const axeCoinCost = boosted.noWoodCost ? 0 : axeQty * (RESOURCE_DATA.Wood.toolCoinCost || 0);
   const mode = getMaterialMode("Fruit_" + fruitName, "Wood");
   const woodRebateCoins = woodReturnQty * getMaterialUnitCostCoins("Wood", mode, visited);
@@ -6418,10 +6494,16 @@ function getToolBaseCostCoins(id){
   return total / (item.producesQty || 1);
 }
 function getToolCostCoins(id, visited){
-  visited = visited || new Set();
   const key = "tool_" + String(id);
-  if(visited.has(key)) return 0;
-  visited.add(key);
+  if(__toolCostMemo.has(key)) return __toolCostMemo.get(key);
+  if(visited && visited.has(key)) return 0;
+  const branchVisited = new Set(visited || []);
+  branchVisited.add(key);
+  const result = getToolCostCoinsUncached(id, branchVisited);
+  __toolCostMemo.set(key, result);
+  return result;
+}
+function getToolCostCoinsUncached(id, visited){
   const item = findTool(id);
   if(!item) return 0;
   if(item.manualPrice != null && !item.locked) return item.manualPrice;
@@ -7244,7 +7326,6 @@ const ICONS = {
   "Pepper":      "🫑",
   "Cauliflower": "☁️",
   "Parsnip":     "🫚",
-  "Saltwort":    "🌿",
   "Eggplant":    "🍆",
   "Corn":        "🌽",
   "Onion":       "🧅",
@@ -7970,10 +8051,10 @@ function farmSyncGetResourceFeePercent(g){
 function applyFarmFeeOnly(json){
   const g = farmSyncExtractGameState(json);
   const detected = farmSyncGetResourceFeePercent(g);
-  if(detected == null) return { applied:false, feePercent:null };
+  if(detected == null) return { applied:false, feePercent:null, changed:false };
 
   const sig = String(detected);
-  if(sig === __lastFeeSig) return { applied:true, feePercent: detected };
+  if(sig === __lastFeeSig) return { applied:true, feePercent: detected, changed:false };
   __lastFeeSig = sig;
   __saveSyncSigs();
 
@@ -7981,15 +8062,7 @@ function applyFarmFeeOnly(json){
   if($("feeInput")) $("feeInput").value = feePercent;
   if(typeof saveState === "function") saveState();
   if(typeof updateSettingsSummary === "function") updateSettingsSummary();
-  if(typeof updateCalcSummary === "function") updateCalcSummary();
-  if(typeof renderLibraryLists === "function") renderLibraryLists();
-  if(typeof renderMarketList === "function") renderMarketList();
-  if(typeof renderCropMachinePanel === "function") renderCropMachinePanel();
-  if(typeof renderCropsList === "function") renderCropsList();
-  if(typeof renderFruitsList === "function") renderFruitsList();
-  if(typeof renderGreenhouseList === "function") renderGreenhouseList();
-  if(typeof renderResourceList === "function") renderResourceList();
-  return { applied:true, feePercent };
+  return { applied:true, feePercent, changed:true };
 }
 
 const FACTION_BANNER_ICONS = {
@@ -8135,7 +8208,9 @@ function applyFarmBoostsOnly(json){
   const matched = freshBoostIds.length;
 
   const sig = JSON.stringify([freshBoostIds.slice().sort(), vipStatus.active]);
+  let changed = false;
   if(sig !== __lastBoostsSig){
+    changed = true;
     __lastBoostsSig = sig;
     __saveSyncSigs();
     const boostDomainIds = new Set(freshBoostIds);
@@ -8149,13 +8224,8 @@ function applyFarmBoostsOnly(json){
       selectedBoosts = selectedBoosts.filter(id => !dropSet.has(id)).concat(toAddBoosts);
       saveBoostState();
     }
-    if(typeof renderBoostPanel === "function") renderBoostPanel();
-    if(typeof renderLibraryLists === "function") renderLibraryLists();
-    if(typeof renderMarketList === "function") renderMarketList();
-    if(typeof renderCropMachinePanel === "function") renderCropMachinePanel();
-    if(typeof updateCalcSummary === "function") updateCalcSummary();
   }
-  return { matched, vipStatus };
+  return { matched, vipStatus, changed };
 }
 
 
@@ -8398,18 +8468,6 @@ function applyFarmPlotsNodesOnly(json, hasFullData){
   saveAnimalCounts();
   saveAnimalSicknessEstimate();
 
-  if(touched){
-    if(typeof renderPlotNodeInputs === "function") renderPlotNodeInputs();
-    if(typeof renderAnimalsList === "function") renderAnimalsList();
-    if(typeof renderLibraryLists === "function") renderLibraryLists();
-    if(typeof renderResourceList === "function") renderResourceList();
-    if(typeof renderFruitsList === "function") renderFruitsList();
-    if(typeof renderGreenhouseList === "function") renderGreenhouseList();
-    if(typeof renderHoneyList === "function") renderHoneyList();
-    if(typeof renderSaltList === "function") renderSaltList();
-    if(typeof renderBoostPanel === "function") renderBoostPanel();
-    if(typeof updateCalcSummary === "function") updateCalcSummary();
-  }
   return { touched };
 }
 
@@ -10226,6 +10284,134 @@ function syncCrowAoeOverrides(g){
   return { changed: anyChange };
 }
 
+let __lastSyncTiming = null;
+let __syncMark = null;
+function __markSub(label){
+  if(typeof __syncMark === "function") __syncMark(label);
+}
+let __syncTimingPanelOpen = false;
+
+function renderSyncTimingPanelBody(){
+  let panel = document.getElementById("syncTimingPanel");
+  if(!panel){
+    panel = document.createElement("div");
+    panel.id = "syncTimingPanel";
+    panel.style.cssText = "position:fixed;left:8px;right:8px;bottom:8px;max-height:60vh;overflow:auto;" +
+      "background:#12121a;color:#e8e8f0;border:1px solid #444;border-radius:10px;padding:10px;" +
+      "font:12px/1.5 monospace;z-index:99999;box-shadow:0 4px 18px rgba(0,0,0,.5);white-space:pre-wrap;";
+    document.body.appendChild(panel);
+  }
+
+  if(!__lastSyncTiming){
+    panel.innerHTML = "";
+    const empty = document.createElement("div");
+    empty.style.cssText = "display:flex;justify-content:space-between;align-items:center;gap:8px;";
+    const msg = document.createElement("span");
+    msg.textContent = "⏱️ No sync timing yet — sync a farm first.";
+    const closeBtn0 = document.createElement("button");
+    closeBtn0.textContent = "✕";
+    closeBtn0.style.cssText = "padding:4px 10px;border-radius:6px;border:1px solid #666;background:#222;color:#fff;font:12px sans-serif;";
+    closeBtn0.onclick = () => closeSyncTimingPanel();
+    empty.appendChild(msg);
+    empty.appendChild(closeBtn0);
+    panel.appendChild(empty);
+    return;
+  }
+
+  const { farmId, marks, errorMsg } = __lastSyncTiming;
+  let prev = 0;
+  const lines = marks.map(m => {
+    const step = (m.at - prev).toFixed(0);
+    prev = m.at;
+    return `${m.label.padEnd(38)} +${step}ms  (t=${m.at.toFixed(0)}ms)`;
+  });
+  const text = `Sync timing — Farm #${farmId}${errorMsg ? " (FAILED: " + errorMsg + ")" : ""}\n` + lines.join("\n");
+
+  panel.innerHTML = "";
+  const header = document.createElement("div");
+  header.style.cssText = "display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px;";
+  const title = document.createElement("strong");
+  title.textContent = `⏱️ Sync timing — Farm #${farmId}`;
+  title.style.color = errorMsg ? "#ff8a8a" : "#8fffb0";
+  const btnRow = document.createElement("div");
+
+  const copyBtn = document.createElement("button");
+  copyBtn.textContent = "Copy";
+  copyBtn.style.cssText = "margin-right:6px;padding:4px 10px;border-radius:6px;border:1px solid #666;background:#222;color:#fff;font:12px sans-serif;";
+  copyBtn.onclick = () => {
+    const finish = (ok) => { copyBtn.textContent = ok ? "Copied!" : "Copy failed"; setTimeout(() => copyBtn.textContent = "Copy", 1200); };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(() => finish(true)).catch(() => finish(false));
+    } else {
+      try{
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        finish(ok);
+      }catch(e){ finish(false); }
+    }
+  };
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "✕";
+  closeBtn.style.cssText = "padding:4px 10px;border-radius:6px;border:1px solid #666;background:#222;color:#fff;font:12px sans-serif;";
+  closeBtn.onclick = () => closeSyncTimingPanel();
+
+  btnRow.appendChild(copyBtn);
+  btnRow.appendChild(closeBtn);
+  header.appendChild(title);
+  header.appendChild(btnRow);
+  panel.appendChild(header);
+
+  const body = document.createElement("div");
+  body.textContent = lines.join("\n") + (errorMsg ? `\n\n⚠️ Sync failed: ${errorMsg}` : "");
+  panel.appendChild(body);
+
+  if(errorMsg){
+    const errNote = document.createElement("div");
+    errNote.style.cssText = "color:#ff8a8a;margin-top:6px;";
+    errNote.textContent = "⚠️ Sync failed partway — timings above still show where it got to.";
+    panel.appendChild(errNote);
+  }
+}
+
+function closeSyncTimingPanel(){
+  __syncTimingPanelOpen = false;
+  const panel = document.getElementById("syncTimingPanel");
+  if(panel) panel.remove();
+  const toggle = document.getElementById("syncTimingToggle");
+  if(toggle) toggle.classList.remove("open");
+}
+
+function showSyncTimingPanel(farmId, marks, errorMsg){
+  __lastSyncTiming = { farmId, marks, errorMsg };
+  console.log(`%c[sync timing] Farm #${farmId}`, "font-weight:bold");
+  let prev = 0;
+  for(const m of marks){
+    const step = (m.at - prev).toFixed(0);
+    prev = m.at;
+    console.log(`  ${m.label.padEnd(38)} +${step}ms  (t=${m.at.toFixed(0)}ms)`);
+  }
+  if(__syncTimingPanelOpen) renderSyncTimingPanelBody();
+}
+
+{
+  const timingToggleBtn = document.getElementById("syncTimingToggle");
+  if(timingToggleBtn){
+    timingToggleBtn.onclick = () => {
+      __syncTimingPanelOpen = !__syncTimingPanelOpen;
+      timingToggleBtn.classList.toggle("open", __syncTimingPanelOpen);
+      if(__syncTimingPanelOpen) renderSyncTimingPanelBody();
+      else closeSyncTimingPanel();
+    };
+  }
+}
+
 async function performFarmPanelSync(farmId){
   if(farmPanelSyncInFlight) return null;
   farmPanelSyncInFlight = true;
@@ -10233,26 +10419,38 @@ async function performFarmPanelSync(farmId){
   const originalLabel = btn.textContent;
   btn.textContent = "…";
   $("farmPanelStatus").textContent = "Syncing…";
+  const __t0 = performance.now();
+  const __marks = [];
+  const __mark = (label) => __marks.push({ label, at: performance.now() - __t0 });
+  let __syncErrorMsg = null;
   try{
+    __mark("sync start");
     const [json, apiUsername, communityResult] = await Promise.all([
       fetchFarmSnapshotRaw(farmId),
       fetchFarmUsername(farmId),
       fetchCommunityFarmData(farmId).then(data => ({ ok:true, data })).catch(e => ({ ok:false, error:e.message }))
     ]);
+    __mark("network fetch done");
+    __syncMark = __mark;
     const prevSelectedBoostsSig = JSON.stringify(selectedBoosts);
     const prevSelectedSkillsSig = JSON.stringify(selectedSkills);
     const prevFeePercent = feePercent;
 
     const result = applyFarmSkillsOnly(json);
+    __mark("  applyFarmSkillsOnly");
     const boostSourceState = communityResult.ok ? communityResult.data : json;
     const boostResult = applyFarmBoostsOnly(boostSourceState);
+    __mark("  applyFarmBoostsOnly");
     const plotsResult = applyFarmPlotsNodesOnly(boostSourceState, communityResult.ok);
+    __mark("  applyFarmPlotsNodesOnly");
     const feeResult = applyFarmFeeOnly(boostSourceState);
+    __mark("  applyFarmFeeOnly");
 
     let budResult = { matched:0, budCount:0 };
     let fertResult = { matched:0 };
     let spiceResult = { matched:0 };
     let crowAoeResult = { changed:false };
+    let touchGreenhouse = false, touchAnimals = false, touchFruits = false, touchCrops = false, touchResource = false;
     if(communityResult.ok){
       const gExtra = farmSyncExtractGameState(boostSourceState);
       budResult = syncBudsFromFarmData(gExtra);
@@ -10260,27 +10458,17 @@ async function performFarmPanelSync(farmId){
       spiceResult = syncSpiceFromFarmData(gExtra);
       crowAoeResult = syncCrowAoeOverrides(gExtra);
       syncWeatherDestructionFromFarmData(gExtra);
+      __mark("buds/fert/spice/crow/weather sync done");
       if(budResult.matched || fertResult.matched || spiceResult.matched || crowAoeResult.changed){
         const budTouched = budResult.touched || {};
-        const touchGreenhouse = budTouched.greenhouse;
-        const touchAnimals = budTouched.animal || spiceResult.matched;
-        const touchFruits = budTouched.fruit || fertResult.matched;
-        const touchCrops = budTouched.crop || fertResult.matched || crowAoeResult.changed;
-        const touchResource = budTouched.resource;
-
-        if(typeof renderBoostPanel === "function") renderBoostPanel();
-        if(typeof renderLibraryLists === "function") renderLibraryLists();
-        if(touchGreenhouse && typeof renderGreenhouseList === "function") renderGreenhouseList();
-        if(touchAnimals && typeof renderAnimalsList === "function") renderAnimalsList();
-        if(touchFruits && typeof renderFruitsList === "function") renderFruitsList();
-        if(touchCrops && typeof renderCropsList === "function") renderCropsList();
-        if(touchResource && typeof renderResourceList === "function") renderResourceList();
-        if(typeof renderMarketList === "function") renderMarketList();
-        if(typeof renderCropMachinePanel === "function") renderCropMachinePanel();
-        if(typeof updateCalcSummary === "function") updateCalcSummary();
+        touchGreenhouse = budTouched.greenhouse;
+        touchAnimals = budTouched.animal || spiceResult.matched;
+        touchFruits = budTouched.fruit || fertResult.matched;
+        touchCrops = budTouched.crop || fertResult.matched || crowAoeResult.changed;
+        touchResource = budTouched.resource;
       }
     }
-
+    const budFertSpiceCrowMatched = !!(budResult.matched || fertResult.matched || spiceResult.matched || crowAoeResult.changed);
     const anythingChanged =
       JSON.stringify(selectedBoosts) !== prevSelectedBoostsSig ||
       JSON.stringify(selectedSkills) !== prevSelectedSkillsSig ||
@@ -10288,11 +10476,64 @@ async function performFarmPanelSync(farmId){
       plotsResult.touched ||
       !!budResult.matched || !!fertResult.matched || !!spiceResult.matched || !!crowAoeResult.changed;
 
+    farmPanelSaveGameState(communityResult.ok ? communityResult.data : json);
+    if(typeof invalidateCostCache === "function") invalidateCostCache();
+    if(typeof syncCookingCountsFromInventory === "function") syncCookingCountsFromInventory(farmPanelGameState);
+    __mark("  state prep");
+
+    const boostsChanged = !!boostResult.changed;
+    const plotsTouched = !!plotsResult.touched;
+    const feeChanged = !!feeResult.changed;
+    const libraryListsWillRender = boostsChanged || plotsTouched || feeChanged || budFertSpiceCrowMatched;
+
+    if(boostsChanged || plotsTouched || budFertSpiceCrowMatched){
+      if(typeof renderBoostPanel === "function") renderBoostPanel();
+    }
+    __mark("  renderBoostPanel");
+    if(libraryListsWillRender){
+      if(typeof renderLibraryLists === "function") renderLibraryLists();
+    }
+    __mark("  renderLibraryLists");
+    if(plotsTouched){
+      if(typeof renderPlotNodeInputs === "function") renderPlotNodeInputs();
+    }
+    __mark("  renderPlotNodeInputs");
+    if(plotsTouched){
+      if(typeof renderHoneyList === "function") renderHoneyList();
+    }
+    __mark("  renderHoneyList");
+    if(!libraryListsWillRender && (plotsTouched || touchGreenhouse || feeChanged)){
+      if(typeof renderGreenhouseList === "function") renderGreenhouseList();
+    }
+    __mark("  renderGreenhouseList");
+    if(plotsTouched || touchAnimals){
+      if(typeof renderAnimalsList === "function") renderAnimalsList();
+    }
+    __mark("  renderAnimalsList");
+    if(!libraryListsWillRender && (plotsTouched || touchFruits || feeChanged)){
+      if(typeof renderFruitsList === "function") renderFruitsList();
+    }
+    __mark("  renderFruitsList");
+    if(!libraryListsWillRender && (touchCrops || feeChanged)){
+      if(typeof renderCropsList === "function") renderCropsList();
+    }
+    __mark("  renderCropsList");
+    if(plotsTouched || touchResource || feeChanged){
+      if(typeof renderResourceList === "function") renderResourceList();
+    }
+    __mark("  renderResourceList");
+    if(boostsChanged || feeChanged || budFertSpiceCrowMatched){
+      if(typeof renderCropMachinePanel === "function") renderCropMachinePanel();
+    }
+    __mark("  renderCropMachinePanel");
+    __mark("render cascade done");
+
     if(anythingChanged){
       if(typeof renderSaltList === "function") renderSaltList();
-      if(typeof updateCalcSummary === "function") updateCalcSummary();
     }
-    farmPanelSaveGameState(communityResult.ok ? communityResult.data : json);
+    __mark("  renderSaltList");
+    if(typeof updateCalcSummary === "function") updateCalcSummary();
+    __mark("salt list + calc summary done");
 
     const factionInfo = farmSyncGetFactionPetInfo(farmSyncExtractGameState(boostSourceState));
     farmSyncSetApiUsername(farmId, apiUsername);
@@ -10302,13 +10543,16 @@ async function performFarmPanelSync(farmId){
       if(typeof refreshTicketCalcVipFromSync === "function") refreshTicketCalcVipFromSync();
     }
 
-    if(typeof invalidateCostCache === "function") invalidateCostCache();
-    if(typeof syncCookingCountsFromInventory === "function") syncCookingCountsFromInventory(farmPanelGameState);
-    if(typeof renderCookingPanel === "function") renderCookingPanel();
+    if(!anythingChanged){
+      if(typeof renderCookingPanel === "function") renderCookingPanel();
+    }
+    __mark("cooking render done");
 
     if(typeof renderBoostPanel === "function" && typeof boostCategory !== "undefined" && boostCategory === "limitedtime") renderBoostPanel();
     renderFarmPanelInfo();
     if(anythingChanged) renderFarmPanelTabContent();
+    __mark("info panel + tab content done");
+    __syncMark = null;
     const nameNote = apiUsername ? ` · 👤 ${apiUsername}` : "";
     const dataNote = communityResult.ok
       ? " · 📦 full data synced"
@@ -10323,11 +10567,15 @@ async function performFarmPanelSync(farmId){
     return { ok:true, message: `✅ Synced Farm #${farmId} · 🎓 ${result.matched} skill(s) matched${boostNote}${plotsNote}${budNote}${fertNote}${spiceNote}${feeNote}${crowNote}${nameNote}${dataNote}` };
   }catch(e){
     console.error("Farm panel sync failed:", e);
+    __syncErrorMsg = e.message;
     $("farmPanelStatus").textContent = "⚠️ Sync failed — check the Farm ID and try again";
     return { ok:false, error: e.message };
   }finally{
     farmPanelSyncInFlight = false;
     btn.textContent = originalLabel;
+    __mark("sync end (total)");
+    showSyncTimingPanel(farmId, __marks, __syncErrorMsg);
+    __syncMark = null;
   }
 }
 
@@ -10346,23 +10594,32 @@ $("farmPanelSyncBtn").onclick = async () => {
 };
 
 function renderLibraryLists(){
+  invalidateCostCache();
   const toolWrap = $("toolLibList");
   const tools = toolRecipes;
 
   $("toolCount").textContent = tools.length ? `(${tools.length})` : "";
 
   toolWrap.innerHTML = tools.length ? tools.map(renderLibRow).join("") : `<div class="lib-empty">No tools added yet.</div>`;
+  __markSub("    renderLibraryLists: tool rows");
 
   toolWrap.querySelectorAll(".lib-price-tap").forEach(el => el.onclick = () => openPriceEdit(el.dataset.id));
   toolWrap.querySelectorAll(".lib-edit-btn").forEach(el => el.onclick = () => openLibEditModal(el.dataset.id));
   toolWrap.querySelectorAll(".lib-delete-btn").forEach(el => el.onclick = () => openDeleteConfirm(el.dataset.id, "library"));
+  __markSub("    renderLibraryLists: tool listeners");
 
   applyLibrarySearchFilter();
+  __markSub("    renderLibraryLists: search filter");
   renderCropsList();
+  __markSub("    renderLibraryLists: renderCropsList");
   renderFruitsList();
+  __markSub("    renderLibraryLists: renderFruitsList");
   renderGreenhouseList();
+  __markSub("    renderLibraryLists: renderGreenhouseList");
   loadBaseResourcesIfNeeded();
+  __markSub("    renderLibraryLists: loadBaseResourcesIfNeeded");
   renderBaseCoinSummaryLists();
+  __markSub("    renderLibraryLists: renderBaseCoinSummaryLists");
 }
 
 
@@ -10552,11 +10809,13 @@ function renderBaseCoinSummaryLists(){
   const cropWrap = $("baseCropLibList");
   $("baseCropCount").textContent = `(${cropNames.length})`;
   cropWrap.innerHTML = cropNames.map(renderBaseCoinCropRow).join("");
+  __markSub("      renderBaseCoinSummaryLists: crops n=" + cropNames.length);
 
   const fruitNames = Object.keys(BASE_FRUITS);
   const fruitWrap = $("baseFruitLibList");
   $("baseFruitCount").textContent = `(${fruitNames.length})`;
   fruitWrap.innerHTML = fruitNames.map(renderBaseCoinFruitRow).join("");
+  __markSub("      renderBaseCoinSummaryLists: fruits n=" + fruitNames.length);
 
   const greenhouseNames = Object.keys(BASE_GREENHOUSE);
   const greenhouseWrap = $("baseGreenhouseLibList");
@@ -10564,22 +10823,27 @@ function renderBaseCoinSummaryLists(){
     $("baseGreenhouseCount").textContent = `(${greenhouseNames.length})`;
     greenhouseWrap.innerHTML = greenhouseNames.map(renderBaseCoinGreenhouseRow).join("");
   }
+  __markSub("      renderBaseCoinSummaryLists: greenhouse n=" + greenhouseNames.length);
 
   const resourceNames = Object.keys(RESOURCE_DATA);
   const resourceWrap = $("baseResourceLibList");
   $("baseResourceCount").textContent = `(${resourceNames.length})`;
   resourceWrap.innerHTML = resourceNames.map(renderBaseCoinResourceRow).join("");
+  __markSub("      renderBaseCoinSummaryLists: resources n=" + resourceNames.length);
 
   const animalTypes = Object.keys(ANIMAL_DATA);
   const animalWrap = $("baseAnimalLibList");
   $("baseAnimalCount").textContent = `(${animalTypes.length})`;
   animalWrap.innerHTML = animalTypes.map(renderBaseCoinAnimalRow).join("");
+  __markSub("      renderBaseCoinSummaryLists: animals n=" + animalTypes.length);
 
   const honeyWrap = $("baseHoneyLibList");
   $("baseHoneyCount").textContent = `(1)`;
   honeyWrap.innerHTML = renderBaseCoinHoneyRow();
+  __markSub("      renderBaseCoinSummaryLists: honey");
 
   applyLibrarySearchFilter();
+  __markSub("      renderBaseCoinSummaryLists: search filter");
 }
 
 
@@ -11036,9 +11300,11 @@ function renderCropsList(){
   invalidateCostCache();
   loadBaseCropsIfNeeded();
   const names = Object.keys(BASE_CROPS).filter(name => cropTierFilter === "All" || BASE_CROPS[name].tier === cropTierFilter);
+  __markSub("      renderCropsList: n=" + names.length);
   withPreservedCardScrolls(wrap, () => {
     wrap.innerHTML = names.map(renderCropCard).join("");
   });
+  __markSub("      renderCropsList: cards built");
   wrap.querySelectorAll(".card-toggle, .card-24h-box").forEach(el => {
     const card = el.closest(".card");
     if(card.classList.contains("is-locked")){
@@ -11076,7 +11342,7 @@ function renderFruitCard(name){
   const totalYield = boosted.minHarvestVal * boosted.yieldVal;
   const boostListHtml = renderBoostAppliedList(boosted.activeBoosts, name);
   const axeQty = d.axeQty || 0;
-  const woodReturnQty = d.woodReturnQty || 0;
+  const woodReturnQty = Math.max(0, (d.woodReturnQty || 0) - (boosted.woodReturnPenalty || 0));
   const axeCoinCost = boosted.noWoodCost ? 0 : axeQty * (RESOURCE_DATA.Wood.toolCoinCost || 0);
   const mode = getMaterialMode("Fruit_"+name, "Wood");
   const woodRebateCoins = woodReturnQty * getMaterialUnitCostCoins("Wood", mode);
@@ -11835,6 +12101,7 @@ function renderHoneySummaryCard(){
   if(!el) return;
   loadBaseHoneyIfNeeded();
   const econ = computeHiveEconomics();
+  __markSub("      renderHoneySummaryCard: computeHiveEconomics");
   const isProfit = econ.totalProfitDay >= 0;
   const seasonEmoji = { Spring:"🌸", Summer:"☀️", Autumn:"🍁", Winter:"❄️" };
 
@@ -11911,6 +12178,7 @@ function renderHoneySummaryCard(){
     </div>
     <div class="card-24h-yield" style="margin-top:4px;">📦 24H YIELD <span class="card-24h-sub">${fmt(econ.hiveStats.honeyPerHiveDay * econ.hives)} Honey</span></div>
   </div>`;
+  __markSub("      renderHoneySummaryCard: HTML build (incl. swarm table)");
 
   const swarmSel = $("swarmCropSelect");
   if(swarmSel) swarmSel.onchange = () => setSelectedSwarmCrop(swarmSel.value);
@@ -11943,8 +12211,11 @@ function renderHoneySummaryCard(){
 
 function renderHoneyList(){
   loadBaseHoneyIfNeeded();
+  __markSub("    renderHoneyList: loadBaseHoneyIfNeeded");
   renderHoneySummaryCard();
+  __markSub("    renderHoneyList: renderHoneySummaryCard");
   renderFinder();
+  __markSub("    renderHoneyList: renderFinder");
   const wrap = $("flowerItemList");
   const countEl = $("flowerCount");
   if(!wrap) return;
@@ -11964,6 +12235,7 @@ function renderHoneyList(){
         + varieties.map(renderFlowerCard).join("");
     }).join("");
   });
+  __markSub("    renderHoneyList: variety cards (n=" + Object.keys(FLOWER_VARIETIES).length + ")");
 
   wrap.querySelectorAll(".card-toggle").forEach(el => {
     el.onclick = () => {
@@ -12619,7 +12891,7 @@ const BETTY_BASE_COIN_SELL = {
   
   "Sunflower": 0.02, "Potato": 0.14, "Rhubarb": 0.24, "Pumpkin": 0.4, "Zucchini": 0.4,
   "Carrot": 0.8, "Yam": 0.8, "Cabbage": 1.5, "Broccoli": 1.5, "Soybean": 2.3,
-  "Beetroot": 2.8, "Pepper": 3, "Cauliflower": 4.25, "Parsnip": 6.5, "Saltwort": 7.5, "Eggplant": 8,
+  "Beetroot": 2.8, "Pepper": 3, "Cauliflower": 4.25, "Parsnip": 6.5, "Eggplant": 8,
   "Corn": 9, "Onion": 10, "Radish": 9.5, "Wheat": 7, "Turnip": 8, "Kale": 10,
   "Artichoke": 12, "Barley": 12,
   
@@ -13075,6 +13347,18 @@ const NPC_ICONS = {
   let megastoreTickets = parseFloat(localStorage.getItem("hl_ticket_v2_megastore")) || 0;
   function setMegastore(v){ megastoreTickets = Math.max(0, parseFloat(v) || 0); localStorage.setItem("hl_ticket_v2_megastore", String(megastoreTickets)); }
 
+  let dailyRewardTickets = parseFloat(localStorage.getItem("hl_ticket_v2_daily_reward")) || 0;
+  let dailyRewardManual = localStorage.getItem("hl_ticket_v2_daily_reward_manual") === "1";
+  function setDailyReward(v){
+    dailyRewardTickets = Math.max(0, parseFloat(v) || 0);
+    dailyRewardManual = true;
+    localStorage.setItem("hl_ticket_v2_daily_reward", String(dailyRewardTickets));
+    localStorage.setItem("hl_ticket_v2_daily_reward_manual", "1");
+  }
+  function getEffectiveDailyReward(){
+    return (!dailyRewardManual && ticketBoosts.vip.enabled) ? seasonDays : dailyRewardTickets;
+  }
+
   let choresWeekly = parseFloat(localStorage.getItem("hl_ticket_v2_chores_weekly")) || 0;
   function setChoresWeekly(v){ choresWeekly = Math.max(0, parseFloat(v) || 0); localStorage.setItem("hl_ticket_v2_chores_weekly", String(choresWeekly)); }
 
@@ -13097,7 +13381,7 @@ const NPC_ICONS = {
 
   function computeAll(){
     const activeBoostCount = BOOST_TIERS.filter(t => ticketBoosts[t].enabled).length;
-    const vipBonus = ticketBoosts.vip.enabled ? 1 : 0;
+    const vipBonus = ticketBoosts.vip.enabled ? 2 : 0;
     const totalBoostBonus = activeBoostCount + vipBonus;
     const boostCostTotal = BOOST_TIERS.reduce((sum, t) => {
       const b = ticketBoosts[t];
@@ -13120,7 +13404,7 @@ const NPC_ICONS = {
       const on = !!npcDeliverToggle[npc];
       const skip = Math.min(remainingDeliveryDays, npcSkipDays[npc] || 0);
       const days = on ? Math.max(0, remainingDeliveryDays - skip) : 0;
-      const doubleWeeksForThis = on ? doubleDeliveryWeeks : 0;
+      const doubleWeeksForThis = on ? Math.floor(days / 7) : 0;
       const total = perDelivery * days + perDelivery * doubleWeeksForThis;
       const flowerCost = npcFlowerCost[npc] || 0;
       const flowerTotal = flowerCost * days;
@@ -13142,7 +13426,9 @@ const NPC_ICONS = {
     const choresFlowerTotal = choresFlowerCost * animalBountyEligibleWeeks;
     const grandFlowerTotal = npcFlowerTotal + animalFlowerTotal + bountyFlowerTotal + choresFlowerTotal;
 
-    const grandTotal = npcTotal + undeliveredLastSeason + animalTotal + bountyTotal + choresTotal + megastoreTickets - boostCostTotal;
+    const dailyRewardTotal = getEffectiveDailyReward();
+
+    const grandTotal = npcTotal + undeliveredLastSeason + animalTotal + bountyTotal + choresTotal + megastoreTickets + dailyRewardTotal - boostCostTotal;
 
     return {
       activeBoostCount, vipBonus, totalBoostBonus, boostCostTotal,
@@ -13152,6 +13438,7 @@ const NPC_ICONS = {
       animalTotal, bountyTotal, bountyItemTotal, bountyCompletionBonus,
       choresTotal,
       animalFlowerTotal, bountyFlowerTotal, choresFlowerTotal, grandFlowerTotal,
+      dailyRewardTotal,
       grandTotal
     };
   }
@@ -13173,7 +13460,7 @@ const NPC_ICONS = {
         <div class="tc-boost-head">
           <div>
             <div class="tc-boost-name">⭐ VIP Access</div>
-            <div class="tc-boost-tag">+1 ticket per delivery when active</div>
+            <div class="tc-boost-tag">+2 ticket per delivery when active</div>
           </div>
           <div class="tc-seg" style="width:120px;">
             <button type="button" class="tc-seg-btn boost-enable-btn ${vip.enabled ? "active" : "active off"}" data-tier="vip">
@@ -13251,7 +13538,7 @@ const NPC_ICONS = {
 
       <div class="tc-section">
         <div class="tc-section-title">🚀 TICKET BOOSTS (Stella Megastore)</div>
-        <div class="tc-section-sub">Tier boosts are off by default and toggled manually; each adds +1 ticket per NPC delivery. VIP Access also adds +1 — it's auto-enabled when your synced farm has active VIP/Lifetime Farmer Banner, but you can toggle it manually too. Bonuses stack and also apply to animal sales.</div>
+        <div class="tc-section-sub">Tier boosts are off by default and toggled manually; each adds +1 ticket per NPC delivery. VIP Access also adds +2 — it's auto-enabled when your synced farm has active VIP/Lifetime Farmer Banner, but you can toggle it manually too. Bonuses stack and also apply to animal sales.</div>
         ${vipCardHtml}
         ${boostCardsHtml}
       </div>
@@ -13346,6 +13633,11 @@ const NPC_ICONS = {
           <label>Tickets from Megastore over the season</label>
           <input type="number" min="0" step="1" id="megastoreInput" value="${megastoreTickets}" />
         </div>
+        <div class="tc-field" style="margin-top:8px;">
+          <label>Daily Reward (VIP Access — 1 ticket/day)</label>
+          <input type="number" min="0" step="1" id="dailyRewardInput" value="${getEffectiveDailyReward()}" />
+        </div>
+        <div class="tc-field-note">Auto-fills to match Days the season will last while VIP Access is On — edit it yourself to override.</div>
       </div>
 
       <div class="tc-summary">
@@ -13355,6 +13647,7 @@ const NPC_ICONS = {
         <div class="tc-summary-line"><span>Bounty Board / Poppy Trade<span style="opacity:.7;" id="sum-bounty-note">${bountyToggle ? ` (incl. +${fmt(c.bountyCompletionBonus)} completion bonus)` : ""}</span></span><b id="sum-bounty">${fmt(c.bountyTotal)}</b></div>
         <div class="tc-summary-line"><span>Weekly Chores</span><b id="sum-chores">${fmt(c.choresTotal)}</b></div>
         <div class="tc-summary-line"><span>Megastore rewards</span><b id="sum-megastore">${fmt(megastoreTickets)}</b></div>
+        <div class="tc-summary-line"><span>Daily Reward (VIP)</span><b id="sum-dailyreward">${fmt(c.dailyRewardTotal)}</b></div>
         <div class="tc-summary-line" id="sum-boostcost-line" style="color:var(--loss);display:${c.boostCostTotal > 0 ? "" : "none"};"><span>Boost activation cost</span><b id="sum-boostcost" style="color:var(--loss);">−${fmt(c.boostCostTotal)}</b></div>
         <div class="tc-summary-total">
           <span class="tc-label" id="sum-total-label">🎟️ TOTAL / ${fmt(seasonDays)} DAYS</span>
@@ -13395,6 +13688,9 @@ const NPC_ICONS = {
     setText("sum-bounty-note", bountyToggle ? ` (incl. +${fmt(c.bountyCompletionBonus)} completion bonus)` : "");
     setText("sum-chores", fmt(c.choresTotal));
     setText("sum-megastore", fmt(megastoreTickets));
+    setText("sum-dailyreward", fmt(c.dailyRewardTotal));
+    const dailyRewardInp = $("dailyRewardInput");
+    if (dailyRewardInp && !dailyRewardManual) dailyRewardInp.value = getEffectiveDailyReward();
 
     const boostCostLine = $("sum-boostcost-line");
     if (boostCostLine) boostCostLine.style.display = c.boostCostTotal > 0 ? "" : "none";
@@ -13461,6 +13757,9 @@ const NPC_ICONS = {
 
     const megastoreInp = $("megastoreInput");
     if (megastoreInp) megastoreInp.oninput = () => { setMegastore(megastoreInp.value); updateDynamicValues(); };
+
+    const dailyRewardInp = $("dailyRewardInput");
+    if (dailyRewardInp) dailyRewardInp.oninput = () => { setDailyReward(dailyRewardInp.value); updateDynamicValues(); };
 
     const choresWeeklyInp = $("choresWeeklyInput");
     if (choresWeeklyInp) choresWeeklyInp.oninput = () => { setChoresWeekly(choresWeeklyInp.value); updateDynamicValues(); };
@@ -16019,38 +16318,40 @@ function renderSaltList(){
   const fertWrap = $("saltFertCardWrap");
   const spiceWrap = $("saltSpiceCardWrap");
   if(!farmWrap) return;
+  const panelRoot = $("saltBody") || $("saltPanel") || document;
 
   farmWrap.innerHTML = renderSaltFarmCard();
+  __markSub("    renderSaltList: farm card");
   sculptWrap.innerHTML = renderSculptureCard();
+  __markSub("    renderSaltList: sculpture card");
   if(vegWrap) vegWrap.innerHTML = renderVegCard();
+  __markSub("    renderSaltList: veg card");
   baitWrap.innerHTML = Object.keys(BAIT_RECIPES).map(renderBaitCard).join("");
+  __markSub("    renderSaltList: bait cards (n=" + Object.keys(BAIT_RECIPES).length + ")");
   fertWrap.innerHTML = Object.keys(SALT_FERTILIZER_DATA).map(renderFertCard).join("");
+  __markSub("    renderSaltList: fert cards");
   spiceWrap.innerHTML = Object.keys(SPICE_RECIPES).map(renderSpiceCard).join("");
+  __markSub("    renderSaltList: spice cards");
 
-  document.querySelectorAll('.stepper-btn[data-stepper-id="saltNodeInput"]').forEach(btn => {
+  panelRoot.querySelectorAll('.stepper-btn[data-stepper-id="saltNodeInput"]').forEach(btn => {
     btn.onclick = () => {
       const dir = parseFloat(btn.dataset.dir) || 0;
       const next = Math.max(0, Math.min(farmLevelMaxNodes(), getNodeCount("Salt") + dir));
       setNodeCount("Salt", next);
       renderSaltList();
-      
-      
-      
       if(typeof renderPlotNodeInputs === "function") renderPlotNodeInputs();
     };
   });
-  document.querySelectorAll('.stepper-btn[data-stepper-id="farmLevelInput"]').forEach(btn => {
+  panelRoot.querySelectorAll('.stepper-btn[data-stepper-id="farmLevelInput"]').forEach(btn => {
     btn.onclick = () => {
       const dir = parseFloat(btn.dataset.dir) || 0;
       const next = Math.max(1, Math.min(FARM_LEVEL_NODES.length, saltFarmLevel + dir));
       setSaltFarmLevel(next);
       renderSaltList();
-      
-      
       if(typeof renderPlotNodeInputs === "function") renderPlotNodeInputs();
     };
   });
-  document.querySelectorAll('.stepper-btn[data-stepper-id="sculptureLevelInput"]').forEach(btn => {
+  panelRoot.querySelectorAll('.stepper-btn[data-stepper-id="sculptureLevelInput"]').forEach(btn => {
     btn.onclick = () => {
       const dir = parseFloat(btn.dataset.dir) || 0;
       const next = Math.max(0, Math.min(SCULPTURE_LEVELS.length, saltSculptureLevel + dir));
@@ -16059,13 +16360,13 @@ function renderSaltList(){
       renderMarketList();
     };
   });
-  document.querySelectorAll(".bait-quality-btn").forEach(btn => {
+  panelRoot.querySelectorAll(".bait-quality-btn").forEach(btn => {
     btn.onclick = () => {
       saltUiSet(btn.dataset.bait + "_prime", btn.dataset.quality === "prime");
       renderSaltList();
     };
   });
-  document.querySelectorAll('.pixel-select-btn[data-role="fish"]').forEach(btn => {
+  panelRoot.querySelectorAll('.pixel-select-btn[data-role="fish"]').forEach(btn => {
     btn.onclick = () => {
       const baitName = btn.dataset.bait;
       const fig = computeBaitFigures(baitName);
@@ -16080,7 +16381,7 @@ function renderSaltList(){
       });
     };
   });
-  document.querySelectorAll('.pixel-select-btn[data-role="veg"]').forEach(btn => {
+  panelRoot.querySelectorAll('.pixel-select-btn[data-role="veg"]').forEach(btn => {
     btn.onclick = () => {
       const baitName = btn.dataset.bait;
       const fig = computeBaitFigures(baitName);
@@ -16095,7 +16396,7 @@ function renderSaltList(){
       });
     };
   });
-  document.querySelectorAll('.pixel-select-btn[data-role="fertveg"]').forEach(btn => {
+  panelRoot.querySelectorAll('.pixel-select-btn[data-role="fertveg"]').forEach(btn => {
     btn.onclick = () => {
       const fertName = btn.dataset.fert;
       const fig = computeFertilizerFigures(fertName);
@@ -16110,26 +16411,29 @@ function renderSaltList(){
       });
     };
   });
-  document.querySelectorAll("#saltFertCardWrap [data-boost-id]").forEach(el => {
+  fertWrap.querySelectorAll("[data-boost-id]").forEach(el => {
     el.onclick = () => {
       toggleBoost(el.dataset.boostId);
       renderSaltList();
     };
   });
-  document.querySelectorAll(".spice-mode-btn").forEach(btn => {
+  panelRoot.querySelectorAll(".spice-mode-btn").forEach(btn => {
     btn.onclick = () => {
       setSpiceMaterialMode(btn.dataset.mat, btn.dataset.mode);
       renderSaltList();
     };
   });
-  document.querySelectorAll(".veg-mode-btn").forEach(btn => {
+  panelRoot.querySelectorAll(".veg-mode-btn").forEach(btn => {
     btn.onclick = () => {
       setVegMaterialMode(btn.dataset.mat, btn.dataset.mode);
       renderSaltList();
     };
   });
+  __markSub("    renderSaltList: listeners wired");
   renderMarketList();
+  __markSub("    renderSaltList: renderMarketList");
   if(typeof renderCookingPanel === "function") renderCookingPanel();
+  __markSub("    renderSaltList: renderCookingPanel");
 }
 loadBaseSaltMarketIfNeeded();
 
@@ -16371,7 +16675,6 @@ const COOKING_RECIPES = {
     "Kale Omelette": { exp:1250, time:12600, ingredients:{ Egg:40, Kale:5 } },
     "Gumbo": { exp:600, time:14400, ingredients:{ Potato:50, Pumpkin:30, Carrot:20, "Red Snapper":3 } },
     "Rapid Roast": { exp:300, time:10, ingredients:{ "Magic Mushroom":1, Pumpkin:40 } },
-    "Saltbite": { exp:3000, time:null, ingredients:{ Saltwort:10 } },
     "Fried Tofu": { exp:400, time:5400, ingredients:{ Soybean:15, Sunflower:200 } },
     "Rice Bun": { exp:2600, time:18000, ingredients:{ Rice:2, Wheat:50 } },
     "Antipasto": { exp:3000, time:10800, ingredients:{ Olive:2, Grape:2 } },
@@ -16544,7 +16847,7 @@ const COOKING_FOOD_IMAGES = {
 const COOKING_FOOD_EMOJI = {
   "Mashed Potato":"🥔","Pumpkin Soup":"🎃","Reindeer Carrot":"🥕","Mushroom Soup":"🍄","Popcorn":"🍿",
   "Bumpkin Broth":"🍲","Cabbers n Mash":"🥬","Boiled Eggs":"🥚","Kale Stew":"🍲","Kale Omelette":"🍳",
-  "Gumbo":"🍛","Rapid Roast":"🔥","Saltbite":"🧂","Fried Tofu":"🍢","Rice Bun":"🍙","Antipasto":"🫒",
+  "Gumbo":"🍛","Rapid Roast":"🔥","Fried Tofu":"🍢","Rice Bun":"🍙","Antipasto":"🫒",
   "Pizza Margherita":"🍕","Rhubarb Tart":"🥧","Furikake Sprinkle":"🍚",
   "Surimi Rice Bowl":"🍚","Creamy Crab Bite":"🦀","Crimstone Infused Fish Oil":"🧴","Sunflower Crunch":"🌻",
   "Mushroom Jacket Potatoes":"🥔","Fruit Salad":"🥗","Pancakes":"🥞","Roast Veggies":"🥕","Cauliflower Burger":"🍔",
@@ -16716,10 +17019,12 @@ function cookingComputeFoodTimeUncached(building, name){
 }
 
 function cookingIngredientUnitCostCoins(name, mode, visited){
-  if(visited) return cookingIngredientUnitCostCoinsUncached(name, mode, visited);
   const memoKey = mode + "|" + name;
   if(__cookingCostMemo.has(memoKey)) return __cookingCostMemo.get(memoKey);
-  const result = cookingIngredientUnitCostCoinsUncached(name, mode);
+  if(visited && visited.has(memoKey)) return 0;
+  const branchVisited = new Set(visited || []);
+  branchVisited.add(memoKey);
+  const result = cookingIngredientUnitCostCoinsUncached(name, mode, branchVisited);
   __cookingCostMemo.set(memoKey, result);
   return result;
 }
@@ -17163,13 +17468,21 @@ function renderCookingFoodList(){
 
 function renderCookingPanel(){
   if(!$("cookHeader")) return; 
+  invalidateCostCache();
   if(typeof renderFactionPetHeader === "function") renderFactionPetHeader();
+  __markSub("      renderCookingPanel: renderFactionPetHeader");
   renderCookingHeader();
+  __markSub("      renderCookingPanel: renderCookingHeader");
   renderCookingModeToggle();
+  __markSub("      renderCookingPanel: renderCookingModeToggle");
   renderCookingFishTabs();
+  __markSub("      renderCookingPanel: renderCookingFishTabs");
   renderCookingBuildingTabs();
+  __markSub("      renderCookingPanel: renderCookingBuildingTabs");
   renderCookingGuaranteedCatchToggle();
+  __markSub("      renderCookingPanel: renderCookingGuaranteedCatchToggle");
   renderCookingFoodList();
+  __markSub("      renderCookingPanel: renderCookingFoodList (n=" + Object.keys(COOKING_RECIPES[cookingActiveBuilding] || {}).length + ")");
 }
 
 const cookModeToggleEl = document.getElementById("cookModeToggle");
@@ -17319,7 +17632,6 @@ function fishingMaterialUnitCostCoins(name, visited){
 function fishRodCostCoins(){
   if(typeof fishingRodIsFree === "function" && fishingRodIsFree()) return 0;
   let cost = (typeof getToolCostCoins === "function") ? getToolCostCoins("default_rod") : 0;
-  if(typeof isBoostActive === "function" && isBoostActive("skill_reel_deal")) cost *= 0.5;
   let rodsNeeded = 1;
   if(typeof isBoostActive === "function" && isBoostActive("skill_more_with_less")) rodsNeeded += 1;
   return cost * rodsNeeded;
@@ -17382,9 +17694,11 @@ function fishCheapestChum(fishName, visited){
 }
 
 function computeBasicFishFigures(fishName, visited){
-  if(visited) return computeBasicFishFiguresUncached(fishName, visited);
   if(__fishBasicFiguresMemo.has(fishName)) return __fishBasicFiguresMemo.get(fishName);
-  const result = computeBasicFishFiguresUncached(fishName);
+  if(visited && visited.has(fishName)) return null;
+  const branchVisited = new Set(visited || []);
+  branchVisited.add(fishName);
+  const result = computeBasicFishFiguresUncached(fishName, branchVisited);
   __fishBasicFiguresMemo.set(fishName, result);
   return result;
 }
@@ -18264,6 +18578,7 @@ function renderFishingCostModeToggle(){
 }
 
 function renderFishingPanel(){
+  invalidateCostCache();
   renderFishingCostModeToggle();
   renderFishingTierTabs();
   renderFishingTierList();
@@ -18466,7 +18781,8 @@ const COLLECTIBLE_MARKET_NAMES = [
   "Observatory", "Grain Grinder", "Battle Fish", "Squirrel Monkey",
   "Soybliss", "Swiss Whiskers", "El Pollo Veloz", "Freya Fox",
   "Crab House", "Royal Crab Pot", "Speed Trap", "Pink Dolphin",
-  "Jellyfish", "Alba", "Poseidon", "Super Star", "Walrus"
+  "Jellyfish", "Alba", "Poseidon", "Super Star", "Walrus",
+  "Summer Guardian", "Autumn Guardian", "Winter Guardian", "Spring Guardian"
 ];
 function loadNftCollectibleMarketItemsIfNeeded(){
   if(typeof marketItems === "undefined") return;
