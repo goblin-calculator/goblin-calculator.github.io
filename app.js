@@ -774,7 +774,8 @@ function showSyncCompleteModal(msg, opts){
 
 function fmt(n){
   if(!isFinite(n)) return "—";
-  return n.toLocaleString(undefined, { minimumFractionDigits:2, maximumFractionDigits:4 });
+  const cleaned = Math.round(n * 1e10) / 1e10;
+  return cleaned.toLocaleString(undefined, { minimumFractionDigits:2, maximumFractionDigits:6 });
 }
 
 function escapeHtml(str){
@@ -2260,7 +2261,7 @@ function computeBoostedGreenhouseStatsUncached(name, baseYield, baseTimeSec, nod
   windowSec = windowSec || 86400;
   const active = getActiveBoostsForGreenhouse(name);
   let addSum = 0, multBonusSum = 0;
-  let alwaysTimeMult = 1;
+  let alwaysTimeMult = 1, seedQtyMult = 1, oilQtyMult = 1;
   const totalNodes = nodeCountOverride != null ? nodeCountOverride : getGreenhouseCount(name);
   const limitedTimeFactors = [];
   const haveSyncData = hasLimitedBoostSyncData();
@@ -2282,13 +2283,15 @@ function computeBoostedGreenhouseStatsUncached(name, baseYield, baseTimeSec, nod
         alwaysTimeMult *= b.timeMult;
       }
     }
+    if(b.seedQtyMult) seedQtyMult *= b.seedQtyMult;
+    if(b.oilQtyMult) oilQtyMult *= b.oilQtyMult;
   });
   const totalBonusFraction = (addSum / baseYield) + multBonusSum;
   const yieldVal = baseYield * (1 + totalBonusFraction);
   const cyclesForFactor = (extraMult) => 86400 / Math.max(1, baseTimeSec * alwaysTimeMult * extraMult);
   const blendedCyclesPerDay = blendCyclesPerDayForExpiry(cyclesForFactor, limitedTimeFactors, windowSec);
   const timeVal = blendedCyclesPerDay > 0 ? 86400 / blendedCyclesPerDay : Math.max(1, baseTimeSec * alwaysTimeMult);
-  return { yieldVal: Math.max(0.0001, yieldVal), timeVal: Math.max(1, timeVal), activeBoosts: active };
+  return { yieldVal: Math.max(0.0001, yieldVal), timeVal: Math.max(1, timeVal), activeBoosts: active, seedQtyMult, oilQtyMult };
 }
 
 
@@ -2317,6 +2320,13 @@ function computeBoostedMachineTimeSec(baseTimeSec, windowSec){
   const blendedCyclesPerDay = blendCyclesPerDayForExpiry(cyclesForFactor, limitedTimeFactors, windowSec);
   return blendedCyclesPerDay > 0 ? Math.max(1, 86400 / blendedCyclesPerDay) : Math.max(1, baseTimeSec * alwaysTimeMult);
 }
+function computeCropMachineOilMult(){
+  let oilQtyMult = 1;
+  getActiveBoostsForCropMachine().forEach(b => {
+    if(b.oilQtyMult) oilQtyMult *= b.oilQtyMult;
+  });
+  return oilQtyMult;
+}
 
 
 
@@ -2335,7 +2345,7 @@ function computeCropMachineBatch(name, qty){
   qty = Math.max(0, qty || 0);
   const ratio = base.seedQty > 0 ? qty / base.seedQty : 0;
   const timeSec = computeBoostedMachineTimeSec(base.timeSec) * ratio;
-  const oilQty = base.oilQty * ratio;
+  const oilQty = base.oilQty * ratio * computeCropMachineOilMult();
   const yieldMult = getCropMachineYieldMultiplier(name);
   const yieldQty = base.yieldQty * ratio * yieldMult;
   const seedCoinCost = (hasFreeCostBoost(name) ? 0 : (cropBase.seedCost || 0)) * qty;
@@ -2927,12 +2937,12 @@ const SKILL_GREENHOUSE = [
   { id:"skill_olive_express", name:"Olive Express", skillTier:2, category:"greenhouse", scope:"greenhouse", target:"Olive", timeMult:0.9, note:"-10% Olive growth time" },
   { id:"skill_rice_rocket", name:"Rice Rocket", skillTier:2, category:"greenhouse", scope:"greenhouse", target:"Rice", timeMult:0.9, note:"-10% Rice growth time" },
   { id:"skill_vine_velocity", name:"Vine Velocity", skillTier:2, category:"greenhouse", scope:"greenhouse", target:"Grape", timeMult:0.9, note:"-10% Grape growth time" },
-  { id:"skill_seeded_bounty", name:"Seeded Bounty", skillTier:2, category:"greenhouse", scope:"global", yieldAdd:0.5, note:"+0.5 produce for Grape/Rice/Olive, but uses 2 seeds per planting (seed-cost doubling not wired into the cost math yet)" },
+  { id:"skill_seeded_bounty", name:"Seeded Bounty", skillTier:2, category:"greenhouse", scope:"global", yieldAdd:0.5, seedQtyMult:2, note:"+0.5 produce for Grape/Rice/Olive, but uses 2 seeds per planting" },
   
   { id:"skill_greenhouse_guru", name:"Greenhouse Guru", skillTier:3, isActiveAbility:true, note:"Ability to make all greenhouse produce currently growing ready to be harvested (on-demand, no passive stat)" },
   { id:"skill_greenhouse_gamble", name:"Greenhouse Gamble", skillTier:3, category:"greenhouse", scope:"global", yieldAdd:0.25, note:"25% chance of +1 greenhouse produce (shown as its +0.25 expected-value equivalent)" },
   { id:"skill_slick_saver", name:"Slick Saver", skillTier:3, notModeled:true, note:"-1 Oil to grow greenhouse produce — depends on Greasy Plants, oil cost isn't wired into this app's math yet" },
-  { id:"skill_greasy_plants", name:"Greasy Plants", skillTier:3, category:"greenhouse", scope:"global", yieldAdd:1, note:"+1 produce for Grape/Rice/Olive (+100% Oil consumption — oil cost tradeoff not wired into the cost math yet)" }
+  { id:"skill_greasy_plants", name:"Greasy Plants", skillTier:3, category:"greenhouse", scope:"global", yieldAdd:1, oilQtyMult:2, note:"+1 produce for Grape/Rice/Olive (+100% Oil consumption)" }
 ];
 SKILL_GREENHOUSE.forEach(s => { s.source = "skill"; s.skillCategory = "greenhouse"; if(!s.category) s.category = "greenhouse"; });
 
@@ -2946,7 +2956,7 @@ const SKILL_MACHINE = [
   
   { id:"skill_crop_extension_module_2", name:"Crop Extension Module II", skillTier:2, notModeled:true, note:"Allows Carrot and Cabbage seeds to be used in the Crop Machine" },
   { id:"skill_crop_extension_module_3", name:"Crop Extension Module III", skillTier:2, notModeled:true, note:"Allows Yam and Broccoli seeds to be used in the Crop Machine" },
-  { id:"skill_rapid_rig", name:"Rapid Rig", skillTier:2, category:"cropmachine", scope:"machineGlobal", timeMult:0.8, note:"-20% Crop Machine batch time, but +40% Oil consumption (oil consumption isn't wired into this app's math yet)" },
+  { id:"skill_rapid_rig", name:"Rapid Rig", skillTier:2, category:"cropmachine", scope:"machineGlobal", timeMult:0.8, oilQtyMult:1.4, note:"-20% Crop Machine batch time, but +40% Oil consumption" },
   { id:"skill_oil_be_back", name:"Oil Be Back", skillTier:2, category:"resources", scope:"resource", target:"Oil", timeMult:0.8, note:"-20% Oil refill time" },
   { id:"skill_oil_rig", name:"Oil Rig", skillTier:2, category:"resources", scope:"resource", target:"Oil", materialSwap:{from:"Leather", to:"Wool", qty:20}, note:"Oil Drill requires 20 Wool instead of Leather to craft" },
   
@@ -3116,13 +3126,13 @@ const ASCENSION_RANK_DATA = {
   skill_olive_express:      { field:"timeMult", values:[0.9, 0.85, 0.8] },
   skill_rice_rocket:        { field:"timeMult", values:[0.9, 0.85, 0.8] },
   skill_vine_velocity:      { field:"timeMult", values:[0.9, 0.85, 0.8] },
-  skill_seeded_bounty:      { field:"yieldAdd", values:[0.5, 0.75, 1] },
+  skill_seeded_bounty:      { field:"yieldAdd", values:[0.5, 0.75, 1], note:"Always uses 2 seeds per planting regardless of rank" },
   skill_greenhouse_gamble:  { field:"yieldAdd", values:[0.25, 0.35, 0.45], note:"+1 produce chance 25/35/45% (EV shown)" },
-  skill_greasy_plants:      { field:"yieldAdd", values:[1, 1.5, 2], note:"Oil-consumption debuff (2x/3x/4x) not wired yet" },
+  skill_greasy_plants:      { field:["yieldAdd","oilQtyMult"], values:{ yieldAdd:[1, 1.5, 2], oilQtyMult:[2, 3, 4] } },
 
-  skill_crop_processor_unit:{ field:"timeMult", values:[0.95, 0.9, 0.85], note:"Oil-consumption penalty not wired yet" },
+  skill_crop_processor_unit:{ field:"timeMult", values:[0.95, 0.9, 0.85] },
   skill_oil_extraction:     { field:"yieldAdd", values:[1, 1.5, 2] },
-  skill_rapid_rig:          { field:"timeMult", values:[0.8, 0.7, 0.6], note:"Oil-consumption penalty not wired yet" },
+  skill_rapid_rig:          { field:"timeMult", values:[0.8, 0.7, 0.6], note:"Oil consumption stays fixed at +40% across ranks" },
   skill_oil_be_back:        { field:"timeMult", values:[0.8, 0.7, 0.6] },
 
   skill_efficient_bin:      { field:"fertAdd", values:[5, 7, 9] },
@@ -6424,8 +6434,8 @@ function getGreenhouseCostCoins(name){
   const d = BASE_GREENHOUSE[name];
   if(!d) return 0;
   const boosted = computeBoostedGreenhouseStats(name, d.baseYield || 1, d.timeSec);
-  const seedCoinCost = hasFreeCostBoostGreenhouse(name) ? 0 : (d.seedCost || 0);
-  const oilQty = d.oilQty || 0;
+  const seedCoinCost = hasFreeCostBoostGreenhouse(name) ? 0 : (d.seedCost || 0) * (boosted.seedQtyMult || 1);
+  const oilQty = (d.oilQty || 0) * (boosted.oilQtyMult || 1);
   const oilCoinCost = oilQty * getItemCostByName("Oil");
   return (seedCoinCost + oilCoinCost) / boosted.yieldVal;
 }
@@ -11470,7 +11480,7 @@ function renderGreenhouseCard(name){
   const boosted = computeBoostedGreenhouseStats(name, d.baseYield || 1, d.timeSec);
   const plotCount = getGreenhouseCount(name);
   const boostListHtml = renderBoostAppliedList(boosted.activeBoosts, name);
-  const oilQty = d.oilQty || 0;
+  const oilQty = (d.oilQty || 0) * (boosted.oilQtyMult || 1);
   const oilUnitCost = getItemCostByName("Oil");
   const oilCoinCost = oilQty * oilUnitCost;
   const proj = compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, plotCount, { baseStock: BASE_STOCK_GREENHOUSE[name], kind:"seed" });
@@ -11521,7 +11531,7 @@ function renderGreenhouseCard(name){
         <span class="lib-item-icon">🌱</span>
         <div class="lib-item-main">
           <div class="lib-item-name">Seed</div>
-          <div class="lib-item-meta">Cost: ${fmt(hasFreeCostBoostGreenhouse(name) ? 0 : (d.seedCost||0))}${COIN_ICON}${hasFreeCostBoostGreenhouse(name) ? " (free — boost active)" : ""}</div>
+          <div class="lib-item-meta">Cost: ${fmt(hasFreeCostBoostGreenhouse(name) ? 0 : (d.seedCost||0) * (boosted.seedQtyMult || 1))}${COIN_ICON}${hasFreeCostBoostGreenhouse(name) ? " (free — boost active)" : ""}${(boosted.seedQtyMult && boosted.seedQtyMult !== 1) ? ` (×${boosted.seedQtyMult} seeds)` : ""}</div>
         </div>
       </div>
     </div>
@@ -17695,9 +17705,10 @@ function fishCheapestChum(fishName, visited){
 
 function computeBasicFishFigures(fishName, visited){
   if(__fishBasicFiguresMemo.has(fishName)) return __fishBasicFiguresMemo.get(fishName);
-  if(visited && visited.has(fishName)) return null;
+  const guardKey = "fishfigures:" + fishName;
+  if(visited && visited.has(guardKey)) return null;
   const branchVisited = new Set(visited || []);
-  branchVisited.add(fishName);
+  branchVisited.add(guardKey);
   const result = computeBasicFishFiguresUncached(fishName, branchVisited);
   __fishBasicFiguresMemo.set(fishName, result);
   return result;
