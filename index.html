@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://sfl-proxy.bossweki.workers.dev https://sfl-community-proxy.bossweki.workers.dev; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://sfl-proxy.bossweki.workers.dev https://sfl-community-proxy.bossweki.workers.dev https://*.firebaseio.com wss://*.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Goblin Calculator</title>
 <meta name="description" content="Goblin Calculator — an unofficial profit/loss calculator for Sunflower Land. Know your real profit before you list it." />
@@ -70,6 +70,7 @@
     <span class="farm-panel-tab-arrow" id="farmPanelToggleArrow">›</span>
   </button>
   <div class="farm-panel-card">
+    <button type="button" class="farm-panel-timing-toggle" id="syncTimingToggle" aria-label="Toggle sync timing panel" title="Sync timing">⏱️</button>
     <button type="button" class="farm-panel-debug-toggle" id="farmPanelDebugToggle" aria-label="Toggle debug tools" title="Debug tools">🐞</button>
     <div class="farm-panel-header">
       <div class="farm-panel-name" id="farmPanelName">No farm synced</div>
@@ -115,7 +116,11 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V1.6</span>
+  <span class="app-version-badge">V1.8</span>
+  <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
+    <span class="live-users-dot"></span>
+    <span id="liveUsersCount">–</span>
+  </div>
   <div class="header-inner">
     <div class="mark"><img src="./icons/goblin-logo.png" alt="Goblin Calculator logo" /></div>
     <div class="header-title">
@@ -1304,6 +1309,9 @@
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script src="presence.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

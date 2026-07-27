@@ -171,6 +171,23 @@
     border:1px solid rgba(255,255,255,.15); border-radius:5px;
     padding:2px 6px; pointer-events:none;
   }
+  .live-users-badge{
+    position:absolute; top:6px; left:8px; z-index:101;
+    display:flex; align-items:center; gap:5px;
+    font-family:var(--pixel-font); font-size:7px; letter-spacing:.5px;
+    color:var(--wheat-dim); background:rgba(0,0,0,.25);
+    border:1px solid rgba(255,255,255,.15); border-radius:5px;
+    padding:3px 7px; pointer-events:none;
+  }
+  .live-users-dot{
+    width:6px; height:6px; border-radius:50%;
+    background:#5fd35f; box-shadow:0 0 4px #5fd35f;
+    flex-shrink:0; animation:liveDotPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes liveDotPulse{
+    0%, 100%{ opacity:1; }
+    50%{ opacity:.4; }
+  }
   .header-inner{ max-width:640px; margin:0 auto; display:flex; align-items:center; gap:14px; flex-wrap:wrap; row-gap:12px; }
   .mark{
     width:44px; height:44px; border-radius:0;
@@ -1214,9 +1231,18 @@
   }
   .farm-panel-debug-toggle:active{ transform:translate(1px,1px); box-shadow:0 0 0 rgba(0,0,0,.3); }
   .farm-panel-debug-toggle.open{ background:var(--sun-deep); color:var(--wheat); }
+  .farm-panel-timing-toggle{
+    position:absolute; top:10px; right:42px; z-index:2;
+    width:26px; height:26px; display:flex; align-items:center; justify-content:center;
+    background:var(--wheat-dim); border:2px solid var(--soil-dark); border-radius:0;
+    font-size:13px; line-height:1; cursor:pointer;
+    box-shadow:2px 2px 0 rgba(0,0,0,.3);
+  }
+  .farm-panel-timing-toggle:active{ transform:translate(1px,1px); box-shadow:0 0 0 rgba(0,0,0,.3); }
+  .farm-panel-timing-toggle.open{ background:var(--sun-deep); color:var(--wheat); }
   .farm-panel-debug-panel{ display:none; flex-shrink:0; }
   .farm-panel-debug-panel.open{ display:block; }
-  .farm-panel-header{ margin-top:2px; flex-shrink:0; padding-right:30px; }
+  .farm-panel-header{ margin-top:2px; flex-shrink:0; padding-right:62px; }
   .farm-panel-name{
     font-family:var(--pixel-font); font-size:14px; color:var(--soil);
     line-height:1.4; letter-spacing:.5px; word-break:break-word;
