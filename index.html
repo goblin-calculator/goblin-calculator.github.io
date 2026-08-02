@@ -94,6 +94,10 @@
       <button type="button" class="btn btn-ghost" id="farmPanelDebugCrowBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show crow AoE plot-by-plot detection</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugFactionBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Faction Wings/Green Amulet detection</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugPetsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Pets data shape</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugMutantsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show mutant reward field on growing jobs</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugTreeDataBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show tree wood.amount/farmActivity source data</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugMiningBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Stone/Iron/Gold exact-yield breakdown</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugCropsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Crops/Fruit/Flowers/Crimstone/Greenhouse exact-yield breakdown</button>
       <textarea id="farmPanelDebugOutput" readonly style="display:none;width:100%;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:7.5px;height:160px;border:1.25px solid var(--line);border-radius:6px;padding:4px;"></textarea>
     </div>
     <div class="farm-panel-divider-solid"></div>
@@ -116,7 +120,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V1.7</span>
+  <span class="app-version-badge">V1.9</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -192,6 +196,46 @@
         <div class="setting-hint" id="restockModeHint" style="font-weight:700;color:var(--soil);"></div>
       </div>
       <div class="setting-hint">Tools always cost 10 Gems to restock — that doesn't change no matter which button you pick. Seeds cost 15 Gems restocked alone, or effectively 10 Gems when bundled into a 20-Gem "All" restock (20 ÷ 2). Pick "All" only if you actually need both a tool and a seed restock at the same time — otherwise you're paying for a restock you didn't need. This choice feeds directly into every 24h profit calc.</div>
+
+      <div class="setting-row">
+        <div class="rcm-title-row">
+          <label style="flex-basis:auto;">Restock Cost Mode</label>
+          <button type="button" class="hint-q-btn" id="rcmInfoBtn" aria-label="What do Shared Cost and Individual Cost mean?">❓</button>
+        </div>
+        <div class="rcm-toggle-row">
+          <span class="rcm-toggle-label is-active" id="rcmLabelShared" data-mode="shared">Shared Cost</span>
+          <label class="switch rcm-switch" id="rcmSwitchWrap">
+            <input type="checkbox" id="rcmSwitchInput" checked>
+            <span class="slider"></span>
+          </label>
+          <span class="rcm-toggle-label" id="rcmLabelIndividual" data-mode="individual">Individual Cost</span>
+        </div>
+      </div>
+      <div class="setting-hint" id="rcmHint">Shared Cost (default): splits the restock (and Shrine) cost evenly across every item checked below. Individual Cost: assumes one continuous use case, so the full restock/Shrine cost is charged to that single item — tap the ❓ above for details.</div>
+
+      <div class="rcm-panel" id="rcmPanel" style="display:none;">
+        <div class="rcm-tabs retro-scroll" id="rcmTabs"></div>
+        <div class="rcm-list retro-scroll" id="rcmList"></div>
+        <div class="rcm-panel-footer">
+          <span class="rcm-unsaved-note" id="rcmUnsavedNote"></span>
+          <button type="button" class="btn btn-sun rcm-save-btn" id="rcmSaveBtn">💾 Save</button>
+        </div>
+      </div>
+
+      <div class="modal-overlay" id="rcmInfoOverlay">
+        <div class="modal-sheet" style="max-width:460px;">
+          <button class="modal-close" id="closeRcmInfoModal">✕</button>
+          <h2 style="font-size:18px;">Restock Cost Mode</h2>
+          <p class="modal-sub">How Shared vs Individual cost affects profit/loss across the app.</p>
+          <div class="field-hint" style="margin-bottom:14px;">
+            <p style="margin:0 0 10px;"><b>Individual Cost</b> — assumes you restock for a single, continuous use case, such as planting Barley for the entire day or week without switching to other crops. The full restock cost is charged to that one item alone. For example, a 15-Gem seed restock is shouldered entirely by Barley, with no portion allocated to any other crop.</p>
+            <p style="margin:0 0 10px;"><b>Shared Cost (default)</b> — assumes a single restock is used across multiple crops or tools, so its cost is divided evenly among everything included. For example, a 15-Gem seed restock is split across all seeds you've checked in the panel above, so each one only carries its proportional share instead of the full amount.</p>
+            <p style="margin:0 0 10px;">Uncheck an item in the panel above and hit <b>💾 Save</b> to remove it from the shared pool — it reverts to a restock/Shrine cost of 0, and the remaining pool is redistributed among what's left.</p>
+            <p style="margin:0;">This setting applies to every tab with a restock or Shrine cost — Crops, Fruits, Greenhouse, Animals, Resources and the Crop Machine — so switching modes updates the profit/loss figures shown across the entire app, not just in Settings.</p>
+          </div>
+          <button class="btn btn-sun btn-block" id="rcmInfoCloseBtn">Got it</button>
+        </div>
+      </div>
 
       <div class="setting-row">
         <label for="feeInput">My marketplace sell fee</label>
