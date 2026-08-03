@@ -105,6 +105,13 @@ const IMAGE_ICONS = {
   "Football fish": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAOCAYAAAAbvf3sAAAAAXNSR0IArs4c6QAAANhJREFUKJFjZGBgYMiwyPnPgAPMODGFEZnPkmGR87/Plg+XegYGhpz/yJoY/z1P/J8VyI1VKcygosOf4DbBdcKchWxb0eFPGJoYYYrxOwthABOygMG2UwycXa14NTEhm37zym4ME9EBCzLne1k1imSfLR+KPxgYGCBOKjr8CW4aOg0D+2/zIWzwlZCBKnrC4CshA6cZGD7BFW9+8QQ1lGCakMHmF0/ghm1+8YSBgQEtHrBpQgaOqp8YUNIJrjTlKyHD4Kj6iYGru40RmzwKyLDI+f+ttApuEACr4l9KTEsZuwAAAABJRU5ErkJggg==",
   Sunfish: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAP1JREFUKJGFkTFOw0AQRd9aEQUVSqgQVJbchJQg6jiuKCxxBG7BCThGboDkgiob6hSU3kixRBdFimRQKhdpTDXOeteGX+1q9s3/M6twFI1ntZwLo5VbFzUFAc6WWVM8xmlvAyWQDbiSBnaSgftgky+Y7CsPthtHcVoH0XhWV/evAGzyRadjV5oAYPtwQZ7tmOwrbp4//4x8jFMKo1VgF/JsB8DhZd0Ly6Ka5ZRhws/jk/fwNr1q3OztthyH728eKCnEQM6tfyzDBMBzvl4dqL4/OB9N2c7v/Ki2Lr9OGy7DpAV5UW2oMFrJTC4EMOiD5F4YrTC6q/9pRnv4//QLw2VrPB4MgisAAAAASUVORK5CYII=",
   Coelacanth: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAARpJREFUKJGVkaFOA0EURc9uSBVBYbCIQeyYNq1BNGkYZINAlgSFQRVRyR8gxrSiW1OBJKQhVWyD2y8oggosbVJJzZpBlJ10plsSrpmbvJz3bu4EACJSBk+HR8fWp0k/8Od7uSlNRs4gffq2/hSMDwciUqZaV5QrEoBhs2GH0034+d65bC/GWvMxfYXB2MLycp+Dqzs/JQAhQLki19Cvrl/erF9+fZIm/cCPGubmYTDmRJ7TyWoOXJqMEJEyfoEhBYq13oJnt49O+yFAJ6sRa021rhC9lrMkh0Wvxew9sXEDcP/xpt0uLCPWehvclIiUKYKHzQbZ2YWNXigRKUN3YfJS5Hxl5Hxl6C7W7y75LeaL/oR2Lfo3BFAE/QAX5nlA9/Z2JwAAAABJRU5ErkJggg==",
+  "Gold Rush": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAQBAMAAADQT4M0AAAAGFBMVEUAAAA6RGYYFCWLm7S+Si/////2wgD7+E18Xld3AAAAAXRSTlMAQObYZgAAAE1JREFUCNdjAAIXBhBgKnMAUSppYEoBIqgEkVJSUgBSqsaCQUCOoaCgqAKDoqCwoKERg6KwkpCyEJBnKGiIRAGBEAMTiAJqVARyYKYAANSRCFTPiliTAAAAAElFTkSuQmCC",
+  "Prospector": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAJBAMAAAAfoWtkAAAAJ1BMVEUAAAAZFCX7qiD1wQAXEyT8+U347TOMnLWLm7W+Si/8+N/AzNz2wgCkua4xAAAAAXRSTlMAQObYZgAAAExJREFUCNdjYGBgFBQUYAABMSWlQBDNopRmbAoScppknGwDEpLU1DErDwEyRARFJHYVAvW4CApK7GpkYBBSUlIybjcVAJkiKCIoyAAAeRAKYOZt0NIAAAAASUVORK5CYII=",
+  "Seed Specialist": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAMBAMAAABGh1qtAAAAGFBMVEUAAAAXFCRShE98wV6Cx2NrQjs1W0SuUDhtEFZUAAAAAXRSTlMAQObYZgAAADNJREFUCNdjYBAUEBRgYGB0VnRWBFLGisYgSklRCUgxCArhkRMDygGBeDqYEg0FU4xAQQALzAXrhjzrmwAAAABJRU5ErkJggg==",
+  "Green Thumb": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAD1BMVEUAAAAmK0Rjx01Hizh28Vv6KfZRAAAAAXRSTlMAQObYZgAAAEdJREFUCNdVy7ERgDAMQ1F5A8v2AjEsgJkALvvPBCQFFzXvfiEAohiLa2qrko18idx7V8SdB0NhuXnlkLS/vWaLn17t+5NUPEFCBxhe0vrMAAAAAElFTkSuQmCC",
+  "Coder": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKBAMAAAB/HNKOAAAAElBMVEUAAACLm7QmK0TAy9xaaYj///+a52MIAAAAAXRSTlMAQObYZgAAADVJREFUCNdjYGBgZQCCAAYDEBPEZlJSUgKSgsZGCkBSUNgIRAoBSUdBESEQKaTAwKDiqMAAAGAeA+Yb+5koAAAAAElFTkSuQmCC",
+  "Wrangler": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAFVBMVEUAAAAAAABzPjk+JzHChWnq1KrkpnKiChKTAAAAAXRSTlMAQObYZgAAAGFJREFUCNdNjcENgDAMA50N3FL4V3QBmgnaB39GQGL/GajLh8hKTrLl4DcETNcuYKXgoZ0TOq1MO2CIso0Kbg1p6EbK1gtjQ8yfFFgObZjtlepJ0T03we5eBdFD8KwXaiZeMkcJGqJK+4YAAAAASUVORK5CYII=",
+  "Barn Manager": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMBAMAAACpRTGTAAAAIVBMVEUAAAACAgK9egD/pxvylCL1z3b/z2kABwztmDG+Si//3h817Fz0AAAAAXRSTlMAQObYZgAAAENJREFUCNdjYGAQZAACRgYBEFNQEMicpKQpwMDoGhoCJFVcnICkhnETkFQ2NhJgkDJLS17IwAhUCdTAHlwA0lzOwAAA6hsHxDejhBUAAAAASUVORK5CYII=",
   Parrotfish: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAXBJREFUOI2Nk79LAmEYxz8n6RJIHA7m1nDScNeckAc5taTR7OZgUC4N+R8ULi0S/aLNoU10iRaJJMS5m6y5jCJcdCjqaRCPO+80H3iH9/nx4fs+z/soOExNl8R5/6wXFWY1NV0Svdu3D+dPMg70s7lR8U31gNz7wA7omRgW26ggkfAtAJ1Kw6tITZek/SPC2bPo3b7srO6JiLiUmKUNybU2JZ5NeRQFAHLvA/StRQBOW2VXgp6Jcb9Q5un+m+TuPOOQAIBVe7EdxtsA5eLZ5ZsGmfusFxUVxGLbLjB7BTQzyFXtGD0Tm9rEAEAkfIvZK3iCuZV9XxUewLj5JU5VAKCZQeLNvAvSXrr2FFgP665xBmA43+ZJn06locSbefs5zkb+q8BJ1cygL+Q3fegB+P71eDYlyd15uw/dxy+iRog77QMSBpH8MjDclYnL4px1p9JQRtDL11dIGABE8sv+CiYBo0YIzQxSPVqbtcwLGf/KfxZ1qw5jCmT+AAAAAElFTkSuQmCC",
   "Whale Shark": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAThJREFUOI11k7tOhEAUhr8hvsLGR7BYCzMd27iFxtpiG3oqGkmUh1hJ1oaKnsbC2oRCGukIjQ9BfAgs8AyHy56GzJx8/5zLj0HF863fsxJpVZu1fFrV5kLDdzeXADy8fQDw+/M+JCN6gCSLHdzkBeD3noZtGGDDgKvrewCO0QkBkyx25wEewmh4LY7RCZ2XM0DZdnjAWViHvJpkMWXbjRVIC9JfkxeL1zQAuDs3xLSqDRGLVkTUApvtAYCX/W4i5rYwrMrv7ax0AQWW/ofv/xa0iEx6sz2chXWVE4Now7x+fTOPz6fHyblsu7GFJIudYdKqNux3qyI2DCY+cAJNXoxOi+jPiWgYwFtLJlm88L0u34aBW6ORS/0v6CHNX5TeZV5GwzYMnN8BN3URlZzAEwG50Mm133dezR+udKa9/Fgd7wAAAABJRU5ErkJggg==",
   "Saw Shark": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAARVJREFUOI2dkzFuwkAQRZ9RDoKQsJBMASg0iZRqc4McIIqEk9L3cOMS2Q0tFRJyFxdJk8YRUBiJQIK4yaRI1jJkATu/2t2ZfTvzR2vZjhIKWi8Tiwq6ABh4HgD9Tgv3/kmqQGrFTbpYEY6GHFZ1FtDvtP4NsQBsR0k4GpIuVnngtx3gtC95wATRioKgnLm2o+Ql/RQ/isV2lIiI+FGc70139kxcLxNLl/2RPe8lDjzP6Evt8AB++n99/+L69pHJeHoS8gdQrKLebFBvNpjPsqMQYwUa4j7csdts2W22pjSgMAWT9GS09ISiICgHOAaZzzK6vXY5gIbo9eWNottrMxlPeUvCSh8P21HiR7FcKfe0iedUfPkbaSOEfIu2JbUAAAAASUVORK5CYII=",
@@ -8050,13 +8057,6 @@ const SALT_BOOSTS = [ {
   scope: "saltGlobal",
   saltYieldAdd: 5,
   note: "+5 Salt per harvest"
-}, {
-  id: "vip_access_salt",
-  name: "VIP Access",
-  category: "salt",
-  scope: "saltGlobal",
-  saltYieldAdd: 2,
-  note: "+2 Salt during Salt Awakening"
 } ];
 
 const ANIMAL_BOOSTS = [ {
@@ -13214,7 +13214,6 @@ function applyFarmBoostsOnly(json) {
     });
   }
   const vipStatus = farmSyncGetVipStatus(g);
-  if (vipStatus.active && !freshBoostIds.includes("vip_access_salt")) freshBoostIds.push("vip_access_salt");
   const ISLAND_PROGRESSION_ORDER = [ "basic", "spring", "desert", "volcano", "swamp", "spooky", "crystal", "galaxy", "marble" ];
   const syncedIslandType = g && g.island && typeof g.island.type === "string" ? g.island.type : null;
   const syncedIslandIndex = syncedIslandType ? ISLAND_PROGRESSION_ORDER.indexOf(syncedIslandType) : -1;
@@ -13231,7 +13230,7 @@ function applyFarmBoostsOnly(json) {
     BOOSTS.forEach(b => {
       if (b.source !== "skill" && !b.isBud && !b.composterFertilizer) boostDomainIds.add(b.id);
     });
-    [].concat(FACTION_QUIVER_BOOST_IDS, FACTION_SHIELD_BOOST_IDS, FACTION_MEDALLION_BOOST_IDS, [ "vip_access_salt", "volcano_gnome" ]).forEach(id => boostDomainIds.add(id));
+    [].concat(FACTION_QUIVER_BOOST_IDS, FACTION_SHIELD_BOOST_IDS, FACTION_MEDALLION_BOOST_IDS, [ "volcano_gnome" ]).forEach(id => boostDomainIds.add(id));
     const toAddBoosts = freshBoostIds.filter(id => !selectedBoosts.includes(id));
     const toRemoveBoosts = selectedBoosts.filter(id => !freshBoostIds.includes(id) && boostDomainIds.has(id));
     if (toAddBoosts.length || toRemoveBoosts.length) {
@@ -13893,49 +13892,49 @@ function getCurrentChapterMutantSet() {
   return CHAPTER_MUTANTS[chapter] || null;
 }
 
-function farmPanelJobHasMutantReward(job, mutantName) {
-  if (!job || !mutantName) return false;
+function farmPanelJobMutantRewardName(job) {
+  if (!job) return null;
   const reward = job.reward;
-  if (!reward || !Array.isArray(reward.items)) return false;
-  return reward.items.some(it => it && it.name === mutantName);
+  if (!reward || !Array.isArray(reward.items) || !reward.items.length) return null;
+  const first = reward.items[0];
+  return first && first.name ? first.name : null;
 }
 
 function farmPanelDetectActiveMutants(json) {
-  const chapterMutants = getCurrentChapterMutantSet();
-  if (!chapterMutants) return [];
   const g = farmSyncExtractGameState(json);
   const results = [];
-  const flowerMutant = chapterMutants.Flower;
-  if (flowerMutant) {
-    const flowersField = farmPanelField(g, "flowers");
-    const flowerBeds = flowersField && flowersField.flowerBeds;
-    let count = 0;
-    if (flowerBeds && typeof flowerBeds === "object") {
-      Object.values(flowerBeds).forEach(bed => {
-        if (farmPanelJobHasMutantReward(bed && bed.flower, flowerMutant)) count++;
-      });
-    }
-    if (count > 0) results.push({
-      type: "Flower",
-      name: flowerMutant,
-      count: count
+  const flowersField = farmPanelField(g, "flowers");
+  const flowerBeds = flowersField && flowersField.flowerBeds;
+  const flowerCounts = {};
+  if (flowerBeds && typeof flowerBeds === "object") {
+    Object.values(flowerBeds).forEach(bed => {
+      const name = farmPanelJobMutantRewardName(bed && bed.flower);
+      if (name) flowerCounts[name] = (flowerCounts[name] || 0) + 1;
     });
   }
+  Object.keys(flowerCounts).forEach(name => {
+    results.push({
+      type: "Flower",
+      name: name,
+      count: flowerCounts[name]
+    });
+  });
   [ "Chicken", "Sheep", "Cow" ].forEach(typeLabel => {
-    const mutantName = chapterMutants[typeLabel];
-    if (!mutantName) return;
     const animalKey = typeLabel.toLowerCase();
     const bag = farmSyncGetAnimalRecords(g, animalKey);
-    let count = 0;
+    const counts = {};
     if (bag && typeof bag === "object") {
       Object.values(bag).forEach(animal => {
-        if (farmPanelJobHasMutantReward(animal, mutantName)) count++;
+        const name = farmPanelJobMutantRewardName(animal);
+        if (name) counts[name] = (counts[name] || 0) + 1;
       });
     }
-    if (count > 0) results.push({
-      type: typeLabel,
-      name: mutantName,
-      count: count
+    Object.keys(counts).forEach(name => {
+      results.push({
+        type: typeLabel,
+        name: name,
+        count: counts[name]
+      });
     });
   });
   return results;
