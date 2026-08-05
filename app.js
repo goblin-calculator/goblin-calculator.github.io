@@ -45,6 +45,35 @@ const AUTUMN_GUARDIAN_ICON = "data:image/webp;base64,UklGRpABAABXRUJQVlA4TIQBAAA
 const SPRING_GUARDIAN_ICON = "data:image/webp;base64,UklGRrYBAABXRUJQVlA4TKoBAAAvIoALEJ+gJpKt5pODgT94wARy8YKDnDpqWnQojSQp2rtDUedI4PUoUiYNQkGi0a/SSLaa/1WmBWpPZSGRDD7PCASSFBedMQAAAOXdvhi26cL/OqrfHPSlKzrjiHZ688NKXHboTVqBL5FwxGpikBjbVtg4BJFgELLZ7/6bFR9LOFvAfRH9d+C2bSTJEjD37jvCxQz/3NJsA8RiXbFrY7EUWdKS1OMW+yZsBSluuk+XpaEL67pzlKKRzEEyYro8OI9EPxWgM/9HrqPLfhw/1pWcl6FTPymmKxUHEn0e/o/oDrMsIObpisoxXZY+h0SvODLubxj6NEgS1MwjVMjF2T8K3VVyBURpqua9yGpTqRkK9cmhZk6ihIt26Ekt1FBHbW99kqne9jYkQBvHUuiWJhWT9dA0DlsYHNLeQN0SQ6WzFtB+SA3v7qjHUKOjOjQFkmCWOZDE1VQOp0mlhZtTHjLKt6nKr+MJeuVW71LC6clZKIH7hy8Af7xwOHqUsLYmPfSGsLy//LvNGybeWv/T0gJvheVJ4tfs6z/xiz/2Z94XjgC+Efw3uOjLjwA=";
 
 const IMAGE_ICONS = {
+  "Camel Bone": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQBAMAAAA/jegKAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURQAAAMKFafDhxezCn////4iy9o4AAAABdFJOUwBA5thmAAAAAWJLR0QEj2jZUQAAAAd0SU1FB+gHHwUPDXN7Cg8AAABASURBVAjXPYzRDQAhDELpBmed4NoJtPvvZkJRfl6AAADYB8r/0axg4pHkzGqf6hdh3T7eOEjz1InGu715acazAzJfBNFf6G8IAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA3LTMxVDA1OjE1OjEzKzAwOjAwIDsJOAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wNy0zMVQwNToxNToxMyswMDowMFFmsYQAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDctMzFUMDU6MTU6MTMrMDA6MDAGc5BbAAAAAElFTkSuQmCC",
+  "Otter Pebble": "data:image/webp;base64,UklGRqgAAABXRUJQVlA4TJsAAAAvDoADED+gqG0jNlcS4w7A/aeaRlLg7Fm4A3osvDUK2rZhQ4XS/SsQSALbfrEAQOGRPF1Vqq3X1/4NXNW2YzU3gwGCglfmH+hDAIQKmDW3BlikEup/YSKi/wnMjwfu8/9rAMwR8QZQrggm9JUkDb0Hr4+hHMbsTNtubr6ntcbj/D7TUPMr00Q3juXoRAd3N5VWx3HsFNBbAKiqAAA=",
+  "Coral": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAMCAYAAAC5tzfZAAAAAXNSR0IArs4c6QAAALZJREFUKJGNkbENwjAQRd+hKA1FlAHYIGnYgEkyRjxCPAaTeAMaswEDWC5o0oQiOssyMeI6/7v///2zUKnlNm8lZpwVAKkNjV2PjwGAaWh5vM74GDDOSqOEseu5Xt4A3J9rIishr1P+0OY0tPgYGLs+9dQlkYyzoquUqvlain1lytXVoTyGKGEa2kMnIGXVvHJE8DFQE/Ex0JRHKNcpMeOsNHvAeYM1gb8+FtidcuCfqg7nbqXoB5VzYtwE2DiiAAAAAElFTkSuQmCC",
+  "Clam Shell": "data:image/webp;base64,UklGRrYAAABXRUJQVlA4TKoAAAAvDMADEFegppEU6NpDAQbwbwENBAe0rxyzbZtU/awH9Pau3IDY2BCDmgAgGEFUUVgSZfZ85z8AkM3jBCv5q5rSeb9HSNTIVAxua21bky/aIws4lA5tPAtkABx67SmZIDACczLE+0T0fwIsykBSvyv5FjUbkFg/zqDjtwHkF0kGCjdVRnUwHZ86B7apP9LFhvWP7zgsXj/eSXjtd6WbNy8zWHvzv97kjwnAEw==",
+  "Pipi": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4TFgAAAAvCcABEC+gppEUOHd+XqjoIJO2Tfaqg7mYjSkaWYBpcBb7oyiQ5j8A/rvTNWIxBwWNJLWS7h38AwaKAjgQUBWUiP4HzAz6/pHRecPgZiiLzWtlFkQ6QJMA",
+  "Wooden Compass": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALBAMAAABbgmoVAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAnUExURQAAAHM+OerUqu7IqfN/jP36+NOnlMyCgvv492TB6eSmcnWe3////wBU0L8AAAABdFJOUwBA5thmAAAAAWJLR0QMgbNRYwAAAAd0SU1FB+cJFAImNYMXsEoAAABDSURBVAjXY2BgFBRkAAIhJSUBBgZGZRNTRSDHLCUtSIBBKC09rQlEZaYlwSkptew0LQEGxkVKSguB+qRWrQLqg5gCALCQDGnIrvDqAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIzLTA5LTIwVDAyOjM4OjUzKzAwOjAwrPpB7wAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMy0wOS0yMFQwMjozODo1MyswMDowMN2n+VMAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjMtMDktMjBUMDI6Mzg6NTMrMDA6MDCKstiMAAAAAElFTkSuQmCC",
+  "Pearl": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4TGkAAAAvC8ACEC+goG0bpvxhtvuHj9q2bRj//6k3ey0JyKRt6l9fmYN9YxrmPwCk8iP9kHU+MIokSUp/RsDigMIBE+NgBOxB+xeDiYj+h2RLMlgTBjG5xh3174LBrgc4lfCemZkZszM75G5LsiUA",
+  "Pirate Bounty": "data:image/webp;base64,UklGRngAAABXRUJQVlA4TGwAAAAvDQACEC9AEECSv1gD7LDFHIratoHKn1jx9HltIpO2Kf0ncprnYxrmPwD2LSa+Mi6BUSRJijXN7t4JQAMLAlDA0X8gOqL/QQBjJT7q3Iz4Pq9PiFsqXddZFMXswtzsl5KuT5rOVromY8xoWAE=",
+  "Cockle Shell": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4TGkAAAAvCQADECdAmG00iPmzDOK+50WYbTSM+SON4DDuSZBtM5mhDvIC5xAIJDHtr7BTANSq/9sGDCJJirNABPAp2KAgdwL4/HvKqojo/wRg3gcY3GKyrGPS+IyP73Y57jxi5yzp5f5LLqUECAAA",
+  "Hieroglyph": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAANBAMAAABSlfMXAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAASUExURQAAAHQ/OcWKY65pTlo3N////1KciUcAAAABdFJOUwBA5thmAAAAAWJLR0QF+G/pxwAAAAd0SU1FB+gHHwUPDXN7Cg8AAABNSURBVAjXTYrRCYAwDAVTyACmncA4QXgZQEj2n8lHQfG+Du5k2DAiMn26XzgocHJKYZNSnVmoFI1AhFG+ZJv8zVXNnxJYC28qJm2ifT+VShGU/Cyy+wAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNC0wNy0zMVQwNToxNToxMyswMDowMCA7CTgAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjQtMDctMzFUMDU6MTU6MTMrMDA6MDBRZrGEAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDI0LTA3LTMxVDA1OjE1OjEzKzAwOjAwBnOQWwAAAABJRU5ErkJggg==",
+  "Sea Cucumber": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAAXNSR0IArs4c6QAAAHhJREFUGJVjZGBgYFDTdvnPgARuXd3DiMxnUdN2+S8iqcSgoKqELP4fWTETAxZgYufCICKpBLeBBSbx4PY9FNMQbJf/TMj2P7h9D8VEmEIM69AVMjAwMMBNsXJJ+48hy8DA8Ob5PYRJx/bMYsSmCMM6bApvXd3DCACReSRMTFF5KwAAAABJRU5ErkJggg==",
+  "Vase": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAARBAMAAAAWDSDWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAASUExURQAAABUWJN9qKO+XNL5KL////+wqkN4AAAACdFJOUwA8WfyxvwAAAAFiS0dEBfhv6ccAAAAHdElNRQfoBx8FDw1zewoPAAAAUklEQVQI1xXKwQ3AIAzAQFMxAEgdACVMkDAATdl/pqaf+9iADOByS0V0cNlJq7ptCJkZ13kH00SN6ZKruvsk0k3oyrPKkf+P/Mt9nkbpvTdI+QA77wtj+APd5wAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNC0wNy0zMVQwNToxNToxMyswMDowMCA7CTgAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjQtMDctMzFUMDU6MTU6MTMrMDA6MDBRZrGEAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDI0LTA3LTMxVDA1OjE1OjEzKzAwOjAwBnOQWwAAAABJRU5ErkJggg==",
+  "Old Bottle": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAAAXNSR0IArs4c6QAAAOdJREFUGJVjLLaz/L9ZjpOBgYGB4daSfYwMeADTZjlOhknCfAy22dwMajFO//EpZvn84A9DHsMnBolDbAy22dwMDAwIDeg2sTw/coiRgcEOrgCiAQac/iNrgDMkbez+q/pyoVirasfKcHjqV7gNTNjctkxWi4GBgYHh9qHfKH5BMZlXgYVhkjAfAwMDA4OOuRJD1ONrKDbATX5+5BDj5wd/GHaff8nAwMDAcOXkPRQbUExGtiGK6TeDq6E4Q5vUDwYGBgaGF5d/MXx+8AdTMbKTYODzgz8Mz48cYsQZY5I2iOCEBC8DAwDfgFI0tv9rSAAAAABJRU5ErkJggg==",
+  "Starfish": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAALCAYAAACksgdhAAAAAXNSR0IArs4c6QAAAJNJREFUKJFjZMAC9nnp/4exnbZdZESXxxDY56X/31LnM5x//AovhkYmbDYRAozozoHZwm4hxPDzxDu4bcjOZUR3DkwDDMA0IjsXw3nIGrDx4c5jYGBg+F6m9B+bQmSbOLvuMTIwIAUEzN0wDTDFMD6yv7CGHkwDun9QnIctMDi77jEiOxlmm9O2i4xYbYK5HUajAwCR0z7MKNOdrgAAAABJRU5ErkJggg==",
+  "Sand": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4TGkAAAAvDUACECdAmG00ifmr7Hsg50SkbTMR8y9t7OgmCLONBjPD4Z7IPQUCSTj7y6wTALW/t6kDg7aNJGvK3h2AqZbBDIKdLoD7IvofcP8XwM4PuKv/C3baH3dltq/lyvTUcvVUSLYGIWkAIQEA",
+  "Sand Shovel": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAANNJREFUKJFjZMADJERU/6OLvXhzm5GBgYGBEZ+mF2VnMMW7TBhevLnNyESKJp04FoYXZWcYJERU/2NolBBR/f/DMgurpiuL/sD5GBpfvLnNyHF8GoPA4Xk4NWHViKwZlyacGpH9iE0TVo0SIqr/z+RpMuw7YAfhd5mgykNDlRGmGCZxJk+T4daJhwwMDAwMUae+Mbx4c5sRFmAcx6ch4hFmAwyga0JxPhKfBcYwmXSdgYGBgWGZGReGJgYGBgw+1sAhBrDAnLfMjIskjRiBg81Z2AAAGUdnQfZjAO0AAAAASUVORK5CYII=",
+  "Ascended Chicken": "data:image/webp;base64,UklGRkIBAABXRUJQVlA4TDYBAAAvF4AGEKegJLat6Muvd8lukfSiJVV+ARxDDaWRbDVYcDmpP6gscRRPO7SQGdW2lYoZiwjMpADR6eApqOAOXwiybSo2+oM9AAH//486zMlTSvZs4A2K9KhwjEUZwYpH0EnwX2dlCTtrVNSFrT43eAMYg8PYtqImBJevCe79F+v/iCW8G9F/Rm7bRpLlWX3qMz4PsfD9RdjNv/MGjB3aQolpSllU2SR4aGlxiUU61u9hjW6QHB3patxJnkPpAQM3IFUg/mADgS6pC9juXWZNbYiNqIAu4/auAYThYpQUjxQGK0BwGdN2LfGo8zBbWeSSpKtbYm8m99S1AWdn2evcciqos8sQOmlmOutcDhFQ59uzC639TbhXd3YFy0/2KPtWlCX6oU7cWo+8erDeEivxIqrSfHpO84sA",
+  "Ascended Cow": "data:image/webp;base64,UklGRnwBAABXRUJQVlA4THABAAAvHMAHEG+gNADQhP8fo1mGSXNri3tDUdtIzmj5c1sE9dkPwqkJgIShGOmJoO+6DEABCbJtKjb6gz0A8P9/OuQo9yzLIU7mrUwbb9PkEOGSPJgBrm3tqZS/Gq2c3msIDiWtQ4I7yeA+VuNON9yS1t0fL7nzDN8f0f8JIGCGnDPkVgH6R5RUwDUSeLnjP1IhH33/j/sV6bMo72N8O679zOcd/2ljGeZDxj/O+JCZA+kYtxy3JmLiuLUixoEZsSV2mJnBqJ8nGHHs2mudDxCQri+I7q7OndZYgICZ2M5wQ3dX50A+MUsATN1wJYCBukzA2qwcrqkEZN022S2VOS2hs7UNQYcwwxLINAvrukXoXB4wTaJEwKYUMMysmgazBBRlFk4GhwnFpj0toaQ+EJbXeigNM6uD5hvr5FhJKIlD9iwUjWRWOue5kFFSSVMqw9hl5HMA2HXtFXXWQ1FnPZAjX/KAPBzwygxb12WQ89qH/B1kAw==",
+  "Ascended Sheep": "data:image/webp;base64,UklGRoQBAABXRUJQVlA4THcBAAAvIMAHEI+gNrZt6M+Pd7t21C9UgtSIRdpQEttW9NXXO1sGaIyjBUEIgcT/gU0AAGlwreCagLhk1O2HINumYqM/2AMA+P891wbj1ZveIyyFcq/QLbE2ZexoXuMZezlrDLP/zj7qIQwOI9mKIveL4OKF+YcrHiHMRPR/AoaHp9JX+dJVz46rnh+4nu7rOYDrfrqe7ybFHZM7Tso7JkHJnIIMX0512pkyO1OdhtcN6mYiX2GzDrRHLq1upnzPZm1L63hdDuce0JuXw9ZdVIDZSFAhgbMHsKht8AABolQUBeMAGuAA6oHEv1SbpVnwH0cDdeiqR/ypW2lHoZWt/omj6fDQyJd7/uRow+Mxsqa6oSIpa4yPNFJHwA4x+ijShfLb5o2SLsQTL0CmL9cYfVYpKd9TKm8sdS4poyhS5hrjC4umLFel6PhKI2UVVWLsviMLKF8ZiSwKMX53+53JK76jU+pMjBrMlM7wSh2vRd9x+ZDnn/D6Fd8+4SkA",
+  "Ruins Flower": "data:image/webp;base64,UklGRjoBAABXRUJQVlA4TC4BAAAvD4AHEH+gJgCQhhYk4Ft6UsDSlrDFur12DTUBgDTw8W5MYQdzmNbbAubwXopi26DeyqeDsbNUThtVJJFDAQTZNhUb/cEeAPD/HyNK7JNC8nGzkrhN7UDtOA2HNLCsocpcvBqgStumuvnCySXEZf7cwQG/M3vORDI4KjODyqnLRFaxjy8zSZKkWtm60K4P7fQaIvo/AQAQgnL7UHV1E1Ldqp6fFP7wW8gPlKbDN9PTQGn//GhnGmxsql6fmILc2pmY3tmA/Kru7dV+A/Jrvlqb+KmsNb7nJ+LvzlKjUbG7cWfJaTTyVncNm38NJyvXYMeaDV3GwXl3TQiLdQ1hGF0vi3PDNCywuF3QLQ9YPJ3n3AMYyHLpAYAEF0NEQncDRCSihAgRaUTuIfoXVACGAA==",
+  "Moon Hair": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAoCAYAAAAR87HlAAAI0klEQVR42o2WeXBV1R3Hv+ecu7z38pKX1WBC2JKYkkAFQYpaLIoLdtF26ouibaXVEZ1WtEqnVYs3T8bqSKcjMqBVKMUpLmSstSqtUtQU2QuyyCKGQEJ4ZIX3krfc7Zxf/whEEtH2zJy5M3fmfu7v9zvf3/n+gPOsaHStEAAWLXpodPKVq/fRllmK2m6QHx14lBbs+lg2xV/1Nsbf7jh44qX5ZEEDACKws9/z4UDLsvjrjfVSLqKKREXVG3NKF014IDSfVts38AWdP1BzUs/wdw6ktbXpolI7pC3BbbNXf9JphQGws2A2jMipoYHYN09XPHbd0nWxb2+uO+6XyFa9VLgIYIpoR6SnObMxXr2tI1QkJ7sHq6quMMeofjwvJr5xL62NClbfKLVzmXeXfU+ggclx17/32IKJO+sSgTJvV9Et+lXJ91Re+l1CPP0sth985srYpjYAoEUllTJY8yFKcqacyxmMlMjijMUUrSmvXmzP29tWXWNcG97O/qPNYNcVHAE+OiwXdy78Kx9Znv1aON345PXH3mNsght/7uraknFihHbd5R8CMWIMNKS48X4qLX31kkVHckfftaT6Ljkx1KkVZ47ju5FdaGyuxza6He0JoCyXkKe7r0wqN+fWT2Du8HPRvmWRljr5Ahsz4yePrfoYD3yintIzyTibjy3aYXcmZrAd0Pt70JdwcKBfyavG2rStTfHCovCcve+3Ft+4cN3WESNrVvxx0oPVEKX/ZlNf8HhTjPlmUc30dEfbb9dvbw/vUJXmcn0VsskEKLEHr5u3wM8pxkWBPaDO/aLllNDMgMnLVKdyk13XVky4YqFZVry1IzBiHYyd18IiLkbf+/b4YM+xH2u5hdPGh3rVjpYu3pE/FofkKPy0fDNaRRjjQlnUFh7BKLTi5U0aEidP4NDBz1iio0MaF5SoO6bvjuwL5og/H55btW3emBe1iRdGNo4oqijKq6imXhXkT/lPo4rtwqhMEgXNNt6trEK9/y/4roaZoz/Da9e0wvMUHBFE2D8tdlYpbFKFSm9J0v6+yql/2yd/p6n+3qJ9vQlZxovEyBERmJkOzKQNQGEZbu1ZgGnOFuSOOA4U5wJGAKVVAXwgbkILARndwx3aJgSO5PEDLSZaT/VjZU/mYTHhipseNHLyzfZP96H76Gdsu12NC4WD0aoTuwIXYSHWYM3pGfh9342YUNCFh/p+hO5jpzCLf4jXTn4DrYc4xp44jJeOTaZZ+gkcPtrui5HTb+UqXHaNnehhjuMgUl6J7b2FcPt64eYXIyRtvEVTcKW7Fys6LsPUnt2Y42zAsx3X4M7E20j2KRzvK4HRHmc7U6VsVPV4IVq2NG4yL5iUGpnaWVfoHM11OpqRl21mGdvBuu4adIZG4xHvFYzzu9HVH8B+eyQuQQsS2Rw0JwrxCF+G7hOE1Z0Xe2kVVL3dPU3s8XvumWzkiMWnexPTksm+MOeE/KISBi7Qn8piM5uMcp5FVgLzijZjtxyDD5ITwYSNXxWvR9IXaku2hnuSbtueHLM1dHxjh+YIdjs8PosHwzKkOCkiriBgGgEUFBi40fsEGdLgOA4+SI+DySSmB3aDA1ifrIRuBDGywITOZNuKFfOPEhHTBPh+z3Nh6pqAaSCVSilSBiciEAG+HoYJgmkEwPUcEBu4LQlADiMwpaAISNrchGXxhpkNnD++bNkqH3K+57p7XNs+FDAM7rmuUkoBjAGkMPADBXXmSaQAUlCK4BMAIgXhK8Riqu6COuIA8ORzK5Y+8fyLk7K2e6kv5TuG0Ljnuj7D/7WUpusckhlDbn7LsjgBbHljY+qU0G92HecNQaRJKRVj50VLIvKJSAZMU3McZ49mmocsy+LRxqhiQ70pKmq7ulhZTQ37NJteo2vazXowqLgQAgCYHgYxBlM3IASHUgq24+zOOuo7i5ctjhMRY4yRdq43xWIxCQBoagKA+l/fOXefZ9t16myKyiahaSzryzdDwVCblHJHstd+a8nqJQnLsjhjTAEYcMIzQAWALfz5vO8T4wTQRF3Tx7qOS5n+Pu7ZNphJpOsG8xx3k3T97V2n+w6tfHVlYu3ataK+vl4O2slZ4KO//M1s0+ALuVKXM8ZAADzPAwFQvo9MOgXyBy55XdOg6zo81467nrfimb+8bA33KHb/z+6eXpBfuF43jRzbcXwGsDP2NVBLBigpkT51Esr3gYE0lRBcMzQdtusu5eAPhysrs7FYjDgAEkCpk80Es9mswxnTBmAkBiROICJwIRAM50LoGtiAajQplbJd1w+a5n0QdGksFlPRaJRzy7J4bsWFf8869lZOylRE8nwaOgsO5ebBDIdhBALgnHOlFFdKQRKG6jQWiykO/ot0OtVNcjC986EBAIZhIBAKIZSXR7mRCJNKtZJEKwBWW1tLoqmpiaLRqFi55qX4ZRdPCeiaNksBxDn/ourVMDdmTAWDQU4MGxb/adVz0WhULF++XHEAaGxslJZlaX9Y9cKi/kzqad9xiAaa/3/2KBEREyJy7mAyOKA1NDRIAFDx9ifcbCbj+z4HiL6KByLm+T4jomUAqLa2loZOfWd6XHR35/B4C3P7++DYDhhoSD3PDVEIwaWSKRFgW88b6WDZIhHFsmmIeAvcVBK264O4GNiMAYyBGCNwzjQhiBNbXjetu9uyLHGmK6F9Mas0iAvAyUCcPAqZTiJ7Zqol6cKXigBGhqEnnUjk9vJw5P39+xspFsOgFLUvlY7QQLYNmWobKItgYGAozzcpqGs8N+T1zF315j+GT49fDmUgUgqmKZBfFITGOSpKguBgCAcFQqaOrOeLJffNNu9f+s8vTn3DX/hSMYPpmu9LKsozcGlVAXz5+SFJqeB6ClIq+nphVp45wSGR8mFJM6bBAyihC8FIEbm+gusr+JLgS/pcZF8hNn7OdUUNAFu2YUcvuJrtEx3VdY0bgitD49A1NmRrgn8pdEj6MUBZAI+9v23vPVOn/jCbY7zTHE+VulIRGzQrgi4EPF9ifN75of8FWk92xvd7WjoAAAAASUVORK5CYII=",
+  "Rice Shirt": "data:image/png;base64,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",
+  "Surfer Hair": "data:image/png;base64,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",
+  "Salt Bottle Onesie": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAoCAYAAAACJPERAAALcElEQVR42o1Xa4xd11X+1t77PO975l7P+Jl47HEdtyZ1nKQ1DbEDmJaGShHBrsSfqIAolRAKQv2BEJoZfoCQUFMpCBEqCEhEFXYUKqVqIW1hDLFDUpJiJ+Mnfib2eObembnve87Zj8WPO57aiU27pX1+HG2tb69vfXvtbxPuMY4cOSIPHz5s/+Ibr36FpP/Alg2jv+4rOdpqddj3PZrcfj8uXrqGxcW6+4UDn6JNG6rHm53Od7ZUi3/GYGIGiIjvFpvu9nOKWcwQua//w7/+sRTenzhmNOp1jFaKcM6hP0gQxxGSJMVopQCww4YN67Ft4j74pP9m2+bR31kDuAvwR0CnpljMzJCbfu7IHyap+dNqtWxpuEquNNsgAMVCDrWREpRSMNbCOUatWnYjlYKL4rxaWlp6QX36Y797AHBE5H6KTJkA4q+9+N3T19+/ubPX7XJltCKcdQARisUcnjy4D3Hkw1qH4YYI1los1FfYOsG+r7orgxubnnrssQ4z04ezVfeqaTJI9MT2rbSyvMQAgQiw1iGKQrTaPQwGKW6PJIhAJBGFvjj53vnspX9/7V6hPwo6NTVNMzPg/37zR//78Kcf/plSqcTOuR9zwsDcuasoFXLI5yOw4zXOev2EG8sdev3YG5dP/N0RDTAR0U8GnZ2FAODq8zePnHz7vV+tVkvMaznR2jdXzMPzPFhrhwWXEkmSuOsf1MXy4tL3gKvJ/v3T6tgxmJ8IeuwYHAjYtGf3k83L81i4uUAkCIIIYIZjB9/3USqXUKwUEccRmIFBf4DlegNJ6pBfN0JgJhyYxk97ZIiZMfXqG+8Wl9sfjyQ7JhLZIAWNllH2JDzLIEFQSiFfyIGZ0W62sZJmThUKwkrx9ld+8aFHATAIINwppDtAmVkQkfuPRu9TF85e/cGY09GmDVVBzLhab8Ibr2FHLsDyzRvIdAZaVS1IIPB95Ks1XNHs5ucb2eTWjQceX19681bMe9J79OhwE/Xl9iGjXU6Qs4NBijjwkKuWsbmSR+P8WZw9Owe6bb9CBbDM2LZtAuvum3BJpRJeuLm8D8Cbsxhq5HYccSfoUQBAs9ne4+sMylMAAcQMJyR6nQ4uXTgH5fnw/B9P5XnwfB/XLl8GJwkRM7J25+elFDgA2HsK6RYNHzDvePX43EN5q1EdrQoHRj/TEPkQ2llIpeCcAzPfXheAhjVOraVqqYhri/wJY6wkoo+Aig+3o/9ZSqVNsnIl9MAEgmNYEohCD2OBgmW+u/pAsAyM+FIIOBtJtfG779cfW01I3hX06KqouvPzn1WOWClp+/0UjhmR72GgHQQBxhgQ0V2nMQYChExb6Mz4lxZbO1Zj353eudlZ4qkp8ZeJ2V3xPcrFiouFGARG3zIAhyDO4b6tE7h04TxIiGF7AiAkYJmxZcsWFIoF3Oyk2FiI0XH2aQDfmJuepUOHDsldu3bRGuhqUzbTzHnvjTMHbTKAyxekdQ6SGQOSGIsDhFLi45/cgziXR5oMIKQAMwASkMrDxPZt8KXESMywpRxOX5v3zp8/H+zYsSP9SKbTQ2r5WIrN3X46OuYJ9gMfzIxub4AOJPKFGEtJG1Euwo4HHoBjBjNDCAEwwOyw0u7CpBorDLmw2OARIR8PJycnn/3tZ5fyOW+Py/RTUilSAHBgFmIGcHqx/nQtjmMx6JrA91ShkAMYUBCIhICvPDjnkKUpkkxDG4tCHK515ijw4YSAyiwmNtb47HxTXQIqFd993g+iP+9bBynlUEizmAUz09z8isfaIJ8Lsdzs4N++/zoybcBSYjwfIAx8dPrJUFxhgHwcArcJSUmBXC7AeBzASAllNGZfPvb8WxeWvtRqNxlSphACgplp5oknTOB7HGfpr1G/D+tYvPxP38bXv/a3+OZL3wKkRKKHx220lIcQApkeqviOY0ME6xiKgFZmRWA0yvn4Qe3ldrbaHUvOBO3mymtitZ74UUvfpzNX8wXxKy9/h9564x3kQh9vv3cOW8o5BIQ1GpkZvUEK53j18qZh/fsJrGVIAGEUYOO6MkiQ84t5e/JSR526WH/p/dbSF9Stel6dn3+kFEe1xtnz9r1TZ2Sci9C4cQMTe3cj8hV8dshWGwMRoVLMgQC0egNIIZCL/KGoBCFPhICARruPQAjesHMHnXr9h0dOnPjPZwA48Vf1o8zMtJLox7VlnHn3DJJBgjRNUK6U8Jn9n8HNboJeksI5t0YjM4PB8JWC70kABE9JpFrjxmITnX4CEHEIiPFt99evvvLcl4hgp6amSBydm2Mi4n6r+3BsLawbGrBeu4O9+x7BxK5J9BYauHKjgeuLK6ivtNHq9IcCYyAKPRARMm2QZhrtboLlVgdpL8G6sRGM+orGtm622LuXmUHT09MseHqaL3Y6Y91El9hodqA1X8PMkKGPvBRwjkFEyMchSvkIYeCtComQZhrGWJQKMcZGiqiNllDxJdrakskyC43a9y4u/vJqCxOCiPjksp4shdGubqPBVy9fE1IKaK1RLhfAIMTFHDauq4CZ0eoM0OwOsNLuI800Mm2Qj0KEgYduP8GN+gqUlKiNlpAyUIoDHolD72ovKQyPJ0gAQHe5ecAmCYPBWmvoLMPYWBU7H9mD9cUQ66IA0lMYr5aRiwIQDS2nNnbNmGXaIs0MyoUYI+U8Cp5EpRADSlK/10cg+AkAmJ2GU8wsnj9x+qEyiIwkZhCWl5rYv/9R1NZVYa1FlAswyCxCXyH01dA10JB+5iFnjoe3UD4KYZxDLCVAAkYI1BTQ6Cd7bxlv9S89jNneYB8GKaJCUXxixyYURIb9Bw/AWYflxGB7IUIQiKHHJYJlB60NpBSQYng7hr4P+AzHjN4ggQDBANCWhR70WYvCxH+tdHcz87ui9/71z2rIcR14TkoptlQj7N6Sg24uIFUSmyIPzg3TSbRBP0khiJBqsyYuXnXhvCq+KAhQiAMIaxGWC6SccwGJuNHTv0JELESWfLFsDVa0wbznwVRqaC8t4eJbx9Hu92GcQ5qkUFJArNpHJQgjxRjGGGhtECgJYyyyVENJAV9JGG2hjEFiHbSxGK2V0UuzJ5m5oBaag8/FWYKdxZxYSvowEw8gThLUSmUEUQ4LKx2kBBRSjcD3AAD1dh8AoI2F0BbdVK95pqTTR6YtBr0+6omBASDGq/LUucuIc+G+uc1j21RLG5MXJIQUYjTyUSNC7cFHUTcWxlfohAE6zgGpAycJnGP4UiBSYnjDOEZmNRLrQAAiKSAEAWEEPwRgHT64dB1brMYHXdjvX15wysvn1ZLvo99u2fE4IEckRiTAvQH6Ky2MURFx6CEOfQgiBL4HrQ06/QGSVMNog1Ap1PIhlFQQBEShjyTVWGw0cbXewrivUFAxFg04inOsrpy9+NXRDWO/ZWpjH+v1+8j1u7YqiVoOIrCMEWcxEuWQC32sPmfgPIHYV+gaC1I+iAi1fARfDU2fsQ6JAMiTuGYN2tJHt586Wyp5515/W8m3vvWPJzgZ//vS+spNDvxJHhmptq0jp6S9f7RAXpoSE1kCnDGWO72B6/YSl2baNVtdbnf6TATWxpCzjpIsc2lmbK834PpSi9sMDuLQruTLqj6/8M6VK5deoENHWB49PDTEP/sbXy3sO/j5Z6JC/GypWt22e1MVSqcIvQBdY9HTFmNxsPYCuvU2ZQA3On0QO4wXchCCQCAY55ARoaEZp06eeWdh7vTnXvyj36zf6ux05CjE4VXwZ6aeKxe2P/jFnO39fiTspC2OzFIYLztmUkTsPmSaHTuVXb/8Swoci+r6H4gov8TOSVLCep5PjcXlH96cO/viN2e+3JiamhJ3+g1mOjQ97R2dmcn+4ODPbaUNk6+RkNvb509/8oXjx0/i/xm/99QX/jpfKHy5022/8vw/f/vpu6251Qb/D1J9+K96ejOYAAAAAElFTkSuQmCC",
+  "Ascended Idol": "data:image/webp;base64,UklGRiwCAABXRUJQVlA4TB8CAAAvKMAKEL+gJACABP3BAyp8YTYfXJPLDUORbayTkUD/LmLo4UhRJEnN3ZH++EACdjCKDP4IyBkIsm0qNvqDPQDwvYNHN57lyz5q8ZQFZIW1dWi7gCRgtAgZ2DkiNcng7TMT1jZTZRkk1rYdpBIGR6KMz5fEh/3XmoD4K7gnov8TMJ1q01+1WX/Elhn9CVuYL9jPbLL7cnlKV5vsJ7ZI98sTdDUt+oHNCwcWZp1msEAZLzCjk+zelZp6le5upz2XUpsSSLUsz9P8/oRuWHnC3c8rVRpUiR88nqXbh+fjtNJUmwZNtYlTTPAoH1X+IwmKPuLhmL6awbsm1Vab1PkMp9zKp6rpU6VPU9WH2xmemW+lgqSPVCUQtznjJ7BSgCpAAljJJ7yso1RAEiDWzl5fxMuUV0oVan1FYiWbXnGIxMu0lqZKG1ObWE2vRBwgYXJUmjiAhDlSInZIhGVwFapoqk1UgXkGRSIO/cs4VDUVSUhVDpnrETq3f9kz3lWp84zni3nHAdzENeOXPJZn5CZi771FgsCN9Zrx29gzl9WNIEFs7wEpUoCvkH0de17BCVKk6N6CIEGArzg2kLPiAQmCjbc6OojesR5imLrtKyC+TOM9AbFzbmygPWIQX8QgtgMCCBIBhwISwQZonz5gC2AUsAVsvfqpk8Q4jm5jjac9acCBbaj9SdqTxLc6OvVHpEM6PI0PnT0d/NH05Q+mU8+YjgIA",
+  "Astrolabe": "data:image/webp;base64,UklGRtgBAABXRUJQVlA4TMwBAAAvH0AKEJ/AJgBASN7pn81muzY/BdURQAPuraEmkqRo0rsYG3ggRjwOfqIfCaitbaUBDJ1r5DSys7iLtXYcKg5Btk3FRn+wBwD86MFHyzI3VqHpqBwG7wvfiNfsz33E84TVjXlWnOMZusn2jTSBAWIjSUIjMF4wZ/4OQ/7JHrsLn0FPRP8ZuG3bSLaAzhvfGNKsMAsYHmblo3l6zR/B05F0jNPxkbTyUHGw6lFnfXxWrzQr1f3umkbza8part9dS5r10HiUwFbW49KAAwOK/xJdGB2ik2LpGIPt2kri8tISerHLUNtK4vTSFNtpAVCnHtOFqJ2tcEOjs2jSok4jQxLXJzgMx97xd2lALZu5moTTtlIbYIMFepNgF06qQS3fq0C8p29xz7vYW8fXAG+n7Z5G/Ra5AYAbqVAbHqi9KA2o+knSdADKDNtu4OJHYd+3YbiBJLmR0QiGzb3VJE1+NyvxyQoPrqlvoGJAuErlDeTasej3VwH9Fh3memNK0sxJy6/SgIqWSaE57mHuaSnvwMgsyQBJGgngaecyj4Aq/gXL2W6wUxc64wssxxomlxO5WMPed82TOcTeJDOA3RvofZZM+LfwL/81GG7C0xUA",
+  "Salt Worker Gnome": "data:image/webp;base64,UklGRqAAAABXRUJQVlA4TJQAAAAvCMACEG+gJgCQhj0S0IKPDAQjtKc1FEWS1Fw+vjm6wgSOsYOaACAYWwgvBVxKqwhBtk3FRn+wBwD4/1+tkiBDQIAgp5OrdoXZieJpG++1OwtsYtuOctm/DOa7iAiWDgdxwNCmzKSlwkJadqgQgL+I/gcI4AJwvYKLMXC97yveey+zMUu2WnsU/f819NM4UKsqqKYA",
+  "Vibraphone": "data:image/webp;base64,UklGRlgBAABXRUJQVlA4TEsBAAAvHQAGEO/ANADAJHOJWHZJ2jiG63iDZyBZc5c32Ea2reS7ZS7Zj3BoiJjOGVpwYRMAYJJd9trpVgEnIY0oYFX8dYJsm4qN/mAPAID//2/kBL1/hjbLwCdKUPUoywRJTb1Xb+gfTrmMlXBXkoI1TolwPT0q44FcsxdyTh1bSyFBGmb1sij3SjsDJh4UomOA2EiSIukYlpnPfzth6f4dyIzoPwO3bRtRXTcfctjbSf3lWa6edj4rgXx0k2qvlplsLKh2QH/zDRjVOdVa7ZReLYAn8BWYq3WFHXBTU2AmOASteeybWgFXYEUb0MyWCtih+YrVSF03uBSqC1zmDUecadddhln315HXMLvdrna5z3sBQ/tZpo2WFy+cIDizs0GAszLtLlBlfzMbP7oCCfBQTzOxWgG1elMzdVRPf7DoaW/zaTARuBkTgf/d4TcAAA==",
+  "Winged Vase": "data:image/webp;base64,UklGRvwAAABXRUJQVlA4TPAAAAAvEgAFEGegKJKk5pKfSPRvAQP3xAE/bJgJwGLfIizFUqiggHhufdRwMhJJyvt3r78CAahCXeIwWCwE2TYVG/3BHgD4/78+b1btOGF1aVE2gqprzUmWKILbWtvW5GtxWMGqVMgGblWkSo/XfDkMEKGidffK9WvRtSKHFSL6r7ZtG4bpY94AgPF2C+ZoqpLdrFWUDTuLHTBkOnaMQ/RTFUsPhnUQ+RfFZehAjp0gLHAlCGcAIt2ZHAA7oYYl8QwAQA3Ei8P0GqoS2k0UVTWroyqVnIYCIqYN7ULUF473//nFotFnx9DJJhIdA3SMsIGR5gI=",
   Oaken: "data:image/webp;base64,UklGRvIAAABXRUJQVlA4TOUAAAAvDsAEEHegJpKt5leJWIEDymgAP/jvsg01kSQpZwCeGaL38f79cKQmkqTo/sMDEWcA/5Ygooj+EggkgW2/WACAYKMo4w5fDmYMNV+z1vJdZ2rif4ZzSL+gPjWs4ES2tTd5dHD5XFhDBodC9R2wkOgo4ujgSE80TYf5PPUffLUo5t/EzyIi+j8BANDM42+/92fdrStr0cgBSOTxuwdwklLeSzCvPymFBfMqhFDWQoitolrAynVdt4TlwWCDXTz8Ghvhq5L6H36FXB44B2Z3CO0RDp1PFVo6IZt1aLZONCSA1AwAIsoAAA==",
   "Squirrel Onesie": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADCElEQVR42u1XX0hTURj/TW8TbEOZqRtuNEvLS/6DCEpQhFDBHgJlWCQbRPRg9CIRQtBzghQRrBcRFCxkFPjQxdZDIlILX6xtLLDQuFPnQrmy+7KxrIftnHa36737o9VDP7jsnnO++32/8/07O5r1Z8M/oQLe7YG+tgbl9ZaMtWJDHXzjEwCAxhvXkSuYbISsdhvWplyyBLJF09UxVAW8dBxmm+B9fgdFuSri3R4IKzx9tj+8hRCJqn5XFfDCP7uBMNsE/+wGJaNKIPBygXpBWOFlZdi2BgiRKBYfPVXUVTnSg4BjD5UjPXQuaw/4nNPY9K6iZMSFyOp6xnPy8RzMJr2iju8PXkt+sybgc04DAHQ6LQb6HbAvlUrW08dKOMa+yS0JhUgU5foS6HRaAMDMi0nszd5DzbkWLI4msn/hiQ2bapuoLkVViut9N79iC4BGrQxJDuh0WrRWdGJ5ex5H2FOothgkckG3B60VnRC6zAdThu8nE64q15fQueXteTwMlwHhLQBbmHnFYeByf3LViGHMw4rBwgjwbg81LFdep0/U0vf7t2+hoa7+9+JOqLBGRIwTl/8JFKUbt9ptsiREMaaoqNnP5UWASW+560sfKYm1KZekEkQxhktYltdk0sN6ZbAwAgAyshuApMEENyOyilKTFQCc7m8QdwUAwF1bizoBUYwhHspstem5YDbpYbXbJLKfk6XqG5+g8r0AOEN79jnA9nVAA0CTHK9NuWTjTsLDGC1gjJmnI/lGFGNo9nMY6j6uHIJiQ510RhuluyO7IUrlKoMxWtA4dA2LoxM0DET+gqMLP3a+5N6Igm4PRDFGDZIkVILZpIel+3z+Zbgf1MrvwPrA38K/RyAe4qnbOUN7VvE/cA809HUk4r8r4NOZ3kM9GzIIMMmyTCWRCtKe1eYK8gAhMXzxKNqC72QNxkM84iG+IOMAoAnNOVUvJqktVq4syVo+fYDJRZgYJzcgciMqpFcU5Ws836tYXh7gys7ue6yyfR0Y4xJ/xdjDygElqB02/1uxGn4Bl6UzqBU+pqIAAAAASUVORK5CYII=",
   "Walrus Onesie": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAC8ElEQVR42s2XT0gUcRTHP5tb/gnXZckd0wbbTRHXckIKpYMGwULRoUtiIUggQh4r6uDN6GLRIUiiSwRif5AOHTIWwjAohTA3Uw/abrEZTuQ0K6u1RNhB5tforq5/ZrEHAzPz+82877z3fd/3xjbVfWGBTViGq2Qzj7ONLTb7ejaPDIaQZBcAjiIJgNkPbwHYvf9QegEYztWIlrCmRjTUSICDx/3pSUHXwyHhqH3UTfuoGzWi4SiSxD3p/G3udz5eNwDbWkg4MhiitKac2SkVTl7lWvM5ABpz7YxOa7zb6QCg7dSedadiTREw8g5w8exZcX5LneOFLfPfWvdHXnY9spYDRvgVj0bHqx/UZUUZwY02Hyf68zd52dvR5uO4cjJp8aWBhIrHiSS7ePpkiBZfHj2f3IRnYuzz5LELwJ4NwPcvM9wdg7qsKEetBBAM6xDWqT68F0l2caX5DNc7blLm9SySaEcuAN5jdVQoPuRfE9ZyQPE48dd6Ka0pB6Cyyiecm61C8VFZ5bM+BcGwjrLGl70fGkO2GoC/1oujSGJiYHwR0L0exocnE/Z5iwspCPUhr1OMUgII9Ifw1yJ0oO1O8jIrCPUtue4MfCYW1QG4fFrZuBB9+6oT6A+heJwJmrBcloNhXfDmdUaZuN/qL944CR1FEv5ab0qBMqdMkl3EojqxqL6qcwD7av18uDewpAFJskt0QTNAQHDE2LsQz+HSiQL+aJMb54DhXIQ2RbU0NlSJ6wNWkFB8bVgXirhymtIwkBhhTQrKIluVhIb6mUtydkpNOCYGxgn0h6yPQM+DN6KszKKULCqSrFofATW/jLmSakFCNaItDiXLbHZKTTqqWaKEsajOERMBV5oJVyLopgAYEjrcG1hCwEV59grngisL8fSO5eZQG6RTPE6RlqxCZ3qm4mBYF18fDOs0tdbT1FpvSWnapp93ppyKzeO22fHyNbMSWpoCNb9sxbba2FDFjWfT6Y3Aapaq2fz3P6dbDuAvHj4tyY+4QRoAAAAASUVORK5CYII=",
@@ -676,6 +705,134 @@ const FLOWER_ICON = '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAk
 const GEM_ICON = '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:12px;height:11px;vertical-align:-1px;image-rendering:pixelated;">';
 
 const $ = id => document.getElementById(id);
+
+const COOK_LEVEL_XP = [ 0, 2, 22, 205, 555, 1155, 2155, 3405, 5405, 7905, 10905, 14405, 18405, 22905, 27905, 33655, 40155, 47405, 55405, 64155, 73905, 84655, 96405, 109155, 122905, 137405, 152905, 169405, 186905, 205405, 225405, 246905, 269905, 294405, 320405, 348405, 378405, 410405, 444405, 480405, 518905, 559905, 603405, 649405, 697905, 749405, 803905, 861405, 921905, 985405, 1053905, 1127405, 1205905, 1289405, 1377905, 1476405, 1584905, 1703405, 1831905, 1970405, 2128905, 2287405, 2485905, 2704405, 2942905, 3221405, 3539905, 3898405, 4296905, 4735405, 5233905, 5743905, 6263905, 6793905, 7333905, 7883905, 8443905, 9013905, 9593905, 10183905, 10783905, 11393905, 12013905, 12643905, 13283905, 13933905, 14593905, 15263905, 15943905, 16633905, 17333905, 18043905, 18763905, 19493905, 20233905, 20983905, 21743905, 22513905, 23293905, 24083905, 24893905, 25723905, 26573905, 27443905, 28333905, 29243905, 30173905, 31123905, 32093905, 33083905, 34093905, 35123905, 36173905, 37243905, 38333905, 39443905, 40573905, 41723905, 42893905, 44083905, 45293905, 46523905, 47773905, 49043905, 50333905, 51653905, 53003905, 54383905, 55793905, 57233905, 58708905, 60218905, 61763905, 63343905, 64958905, 66613905, 68308905, 70043905, 71818905, 73633905, 75493905, 77398905, 79348905, 81343905, 83383905, 85473905, 87613905, 89803905, 92043905, 94333905, 95662605, 97031166, 98440783, 99892688, 101388150, 102928475, 104515009, 106149139, 107832292, 109565939, 111351595, 113190820, 115085221, 117036454, 119046223, 121116285, 123248448, 125444575, 127706585, 130036455, 132436221, 134907979, 137453889, 140076176, 142777131, 145559114, 148424556, 151375961, 154415908, 157547053, 160772132, 164093963, 167515448, 171039577, 174669429, 178408176, 182259085, 186225521, 190310950, 194518941, 198853171, 203317427, 207915610, 212651738, 217529949, 222554506, 227729799, 233060350, 238550817, 244206e3 ];
+
+const PRE_ASCENSION_MAX_LEVEL = 150;
+
+function cookGetLevelInfo(experience) {
+  experience = Math.max(0, Number(experience) || 0);
+  const maxLevel = Math.min(PRE_ASCENSION_MAX_LEVEL, COOK_LEVEL_XP.length);
+  let level = 1;
+  for (let l = 1; l <= maxLevel; l++) {
+    if (experience >= COOK_LEVEL_XP[l - 1]) level = l; else break;
+  }
+  const isMax = level >= maxLevel;
+  const curFloor = COOK_LEVEL_XP[level - 1];
+  const nextCeil = isMax ? curFloor : COOK_LEVEL_XP[level];
+  const span = isMax ? COOK_LEVEL_XP[maxLevel - 1] - COOK_LEVEL_XP[maxLevel - 2] : nextCeil - curFloor;
+  const progress = isMax ? span : experience - curFloor;
+  return {
+    level: level,
+    isMax: isMax,
+    curFloor: curFloor,
+    nextCeil: nextCeil,
+    span: span,
+    progress: progress
+  };
+}
+
+const ASCENSION_LEVELS_PER_BAND = 50;
+
+const ASCENSION_BAND_XP_BASE = 5e7;
+
+const ASCENSION_BAND_XP_GROWTH = 1.45;
+
+const ASCENSION_BAND_XP_ROUNDING = 5e6;
+
+const ASCENSION_LEVEL_WEIGHT_PER_LEVEL = .03;
+
+const ASCENSION_LEVEL_UPS = ASCENSION_LEVELS_PER_BAND - 1;
+
+const ASCENSION_TOTAL_WEIGHT = ASCENSION_LEVEL_UPS + ASCENSION_LEVEL_WEIGHT_PER_LEVEL * (ASCENSION_LEVEL_UPS * ASCENSION_LEVELS_PER_BAND / 2);
+
+function ascensionBandXp(ascension) {
+  const raw = ASCENSION_BAND_XP_BASE * Math.pow(ASCENSION_BAND_XP_GROWTH, ascension - 1);
+  return Math.round(raw / ASCENSION_BAND_XP_ROUNDING) * ASCENSION_BAND_XP_ROUNDING;
+}
+
+function ascensionLevelXp(ascension, n) {
+  return ascensionBandXp(ascension) * (1 + ASCENSION_LEVEL_WEIGHT_PER_LEVEL * n) / ASCENSION_TOTAL_WEIGHT;
+}
+
+function ascensionBandBaseline(ascension) {
+  let xp = COOK_LEVEL_XP[PRE_ASCENSION_MAX_LEVEL - 1];
+  for (let b = 1; b < ascension; b++) xp += ascensionBandXp(b);
+  return xp;
+}
+
+function getAscensionLevelInfo(experience, ascensionLevel) {
+  experience = Math.max(0, Number(experience) || 0);
+  ascensionLevel = Math.max(0, Math.floor(Number(ascensionLevel) || 0));
+  if (ascensionLevel < 1) {
+    const info = cookGetLevelInfo(experience);
+    return {
+      ascension: 0,
+      level: info.level,
+      isReadyToAscend: info.level >= PRE_ASCENSION_MAX_LEVEL,
+      currentExperienceProgress: info.progress,
+      experienceToNextLevel: info.span
+    };
+  }
+  const baseline = ascensionBandBaseline(ascensionLevel);
+  if (experience < baseline) {
+    return {
+      ascension: ascensionLevel,
+      level: 0,
+      isReadyToAscend: false,
+      currentExperienceProgress: 0,
+      experienceToNextLevel: baseline - experience
+    };
+  }
+  const band = ascensionBandXp(ascensionLevel);
+  if (experience >= baseline + band) {
+    const span = ascensionLevelXp(ascensionLevel, ASCENSION_LEVEL_UPS);
+    return {
+      ascension: ascensionLevel,
+      level: ASCENSION_LEVELS_PER_BAND,
+      isReadyToAscend: true,
+      currentExperienceProgress: span,
+      experienceToNextLevel: span
+    };
+  }
+  let level = 1;
+  let levelStart = baseline;
+  for (let n = 1; n < ASCENSION_LEVEL_UPS; n++) {
+    const nextStart = levelStart + ascensionLevelXp(ascensionLevel, n);
+    if (experience >= nextStart) {
+      level = n + 1;
+      levelStart = nextStart;
+    } else {
+      break;
+    }
+  }
+  return {
+    ascension: ascensionLevel,
+    level: level,
+    isReadyToAscend: false,
+    currentExperienceProgress: experience - levelStart,
+    experienceToNextLevel: ascensionLevelXp(ascensionLevel, level)
+  };
+}
+
+function resolveAscensionLevelInfo(experience) {
+  experience = Math.max(0, Number(experience) || 0);
+  const preAscensionCap = COOK_LEVEL_XP[PRE_ASCENSION_MAX_LEVEL - 1];
+  if (experience < preAscensionCap) {
+    return getAscensionLevelInfo(experience, 0);
+  }
+  let ascension = 1;
+  while (experience >= ascensionBandBaseline(ascension) + ascensionBandXp(ascension)) {
+    ascension += 1;
+  }
+  return getAscensionLevelInfo(experience, ascension);
+}
+
+function ascensionLevelBadgeText(ascensionLevel, level, isReadyToAscend) {
+  if (!ascensionLevel) return `Ascension [0]`;
+  return `Ascension [${ascensionLevel}] · Lv ${level}${isReadyToAscend ? " ✅" : ""}`;
+}
+
 
 function withPreservedScroll(container, renderFn) {
   const scrollTop = container ? container.scrollTop : 0;
@@ -1737,6 +1894,13 @@ function computeBoostedStock(baseStock, kind, itemName) {
       }
     });
   }
+  if (kind === "seed" && itemName && typeof BOOSTS !== "undefined" && isFullMoonToday()) {
+    BOOSTS.forEach(b => {
+      if (b.scope === "fruitList" && b.fruits && b.fruits.includes(itemName) && b.stockAdd && typeof isBoostActive === "function" && isBoostActive(b.id)) {
+        flatAdd += b.stockAdd;
+      }
+    });
+  }
   return baseStock * mult + flatAdd;
 }
 
@@ -1751,6 +1915,12 @@ function isFullMoonToday(date) {
   const frac = cycles - Math.floor(cycles);
   const daysFromFull = Math.min(frac, 1 - frac) * SYNODIC_MONTH_DAYS;
   return daysFromFull <= 1;
+}
+
+function fullMoonSeedStockQty(name) {
+  const baseStock = BASE_STOCK_FRUITS[name];
+  if (baseStock == null) return baseStock;
+  return computeBoostedStock(baseStock, "seed", name);
 }
 
 function computeRestockCost24h(baseStock, kind, count, cyclesPerDay, cyclesPerStockUnit, maxRestocksPerDay, itemName) {
@@ -4746,7 +4916,7 @@ const SKILL_TREES_CATEGORY = [ {
   name: "Tree Turnaround",
   skillTier: 3,
   notModeled: true,
-  note: "15% chance a tree regrows instantly after chopping — effectively boosts daily Wood throughput, not wired into the time math yet"
+  note: "15/25/35% chance a tree regrows instantly after chopping — effectively boosts daily Wood throughput, not wired into the time math yet"
 } ];
 
 SKILL_TREES_CATEGORY.forEach(s => {
@@ -5679,8 +5849,8 @@ const SKILL_GREENHOUSE = [ {
   skillTier: 3,
   category: "greenhouse",
   scope: "global",
-  yieldAdd: .25,
-  note: "25% chance of +1 greenhouse produce (shown as its +0.25 expected-value equivalent)"
+  yieldAdd: .3,
+  note: "30% chance of +1 greenhouse produce (shown as its +0.3 expected-value equivalent)"
 }, {
   id: "skill_slick_saver",
   name: "Slick Saver",
@@ -6138,7 +6308,7 @@ const ASCENSION_RANK_DATA = {
   },
   skill_tree_turnaround: {
     field: null,
-    values: [ 15, 25, 40 ],
+    values: [ 15, 25, 35 ],
     unit: "%",
     note: "Instant-grow chance — not wired into time math yet"
   },
@@ -6356,8 +6526,8 @@ const ASCENSION_RANK_DATA = {
   },
   skill_greenhouse_gamble: {
     field: "yieldAdd",
-    values: [ .25, .35, .45 ],
-    note: "+1 produce chance 25/35/45% (EV shown)"
+    values: [ .3, .4, .5 ],
+    note: "+1 produce chance 30/40/50% (EV shown)"
   },
   skill_greasy_plants: {
     field: [ "yieldAdd", "oilQtyMult" ],
@@ -6436,6 +6606,12 @@ const ASCENSION_RANK_DATA = {
 let ascensionEnabled = safeLSJSON(localStorage.getItem("hl_ascension_enabled"), false);
 
 let ascensionRanks = safeLSJSON(localStorage.getItem("hl_ascension_ranks"), {});
+
+let syncedSkillLevels = safeLSJSON(localStorage.getItem("hl_synced_skill_levels"), {});
+
+function saveSyncedSkillLevels() {
+  localStorage.setItem("hl_synced_skill_levels", JSON.stringify(syncedSkillLevels));
+}
 
 function saveAscensionState() {
   localStorage.setItem("hl_ascension_enabled", JSON.stringify(ascensionEnabled));
@@ -6524,12 +6700,12 @@ function renderAscensionBar() {
   const stateEl = $("ascensionToggleState");
   const totalsEl = $("ascensionTotals");
   if (!btn) return;
-  btn.classList.toggle("active", ascensionEnabled);
-  btn.setAttribute("aria-checked", ascensionEnabled ? "true" : "false");
-  if (stateEl) stateEl.textContent = ascensionEnabled ? "Active" : "Inactive";
+  btn.classList.toggle("active", skillDraftAscensionEnabled);
+  btn.setAttribute("aria-checked", skillDraftAscensionEnabled ? "true" : "false");
+  if (stateEl) stateEl.textContent = skillDraftAscensionEnabled ? "Active" : "Inactive";
   if (totalsEl) {
-    if (ascensionEnabled) {
-      const {points: points, shards: shards} = getAscensionTotals();
+    if (skillDraftAscensionEnabled) {
+      const {points: points, shards: shards} = getDraftAscensionTotals();
       totalsEl.style.display = "";
       $("ascensionPointsUsed").textContent = points;
       $("ascensionShardsUsed").textContent = shards;
@@ -7144,6 +7320,14 @@ const FRUIT_BOOSTS = [ {
   scope: "fruit",
   target: "Banana",
   timeMult: .8
+}, {
+  id: "moon_hair",
+  name: "Moon Hair",
+  scope: "fruitList",
+  fruits: [ "Celestine", "Lunara", "Duskberry" ],
+  yieldAdd: .5,
+  stockAdd: 2,
+  note: "+0.5 yield on Full Moon fruits (Celestine / Lunara / Duskberry). +2 Full Moon Seed stock (1 → 3) on a real-world Full Moon day."
 } ];
 
 FRUIT_BOOSTS.forEach(b => {
@@ -7217,6 +7401,14 @@ const GREENHOUSE_BOOSTS = [ {
   scope: "greenhouse",
   target: "Olive",
   yieldAdd: .25
+}, {
+  id: "rice_shirt",
+  name: "Rice Shirt",
+  scope: "greenhouse",
+  target: "Rice",
+  yieldAdd: 1,
+  oilQtyMult: .5,
+  note: "-50% Oil to plant Rice, +1 Rice per harvest"
 } ];
 
 GREENHOUSE_BOOSTS.forEach(b => {
@@ -8057,6 +8249,50 @@ const SALT_BOOSTS = [ {
   scope: "saltGlobal",
   saltYieldAdd: 5,
   note: "+5 Salt per harvest"
+}, {
+  id: "ascended_idol",
+  name: "Ascended Idol",
+  category: "salt",
+  scope: "saltGlobal",
+  freeCost: true,
+  note: "Harvest Salt without Salt Rakes (rake cost free)"
+}, {
+  id: "salt_worker_gnome",
+  name: "Salt Worker Gnome",
+  category: "salt",
+  scope: "saltGlobal",
+  saltRechargeTimeMult: .7,
+  saltYieldAdd: 2,
+  note: "-30% Salt Node recovery time, +2 Salt per harvest"
+}, {
+  id: "surfer_hair",
+  name: "Surfer Hair",
+  category: "salt",
+  scope: "agingGlobal",
+  agingSaltCostMult: .5,
+  note: "-50% Salt cost for Aging Fish"
+}, {
+  id: "winged_vase",
+  name: "Winged Vase",
+  category: "salt",
+  scope: "agingGlobal",
+  primeChanceAdd: 14,
+  note: "+14% Prime Aged chance"
+}, {
+  id: "astrolabe",
+  name: "Astrolabe",
+  category: "salt",
+  scope: "fermentationSpiceGlobal",
+  doubleChancePct: 15,
+  agedFishXpMult: 1.05,
+  note: "15% chance to double Fermentation Rack &amp; Spice Rack output, +5% XP from Aged Fish"
+}, {
+  id: "salt_bottle_onesie",
+  name: "Salt Bottle Onesie",
+  category: "salt",
+  scope: "spiceRackGlobal",
+  spiceOutputAdd: 1,
+  note: "+1 Spice Rack output (Refined Salt / Salt Lick / Honey Treat)"
 } ];
 
 const ANIMAL_BOOSTS = [ {
@@ -8395,6 +8631,13 @@ const ANIMAL_BOOSTS = [ {
   feedMult: .95,
   hideInPanel: true,
   note: "-25% Cow sleep time, -25% Sheep sleep time, -5% feed to feed barn animals · Temporary, 7 days"
+}, {
+  id: "vibraphone",
+  name: "Vibraphone",
+  category: "animals",
+  scope: "animalGlobal",
+  feedBuffHarvests: 6,
+  note: "Animal Feed buffs (Salt Lick / Honey Treat) last 6 harvests instead of 3"
 } ];
 
 const TOOL_BOOSTS = [ {
@@ -8842,13 +9085,14 @@ function getSpiceCostPerUseFlower(key) {
 
 function getSpiceEffectForAnimalType(type) {
   let yieldMultAll = 1, feedMultAll = 1, costFlowerPerCyclePerAnimal = 0, activeKey = null;
+  const durationHarvests = getSpiceLickDurationHarvests();
   if (spiceUsage.saltLick.active && spiceUsage.saltLick[type]) {
     yieldMultAll = 1.05;
-    costFlowerPerCyclePerAnimal = getSpiceCostPerUseFlower("saltLick") / 3;
+    costFlowerPerCyclePerAnimal = getSpiceCostPerUseFlower("saltLick") / durationHarvests;
     activeKey = "saltLick";
   } else if (spiceUsage.honeyTreat.active && spiceUsage.honeyTreat[type]) {
     feedMultAll = .75;
-    costFlowerPerCyclePerAnimal = getSpiceCostPerUseFlower("honeyTreat") / 3;
+    costFlowerPerCyclePerAnimal = getSpiceCostPerUseFlower("honeyTreat") / durationHarvests;
     activeKey = "honeyTreat";
   }
   return {
@@ -8861,7 +9105,7 @@ function getSpiceEffectForAnimalType(type) {
 
 function getSpiceHeadCost(key, type) {
   const qty = getAnimalCount(type).qty || 0;
-  return getSpiceCostPerUseFlower(key) / 3 * qty;
+  return getSpiceCostPerUseFlower(key) / getSpiceLickDurationHarvests() * qty;
 }
 
 let selectedSkills = safeLSJSON(localStorage.getItem("hl_selected_skills"), []);
@@ -8880,40 +9124,139 @@ function isSkillTierUnlocked(category, tier) {
   return prevTierIds.some(id => isSkillActive(id));
 }
 
-function toggleSkill(id) {
+let skillDraftSelectedSkills = selectedSkills.slice();
+
+let skillDraftAscensionEnabled = ascensionEnabled;
+
+let skillDraftAscensionRanks = Object.assign({}, ascensionRanks);
+
+function isSkillDraftActive(id) {
+  return skillDraftSelectedSkills.includes(id);
+}
+
+function isSkillDraftTierUnlocked(category, tier) {
+  if (tier <= 1) return true;
+  const prevTierIds = (SKILL_TREES[category] || []).filter(s => s.skillTier === tier - 1).map(s => s.id);
+  return prevTierIds.some(id => isSkillDraftActive(id));
+}
+
+function getDraftAscensionRank(id) {
+  return skillDraftAscensionRanks[id] || 1;
+}
+
+function getDraftAscensionTotals() {
+  let points = 0, shards = 0;
+  Object.keys(ASCENSION_RANK_DATA).forEach(id => {
+    if (!isSkillDraftActive(id)) return;
+    const rank = getDraftAscensionRank(id);
+    if (rank <= 1) return;
+    const skill = SKILL_BOOSTS.find(s => s.id === id);
+    const cost = ASCENSION_UPGRADE_COST[skill && skill.skillTier || 1];
+    const steps = rank - 1;
+    points += cost.points * steps;
+    shards += cost.shards * steps;
+  });
+  return {
+    points: points,
+    shards: shards
+  };
+}
+
+function resetSkillDraftFromSaved() {
+  skillDraftSelectedSkills = selectedSkills.slice();
+  skillDraftAscensionEnabled = ascensionEnabled;
+  skillDraftAscensionRanks = Object.assign({}, ascensionRanks);
+  if (typeof renderSkillPanel === "function") renderSkillPanel();
+  if (typeof renderAscensionBar === "function") renderAscensionBar();
+  updateSkillSaveBarState();
+}
+
+function isSkillDraftDirty() {
+  const a = selectedSkills.slice().sort();
+  const b = skillDraftSelectedSkills.slice().sort();
+  if (JSON.stringify(a) !== JSON.stringify(b)) return true;
+  if (!!ascensionEnabled !== !!skillDraftAscensionEnabled) return true;
+  if (JSON.stringify(ascensionRanks) !== JSON.stringify(skillDraftAscensionRanks)) return true;
+  return false;
+}
+
+function updateSkillSaveBarState() {
+  const bar = $("skillSaveBar");
+  if (!bar) return;
+  const dirty = isSkillDraftDirty();
+  bar.classList.toggle("dirty", dirty);
+  const note = $("skillSaveNote");
+  if (note) note.style.display = dirty ? "" : "none";
+  const btn = $("skillSaveBtn");
+  if (btn && !btn.classList.contains("saving")) {
+    btn.disabled = !dirty;
+  }
+}
+
+function draftToggleSkill(id) {
   const skill = SKILL_BOOSTS.find(s => s.id === id);
   if (!skill) return;
-  if (!isSkillActive(id) && !isSkillTierUnlocked(skill.skillCategory, skill.skillTier)) {
+  if (!isSkillDraftActive(id) && !isSkillDraftTierUnlocked(skill.skillCategory, skill.skillTier)) {
     toast(`🔒 Own a Tier ${skill.skillTier - 1} skill in ${skill.skillCategory} first to unlock this`);
     return;
   }
-  if (isSkillActive(id)) {
-    selectedSkills = selectedSkills.filter(x => x !== id);
+  if (isSkillDraftActive(id)) {
+    skillDraftSelectedSkills = skillDraftSelectedSkills.filter(x => x !== id);
   } else {
     if (skill.group) {
       const groupIds = SKILL_BOOSTS.filter(s => s.group === skill.group).map(s => s.id);
-      selectedSkills = selectedSkills.filter(x => !groupIds.includes(x));
+      skillDraftSelectedSkills = skillDraftSelectedSkills.filter(x => !groupIds.includes(x));
     }
-    selectedSkills.push(id);
+    skillDraftSelectedSkills.push(id);
   }
-  saveSkillState();
-  applySkillModifiers();
-  const nowOwned = isSkillActive(id);
-  const tappedBtn = document.querySelector(`[data-skill-id="${id}"]`);
-  if (tappedBtn) {
-    tappedBtn.classList.toggle("owned", nowOwned);
-    let checkEl = tappedBtn.querySelector(".skill-node-check");
-    if (nowOwned && !checkEl) {
-      checkEl = document.createElement("span");
-      checkEl.className = "skill-node-check";
-      checkEl.textContent = "✓";
-      tappedBtn.prepend(checkEl);
-    } else if (!nowOwned && checkEl) {
-      checkEl.remove();
-    }
-  }
-  applyAscensionRanks();
-  scheduleCascade(refreshAfterSkillChange);
+  renderSkillPanel();
+  updateSkillSaveBarState();
+}
+
+function draftSetAscensionRank(id, rank) {
+  if (rank <= 1) delete skillDraftAscensionRanks[id]; else skillDraftAscensionRanks[id] = rank;
+  renderSkillPanel();
+  renderAscensionBar();
+  updateSkillSaveBarState();
+}
+
+function draftSetAscensionEnabled(on) {
+  skillDraftAscensionEnabled = on;
+  renderAscensionBar();
+  renderSkillPanel();
+  updateSkillSaveBarState();
+}
+
+function commitSkillDraft() {
+  const btn = $("skillSaveBtn");
+  if (!btn || btn.classList.contains("saving")) return;
+  if (!isSkillDraftDirty()) return;
+  btn.classList.add("saving");
+  btn.classList.remove("saved");
+  btn.disabled = true;
+  btn.innerHTML = `<span class="skill-save-spinner"></span> Saving…`;
+  setTimeout(() => {
+    selectedSkills = skillDraftSelectedSkills.slice();
+    saveSkillState();
+    ascensionEnabled = skillDraftAscensionEnabled;
+    ascensionRanks = Object.assign({}, skillDraftAscensionRanks);
+    saveAscensionState();
+    applyAscensionRanks();
+    applySkillModifiers();
+    if (typeof invalidateCostCache === "function") invalidateCostCache();
+    refreshAfterSkillChange();
+    renderAscensionBar();
+    renderSkillPanel();
+    btn.classList.remove("saving");
+    btn.classList.add("saved");
+    btn.innerHTML = "✅ Saved";
+    updateSkillSaveBarState();
+    setTimeout(() => {
+      btn.classList.remove("saved");
+      btn.innerHTML = "💾 Save Changes";
+      updateSkillSaveBarState();
+    }, 900);
+  }, 400);
 }
 
 function refreshAfterSkillChange() {
@@ -9029,6 +9372,10 @@ applySkillModifiers();
 
 function saveBoostState() {
   localStorage.setItem("hl_selected_boosts", JSON.stringify(selectedBoosts));
+  if (typeof boostDraftSelectedBoosts !== "undefined") {
+    boostDraftSelectedBoosts = selectedBoosts.slice();
+    if (typeof updateBoostSaveBarState === "function") updateBoostSaveBarState();
+  }
 }
 
 let fertilizerTierScope = safeLSJSON(localStorage.getItem("hl_fert_tier_scope"), [ "Medium", "Advanced" ]);
@@ -9081,6 +9428,156 @@ function isBoostActive(id) {
   if (!selectedBoosts.includes(id)) return false;
   if (isSeasonLocked(boost)) return false;
   return true;
+}
+
+let boostDraftSelectedBoosts = selectedBoosts.slice();
+
+function isBoostDraftActive(id) {
+  if (ALWAYS_ON_BOOST_IDS.has(id)) return true;
+  if (id === "bee_swarm") return beeSwarmActiveCount > 0;
+  if (!selectedSkills.includes(id) && !boostDraftSelectedBoosts.includes(id)) return false;
+  const boost = BOOSTS.find(b => b.id === id);
+  if (boost && boost.source === "skill") {
+    if (!selectedSkills.includes(id)) return false;
+    if (isSeasonLocked(boost)) return false;
+    return true;
+  }
+  if (!boostDraftSelectedBoosts.includes(id)) return false;
+  if (isSeasonLocked(boost)) return false;
+  return true;
+}
+
+function resetBoostDraftFromSaved() {
+  boostDraftSelectedBoosts = selectedBoosts.slice();
+  if (typeof renderBoostPanel === "function") renderBoostPanel();
+  updateBoostSaveBarState();
+}
+
+function isBoostDraftDirty() {
+  const a = selectedBoosts.slice().sort();
+  const b = boostDraftSelectedBoosts.slice().sort();
+  return JSON.stringify(a) !== JSON.stringify(b);
+}
+
+function updateBoostSaveBarState() {
+  const bar = $("boostSaveBar");
+  if (!bar) return;
+  const dirty = isBoostDraftDirty();
+  bar.classList.toggle("dirty", dirty);
+  const note = $("boostSaveNote");
+  if (note) note.style.display = dirty ? "" : "none";
+  const btn = $("boostSaveBtn");
+  if (btn && !btn.classList.contains("saving")) {
+    btn.disabled = !dirty;
+  }
+}
+
+function draftToggleBoost(id) {
+  const boost = BOOSTS.find(b => b.id === id);
+  if (id === "bee_swarm") {
+    const perSwarm = getBeeSwarmPerSwarmYield();
+    toast(beeSwarmActiveCount > 0 ? `🐝 Bee Swarm is auto-detected from your synced farm — ${beeSwarmActiveCount} active swarm${beeSwarmActiveCount === 1 ? "" : "s"} across ${beeSwarmAffectedPlots} plot${beeSwarmAffectedPlots === 1 ? "" : "s"} (+${fmt(perSwarm)} yield each) right now. It can't be toggled manually.` : `🐝 Bee Swarm turns on automatically when your synced farm has an active swarm — none detected right now.`);
+    return;
+  }
+  if (boost && boost.isDebuff) {
+    const remSec = getLimitedBoostRemainingSec(boost.limitedBoostName);
+    toast(remSec > 0 ? `⚠️ ${boost.name} is auto-detected from your synced farm — active now, ${formatDuration(remSec)} remaining. It can't be toggled manually.` : `⚠️ ${boost.name} turns on automatically when your synced farm has it active — not detected right now. It can't be toggled manually.`);
+    return;
+  }
+  if (ALWAYS_ON_BOOST_IDS.has(id)) {
+    toast(`✅ ${boost ? boost.name : "This"} is a game default every player has — it's always on and can't be switched off`);
+    return;
+  }
+  if (isSeasonLocked(boost)) {
+    const seasonLabel = boost.seasons && boost.seasons.length ? boost.seasons.join(" & ") : boost.season;
+    toast(`🔒 ${boost.name} only works in ${seasonLabel} — switch the season toggle above to turn it on`);
+    return;
+  }
+  if (!isBoostDraftActive(id) && !hasPlotsNodesData()) {
+    const missing = getMissingPlotNodeFields();
+    let msg;
+    if (missing.length === 1) {
+      msg = `🧮 Fill in ${missing[0]} in Plots & Nodes first — then you can turn on boosts`;
+    } else {
+      const hasCropPlots = missing.includes("🌾 Crop plots");
+      const resourceCount = missing.length - (hasCropPlots ? 1 : 0);
+      const parts = [];
+      if (hasCropPlots) parts.push("Crop plots");
+      if (resourceCount > 0) parts.push(`${resourceCount} resource node count${resourceCount > 1 ? "s" : ""}`);
+      msg = `🧮 Fill in ${parts.join(" and ")} in Plots & Nodes first — then you can turn on boosts`;
+    }
+    toast(msg);
+    const plotsPanel = $("plotsPanel");
+    if (plotsPanel) plotsPanel.classList.add("open");
+    const cropInput = $("globalCropPlotInput");
+    if (cropInput) {
+      cropInput.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+      cropInput.focus();
+    }
+    renderBoostPanel();
+    return;
+  }
+  if (isBoostDraftActive(id)) {
+    boostDraftSelectedBoosts = boostDraftSelectedBoosts.filter(x => x !== id);
+  } else {
+    if (boost && boost.group) {
+      const groupIds = BOOSTS.filter(b => b.group === boost.group).map(b => b.id);
+      boostDraftSelectedBoosts = boostDraftSelectedBoosts.filter(x => !groupIds.includes(x));
+    }
+    if (boost && boost.exclusiveWith) {
+      const exList = Array.isArray(boost.exclusiveWith) ? boost.exclusiveWith : [ boost.exclusiveWith ];
+      exList.forEach(exId => {
+        if (isBoostDraftActive(exId)) {
+          const other = BOOSTS.find(b => b.id === exId);
+          boostDraftSelectedBoosts = boostDraftSelectedBoosts.filter(x => x !== exId);
+          if (other) toast(`${other.name} disabled — can't be active with ${boost.name} 🦀`);
+        }
+      });
+    }
+    boostDraftSelectedBoosts.push(id);
+  }
+  if (boost && boost.limitedBoostName) {
+    const turnedOn = boostDraftSelectedBoosts.includes(id);
+    BOOSTS.filter(b => b.id !== id && b.limitedBoostName === boost.limitedBoostName).forEach(sib => {
+      boostDraftSelectedBoosts = boostDraftSelectedBoosts.filter(x => x !== sib.id);
+      if (turnedOn) boostDraftSelectedBoosts.push(sib.id);
+    });
+  }
+  const nowActive = isBoostDraftActive(id);
+  const tappedRow = document.querySelector(`[data-boost-id="${id}"]`);
+  if (tappedRow) {
+    tappedRow.style.outline = nowActive ? "2px solid var(--profit)" : "";
+    const iconEl = tappedRow.querySelector(".lib-item-icon");
+    if (iconEl && !tappedRow.classList.contains("season-locked")) iconEl.textContent = nowActive ? "✅" : "⬜";
+  }
+  updateBoostSaveBarState();
+}
+
+function commitBoostDraft() {
+  const btn = $("boostSaveBtn");
+  if (!btn || btn.classList.contains("saving")) return;
+  if (!isBoostDraftDirty()) return;
+  btn.classList.add("saving");
+  btn.classList.remove("saved");
+  btn.disabled = true;
+  btn.innerHTML = `<span class="skill-save-spinner"></span> Saving…`;
+  setTimeout(() => {
+    selectedBoosts = boostDraftSelectedBoosts.slice();
+    saveBoostState();
+    refreshAfterSkillChange();
+    btn.classList.remove("saving");
+    btn.classList.add("saved");
+    btn.innerHTML = "✅ Saved";
+    updateBoostSaveBarState();
+    setTimeout(() => {
+      btn.classList.remove("saved");
+      btn.innerHTML = "💾 Save Changes";
+      updateBoostSaveBarState();
+    }, 900);
+  }, 400);
 }
 
 function toggleBoost(id) {
@@ -9467,6 +9964,18 @@ function renderAoePlotsAffectedBlockForBoost(b) {
   return renderAoePlotsAffectedHtml(b, b.target);
 }
 
+function skillSyncedLevel(s) {
+  const synced = syncedSkillLevels[s.id];
+  if (Number.isFinite(synced)) return Math.min(Math.max(Math.round(synced), 1), 3);
+  return 1;
+}
+
+function skillSyncedBoostText(s, level) {
+  const ascData = ASCENSION_RANK_DATA[s.id];
+  if (ascData) return ascensionDescribeRank(s.id, level);
+  return `Skill Level [${level}]`;
+}
+
 function renderSkillPanel() {
   const wrap = document.getElementById("skillListWrap");
   if (!wrap) return;
@@ -9479,24 +9988,26 @@ function renderSkillPanel() {
   wrap.innerHTML = tiers.map(tier => {
     const tierNodes = nodes.filter(s => s.skillTier === tier);
     if (!tierNodes.length) return "";
-    const unlocked = isSkillTierUnlocked(skillCategory, tier);
+    const unlocked = isSkillDraftTierUnlocked(skillCategory, tier);
     return `<div class="skill-tier-block">\n      <div class="skill-tier-heading">${"⭐".repeat(tier)} Tier ${tier}${unlocked ? "" : ` <span class="lock-pip">🔒 needs a Tier ${tier - 1} skill owned first</span>`}</div>\n      <div class="skill-node-grid">\n        ${tierNodes.map(s => {
-      const owned = isSkillActive(s.id);
+      const owned = isSkillDraftActive(s.id);
       const locked = !owned && !unlocked;
       const ascData = ASCENSION_RANK_DATA[s.id];
-      const showRankPicker = owned && ascensionEnabled && ascData;
-      const rank = showRankPicker ? getAscensionRank(s.id) : 1;
-      return `<div class="skill-node-wrap">\n            <button type="button" class="skill-node-btn ${owned ? "owned" : ""} ${locked ? "locked" : ""}" data-skill-id="${s.id}" ${locked ? "disabled" : ""}>\n              ${owned ? `<span class="skill-node-check">✓</span>` : ""}\n              <span class="skill-node-name">${s.name}</span>\n              <span class="skill-node-note">${s.note || ""}</span>\n            </button>\n            ${showRankPicker ? `\n              <div class="skill-rank-picker" data-skill-id="${s.id}">\n                <span class="skill-rank-picker-label">Rank:</span>\n                ${[ 1, 2, 3 ].map(r => `<button type="button" class="skill-rank-pip ${r <= rank ? "done" : ""} ${r === rank ? "current" : ""}" data-rank="${r}">${r}</button>`).join("")}\n                <span class="skill-rank-boost">${ascensionDescribeRank(s.id, rank)}</span>\n              </div>\n            ` : ""}\n          </div>`;
+      const showRankPicker = owned && skillDraftAscensionEnabled && ascData;
+      const rank = showRankPicker ? getDraftAscensionRank(s.id) : 1;
+      const syncedLevel = owned ? skillSyncedLevel(s) : null;
+      const syncedBoostText = owned ? skillSyncedBoostText(s, syncedLevel) : "";
+      return `<div class="skill-node-wrap">\n            <button type="button" class="skill-node-btn ${owned ? "owned" : ""} ${locked ? "locked" : ""}" data-skill-id="${s.id}" ${locked ? "disabled" : ""}>\n              ${owned ? `<span class="skill-node-check">✓</span>` : ""}\n              <span class="skill-node-name">${s.name}${owned ? ` <span class="skill-level-badge">[Level ${syncedLevel}]</span>` : ""}</span>\n              <span class="skill-node-note">${s.note || ""}</span>\n              ${owned ? `<span class="skill-sync-boost">${escapeHtml(syncedBoostText)}</span>` : ""}\n            </button>\n            ${showRankPicker ? `\n              <div class="skill-rank-picker" data-skill-id="${s.id}">\n                <span class="skill-rank-picker-label">Rank:</span>\n                ${[ 1, 2, 3 ].map(r => `<button type="button" class="skill-rank-pip ${r <= rank ? "done" : ""} ${r === rank ? "current" : ""}" data-rank="${r}">${r}</button>`).join("")}\n                <span class="skill-rank-boost">${ascensionDescribeRank(s.id, rank)}</span>\n              </div>\n            ` : ""}\n          </div>`;
     }).join("")}\n      </div>\n    </div>`;
   }).join("");
   wrap.querySelectorAll(".skill-node-btn").forEach(btn => {
-    btn.onclick = () => toggleSkill(btn.dataset.skillId);
+    btn.onclick = () => draftToggleSkill(btn.dataset.skillId);
   });
   wrap.querySelectorAll(".skill-rank-pip").forEach(pip => {
     pip.onclick = e => {
       e.stopPropagation();
       const id = pip.closest(".skill-rank-picker").dataset.skillId;
-      setAscensionRank(id, Number(pip.dataset.rank));
+      draftSetAscensionRank(id, Number(pip.dataset.rank));
     };
   });
 }
@@ -10288,6 +10799,9 @@ function renderBoostPanel() {
     }, {
       label: "🍌 Banana",
       items: inCategory.filter(b => (b.scope === "fruit" && b.target === "Banana" || b.scope === "fruitList" && Array.isArray(b.fruits) && b.fruits.includes("Banana")) && !b.isBud)
+    }, {
+      label: "🌙 Full Moon (Celestine / Lunara / Duskberry)",
+      items: inCategory.filter(b => b.scope === "fruitList" && Array.isArray(b.fruits) && (b.fruits.includes("Celestine") || b.fruits.includes("Lunara") || b.fruits.includes("Duskberry")) && !b.isBud)
     } ];
   } else if (boostCategory === "greenhouse") {
     groups = [ {
@@ -10371,8 +10885,17 @@ function renderBoostPanel() {
     groups = [];
   } else if (boostCategory === "salt") {
     groups = [ {
-      label: "🧂 Salt Farm — bonus Salt per harvest",
+      label: "🧂 Salt Farm — yield, recharge &amp; rake cost",
       items: inCategory.filter(b => b.scope === "saltGlobal")
+    }, {
+      label: "🎣 Aging Rack — Salt cost &amp; Prime Aged chance",
+      items: inCategory.filter(b => b.scope === "agingGlobal")
+    }, {
+      label: "🧪 Fermentation Rack &amp; Spice Rack — double chance, XP",
+      items: inCategory.filter(b => b.scope === "fermentationSpiceGlobal")
+    }, {
+      label: "🥫 Spice Rack — bonus output",
+      items: inCategory.filter(b => b.scope === "spiceRackGlobal")
     } ];
   } else if (boostCategory === "cooking") {
     groups = [ {
@@ -10454,7 +10977,8 @@ function renderBoostPanel() {
     const rows = g.items.filter(b => !term || b.name.toLowerCase().includes(term) || (b.target || "").toLowerCase().includes(term));
     if (!rows.length) return "";
     return `<div class="lib-section-title">${g.label}</div>` + rows.map(b => {
-      const active = isBoostActive(b.id);
+      const manualToggleBlockedPre = b.id === "bee_swarm" || !!b.isDebuff;
+      const active = manualToggleBlockedPre ? isBoostActive(b.id) : isBoostDraftActive(b.id);
       const parts = [];
       if (b.yieldMult) parts.push(`×${b.yieldMult} yield`);
       if (b.beeSwarmStack) {
@@ -10475,7 +10999,7 @@ function renderBoostPanel() {
       if (b.noTool) parts.push(`no tool needed`);
       if (b.noWood) parts.push(`no tool needed`);
       if (b.materialQtyMult) parts.push(`×${b.materialQtyMult} materials`);
-      if (b.freeCost) parts.push(`🆓 free seeds`);
+      if (b.freeCost) parts.push(b.category === "salt" ? `🆓 free Salt Rake (no rake consumed)` : `🆓 free seeds`);
       if (b.yieldMultAll) parts.push(`×${b.yieldMultAll} produce`);
       if (b.feedMult) parts.push(`×${b.feedMult} feed`);
       if (b.feedMultAll) parts.push(`×${b.feedMultAll} feed`);
@@ -10494,6 +11018,14 @@ function renderBoostPanel() {
       if (b.wormAdd) parts.push(`+${fmt(b.wormAdd)} worm/cycle`);
       if (b.fertPotencyMult) parts.push(`×${b.fertPotencyMult} ${b.appliesFertilizer || "fertiliser"} effect`);
       if (b.saltYieldAdd) parts.push(`+${fmt(b.saltYieldAdd)} Salt/harvest`);
+      if (b.saltRechargeTimeMult) parts.push(`×${b.saltRechargeTimeMult} Salt Node recovery time`);
+      if (b.agingSaltCostMult) parts.push(`×${b.agingSaltCostMult} Salt cost for Aging Fish`);
+      if (b.primeChanceAdd) parts.push(`+${fmt(b.primeChanceAdd)}% Prime Aged chance`);
+      if (b.doubleChancePct) parts.push(`${fmt(b.doubleChancePct)}% chance to double Fermentation &amp; Spice Rack output`);
+      if (b.agedFishXpMult) parts.push(`×${b.agedFishXpMult} XP from Aged Fish`);
+      if (b.spiceOutputAdd) parts.push(`+${fmt(b.spiceOutputAdd)} Spice Rack output`);
+      if (b.oilQtyMult) parts.push(`×${b.oilQtyMult} Oil cost`);
+      if (b.feedBuffHarvests) parts.push(`Salt Lick / Honey Treat lasts ${b.feedBuffHarvests} harvests`);
       if (b.petEnergyAdd) parts.push(`+${fmt(b.petEnergyAdd)} Pet Energy`);
       if (b.petXpAdd) parts.push(`+${fmt(b.petXpAdd)} Pet XP`);
       if (b.petXpAddMedium) parts.push(`+${fmt(b.petXpAddMedium)} XP (medium meals)`);
@@ -10545,7 +11077,7 @@ function renderBoostPanel() {
     }).join("");
   }).join("") || `<div class="lib-empty">No boosts match your search.</div>`) + (boostCategory === "tools" ? renderBaseStockTables() : "") + (boostCategory === "pets" && typeof renderPetLevelPerksBlock === "function" ? renderPetLevelPerksBlock() : "");
   wrap.querySelectorAll("[data-boost-id]").forEach(el => {
-    el.onclick = () => toggleBoost(el.dataset.boostId);
+    el.onclick = () => draftToggleBoost(el.dataset.boostId);
   });
   wrap.querySelectorAll("[data-spice-master]").forEach(el => {
     el.onclick = () => toggleSpiceMaster(el.dataset.spiceMaster);
@@ -10844,30 +11376,31 @@ function renderFertilizerApplyToggles() {
 }
 
 function renderSpiceRackAnimalToggles() {
+  const durationHarvests = getSpiceLickDurationHarvests();
   const cards = [ {
     key: "saltLick",
     emoji: "🧡",
     name: "Salt Lick",
     effectLabel: "+5% Animal Produce Yield",
-    desc: "Feed to an animal for +5% produce on the next 3 harvests."
+    desc: `Feed to an animal for +5% produce on the next ${durationHarvests} harvests.`
   }, {
     key: "honeyTreat",
     emoji: "🍯",
     name: "Honey Treat",
     effectLabel: "×0.75 Animal Feed",
-    desc: "Feed to an animal for -25% feed on the next 3 harvests."
+    desc: `Feed to an animal for -25% feed on the next ${durationHarvests} harvests.`
   } ];
   const otherKey = k => k === "saltLick" ? "honeyTreat" : "saltLick";
-  return `<div class="lib-section-title">🧡🍯 Salt Lick &amp; Honey Treat (per animal type)</div>\n  <div class="hint-collapsible"><button type="button" class="hint-q-btn" aria-label="More info">❓</button><div class="hint-slide"><div class="field-hint" style="background:#eef2fb;border:1.5px solid #3d5a8a;padding:8px 10px;border-radius:8px;margin-bottom:8px;font-weight:600;color:#233a5c;">\n    Off by default. Turn one on, then tick which animal types get it — cost is priced live off the 🥫 Spice Rack (Refined Salt / Honey), scaled by how many heads of that type you've entered, and spread across the 3 harvests one item lasts.\n    An animal can only carry ONE of these at a time, so ticking Honey Treat for Chickens after Salt Lick was already on for Chickens switches Salt Lick off for Chickens (other types are unaffected).\n  </div></div></div>\n  ${cards.map(c => {
+  return `<div class="lib-section-title">🧡🍯 Salt Lick &amp; Honey Treat (per animal type)</div>\n  <div class="hint-collapsible"><button type="button" class="hint-q-btn" aria-label="More info">❓</button><div class="hint-slide"><div class="field-hint" style="background:#eef2fb;border:1.5px solid #3d5a8a;padding:8px 10px;border-radius:8px;margin-bottom:8px;font-weight:600;color:#233a5c;">\n    Off by default. Turn one on, then tick which animal types get it — cost is priced live off the 🥫 Spice Rack (Refined Salt / Honey), scaled by how many heads of that type you've entered, and spread across the ${durationHarvests} harvests one item lasts${durationHarvests > 3 ? " (doubled from 3 by Vibraphone)" : ""}.\n    An animal can only carry ONE of these at a time, so ticking Honey Treat for Chickens after Salt Lick was already on for Chickens switches Salt Lick off for Chickens (other types are unaffected).\n  </div></div></div>\n  ${cards.map(c => {
     const state = spiceUsage[c.key];
     const perUse = getSpiceCostPerUseFlower(c.key);
-    return `<div class="lib-item-row" data-spice-master="${c.key}" style="cursor:pointer;${state.active ? "outline:2px solid var(--profit);" : ""}">\n      <span class="lib-item-icon">${state.active ? "✅" : "⬜"}</span>\n      <div class="lib-item-main">\n        <div class="lib-item-name">${getIcon(c.name)} ${c.name} <span style="font-weight:400;color:var(--ink-soft);">${state.active ? "— enabled" : "— disabled"}</span></div>\n        <div class="lib-item-meta">${c.effectLabel} · ${c.desc}</div>\n        <div class="lib-item-meta" style="color:var(--sun-deep);font-weight:700;">${fmt(perUse)} ${FLOWER_ICON} FLOWER / item (live) · lasts 3 harvests</div>\n      </div>\n    </div>\n    ${state.active ? `<div style="margin:0 0 10px 10px;padding-left:10px;border-left:2px dashed var(--line);">\n      ${SPICE_ANIMAL_TYPES.map(type => {
+    return `<div class="lib-item-row" data-spice-master="${c.key}" style="cursor:pointer;${state.active ? "outline:2px solid var(--profit);" : ""}">\n      <span class="lib-item-icon">${state.active ? "✅" : "⬜"}</span>\n      <div class="lib-item-main">\n        <div class="lib-item-name">${getIcon(c.name)} ${c.name} <span style="font-weight:400;color:var(--ink-soft);">${state.active ? "— enabled" : "— disabled"}</span></div>\n        <div class="lib-item-meta">${c.effectLabel} · ${c.desc}</div>\n        <div class="lib-item-meta" style="color:var(--sun-deep);font-weight:700;">${fmt(perUse)} ${FLOWER_ICON} FLOWER / item (live) · lasts ${durationHarvests} harvests</div>\n      </div>\n    </div>\n    ${state.active ? `<div style="margin:0 0 10px 10px;padding-left:10px;border-left:2px dashed var(--line);">\n      ${SPICE_ANIMAL_TYPES.map(type => {
       const cfg = ANIMAL_DATA[type];
       const on = state[type];
       const otherOn = spiceUsage[otherKey(c.key)][type];
       const headCost = getSpiceHeadCost(c.key, type);
       const heads = getAnimalCount(type).qty || 0;
-      return `<div class="lib-item-row" data-spice-key="${c.key}" data-spice-type="${type}" style="cursor:pointer;${on ? "outline:2px solid var(--profit);" : ""}">\n          <span class="lib-item-icon">${on ? "✅" : "⬜"}</span>\n          <div class="lib-item-main">\n            <div class="lib-item-name">${getIcon(cfg.label)} ${cfg.label}${otherOn ? ` <span style="font-weight:400;color:var(--ink-soft);">(currently on ${c.key === "saltLick" ? "Honey Treat" : "Salt Lick"} — will switch)</span>` : ""}</div>\n            <div class="lib-item-meta">${heads > 0 ? `${fmt(heads)} heads × ${fmt(perUse / 3)} F/cycle = ${fmt(headCost)} ${FLOWER_ICON} FLOWER/cycle` : `No heads entered yet — set in Plots &amp; Nodes`}</div>\n          </div>\n        </div>`;
+      return `<div class="lib-item-row" data-spice-key="${c.key}" data-spice-type="${type}" style="cursor:pointer;${on ? "outline:2px solid var(--profit);" : ""}">\n          <span class="lib-item-icon">${on ? "✅" : "⬜"}</span>\n          <div class="lib-item-main">\n            <div class="lib-item-name">${getIcon(cfg.label)} ${cfg.label}${otherOn ? ` <span style="font-weight:400;color:var(--ink-soft);">(currently on ${c.key === "saltLick" ? "Honey Treat" : "Salt Lick"} — will switch)</span>` : ""}</div>\n            <div class="lib-item-meta">${heads > 0 ? `${fmt(heads)} heads × ${fmt(perUse / durationHarvests)} F/cycle = ${fmt(headCost)} ${FLOWER_ICON} FLOWER/cycle` : `No heads entered yet — set in Plots &amp; Nodes`}</div>\n          </div>\n        </div>`;
     }).join("")}\n    </div>` : ""}`;
   }).join("")}`;
 }
@@ -11446,6 +11979,38 @@ function getActiveSaltRechargeMult() {
   return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "saltGlobal" && b.saltRechargeTimeMult).reduce((mult, b) => mult * b.saltRechargeTimeMult, 1);
 }
 
+function hasFreeSaltRakeCost() {
+  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "saltGlobal").some(b => b.freeCost);
+}
+
+function getActiveAgingSaltCostMult() {
+  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "agingGlobal" && b.agingSaltCostMult).reduce((mult, b) => mult * b.agingSaltCostMult, 1);
+}
+
+function getActiveSaltPrimeChanceBonus() {
+  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "agingGlobal").reduce((sum, b) => sum + (b.primeChanceAdd || 0), 0);
+}
+
+function getActiveFermentationSpiceDoubleChancePct() {
+  return Math.min(100, BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "fermentationSpiceGlobal").reduce((sum, b) => sum + (b.doubleChancePct || 0), 0));
+}
+
+function getActiveFermentationSpiceExpectedMult() {
+  return 1 + getActiveFermentationSpiceDoubleChancePct() / 100;
+}
+
+function getActiveAgedFishXpMult() {
+  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "fermentationSpiceGlobal" && b.agedFishXpMult).reduce((mult, b) => mult * b.agedFishXpMult, 1);
+}
+
+function getActiveSpiceRackOutputAdd() {
+  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "spiceRackGlobal").reduce((sum, b) => sum + (b.spiceOutputAdd || 0), 0);
+}
+
+function getSpiceLickDurationHarvests() {
+  return BOOSTS.some(b => isBoostActive(b.id) && b.id === "vibraphone") ? 6 : 3;
+}
+
 function computeComposterFigures(composterName, visited) {
   visited = visited || new Set;
   const d = BASE_COMPOSTERS[composterName];
@@ -12022,7 +12587,7 @@ function computeAnimalWeeklyFigures(type) {
   const baseP = computeAnimalProfit(figBase);
   const cyclesPerDay = ANIMAL_BASE_CYCLE_SEC / figWith.cycleTimeSec;
   const cyclesPerWeek = cyclesPerDay * 7;
-  const boostedCycles = usingSpice ? Math.min(3, cyclesPerWeek) : 0;
+  const boostedCycles = usingSpice ? Math.min(getSpiceLickDurationHarvests(), cyclesPerWeek) : 0;
   const unboostedCycles = Math.max(0, cyclesPerWeek - boostedCycles);
   const profitWeekWithSpice = boostedCycles * withP.profitFlower + unboostedCycles * baseP.profitFlower;
   const costWeekWithSpice = boostedCycles * withP.totalCostFlower + unboostedCycles * baseP.totalCostFlower;
@@ -12060,7 +12625,7 @@ function computeAnimalWeeklyFigures(type) {
     consumablesCostFlowerWeek: consumablesCostFlowerWeek,
     costPerCureFlower: figWith.costPerCureFlower,
     sickHeads: figWith.sickHeads,
-    spiceCostPerUseFlower: figWith.consumablesFlowerPerLevel * 3,
+    spiceCostPerUseFlower: figWith.consumablesFlowerPerLevel * getSpiceLickDurationHarvests(),
     feedKey: figWith.feedKeyUsed,
     feedLabel: figWith.feedNameUsed
   };
@@ -12229,7 +12794,7 @@ function renderAnimalCard(type) {
       otherCostItemsWeek.push({
         label: `${getIcon(spiceLabel)} ${spiceLabel}`,
         value: weekly.consumablesCostFlowerWeek,
-        note: `${fmt(weekly.spiceCostPerUseFlower)} ${FLOWER_ICON}/use ÷3 cycles × ${fmt(qty)} heads × ${fmt(weekly.boostedCycles)} boosted cycles`
+        note: `${fmt(weekly.spiceCostPerUseFlower)} ${FLOWER_ICON}/use ÷${getSpiceLickDurationHarvests()} cycles × ${fmt(qty)} heads × ${fmt(weekly.boostedCycles)} boosted cycles`
       });
     }
     return renderTotalsBreakdown({
@@ -12251,7 +12816,7 @@ function renderAnimalCard(type) {
       feedCostFlower: weekly.feedCostFlowerWeek,
       otherCostItems: otherCostItemsWeek
     });
-  })()}\n      ${spiceLabel ? `<div class="stat" style="margin-top:4px;"><span class="label">vs no ${spiceLabel} (7d)</span><span class="value ${weekly.deltaWeek >= 0 ? "is-profit" : "is-loss"}">${weekly.deltaWeek >= 0 ? "+" : ""}${fmt(weekly.deltaWeek)} ${FLOWER_ICON} FLOWER</span></div>` : ""}\n      ${spiceLabel ? `<div class="field-hint" style="margin-top:6px;background:#fdf1c8;border:1.5px solid var(--sun-deep);">🧂 ${spiceLabel} only lasts <b>3 harvests</b> per item — this week's ${fmt(weekly.boostedCycles)} of ${fmt(weekly.cyclesPerWeek)} cycles get the boost, the rest run at base rate. That's why 7-Day Profit isn't just 24h × 7.</div>` : ""}\n      ${renderBoostAppliedList(fig.activeBoosts)}\n      <div class="profit-banner">\n        <span class="plabel">Net Profit — per cycle</span>\n        <span><span class="pvalue ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(profitFlower)} ${FLOWER_ICON} FLOWER</span>\n        <span class="proi">(${roi.toFixed(1)}% ROI)</span></span>\n      </div>\n      <div class="lib-section-title">🌾 Feed ingredients (${feedName})</div>\n      ${ingredientRows}\n      ${renderAnimalFeedConsumptionBlock(type, {
+  })()}\n      ${spiceLabel ? `<div class="stat" style="margin-top:4px;"><span class="label">vs no ${spiceLabel} (7d)</span><span class="value ${weekly.deltaWeek >= 0 ? "is-profit" : "is-loss"}">${weekly.deltaWeek >= 0 ? "+" : ""}${fmt(weekly.deltaWeek)} ${FLOWER_ICON} FLOWER</span></div>` : ""}\n      ${spiceLabel ? `<div class="field-hint" style="margin-top:6px;background:#fdf1c8;border:1.5px solid var(--sun-deep);">🧂 ${spiceLabel} only lasts <b>${getSpiceLickDurationHarvests()} harvests</b> per item — this week's ${fmt(weekly.boostedCycles)} of ${fmt(weekly.cyclesPerWeek)} cycles get the boost, the rest run at base rate. That's why 7-Day Profit isn't just 24h × 7.</div>` : ""}\n      ${renderBoostAppliedList(fig.activeBoosts)}\n      <div class="profit-banner">\n        <span class="plabel">Net Profit — per cycle</span>\n        <span><span class="pvalue ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(profitFlower)} ${FLOWER_ICON} FLOWER</span>\n        <span class="proi">(${roi.toFixed(1)}% ROI)</span></span>\n      </div>\n      <div class="lib-section-title">🌾 Feed ingredients (${feedName})</div>\n      ${ingredientRows}\n      ${renderAnimalFeedConsumptionBlock(type, {
     feedName: feedName,
     feedIcon: feedIcon,
     headsCount: qty,
@@ -12321,6 +12886,14 @@ $("marketToggle").onclick = () => {
 };
 
 const ICONS = {
+  Scarab: "🪲",
+  "Cow Skull": "💀",
+  "Ancient Clock": "🕰️",
+  "Broken Pillar": "🏛️",
+  Coprolite: "🦴",
+  "Moon Crystal": "🔮",
+  "Ammonite Shell": "🐚",
+  "Salt Dino Egg": "🥚",
   Crab: "🦀",
   Oyster: "🦪",
   "Blue Crab": "🦀",
@@ -12778,10 +13351,24 @@ function farmSyncGetBumpkinLevel(json, g) {
   return null;
 }
 
+function farmSyncGetAscensionLevel(json, g) {
+  const raw = g && g.island && g.island.ascensionLevel;
+  const n = Number(raw);
+  return Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;
+}
+
+function farmSyncGetBumpkinExperience(json, g) {
+  const raw = g && g.bumpkin && g.bumpkin.experience;
+  const n = Number(raw);
+  return Number.isFinite(n) && n >= 0 ? n : 0;
+}
+
 function farmPanelGetLastInfo() {
   return {
     id: localStorage.getItem("hl_farm_panel_id") || "",
     level: localStorage.getItem("hl_farm_panel_level") || "",
+    experience: parseFloat(localStorage.getItem("hl_farm_panel_experience")) || 0,
+    ascensionLevel: parseInt(localStorage.getItem("hl_farm_panel_ascension_level"), 10) || 0,
     time: parseFloat(localStorage.getItem("hl_farm_panel_time")) || 0,
     vipActive: localStorage.getItem("hl_farm_panel_vip_active") === "1",
     vipExpiresAt: parseFloat(localStorage.getItem("hl_farm_panel_vip_expires")) || null,
@@ -12796,9 +13383,11 @@ function farmPanelGetLastInfo() {
   };
 }
 
-function farmPanelSaveLastInfo(id, level, vipStatus, factionInfo) {
+function farmPanelSaveLastInfo(id, level, vipStatus, factionInfo, experience, ascensionLevel) {
   localStorage.setItem("hl_farm_panel_id", id);
   localStorage.setItem("hl_farm_panel_level", level != null ? String(level) : "");
+  localStorage.setItem("hl_farm_panel_experience", experience != null ? String(experience) : "");
+  localStorage.setItem("hl_farm_panel_ascension_level", ascensionLevel != null ? String(ascensionLevel) : "0");
   localStorage.setItem("hl_farm_panel_time", String(Date.now()));
   localStorage.setItem("hl_farm_panel_vip_active", vipStatus && vipStatus.active ? "1" : "0");
   localStorage.setItem("hl_farm_panel_vip_expires", vipStatus && vipStatus.expiresAt != null ? String(vipStatus.expiresAt) : "");
@@ -12817,11 +13406,26 @@ function farmPanelSaveLastInfo(id, level, vipStatus, factionInfo) {
 }
 
 function renderFarmPanelInfo() {
-  const {id: id, level: level, time: time, vipActive: vipActive, vipExpiresAt: vipExpiresAt, vipLifetime: vipLifetime, factionName: factionName, factionIsMember: factionIsMember} = farmPanelGetLastInfo();
+  const {id: id, level: level, time: time, vipActive: vipActive, vipExpiresAt: vipExpiresAt, vipLifetime: vipLifetime, factionName: factionName, factionIsMember: factionIsMember, experience: experience, ascensionLevel: ascensionLevel} = farmPanelGetLastInfo();
   const displayName = id ? farmSyncGetApiUsername(id) : null;
   $("farmPanelName").textContent = displayName ? displayName.toUpperCase() : id ? `Farm #${id}` : "No farm synced";
   $("farmPanelId").textContent = `Farm Id: ${id || "—"}`;
-  $("farmPanelLevel").textContent = `Bumpkin Level: ${level || "—"}`;
+  if (!id) {
+    $("farmPanelLevel").textContent = "Bumpkin Level: —";
+  } else {
+    const levelInfo = cookGetLevelInfo(experience);
+    $("farmPanelLevel").textContent = levelInfo.isMax ? `Bumpkin Level: ${level || levelInfo.level} (MAX)` : `Bumpkin Level: ${level || levelInfo.level} — ${fmt(levelInfo.progress)} XP/${fmt(levelInfo.span)} XP`;
+  }
+  const ascEl = $("farmPanelAscension");
+  if (ascEl) {
+    if (!id) {
+      ascEl.textContent = "Ascension [0]";
+    } else {
+      const ascInfo = getAscensionLevelInfo(experience, ascensionLevel);
+      const badgeText = ascensionLevelBadgeText(ascensionLevel, ascInfo.level, ascInfo.isReadyToAscend);
+      ascEl.textContent = ascensionLevel && !ascInfo.isReadyToAscend ? `${badgeText} — ${fmt(ascInfo.currentExperienceProgress)} XP/${fmt(ascInfo.experienceToNextLevel)} XP` : badgeText;
+    }
+  }
   const factionEl = $("farmPanelFaction");
   if (factionEl) {
     if (!id) {
@@ -12849,14 +13453,21 @@ function renderFarmPanelInfo() {
   if (typeof renderFactionPetHeader === "function") renderFactionPetHeader();
 }
 
-function applyFarmSkillsOnly(json) {
-  const g = farmSyncExtractGameState(json);
+function applyFarmSkillsOnly(json, fallbackJson) {
+  let g = farmSyncExtractGameState(json);
+  const gFallback = fallbackJson ? farmSyncExtractGameState(fallbackJson) : null;
+  if (gFallback) {
+    const primaryAsc = farmSyncGetAscensionLevel(json, g);
+    const fallbackAsc = farmSyncGetAscensionLevel(fallbackJson, gFallback);
+    if (fallbackAsc > primaryAsc) g = gFallback;
+  }
   const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
   const skills = g.bumpkin && asObj(g.bumpkin.skills);
   let matched = 0;
   if (skills) {
     const freshSkillIds = [];
     const freshRanks = {};
+    const freshLevels = {};
     let anyAscended = false;
     Object.keys(skills).forEach(sn => {
       const norm = sn.trim().toLowerCase();
@@ -12864,12 +13475,17 @@ function applyFarmSkillsOnly(json) {
       if (!skill) return;
       if (!freshSkillIds.includes(skill.id)) freshSkillIds.push(skill.id);
       const rawLevel = Number(skills[sn]);
+      if (Number.isFinite(rawLevel) && rawLevel >= 1) {
+        freshLevels[skill.id] = Math.min(Math.max(Math.round(rawLevel), 1), 3);
+      }
       if (ASCENSION_RANK_DATA[skill.id] && Number.isFinite(rawLevel) && rawLevel > 1) {
         freshRanks[skill.id] = Math.min(Math.max(Math.round(rawLevel), 1), 3);
         anyAscended = true;
       }
     });
     matched = freshSkillIds.length;
+    syncedSkillLevels = freshLevels;
+    saveSyncedSkillLevels();
     const sig = JSON.stringify([ freshSkillIds.slice().sort(), freshRanks ]);
     if (sig !== __lastSkillsSig) {
       __lastSkillsSig = sig;
@@ -12888,15 +13504,20 @@ function applyFarmSkillsOnly(json) {
       }
       applyAscensionRanks();
       if (typeof applySkillModifiers === "function") applySkillModifiers();
+      if (typeof resetSkillDraftFromSaved === "function") resetSkillDraftFromSaved();
       if (typeof renderSkillPanel === "function") renderSkillPanel();
       if (typeof renderBoostPanel === "function") renderBoostPanel();
       if (typeof renderAscensionBar === "function") renderAscensionBar();
       if (typeof updateCalcSummary === "function") updateCalcSummary();
+    } else if (typeof renderSkillPanel === "function") {
+      renderSkillPanel();
     }
   }
   return {
     matched: matched,
-    level: farmSyncGetBumpkinLevel(json, g)
+    level: farmSyncGetBumpkinLevel(json, g),
+    experience: farmSyncGetBumpkinExperience(json, g),
+    ascensionLevel: farmSyncGetAscensionLevel(json, g)
   };
 }
 
@@ -15920,7 +16541,8 @@ function farmPanelRestockNoteHtml(ri) {
   let txt = `${GEM_ICON} ~${fmt(ri.restocksNeeded)} ${noun} restock${ri.restocksNeeded === 1 ? "" : "s"} needed for this qty · ${fmt(ri.gemsTotal)} ${GEM_ICON} Gems ≈ ${fmt(ri.flowerCost)} ${FLOWER_ICON} (already added to Total cost above)`;
   if (ri.moonOnly) {
     const minDays = Math.ceil(ri.restocksNeeded) * SYNODIC_MONTH_DAYS;
-    txt += `<br>🌕 Moon-fruit: Betty only sells 1 seed per real Full Moon — even with unlimited Gems this qty needs ~${fmt(minDays)} days minimum.`;
+    const moonStock = fullMoonSeedStockQty(ri.name);
+    txt += `<br>🌕 Moon-fruit: Betty sells ${fmt(moonStock)} seed${moonStock === 1 ? "" : "s"} per real Full Moon${moonStock > 1 ? " (Moon Hair equipped)" : ""} — even with unlimited Gems this qty needs ~${fmt(minDays)} days minimum.`;
   }
   return `<div class="setting-hint" style="margin-top:4px;font-weight:700;color:#e0a63f;">${txt}</div>`;
 }
@@ -17589,9 +18211,9 @@ async function performFarmPanelSync(farmId) {
     const prevSelectedBoostsSig = JSON.stringify(selectedBoosts);
     const prevSelectedSkillsSig = JSON.stringify(selectedSkills);
     const prevFeePercent = feePercent;
-    const result = applyFarmSkillsOnly(json);
-    __mark("  applyFarmSkillsOnly");
     const boostSourceState = communityResult.ok ? communityResult.data : json;
+    const result = applyFarmSkillsOnly(boostSourceState, json);
+    __mark("  applyFarmSkillsOnly");
     const boostResult = applyFarmBoostsOnly(boostSourceState);
     __mark("  applyFarmBoostsOnly");
     const plotsResult = applyFarmPlotsNodesOnly(boostSourceState, communityResult.ok);
@@ -17688,7 +18310,7 @@ async function performFarmPanelSync(farmId) {
     __mark("salt list + calc summary done");
     const factionInfo = farmSyncGetFactionPetInfo(farmSyncExtractGameState(boostSourceState));
     farmSyncSetApiUsername(farmId, apiUsername);
-    farmPanelSaveLastInfo(farmId, result.level, boostResult.vipStatus, factionInfo);
+    farmPanelSaveLastInfo(farmId, result.level, boostResult.vipStatus, factionInfo, result.experience, result.ascensionLevel);
     if (boostResult.vipStatus) {
       localStorage.setItem("hl_ticket_vip_enabled", boostResult.vipStatus.active ? "1" : "0");
       if (typeof refreshTicketCalcVipFromSync === "function") refreshTicketCalcVipFromSync();
@@ -18337,7 +18959,7 @@ function renderFruitCard(name) {
     cyclesPerStockUnit: boosted.minHarvestVal,
     maxRestocksPerDay: d.moonOnly ? 1 / SYNODIC_MONTH_DAYS : undefined
   });
-  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}${isExpanded ? " expanded" : ""}" data-search="${name.toLowerCase()}">\n  \n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon(name)}</span>\n        <div>\n          <div class="card-name">${name}${d.moonOnly ? ` <span style="font-size:9px;font-weight:700;color:${isFullMoonToday() ? "var(--profit)" : "var(--ink-soft)"};">🌕 ${isFullMoonToday() ? "Full Moon today — 1 seed buyable!" : "Moon-fruit — Betty sells 1 seed only on a real Full Moon Day"}</span>` : ""}</div>\n          <div class="card-type">${fmt(costCoins)}${COIN_ICON} tool cost / unit</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        ${boosted.activeBoosts.length ? `<span class="boost-badge">⚡${boosted.activeBoosts.length}</span>` : ""}\n        <span class="pvalue-mini ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(profitFlower)} ${FLOWER_ICON} FLOWER</span>\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    ${render24hBadge(proj.profit24h, proj.cost24h, proj.cyclesPerDay, `${fmt(fruitCount)} trees · ${fmt(proj.cyclesPerDay)} cycles/day`, proj.restockCost24h, `${fmt(proj.unitsPerDay)} ${name}`, [ `${fmt(boosted.minHarvestVal)} HARVESTS × ${fmt(boosted.yieldVal)} = ${fmt(totalYield)} ${name.toUpperCase()}`, `${fmt(proj.cost24h)} ${FLOWER_ICON} FLOWER COST (24H) · <span style="color:var(--flower);">${fmt(proj.revenue24h)} ${FLOWER_ICON} FLOWER SELL (24H)</span>` ], {
+  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}${isExpanded ? " expanded" : ""}" data-search="${name.toLowerCase()}">\n  \n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon(name)}</span>\n        <div>\n          <div class="card-name">${name}${d.moonOnly ? ` <span style="font-size:9px;font-weight:700;color:${isFullMoonToday() ? "var(--profit)" : "var(--ink-soft)"};">🌕 ${isFullMoonToday() ? `Full Moon today — ${fmt(fullMoonSeedStockQty(name))} seed${fullMoonSeedStockQty(name) === 1 ? "" : "s"} buyable!` : `Moon-fruit — Betty sells ${fmt(fullMoonSeedStockQty(name))} seed${fullMoonSeedStockQty(name) === 1 ? "" : "s"} on a real Full Moon Day`}</span>` : ""}</div>\n          <div class="card-type">${fmt(costCoins)}${COIN_ICON} tool cost / unit</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        ${boosted.activeBoosts.length ? `<span class="boost-badge">⚡${boosted.activeBoosts.length}</span>` : ""}\n        <span class="pvalue-mini ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(profitFlower)} ${FLOWER_ICON} FLOWER</span>\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    ${render24hBadge(proj.profit24h, proj.cost24h, proj.cyclesPerDay, `${fmt(fruitCount)} trees · ${fmt(proj.cyclesPerDay)} cycles/day`, proj.restockCost24h, `${fmt(proj.unitsPerDay)} ${name}`, [ `${fmt(boosted.minHarvestVal)} HARVESTS × ${fmt(boosted.yieldVal)} = ${fmt(totalYield)} ${name.toUpperCase()}`, `${fmt(proj.cost24h)} ${FLOWER_ICON} FLOWER COST (24H) · <span style="color:var(--flower);">${fmt(proj.revenue24h)} ${FLOWER_ICON} FLOWER SELL (24H)</span>` ], {
     itemName: `${name} Seed`,
     restockItemName: name,
     unitCost: costFlower,
@@ -19364,9 +19986,23 @@ renderSkillPanel();
 (function initAscensionToggle() {
   const btn = $("ascensionToggleBtn");
   if (!btn) return;
-  btn.onclick = () => setAscensionEnabled(!ascensionEnabled);
+  btn.onclick = () => draftSetAscensionEnabled(!skillDraftAscensionEnabled);
   applyAscensionRanks();
   renderAscensionBar();
+})();
+
+(function initSkillSaveBar() {
+  const btn = $("skillSaveBtn");
+  if (!btn) return;
+  btn.onclick = commitSkillDraft;
+  updateSkillSaveBarState();
+})();
+
+(function initBoostSaveBar() {
+  const btn = $("boostSaveBtn");
+  if (!btn) return;
+  btn.onclick = commitBoostDraft;
+  updateBoostSaveBarState();
 })();
 
 document.querySelectorAll(".season-toggle").forEach(wrap => wrap.querySelectorAll("button").forEach(btn => {
@@ -20061,7 +20697,7 @@ function setUndelivered(v) {
 
 let seasonDays = parseFloat(localStorage.getItem("hl_ticket_v2_season_days"));
 
-if (isNaN(seasonDays)) seasonDays = 70;
+if (isNaN(seasonDays)) seasonDays = 90;
 
 function setSeasonDays(v) {
   seasonDays = Math.max(0, parseFloat(v) || 0);
@@ -20424,7 +21060,7 @@ window.addEventListener("storage", e => {
   if (readFarmVipEnabled()) ticketBoosts.vip.enabled = true;
   undeliveredLastSeason = parseFloat(localStorage.getItem("hl_ticket_v2_undelivered")) || 0;
   const sd = parseFloat(localStorage.getItem("hl_ticket_v2_season_days"));
-  seasonDays = isNaN(sd) ? 70 : sd;
+  seasonDays = isNaN(sd) ? 90 : sd;
   npcDeliverToggle = safeParse(localStorage.getItem("hl_ticket_v2_npc_deliver"), {});
   npcSkipDays = safeParse(localStorage.getItem("hl_ticket_v2_npc_skip"), {});
   animalWeekly = parseFloat(localStorage.getItem("hl_ticket_v2_animal_weekly")) || 0;
@@ -21529,7 +22165,7 @@ function computeQtyRestockGems(marketId, qty) {
   }
   if (!baseStock || !unitsPerRestockItem) return null;
   const toolNameForStock = stockKind === "tool" ? (RESOURCE_DATA[name] || {}).tool : null;
-  const boostedStock = computeBoostedStock(baseStock, stockKind, toolNameForStock);
+  const boostedStock = computeBoostedStock(baseStock, stockKind, stockKind === "tool" ? toolNameForStock : name);
   if (!boostedStock) return null;
   const itemsNeeded = qty / unitsPerRestockItem;
   const restocksNeeded = itemsNeeded / boostedStock;
@@ -21594,7 +22230,8 @@ function updateCalcSummary() {
       let txt = `${GEM_ICON} ~${fmt(ri.restocksNeeded)} ${noun} restock${ri.restocksNeeded === 1 ? "" : "s"} needed for this qty · ${fmt(ri.gemsTotal)} ${GEM_ICON} Gems ≈ ${fmt(ri.flowerCost)} ${FLOWER_ICON} (already added to COST above)`;
       if (ri.moonOnly) {
         const minDays = Math.ceil(ri.restocksNeeded) * SYNODIC_MONTH_DAYS;
-        txt += `<br>🌕 Moon-fruit: Betty only sells 1 seed per real Full Moon — even with unlimited Gems this qty needs ~${fmt(minDays)} days minimum.`;
+        const moonStock = fullMoonSeedStockQty(ri.name);
+        txt += `<br>🌕 Moon-fruit: Betty sells ${fmt(moonStock)} seed${moonStock === 1 ? "" : "s"} per real Full Moon${moonStock > 1 ? " (Moon Hair equipped)" : ""} — even with unlimited Gems this qty needs ~${fmt(minDays)} days minimum.`;
       }
       noteEl.innerHTML = txt;
       noteEl.classList.remove("hidden");
@@ -22724,7 +23361,7 @@ function sculptureEffects() {
 }
 
 function effectivePrimeChancePct() {
-  return Math.min(100, saltPrimeChancePct + sculptureEffects().primeBonusPct);
+  return Math.min(100, saltPrimeChancePct + sculptureEffects().primeBonusPct + getActiveSaltPrimeChanceBonus());
 }
 
 const FARM_LEVELS = [ {
@@ -22791,7 +23428,7 @@ function computeSaltFarmFigures() {
   const timeSec = SALT_BASE_TIME_SEC * eff.chargeTimeMult * getActiveSaltRechargeMult();
   const chargesPerDayPerNode = 86400 / timeSec;
   const rakeCoinCostBase = getToolCostCoins("default_salt_rake");
-  const rakeCoinCost = rakeCoinCostBase * eff.rakeCostMult;
+  const rakeCoinCost = hasFreeSaltRakeCost() ? 0 : rakeCoinCostBase * eff.rakeCostMult;
   const saltYieldBonus = getActiveSaltYieldBonus();
   const yieldPerCharge = SALT_BASE_YIELD + saltYieldBonus;
   const costPerUnitCoins = rakeCoinCost / yieldPerCharge;
@@ -22916,7 +23553,8 @@ function fishSelected(tierList, pickedName) {
 }
 
 function fishSaltCostFlower(fish) {
-  const saltCost = fish.salt * saltUnitCostFlower();
+  const agingSaltCostMult = typeof getActiveAgingSaltCostMult === "function" ? getActiveAgingSaltCostMult() : 1;
+  const saltCost = fish.salt * saltUnitCostFlower() * agingSaltCostMult;
   let fishOwnCostFlower = 0;
   if (typeof FISH_CATCH_DATA !== "undefined") {
     const matchName = Object.keys(FISH_CATCH_DATA).find(n => n.toLowerCase() === (fish.name || "").toLowerCase());
@@ -22938,9 +23576,12 @@ function computeBaitFigures(baitName) {
   const primeChancePct = effectivePrimeChancePct();
   const fishCost = fishSaltCostFlower(fish);
   const totalCost = fishCost + (veg ? veg.cost : 0);
+  const agingSaltCostMult = typeof getActiveAgingSaltCostMult === "function" ? getActiveAgingSaltCostMult() : 1;
+  const fishEffectiveSalt = fish.salt * agingSaltCostMult;
   const bacalhauBonus = typeof isBoostActive === "function" && isBoostActive("skill_bacalhau") ? 1 : 0;
-  const outputAgedBoosted = rec.outputAged + bacalhauBonus;
-  const outputPrimeBoosted = rec.outputPrime + bacalhauBonus;
+  const astrolabeMult = typeof getActiveFermentationSpiceExpectedMult === "function" ? getActiveFermentationSpiceExpectedMult() : 1;
+  const outputAgedBoosted = rec.outputAged * astrolabeMult + bacalhauBonus;
+  const outputPrimeBoosted = rec.outputPrime * astrolabeMult + bacalhauBonus;
   const outputSelected = isPrime ? outputPrimeBoosted : outputAgedBoosted;
   const expectedOutput = outputAgedBoosted + (outputPrimeBoosted - outputAgedBoosted) * (primeChancePct / 100);
   const unitCostExpected = totalCost / expectedOutput;
@@ -22952,7 +23593,7 @@ function computeBaitFigures(baitName) {
   const profitPerUnitSelected = netSell - unitCostSelected;
   const fishOptions = tierList.map(f => ({
     name: f.name,
-    salt: f.salt,
+    salt: f.salt * agingSaltCostMult,
     cost: fishSaltCostFlower(f),
     isCheapest: f.name === fishCheapest(tierList).name,
     isSelected: f.name === fish.name
@@ -22971,6 +23612,7 @@ function computeBaitFigures(baitName) {
     fish: fish,
     veg: veg,
     fishCost: fishCost,
+    fishEffectiveSalt: fishEffectiveSalt,
     totalCost: totalCost,
     outputSelected: outputSelected,
     expectedOutput: expectedOutput,
@@ -23028,14 +23670,17 @@ function computeFertilizerFigures(fertName) {
 }
 
 function computeSpiceFigures(name) {
+  const astrolabeMult = typeof getActiveFermentationSpiceExpectedMult === "function" ? getActiveFermentationSpiceExpectedMult() : 1;
+  const onesieAdd = typeof getActiveSpiceRackOutputAdd === "function" ? getActiveSpiceRackOutputAdd() : 0;
   if (name === "Refined Salt") {
     const r = SPICE_RECIPES[name];
     const saltUnit = saltCostFlowerForSpiceRack();
     const saltCost = saltUnit * r.saltQty;
+    const output = r.output * astrolabeMult + onesieAdd;
     return {
       cost: saltCost,
-      unitCost: saltCost / r.output,
-      output: r.output,
+      unitCost: saltCost / output,
+      output: output,
       ingredients: [ {
         name: "Salt",
         qty: r.saltQty,
@@ -23050,10 +23695,11 @@ function computeSpiceFigures(name) {
     const r = SPICE_RECIPES[name];
     const rsUnit = refinedSaltUnitCostFlower();
     const rsCost = rsUnit * r.refinedSaltQty;
+    const output = r.output * astrolabeMult + onesieAdd;
     return {
       cost: rsCost,
-      unitCost: rsCost / r.output,
-      output: r.output,
+      unitCost: rsCost / output,
+      output: output,
       ingredients: [ {
         name: "Refined Salt",
         qty: r.refinedSaltQty,
@@ -23070,10 +23716,11 @@ function computeSpiceFigures(name) {
     const honeyUnit = honeyCostFlowerForSpiceRack();
     const honeyCost = honeyUnit * r.honeyQty;
     const cost = rsCost + honeyCost;
+    const output = r.output * astrolabeMult + onesieAdd;
     return {
       cost: cost,
-      unitCost: cost / r.output,
-      output: r.output,
+      unitCost: cost / output,
+      output: output,
       ingredients: [ {
         name: "Refined Salt",
         qty: r.refinedSaltQty,
@@ -23193,7 +23840,7 @@ function renderBaitCard(name) {
   const isProfit = fig.profitPerUnitSelected >= 0;
   const fishListId = "fishList_" + name.replace(/\s+/g, "_");
   const vegListId = "vegList_" + name.replace(/\s+/g, "_");
-  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}" data-search="${name.toLowerCase()}">\n    <div class="card-toggle" style="cursor:default;">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon(name)}</span>\n        <div>\n          <div class="card-name">${name}</div>\n          <div class="card-type">Using: ${getFishIcon(fig.fish.name, fig.isPrime)} ${escapeHtml(fig.fish.name)} (${fig.fish.salt} Salt) + ${fig.veg ? escapeHtml(fig.veg.veg) : "?"}</div>\n        </div>\n      </div>\n    </div>\n    <div class="card-details" style="display:block;max-height:none;padding-top:0;">\n      <div style="display:flex;gap:6px;margin:6px 0 8px;">\n        <button type="button" class="mode-btn bait-quality-btn" data-bait="${escapeHtml(name)}" data-quality="aged" style="flex:1;padding:5px;font-size:9px;border-radius:6px;border:1.5px solid var(--line);cursor:pointer;background:${!fig.isPrime ? "var(--profit)" : "transparent"};color:${!fig.isPrime ? "#fff" : "var(--ink)"};">🥈 Aged ×${fig.outputAgedBoosted}</button>\n        <button type="button" class="mode-btn bait-quality-btn" data-bait="${escapeHtml(name)}" data-quality="prime" style="flex:1;padding:5px;font-size:9px;border-radius:6px;border:1.5px solid var(--line);cursor:pointer;background:${fig.isPrime ? "var(--profit)" : "transparent"};color:${fig.isPrime ? "#fff" : "var(--ink)"};">🥇 Prime ×${fig.outputPrimeBoosted}</button>\n      </div>\n      <div style="font-size:7.5px;color:var(--ink-soft);margin:-2px 0 8px;">Prime is a ${fmt(fig.primeChancePct)}% bonus-chance on the same recipe (same Salt cost) — it doesn't change what you spend, only how many bait you might get back. The toggle below just shows the math for a guaranteed Aged batch vs. a guaranteed Prime batch.</div>\n      ${typeof cookingGuaranteedCatchOn !== "undefined" && cookingGuaranteedCatchOn ? `<div style="font-size:7.5px;color:var(--ink-soft);margin:-6px 0 8px;">🎯 Guaranteed Catch is on (set in 🍳 Cooking → Basic Fish) — fish cost above uses the Fish Market recipe cost instead of Rod + Bait + Chum.</div>` : ``}\n\n      <div style="margin-bottom:8px;">\n        <label style="font-size:8.5px;color:var(--ink-soft);display:block;margin-bottom:3px;">🐟 Fish (choose ingredient)</label>\n        <button type="button" class="pixel-select-btn" id="${fishListId}" data-bait="${escapeHtml(name)}" data-role="fish">\n          <span class="psb-label">${getFishIcon(fig.fish.name, fig.isPrime)} ${escapeHtml(fig.fish.name)} — ${fig.fish.salt} Salt (${fmt(fig.fishCost)} ${FLOWER_ICON} FLOWER)</span>\n          <span class="psb-chevron">▼</span>\n        </button>\n      </div>\n      <div style="margin-bottom:8px;">\n        <label style="font-size:8.5px;color:var(--ink-soft);display:block;margin-bottom:3px;">🥒 Pickled Veg (choose ingredient)</label>\n        <button type="button" class="pixel-select-btn" id="${vegListId}" data-bait="${escapeHtml(name)}" data-role="veg">\n          <span class="psb-label">Pickled ${fig.veg ? escapeHtml(fig.veg.veg) : "?"} — ${fmt(fig.veg ? fig.veg.cost : 0)} ${FLOWER_ICON} FLOWER</span>\n          <span class="psb-chevron">▼</span>\n        </button>\n      </div>\n\n      <div class="card-grid">\n        <div class="stat"><span class="label">Fish Salt cost</span><span class="value">${fmt(fig.fishCost)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Pickled Veg cost</span><span class="value">${fmt(fig.veg ? fig.veg.cost : 0)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Total recipe cost</span><span class="value">${fmt(fig.totalCost)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Output (${fig.isPrime ? "Prime" : "Aged"})</span><span class="value">×${fig.outputSelected}</span></div>\n        <div class="stat"><span class="label">Cost/unit (${fig.isPrime ? "Prime" : "Aged"})</span><span class="value">${fmt(fig.unitCostSelected)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Sell (market)</span><span class="value">${fmt(fig.sellFlower)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Prime chance</span><span class="value">${fmt(fig.primeChancePct)}%</span></div>\n        <div class="stat"><span class="label">Cost/unit (expected blend)</span><span class="value">${fmt(fig.unitCostExpected)} ${FLOWER_ICON} FLOWER</span></div>\n      </div>\n      ${render24hTotalsGrid(fig.totalCost, fig.outputSelected * fig.sellFlower, fig.outputSelected * fig.sellFlower * (1 - feePercent / 100), fig.outputSelected * fig.sellFlower * (1 - feePercent / 100) - fig.totalCost, {
+  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}" data-search="${name.toLowerCase()}">\n    <div class="card-toggle" style="cursor:default;">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon(name)}</span>\n        <div>\n          <div class="card-name">${name}</div>\n          <div class="card-type">Using: ${getFishIcon(fig.fish.name, fig.isPrime)} ${escapeHtml(fig.fish.name)} (${fmt(fig.fishEffectiveSalt)} Salt) + ${fig.veg ? escapeHtml(fig.veg.veg) : "?"}</div>\n        </div>\n      </div>\n    </div>\n    <div class="card-details" style="display:block;max-height:none;padding-top:0;">\n      <div style="display:flex;gap:6px;margin:6px 0 8px;">\n        <button type="button" class="mode-btn bait-quality-btn" data-bait="${escapeHtml(name)}" data-quality="aged" style="flex:1;padding:5px;font-size:9px;border-radius:6px;border:1.5px solid var(--line);cursor:pointer;background:${!fig.isPrime ? "var(--profit)" : "transparent"};color:${!fig.isPrime ? "#fff" : "var(--ink)"};">🥈 Aged ×${fig.outputAgedBoosted}</button>\n        <button type="button" class="mode-btn bait-quality-btn" data-bait="${escapeHtml(name)}" data-quality="prime" style="flex:1;padding:5px;font-size:9px;border-radius:6px;border:1.5px solid var(--line);cursor:pointer;background:${fig.isPrime ? "var(--profit)" : "transparent"};color:${fig.isPrime ? "#fff" : "var(--ink)"};">🥇 Prime ×${fig.outputPrimeBoosted}</button>\n      </div>\n      <div style="font-size:7.5px;color:var(--ink-soft);margin:-2px 0 8px;">Prime is a ${fmt(fig.primeChancePct)}% bonus-chance on the same recipe (same Salt cost) — it doesn't change what you spend, only how many bait you might get back. The toggle below just shows the math for a guaranteed Aged batch vs. a guaranteed Prime batch.</div>\n      ${typeof cookingGuaranteedCatchOn !== "undefined" && cookingGuaranteedCatchOn ? `<div style="font-size:7.5px;color:var(--ink-soft);margin:-6px 0 8px;">🎯 Guaranteed Catch is on (set in 🍳 Cooking → Basic Fish) — fish cost above uses the Fish Market recipe cost instead of Rod + Bait + Chum.</div>` : ``}\n\n      <div style="margin-bottom:8px;">\n        <label style="font-size:8.5px;color:var(--ink-soft);display:block;margin-bottom:3px;">🐟 Fish (choose ingredient)</label>\n        <button type="button" class="pixel-select-btn" id="${fishListId}" data-bait="${escapeHtml(name)}" data-role="fish">\n          <span class="psb-label">${getFishIcon(fig.fish.name, fig.isPrime)} ${escapeHtml(fig.fish.name)} — ${fmt(fig.fishEffectiveSalt)} Salt (${fmt(fig.fishCost)} ${FLOWER_ICON} FLOWER)</span>\n          <span class="psb-chevron">▼</span>\n        </button>\n      </div>\n      <div style="margin-bottom:8px;">\n        <label style="font-size:8.5px;color:var(--ink-soft);display:block;margin-bottom:3px;">🥒 Pickled Veg (choose ingredient)</label>\n        <button type="button" class="pixel-select-btn" id="${vegListId}" data-bait="${escapeHtml(name)}" data-role="veg">\n          <span class="psb-label">Pickled ${fig.veg ? escapeHtml(fig.veg.veg) : "?"} — ${fmt(fig.veg ? fig.veg.cost : 0)} ${FLOWER_ICON} FLOWER</span>\n          <span class="psb-chevron">▼</span>\n        </button>\n      </div>\n\n      <div class="card-grid">\n        <div class="stat"><span class="label">Fish Salt cost</span><span class="value">${fmt(fig.fishCost)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Pickled Veg cost</span><span class="value">${fmt(fig.veg ? fig.veg.cost : 0)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Total recipe cost</span><span class="value">${fmt(fig.totalCost)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Output (${fig.isPrime ? "Prime" : "Aged"})</span><span class="value">×${fig.outputSelected}</span></div>\n        <div class="stat"><span class="label">Cost/unit (${fig.isPrime ? "Prime" : "Aged"})</span><span class="value">${fmt(fig.unitCostSelected)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Sell (market)</span><span class="value">${fmt(fig.sellFlower)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Prime chance</span><span class="value">${fmt(fig.primeChancePct)}%</span></div>\n        <div class="stat"><span class="label">Cost/unit (expected blend)</span><span class="value">${fmt(fig.unitCostExpected)} ${FLOWER_ICON} FLOWER</span></div>\n      </div>\n      ${render24hTotalsGrid(fig.totalCost, fig.outputSelected * fig.sellFlower, fig.outputSelected * fig.sellFlower * (1 - feePercent / 100), fig.outputSelected * fig.sellFlower * (1 - feePercent / 100) - fig.totalCost, {
     title: `Totals — per batch (${fig.isPrime ? "Prime" : "Aged"})`,
     totalYield: fig.outputSelected,
     yieldLabel: name
@@ -23349,23 +23996,45 @@ loadBaseSaltMarketIfNeeded();
 
 renderFarmPanelInfo();
 
+function runDeferredInitialRender() {
+  const steps = [ updateSettingsSummary, () => applySeasonTheme(previewSeason), renderSeasonToggle, renderBoostPanel, renderLibraryLists, renderMarketList, renderResourceList, renderHoneyList, renderAnimalsList, applyCalcModeVisibility, updateCalcSelectedDisplay, updateCalcSummary, initLivePricesOnLoad, renderBettyShop, farmPanelLoadCachedGameState, renderFarmPanelTabContent ];
+  steps.forEach(step => {
+    try {
+      step();
+    } catch (e) {
+      console.error("Deferred initial render step failed:", e);
+    }
+  });
+}
+
+let __deferredInitialRenderDone = false;
+
+const __deferredInitialRenderCallbacks = [];
+
+function onDeferredInitialRenderDone(cb) {
+  if (__deferredInitialRenderDone) {
+    cb();
+  } else {
+    __deferredInitialRenderCallbacks.push(cb);
+  }
+}
+
 setTimeout(() => {
-  updateSettingsSummary();
-  applySeasonTheme(previewSeason);
-  renderSeasonToggle();
-  renderBoostPanel();
-  renderLibraryLists();
-  renderMarketList();
-  renderResourceList();
-  renderHoneyList();
-  renderAnimalsList();
-  applyCalcModeVisibility();
-  updateCalcSelectedDisplay();
-  updateCalcSummary();
-  initLivePricesOnLoad();
-  renderBettyShop();
-  farmPanelLoadCachedGameState();
-  renderFarmPanelTabContent();
+  try {
+    runDeferredInitialRender();
+  } catch (e) {
+    console.error("runDeferredInitialRender failed:", e);
+  } finally {
+    __deferredInitialRenderDone = true;
+    while (__deferredInitialRenderCallbacks.length) {
+      const cb = __deferredInitialRenderCallbacks.shift();
+      try {
+        cb();
+      } catch (e) {
+        console.error("Deferred-init callback failed:", e);
+      }
+    }
+  }
 }, 0);
 
 const APP_LOADING_STAGES = [ {
@@ -23391,10 +24060,21 @@ const APP_LOADING_STAGES = [ {
 let goblinLoadingProgressTimer = null;
 
 async function farmIdPromptStartSync(farmId) {
-  $("farmPanelIdInput").value = farmId;
+  if ($("farmPanelIdInput")) $("farmPanelIdInput").value = farmId;
   beginLoadingSequence();
-  const res = await performFarmPanelSync(farmId);
-  finishLoadingSequence();
+  let res = null;
+  try {
+    res = await performFarmPanelSync(farmId);
+  } catch (e) {
+    console.error("Farm panel sync threw unexpectedly:", e);
+    farmPanelSyncInFlight = false;
+    res = {
+      ok: false,
+      error: e && e.message ? e.message : String(e)
+    };
+  } finally {
+    finishLoadingSequence();
+  }
   if (!res) {
     return;
   }
@@ -23410,7 +24090,14 @@ async function farmIdPromptStartSync(farmId) {
 {
   const {id: savedFarmId} = farmPanelGetLastInfo();
   if (savedFarmId) {
-    farmIdPromptStartSync(savedFarmId);
+    let __autoSyncStarted = false;
+    const startAutoSyncOnce = () => {
+      if (__autoSyncStarted) return;
+      __autoSyncStarted = true;
+      farmIdPromptStartSync(savedFarmId);
+    };
+    onDeferredInitialRenderDone(startAutoSyncOnce);
+    setTimeout(startAutoSyncOnce, 1500);
   } else {
     const screen = document.getElementById("appLoadingScreen");
     const input = document.getElementById("farmIdPromptInput");
@@ -24417,29 +25104,6 @@ function cookFoodIcon(name) {
   return `<span style="font-size:16px;line-height:1;">${COOKING_FOOD_EMOJI[name] || "🍽️"}</span>`;
 }
 
-const COOK_LEVEL_XP = [ 0, 2, 22, 205, 555, 1155, 2155, 3405, 5405, 7905, 10905, 14405, 18405, 22905, 27905, 33655, 40155, 47405, 55405, 64155, 73905, 84655, 96405, 109155, 122905, 137405, 152905, 169405, 186905, 205405, 225405, 246905, 269905, 294405, 320405, 348405, 378405, 410405, 444405, 480405, 518905, 559905, 603405, 649405, 697905, 749405, 803905, 861405, 921905, 985405, 1053905, 1127405, 1205905, 1289405, 1377905, 1476405, 1584905, 1703405, 1831905, 1970405, 2128905, 2287405, 2485905, 2704405, 2942905, 3221405, 3539905, 3898405, 4296905, 4735405, 5233905, 5743905, 6263905, 6793905, 7333905, 7883905, 8443905, 9013905, 9593905, 10183905, 10783905, 11393905, 12013905, 12643905, 13283905, 13933905, 14593905, 15263905, 15943905, 16633905, 17333905, 18043905, 18763905, 19493905, 20233905, 20983905, 21743905, 22513905, 23293905, 24083905, 24893905, 25723905, 26573905, 27443905, 28333905, 29243905, 30173905, 31123905, 32093905, 33083905, 34093905, 35123905, 36173905, 37243905, 38333905, 39443905, 40573905, 41723905, 42893905, 44083905, 45293905, 46523905, 47773905, 49043905, 50333905, 51653905, 53003905, 54383905, 55793905, 57233905, 58708905, 60218905, 61763905, 63343905, 64958905, 66613905, 68308905, 70043905, 71818905, 73633905, 75493905, 77398905, 79348905, 81343905, 83383905, 85473905, 87613905, 89803905, 92043905, 94333905, 95662605, 97031166, 98440783, 99892688, 101388150, 102928475, 104515009, 106149139, 107832292, 109565939, 111351595, 113190820, 115085221, 117036454, 119046223, 121116285, 123248448, 125444575, 127706585, 130036455, 132436221, 134907979, 137453889, 140076176, 142777131, 145559114, 148424556, 151375961, 154415908, 157547053, 160772132, 164093963, 167515448, 171039577, 174669429, 178408176, 182259085, 186225521, 190310950, 194518941, 198853171, 203317427, 207915610, 212651738, 217529949, 222554506, 227729799, 233060350, 238550817, 244206e3 ];
-
-function cookGetLevelInfo(experience) {
-  experience = Math.max(0, Number(experience) || 0);
-  const maxLevel = COOK_LEVEL_XP.length;
-  let level = 1;
-  for (let l = 1; l <= maxLevel; l++) {
-    if (experience >= COOK_LEVEL_XP[l - 1]) level = l; else break;
-  }
-  const isMax = level >= maxLevel;
-  const curFloor = COOK_LEVEL_XP[level - 1];
-  const nextCeil = isMax ? curFloor : COOK_LEVEL_XP[level];
-  const span = isMax ? COOK_LEVEL_XP[maxLevel - 1] - COOK_LEVEL_XP[maxLevel - 2] : nextCeil - curFloor;
-  const progress = isMax ? span : experience - curFloor;
-  return {
-    level: level,
-    isMax: isMax,
-    curFloor: curFloor,
-    nextCeil: nextCeil,
-    span: span,
-    progress: progress
-  };
-}
 
 let cookingCounts = safeLSJSON(localStorage.getItem("hl_cooking_counts"), {});
 
@@ -24853,8 +25517,10 @@ function renderCookingHeader() {
   const wrap = $("cookHeader");
   if (!wrap) return;
   let experience = 0;
+  let syncedAscensionLevel = 0;
   try {
     const info = typeof farmPanelGetLastInfo === "function" ? farmPanelGetLastInfo() : null;
+    if (info) syncedAscensionLevel = info.ascensionLevel || 0;
     if (farmPanelGameState && typeof farmSyncExtractGameState === "function") {
       const g = farmSyncExtractGameState(farmPanelGameState);
       experience = g && g.bumpkin && Number(g.bumpkin.experience) || 0;
@@ -24868,7 +25534,19 @@ function renderCookingHeader() {
   const previewPct = cur.span > 0 ? Math.min(100, (cur.progress + previewExtra) / cur.span * 100) : 100;
   const flowerCost = typeof coinsToFlower === "function" ? coinsToFlower(totalCostCoins) : 0;
   const levelUpNote = preview.level > cur.level ? ` <span class="cook-levelup-pill">→ Level ${preview.level}!</span>` : "";
-  wrap.innerHTML = `\n    <div class="cook-header-row">\n      <span class="cook-level-badge"><span class="cook-level-badge-title">Bumpkin</span><span class="cook-level-badge-value">🧑‍🌾 Level ${cur.level}${cur.isMax ? " MAX" : ""}</span></span>\n      <span class="cook-exp-label">${fmt(experience)} EXP</span>\n    </div>\n    <div class="cook-bar-stack">\n      <div class="cook-bar-track">\n        <div class="cook-bar-fill preview" style="width:${previewPct}%;"></div>\n        <div class="cook-bar-fill" style="width:${curPct}%;"></div>\n      </div>\n    </div>\n    <div class="cook-bar-caption">${cur.isMax ? "Max level reached" : `${fmt(cur.progress)} / ${fmt(cur.span)} EXP to Level ${cur.level + 1}${levelUpNote}`}</div>\n    <div class="cook-total-row">\n      <span>Total EXP added: <b>${fmt(totalExpAdded)}</b></span>\n      <span>Total cost: <b>${fmt(flowerCost)} ${typeof FLOWER_ICON !== "undefined" ? FLOWER_ICON : "FLOWER"}</b></span>\n    </div>\n  `;
+  const willCrossAscensionCap = cur.level >= PRE_ASCENSION_MAX_LEVEL || preview.level >= PRE_ASCENSION_MAX_LEVEL;
+  let ascensionHtml = "";
+  if (syncedAscensionLevel > 0 || willCrossAscensionCap) {
+    const ascCur = resolveAscensionLevelInfo(experience);
+    const ascPreview = resolveAscensionLevelInfo(experience + totalExpAdded);
+    const ascCurPct = ascCur.experienceToNextLevel > 0 ? Math.min(100, ascCur.currentExperienceProgress / ascCur.experienceToNextLevel * 100) : 100;
+    const ascPreviewExtra = ascCur.isReadyToAscend ? 0 : Math.min(Math.max(0, ascCur.experienceToNextLevel - ascCur.currentExperienceProgress), Math.max(0, totalExpAdded));
+    const ascPreviewPct = ascCur.experienceToNextLevel > 0 ? Math.min(100, (ascCur.currentExperienceProgress + ascPreviewExtra) / ascCur.experienceToNextLevel * 100) : 100;
+    const ascLevelUpNote = ascPreview.ascension > ascCur.ascension ? ` <span class="cook-levelup-pill">→ Ascension [${ascPreview.ascension}] Lv ${ascPreview.level}!</span>` : ascPreview.level > ascCur.level ? ` <span class="cook-levelup-pill">→ Level ${ascPreview.level}!</span>` : "";
+    const projectedTag = syncedAscensionLevel > 0 ? "" : ` <span class="cook-ascension-projected">(projected — not ascended yet)</span>`;
+    ascensionHtml = `\n    <div class="cook-ascension-row">\n      <span class="cook-ascension-badge">Ascension [${ascCur.ascension}] · Lv ${ascCur.level}${ascCur.isReadyToAscend ? " ✅ Ready" : ""}</span>${projectedTag}\n    </div>\n    <div class="cook-bar-stack">\n      <div class="cook-bar-track">\n        <div class="cook-bar-fill preview" style="width:${ascPreviewPct}%;"></div>\n        <div class="cook-bar-fill" style="width:${ascCurPct}%;"></div>\n      </div>\n    </div>\n    <div class="cook-bar-caption">${ascCur.isReadyToAscend ? "Ready to Ascend" : `${fmt(ascCur.currentExperienceProgress)} / ${fmt(ascCur.experienceToNextLevel)} EXP to Ascension [${ascCur.ascension}] Lv ${ascCur.level + 1}${ascLevelUpNote}`}</div>\n  `;
+  }
+  wrap.innerHTML = `\n    <div class="cook-header-row">\n      <span class="cook-level-badge"><span class="cook-level-badge-title">Bumpkin</span><span class="cook-level-badge-value">🧑‍🌾 Level ${cur.level}${cur.isMax ? " MAX" : ""}</span></span>\n      <span class="cook-exp-label">${fmt(experience)} EXP</span>\n    </div>\n    <div class="cook-bar-stack">\n      <div class="cook-bar-track">\n        <div class="cook-bar-fill preview" style="width:${previewPct}%;"></div>\n        <div class="cook-bar-fill" style="width:${curPct}%;"></div>\n      </div>\n    </div>\n    <div class="cook-bar-caption">${cur.isMax ? "Max level reached" : `${fmt(cur.progress)} / ${fmt(cur.span)} EXP to Level ${cur.level + 1}${levelUpNote}`}</div>\n    ${ascensionHtml}\n    <div class="cook-total-row">\n      <span>Total EXP added: <b>${fmt(totalExpAdded)}</b></span>\n      <span>Total cost: <b>${fmt(flowerCost)} ${typeof FLOWER_ICON !== "undefined" ? FLOWER_ICON : "FLOWER"}</b></span>\n    </div>\n  `;
 }
 
 function renderCookingModeToggle() {
@@ -25580,7 +26258,7 @@ function computeAgedFishFigures(fishName) {
   const xpEntry = FISH_XP_DATA[fishName];
   let result = null;
   if (xpEntry) {
-    const saltQty = getAgingSaltCostLocal(xpEntry.basic);
+    const saltQty = getAgingSaltCostLocal(xpEntry.basic) * (typeof getActiveAgingSaltCostMult === "function" ? getActiveAgingSaltCostMult() : 1);
     const saltCostCoins = saltQty * (typeof computeSaltUnitCostCoins === "function" ? computeSaltUnitCostCoins() : 0);
     const costCoins = basicFishCost + saltCostCoins;
     result = {
@@ -25633,6 +26311,11 @@ function fishCatchComputeXPUncached(fishName, stage) {
   if (typeof cookingSkillRankMultiplier === "function") {
     applyMult(cookingSkillRankMultiplier("skill_munching_mastery", [ .05, .1, .15 ]), "Munching Mastery");
     applyMult(cookingSkillRankMultiplier("skill_fishy_feast", [ .2, .25, .3 ]), "Fishy Feast");
+  }
+  if ((stage === "aged" || stage === "primeAged") && typeof getActiveAgedFishXpMult === "function") {
+    const astrolabeMult = getActiveAgedFishXpMult();
+    const icon = typeof getBoostIcon === "function" ? getBoostIcon("Astrolabe") : "";
+    applyMult(astrolabeMult, `Astrolabe ×${astrolabeMult}`, icon);
   }
   try {
     const info = typeof farmPanelGetLastInfo === "function" ? farmPanelGetLastInfo() : null;
@@ -27686,3 +28369,836 @@ if (typeof loadWearableMarketItemsIfNeeded === "function") loadWearableMarketIte
 if (typeof renderMarketList === "function") renderMarketList();
 
 if (typeof renderBoostPanel === "function") renderBoostPanel();
+const DESERT_CHAPTERS = {
+  "Solar Flare": { start: Date.parse("2023-01-01T00:00:00.000Z"), end: Date.parse("2023-05-01T00:00:00.000Z") },
+  "Dawn Breaker": { start: Date.parse("2023-05-01T00:00:00.000Z"), end: Date.parse("2023-08-01T00:00:00.000Z") },
+  "Witches' Eve": { start: Date.parse("2023-08-01T00:00:00.000Z"), end: Date.parse("2023-11-01T00:00:00.000Z") },
+  "Catch the Kraken": { start: Date.parse("2023-11-01T00:00:00.000Z"), end: Date.parse("2024-02-01T00:00:00.000Z") },
+  "Spring Blossom": { start: Date.parse("2024-02-01T00:00:00.000Z"), end: Date.parse("2024-05-01T00:00:00.000Z") },
+  "Clash of Factions": { start: Date.parse("2024-05-01T00:00:00.000Z"), end: Date.parse("2024-08-01T00:00:00.000Z") },
+  "Pharaoh's Treasure": { start: Date.parse("2024-08-01T00:00:00.000Z"), end: Date.parse("2024-11-01T00:00:00.000Z") },
+  "Bull Run": { start: Date.parse("2024-11-01T00:00:00.000Z"), end: Date.parse("2025-02-03T00:00:00.000Z") },
+  "Winds of Change": { start: Date.parse("2025-02-03T00:00:00.000Z"), end: Date.parse("2025-05-01T00:00:00.000Z") },
+  "Great Bloom": { start: Date.parse("2025-05-01T00:00:00.000Z"), end: Date.parse("2025-08-04T00:00:00.000Z") },
+  "Better Together": { start: Date.parse("2025-08-04T00:00:00.000Z"), end: Date.parse("2025-11-03T00:00:00.000Z") },
+  "Paw Prints": { start: Date.parse("2025-11-03T00:00:00.000Z"), end: Date.parse("2026-02-02T00:00:00.000Z") },
+  "Crabs and Traps": { start: Date.parse("2026-02-02T00:00:00.000Z"), end: Date.parse("2026-05-04T00:00:00.000Z") },
+  "Salt Awakening": { start: Date.parse("2026-05-04T00:00:00.000Z"), end: Date.parse("2026-08-03T00:00:00.000Z") },
+  "Ascension Age": { start: Date.parse("2026-08-03T00:00:00.000Z"), end: Date.parse("2026-11-02T00:00:00.000Z") }
+};
+
+const DESERT_CHAPTER_ARTEFACT = {
+  "Solar Flare": "Scarab",
+  "Dawn Breaker": "Scarab",
+  "Witches' Eve": "Scarab",
+  "Catch the Kraken": "Scarab",
+  "Spring Blossom": "Scarab",
+  "Clash of Factions": "Scarab",
+  "Pharaoh's Treasure": "Scarab",
+  "Bull Run": "Cow Skull",
+  "Winds of Change": "Ancient Clock",
+  "Great Bloom": "Broken Pillar",
+  "Better Together": "Coprolite",
+  "Paw Prints": "Moon Crystal",
+  "Crabs and Traps": "Ammonite Shell",
+  "Salt Awakening": "Salt Dino Egg",
+  "Ascension Age": "Otter Pebble"
+};
+
+function digGetCurrentChapterName(now) {
+  const names = Object.keys(DESERT_CHAPTERS);
+  for (let i = 0; i < names.length; i++) {
+    const range = DESERT_CHAPTERS[names[i]];
+    if (now >= range.start && now < range.end) return names[i];
+  }
+  return "Ascension Age";
+}
+
+const DIGGING_FORMATIONS = {
+  MONDAY_ARTEFACT_FORMATION: [
+    { x: 0, y: -1, name: "Camel Bone" },
+    { x: 1, y: -1, name: "Seasonal Artefact" }
+  ],
+  TUESDAY_ARTEFACT_FORMATION: [
+    { x: 1, y: 0, name: "Seasonal Artefact" },
+    { x: 1, y: 2, name: "Camel Bone" }
+  ],
+  WEDNESDAY_ARTEFACT_FORMATION: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: "Seasonal Artefact" }
+  ],
+  THURSDAY_ARTEFACT_FORMATION: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: -1, name: "Seasonal Artefact" }
+  ],
+  FRIDAY_ARTEFACT_FORMATION: [
+    { x: 2, y: 0, name: "Camel Bone" },
+    { x: 3, y: 0, name: "Seasonal Artefact" }
+  ],
+  SATURDAY_ARTEFACT_FORMATION: [
+    { x: 1, y: 0, name: "Seasonal Artefact" },
+    { x: 1, y: -1, name: "Camel Bone" }
+  ],
+  SUNDAY_ARTEFACT_FORMATION: [
+    { x: 0, y: -2, name: "Seasonal Artefact" }
+  ],
+  ARTEFACT_ONE: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 0, y: 2, name: "Camel Bone" }
+  ],
+  ARTEFACT_TWO: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 0, y: 2, name: "Camel Bone" }
+  ],
+  ARTEFACT_THREE: [
+    { x: 0, y: 0, name: "Seasonal Artefact" }
+  ],
+  ARTEFACT_FOUR: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 0, y: 2, name: "Camel Bone" },
+    { x: 0, y: 3, name: "Camel Bone" }
+  ],
+  ARTEFACT_FIVE: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: -1, y: 0, name: "Camel Bone" },
+    { x: -2, y: 0, name: "Camel Bone" }
+  ],
+  ARTEFACT_SIX: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: -1, y: 0, name: "Camel Bone" },
+    { x: -2, y: -1, name: "Camel Bone" }
+  ],
+  ARTEFACT_SEVEN: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 1, y: 1, name: "Camel Bone" }
+  ],
+  ARTEFACT_EIGHT: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 0, y: 2, name: "Camel Bone" }
+  ],
+  ARTEFACT_NINE: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 0, y: -1, name: "Camel Bone" },
+    { x: -1, y: -1, name: "Camel Bone" }
+  ],
+  ARTEFACT_TEN: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: -1, y: 0, name: "Camel Bone" },
+    { x: -1, y: 1, name: "Camel Bone" }
+  ],
+  ARTEFACT_ELEVEN: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" }
+  ],
+  ARTEFACT_TWELVE: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: -1, y: 1, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" }
+  ],
+  ARTEFACT_THIRTEEN: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 2, y: 0, name: "Camel Bone" }
+  ],
+  ARTEFACT_FOURTEEN: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 0, y: 2, name: "Camel Bone" }
+  ],
+  ARTEFACT_FIFTEEN: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: "Seasonal Artefact" },
+    { x: 2, y: 0, name: "Camel Bone" }
+  ],
+  ARTEFACT_SIXTEEN: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" }
+  ],
+  ARTEFACT_SEVENTEEN: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Seasonal Artefact" }
+  ],
+  ARTEFACT_EIGHTEEN: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" }
+  ],
+  ARTEFACT_NINETEEN: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 2, y: 0, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Seasonal Artefact" }
+  ],
+  ARTEFACT_TWENTY: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 0, y: 1, name: "Seasonal Artefact" },
+    { x: 1, y: 1, name: "Camel Bone" }
+  ],
+  ARTEFACT_TWENTY_ONE: [
+    { x: 0, y: 0, name: "Seasonal Artefact" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 2, y: 0, name: "Camel Bone" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" }
+  ],
+  ARTEFACT_TWENTY_TWO: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 2, y: 0, name: "Camel Bone" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Seasonal Artefact" }
+  ],
+  ARTEFACT_TWENTY_THREE: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: "Camel Bone" },
+    { x: 2, y: 0, name: "Camel Bone" },
+    { x: 1, y: 1, name: "Camel Bone" },
+    { x: 2, y: 1, name: "Seasonal Artefact" }
+  ],
+  ARTEFACT_TWENTY_FOUR: [
+    { x: 0, y: 0, name: "Camel Bone" },
+    { x: 1, y: 0, name: "Seasonal Artefact" },
+    { x: 2, y: 0, name: "Camel Bone" },
+    { x: 0, y: 1, name: "Camel Bone" },
+    { x: 2, y: 1, name: "Camel Bone" }
+  ],
+  HIEROGLYPH: [
+    { x: 0, y: 0, name: "Vase" },
+    { x: 1, y: 0, name: "Vase" },
+    { x: 0, y: 1, name: "Hieroglyph" }
+  ],
+  OLD_BOTTLE: [
+    { x: 0, y: 0, name: "Old Bottle" },
+    { x: 1, y: 0, name: "Old Bottle" },
+    { x: 0, y: 1, name: "Old Bottle" },
+    { x: 1, y: 1, name: "Old Bottle" }
+  ],
+  COCKLE: [
+    { x: 0, y: 0, name: "Cockle Shell" },
+    { x: 1, y: 1, name: "Cockle Shell" },
+    { x: 2, y: 2, name: "Cockle Shell" }
+  ],
+  WOODEN_COMPASS: [
+    { x: 0, y: 0, name: "Wood" },
+    { x: 1, y: 0, name: "Wooden Compass" },
+    { x: 2, y: 0, name: "Wood" }
+  ],
+  SEA_CUCUMBERS: [
+    { x: 0, y: 0, name: "Sea Cucumber" },
+    { x: 1, y: 0, name: "Sea Cucumber" },
+    { x: 2, y: 0, name: "Sea Cucumber" },
+    { x: 3, y: 0, name: "Pipi" }
+  ],
+  SEAWEED: [
+    { x: 0, y: 0, name: "Seaweed" },
+    { x: 1, y: 0, name: "Seaweed" },
+    { x: 2, y: 0, name: "Seaweed" },
+    { x: 2, y: 1, name: "Starfish" }
+  ],
+  CLAM_SHELLS: [
+    { x: 0, y: 0, name: "Clam Shell" },
+    { x: 1, y: 0, name: "Clam Shell" },
+    { x: 0, y: -1, name: "Clam Shell" },
+    { x: 1, y: -1, name: "Clam Shell" }
+  ],
+  CORAL: [
+    { x: 0, y: 1, name: "Stone" },
+    { x: 0, y: 0, name: "Coral" },
+    { x: 0, y: -1, name: "Stone" }
+  ],
+  PEARL: [
+    { x: 0, y: 1, name: "Stone" },
+    { x: 0, y: 0, name: "Pearl" },
+    { x: 0, y: -1, name: "Stone" }
+  ],
+  PIRATE_BOUNTY: [
+    { x: 0, y: 0, name: "Pirate Bounty" }
+  ]
+};
+
+function digGetDesertState() {
+  const g = farmSyncExtractGameState(farmPanelGameState) || {};
+  const desert = g.desert || {};
+  const digging = desert.digging || {};
+  return {
+    patterns: Array.isArray(digging.patterns) ? digging.patterns : [],
+    completedPatterns: Array.isArray(digging.completedPatterns) ? digging.completedPatterns : [],
+    grid: Array.isArray(digging.grid) ? digging.grid : []
+  };
+}
+
+const DIG_GRID_SIZE = 10;
+
+function digKey(x, y) {
+  return y * DIG_GRID_SIZE + x;
+}
+
+const DIG_DIRECTIONS = [[0, -1], [0, 1], [-1, 0], [1, 0]];
+
+function digNeighbours(x, y) {
+  const out = [];
+  for (let i = 0; i < DIG_DIRECTIONS.length; i++) {
+    const nx = x + DIG_DIRECTIONS[i][0], ny = y + DIG_DIRECTIONS[i][1];
+    if (nx >= 0 && nx < DIG_GRID_SIZE && ny >= 0 && ny < DIG_GRID_SIZE) out.push([nx, ny]);
+  }
+  return out;
+}
+
+function digBuildHoleGrid(grid) {
+  const board = [];
+  for (let y = 0; y < DIG_GRID_SIZE; y++) board.push(new Array(DIG_GRID_SIZE).fill(undefined));
+  grid.forEach(entry => {
+    const holes = Array.isArray(entry) ? entry : [entry];
+    holes.forEach(hole => {
+      if (!hole || typeof hole.x !== "number" || typeof hole.y !== "number") return;
+      if (hole.y < 0 || hole.y >= DIG_GRID_SIZE || hole.x < 0 || hole.x >= DIG_GRID_SIZE) return;
+      board[hole.y][hole.x] = hole;
+    });
+  });
+  return board;
+}
+
+function digHoleItem(hole) {
+  if (!hole || !hole.items) return null;
+  const keys = Object.keys(hole.items);
+  return keys.length ? keys[0] : null;
+}
+
+function digSolveGrid(grid) {
+  const holes = digBuildHoleGrid(grid);
+  const cells = [];
+  for (let y = 0; y < DIG_GRID_SIZE; y++) {
+    cells[y] = [];
+    for (let x = 0; x < DIG_GRID_SIZE; x++) {
+      const item = digHoleItem(holes[y][x]);
+      const dug = item !== null;
+      let kind = null;
+      if (item === "Sand") kind = "sand";
+      else if (item === "Crab") kind = "crab";
+      else if (dug) kind = "treasure";
+      cells[y][x] = { x: x, y: y, item: item, dug: dug, kind: kind, status: "unknown" };
+    }
+  }
+  for (let y = 0; y < DIG_GRID_SIZE; y++) {
+    for (let x = 0; x < DIG_GRID_SIZE; x++) {
+      const cell = cells[y][x];
+      if (cell.dug) {
+        cell.status = cell.kind === "treasure" ? "treasure" : cell.kind === "sand" ? "clue-sand" : "clue-crab";
+        continue;
+      }
+      let hasSand = false, hasCrab = false;
+      digNeighbours(x, y).forEach(n => {
+        const k = cells[n[1]][n[0]].kind;
+        if (k === "sand") hasSand = true;
+        if (k === "crab") hasCrab = true;
+      });
+      cell.status = hasSand ? "empty" : hasCrab ? "possible" : "unknown";
+    }
+  }
+  for (let y = 0; y < DIG_GRID_SIZE; y++) {
+    for (let x = 0; x < DIG_GRID_SIZE; x++) {
+      const crab = cells[y][x];
+      if (crab.kind !== "crab") continue;
+      const ns = digNeighbours(x, y).map(n => cells[n[1]][n[0]]);
+      const satisfied = ns.some(n => n.kind === "treasure");
+      if (satisfied) continue;
+      const candidates = ns.filter(n => !n.dug && n.status !== "empty");
+      if (candidates.length === 1 && candidates[0].status !== "guaranteed") candidates[0].status = "guaranteed";
+    }
+  }
+  return { cells: cells };
+}
+
+function digPlacementsOf(cells, f) {
+  const xs = f.plots.map(p => p.dx), ys = f.plots.map(p => p.dy);
+  const minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs);
+  const minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
+  const out = [];
+  for (let dx = -minX; dx <= DIG_GRID_SIZE - 1 - maxX; dx++) {
+    for (let dy = -minY; dy <= DIG_GRID_SIZE - 1 - maxY; dy++) {
+      const all = [], dug = [], undug = [];
+      let ok = true;
+      for (let i = 0; i < f.plots.length; i++) {
+        const p = f.plots[i];
+        const x = p.dx + dx, y = p.dy + dy;
+        const cell = cells[y][x];
+        const k = digKey(x, y);
+        all.push(k);
+        if (cell.dug) {
+          if (cell.item !== p.item) { ok = false; break; }
+          dug.push(k);
+        } else {
+          if (cell.status === "empty") { ok = false; break; }
+          undug.push({ x: x, y: y, item: p.item, formation: f.name });
+        }
+      }
+      if (ok) out.push({ name: f.name, cells: all, dug: dug, undug: undug });
+    }
+  }
+  return out;
+}
+
+function digMakeAccumulator() {
+  const forced = new Map();
+  const conflicts = new Set();
+  return {
+    add: function(tile) {
+      const k = tile.x + "-" + tile.y;
+      const existing = forced.get(k);
+      if (existing && existing.item !== tile.item) { conflicts.add(k); return; }
+      if (!existing || (!existing.formation && tile.formation)) forced.set(k, tile);
+    },
+    result: function() {
+      conflicts.forEach(k => forced.delete(k));
+      return Array.from(forced.values());
+    }
+  };
+}
+
+function digFastForced(cells, byName) {
+  const acc = digMakeAccumulator();
+  const itemNames = new Map();
+  byName.forEach(f => {
+    f.plots.forEach(p => {
+      if (!itemNames.has(p.item)) itemNames.set(p.item, new Set());
+      itemNames.get(p.item).add(f.name);
+    });
+  });
+  const placementCache = new Map();
+  const placements = f => {
+    let pls = placementCache.get(f.name);
+    if (!pls) { pls = digPlacementsOf(cells, f); placementCache.set(f.name, pls); }
+    return pls;
+  };
+  byName.forEach(f => {
+    const pls = placements(f);
+    if (pls.length === 1) pls[0].undug.forEach(u => acc.add(u));
+  });
+  for (let y = 0; y < DIG_GRID_SIZE; y++) {
+    for (let x = 0; x < DIG_GRID_SIZE; x++) {
+      const cell = cells[y][x];
+      if (cell.kind !== "treasure" || cell.item === null) continue;
+      const names = itemNames.get(cell.item);
+      if (!names || names.size !== 1) continue;
+      const f = byName.get(Array.from(names)[0]);
+      if (!f) continue;
+      const key = digKey(x, y);
+      const covering = placements(f).filter(p => p.dug.indexOf(key) !== -1);
+      if (covering.length === 1) covering[0].undug.forEach(u => acc.add(u));
+    }
+  }
+  return acc.result();
+}
+
+const DIG_MAX_SOLUTIONS = 4000;
+const DIG_MAX_STEPS = 1000000;
+
+function digSolveFormations(cells, instances) {
+  const noExclusion = forced => ({ forced: forced, excludedTreasure: new Set() });
+  if (!instances.length) return noExclusion([]);
+  const byName = new Map();
+  instances.forEach(f => { if (!byName.has(f.name)) byName.set(f.name, f); });
+  const need = [];
+  for (let y = 0; y < DIG_GRID_SIZE; y++) {
+    for (let x = 0; x < DIG_GRID_SIZE; x++) {
+      if (cells[y][x].kind === "treasure") need.push(digKey(x, y));
+    }
+  }
+  const perInstance = instances.map(f => digPlacementsOf(cells, f));
+  if (perInstance.some(p => p.length === 0)) return noExclusion(digFastForced(cells, byName));
+  const order = perInstance.map((_, i) => i).sort((a, b) => perInstance[a].length - perInstance[b].length);
+  const ordered = order.map(i => perInstance[i]);
+  const lastCoverer = new Map();
+  ordered.forEach((pls, depth) => {
+    pls.forEach(pl => {
+      pl.dug.forEach(c => {
+        lastCoverer.set(c, Math.max(lastCoverer.has(c) ? lastCoverer.get(c) : -1, depth));
+      });
+    });
+  });
+  for (let i = 0; i < need.length; i++) {
+    if (!lastCoverer.has(need[i])) return noExclusion(digFastForced(cells, byName));
+  }
+  const deadlineAt = ordered.map(() => []);
+  need.forEach(c => deadlineAt[lastCoverer.get(c)].push(c));
+  const occupied = new Set();
+  const covered = new Set();
+  const chosen = [];
+  const solutions = [];
+  let steps = 0;
+  let bailed = false;
+  function search(depth) {
+    if (bailed) return;
+    if (++steps > DIG_MAX_STEPS) { bailed = true; return; }
+    if (depth === ordered.length) {
+      for (let i = 0; i < need.length; i++) if (!covered.has(need[i])) return;
+      solutions.push(chosen.slice());
+      if (solutions.length > DIG_MAX_SOLUTIONS) bailed = true;
+      return;
+    }
+    const pls = ordered[depth];
+    for (let i = 0; i < pls.length; i++) {
+      const pl = pls[i];
+      let clash = false;
+      for (let j = 0; j < pl.cells.length; j++) {
+        if (occupied.has(pl.cells[j])) { clash = true; break; }
+      }
+      if (clash) continue;
+      const addedCover = [];
+      pl.cells.forEach(c => occupied.add(c));
+      pl.dug.forEach(c => {
+        if (!covered.has(c)) { covered.add(c); addedCover.push(c); }
+      });
+      let dead = false;
+      const deadline = deadlineAt[depth];
+      for (let j = 0; j < deadline.length; j++) {
+        if (!covered.has(deadline[j])) { dead = true; break; }
+      }
+      if (!dead) {
+        chosen.push(pl);
+        search(depth + 1);
+        chosen.pop();
+      }
+      pl.cells.forEach(c => occupied.delete(c));
+      addedCover.forEach(c => covered.delete(c));
+      if (bailed) return;
+    }
+  }
+  search(0);
+  if (bailed) return noExclusion(digFastForced(cells, byName));
+  const items = new Map();
+  const names = new Map();
+  const coverCount = new Map();
+  solutions.forEach(sol => {
+    const seen = new Set();
+    sol.forEach(pl => {
+      pl.undug.forEach(u => {
+        const k = digKey(u.x, u.y);
+        if (!items.has(k)) items.set(k, new Set());
+        items.get(k).add(u.item);
+        if (!names.has(k)) names.set(k, new Set());
+        names.get(k).add(u.formation);
+        if (!seen.has(k)) { seen.add(k); coverCount.set(k, (coverCount.get(k) || 0) + 1); }
+      });
+    });
+  });
+  const acc = digMakeAccumulator();
+  items.forEach((is, k) => {
+    if (is.size !== 1 || coverCount.get(k) !== solutions.length) return;
+    const ns = names.get(k);
+    acc.add({
+      x: k % DIG_GRID_SIZE,
+      y: Math.floor(k / DIG_GRID_SIZE),
+      item: Array.from(is)[0],
+      formation: ns.size === 1 ? Array.from(ns)[0] : ""
+    });
+  });
+  const excludedTreasure = new Set();
+  if (solutions.length > 0) {
+    const possibleTreasure = new Set();
+    solutions.forEach(sol => sol.forEach(pl => pl.cells.forEach(c => possibleTreasure.add(c))));
+    for (let y = 0; y < DIG_GRID_SIZE; y++) {
+      for (let x = 0; x < DIG_GRID_SIZE; x++) {
+        const k = digKey(x, y);
+        if (!cells[y][x].dug && !possibleTreasure.has(k)) excludedTreasure.add(k);
+      }
+    }
+  }
+  return { forced: acc.result(), excludedTreasure: excludedTreasure };
+}
+
+function digApplyForcedTiles(cells, forced) {
+  if (!forced.length) return cells;
+  const next = cells.map(row => row.slice());
+  forced.forEach(tile => {
+    const cell = next[tile.y][tile.x];
+    if (cell.dug) return;
+    next[tile.y][tile.x] = Object.assign({}, cell, { status: "guaranteed", predicted: { item: tile.item, formation: tile.formation } });
+  });
+  return next;
+}
+
+function digMarkPredictions(cells, excludedTreasure) {
+  const next = cells.map(row => row.slice());
+  const treasureFree = cells.map(row => row.map(c => c.status === "empty" || excludedTreasure.has(digKey(c.x, c.y))));
+  function canHoldTreasure(n) {
+    if (n.dug) return n.kind === "treasure";
+    if (n.status === "guaranteed") return true;
+    return !treasureFree[n.y][n.x];
+  }
+  for (let y = 0; y < DIG_GRID_SIZE; y++) {
+    for (let x = 0; x < DIG_GRID_SIZE; x++) {
+      const cell = next[y][x];
+      if (cell.dug || cell.status === "guaranteed") continue;
+      if (!treasureFree[y][x]) continue;
+      const ns = digNeighbours(x, y).map(n => cells[n[1]][n[0]]);
+      if (ns.some(n => n.kind === "treasure" || n.status === "guaranteed")) {
+        next[y][x] = Object.assign({}, cell, { status: "crab" });
+      } else if (ns.every(n => !canHoldTreasure(n))) {
+        next[y][x] = Object.assign({}, cell, { status: "sand" });
+      }
+    }
+  }
+  return next;
+}
+
+function digExpandFormation(patternName, artefactName) {
+  const shape = DIGGING_FORMATIONS[patternName];
+  if (!shape) return null;
+  return shape.map(cell => ({
+    x: cell.x,
+    y: cell.y,
+    name: cell.name === "Seasonal Artefact" ? artefactName : cell.name
+  }));
+}
+
+function digSolveBoard() {
+  const desert = digGetDesertState();
+  const now = Date.now();
+  const chapterName = digGetCurrentChapterName(now);
+  const artefactName = DESERT_CHAPTER_ARTEFACT[chapterName] || "Artefact";
+  let dugCount = 0;
+  desert.grid.forEach(entry => {
+    const holes = Array.isArray(entry) ? entry : [entry];
+    holes.forEach(hole => {
+      if (!hole || typeof hole.x !== "number" || typeof hole.y !== "number") return;
+      if (digHoleItem(hole)) dugCount++;
+    });
+  });
+  const instances = desert.patterns.map(patternName => {
+    const shape = digExpandFormation(patternName, artefactName);
+    if (!shape) return null;
+    return {
+      name: patternName,
+      shape: shape,
+      plots: shape.map(c => ({ dx: c.x, dy: c.y, item: c.name }))
+    };
+  }).filter(Boolean);
+
+  const remaining = new Map();
+  (desert.completedPatterns || []).forEach(name => remaining.set(name, (remaining.get(name) || 0) + 1));
+  const completedByIndex = instances.map(inst => {
+    const avail = remaining.get(inst.name) || 0;
+    if (avail > 0) { remaining.set(inst.name, avail - 1); return true; }
+    return false;
+  });
+
+  const base = digSolveGrid(desert.grid);
+  const formationResult = digSolveFormations(base.cells, instances);
+  const withForced = digApplyForcedTiles(base.cells, formationResult.forced);
+  const finalCells = digMarkPredictions(withForced, formationResult.excludedTreasure);
+  const cells = finalCells.map(row => row.map(cell => Object.assign({}, cell)));
+  const confirmedCount = completedByIndex.filter(Boolean).length;
+
+  return {
+    chapterName: chapterName,
+    artefactName: artefactName,
+    instances: instances,
+    completedByIndex: completedByIndex,
+    cells: cells,
+    dugCount: dugCount,
+    confirmedCount: confirmedCount
+  };
+}
+
+function renderPatternChip(shape, confirmed) {
+  const xs = shape.map(c => c.x), ys = shape.map(c => c.y);
+  const minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs);
+  const minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
+  const w = maxX - minX + 1, h = maxY - minY + 1;
+  const map = new Map(shape.map(c => [(c.x - minX) + "," + (c.y - minY), c.name]));
+  let cellsHtml = "";
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const name = map.get(x + "," + y);
+      cellsHtml += `<div class="dig-pattern-chip-cell">${name ? getIcon(name) : ""}</div>`;
+    }
+  }
+  const cls = confirmed ? "dig-pattern-chip is-confirmed" : "dig-pattern-chip";
+  const badge = confirmed ? `<span class="dig-pattern-chip-badge" title="Pattern found">✓</span>` : "";
+  return `<div class="${cls}" style="grid-template-columns:repeat(${w}, 12px);grid-template-rows:repeat(${h}, 12px);">${cellsHtml}${badge}</div>`;
+}
+
+function digCellClass(cell) {
+  if (cell.dug) {
+    if (cell.kind === "sand") return "is-dug-sand";
+    if (cell.kind === "crab") return "is-dug-crab";
+    return "is-dug-treasure";
+  }
+  if (cell.status === "empty") return "is-empty";
+  if (cell.status === "possible") return "is-possible";
+  if (cell.status === "guaranteed") return "is-guaranteed";
+  if (cell.status === "crab") return "is-crab-predicted";
+  if (cell.status === "sand") return "is-sand-predicted";
+  return "is-none";
+}
+
+function renderDigCellHtml(cell) {
+  const cls = digCellClass(cell);
+  let icon = "";
+  let label = cell.dug ? cell.item : cell.status;
+  if (cell.dug) {
+    icon = getIcon(cell.item);
+  } else if (cell.status === "guaranteed") {
+    if (cell.predicted) {
+      icon = getIcon(cell.predicted.item);
+      label = cell.predicted.formation ? `Dig here \u2192 ${cell.predicted.item} \u2014 completes ${cell.predicted.formation}` : `Dig here \u2192 ${cell.predicted.item}`;
+    } else {
+      label = "Dig here \u2014 guaranteed treasure";
+    }
+  } else if (cell.status === "crab") {
+    icon = getIcon("Crab");
+    label = "Provably no treasure, borders one \u2014 will reveal a Crab";
+  } else if (cell.status === "sand") {
+    icon = getIcon("Sand");
+    label = "Provably no treasure nearby \u2014 will reveal Sand";
+  } else if (cell.status === "empty") {
+    label = "No treasure here \u2014 a Sand clue borders this tile";
+  } else if (cell.status === "possible") {
+    label = "Possible treasure \u2014 a Crab clue borders this tile";
+  } else {
+    label = "No clue nearby yet";
+  }
+  return `<div class="dig-cell ${cls}" title="${escapeHtml(String(label))}">${icon}</div>`;
+}
+
+function renderDigGridHtml(solved) {
+  const cols = "ABCDEFGHIJ";
+  let html = `<div class="dig-grid-label"></div>`;
+  for (let x = 0; x < 10; x++) html += `<div class="dig-grid-label">${cols[x]}</div>`;
+  for (let y = 0; y < 10; y++) {
+    html += `<div class="dig-grid-label">${y + 1}</div>`;
+    for (let x = 0; x < 10; x++) {
+      html += renderDigCellHtml(solved.cells[y][x]);
+    }
+  }
+  return html;
+}
+
+function renderDigTreasurePanel() {
+  const chapterEl = $("digPanelChapter");
+  const patternsEl = $("digPanelPatterns");
+  const gridEl = $("digPanelGrid");
+  const statusEl = $("digPanelStatus");
+  if (!chapterEl || !patternsEl || !gridEl || !statusEl) return;
+  const solved = digSolveBoard();
+  const lastInfo = typeof farmPanelGetLastInfo === "function" ? farmPanelGetLastInfo() : null;
+  const farmLabel = lastInfo && lastInfo.id ? `Farm #${lastInfo.id}` : "No farm synced";
+  chapterEl.innerHTML = `${escapeHtml(farmLabel)} · ${escapeHtml(solved.chapterName)}<br>Chapter artefact: ${getIcon(solved.artefactName)} ${escapeHtml(solved.artefactName)}`;
+  patternsEl.innerHTML = solved.instances.length
+    ? solved.instances.map((inst, i) => renderPatternChip(inst.shape, !!solved.completedByIndex[i])).join("")
+    : `<div class="dig-panel-status">No active pattern data yet — sync your farm.</div>`;
+  gridEl.innerHTML = renderDigGridHtml(solved);
+  const flatCells = [].concat.apply([], solved.cells);
+  const guaranteedCount = flatCells.filter(c => !c.dug && c.status === "guaranteed").length;
+  const possibleCount = flatCells.filter(c => !c.dug && c.status === "possible").length;
+  const emptyCount = flatCells.filter(c => !c.dug && c.status === "empty").length;
+  const crabPredictedCount = flatCells.filter(c => !c.dug && c.status === "crab").length;
+  const sandPredictedCount = flatCells.filter(c => !c.dug && c.status === "sand").length;
+  statusEl.textContent = solved.dugCount
+    ? `${solved.dugCount} tile(s) dug so far · ${solved.confirmedCount} pattern(s) confirmed · ${guaranteedCount} guaranteed spot(s) · ${possibleCount} possible spot(s) · ${emptyCount} safe-empty · ${crabPredictedCount} predicted crab(s) · ${sandPredictedCount} predicted sand`
+    : "No dig data synced yet — dig a few tiles in-game, then sync.";
+}
+
+function openDigPanel() {
+  renderDigTreasurePanel();
+  const overlay = $("digPanelOverlay");
+  const panel = $("digSidePanel");
+  if (overlay) overlay.classList.add("show");
+  if (panel) panel.classList.add("open");
+}
+
+function closeDigPanel() {
+  const overlay = $("digPanelOverlay");
+  const panel = $("digSidePanel");
+  if (overlay) overlay.classList.remove("show");
+  if (panel) panel.classList.remove("open");
+}
+
+function digGetFarmId() {
+  const inputEl = $("farmPanelIdInput");
+  const inputVal = inputEl && inputEl.value ? inputEl.value.trim() : "";
+  if (inputVal) return inputVal;
+  const lastInfo = typeof farmPanelGetLastInfo === "function" ? farmPanelGetLastInfo() : null;
+  return lastInfo && lastInfo.id ? lastInfo.id : "";
+}
+
+let digMiniSyncInFlight = false;
+
+async function performDigOnlySync() {
+  if (digMiniSyncInFlight) return;
+  const farmId = digGetFarmId();
+  if (!farmId) {
+    toast("Sync a Farm ID first 🔢");
+    return;
+  }
+  digMiniSyncInFlight = true;
+  const btn = $("digPanelSyncBtn");
+  if (btn) btn.classList.add("is-syncing");
+  try {
+    const [json, communityResult] = await Promise.all([ fetchFarmSnapshotRaw(farmId), fetchCommunityFarmData(farmId).then(data => ({
+      ok: true,
+      data: data
+    })).catch(e => ({
+      ok: false,
+      error: e.message
+    })) ]);
+    const g = farmSyncExtractGameState(json);
+    const communityG = communityResult.ok ? farmSyncExtractGameState(communityResult.data) : null;
+    const desert = (communityG && communityG.desert) || (g && g.desert);
+    if (!desert) {
+      toast("No dig data found for this farm.");
+      return;
+    }
+    const currentRoot = farmPanelGameState && typeof farmPanelGameState === "object" ? farmPanelGameState : {};
+    const currentG = farmSyncExtractGameState(currentRoot);
+    if (currentG && currentG !== currentRoot) {
+      currentG.desert = desert;
+      farmPanelSaveGameState(currentRoot);
+    } else {
+      const merged = Object.assign({}, currentRoot, { desert: desert });
+      farmPanelSaveGameState(merged);
+    }
+    renderDigTreasurePanel();
+    toast("🪏 Dig data synced!");
+  } catch (e) {
+    console.error("Dig-only sync failed:", e);
+    toast("⚠️ Dig sync failed — try again.");
+  } finally {
+    digMiniSyncInFlight = false;
+    if (btn) btn.classList.remove("is-syncing");
+  }
+}
+
+(function initDigTreasureFeature() {
+  const fab = $("digTreasureFab");
+  if (fab && IMAGE_ICONS["Sand Shovel"]) {
+    fab.innerHTML = `<img src="${IMAGE_ICONS["Sand Shovel"]}" alt="Treasure Map">`;
+  }
+  if (fab) fab.onclick = openDigPanel;
+  const closeBtn = $("digPanelCloseBtn");
+  if (closeBtn) closeBtn.onclick = closeDigPanel;
+  const overlay = $("digPanelOverlay");
+  if (overlay) overlay.onclick = closeDigPanel;
+  const syncBtn = $("digPanelSyncBtn");
+  if (syncBtn) syncBtn.onclick = performDigOnlySync;
+  const mainSyncBtn = $("farmPanelSyncBtn");
+  if (mainSyncBtn) {
+    const originalOnClick = mainSyncBtn.onclick;
+    mainSyncBtn.onclick = async function(ev) {
+      if (typeof originalOnClick === "function") await originalOnClick.call(this, ev);
+      const panel = $("digSidePanel");
+      if (panel && panel.classList.contains("open")) renderDigTreasurePanel();
+    };
+  }
+})();
