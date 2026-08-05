@@ -76,6 +76,7 @@
       <div class="farm-panel-name" id="farmPanelName">No farm synced</div>
       <div class="farm-panel-id" id="farmPanelId">Farm Id: —</div>
       <div class="farm-panel-level" id="farmPanelLevel">Bumpkin Level: —</div>
+      <div class="farm-panel-ascension" id="farmPanelAscension">Ascension [0]</div>
       <div class="farm-panel-faction" id="farmPanelFaction">Faction: —</div>
       <div class="farm-panel-vip" id="farmPanelVip"></div>
     </div>
@@ -111,6 +112,35 @@
   </div>
 </div>
 
+<button type="button" id="digTreasureFab" class="dig-treasure-fab" aria-label="Beach Bounty Treasure Map"></button>
+
+<div class="dig-panel-overlay" id="digPanelOverlay"></div>
+<div class="dig-side-panel" id="digSidePanel">
+  <div class="dig-panel-card">
+    <button type="button" class="dig-panel-close" id="digPanelCloseBtn" aria-label="Close treasure map">✕</button>
+    <div class="dig-panel-header">
+      <div class="dig-panel-title">🗺️ TREASURE MAP</div>
+      <div class="dig-panel-chapter" id="digPanelChapter">Sync your farm to detect today's patterns</div>
+      <div class="dig-panel-patterns" id="digPanelPatterns"></div>
+    </div>
+    <div class="dig-panel-divider-solid"></div>
+    <div class="dig-panel-legend">
+      <span class="dig-legend-item"><span class="dig-swatch dig-swatch-red"></span>No treasure</span>
+      <span class="dig-legend-item"><span class="dig-swatch dig-swatch-white"></span>No clue</span>
+      <span class="dig-legend-item"><span class="dig-swatch dig-swatch-yellow"></span>Possible</span>
+      <span class="dig-legend-item"><span class="dig-swatch dig-swatch-blue"></span>Guaranteed dig</span>
+      <span class="dig-legend-item"><span class="dig-swatch dig-swatch-purple dig-swatch-hint"></span>Will reveal Crab</span>
+      <span class="dig-legend-item"><span class="dig-swatch dig-swatch-red dig-swatch-hint"></span>Will reveal Sand</span>
+      <span class="dig-legend-item"><span class="dig-swatch dig-swatch-white" style="border-color:#2fae4e;">✓</span>Pattern found</span>
+    </div>
+    <div class="dig-panel-grid-wrap">
+      <div class="dig-panel-grid" id="digPanelGrid"></div>
+    </div>
+    <div class="dig-panel-status" id="digPanelStatus">Sync your farm to load dig data.</div>
+  </div>
+  <button type="button" class="dig-panel-mini-sync" id="digPanelSyncBtn" aria-label="Sync digging data only">🔄</button>
+</div>
+
 <div id="installBanner">
   <span class="install-banner-text"><img class="install-banner-logo" src="./icons/goblin-logo.png" alt="" /> Install Goblin Calculator for quick access</span>
   <div style="display:flex;gap:8px;align-items:center;">
@@ -120,7 +150,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V1.9</span>
+  <span class="app-version-badge">V2.0</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -1110,6 +1140,10 @@
       </div>
       <div class="season-toggle-note" id="seasonToggleNote"></div>
 
+      <div class="skill-save-bar" id="skillSaveBar">
+        <button type="button" class="skill-save-btn" id="skillSaveBtn" disabled>💾 Save Changes</button>
+        <div class="skill-save-note" id="skillSaveNote" style="display:none;">⚠️ You have unsaved skill/ascension changes — click Save to apply them.</div>
+      </div>
       <div class="ascension-bar" id="ascensionBar">
         <div class="ascension-row">
           <span class="ascension-label">🌌 Ascension</span>
@@ -1129,6 +1163,10 @@
         <div id="skillListWrap"></div>
       </div>
 
+      <div class="skill-save-bar" id="boostSaveBar">
+        <button type="button" class="skill-save-btn" id="boostSaveBtn" disabled>💾 Save Changes</button>
+        <div class="skill-save-note" id="boostSaveNote" style="display:none;">⚠️ You have unsaved boost changes — click Save to apply them.</div>
+      </div>
       <div class="all-boost-settings-wrap collapsed" id="allBoostSettingsWrap">
       <div class="lib-section-title section-collapse-header" id="allBoostToggleHeader">⚡ All Boost Settings <span class="collapse-arrow" id="allBoostArrow">▸</span></div>
        <div class="type-toggle" id="boostCategoryToggle" style="margin-bottom:10px;">
