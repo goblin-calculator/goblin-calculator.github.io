@@ -9416,12 +9416,17 @@ function applySkillModifiers() {
     if (target._baseHarvestAdd === undefined) target._baseHarvestAdd = target.harvestAdd;
     const active = isSkillActive(s.id);
     let rankPlotCap = s.aoePlotCap;
-    if (active && s.aoeSizeByRank) {
+    let ascensionAoeApplied = false;
+    if (active && s.aoeSizeByRank && ascensionEnabled) {
       const rank = getAscensionRank(s.id);
-      const size = s.aoeSizeByRank[Math.min(Math.max(rank, 1), 3) - 1];
-      rankPlotCap = size * size;
+      if (rank > 1) {
+        const size = s.aoeSizeByRank[Math.min(Math.max(rank, 1), 3) - 1];
+        rankPlotCap = size * size;
+        ascensionAoeApplied = true;
+      }
     }
     target.plotCap = active && rankPlotCap ? rankPlotCap : target._baseAoE;
+    target._ascensionAoeApplied = ascensionAoeApplied;
     target.timeMult = active && s.extraTimeMult && target._baseTimeMult ? +(target._baseTimeMult * s.extraTimeMult).toFixed(4) : target._baseTimeMult;
     target.yieldAdd = active && s.extraYieldAdd ? +((target._baseYieldAdd || 0) + s.extraYieldAdd).toFixed(4) : target._baseYieldAdd;
     target.harvestAdd = active && s.extraHarvestAdd ? +((target._baseHarvestAdd || 0) + s.extraHarvestAdd).toFixed(4) : target._baseHarvestAdd;
@@ -9927,11 +9932,16 @@ function formatDuration(sec) {
   return out.trim() || "0s";
 }
 
+function isAoeManuallyUpgraded(b) {
+  return !!b._ascensionAoeApplied;
+}
+
 function getBoostAoeInfo(b, itemName) {
   if (!b.plotCap) return null;
   if (b.category === "crops") {
     const totalNodes = getPlotCount();
-    if (AOE_SYNCED_CROW_IDS.includes(b.id) && aoeSyncOverrides[b.id] != null) {
+    const manualAoeUpgrade = AOE_SYNCED_CROW_IDS.includes(b.id) && isAoeManuallyUpgraded(b);
+    if (AOE_SYNCED_CROW_IDS.includes(b.id) && aoeSyncOverrides[b.id] != null && !manualAoeUpgrade) {
       const synced = Math.min(b.plotCap, aoeSyncOverrides[b.id]);
       return {
         totalNodes: totalNodes,
@@ -9945,7 +9955,8 @@ function getBoostAoeInfo(b, itemName) {
       totalNodes: totalNodes,
       affectedNodes: Math.min(totalNodes, b.plotCap),
       perTier: null,
-      resourceName: null
+      resourceName: null,
+      isManualAoeOverride: manualAoeUpgrade
     };
   }
   if (b.category === "resources") {
@@ -10003,7 +10014,7 @@ function renderAoePlotsAffectedHtml(b, itemName) {
   }
   const allocNote = info.perTier ? describeAoeTierAllocation(info.resourceName, info.perTier) : "";
   const tierNote = allocNote ? ` → ${escapeHtml(allocNote)}` : "";
-  const syncedTag = info.isSyncedOverride ? ` <span style="color:var(--profit);font-weight:700;">🔄 synced from farm</span>` : "";
+  const syncedTag = info.isSyncedOverride ? ` <span style="color:var(--profit);font-weight:700;">🔄 synced from farm</span>` : info.isManualAoeOverride ? ` <span style="color:var(--sun-deep);font-weight:700;">⚙️ manual ascension AoE</span>` : "";
   return `<div class="aoe-plots-affected">Plot affected [<b>${fmt(info.affectedNodes)}</b>] out of ${fmt(info.totalNodes)}${tierNote}${syncedTag}</div>`;
 }
 
@@ -22095,7 +22106,7 @@ function renderPickerList() {
       };
     });
   } else {
-    const list = marketItems;
+    const list = marketItems.filter(m => !m.isNftCollectible && !m.isWearable);
     wrap.innerHTML = list.length ? list.map(m => {
       const costPerUnit = coinsToFlower(getMarketItemCostCoins(m.id));
       return `<div class="picker-item" data-id="${m.id}" data-search="${escapeHtml((m.name || "").toLowerCase())}">\n        <div>\n          <div class="pname">${getIcon(m.name)} ${escapeHtml(m.name)}</div>\n          <div class="pmeta">Cost ${fmt(costPerUnit)} ${FLOWER_ICON}/u · Sells ${fmt(m.flowerPrice || 0)} ${FLOWER_ICON}/u</div>\n        </div>\n        <div class="pprice">${fmt(m.flowerPrice || 0)} ${FLOWER_ICON}</div>\n      </div>`;
@@ -29288,6 +29299,44 @@ async function performDigOnlySync() {
   }
 }
 
+function isAppDarkModeOn() {
+  return localStorage.getItem("hl_app_dark_mode") === "1";
+}
+
+function applyAppDarkMode(on) {
+  document.body.classList.toggle("app-dark", on);
+  const toggleBtn = $("appDarkToggleFab");
+  if (toggleBtn) toggleBtn.textContent = on ? "☀️" : "🌙";
+}
+
+function setAppDarkMode(on) {
+  localStorage.setItem("hl_app_dark_mode", on ? "1" : "0");
+  applyAppDarkMode(on);
+}
+
+(function initAppDarkModeFeature() {
+  const fab = $("appDarkToggleFab");
+  if (fab) fab.onclick = () => setAppDarkMode(!isAppDarkModeOn());
+  applyAppDarkMode(isAppDarkModeOn());
+})();
+
+function isDigDarkModeOn() {
+  return localStorage.getItem("hl_dig_dark_mode") === "1";
+}
+
+function applyDigDarkMode(on) {
+  const panel = $("digSidePanel");
+  if (!panel) return;
+  panel.classList.toggle("dig-dark", on);
+  const toggleBtn = $("digPanelDarkToggle");
+  if (toggleBtn) toggleBtn.textContent = on ? "☀️" : "🌙";
+}
+
+function setDigDarkMode(on) {
+  localStorage.setItem("hl_dig_dark_mode", on ? "1" : "0");
+  applyDigDarkMode(on);
+}
+
 (function initDigTreasureFeature() {
   const fab = $("digTreasureFab");
   if (fab && IMAGE_ICONS["Sand Shovel"]) {
@@ -29300,6 +29349,9 @@ async function performDigOnlySync() {
   if (overlay) overlay.onclick = closeDigPanel;
   const syncBtn = $("digPanelSyncBtn");
   if (syncBtn) syncBtn.onclick = performDigOnlySync;
+  const darkToggleBtn = $("digPanelDarkToggle");
+  if (darkToggleBtn) darkToggleBtn.onclick = () => setDigDarkMode(!isDigDarkModeOn());
+  applyDigDarkMode(isDigDarkModeOn());
   const mainSyncBtn = $("farmPanelSyncBtn");
   if (mainSyncBtn) {
     const originalOnClick = mainSyncBtn.onclick;
