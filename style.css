@@ -3633,11 +3633,14 @@
   display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;
 }
 .dig-pattern-chip{
-  position:relative; display:grid; gap:1px; padding:3px; background:#fff;
+  position:relative; display:grid; gap:2px; padding:3px; background:var(--desert-dark);
   border:2px solid var(--line); box-shadow:1.5px 1.5px 0 rgba(0,0,0,.25);
 }
-.dig-pattern-chip-cell{ width:12px; height:12px; display:flex; align-items:center; justify-content:center; }
-.dig-pattern-chip-cell img{ width:100%; height:100%; image-rendering:pixelated; }
+.dig-pattern-chip-cell{
+  width:18px; height:18px; display:flex; align-items:center; justify-content:center;
+  background:var(--desert-light); border:1px solid var(--desert-dark);
+}
+.dig-pattern-chip-cell img{ width:82%; height:82%; image-rendering:pixelated; }
 .dig-pattern-chip.is-confirmed{ border-color:#2fae4e; opacity:.55; }
 .dig-pattern-chip-badge{
   position:absolute; top:-6px; right:-6px; width:14px; height:14px;

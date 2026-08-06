@@ -4750,6 +4750,7 @@ const SKILL_CROPS = [ {
   skillTier: 1,
   modifiesId: "basic_scarecrow",
   aoePlotCap: 49,
+  aoeSizeByRank: [ 7, 8, 9 ],
   extraTimeMult: .9,
   note: "Basic Scarecrow AOE 3x3 → 7x7 (49 plots); additional -10% Basic crop growth time"
 }, {
@@ -4790,6 +4791,7 @@ const SKILL_CROPS = [ {
   skillTier: 2,
   modifiesId: "laurie_chuckle_crow",
   aoePlotCap: 49,
+  aoeSizeByRank: [ 7, 8, 9 ],
   extraYieldAdd: .1,
   note: "Laurie the Chuckle Crow AOE 3x3 → 7x7 (49 plots); additional +0.1 Advanced crop yield"
 }, {
@@ -4798,6 +4800,7 @@ const SKILL_CROPS = [ {
   skillTier: 2,
   modifiesId: "scary_mike",
   aoePlotCap: 49,
+  aoeSizeByRank: [ 7, 8, 9 ],
   extraYieldAdd: .1,
   note: "Scary Mike AOE 3x3 → 7x7 (49 plots); additional +0.1 Medium crop yield"
 }, {
@@ -6209,15 +6212,15 @@ const SKILL_BOOSTS = Object.values(SKILL_TREES).flat();
 
 const ASCENSION_UPGRADE_COST = {
   1: {
-    points: 3,
+    points: 1,
     shards: 1
   },
   2: {
-    points: 6,
+    points: 3,
     shards: 2
   },
   3: {
-    points: 9,
+    points: 6,
     shards: 3
   }
 };
@@ -6683,6 +6686,13 @@ function getAscensionTotals() {
     points: points,
     shards: shards
   };
+}
+
+function skillAoeNoteForRank(s, rank) {
+  if (!s.aoeSizeByRank || !s.note) return s.note || "";
+  const size = s.aoeSizeByRank[Math.min(Math.max(rank, 1), 3) - 1];
+  const plots = size * size;
+  return s.note.replace(/\d+x\d+ \(\d+ plots\)/, `${size}x${size} (${plots} plots)`);
 }
 
 function ascensionDescribeRank(id, rank) {
@@ -9118,10 +9128,83 @@ function isSkillActive(id) {
   return selectedSkills.includes(id);
 }
 
+const SKILL_TREE_TIER_THRESHOLDS = {
+  crops: {
+    2: 3,
+    3: 7
+  },
+  trees: {
+    2: 2,
+    3: 5
+  },
+  fishing: {
+    2: 2,
+    3: 5
+  },
+  mining: {
+    2: 3,
+    3: 7
+  },
+  cooking: {
+    2: 2,
+    3: 5
+  },
+  fruitpatch: {
+    2: 2,
+    3: 5
+  },
+  animals: {
+    2: 4,
+    3: 8
+  },
+  bees: {
+    2: 2,
+    3: 5
+  },
+  greenhouse: {
+    2: 2,
+    3: 5
+  },
+  machine: {
+    2: 2,
+    3: 5
+  },
+  compost: {
+    2: 3,
+    3: 7
+  },
+  aging: {
+    2: 3,
+    3: 7
+  }
+};
+
+function getTreeUsedSkillPoints(ownedIds, category) {
+  const seen = new Set();
+  let points = 0;
+  ownedIds.forEach(id => {
+    if (seen.has(id)) return;
+    seen.add(id);
+    const skill = SKILL_BOOSTS.find(s => s.id === id);
+    if (!skill || skill.skillCategory !== category) return;
+    if (skill.skillTier === 3) return;
+    points += skill.skillTier;
+  });
+  return points;
+}
+
+function getUnlockedTierForCategory(ownedIds, category) {
+  const thresholds = SKILL_TREE_TIER_THRESHOLDS[category];
+  if (!thresholds) return 1;
+  const points = getTreeUsedSkillPoints(ownedIds, category);
+  if (points >= thresholds[3]) return 3;
+  if (points >= thresholds[2]) return 2;
+  return 1;
+}
+
 function isSkillTierUnlocked(category, tier) {
   if (tier <= 1) return true;
-  const prevTierIds = (SKILL_TREES[category] || []).filter(s => s.skillTier === tier - 1).map(s => s.id);
-  return prevTierIds.some(id => isSkillActive(id));
+  return getUnlockedTierForCategory(selectedSkills, category) >= tier;
 }
 
 let skillDraftSelectedSkills = selectedSkills.slice();
@@ -9136,8 +9219,7 @@ function isSkillDraftActive(id) {
 
 function isSkillDraftTierUnlocked(category, tier) {
   if (tier <= 1) return true;
-  const prevTierIds = (SKILL_TREES[category] || []).filter(s => s.skillTier === tier - 1).map(s => s.id);
-  return prevTierIds.some(id => isSkillDraftActive(id));
+  return getUnlockedTierForCategory(skillDraftSelectedSkills, category) >= tier;
 }
 
 function getDraftAscensionRank(id) {
@@ -9193,11 +9275,19 @@ function updateSkillSaveBarState() {
   }
 }
 
+function tierUnlockHintText(category, tier, ownedIds) {
+  const thresholds = SKILL_TREE_TIER_THRESHOLDS[category];
+  if (!thresholds || tier <= 1) return "";
+  const need = thresholds[tier];
+  const have = getTreeUsedSkillPoints(ownedIds, category);
+  return `${have}/${need} skill points invested in ${category} (Tier 1 & 2 skills)`;
+}
+
 function draftToggleSkill(id) {
   const skill = SKILL_BOOSTS.find(s => s.id === id);
   if (!skill) return;
   if (!isSkillDraftActive(id) && !isSkillDraftTierUnlocked(skill.skillCategory, skill.skillTier)) {
-    toast(`🔒 Own a Tier ${skill.skillTier - 1} skill in ${skill.skillCategory} first to unlock this`);
+    toast(`🔒 Need Tier ${skill.skillTier} unlocked — ${tierUnlockHintText(skill.skillCategory, skill.skillTier, skillDraftSelectedSkills)}`);
     return;
   }
   if (isSkillDraftActive(id)) {
@@ -9213,7 +9303,19 @@ function draftToggleSkill(id) {
   updateSkillSaveBarState();
 }
 
+function getSkillUpgradeTierRequirement(tier, currentRank) {
+  return Math.min(3, tier + currentRank);
+}
+
 function draftSetAscensionRank(id, rank) {
+  const skill = SKILL_BOOSTS.find(s => s.id === id);
+  if (rank > 1 && skill) {
+    const requiredTier = getSkillUpgradeTierRequirement(skill.skillTier, rank - 1);
+    if (!isSkillDraftTierUnlocked(skill.skillCategory, requiredTier)) {
+      toast(`🔒 Rank ${rank} needs Tier ${requiredTier} unlocked — ${tierUnlockHintText(skill.skillCategory, requiredTier, skillDraftSelectedSkills)}`);
+      return;
+    }
+  }
   if (rank <= 1) delete skillDraftAscensionRanks[id]; else skillDraftAscensionRanks[id] = rank;
   renderSkillPanel();
   renderAscensionBar();
@@ -9313,7 +9415,13 @@ function applySkillModifiers() {
     if (target._baseYieldAdd === undefined) target._baseYieldAdd = target.yieldAdd;
     if (target._baseHarvestAdd === undefined) target._baseHarvestAdd = target.harvestAdd;
     const active = isSkillActive(s.id);
-    target.plotCap = active && s.aoePlotCap ? s.aoePlotCap : target._baseAoE;
+    let rankPlotCap = s.aoePlotCap;
+    if (active && s.aoeSizeByRank) {
+      const rank = getAscensionRank(s.id);
+      const size = s.aoeSizeByRank[Math.min(Math.max(rank, 1), 3) - 1];
+      rankPlotCap = size * size;
+    }
+    target.plotCap = active && rankPlotCap ? rankPlotCap : target._baseAoE;
     target.timeMult = active && s.extraTimeMult && target._baseTimeMult ? +(target._baseTimeMult * s.extraTimeMult).toFixed(4) : target._baseTimeMult;
     target.yieldAdd = active && s.extraYieldAdd ? +((target._baseYieldAdd || 0) + s.extraYieldAdd).toFixed(4) : target._baseYieldAdd;
     target.harvestAdd = active && s.extraHarvestAdd ? +((target._baseHarvestAdd || 0) + s.extraHarvestAdd).toFixed(4) : target._baseHarvestAdd;
@@ -9989,7 +10097,7 @@ function renderSkillPanel() {
     const tierNodes = nodes.filter(s => s.skillTier === tier);
     if (!tierNodes.length) return "";
     const unlocked = isSkillDraftTierUnlocked(skillCategory, tier);
-    return `<div class="skill-tier-block">\n      <div class="skill-tier-heading">${"⭐".repeat(tier)} Tier ${tier}${unlocked ? "" : ` <span class="lock-pip">🔒 needs a Tier ${tier - 1} skill owned first</span>`}</div>\n      <div class="skill-node-grid">\n        ${tierNodes.map(s => {
+    return `<div class="skill-tier-block">\n      <div class="skill-tier-heading">${"⭐".repeat(tier)} Tier ${tier}${unlocked ? "" : ` <span class="lock-pip">🔒 ${tierUnlockHintText(skillCategory, tier, skillDraftSelectedSkills)}</span>`}</div>\n      <div class="skill-node-grid">\n        ${tierNodes.map(s => {
       const owned = isSkillDraftActive(s.id);
       const locked = !owned && !unlocked;
       const ascData = ASCENSION_RANK_DATA[s.id];
@@ -9997,7 +10105,7 @@ function renderSkillPanel() {
       const rank = showRankPicker ? getDraftAscensionRank(s.id) : 1;
       const syncedLevel = owned ? skillSyncedLevel(s) : null;
       const syncedBoostText = owned ? skillSyncedBoostText(s, syncedLevel) : "";
-      return `<div class="skill-node-wrap">\n            <button type="button" class="skill-node-btn ${owned ? "owned" : ""} ${locked ? "locked" : ""}" data-skill-id="${s.id}" ${locked ? "disabled" : ""}>\n              ${owned ? `<span class="skill-node-check">✓</span>` : ""}\n              <span class="skill-node-name">${s.name}${owned ? ` <span class="skill-level-badge">[Level ${syncedLevel}]</span>` : ""}</span>\n              <span class="skill-node-note">${s.note || ""}</span>\n              ${owned ? `<span class="skill-sync-boost">${escapeHtml(syncedBoostText)}</span>` : ""}\n            </button>\n            ${showRankPicker ? `\n              <div class="skill-rank-picker" data-skill-id="${s.id}">\n                <span class="skill-rank-picker-label">Rank:</span>\n                ${[ 1, 2, 3 ].map(r => `<button type="button" class="skill-rank-pip ${r <= rank ? "done" : ""} ${r === rank ? "current" : ""}" data-rank="${r}">${r}</button>`).join("")}\n                <span class="skill-rank-boost">${ascensionDescribeRank(s.id, rank)}</span>\n              </div>\n            ` : ""}\n          </div>`;
+      return `<div class="skill-node-wrap">\n            <button type="button" class="skill-node-btn ${owned ? "owned" : ""} ${locked ? "locked" : ""}" data-skill-id="${s.id}" ${locked ? "disabled" : ""}>\n              ${owned ? `<span class="skill-node-check">✓</span>` : ""}\n              <span class="skill-node-name">${s.name}${owned ? ` <span class="skill-level-badge">[Level ${syncedLevel}]</span>` : ""}</span>\n              <span class="skill-node-note">${skillAoeNoteForRank(s, rank)}</span>\n              ${owned ? `<span class="skill-sync-boost">${escapeHtml(syncedBoostText)}</span>` : ""}\n            </button>\n            ${showRankPicker ? `\n              <div class="skill-rank-picker" data-skill-id="${s.id}">\n                <span class="skill-rank-picker-label">Rank:</span>\n                ${[ 1, 2, 3 ].map(r => `<button type="button" class="skill-rank-pip ${r <= rank ? "done" : ""} ${r === rank ? "current" : ""}" data-rank="${r}">${r}</button>`).join("")}\n                <span class="skill-rank-boost">${ascensionDescribeRank(s.id, rank)}</span>\n              </div>\n            ` : ""}\n          </div>`;
     }).join("")}\n      </div>\n    </div>`;
   }).join("");
   wrap.querySelectorAll(".skill-node-btn").forEach(btn => {
@@ -29026,7 +29134,7 @@ function renderPatternChip(shape, confirmed) {
   }
   const cls = confirmed ? "dig-pattern-chip is-confirmed" : "dig-pattern-chip";
   const badge = confirmed ? `<span class="dig-pattern-chip-badge" title="Pattern found">✓</span>` : "";
-  return `<div class="${cls}" style="grid-template-columns:repeat(${w}, 12px);grid-template-rows:repeat(${h}, 12px);">${cellsHtml}${badge}</div>`;
+  return `<div class="${cls}" style="grid-template-columns:repeat(${w}, 18px);grid-template-rows:repeat(${h}, 18px);">${cellsHtml}${badge}</div>`;
 }
 
 function digCellClass(cell) {
