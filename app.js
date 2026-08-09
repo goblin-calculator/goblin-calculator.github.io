@@ -5575,7 +5575,7 @@ const SKILL_ANIMALS = [ {
 }, {
   id: "skill_featherweight",
   name: "Featherweight",
-  skillTier: 3,
+  skillTier: 1,
   category: "animals",
   scope: "animalType",
   target: "chicken",
@@ -5585,7 +5585,7 @@ const SKILL_ANIMALS = [ {
 }, {
   id: "skill_featherweight",
   name: "Featherweight",
-  skillTier: 3,
+  skillTier: 1,
   category: "animals",
   scope: "animalType",
   target: "cow",
@@ -5596,7 +5596,7 @@ const SKILL_ANIMALS = [ {
 }, {
   id: "skill_featherweight",
   name: "Featherweight",
-  skillTier: 3,
+  skillTier: 1,
   category: "animals",
   scope: "animalType",
   target: "sheep",
@@ -5607,7 +5607,7 @@ const SKILL_ANIMALS = [ {
 }, {
   id: "skill_merino_whisperer",
   name: "Merino Whisperer",
-  skillTier: 3,
+  skillTier: 2,
   category: "animals",
   scope: "animalType",
   target: "sheep",
@@ -5617,7 +5617,7 @@ const SKILL_ANIMALS = [ {
 }, {
   id: "skill_merino_whisperer",
   name: "Merino Whisperer",
-  skillTier: 3,
+  skillTier: 2,
   category: "animals",
   scope: "animalType",
   target: "cow",
@@ -5628,7 +5628,7 @@ const SKILL_ANIMALS = [ {
 }, {
   id: "skill_merino_whisperer",
   name: "Merino Whisperer",
-  skillTier: 3,
+  skillTier: 2,
   category: "animals",
   scope: "animalType",
   target: "chicken",
@@ -6177,7 +6177,7 @@ const SKILL_CATEGORY_META = [ {
   label: "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAKCAYAAABv7tTEAAAAAXNSR0IArs4c6QAAAKNJREFUKJGNkSEOwzAMRX8mb3CoIKSoytiuMNwL7RS9UPCuUGhYEhBU2IEMtE68dJX2Ufzft2U5wB+yjUu2cUlq0kDeIbLR/u3ZrcWAFCIb2gEFxXeP8wY6YECiPShQfH691w3GpawnBYDcfO1bAMgNWlQbdUgPnP2EENlQiGzgkYD2K2zvF4RxweynMmA7EOXCI19PVqvDopMGNTzSz9DRn4k+drNQZqnfgIoAAAAASUVORK5CYII=' style='width:12px;height:11px;vertical-align:-2px;image-rendering:pixelated;'> Crops"
 }, {
   id: "trees",
-  label: "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAYAAAD0f5bSAAAAAXNSR0IArs4c6QAAAM5JREFUKJGFka8OgzAQxr+SEoKdwaNmlkyQbFWYvdAS0heYIzO8xRRPMDMFcsk8HoMlGG6i0BRo6JnL3X2/+/oHcESWCspSQWaPu4DbOZoqQc9PxZyQEikXBSvQcx3vcWkBAO9vq3u70FgmFNxTDc6Z7QEQJ6D6QWcAQ93ZnTRghlHzjdgUTNvXwa1iE7As8MYyIVn4y+EOAAB8qDsA0XJgc4R6hDBvGAOAXsYUXA+QhY/8dbRunwF9pzBvWC9BG0cLAKz+qZcxbYhpqVn/Adu2YYOCjYxqAAAAAElFTkSuQmCC' style='width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Trees"
+  label: "<img src='" + IMAGE_ICONS.Tree + "' style='width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Trees"
 }, {
   id: "fruitpatch",
   label: "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAM1JREFUKJGFkD8OAUEUh79hmo0b0IhCaZttNXsAoncDap1e9BIHcAGFdiW029hEQyJR4AKExMYqZMaMXfyq+fN9894bwZ9U236i1ptJIKR5ee1VEnPvHsvUOwXjxE+kCUvvgWzWAJi39tT7BbaLu1VRpuDDCoDZuchydLHgzSQQUsGAhuNQALBu7JDeq8vbOI8D5LIGlV7CoHvSsJlMQUk6JdeeQSUORSYYTyP9tiWY/QMQRqnKAt6/9C1xmMMZ7oQWfkkmbAlK+hRMGOAJOLpMxjYgUowAAAAASUVORK5CYII=' style='width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Fruit Patch"
@@ -6195,7 +6195,7 @@ const SKILL_CATEGORY_META = [ {
   label: "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALBAMAAAC0QAErAAAABGdBTUEAALGPC/xhBQAAABVQTFRFAAAAuG9Q////vkov6tSqwoVp6LeWFD5WfgAAAAF0Uk5TAEDm2GYAAABDSURBVAjXY2BgDQ1gYGAIS0tlYGBNc0oLAJJpQDIsTQkoFJai5JbKIJbiAiRF01zSAhlEgSoDGZhDQ0MNGBiMjY0ZAM3UDhfpAMERAAAAAElFTkSuQmCC' style='width:11px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Animals"
 }, {
   id: "bees",
-  label: "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAALBAMAAAC9q6FRAAAAD1BMVEUAAAA+iUhjx00mXEIZPD6/6AHTAAAAAXRSTlMAQObYZgAAAEhJREFUCNc1jMENwDAMAskGwZ4AZwLH3aDZf6a6lcoHcUgHYHDijYW+ZVQT0+YygZH0YPPu5qMyvPpfFbUF48WbwvBTJ+fvewALmgb6fQufwwAAAABJRU5ErkJggg==' style='width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Bees & Flowers"
+  label: "<img src='" + IMAGE_ICONS.beehive + "' style='width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Bees & Flowers"
 }, {
   id: "greenhouse",
   label: "<img src='data:image/webp;base64,UklGRr4AAABXRUJQVlA4TLEAAAAvDoADEF+gppEU6M4Cb0muwr8FLGBOUWwb1FNAgG8Ae1uxdZBBATEURZLU3C9nMIJ/DwiCz/wHALbPLkICGcjYTA7JpnHY6+77f+A2kmTV2Trze99mUgQy5akUASXA4DFm8ELYJzKle2F+iCGi/wSTNNV2DL74wgNgPKM/IKVS/zmmalS5lb0hlXfZU8kaJN1D9s46G+xk79ug193J9FK5kuGkpvQHNVuvzPPadZBOJgIA' style='width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Greenhouse"
@@ -6251,7 +6251,7 @@ const ASCENSION_RANK_DATA = {
   },
   skill_bettys_friend: {
     field: null,
-    values: [ .3, .45, .6 ],
+    values: [ 30, 45, 60 ],
     unit: "%",
     note: "Betty delivery revenue — not wired yet"
   },
@@ -6605,6 +6605,377 @@ const ASCENSION_RANK_DATA = {
   skill_wide_rakes: {
     field: "saltYieldAdd",
     values: [ 2, 3, 4 ]
+  },
+  skill_instant_growth: {
+    field: null,
+    unit: "d",
+    values: [ 3, 2.5, 2 ],
+    note: "Power skill cooldown — not wired into time math yet"
+  },
+  skill_tree_blitz: {
+    field: null,
+    unit: "d",
+    values: [ 1, .75, .5 ],
+    note: "Power skill cooldown — not wired into time math yet"
+  },
+  skill_instant_gratification: {
+    field: null,
+    unit: "d",
+    values: [ 4, 3.5, 3 ],
+    note: "Power skill cooldown — not wired into time math yet"
+  },
+  skill_barnyard_rouse: {
+    field: null,
+    unit: "d",
+    values: [ 5, 4, 3.5 ],
+    note: "Power skill cooldown — not wired into time math yet"
+  },
+  skill_petal_blessed: {
+    field: null,
+    unit: "d",
+    values: [ 4, 3.5, 3 ],
+    note: "Power skill cooldown — not wired into time math yet"
+  },
+  skill_greenhouse_guru: {
+    field: null,
+    unit: "d",
+    values: [ 4, 3.5, 3 ],
+    note: "Power skill cooldown — not wired into time math yet"
+  },
+  skill_grease_lightning: {
+    field: null,
+    unit: "d",
+    values: [ 4, 3.5, 3 ],
+    note: "Power skill cooldown — not wired into time math yet"
+  },
+  skill_salt_surge: {
+    field: null,
+    unit: "d",
+    values: [ 3, 2.5, 2 ],
+    note: "Power skill cooldown — not wired into time math yet"
+  },
+  skill_fellers_discount: {
+    field: "coinCostMult",
+    values: [ .8, .75, .7 ]
+  },
+  skill_speed_miner: {
+    field: "timeMult",
+    values: [ .8, .75, .7 ]
+  },
+  skill_frugal_miner: {
+    field: "coinCostMult",
+    values: [ .8, .7, .6 ]
+  },
+  skill_iron_hustle: {
+    field: "timeMult",
+    values: [ .7, .65, .6 ]
+  },
+  skill_midas_sprint: {
+    field: "timeMult",
+    values: [ .9, .875, .85 ]
+  },
+  skill_golden_touch: {
+    field: "yieldAdd",
+    values: [ .5, .75, 1 ]
+  },
+  skill_midas_rush: {
+    field: "timeMult",
+    values: [ .8, .75, .7 ]
+  },
+  skill_more_picks: {
+    field: "stockAdd",
+    byTarget: true,
+    values: {
+      "Pickaxe": [ 70, 140, 280 ],
+      "Stone Pickaxe": [ 20, 40, 80 ],
+      "Iron Pickaxe": [ 7, 14, 28 ],
+      "Gold Pickaxe": [ 2, 4, 8 ]
+    }
+  },
+  skill_no_axe_no_worries: {
+    field: "woodReturnPenalty",
+    values: [ 1, .9, .8 ],
+    note: "Rank II/III softens the -1 wood return penalty"
+  },
+  skill_pear_turbocharge: {
+    field: "extraHarvestAdd",
+    values: [ 1, 2, 3 ],
+    note: "Doubles/triples/quadruples Immortal Pear's +1 harvest boost"
+  },
+  skill_efficient_feeding: {
+    field: "feedMultAll",
+    values: [ .95, .94, .925 ]
+  },
+  skill_restless_animals: {
+    field: "timeMult",
+    values: [ .9, .85, .8 ]
+  },
+  skill_double_bale: {
+    field: "extraYieldAdd",
+    values: [ .1, .15, .2 ]
+  },
+  skill_fine_fibers: {
+    field: "yieldAdd",
+    values: [ .1, .15, .2 ]
+  },
+  skill_abundant_harvest: {
+    field: "yieldAdd",
+    values: [ .2, .35, .5 ]
+  },
+  skill_chonky_feed: {
+    field: "feedMultAll",
+    values: [ 1.5, 1.75, 2 ],
+    note: "2x/2.5x/3x Animal XP from feed — XP not tracked; the feed-cost side is wired"
+  },
+  skill_clucky_grazing: {
+    field: "feedMult",
+    byTarget: true,
+    values: {
+      chicken: [ .75, .65, .5 ],
+      sheep: [ 1.5, 1.55, 1.65 ],
+      cow: [ 1.5, 1.55, 1.65 ]
+    }
+  },
+  skill_sheepwise_diet: {
+    field: "feedMult",
+    byTarget: true,
+    values: {
+      sheep: [ .75, .65, .5 ],
+      chicken: [ 1.5, 1.55, 1.65 ],
+      cow: [ 1.5, 1.55, 1.65 ]
+    }
+  },
+  skill_cow_smart_nutrition: {
+    field: "feedMult",
+    byTarget: true,
+    values: {
+      cow: [ .75, .65, .5 ],
+      chicken: [ 1.5, 1.55, 1.65 ],
+      sheep: [ 1.5, 1.55, 1.65 ]
+    }
+  },
+  skill_featherweight: {
+    field: "yieldAdd",
+    byTarget: true,
+    values: {
+      chicken: [ .35, .45, .55 ],
+      cow: [ -.1, -.15, -.2 ],
+      sheep: [ -.1, -.15, -.2 ]
+    }
+  },
+  skill_merino_whisperer: {
+    field: "yieldAdd",
+    byTarget: true,
+    values: {
+      sheep: [ .35, .6, .9 ],
+      cow: [ -.1, -.15, -.2 ],
+      chicken: [ -.1, -.15, -.2 ]
+    }
+  },
+  skill_leathercraft_mastery: {
+    field: "yieldAdd",
+    byTarget: true,
+    values: {
+      cow: [ .35, .6, .8 ],
+      chicken: [ -.1, -.15, -.2 ],
+      sheep: [ -.1, -.15, -.2 ]
+    }
+  },
+  skill_pollen_power_up: {
+    field: "beeSwarmPerSwarmAdd",
+    values: [ .1, .15, .2 ]
+  },
+  skill_flower_power: {
+    field: "flowerTimeMult",
+    values: [ .8, .7, .6 ]
+  },
+  skill_flowery_abode: {
+    byScope: {
+      hiveGlobal: {
+        field: "speedAdd",
+        values: [ .5, .75, 1 ]
+      },
+      flowerGlobal: {
+        field: "flowerTimeMult",
+        values: [ 1.5, 1.6, 1.7 ]
+      }
+    }
+  },
+  skill_oil_rig: {
+    field: "materialSwap.qty",
+    values: [ 20, 15, 10 ]
+  },
+  skill_ager: {
+    field: null,
+    values: [ 2, 3, 4 ],
+    unit: "×",
+    note: "Aging Shed output & input multiplier — not wired yet"
+  },
+  skill_blossom_bonding: {
+    field: null,
+    values: [ 2, 3, 4 ],
+    note: "Relationship points from gifting Flowers — not wired yet"
+  },
+  skill_bountiful_bounties: {
+    field: null,
+    values: [ 50, 75, 100 ],
+    unit: "%",
+    note: "Coins from Animal Bounties — not wired yet"
+  },
+  skill_composting_bonanza: {
+    field: null,
+    values: [ 1, 1.5, 2 ],
+    unit: "h",
+    note: "Extra composter speed-up time removed — not wired yet"
+  },
+  skill_double_nom: {
+    field: null,
+    values: [ 1, 2, 3 ],
+    note: "+1/+2/+3 food from cooking, needs 2x/3x/4x ingredients — not wired yet"
+  },
+  skill_efficiency_extension_module: {
+    field: null,
+    values: [ 30, 40, 50 ],
+    unit: "%",
+    note: "Oil consumption reduction in Crop Machine — not wired yet"
+  },
+  skill_feathery_business: {
+    field: null,
+    values: [ 2, 1.5, 1 ],
+    unit: "×",
+    note: "Feather cost multiplier for composter speed-up — not wired yet"
+  },
+  skill_field_expansion_module: {
+    field: null,
+    values: [ 5, 7, 10 ],
+    note: "Extra packs added to Crop Machine queue — not wired yet"
+  },
+  skill_field_extension_module: {
+    field: null,
+    values: [ 5, 7, 10 ],
+    note: "Extra plots added to Crop Machine — not wired yet"
+  },
+  skill_fish_smoking: {
+    field: null,
+    values: [ 2, 3, 4 ],
+    unit: "×",
+    note: "Multiplier on Prime Aged fish chance — not wired yet"
+  },
+  skill_fishy_fortune: {
+    field: null,
+    values: [ 100, 125, 150 ],
+    unit: "%",
+    note: "Coins from Corale's deliveries — not wired yet"
+  },
+  skill_fishy_gamble: {
+    field: null,
+    values: [ 20, 25, 30 ],
+    unit: "%",
+    note: "+1 Expert Fish chance"
+  },
+  skill_forge_ward_profits: {
+    field: null,
+    values: [ 20, 30, 40 ],
+    unit: "%",
+    note: "Blacksmith delivery revenue — not wired yet"
+  },
+  skill_frenzied_fish: {
+    field: null,
+    values: [ 1, 2, 3 ],
+    note: "+1/+2/+3 fish during Fish Frenzy, plus 50%/50%/0% chance of another +1 — not wired yet"
+  },
+  skill_fruity_profit: {
+    field: null,
+    values: [ 50, 75, 100 ],
+    unit: "%",
+    note: "Coins from Tango's deliveries — not wired yet"
+  },
+  skill_fruity_woody: {
+    field: null,
+    values: [ 1, 1.25, 1.5 ],
+    note: "Wood from fruit branches/stems when chopped — not wired yet"
+  },
+  skill_fry_frenzy: {
+    field: null,
+    values: [ 60, 65, 70 ],
+    unit: "%",
+    note: "Desert Island Deli cooking time reduction with Oil — not wired yet"
+  },
+  skill_healthy_livestock: {
+    field: null,
+    values: [ 1, .5, .01 ],
+    unit: "×",
+    note: "-50% animal sickness chance flat every rank; sickness spread multiplier shown — not wired yet"
+  },
+  skill_heartwarming_instruments: {
+    field: null,
+    values: [ 50, 60, 70 ],
+    unit: "%",
+    note: "Animal XP from Affection tools — XP isn't tracked in this app"
+  },
+  skill_leak_proof_tank: {
+    field: null,
+    values: [ 3, 4, 5 ],
+    unit: "×",
+    note: "Crop Machine oil tank capacity multiplier — not wired yet"
+  },
+  skill_nom_nom: {
+    field: null,
+    values: [ 10, 30, 50 ],
+    unit: "%",
+    note: "Food delivery revenue — not wired yet"
+  },
+  skill_oil_gadget: {
+    field: null,
+    values: [ 10, 15, 20 ],
+    unit: "%",
+    note: "Oil consumption reduction in Crop Machine — not wired yet"
+  },
+  skill_refiner: {
+    field: null,
+    values: [ 15, 25, 35 ],
+    unit: "%",
+    note: "+1 Refined Salt chance when making Refined Salt"
+  },
+  skill_sea_blessed: {
+    field: null,
+    values: [ 5, 6.5, 8 ],
+    unit: "%",
+    note: "Chance to restore 1 charge to 4 Salt Nodes on harvest"
+  },
+  skill_seedy_business: {
+    field: null,
+    values: [ .85, .8, .75 ],
+    unit: "×",
+    note: "Greenhouse seed cost multiplier — not wired yet"
+  },
+  skill_slick_saver: {
+    field: null,
+    values: [ 1, 1.5, 2 ],
+    note: "Oil reduction to grow greenhouse produce — not wired yet"
+  },
+  skill_speedy_aging: {
+    field: null,
+    values: [ .9, .85, .8 ],
+    note: "Fish Aging (Aging Rack) time multiplier — not wired yet"
+  },
+  skill_swift_sizzle: {
+    field: null,
+    values: [ 40, 45, 50 ],
+    unit: "%",
+    note: "Desert Island Fire Pit cooking time reduction with Oil — not wired yet"
+  },
+  skill_turbo_fry: {
+    field: null,
+    values: [ 50, 55, 60 ],
+    unit: "%",
+    note: "Desert Island Kitchen cooking time reduction with Oil — not wired yet"
+  },
+  skill_victorias_secretary: {
+    field: null,
+    values: [ 50, 75, 100 ],
+    unit: "%",
+    note: "Coins from Victoria's deliveries — not wired yet"
   }
 };
 
@@ -6652,17 +7023,42 @@ function setAscensionRank(id, rank) {
 function applyAscensionRanks() {
   Object.keys(ASCENSION_RANK_DATA).forEach(id => {
     const data = ASCENSION_RANK_DATA[id];
-    if (!data.field) return;
-    const fields = Array.isArray(data.field) ? data.field : [ data.field ];
+    const owned = isSkillActive(id);
+    const rank = getAscensionRank(id);
     SKILL_BOOSTS.filter(s => s.id === id).forEach(entry => {
       if (!entry._ascBase) entry._ascBase = {};
+      if (data.byTarget) {
+        const f = data.field;
+        if (!f) return;
+        const valuesForTarget = data.values[entry.target];
+        if (!valuesForTarget) return;
+        if (entry._ascBase[f] === undefined) entry._ascBase[f] = ascensionGetPath(entry, f);
+        if (ascensionEnabled && owned) {
+          ascensionSetPath(entry, f, valuesForTarget[rank - 1]);
+        } else {
+          ascensionSetPath(entry, f, entry._ascBase[f]);
+        }
+        return;
+      }
+      if (data.byScope) {
+        const cfg = data.byScope[entry.scope];
+        if (!cfg) return;
+        const f = cfg.field;
+        if (entry._ascBase[f] === undefined) entry._ascBase[f] = ascensionGetPath(entry, f);
+        if (ascensionEnabled && owned) {
+          ascensionSetPath(entry, f, cfg.values[rank - 1]);
+        } else {
+          ascensionSetPath(entry, f, entry._ascBase[f]);
+        }
+        return;
+      }
+      if (!data.field) return;
+      const fields = Array.isArray(data.field) ? data.field : [ data.field ];
       fields.forEach(f => {
         if (entry._ascBase[f] === undefined) entry._ascBase[f] = ascensionGetPath(entry, f);
-        const owned = isSkillActive(id);
         const valuesForField = Array.isArray(data.values) ? data.values : data.values[f];
         if (!valuesForField) return;
         if (ascensionEnabled && owned) {
-          const rank = getAscensionRank(id);
           ascensionSetPath(entry, f, valuesForField[rank - 1]);
         } else {
           ascensionSetPath(entry, f, entry._ascBase[f]);
@@ -6700,10 +7096,18 @@ function skillAoeNoteForRank(s, rank) {
 function ascensionDescribeRank(id, rank) {
   const data = ASCENSION_RANK_DATA[id];
   if (!data) return "";
-  const primaryValues = Array.isArray(data.values) ? data.values : data.values[Object.keys(data.values)[0]];
+  let primaryValues;
+  if (data.byScope) {
+    const firstKey = Object.keys(data.byScope)[0];
+    primaryValues = data.byScope[firstKey].values;
+  } else if (data.byTarget) {
+    primaryValues = data.values[Object.keys(data.values)[0]];
+  } else {
+    primaryValues = Array.isArray(data.values) ? data.values : data.values[Object.keys(data.values)[0]];
+  }
   const v = primaryValues[rank - 1];
   const unit = data.unit || "";
-  const display = unit === "%" ? `${v}%` : unit === "×" ? `×${v}` : v > 0 ? `+${v}` : `${v}`;
+  const display = unit === "%" ? `${v}%` : unit === "×" ? `×${v}` : unit === "d" ? `${v}d` : unit === "h" ? `${v}h` : v > 0 ? `+${v}` : `${v}`;
   return `Rank ${[ "I", "II", "III" ][rank - 1]}: ${display}${data.note ? ` · ${data.note}` : ""}`;
 }
 
@@ -29662,11 +30066,20 @@ function digExpandFormation(patternName, artefactName) {
   }));
 }
 
+let digSolveBoardCache = null;
+
 function digSolveBoard() {
   const desert = digGetDesertState();
   const now = Date.now();
   const chapterName = digGetCurrentChapterName(now);
   const artefactName = DESERT_CHAPTER_ARTEFACT[chapterName] || "Artefact";
+  const cacheKey = JSON.stringify({
+    grid: desert.grid,
+    patterns: desert.patterns,
+    completedPatterns: desert.completedPatterns,
+    chapterName: chapterName
+  });
+  if (digSolveBoardCache && digSolveBoardCache.key === cacheKey) return digSolveBoardCache.result;
   let dugCount = 0;
   desert.grid.forEach(entry => {
     const holes = Array.isArray(entry) ? entry : [entry];
@@ -29700,7 +30113,7 @@ function digSolveBoard() {
   const cells = finalCells.map(row => row.map(cell => Object.assign({}, cell)));
   const confirmedCount = completedByIndex.filter(Boolean).length;
 
-  return {
+  const result = {
     chapterName: chapterName,
     artefactName: artefactName,
     instances: instances,
@@ -29709,6 +30122,8 @@ function digSolveBoard() {
     dugCount: dugCount,
     confirmedCount: confirmedCount
   };
+  digSolveBoardCache = { key: cacheKey, result: result };
+  return result;
 }
 
 function renderPatternChip(shape, confirmed) {
@@ -29785,37 +30200,52 @@ function renderDigGridHtml(solved) {
   return html;
 }
 
+let digPanelRenderToken = 0;
+
 function renderDigTreasurePanel() {
   const chapterEl = $("digPanelChapter");
   const patternsEl = $("digPanelPatterns");
   const gridEl = $("digPanelGrid");
   const statusEl = $("digPanelStatus");
   if (!chapterEl || !patternsEl || !gridEl || !statusEl) return;
-  const solved = digSolveBoard();
-  const lastInfo = typeof farmPanelGetLastInfo === "function" ? farmPanelGetLastInfo() : null;
-  const farmLabel = lastInfo && lastInfo.id ? `Farm #${lastInfo.id}` : "No farm synced";
-  chapterEl.innerHTML = `${escapeHtml(farmLabel)} · ${escapeHtml(solved.chapterName)}<br>Chapter artefact: ${getIcon(solved.artefactName)} ${escapeHtml(solved.artefactName)}`;
-  patternsEl.innerHTML = solved.instances.length
-    ? solved.instances.map((inst, i) => renderPatternChip(inst.shape, !!solved.completedByIndex[i])).join("")
-    : `<div class="dig-panel-status">No active pattern data yet — sync your farm.</div>`;
-  gridEl.innerHTML = renderDigGridHtml(solved);
-  const flatCells = [].concat.apply([], solved.cells);
-  const guaranteedCount = flatCells.filter(c => !c.dug && c.status === "guaranteed").length;
-  const possibleCount = flatCells.filter(c => !c.dug && c.status === "possible").length;
-  const emptyCount = flatCells.filter(c => !c.dug && c.status === "empty").length;
-  const crabPredictedCount = flatCells.filter(c => !c.dug && c.status === "crab").length;
-  const sandPredictedCount = flatCells.filter(c => !c.dug && c.status === "sand").length;
-  statusEl.textContent = solved.dugCount
-    ? `${solved.dugCount} tile(s) dug so far · ${solved.confirmedCount} pattern(s) confirmed · ${guaranteedCount} guaranteed spot(s) · ${possibleCount} possible spot(s) · ${emptyCount} safe-empty · ${crabPredictedCount} predicted crab(s) · ${sandPredictedCount} predicted sand`
-    : "No dig data synced yet — dig a few tiles in-game, then sync.";
+  if (statusEl) statusEl.textContent = "Loading dig data…";
+  const token = ++digPanelRenderToken;
+  setTimeout(() => {
+    if (token !== digPanelRenderToken) return;
+    const solved = digSolveBoard();
+    const lastInfo = typeof farmPanelGetLastInfo === "function" ? farmPanelGetLastInfo() : null;
+    const farmLabel = lastInfo && lastInfo.id ? `Farm #${lastInfo.id}` : "No farm synced";
+    chapterEl.innerHTML = `${escapeHtml(farmLabel)} · ${escapeHtml(solved.chapterName)}<br>Chapter artefact: ${getIcon(solved.artefactName)} ${escapeHtml(solved.artefactName)}`;
+    patternsEl.innerHTML = solved.instances.length
+      ? solved.instances.map((inst, i) => renderPatternChip(inst.shape, !!solved.completedByIndex[i])).join("")
+      : `<div class="dig-panel-status">No active pattern data yet — sync your farm.</div>`;
+    gridEl.innerHTML = renderDigGridHtml(solved);
+    const flatCells = [].concat.apply([], solved.cells);
+    const guaranteedCount = flatCells.filter(c => !c.dug && c.status === "guaranteed").length;
+    const possibleCount = flatCells.filter(c => !c.dug && c.status === "possible").length;
+    const emptyCount = flatCells.filter(c => !c.dug && c.status === "empty").length;
+    const crabPredictedCount = flatCells.filter(c => !c.dug && c.status === "crab").length;
+    const sandPredictedCount = flatCells.filter(c => !c.dug && c.status === "sand").length;
+    statusEl.textContent = solved.dugCount
+      ? `${solved.dugCount} tile(s) dug so far · ${solved.confirmedCount} pattern(s) confirmed · ${guaranteedCount} guaranteed spot(s) · ${possibleCount} possible spot(s) · ${emptyCount} safe-empty · ${crabPredictedCount} predicted crab(s) · ${sandPredictedCount} predicted sand`
+      : "No dig data synced yet — dig a few tiles in-game, then sync.";
+  }, 0);
 }
 
 function openDigPanel() {
-  renderDigTreasurePanel();
   const overlay = $("digPanelOverlay");
   const panel = $("digSidePanel");
   if (overlay) overlay.classList.add("show");
   if (panel) panel.classList.add("open");
+  const statusEl = $("digPanelStatus");
+  const gridEl = $("digPanelGrid");
+  const patternsEl = $("digPanelPatterns");
+  if (statusEl) statusEl.textContent = "Loading dig data…";
+  if (gridEl) gridEl.innerHTML = "";
+  if (patternsEl) patternsEl.innerHTML = "";
+  requestAnimationFrame(() => {
+    renderDigTreasurePanel();
+  });
 }
 
 function closeDigPanel() {
