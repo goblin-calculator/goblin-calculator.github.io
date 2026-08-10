@@ -1284,6 +1284,137 @@ function getAnimalLevelFromXp(type, xp) {
   return Math.max(1, level);
 }
 
+const REQUIRED_FOOD_QTY_MAP = {
+  chicken: 1,
+  sheep: 3,
+  cow: 5
+};
+
+const ANIMAL_LOVE_OPPORTUNITIES_PER_CYCLE = 2;
+
+const ANIMAL_LOVE_ITEM_XP = {
+  pettingHand: 25,
+  brush: 40,
+  musicBox: 50
+};
+
+const ANIMAL_LOVE_TOOL_LABELS = {
+  pettingHand: "Petting Hand",
+  brush: "Brush",
+  musicBox: "Music Box"
+};
+
+const ANIMAL_LOVE_CHANCES = {
+  0: { pettingHand: 0, brush: 0, musicBox: 0 },
+  1: { pettingHand: 10, brush: 0, musicBox: 0 },
+  2: { pettingHand: 8, brush: 2, musicBox: 0 },
+  3: { pettingHand: 7, brush: 3, musicBox: 0 },
+  4: { pettingHand: 6, brush: 3, musicBox: 1 },
+  5: { pettingHand: 5, brush: 4, musicBox: 1 },
+  6: { pettingHand: 5, brush: 3, musicBox: 2 },
+  7: { pettingHand: 4, brush: 4, musicBox: 2 },
+  8: { pettingHand: 4, brush: 3, musicBox: 3 },
+  9: { pettingHand: 3, brush: 4, musicBox: 3 },
+  10: { pettingHand: 3, brush: 3, musicBox: 4 },
+  11: { pettingHand: 2, brush: 4, musicBox: 4 },
+  12: { pettingHand: 2, brush: 3, musicBox: 5 },
+  13: { pettingHand: 1, brush: 4, musicBox: 5 },
+  14: { pettingHand: 1, brush: 3, musicBox: 6 },
+  15: { pettingHand: 1, brush: 2, musicBox: 7 }
+};
+
+const ANIMAL_FOOD_XP_BY_LEVEL = {
+  0: { kernelBlend: 60, hay: 10, nutriBarley: 20, mixedGrain: 30, omnifeed: 60 },
+  1: { kernelBlend: 60, hay: 10, nutriBarley: 20, mixedGrain: 30, omnifeed: 60 },
+  2: { kernelBlend: 60, hay: 10, nutriBarley: 20, mixedGrain: 30, omnifeed: 60 },
+  3: { kernelBlend: 10, hay: 60, nutriBarley: 20, mixedGrain: 30, omnifeed: 60 },
+  4: { kernelBlend: 10, hay: 60, nutriBarley: 20, mixedGrain: 30, omnifeed: 60 },
+  5: { kernelBlend: 10, hay: 60, nutriBarley: 20, mixedGrain: 30, omnifeed: 60 },
+  6: { kernelBlend: 10, hay: 20, nutriBarley: 60, mixedGrain: 30, omnifeed: 60 },
+  7: { kernelBlend: 10, hay: 20, nutriBarley: 60, mixedGrain: 30, omnifeed: 60 },
+  8: { kernelBlend: 10, hay: 20, nutriBarley: 60, mixedGrain: 30, omnifeed: 60 },
+  9: { kernelBlend: 10, hay: 20, nutriBarley: 60, mixedGrain: 30, omnifeed: 60 },
+  10: { kernelBlend: 10, hay: 20, nutriBarley: 30, mixedGrain: 80, omnifeed: 80 },
+  11: { kernelBlend: 10, hay: 20, nutriBarley: 30, mixedGrain: 80, omnifeed: 80 },
+  12: { kernelBlend: 10, hay: 20, nutriBarley: 30, mixedGrain: 80, omnifeed: 80 },
+  13: { kernelBlend: 10, hay: 20, nutriBarley: 30, mixedGrain: 80, omnifeed: 80 },
+  14: { kernelBlend: 10, hay: 20, nutriBarley: 30, mixedGrain: 80, omnifeed: 80 },
+  15: { kernelBlend: 10, hay: 20, nutriBarley: 30, mixedGrain: 80, omnifeed: 80 }
+};
+
+let animalAffectionTools = safeLSJSON(localStorage.getItem("hl_animal_affection_tools"), {
+  pettingHand: false,
+  brush: false,
+  musicBox: false
+});
+
+function saveAnimalAffectionTools() {
+  localStorage.setItem("hl_animal_affection_tools", JSON.stringify(animalAffectionTools));
+}
+
+function setAnimalAffectionTool(key, val) {
+  if (!(key in ANIMAL_LOVE_ITEM_XP)) return;
+  animalAffectionTools[key] = !!val;
+  saveAnimalAffectionTools();
+}
+
+function getFavouriteFoodKeyAtLevel(fromLevel) {
+  const table = ANIMAL_FOOD_XP_BY_LEVEL[Math.min(15, Math.max(0, fromLevel))];
+  let best = "kernelBlend";
+  [ "kernelBlend", "hay", "nutriBarley", "mixedGrain" ].forEach(k => {
+    if (table[k] > table[best]) best = k;
+  });
+  return best;
+}
+
+function computeAverageAffectionXpPerCycle(fromLevel, affectionXpMultiplier, loveFlatXpAdd) {
+  const chances = ANIMAL_LOVE_CHANCES[Math.min(15, Math.max(0, fromLevel))];
+  const totalWeight = chances.pettingHand + chances.brush + chances.musicBox;
+  if (!totalWeight) return 0;
+  const flatAdd = loveFlatXpAdd || 0;
+  let expectedPerOpportunity = 0;
+  Object.keys(ANIMAL_LOVE_ITEM_XP).forEach(key => {
+    if (!animalAffectionTools[key]) return;
+    const weight = chances[key] || 0;
+    if (!weight) return;
+    expectedPerOpportunity += weight / totalWeight * (ANIMAL_LOVE_ITEM_XP[key] + flatAdd);
+  });
+  expectedPerOpportunity *= affectionXpMultiplier;
+  return expectedPerOpportunity * ANIMAL_LOVE_OPPORTUNITIES_PER_CYCLE;
+}
+
+function computeAnimalFeedFigures(type, level) {
+  const displayLevel = Math.min(15, Math.max(1, parseInt(level) || 1));
+  const fromLevel = displayLevel - 1;
+  const toLevel = displayLevel;
+  const thresholds = ANIMAL_XP_THRESHOLDS[type];
+  const xpGap = thresholds[toLevel] - thresholds[fromLevel];
+  const favouriteFoodKey = getFavouriteFoodKeyAtLevel(fromLevel);
+  const feedKeyForXp = omnifeedEnabled ? "omnifeed" : favouriteFoodKey;
+  const baseFoodXp = ANIMAL_FOOD_XP_BY_LEVEL[Math.min(15, Math.max(0, fromLevel))][feedKeyForXp];
+  const active = getActiveAnimalBoosts(type);
+  let xpMultTotal = 1;
+  let affectionXpMultTotal = 1;
+  let loveFlatXpAddTotal = 0;
+  active.forEach(b => {
+    if (b.xpMult) xpMultTotal *= b.xpMult;
+    if (b.affectionXpMult) affectionXpMultTotal += b.affectionXpMult;
+    if (b.loveFlatXpAdd) loveFlatXpAddTotal += b.loveFlatXpAdd;
+  });
+  const boostedFoodXp = Math.max(1e-9, baseFoodXp * xpMultTotal);
+  const avgLoveXpPerCycle = computeAverageAffectionXpPerCycle(fromLevel, affectionXpMultTotal, loveFlatXpAddTotal);
+  const effectiveXpGap = Math.max(0, xpGap - avgLoveXpPerCycle);
+  const noOfFeeds = Math.ceil(effectiveXpGap / boostedFoodXp);
+  return {
+    favouriteFoodKey: favouriteFoodKey,
+    feedKeyUsed: omnifeedEnabled ? "omnifeed" : favouriteFoodKey,
+    noOfFeeds: noOfFeeds,
+    boostedFoodXp: boostedFoodXp,
+    avgLoveXpPerCycle: avgLoveXpPerCycle,
+    xpGap: xpGap
+  };
+}
+
 function computeAnimalYieldsForLevel(type, level) {
   const cfg = ANIMAL_DATA[type];
   const lvl = Math.min(15, Math.max(1, parseInt(level) || 1));
@@ -3070,7 +3201,9 @@ let resourceMaterialMode = safeLSJSON(localStorage.getItem("hl_resource_material
 
 function getMaterialMode(resourceName, materialName) {
   if ((materialName || "").toLowerCase() === "oil") return "collect";
-  return resourceMaterialMode[resourceName + ":" + materialName] || "collect";
+  const key = resourceName + ":" + materialName;
+  if (Object.prototype.hasOwnProperty.call(resourceMaterialMode, key)) return resourceMaterialMode[key];
+  return resourceName === "AnimalFeed" ? "buy" : "collect";
 }
 
 function setMaterialMode(resourceName, materialName, mode) {
@@ -4753,8 +4886,8 @@ const SKILL_CROPS = [ {
   modifiesId: "basic_scarecrow",
   aoePlotCap: 49,
   aoeSizeByRank: [ 7, 8, 9 ],
-  extraTimeMult: .9,
-  note: "Basic Scarecrow AOE 3x3 → 7x7 (49 plots); additional -10% Basic crop growth time"
+  overrideTimeMult: .7,
+  note: "Basic Scarecrow AOE 3x3 → 7x7 (49 plots); replaces the collectible's -20% Basic crop growth time with a flat -30% (0.7x)"
 }, {
   id: "skill_young_farmer",
   name: "Young Farmer",
@@ -5276,6 +5409,14 @@ const SKILL_FRUITPATCH = [ {
   yieldAdd: .1,
   note: "+0.1 fruit yield"
 }, {
+  id: "skill_catchup",
+  name: "Catchup",
+  skillTier: 2,
+  category: "fruits",
+  scope: "global",
+  timeMult: .9,
+  note: "-10% fruit growth time"
+}, {
   id: "skill_fruity_profit",
   name: "Fruity Profit",
   skillTier: 1,
@@ -5464,8 +5605,16 @@ const SKILL_ANIMALS = [ {
   id: "skill_heartwarming_instruments",
   name: "Heartwarming Instruments",
   skillTier: 2,
-  notModeled: true,
-  note: "+50% Animal XP from Affection tools — XP isn't tracked in this app"
+  category: "animals",
+  scope: "animalGlobal",
+  affectionXpMult: .5,
+  note: "+50% Animal XP from Petting Hand / Brush / Music Box love actions"
+}, {
+  id: "skill_kale_mix",
+  name: "Kale Mix",
+  skillTier: 2,
+  category: "animals",
+  note: "Mixed Grain requires 3 Kale to mix instead of Corn, Wheat & Barley"
 }, {
   id: "skill_alternate_medicine",
   name: "Alternate Medicine",
@@ -5478,7 +5627,8 @@ const SKILL_ANIMALS = [ {
   category: "animals",
   scope: "animalGlobal",
   feedMultAll: 1.5,
-  note: "2x Animal XP from feed, but +50% feed required (XP not tracked; the +50% feed cost is wired)"
+  xpMult: 2,
+  note: "2x Animal XP from feed (fewer feeds needed) with +50% quantity per feed — nets roughly -25% total feed"
 }, {
   id: "skill_barnyard_rouse",
   name: "Barnyard Rouse",
@@ -6039,6 +6189,12 @@ const SKILL_COMPOST = [ {
   fertAdd: 10,
   note: "+10 Rapid Root per cycle"
 }, {
+  id: "skill_root_rocket",
+  name: "Root Rocket",
+  skillTier: 2,
+  notModeled: true,
+  note: "Rapid Root auto-applies to all plots — automation perk, not a yield/time modifier"
+}, {
   id: "skill_fruitful_bounty",
   name: "Fruitful Bounty",
   skillTier: 2,
@@ -6359,6 +6515,10 @@ const ASCENSION_RANK_DATA = {
   skill_fruitful_fumble: {
     field: "yieldAdd",
     values: [ .1, .15, .2 ]
+  },
+  skill_catchup: {
+    field: "timeMult",
+    values: [ .9, .85, .8 ]
   },
   skill_fruity_heaven: {
     field: null,
@@ -6717,6 +6877,11 @@ const ASCENSION_RANK_DATA = {
   skill_fine_fibers: {
     field: "yieldAdd",
     values: [ .1, .15, .2 ]
+  },
+  skill_kale_mix: {
+    field: null,
+    values: [ 3, 2.5, 2 ],
+    note: "Kale required per Mixed Grain (replaces Corn/Wheat/Barley)"
   },
   skill_abundant_harvest: {
     field: "yieldAdd",
@@ -8916,6 +9081,14 @@ const ANIMAL_BOOSTS = [ {
   feedMult: .95,
   note: "-5% feed"
 }, {
+  id: "spa_sheep",
+  name: "Spa Sheep",
+  category: "animals",
+  scope: "animalType",
+  target: "sheep",
+  loveFlatXpAdd: 5,
+  note: "+5 Animal XP per love action on Sheep"
+}, {
   id: "golden_sheep",
   name: "Golden Sheep",
   category: "animals",
@@ -9003,6 +9176,14 @@ const ANIMAL_BOOSTS = [ {
   target: "cow",
   feedMult: .95,
   note: "-5% feed"
+}, {
+  id: "baby_cow",
+  name: "Baby Cow",
+  category: "animals",
+  scope: "animalType",
+  target: "cow",
+  loveFlatXpAdd: 10,
+  note: "+10 Animal XP per love action on Cow"
 }, {
   id: "golden_cow",
   name: "Golden Cow",
@@ -9833,7 +10014,7 @@ function applySkillModifiers() {
     }
     target.plotCap = active && rankPlotCap ? rankPlotCap : target._baseAoE;
     target._ascensionAoeApplied = ascensionAoeApplied;
-    target.timeMult = active && s.extraTimeMult && target._baseTimeMult ? +(target._baseTimeMult * s.extraTimeMult).toFixed(4) : target._baseTimeMult;
+    target.timeMult = active && s.overrideTimeMult ? s.overrideTimeMult : target._baseTimeMult;
     target.yieldAdd = active && s.extraYieldAdd ? +((target._baseYieldAdd || 0) + s.extraYieldAdd).toFixed(4) : target._baseYieldAdd;
     target.harvestAdd = active && s.extraHarvestAdd ? +((target._baseHarvestAdd || 0) + s.extraHarvestAdd).toFixed(4) : target._baseHarvestAdd;
   });
@@ -12935,8 +13116,20 @@ function getFeedIngredientUnitCostCoins(cropName, visited) {
   return getMaterialUnitCostCoins(cropName, mode, visited);
 }
 
+const KALE_MIX_RANKS = [ 3, 2.5, 2 ];
+
+function getKaleMixKaleQty() {
+  if (!isSkillActive("skill_kale_mix")) return null;
+  const rank = ascensionEnabled ? getAscensionRank("skill_kale_mix") : 1;
+  return KALE_MIX_RANKS[Math.min(Math.max(rank, 1), 3) - 1];
+}
+
 function getFeedUnitCost(feedKey, visited) {
-  const recipe = FEED_RECIPE[feedKey] || [];
+  const kaleQty = feedKey === "mixedGrain" ? getKaleMixKaleQty() : null;
+  const recipe = kaleQty != null ? [ {
+    crop: "Kale",
+    qty: kaleQty
+  } ] : FEED_RECIPE[feedKey] || [];
   let cost = 0;
   const breakdown = [];
   recipe.forEach(r => {
@@ -13010,11 +13203,13 @@ function computeAnimalTypeFigures(type, visited) {
   const spice = getSpiceEffectForAnimalType(type);
   feedMultTotal *= spice.feedMultAll;
   yieldMultAllTotal *= spice.yieldMultAll;
-  const feedKeyUsed = omnifeedEnabled ? "omnifeed" : lvlData.feed;
+  const feedFig = computeAnimalFeedFigures(type, level);
+  const feedKeyUsed = feedFig.feedKeyUsed;
   const feedNameUsed = FEED_LABELS[feedKeyUsed];
   const feedIconUsed = getIcon(feedNameUsed);
-  const feedInfo = getActiveFeedInfo(lvlData.feed, visited);
-  const effectiveFeedQty = freeFeed ? 0 : Math.max(0, lvlData.qty * feedMultTotal);
+  const feedInfo = getActiveFeedInfo(feedFig.favouriteFoodKey, visited);
+  const requiredQtyPerFeed = REQUIRED_FOOD_QTY_MAP[type];
+  const effectiveFeedQty = freeFeed ? 0 : Math.max(0, feedFig.noOfFeeds * requiredQtyPerFeed * feedMultTotal);
   const feedCostCoins = effectiveFeedQty * feedInfo.cost;
   const yields = [ Math.max(0, (lvlData.y[0] + yieldAdd[0]) * yieldMultAllTotal), Math.max(0, (lvlData.y[1] + yieldAdd[1]) * yieldMultAllTotal) ];
   const totalYieldUnits = yields[0] + yields[1];
@@ -13159,11 +13354,22 @@ function computeAnimalWeeklyFigures(type) {
 function renderAnimalFeedByLevelBlock(type, currentLevel) {
   const cfg = ANIMAL_DATA[type];
   const expanded = expandedAnimalFeedByLevel.has(type);
+  const active = getActiveAnimalBoosts(type);
+  let feedMultTotal = 1;
+  active.forEach(b => {
+    if (b.feedMult) feedMultTotal *= b.feedMult;
+    if (b.feedMultAll) feedMultTotal *= b.feedMultAll;
+  });
+  const spice = getSpiceEffectForAnimalType(type);
+  feedMultTotal *= spice.feedMultAll;
+  const requiredQtyPerFeed = REQUIRED_FOOD_QTY_MAP[type];
   const rows = cfg.levels.map((lvlData, idx) => {
     const level = idx + 1;
     const isCurrent = level === currentLevel;
-    const feedName = omnifeedEnabled ? FEED_LABELS.omnifeed : FEED_LABELS[lvlData.feed];
-    return `\n    <div class="lib-item-row" style="margin:0 0 3px;padding:4px 8px;${isCurrent ? "border:1.5px solid var(--sun-deep);background:var(--paper-dim);" : ""}">\n      <span class="lib-item-icon">${getIcon(feedName)}</span>\n      <div class="lib-item-main">\n        <div class="lib-item-name">Lv${level}${isCurrent ? " (current)" : ""} — ${feedName}</div>\n      </div>\n      <div class="lib-item-price">×${fmt(lvlData.qty)}</div>\n    </div>`;
+    const feedFig = computeAnimalFeedFigures(type, level);
+    const feedName = FEED_LABELS[feedFig.feedKeyUsed];
+    const boostedQty = Math.max(0, feedFig.noOfFeeds * requiredQtyPerFeed * feedMultTotal);
+    return `\n    <div class="lib-item-row" style="margin:0 0 3px;padding:4px 8px;${isCurrent ? "border:1.5px solid var(--sun-deep);background:var(--paper-dim);" : ""}">\n      <span class="lib-item-icon">${getIcon(feedName)}</span>\n      <div class="lib-item-main">\n        <div class="lib-item-name">Lv${level}${isCurrent ? " (current)" : ""} — ${feedName}</div>\n      </div>\n      <div class="lib-item-price">×${fmt(boostedQty)}</div>\n    </div>`;
   }).join("");
   return `\n    <div class="anim-lvl-toggle" data-anim-lvl-type="${type}" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:6px 0;border-top:1px dashed var(--line);">\n      <div class="lib-section-title" style="margin:0;">🌾 Feed by Level (1–15)</div>\n      <span class="anim-lvl-chev" style="font-size:10px;color:var(--ink-soft);transition:transform .25s ease;transform:rotate(${expanded ? 180 : 0}deg);">▾</span>\n    </div>\n    <div class="anim-lvl-details" style="display:${expanded ? "block" : "none"};margin-top:4px;">\n      ${rows}\n    </div>`;
 }
@@ -13552,6 +13758,11 @@ IMAGE_ICONS["Dumbo Octopus"] = "data:image/webp;base64,UklGRkABAABXRUJQVlA4TDQBA
 IMAGE_ICONS["Seahorse Dad"] = "data:image/webp;base64,UklGRnYBAABXRUJQVlA4TGkBAAAvH0AIEN+gqLZt6lTwHxuZkkVRLTRQ4JuCV0NNJFvNESq6nDpaaiwgA1d4wQSeYBvbVqJH5DlD5v1HdEAHrHXgvgVAIAjRWUud8EYAyG8HJKQ0Z21fvfhJlaV5Y8TOIUDpKKcfTDrVlRkOalPmmcmH8Yo2VtD8TRCACukCvBQOI9lOm4AhLEUhQ/+ViqxU8N5/Ef2fgN2mHUiADfEEVDBsmDIzI2n7LSEBJGlRqO8oySEgdajuAinJdZYDDCgCqgQVIAD9vcLgYGkgAPcKCU6CYgQAislOGcD1Ja6LWHZ3ZEpIkiSUaZqQJv+jCrtV36cc7shpogQIkISrmSQ8imIIiqaU7uJ+2NmY0+SpmFw+kkjtx8FOuclLlMQALh/JU/tTyUQ/R/Rg5KnMOzndvBnfnMyeH5Pnmyzj5Mk3yclivrf4JTjF7w048V1ds+W/hPJXKE5cKs8ECWZlNjb+g6M1lmxs+hfNd60IAA==";
 IMAGE_ICONS["Full Moon"] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKBAMAAAB/HNKOAAAAFVBMVEUAAAC9zN4TDCCFnLbS3Ojc5O1SaYqPHvFfAAAAAXRSTlMAQObYZgAAADxJREFUCNdjYGBSUmBgYFAUFAIyBZ0FFRgURUIdhRgUTUKNgaSIS7IQg7KgoaARA5OhoDBQqbKxEQNEFwCnuwW1GdyldgAAAABJRU5ErkJggg==";
 IMAGE_ICONS["Crocodile"] = "data:image/webp;base64,UklGRkIBAABXRUJQVlA4TDYBAAAvH8AHEL+gJLKt6jz1EryHQjKobxeGwBTBkwBHDTaxbTV6SMgZDzigxAwiKZGQNnQrYVvYxLbV6PVggC6LoE8CGBzjJfdsXgJBiM5a6oQ3AsA//wESlJlR3oEPiIoBSZRHIo8OFHvfUltA9r6OA+fd7l9ptmZPhECszCqOAWIk220bJXxI/k9ZAvqv9SMQcgPvRfR/AnasS3dk3U8isl/DdxgOl/Bttw6jcLggx6E5BTlcOF2xCSRv4nR1pDkkFyWh7RwpER4hMVGSWCQNJUSSatKnlPZpnxApyjmytKFJe1PKVuKcFdmNb+atLJvelLKs9OprTDfK/rKVzqvyOSLL0VR6zxlZLIOtS/c8yvbEefxfcIjbkB325+Zb3/GPhhv3yQdFit1n5WvxDxy5WOJr6U8s360i";
+IMAGE_ICONS["Petting Hand"] = "data:image/webp;base64,UklGRoAAAABXRUJQVlA4THQAAAAvDUADEC9AFmAyiIF0hZH/FRdBAEkAAcwy8FyjqGnbCE52au8/FLfe/AeAuV34aV3xgUFtK1IeDWYjwETwmAD9BVzoH4YSEf2fAOjUltYM+u+P0zKy/K4Seb/O45KcyFta1iRpOVtSLNrWugzasQdAO63QAQ==";
+IMAGE_ICONS["Brush"] = "data:image/webp;base64,UklGRooAAABXRUJQVlA4TH4AAAAvDsADEC+gkI0kOLoKC7AEz915nJq2DZiuszjKX0VImG2cG8QQ9j6Km/8A4P0f12EiCQ4i266a8xzcF0BAggIGBV8BtL3+xST1ENH/CQDIpJcd3WsvgGw74B3Jtp8/c6Cf/dRAhz0X0HTfNUB7ZgG21lqA1pIJbC3oa2GoGAE=";
+IMAGE_ICONS["Music Box"] = "data:image/webp;base64,UklGRuYAAABXRUJQVlA4TNkAAAAvDwAEEG+gJpKt5icTX0Cy8DtU4BJhsabEhpoAQBpWhFWAlxDUJQIRvM2jaiPZoGT6kKtEqAN1Gz38U/MfAOD/P+uMO/SJAtbSiSBV8ibcTRnKuvRj4FTbtjV525+X1nGJc4mr5B0Cde56CCSuRSrV4V/CJZE4tYj+B6wwDAHg2elcCGC1HLfJgCfVOPolGG7SkHYJhtyykboEB3fR2BsCi12tmRCwWIZhQuD5r+vfMyRDd2bkXdMf0nC+n5qe1HLcRjeI9O10LloIi3LcJgVw4LgNAWCFYQgAAA==";
+IMAGE_ICONS["Baby Cow"] = "data:image/webp;base64,UklGRuwAAABXRUJQVlA4TN8AAAAvD8AEEGegKLYNSog/Jey0VUwO61dDTQAQjM8vgHN7lVVALU0oiiSpuXyvAzRkdKAXTViBINumYqM/2IMA4P+VWkAea7B2wq6kmKp+j+5t57p74Dba/jX5RSr8d5cKtx1o47mjjva4+58NyAK4S8UCtFS2lu0Q0f8JAIBSCb4brvsAgPt7Mt74PpaELD/kSJfcZODLl4Kqjlhe/pJZ4Ieua7EA+pAQSwHeKPRzqsEWFKdUmuqqrh0NIzxQeA6vVxTYAx4Rw+g5yGHEo+wRhxyiYGXT+gUxr6T/J3/RAF8AAA==";
+IMAGE_ICONS["Spa Sheep"] = "data:image/webp;base64,UklGRiYBAABXRUJQVlA4TBoBAAAvGMAFEIegNJKt5rvfQSSHHugBTf8Wh8b9NtREstX8TJUrhGAWLVQoSUY+29i2EqGpW+TEDCXSLUXYLkG2TcVGf7AHAOD+n1rLAx6nRCaFvrzPrK79ERXdLEoTvQtD3cFZ3T6TAWJkW3UbIUUmjwhC/+3+5BLOiej/BBzrPud1mObGizDRxoSxFSZaWhobUXtq86HGIrQ3IAFtMFY9tUQDEo3kIrQnoKkkwGrMytAsYBvKojz0hmW0YXmY3YWrC38K3Qs+s/q549rlY52h3NcP/YJ+/UaVyZmjWp5LUR+qkc8DNAeUZx1APj1Uc0B5UJGAfK4ztTwCSo187mbr/YhSs+c+hXss3H5B3Tpm/uMIzg+YvWb8CusXTAE=";
 
 function getMutantFishIcon(name, sizePx) {
   const size = sizePx || 16;
@@ -14342,6 +14553,26 @@ const FACTION_QUIVER_BOOST_IDS = [ "faction_wings", "faction_quiver", "faction_q
 const FACTION_SHIELD_BOOST_IDS = [ "faction_shield_res" ];
 
 const FACTION_MEDALLION_BOOST_IDS = [ "faction_medallion_cook" ];
+
+function applyFarmAnimalAffectionToolsOnly(json) {
+  const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
+  const g = farmSyncExtractGameState(json);
+  const inv = asObj(g && g.inventory) || {};
+  let changed = false;
+  Object.keys(ANIMAL_LOVE_TOOL_LABELS).forEach(key => {
+    const label = ANIMAL_LOVE_TOOL_LABELS[key];
+    const qty = parseFloat(inv[label]) || 0;
+    const owned = qty > 0;
+    if (animalAffectionTools[key] !== owned) changed = true;
+    animalAffectionTools[key] = owned;
+  });
+  if (changed) saveAnimalAffectionTools();
+  return {
+    ok: true,
+    changed: changed,
+    tools: Object.assign({}, animalAffectionTools)
+  };
+}
 
 function applyFarmBoostsOnly(json) {
   const g = farmSyncExtractGameState(json);
@@ -18885,6 +19116,8 @@ async function performFarmPanelSync(farmId) {
     __mark("  applyFarmSkillsOnly");
     const boostResult = applyFarmBoostsOnly(boostSourceState);
     __mark("  applyFarmBoostsOnly");
+    const affectionToolsResult = applyFarmAnimalAffectionToolsOnly(boostSourceState);
+    __mark("  applyFarmAnimalAffectionToolsOnly");
     const plotsResult = applyFarmPlotsNodesOnly(boostSourceState, communityResult.ok);
     __mark("  applyFarmPlotsNodesOnly");
     const feeResult = applyFarmFeeOnly(boostSourceState);
@@ -18914,7 +19147,7 @@ async function performFarmPanelSync(farmId) {
       if (budResult.matched || fertResult.matched || spiceResult.matched || crowAoeResult.changed) {
         const budTouched = budResult.touched || {};
         touchGreenhouse = budTouched.greenhouse;
-        touchAnimals = budTouched.animal || spiceResult.matched;
+        touchAnimals = budTouched.animal || spiceResult.matched || affectionToolsResult.changed;
         touchFruits = budTouched.fruit || fertResult.matched;
         touchCrops = budTouched.crop || fertResult.matched || crowAoeResult.changed;
         touchResource = budTouched.resource;
@@ -18952,6 +19185,7 @@ async function performFarmPanelSync(farmId) {
     __mark("  renderGreenhouseList");
     if (plotsTouched || touchAnimals) {
       if (typeof renderAnimalsList === "function") renderAnimalsList();
+      if (typeof refreshAnimalAffectionToolToggleUI === "function") refreshAnimalAffectionToolToggleUI();
     }
     __mark("  renderAnimalsList");
     if (!libraryListsWillRender && (plotsTouched || touchFruits || feeChanged)) {
@@ -19388,7 +19622,7 @@ function renderObsidianSection() {
   const nodesLine = `${fmt(lavaPitCount)} LAVA PIT${lavaPitCount === 1 ? "" : "S"} × ${fmt(currentFig.yieldVal)} = ${fmt(lavaPitCount * currentFig.yieldVal)} OBSIDIAN/CYCLE`;
   const weeklyYieldLine = `<div class="card-24h-yield">📦 WEEKLY YIELD <span class="card-24h-sub">${fmt(weekly.produced)} produced · ${fmt(weekly.sellable)} sellable (cap ${OBSIDIAN_WEEKLY_SELL_CAP})</span></div>`;
   const weeklyBox = `<div class="card-24h-box ${isProfit ? "is-profit" : "is-loss"}">\n    <div class="card-24h-box-label">🌋 WEEKLY PROFIT</div>\n    <div class="card-24h-line">${nodesLine}</div>\n    <div class="card-24h-line">${fmt(weekly.cost)} ${FLOWER_ICON} FLOWER COST (WEEKLY) · <span style="color:var(--flower);">${fmt(weekly.revenue)} ${FLOWER_ICON} FLOWER SELL (WEEKLY)</span></div>\n    <div class="card-24h ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(weekly.profit)} ${FLOWER_ICON} FLOWER <span class="card-24h-sub">max ${OBSIDIAN_WEEKLY_SELL_CAP}/week</span></div>\n    ${weeklyYieldLine}\n  </div>`;
-  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}${isExpanded ? " expanded" : ""}" data-search="obsidian">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon("Obsidian")}</span>\n        <div>\n          <div class="card-name">Obsidian</div>\n          <div class="card-type">${fmt(currentFig.costPerUnit)}${COIN_ICON} tool cost / unit</div>\n          ${weeklyBox}\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        ${currentFig.activeBoosts && currentFig.activeBoosts.length ? `<span class="boost-badge">⚡${currentFig.activeBoosts.length}</span>` : ""}\n        <span class="pvalue-mini ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(weekly.profit)} ${FLOWER_ICON} FLOWER/wk</span>\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    <div class="card-details">\n      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">\n        <span style="font-size:8px;color:var(--ink-soft);">Showing ${SEASON_ORDER.length} seasonal recipes</span>\n        <button type="button" class="ob-inputs-toggle" id="obsidianInputsToggle">${obsidianInputsHidden ? "Show Inputs" : "Hide Inputs"}</button>\n      </div>\n      <div class="ob-summary-box" style="margin-bottom:6px;">\n        🌋 Lava Pits: <b>${fmt(getNodeCount("Lava Pit"))}</b> ·\n        Produced/week: <b>${fmt(weekly.produced)}</b> ·\n        Sellable (cap ${OBSIDIAN_WEEKLY_SELL_CAP}): <b>${fmt(weekly.sellable)}</b>\n        <div style="font-size:6.5px;margin-top:3px;opacity:.8;">Only ${OBSIDIAN_WEEKLY_SELL_CAP} obsidian can be sold per player per week (any season) — 24h profit doesn't apply here.</div>\n      </div>\n      ${(() => {
+  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}${isExpanded ? " expanded" : ""}" data-search="obsidian">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon("Obsidian")}</span>\n        <div>\n          <div class="card-name">Obsidian</div>\n          <div class="card-type">${fmt(currentFig.costPerUnit)}${COIN_ICON} tool cost / unit</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        ${currentFig.activeBoosts && currentFig.activeBoosts.length ? `<span class="boost-badge">⚡${currentFig.activeBoosts.length}</span>` : ""}\n        <span class="pvalue-mini ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(weekly.profit)} ${FLOWER_ICON} FLOWER/wk</span>\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    ${weeklyBox}\n    <div class="card-details">\n      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">\n        <span style="font-size:8px;color:var(--ink-soft);">Showing ${SEASON_ORDER.length} seasonal recipes</span>\n        <button type="button" class="ob-inputs-toggle" id="obsidianInputsToggle">${obsidianInputsHidden ? "Show Inputs" : "Hide Inputs"}</button>\n      </div>\n      <div class="ob-summary-box" style="margin-bottom:6px;">\n        🌋 Lava Pits: <b>${fmt(getNodeCount("Lava Pit"))}</b> ·\n        Produced/week: <b>${fmt(weekly.produced)}</b> ·\n        Sellable (cap ${OBSIDIAN_WEEKLY_SELL_CAP}): <b>${fmt(weekly.sellable)}</b>\n        <div style="font-size:6.5px;margin-top:3px;opacity:.8;">Only ${OBSIDIAN_WEEKLY_SELL_CAP} obsidian can be sold per player per week (any season) — 24h profit doesn't apply here.</div>\n      </div>\n      ${(() => {
     const s = getActiveShrineDailyCost(currentFig.activeBoosts);
     return renderTotalsBreakdown({
       title: "7 Days Total",
@@ -23598,6 +23832,41 @@ $("cookingPanel").classList.remove("open");
     if (e.target.closest(".switch")) return;
     applyToggle(!input.checked);
   };
+})();
+
+function refreshAnimalAffectionToolToggleUI() {
+  Object.keys(ANIMAL_LOVE_ITEM_XP).forEach(key => {
+    const row = $(`affectionToolRow_${key}`);
+    const input = $(`affectionToolInput_${key}`);
+    if (!row || !input) return;
+    input.checked = !!animalAffectionTools[key];
+    row.classList.toggle("is-active", !!animalAffectionTools[key]);
+  });
+}
+
+(function initAnimalAffectionToolToggles() {
+  Object.keys(ANIMAL_LOVE_ITEM_XP).forEach(key => {
+    const row = $(`affectionToolRow_${key}`);
+    const input = $(`affectionToolInput_${key}`);
+    const icon = $(`affectionToolIcon_${key}`);
+    if (!row || !input) return;
+    if (icon) icon.src = IMAGE_ICONS[ANIMAL_LOVE_TOOL_LABELS[key]] || "";
+    input.checked = !!animalAffectionTools[key];
+    row.classList.toggle("is-active", !!animalAffectionTools[key]);
+    const applyToggle = val => {
+      setAnimalAffectionTool(key, val);
+      input.checked = animalAffectionTools[key];
+      row.classList.toggle("is-active", animalAffectionTools[key]);
+      invalidateCostCache();
+      scheduleCascade(refreshAfterSkillChange);
+      renderCalcIngredients();
+    };
+    input.onchange = () => applyToggle(input.checked);
+    row.onclick = e => {
+      if (e.target.closest(".switch")) return;
+      applyToggle(!input.checked);
+    };
+  });
 })();
 
 function gatherTop10ProfitItems() {

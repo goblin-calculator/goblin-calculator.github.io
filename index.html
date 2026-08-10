@@ -153,7 +153,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V2.4</span>
+  <span class="app-version-badge">V2.5</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -621,6 +621,36 @@
     <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALBAMAAAC0QAErAAAABGdBTUEAALGPC/xhBQAAABVQTFRFAAAAuG9Q////vkov6tSqwoVp6LeWFD5WfgAAAAF0Uk5TAEDm2GYAAABDSURBVAjXY2BgDQ1gYGAIS0tlYGBNc0oLAJJpQDIsTQkoFJai5JbKIJbiAiRF01zSAhlEgSoDGZhDQ0MNGBiMjY0ZAM3UDhfpAMERAAAAAElFTkSuQmCC" style="width:12px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Animals (auto)</span></div>
     <div class="library-body" id="animalsBody">
       <div class="library-sub">Chicken, Sheep &amp; Cow — set level and head count in ⚡ Boosts → Plots &amp; Nodes. Cost, feed and profit update live with your boosts, feed ingredient choice (Collect/Buy) and consumables/medicine.</div>
+      <div class="lib-item-row" style="margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+        <div class="lib-item-main" style="flex-basis:100%;margin-bottom:2px;">
+          <div class="lib-item-name">Affection Tools (love actions while sleeping)</div>
+          <div class="lib-item-meta">Toggle the tools you own — off by default, auto-detected on farm sync. Reduces feeds needed by the average XP they add per cycle.</div>
+        </div>
+        <div class="affection-tool-toggle" id="affectionToolRow_pettingHand" data-tool="pettingHand" style="display:flex;align-items:center;gap:5px;cursor:pointer;border:1px solid var(--line);border-radius:6px;padding:4px 6px;flex:1;min-width:100px;">
+          <img src="" alt="Petting Hand" id="affectionToolIcon_pettingHand" style="width:16px;height:16px;image-rendering:pixelated;">
+          <span style="font-size:11px;flex:1;">Petting Hand</span>
+          <label class="switch">
+            <input type="checkbox" id="affectionToolInput_pettingHand">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="affection-tool-toggle" id="affectionToolRow_brush" data-tool="brush" style="display:flex;align-items:center;gap:5px;cursor:pointer;border:1px solid var(--line);border-radius:6px;padding:4px 6px;flex:1;min-width:100px;">
+          <img src="" alt="Brush" id="affectionToolIcon_brush" style="width:16px;height:16px;image-rendering:pixelated;">
+          <span style="font-size:11px;flex:1;">Brush</span>
+          <label class="switch">
+            <input type="checkbox" id="affectionToolInput_brush">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="affection-tool-toggle" id="affectionToolRow_musicBox" data-tool="musicBox" style="display:flex;align-items:center;gap:5px;cursor:pointer;border:1px solid var(--line);border-radius:6px;padding:4px 6px;flex:1;min-width:100px;">
+          <img src="" alt="Music Box" id="affectionToolIcon_musicBox" style="width:16px;height:16px;image-rendering:pixelated;">
+          <span style="font-size:11px;flex:1;">Music Box</span>
+          <label class="switch">
+            <input type="checkbox" id="affectionToolInput_musicBox">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
       <div class="lib-item-row" id="omnifeedToggleRow" style="margin-bottom:8px;cursor:pointer;">
         <span class="lib-item-icon"><img src="data:image/webp;base64,UklGRrIAAABXRUJQVlA4TKUAAAAvCsADEF+gJgAIRghBnN5VWpjZwqeGkQBIaHxgAd0LZgc42hleMKo0kqToLoU/lpf880ChUGjmPwDg/884YtBeYJLbRXS5N6yH0nUHOJEk222WqhYph8ekE6gW/vso8GQauamomT9ygP98vkNE/wOP4wAwD0P0//I+wvvp/Reua1vRSRJNV6W0uKpi2jm/x7RTuVe083KL6eJT1dPpKvEt6QeEEAgA" alt="Omnifeed" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;"></span>
         <div class="lib-item-main">
