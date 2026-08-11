@@ -1039,34 +1039,15 @@
     padding:9px 11px; margin-top:10px;
     image-rendering:pixelated;
   }
-  .ascension-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
-  .ascension-label{
-    font-family:var(--pixel-font); font-size:11px; letter-spacing:.4px; color:#e7ddff;
-    text-shadow:0 0 6px rgba(124,92,255,.6);
-  }
-  .ascension-toggle{
-    display:flex; align-items:center; gap:6px; background:none; border:none; cursor:pointer;
-    padding:2px; font-family:var(--pixel-font); font-size:9px; color:#c9bdf5;
-  }
-  .ascension-toggle-track{
-    display:inline-block; width:34px; height:16px; border:2px solid #7c5cff;
-    background:#241a3f; position:relative; flex-shrink:0; transition:background .15s ease;
-  }
-  .ascension-toggle-thumb{
-    position:absolute; top:1px; left:1px; width:10px; height:10px;
-    background:#8f7cff; transition:transform .15s ease, background .15s ease;
-  }
-  .ascension-toggle.active .ascension-toggle-track{ background:#4b2f9e; }
-  .ascension-toggle.active .ascension-toggle-thumb{ transform:translateX(16px); background:#c8ff5c; box-shadow:0 0 6px rgba(200,255,92,.8); }
-  .ascension-toggle.active .ascension-toggle-state{ color:#c8ff5c; }
-  .ascension-totals{ display:flex; gap:8px; margin-top:7px; flex-wrap:wrap; }
+  .ascension-totals{ display:flex; gap:8px; flex-wrap:wrap; }
   .ascension-total-chip{
     font-family:var(--pixel-font); font-size:8px; color:#e7ddff;
     background:rgba(124,92,255,.18); border:1.5px solid #7c5cff;
     padding:4px 6px; letter-spacing:.2px;
   }
   .ascension-total-chip b{ color:#c8ff5c; }
-  .ascension-total-chip b{ color:#c8ff5c; }
+  .ascension-total-chip.is-skill-points{ background:rgba(255,216,115,.18); border-color:#c8951c; }
+  .ascension-total-chip.is-skill-points b{ color:#ffd873; }
   .skill-node-wrap{ display:flex; flex-direction:column; }
   .skill-rank-picker{
     display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:-1px;
@@ -1158,6 +1139,14 @@
     padding:0 3px; margin-left:3px; vertical-align:1px;
   }
   .skill-node-btn.owned .skill-level-badge{ color:var(--moss); background:var(--surface); }
+  .skill-node-points{
+    display:inline-block; font-size:7.5px; font-weight:700; color:var(--ink);
+    background:var(--surface); border:1px solid var(--soil-dark); border-radius:0;
+    padding:0 3px; margin-left:4px; vertical-align:1px;
+  }
+  .skill-node-points.tier-1{ background:#ffe3a3; border-color:#a86a1a; color:#5c3a08; }
+  .skill-node-btn.owned .skill-node-points{ background:rgba(255,255,255,.16); border-color:rgba(255,255,255,.32); color:#fff; }
+  .skill-node-btn.owned .skill-node-points.tier-1{ background:#ffd873; border-color:#a86a1a; color:#4a2e05; }
   .skill-sync-boost{
     font-size:8px; line-height:1.4; color:var(--sun-deep); display:block;
     margin-top:3px; font-weight:700;
@@ -1283,6 +1272,14 @@
   }
   .totals-breakdown-box .stat-net .label{ display:flex; align-items:center; gap:4px; }
   .per-seed-banner{ margin-top:4px; }
+
+  .manual-cycle-stat .label{ margin-bottom:1px; }
+  .manual-cycle-input{
+    background:var(--paper, #fff); color:var(--ink);
+    -webkit-appearance:none; appearance:none;
+  }
+  .manual-cycle-input:focus{ outline:none; border-color:var(--sun-deep); }
+  .manual-cycle-input::placeholder{ color:var(--ink-soft); opacity:.75; }
 
   .deductions-box{
     background:rgba(176,68,47,.08); border:1px solid rgba(176,68,47,.22); border-radius:6px;
