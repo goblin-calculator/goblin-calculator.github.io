@@ -153,7 +153,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V2.5</span>
+  <span class="app-version-badge">V2.6</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -1178,18 +1178,12 @@
 
       <div class="skill-save-bar" id="skillSaveBar">
         <button type="button" class="skill-save-btn" id="skillSaveBtn" disabled>💾 Save Changes</button>
-        <div class="skill-save-note" id="skillSaveNote" style="display:none;">⚠️ You have unsaved skill/ascension changes — click Save to apply them.</div>
+        <div class="skill-save-note" id="skillSaveNote" style="display:none;">⚠️ You have unsaved skill/ascension/boost changes — click Save to apply them.</div>
       </div>
       <div class="ascension-bar" id="ascensionBar">
-        <div class="ascension-row">
-          <span class="ascension-label">🌌 Ascension</span>
-          <button type="button" class="ascension-toggle" id="ascensionToggleBtn" role="switch" aria-checked="false">
-            <span class="ascension-toggle-track"><span class="ascension-toggle-thumb"></span></span>
-            <span class="ascension-toggle-state" id="ascensionToggleState">Inactive</span>
-          </button>
-        </div>
-        <div class="ascension-totals" id="ascensionTotals" style="display:none;">
-          <span class="ascension-total-chip">🎓 <b id="ascensionPointsUsed">0</b> pts used</span>
+        <div class="ascension-totals" id="ascensionTotals">
+          <span class="ascension-total-chip is-skill-points">🎓 <b id="skillPointsUsed">0</b> skill pts used</span>
+          <span class="ascension-total-chip">🌌 <b id="ascensionPointsUsed">0</b> skill pts used</span>
           <span class="ascension-total-chip">💎 <b id="ascensionShardsUsed">0</b> shards used</span>
         </div>
       </div>
@@ -1199,10 +1193,6 @@
         <div id="skillListWrap"></div>
       </div>
 
-      <div class="skill-save-bar" id="boostSaveBar">
-        <button type="button" class="skill-save-btn" id="boostSaveBtn" disabled>💾 Save Changes</button>
-        <div class="skill-save-note" id="boostSaveNote" style="display:none;">⚠️ You have unsaved boost changes — click Save to apply them.</div>
-      </div>
       <div class="all-boost-settings-wrap collapsed" id="allBoostSettingsWrap">
       <div class="lib-section-title section-collapse-header" id="allBoostToggleHeader">⚡ All Boost Settings <span class="collapse-arrow" id="allBoostArrow">▸</span></div>
        <div class="type-toggle" id="boostCategoryToggle" style="margin-bottom:10px;">
