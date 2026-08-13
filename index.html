@@ -153,7 +153,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V2.6</span>
+  <span class="app-version-badge">V2.7</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -166,6 +166,9 @@
     </div>
     <div class="boost-btn-stack">
       <div class="header-q-row">
+        <button id="openMoreMenuBtn" type="button" class="more-menu-btn" aria-label="More">
+          <img id="moreMenuBtnIcon" src="" alt="More" />
+        </button>
         <button id="openGunterShopBtn" type="button" class="gunter-shop-btn" aria-label="GUNTER SHOP">
           <img src="data:image/webp;base64,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" alt="GUNTER SHOP" />
         </button>
@@ -196,102 +199,12 @@
   <div class="settings-panel" id="settingsPanel">
     <button class="settings-toggle" id="settingsToggle" type="button">
       <span id="settingsSummary">1 FLOWER = 1000 Coins · Fee 0%</span>
-      <span class="chev">▾</span>
+      <span class="settings-toggle-arrow">›</span>
     </button>
-    <div class="settings-body" id="settingsBody">
-      <div class="setting-row">
-        <label for="rateInput">Coin ⇄ FLOWER rate</label>
-        <div class="input-wrap">
-          <span class="unit-text">1 FLOWER =</span>
-          <input type="number" id="rateInput" min="1" step="1" value="1000" />
-          <span class="unit-text">Coins</span>
-        </div>
-      </div>
-      <div class="setting-hint">Seeds and tools are bought with Coins, but items sell for FLOWER. This rate converts Coin cost into FLOWER so profit is calculated on the same currency.</div>
-
-      <div class="setting-row">
-        <label>Gem purchase reference</label>
-        <div class="input-wrap">
-          <span class="unit-text">Spent</span>
-          <input type="number" id="gemFlowerSpentInput" min="0" step="0.0001" value="134.7111" />
-          <span class="unit-text">FLOWER for</span>
-          <input type="number" id="gemsReceivedInput" min="1" step="1" value="1350" />
-          <span class="unit-text">Gems</span>
-        </div>
-        <div class="setting-hint" id="gemRatioDisplay" style="font-weight:700;color:var(--soil);"></div>
-      </div>
-      <div class="setting-hint">Gems get cheaper the more you buy at once (bonding curve pricing), so there's no single fixed rate. Open the Buy Gems → FLOWER purchase screen, pick whatever bundle you actually buy, and enter the exact FLOWER cost and Gems amount shown there. The ratio below recalculates live — re-enter these anytime you buy a different (discounted) bundle to keep it accurate.</div>
-
-      <div class="setting-row">
-        <label>Gem restock strategy</label>
-        <div class="input-wrap" id="restockModeGroup" style="gap:6px;flex-wrap:wrap;">
-          <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="tools_only" style="padding:6px 8px;font-size:10px;">🔧 10 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — Tools only</button>
-          <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="seeds_only" style="padding:6px 8px;font-size:10px;">🌱 15 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — Seeds only</button>
-          <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="all" style="padding:6px 8px;font-size:10px;">📦 20 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — All (Seeds+Tools)</button>
-        </div>
-        <div class="setting-hint" id="restockModeHint" style="font-weight:700;color:var(--soil);"></div>
-      </div>
-      <div class="setting-hint">Tools always cost 10 Gems to restock — that doesn't change no matter which button you pick. Seeds cost 15 Gems restocked alone, or effectively 10 Gems when bundled into a 20-Gem "All" restock (20 ÷ 2). Pick "All" only if you actually need both a tool and a seed restock at the same time — otherwise you're paying for a restock you didn't need. This choice feeds directly into every 24h profit calc.</div>
-
-      <div class="setting-row">
-        <div class="rcm-title-row">
-          <label style="flex-basis:auto;">Restock Cost Mode</label>
-          <button type="button" class="hint-q-btn" id="rcmInfoBtn" aria-label="What do Shared Cost and Individual Cost mean?">❓</button>
-        </div>
-        <div class="rcm-toggle-row">
-          <span class="rcm-toggle-label is-active" id="rcmLabelShared" data-mode="shared">Shared Cost</span>
-          <label class="switch rcm-switch" id="rcmSwitchWrap">
-            <input type="checkbox" id="rcmSwitchInput" checked>
-            <span class="slider"></span>
-          </label>
-          <span class="rcm-toggle-label" id="rcmLabelIndividual" data-mode="individual">Individual Cost</span>
-        </div>
-      </div>
-      <div class="setting-hint" id="rcmHint">Shared Cost (default): splits the restock (and Shrine) cost evenly across every item checked below. Individual Cost: assumes one continuous use case, so the full restock/Shrine cost is charged to that single item — tap the ❓ above for details.</div>
-
-      <div class="rcm-panel" id="rcmPanel" style="display:none;">
-        <div class="rcm-tabs retro-scroll" id="rcmTabs"></div>
-        <div class="rcm-list retro-scroll" id="rcmList"></div>
-        <div class="rcm-panel-footer">
-          <span class="rcm-unsaved-note" id="rcmUnsavedNote"></span>
-          <button type="button" class="btn btn-sun rcm-save-btn" id="rcmSaveBtn">💾 Save</button>
-        </div>
-      </div>
-
-      <div class="modal-overlay" id="rcmInfoOverlay">
-        <div class="modal-sheet" style="max-width:460px;">
-          <button class="modal-close" id="closeRcmInfoModal">✕</button>
-          <h2 style="font-size:18px;">Restock Cost Mode</h2>
-          <p class="modal-sub">How Shared vs Individual cost affects profit/loss across the app.</p>
-          <div class="field-hint" style="margin-bottom:14px;">
-            <p style="margin:0 0 10px;"><b>Individual Cost</b> — assumes you restock for a single, continuous use case, such as planting Barley for the entire day or week without switching to other crops. The full restock cost is charged to that one item alone. For example, a 15-Gem seed restock is shouldered entirely by Barley, with no portion allocated to any other crop.</p>
-            <p style="margin:0 0 10px;"><b>Shared Cost (default)</b> — assumes a single restock is used across multiple crops or tools, so its cost is divided evenly among everything included. For example, a 15-Gem seed restock is split across all seeds you've checked in the panel above, so each one only carries its proportional share instead of the full amount.</p>
-            <p style="margin:0 0 10px;">Uncheck an item in the panel above and hit <b>💾 Save</b> to remove it from the shared pool — it reverts to a restock/Shrine cost of 0, and the remaining pool is redistributed among what's left.</p>
-            <p style="margin:0;">This setting applies to every tab with a restock or Shrine cost — Crops, Fruits, Greenhouse, Animals, Resources and the Crop Machine — so switching modes updates the profit/loss figures shown across the entire app, not just in Settings.</p>
-          </div>
-          <button class="btn btn-sun btn-block" id="rcmInfoCloseBtn">Got it</button>
-        </div>
-      </div>
-
-      <div class="setting-row">
-        <label for="feeInput">My marketplace sell fee</label>
-        <div class="input-wrap">
-          <input type="number" id="feeInput" min="0" max="100" step="0.1" value="0" />
-          <span class="unit-text">%</span>
-        </div>
-      </div>
-      <div class="setting-hint">Auto-filled from your farm's island tier + VIP status every time you sync. You can still override it manually below if needed.</div>
-
-      <div class="setting-row">
-        <label>Profit mode</label>
-        <div class="input-wrap" id="profitModeGroup" style="gap:6px;">
-          <button type="button" class="btn btn-ghost profit-mode-btn" data-mode="24h" style="padding:6px 10px;font-size:10px;">⏱ 24hrs</button>
-          <button type="button" class="btn btn-ghost profit-mode-btn" data-mode="stock" style="padding:6px 10px;font-size:10px;">📦 Per Stock</button>
-        </div>
-      </div>
-      <div class="setting-hint">24hrs (default) shows profit/loss as a daily rate — this is what every calculation in the app is based on and nothing changes when you switch. Per Stock only changes what's <em>displayed</em> on each card: instead of a daily rate, it shows the total cost, yield, and profit for using up everything currently in stock for that item (e.g. all 200 Axes you have banked) — a snapshot, not a new calculation mode.</div>
-
-      <button class="btn btn-sun btn-block" id="confirmSettingsBtn">✅ Save &amp; continue</button>
+    <div class="settings-moved-hint" id="settingsMovedHint">
+      <img id="settingsMovedHintIcon" src="" alt="More Menu" />
+      <span>Settings has moved. Open it from the More Menu.</span>
+      <button type="button" class="settings-moved-hint-btn" id="settingsMovedHintBtn">Open More Menu</button>
     </div>
   </div>
 
@@ -1404,6 +1317,234 @@
         <button type="button" class="gunter-tab-btn" data-gunter-tab="chapter">Chapter Mutant Fish Map</button>
       </div>
       <div class="gunter-bottom-body retro-scroll" id="gunterBottomBody"></div>
+    </div>
+  </div>
+</div>
+
+<div id="moreMenuOverlay">
+  <div class="more-menu-card" id="moreMenuCard">
+    <div class="more-menu-titlebar">
+      <div class="more-menu-title-text">More Menu</div>
+      <button class="more-menu-close" id="moreMenuCloseBtn" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="more-menu-list" id="moreMenuList">
+      <button type="button" class="more-menu-item" id="moreMenuExpansionSimBtn">
+        <span class="more-menu-item-icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAATCAYAAACdkl3yAAAAAXNSR0IArs4c6QAAAYJJREFUOI2V07FPwkAUBvCvhInRSAKzgcXBxZi4aOJWjW4mpKsuHQ0myF/QEjFsOggjhIRJkHQjsFoCDNQQU2YHDZNxfQ56x921xfAtvbu0v7v3LtUQEcO0KWy98XCjha3Ho4D6fSFqD1oFcqTv+qQmtZmR5n3XJ8O0iSjk0CrSd33quz6lNjOBJxsHyl+FGKZNt4/PfN473qH8wX4AizHscHcLADAYzvkGTcdBr1XDeDSFO5mh6TgwXr6hfgMAccO0iTVWREQsp+sALqR503EA8EuhwK2pyek6js5/kfFoKmHvH2/8vVjo1wLS2Esg7T0BgFRm3qogncwuS/sP6X4lOCKW2WvVpBOFQipSf/3kPVF7xKJtnJWoeLqN68sTAEA6mY1ExLAbK1e7sDreskeD4XxtRLzl+KJd0CyUqPi3sA7iTmawOh4W7YIm9ShvVXBXvAIAqZFqGCKG/8GsVyysZ2rK1S4fs9NIUBi2KiISgBgGAFGg1fEAQEJCIRVUowIsP+l7Mlac80ykAAAAAElFTkSuQmCC" alt="" /></span>
+        <span class="more-menu-item-label">Expansion Simulator</span>
+        <span class="more-menu-item-chev">›</span>
+      </button>
+      <button type="button" class="more-menu-item" id="moreMenuSettingsBtn">
+        <span class="more-menu-item-icon">⚙️</span>
+        <span class="more-menu-item-label">Settings</span>
+        <span class="more-menu-item-chev">›</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="expansionSimOverlay">
+  <div class="expansion-sim-card" id="expansionSimCard">
+    <div class="expansion-sim-titlebar">
+      <div class="expansion-sim-icon-wrap"><img id="expansionSimTitleIcon" src="" alt="" /></div>
+      <div>
+        <div class="expansion-sim-title-text">EXPANSION SIMULATOR</div>
+        <div class="expansion-sim-title-sub">Plan your next island expansions</div>
+      </div>
+      <button class="expansion-sim-close" id="expansionSimCloseBtn" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="expansion-sim-body retro-scroll" id="expansionSimBody">
+      <div class="es-boosts-bar" id="esBoostsBar">
+        <div class="es-boosts-bar-title">Expansion Boosts</div>
+        <div class="es-boosts-row" id="esBoostsRow"></div>
+      </div>
+
+      <div class="es-mode-row">
+        <span class="es-mode-row-label">Material Pricing</span>
+        <div class="es-mode-toggle">
+          <button type="button" class="es-mode-btn" id="esModeCollectBtn"></button>
+          <button type="button" class="es-mode-btn" id="esModeBuyBtn"></button>
+        </div>
+      </div>
+
+      <div class="es-shards-card" id="esShardsCard"></div>
+
+      <div class="es-section">
+        <div class="es-section-title">Start From <span id="esStartLabel"></span></div>
+        <div class="es-island-tabs" id="esStartIslandTabs"></div>
+        <div class="es-range-row">
+          <div class="es-range-col">
+            <div class="es-range-stepper">
+              <button type="button" class="es-stepper-btn" id="esStartMinus">−</button>
+              <span id="esStartValue">3</span>
+              <button type="button" class="es-stepper-btn" id="esStartPlus">+</button>
+            </div>
+          </div>
+          <button type="button" class="es-sync-btn" id="esSyncBtn">🔄 SYNC</button>
+        </div>
+        <div class="es-grid-wrap" id="esStartGridWrap">
+          <div class="es-grid" id="esStartGrid"></div>
+        </div>
+      </div>
+
+      <div class="es-section">
+        <div class="es-section-title">Target To <span id="esTargetLabel"></span></div>
+        <div class="es-island-tabs" id="esTargetIslandTabs"></div>
+        <div class="es-range-row">
+          <div class="es-range-col">
+            <div class="es-range-stepper">
+              <button type="button" class="es-stepper-btn" id="esTargetMinus">−</button>
+              <span id="esTargetValue">4</span>
+              <button type="button" class="es-stepper-btn" id="esTargetPlus">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="es-grid-wrap" id="esTargetGridWrap">
+          <div class="es-grid" id="esTargetGrid"></div>
+        </div>
+      </div>
+
+      <div class="es-ascension-card" id="esAscensionUpgrade"></div>
+      <div class="es-bumpkin-card" id="esBumpkinLevel"></div>
+      <div class="es-nodes-summary" id="esNodesSummary"></div>
+      <div class="es-total-resources-card" id="esTotalResources"></div>
+      <div class="es-missing-toggle-card" id="esMissingToggleCard">
+        <div class="es-missing-toggle-label">Apply Missing Resources</div>
+        <button type="button" class="es-missing-toggle-btn" id="esMissingToggleBtn">OFF</button>
+      </div>
+
+      <div class="es-cost-summary" id="esSelectedReq"></div>
+      <div class="es-cost-summary" id="esTotalsSummary"></div>
+      <div class="es-flower-total-row">
+        <div class="es-flower-total-label">Total Flower Cost</div>
+        <div class="es-flower-total-value" id="esFlowerTotal">0</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="settingsModalOverlay">
+  <div class="expansion-sim-card" id="settingsModalCard">
+    <div class="expansion-sim-titlebar">
+      <div class="expansion-sim-icon-wrap"><img id="settingsModalTitleIcon" src="" alt="" /></div>
+      <div>
+        <div class="expansion-sim-title-text">SETTINGS</div>
+        <div class="expansion-sim-title-sub">Rates, fees &amp; preferences</div>
+      </div>
+      <button class="expansion-sim-close" id="settingsModalCloseBtn" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="expansion-sim-body retro-scroll" id="settingsModalBody">
+
+      <div class="es-section">
+        <div class="es-section-title">Coin ⇄ FLOWER Rate</div>
+        <div class="setting-row">
+          <label for="rateInput">Coin ⇄ FLOWER rate</label>
+          <div class="input-wrap">
+            <span class="unit-text">1 FLOWER =</span>
+            <input type="number" id="rateInput" min="1" step="1" value="1000" />
+            <span class="unit-text">Coins</span>
+          </div>
+        </div>
+        <div class="setting-hint">Seeds and tools are bought with Coins, but items sell for FLOWER. This rate converts Coin cost into FLOWER so profit is calculated on the same currency.</div>
+      </div>
+
+      <div class="es-section">
+        <div class="es-section-title">Gem Purchase Reference</div>
+        <div class="setting-row">
+          <label>Gem purchase reference</label>
+          <div class="input-wrap">
+            <span class="unit-text">Spent</span>
+            <input type="number" id="gemFlowerSpentInput" min="0" step="0.0001" value="134.7111" />
+            <span class="unit-text">FLOWER for</span>
+            <input type="number" id="gemsReceivedInput" min="1" step="1" value="1350" />
+            <span class="unit-text">Gems</span>
+          </div>
+          <div class="setting-hint" id="gemRatioDisplay" style="font-weight:700;color:var(--soil);"></div>
+        </div>
+        <div class="setting-hint">Gems get cheaper the more you buy at once (bonding curve pricing), so there's no single fixed rate. Open the Buy Gems → FLOWER purchase screen, pick whatever bundle you actually buy, and enter the exact FLOWER cost and Gems amount shown there. The ratio below recalculates live — re-enter these anytime you buy a different (discounted) bundle to keep it accurate.</div>
+      </div>
+
+      <div class="es-section">
+        <div class="es-section-title">Gem Restock Strategy</div>
+        <div class="setting-row">
+          <label>Gem restock strategy</label>
+          <div class="input-wrap" id="restockModeGroup" style="gap:6px;flex-wrap:wrap;">
+            <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="tools_only" style="padding:6px 8px;font-size:10px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANBAMAAACEMClyAAAAG1BMVEUAAAAYFCVaaYiLm7TAy9y+Si90PznXdkM+JzFHDkyrAAAAAXRSTlMAQObYZgAAAEtJREFUCNdjAAFBAQYwYDQOhDCETRShAk5KAmCGiZKSIpgRpKRkAhISzVBSBjEYSxuFjB2BAuJhAowuYIFEoIlgAaixokABiHFQAQDhBAhtK6bgXwAAAABJRU5ErkJggg==" alt="Tools" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;"> 10 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — Tools only</button>
+            <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="seeds_only" style="padding:6px 8px;font-size:10px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQBAMAAAA/jegKAAAAIVBMVEUAAAC+Si//+U5zPjn/3h8+iUgmXEL7qiD3diJjx03/6zYeKP1jAAAAAXRSTlMAQObYZgAAAF5JREFUCNdjYGBgFAQSQEpICcwQaVJqEQByXdyXuzgC6ZZi45JGBgYhdWNjcyUBBiEtY2MrIA3lQ+UR6iOh+lMDgeaFAunQRMHImQEMbGlsYTNDE4AWsIWlQmm2NAYA4kUWKrbsMb4AAAAASUVORK5CYII=" alt="Seeds" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;"> 15 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — Seeds only</button>
+            <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="all" style="padding:6px 8px;font-size:10px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANBAMAAACEMClyAAAAG1BMVEUAAAAYFCVaaYiLm7TAy9y+Si90PznXdkM+JzFHDkyrAAAAAXRSTlMAQObYZgAAAEtJREFUCNdjAAFBAQYwYDQOhDCETRShAk5KAmCGiZKSIpgRpKRkAhISzVBSBjEYSxuFjB2BAuJhAowuYIFEoIlgAaixokABiHFQAQDhBAhtK6bgXwAAAABJRU5ErkJggg==" alt="Tools" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQBAMAAAA/jegKAAAAIVBMVEUAAAC+Si//+U5zPjn/3h8+iUgmXEL7qiD3diJjx03/6zYeKP1jAAAAAXRSTlMAQObYZgAAAF5JREFUCNdjYGBgFAQSQEpICcwQaVJqEQByXdyXuzgC6ZZi45JGBgYhdWNjcyUBBiEtY2MrIA3lQ+UR6iOh+lMDgeaFAunQRMHImQEMbGlsYTNDE4AWsIWlQmm2NAYA4kUWKrbsMb4AAAAASUVORK5CYII=" alt="Seeds" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;"> 20 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — All (Seeds+Tools)</button>
+          </div>
+          <div class="setting-hint" id="restockModeHint" style="font-weight:700;color:var(--soil);"></div>
+        </div>
+        <div class="setting-hint">Tools always cost 10 Gems to restock — that doesn't change no matter which button you pick. Seeds cost 15 Gems restocked alone, or effectively 10 Gems when bundled into a 20-Gem "All" restock (20 ÷ 2). Pick "All" only if you actually need both a tool and a seed restock at the same time — otherwise you're paying for a restock you didn't need. This choice feeds directly into every 24h profit calc.</div>
+      </div>
+
+      <div class="es-section">
+        <div class="es-section-title">Restock Cost Mode</div>
+        <div class="setting-row">
+          <div class="rcm-title-row">
+            <label style="flex-basis:auto;">Restock Cost Mode</label>
+            <button type="button" class="hint-q-btn" id="rcmInfoBtn" aria-label="What do Shared Cost and Individual Cost mean?">❓</button>
+          </div>
+          <div class="rcm-toggle-row">
+            <span class="rcm-toggle-label is-active" id="rcmLabelShared" data-mode="shared">Shared Cost</span>
+            <label class="switch rcm-switch" id="rcmSwitchWrap">
+              <input type="checkbox" id="rcmSwitchInput" checked>
+              <span class="slider"></span>
+            </label>
+            <span class="rcm-toggle-label" id="rcmLabelIndividual" data-mode="individual">Individual Cost</span>
+          </div>
+        </div>
+        <div class="setting-hint" id="rcmHint">Shared Cost (default): splits the restock (and Shrine) cost evenly across every item checked below. Individual Cost: assumes one continuous use case, so the full restock/Shrine cost is charged to that single item — tap the ❓ above for details.</div>
+
+        <div class="rcm-panel" id="rcmPanel" style="display:none;">
+          <div class="rcm-tabs retro-scroll" id="rcmTabs"></div>
+          <div class="rcm-list retro-scroll" id="rcmList"></div>
+          <div class="rcm-panel-footer">
+            <span class="rcm-unsaved-note" id="rcmUnsavedNote"></span>
+            <button type="button" class="btn btn-sun rcm-save-btn" id="rcmSaveBtn">💾 Save</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-overlay" id="rcmInfoOverlay">
+        <div class="modal-sheet" style="max-width:460px;">
+          <button class="modal-close" id="closeRcmInfoModal">✕</button>
+          <h2 style="font-size:18px;">Restock Cost Mode</h2>
+          <p class="modal-sub">How Shared vs Individual cost affects profit/loss across the app.</p>
+          <div class="field-hint" style="margin-bottom:14px;">
+            <p style="margin:0 0 10px;"><b>Individual Cost</b> — assumes you restock for a single, continuous use case, such as planting Barley for the entire day or week without switching to other crops. The full restock cost is charged to that one item alone. For example, a 15-Gem seed restock is shouldered entirely by Barley, with no portion allocated to any other crop.</p>
+            <p style="margin:0 0 10px;"><b>Shared Cost (default)</b> — assumes a single restock is used across multiple crops or tools, so its cost is divided evenly among everything included. For example, a 15-Gem seed restock is split across all seeds you've checked in the panel above, so each one only carries its proportional share instead of the full amount.</p>
+            <p style="margin:0 0 10px;">Uncheck an item in the panel above and hit <b>💾 Save</b> to remove it from the shared pool — it reverts to a restock/Shrine cost of 0, and the remaining pool is redistributed among what's left.</p>
+            <p style="margin:0;">This setting applies to every tab with a restock or Shrine cost — Crops, Fruits, Greenhouse, Animals, Resources and the Crop Machine — so switching modes updates the profit/loss figures shown across the entire app, not just in Settings.</p>
+          </div>
+          <button class="btn btn-sun btn-block" id="rcmInfoCloseBtn">Got it</button>
+        </div>
+      </div>
+
+      <div class="es-section">
+        <div class="es-section-title">Marketplace Sell Fee</div>
+        <div class="setting-row">
+          <label for="feeInput">My marketplace sell fee</label>
+          <div class="input-wrap">
+            <input type="number" id="feeInput" min="0" max="100" step="0.1" value="0" />
+            <span class="unit-text">%</span>
+          </div>
+        </div>
+        <div class="setting-hint">Auto-filled from your farm's island tier + VIP status every time you sync. You can still override it manually below if needed.</div>
+      </div>
+
+      <div class="es-section">
+        <div class="es-section-title">Profit Mode</div>
+        <div class="setting-row">
+          <label>Profit mode</label>
+          <div class="input-wrap" id="profitModeGroup" style="gap:6px;">
+            <button type="button" class="btn btn-ghost profit-mode-btn" data-mode="24h" style="padding:6px 10px;font-size:10px;">⏱ 24hrs</button>
+            <button type="button" class="btn btn-ghost profit-mode-btn" data-mode="stock" style="padding:6px 10px;font-size:10px;">📦 Per Stock</button>
+          </div>
+        </div>
+        <div class="setting-hint">24hrs (default) shows profit/loss as a daily rate — this is what every calculation in the app is based on and nothing changes when you switch. Per Stock only changes what's <em>displayed</em> on each card: instead of a daily rate, it shows the total cost, yield, and profit for using up everything currently in stock for that item (e.g. all 200 Axes you have banked) — a snapshot, not a new calculation mode.</div>
+      </div>
+
+      <button class="btn btn-sun btn-block" id="confirmSettingsBtn">✅ Save &amp; continue</button>
     </div>
   </div>
 </div>

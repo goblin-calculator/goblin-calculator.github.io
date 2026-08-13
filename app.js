@@ -382,7 +382,7 @@ const IMAGE_ICONS = {
   Axe: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANBAMAAACEMClyAAAAG1BMVEUAAAAYFCVaaYiLm7TAy9y+Si90PznXdkM+JzFHDkyrAAAAAXRSTlMAQObYZgAAAEtJREFUCNdjAAFBAQYwYDQOhDCETRShAk5KAmCGiZKSIpgRpKRkAhISzVBSBjEYSxuFjB2BAuJhAowuYIFEoIlgAaixokABiHFQAQDhBAhtK6bgXwAAAABJRU5ErkJggg==",
   Obsidian: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALBAMAAAC0QAErAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAYUExURQAAAGobmo4kqs6T2P///6tHvHsfokoUjDiJJlMAAAABdFJOUwBA5thmAAAAAWJLR0QEj2jZUQAAAAd0SU1FB+kEGQoLDMLbTgkAAABFSURBVAjXY2BgEFJgYGBgNHYCkqLBJkCOUGiQAANjUpKSAIOomlmqE4OwkrJpIEOZabCRIkNZmhJQnD0tSRGovrxQgAEACe8JhII/BB0AAAAldEVYdGRhdGU6Y3JlYXRlADIwMjUtMDQtMjVUMTA6MTE6MTIrMDA6MDDobpU+AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI1LTA0LTI1VDEwOjExOjEyKzAwOjAwmTMtggAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNS0wNC0yNVQxMDoxMToxMiswMDowMM4mDF0AAAAASUVORK5CYII=",
   Sunstone: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAAXNSR0IArs4c6QAAAQNJREFUKJF1UTFuwkAQnEMG96GhJo2bKAjpJKgwKSmQKClj8wEaeAYviFtKJCQoEVQgWYqI0lAhOmiSlrhhKc53WV+caXZvZ+dmzhbIwarzTLp/WX4Im3fylv1BEaIXgy4BViHIFjtc4A+Kf1z9t7riQ5AWFowgJf9De7E3SQpmuv0Emk8AANGLVa1EptIlMKvCjqUFHFywDt/TN2mH9GYb2XkNzulYUtEAEGS+00ya/nQsqSbyJF1HVbqdX+k6qhIHn0eezH4Id9hCMtkAAH7Gj5maTDZwh63fuLqJPEn97pch3MYDkt23OU/nZQSHWADs56qBsufi6bzMeMuJQ2e3lzXuP5R32d/86IUAAAAASUVORK5CYII=",
-  "Fruit Patch": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAM1JREFUKJGFkD8OAUEUh79hmo0b0IhCaZttNXsAoncDap1e9BIHcAGFdiW029hEQyJR4AKExMYqZMaMXfyq+fN9894bwZ9U236i1ptJIKR5ee1VEnPvHsvUOwXjxE+kCUvvgWzWAJi39tT7BbaLu1VRpuDDCoDZuchydLHgzSQQUsGAhuNQALBu7JDeq8vbOI8D5LIGlV7CoHvSsJlMQUk6JdeeQSUORSYYTyP9tiWY/QMQRqnKAt6/9C1xmMMZ7oQWfkkmbAlK+hRMGOAJOLpMxjYgUowAAAAASUVORK5CYII=",
+  "Fruit Patch": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAcCAYAAAB2+A+pAAAAAXNSR0IArs4c6QAAAfNJREFUSInFlzFII0EUhr/dFcHYGIVAqpDANWJlE64RSy2EFZsrFrscd1oc12ptHSxORTuxsBELC5stxCYE4SqxEZIy3EIuNsbjIKyFzjI7u3FHk9UfAsmb2fcN7/0zO4EEOa7tO67tDxpXZaiBldOvfuXCC35bf++w2h1+VcqcLO8b6pyD+Vwovn5QpzeVpTc5EeSQ58SCVagMlxMBjN42Afj/qZg4Nw4efJGhmVw+8uAg6nqtCNwUg2lB5ZxyNc24CWlIzW0AXG59T3ThMDW3uWuYjmv7ogfvoa7XwnFtfwTAandAs8z9FqnbJqvdAbIE++/HjaUFzeTylIpjoXij+RCMJWl7usfJ8r4RbKekPsvQ6l4tNPbz22dt+Nzmbng7vRUKUN2rUSqOkcnl+7ZClQlPpU6CAlzXGwBc/fkX+shjSXDBMh3Xjj0mVYm+CpAsEVN7H6fKhYfj2r4JwmnJmimX2FgoROIbCwVmyiWtHIKl5WrVzaKs8oJAz90DuTpOr3X1yIuzJAnTNIhPrLuPhV51gAhAv4XpKCi149q+c5bum0lW12txtPS8j3VdPQyFXP0Rr0VtVw8TCtJZvTN7nzpUZgTg48XDyFV32JIZEVhaJRcl7gsG+HK+6q/9Hgfir6YvXejV2+rO7P3bqpnWX5hHtystduOXDXYAAAAASUVORK5CYII=",
   Pickaxe: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAFVBMVEUAAAAYFCXkpnLChWlzPjnq1Kq+Si+8xtD3AAAAAXRSTlMAQObYZgAAAE5JREFUCNdjYBAUFGAAAkal0EBGEEtYSVXMESQgbBToCJYxVhWA0EaBIFrMGSzAmOIoDKLFXAQYgTSQy8BoJADkAsWEBBhEwGYAEVgvAwCyQwfhatKS0wAAAABJRU5ErkJggg==",
   Egg: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALBAMAAAC0QAErAAAABGdBTUEAALGPC/xhBQAAABVQTFRFAAAAuG9Q////vkov6tSqwoVp6LeWFD5WfgAAAAF0Uk5TAEDm2GYAAABDSURBVAjXY2BgDQ1gYGAIS0tlYGBNc0oLAJJpQDIsTQkoFJai5JbKIJbiAiRF01zSAhlEgSoDGZhDQ0MNGBiMjY0ZAM3UDhfpAMERAAAAAElFTkSuQmCC",
   "Stone Pickaxe": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAFVBMVEUAAAAYFCWLm7RaaYhzPjnAy9y+Si+eUXOJAAAAAXRSTlMAQObYZgAAAE5JREFUCNdjYBAUFGAAAkal0EBGEEtYSVXMESQgbBToCJYxVhWA0EaBIFrMGSzAmOIoDKLFXAQYgTSQy8BoJADkAsWEBBhEwGYAEVgvAwCyQwfhatKS0wAAAABJRU5ErkJggg==",
@@ -6426,7 +6426,7 @@ const SKILL_CATEGORY_META = [ {
   label: "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALBAMAAAC0QAErAAAABGdBTUEAALGPC/xhBQAAABVQTFRFAAAAuG9Q////vkov6tSqwoVp6LeWFD5WfgAAAAF0Uk5TAEDm2GYAAABDSURBVAjXY2BgDQ1gYGAIS0tlYGBNc0oLAJJpQDIsTQkoFJai5JbKIJbiAiRF01zSAhlEgSoDGZhDQ0MNGBiMjY0ZAM3UDhfpAMERAAAAAElFTkSuQmCC' style='width:11px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Animals"
 }, {
   id: "bees",
-  label: "<img src='" + IMAGE_ICONS.beehive + "' style='width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Bees & Flowers"
+  label: "<img src='" + IMAGE_ICONS.Beehive + "' style='width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Bees & Flowers"
 }, {
   id: "greenhouse",
   label: "<img src='data:image/webp;base64,UklGRr4AAABXRUJQVlA4TLEAAAAvDoADEF+gppEU6M4Cb0muwr8FLGBOUWwb1FNAgG8Ae1uxdZBBATEURZLU3C9nMIJ/DwiCz/wHALbPLkICGcjYTA7JpnHY6+77f+A2kmTV2Trze99mUgQy5akUASXA4DFm8ELYJzKle2F+iCGi/wSTNNV2DL74wgNgPKM/IKVS/zmmalS5lb0hlXfZU8kaJN1D9s46G+xk79ug193J9FK5kuGkpvQHNVuvzPPadZBOJgIA' style='width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Greenhouse"
@@ -12380,29 +12380,37 @@ const RESTOCK_TOOLS_LIST = Object.keys(BASE_STOCK_TOOLS);
 
 const RESTOCK_SEED_POOL = [].concat(Object.keys(BASE_CROPS), RESTOCK_FRUIT_LIST, RESTOCK_GREENHOUSE_LIST);
 
+const RCM_GREENHOUSE_ICON_HTML = "<img src=\"data:image/webp;base64,UklGRr4AAABXRUJQVlA4TLEAAAAvDoADEF+gppEU6M4Cb0muwr8FLGBOUWwb1FNAgG8Ae1uxdZBBATEURZLU3C9nMIJ/DwiCz/wHALbPLkICGcjYTA7JpnHY6+77f+A2kmTV2Trze99mUgQy5akUASXA4DFm8ELYJzKle2F+iCGi/wSTNNV2DL74wgNgPKM/IKVS/zmmalS5lb0hlXfZU8kaJN1D9s46G+xk79ug193J9FK5kuGkpvQHNVuvzPPadZBOJgIA\" alt=\"Greenhouse\" style=\"width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;\">";
+
 const RESTOCK_PANEL_CATEGORIES = [ {
   key: "Basic",
-  label: "🌱 Basic",
+  label: "Basic",
+  iconItem: "Sunflower",
   items: RESTOCK_CROP_TIER_LISTS.Basic
 }, {
   key: "Medium",
-  label: "🌿 Medium",
+  label: "Medium",
+  iconItem: "Carrot",
   items: RESTOCK_CROP_TIER_LISTS.Medium
 }, {
   key: "Advance",
-  label: "🍇 Advance",
+  label: "Advance",
+  iconItem: "Eggplant",
   items: RESTOCK_CROP_TIER_LISTS.Advanced
 }, {
   key: "Greenhouse",
-  label: "🏡 Greenhouse",
+  label: "Greenhouse",
+  iconHtml: RCM_GREENHOUSE_ICON_HTML,
   items: RESTOCK_GREENHOUSE_LIST
 }, {
   key: "Fruits",
-  label: "🍎 Fruits",
+  label: "Fruits",
+  iconItem: "Tomato",
   items: RESTOCK_FRUIT_LIST
 }, {
   key: "Tools",
-  label: "🔨 Tools",
+  label: "Tools",
+  iconItem: "Axe",
   items: RESTOCK_TOOLS_LIST
 } ];
 
@@ -12502,7 +12510,7 @@ function rcmRecalcEverything() {
 function renderRcmTabs() {
   const wrap = $("rcmTabs");
   if (!wrap) return;
-  wrap.innerHTML = RESTOCK_PANEL_CATEGORIES.map(cat => `<button type="button" class="rcm-tab${cat.key === rcmActiveTab ? " active" : ""}" data-cat="${cat.key}">${cat.label}</button>`).join("");
+  wrap.innerHTML = RESTOCK_PANEL_CATEGORIES.map(cat => `<button type="button" class="rcm-tab${cat.key === rcmActiveTab ? " active" : ""}" data-cat="${cat.key}">${cat.iconHtml || getIcon(cat.iconItem)} ${cat.label}</button>`).join("");
   wrap.querySelectorAll(".rcm-tab").forEach(btn => {
     btn.onclick = () => {
       rcmActiveTab = btn.dataset.cat;
@@ -12648,9 +12656,19 @@ function updateSettingsSummary() {
   $("settingsSummary").innerHTML = `<span style="font-size:1.05em;line-height:1;vertical-align:middle;font-family:var(--pixel-font);">1</span> ${FLOWER_ICON} = <span style="font-size:1.05em;line-height:1;vertical-align:middle;font-family:var(--pixel-font);">${fmt(coinPerFlower)}</span> ${COIN_ICON} · <span style="font-size:1.05em;line-height:1;vertical-align:middle;font-family:var(--pixel-font);">Fee ${feePercent}%</span>`;
 }
 
+if (typeof IMAGE_ICONS !== "undefined" && IMAGE_ICONS["Foreman Beaver"]) {
+  $("settingsMovedHintIcon").src = IMAGE_ICONS["Foreman Beaver"];
+}
 $("settingsToggle").onclick = () => {
-  $("settingsPanel").classList.toggle("open");
+  $("settingsMovedHint").classList.toggle("show");
 };
+$("settingsMovedHintBtn").onclick = () => {
+  $("settingsMovedHint").classList.remove("show");
+  openMoreMenu();
+};
+document.addEventListener("click", e => {
+  if (!$("settingsPanel").contains(e.target)) $("settingsMovedHint").classList.remove("show");
+});
 
 $("feeInput").addEventListener("input", e => {
   const v = parseFloat(e.target.value);
@@ -12695,7 +12713,7 @@ $("confirmSettingsBtn").onclick = () => {
   settingsConfigured = true;
   localStorage.setItem("hl_settings_confirmed", "1");
   toast("Settings saved ✅");
-  $("settingsPanel").classList.remove("open");
+  closeSettingsModal();
   if (pendingAddAfterSettings) {
     pendingAddAfterSettings = false;
     openAddModalReal();
@@ -13831,6 +13849,12 @@ IMAGE_ICONS["Brush"] = "data:image/webp;base64,UklGRooAAABXRUJQVlA4TH4AAAAvDsADE
 IMAGE_ICONS["Music Box"] = "data:image/webp;base64,UklGRuYAAABXRUJQVlA4TNkAAAAvDwAEEG+gJpKt5icTX0Cy8DtU4BJhsabEhpoAQBpWhFWAlxDUJQIRvM2jaiPZoGT6kKtEqAN1Gz38U/MfAOD/P+uMO/SJAtbSiSBV8ibcTRnKuvRj4FTbtjV525+X1nGJc4mr5B0Cde56CCSuRSrV4V/CJZE4tYj+B6wwDAHg2elcCGC1HLfJgCfVOPolGG7SkHYJhtyykboEB3fR2BsCi12tmRCwWIZhQuD5r+vfMyRDd2bkXdMf0nC+n5qe1HLcRjeI9O10LloIi3LcJgVw4LgNAWCFYQgAAA==";
 IMAGE_ICONS["Baby Cow"] = "data:image/webp;base64,UklGRuwAAABXRUJQVlA4TN8AAAAvD8AEEGegKLYNSog/Jey0VUwO61dDTQAQjM8vgHN7lVVALU0oiiSpuXyvAzRkdKAXTViBINumYqM/2IMA4P+VWkAea7B2wq6kmKp+j+5t57p74Dba/jX5RSr8d5cKtx1o47mjjva4+58NyAK4S8UCtFS2lu0Q0f8JAIBSCb4brvsAgPt7Mt74PpaELD/kSJfcZODLl4Kqjlhe/pJZ4Ieua7EA+pAQSwHeKPRzqsEWFKdUmuqqrh0NIzxQeA6vVxTYAx4Rw+g5yGHEo+wRhxyiYGXT+gUxr6T/J3/RAF8AAA==";
 IMAGE_ICONS["Spa Sheep"] = "data:image/webp;base64,UklGRiYBAABXRUJQVlA4TBoBAAAvGMAFEIegNJKt5rvfQSSHHugBTf8Wh8b9NtREstX8TJUrhGAWLVQoSUY+29i2EqGpW+TEDCXSLUXYLkG2TcVGf7AHAOD+n1rLAx6nRCaFvrzPrK79ERXdLEoTvQtD3cFZ3T6TAWJkW3UbIUUmjwhC/+3+5BLOiej/BBzrPud1mObGizDRxoSxFSZaWhobUXtq86HGIrQ3IAFtMFY9tUQDEo3kIrQnoKkkwGrMytAsYBvKojz0hmW0YXmY3YWrC38K3Qs+s/q549rlY52h3NcP/YJ+/UaVyZmjWp5LUR+qkc8DNAeUZx1APj1Uc0B5UJGAfK4ztTwCSo187mbr/YhSs+c+hXss3H5B3Tpm/uMIzg+YvWb8CusXTAE=";
+IMAGE_ICONS["Ascension Crystal"] = "data:image/webp;base64,UklGRk4BAABXRUJQVlA4TEEBAAAvGgAHEKfAJgCANGgu+n/8FHB322oQadvUv6ahizpWE0mScnz+7byTV/D1EUc8/wGA3/t823eg4qGWyG1gA94kbQM6CoMdSoiigS3QT3iZQWJtW2EqgfxRcMLz8Uj/zRIxJZwb0f8JSD869+vhtyk/3n6TMo/69ltUFr39BhVlnv22p9R1Ty16qn/+jxtUpfL8/OaSRn2p5guXtFH0b0f5pY3RinYysMVOhsbWoVFfdfk7ctuRtEjZPn/HYuPq9IwWjEOLfTlDLeOjYvjikuJMcAajkZGBFz/kRc2D88oa2RwVuVTUbCxnTHBrBmpFbkUNG5M4mReAGofcSm22sATdDUY7ZD5qM0ZwEUCvsnEIfDRDAcwzxTqrugzwrqq5kCBgEnTVtQsmAWmNScAk1knAJNLX+Im0G8wNgvTrhIAJ6TsA";
+IMAGE_ICONS["Sunstone Rock"] = IMAGE_ICONS["Sunstone"];
+IMAGE_ICONS["Beehive"] = "data:image/webp;base64,UklGRt4AAABXRUJQVlA4TNIAAAAvD4AEEGegJgAIRgGfewXQQ3MCSLK6KAYANIrgPjHiCTSFMe2nJpKt5lc5OKBksIB/AblHAhoEAklO+xsMFQCAuhZY9kZMjeZjknC62SHhqv/1C38Kjmprc5OftupNAhZgzcECyyxpDrqBfw4ImC8jICd/6H0yBiiRFTxE9H8CiJxzjohOYEaRaKOc06/CSb+TZKuK/4xWSaKVNQxmsDWKAdY2AjMz4sgHM8LYiA+EYu8QEYF3FwAQbxCIiKw67Vkgspr2e8Onc+tuq1ZP/5OhNAI=";
+IMAGE_ICONS["Tree"] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAiBAMAAACzTdQ9AAAALVBMVEUAAAAAAAAAAAAAAAA8ikYhXEBSqD90PDZjyEwSOTw8Ii2byIAqZjIZTDS5cE9CB+EiAAAABHRSTlMAWlFzuBSBbwAAARlJREFUGNM9ziFrxDAYBuDesRPnllZtas0/uJnZie+qWqhoBvVdOD8RVlF5FGaOQRm1M4WK6UFt5cmz1YWJ/Ya9X1L2QtM8vF9CPBsi4t+CYRjoH2/Q98KrQw3Vx0erp0PNOT4zNlFhFRWplSaAtFUWaa0JX7FnkXYhaBMTSq4oS6ERJCAeIaKRODFR6m2JzgxeTxASn9GzmswVyD73GjWRy6RYl0UJtFWKkommCyl18lAq1AnWHC/bMomBClQuFjzbqFzlDuKmfVUf7btkrMTtbFpTfco7KBRfszGm+pEo12Ewm86UprpHCfVl91t2PcSTQQ8B7k4RYHLno+I7hXgwL8KXclFgdpCbvBbIysegzVriTIiNC4vzB1uNeJ97tterAAAAAElFTkSuQmCC";
+IMAGE_ICONS["Sunstone Rock"] = "data:image/webp;base64,UklGRiQBAABXRUJQVlA4TBcBAAAvF8AGEE+gppEU6ERcrudr8e8AehCnppEU6KoHFFDj3wdO8ACVmkiSlEtRwIXo4R78G3gfr0EgkOS0v8FQAQBWd3sfPHvfj6p3SmONmgNwbGtvo3yTW01ewMAGMrTuaDNtdOjI0l8T9Ltm0D/fem0qNhDR/wnAv3y8ehv94W0rE9/ySDtZCwcNo5B2fArgkfRRN1yNgMckTKz5MAKsMuaJIQlgP8Yqp1CAwx1jzK0ti6xzCxS4q7XfkPXhr3TctzCqhtVp2XHfRvHejrO843KSxsSPxoZCJmrecTdKI6taF42QVKuoiw7GMXzrUeHDGHBP/lu37/2yA7jx07teF8txB8B4/BR1OR4DgBu3dhpwjQ7a3XjcAQAA";
+IMAGE_ICONS["Ascension Shard"] = "data:image/webp;base64,UklGRnQAAABXRUJQVlA4TGcAAAAvCUACED9gJgAZeTRVUAEVbDtXg0AQIpP8H2ESBW3bMOEPso/HtPkPwP9fTqDAQR0TsIls26mw230D30D+/QccpJ5BQbo1+Ub0PwBJOPvlxuTqc1pfn8n57pn8zH/yK00hfxTSQBIAAA==";
 
 function getMutantFishIcon(name, sizePx) {
   const size = sizePx || 16;
@@ -22366,7 +22390,7 @@ function gunterRenderMid() {
 function gunterRenderSunstoneInput() {
   const input = $("gunterSunstoneRockInput");
   const label = $("gunterSunstoneInputLabel");
-  if (label) label.innerHTML = `${getIcon("Sunstone")} Sunstone Node`;
+  if (label) label.innerHTML = `${getIcon("Sunstone Rock")} Sunstone Node`;
   if (input && document.activeElement !== input) input.value = String(gunterSunstoneRockCount);
 }
 
@@ -22416,6 +22440,831 @@ function gunterRenderBottom() {
     return;
   }
 }
+
+const ES_NODE_TABLE = {"basic":{"3":{"Crop Plot":0,"Tree":3,"Stone Rock":2,"Iron Rock":0,"Gold Rock":0,"Crimstone Rock":0,"Sunstone Rock":0,"Fruit Patch":0,"Flower Bed":0,"Beehive":0,"Oil Reserve":0,"Lava Pit":0},"4":{"Crop Plot":9,"Tree":5,"Stone Rock":3,"Iron Rock":1,"Gold Rock":0,"Crimstone Rock":0,"Sunstone Rock":0,"Fruit Patch":0,"Flower Bed":0,"Beehive":0,"Oil Reserve":0,"Lava Pit":0},"5":{"Crop Plot":17,"Tree":6,"Stone Rock":4,"Iron Rock":2,"Gold Rock":1,"Crimstone Rock":0,"Sunstone Rock":0,"Fruit Patch":0,"Flower Bed":0,"Beehive":0,"Oil Reserve":0,"Lava Pit":0},"6":{"Crop Plot":25,"Tree":7,"Stone Rock":5,"Iron Rock":2,"Gold Rock":1,"Crimstone Rock":0,"Sunstone Rock":0,"Fruit Patch":0,"Flower Bed":0,"Beehive":0,"Oil Reserve":0,"Lava Pit":0},"7":{"Crop Plot":27,"Tree":8,"Stone Rock":6,"Iron Rock":3,"Gold Rock":1,"Crimstone Rock":0,"Sunstone Rock":0,"Fruit Patch":0,"Flower Bed":0,"Beehive":0,"Oil Reserve":0,"Lava Pit":0},"8":{"Crop Plot":29,"Tree":9,"Stone Rock":7,"Iron Rock":3,"Gold Rock":2,"Crimstone Rock":0,"Sunstone Rock":0,"Fruit Patch":0,"Flower Bed":0,"Beehive":0,"Oil Reserve":0,"Lava Pit":0},"9":{"Crop Plot":31,"Tree":9,"Stone Rock":7,"Iron Rock":4,"Gold Rock":2,"Crimstone Rock":0,"Sunstone Rock":0,"Fruit Patch":0,"Flower Bed":0,"Beehive":0,"Oil Reserve":0,"Lava Pit":0}},"spring":{"4":{"Crop Plot":31,"Fruit Patch":2,"Tree":9,"Stone Rock":7,"Iron Rock":4,"Gold Rock":2,"Crimstone Rock":0,"Sunstone Rock":0,"Beehive":0,"Oil Reserve":0,"Flower Bed":0,"Lava Pit":0,"Ascension Crystal":0},"5":{"Crop Plot":33,"Fruit Patch":3,"Tree":11,"Stone Rock":9,"Iron Rock":5,"Gold Rock":3,"Crimstone Rock":0,"Sunstone Rock":0,"Beehive":0,"Oil Reserve":0,"Flower Bed":0,"Lava Pit":0,"Ascension Crystal":1},"6":{"Crop Plot":33,"Fruit Patch":4,"Tree":12,"Stone Rock":10,"Iron Rock":5,"Gold Rock":3,"Crimstone Rock":0,"Sunstone Rock":0,"Beehive":1,"Oil Reserve":0,"Flower Bed":1,"Lava Pit":0,"Ascension Crystal":1},"7":{"Crop Plot":35,"Fruit Patch":4,"Tree":13,"Stone Rock":11,"Iron Rock":5,"Gold Rock":3,"Crimstone Rock":1,"Sunstone Rock":0,"Beehive":1,"Oil Reserve":0,"Flower Bed":1,"Lava Pit":0,"Ascension Crystal":1},"8":{"Crop Plot":37,"Fruit Patch":5,"Tree":13,"Stone Rock":12,"Iron Rock":6,"Gold Rock":4,"Crimstone Rock":1,"Sunstone Rock":0,"Beehive":1,"Oil Reserve":0,"Flower Bed":1,"Lava Pit":0,"Ascension Crystal":1},"9":{"Crop Plot":37,"Fruit Patch":6,"Tree":14,"Stone Rock":12,"Iron Rock":6,"Gold Rock":4,"Crimstone Rock":1,"Sunstone Rock":1,"Beehive":1,"Oil Reserve":0,"Flower Bed":1,"Lava Pit":0,"Ascension Crystal":1},"10":{"Crop Plot":37,"Fruit Patch":7,"Tree":14,"Stone Rock":12,"Iron Rock":7,"Gold Rock":5,"Crimstone Rock":1,"Sunstone Rock":1,"Beehive":2,"Oil Reserve":0,"Flower Bed":2,"Lava Pit":0,"Ascension Crystal":1},"11":{"Crop Plot":39,"Fruit Patch":8,"Tree":15,"Stone Rock":13,"Iron Rock":7,"Gold Rock":5,"Crimstone Rock":1,"Sunstone Rock":1,"Beehive":2,"Oil Reserve":0,"Flower Bed":2,"Lava Pit":0,"Ascension Crystal":1},"12":{"Crop Plot":41,"Fruit Patch":8,"Tree":15,"Stone Rock":13,"Iron Rock":7,"Gold Rock":5,"Crimstone Rock":1,"Sunstone Rock":1,"Beehive":2,"Oil Reserve":0,"Flower Bed":2,"Lava Pit":0,"Ascension Crystal":1},"13":{"Crop Plot":41,"Fruit Patch":9,"Tree":16,"Stone Rock":14,"Iron Rock":8,"Gold Rock":5,"Crimstone Rock":1,"Sunstone Rock":2,"Beehive":2,"Oil Reserve":0,"Flower Bed":2,"Lava Pit":0,"Ascension Crystal":1},"14":{"Crop Plot":43,"Fruit Patch":10,"Tree":16,"Stone Rock":14,"Iron Rock":8,"Gold Rock":5,"Crimstone Rock":1,"Sunstone Rock":2,"Beehive":2,"Oil Reserve":0,"Flower Bed":2,"Lava Pit":0,"Ascension Crystal":1},"15":{"Crop Plot":44,"Fruit Patch":11,"Tree":17,"Stone Rock":15,"Iron Rock":9,"Gold Rock":5,"Crimstone Rock":2,"Sunstone Rock":2,"Beehive":2,"Oil Reserve":0,"Flower Bed":2,"Lava Pit":0,"Ascension Crystal":1},"16":{"Crop Plot":45,"Fruit Patch":11,"Tree":18,"Stone Rock":15,"Iron Rock":9,"Gold Rock":6,"Crimstone Rock":2,"Sunstone Rock":2,"Beehive":3,"Oil Reserve":0,"Flower Bed":3,"Lava Pit":0,"Ascension Crystal":1}},"desert":{"4":{"Crop Plot":45,"Fruit Patch":11,"Tree":18,"Stone Rock":15,"Iron Rock":9,"Gold Rock":6,"Crimstone Rock":2,"Sunstone Rock":2,"Oil Reserve":0,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":1},"5":{"Crop Plot":46,"Fruit Patch":11,"Tree":18,"Stone Rock":16,"Iron Rock":10,"Gold Rock":6,"Crimstone Rock":2,"Sunstone Rock":2,"Oil Reserve":1,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"6":{"Crop Plot":46,"Fruit Patch":12,"Tree":18,"Stone Rock":16,"Iron Rock":10,"Gold Rock":6,"Crimstone Rock":2,"Sunstone Rock":3,"Oil Reserve":1,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"7":{"Crop Plot":48,"Fruit Patch":12,"Tree":18,"Stone Rock":16,"Iron Rock":10,"Gold Rock":6,"Crimstone Rock":3,"Sunstone Rock":3,"Oil Reserve":1,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"8":{"Crop Plot":50,"Fruit Patch":12,"Tree":18,"Stone Rock":16,"Iron Rock":10,"Gold Rock":6,"Crimstone Rock":3,"Sunstone Rock":4,"Oil Reserve":1,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"9":{"Crop Plot":50,"Fruit Patch":12,"Tree":19,"Stone Rock":17,"Iron Rock":10,"Gold Rock":6,"Crimstone Rock":3,"Sunstone Rock":4,"Oil Reserve":1,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"10":{"Crop Plot":51,"Fruit Patch":12,"Tree":19,"Stone Rock":17,"Iron Rock":11,"Gold Rock":6,"Crimstone Rock":3,"Sunstone Rock":4,"Oil Reserve":1,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"11":{"Crop Plot":52,"Fruit Patch":13,"Tree":19,"Stone Rock":17,"Iron Rock":11,"Gold Rock":6,"Crimstone Rock":3,"Sunstone Rock":4,"Oil Reserve":1,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"12":{"Crop Plot":54,"Fruit Patch":13,"Tree":19,"Stone Rock":17,"Iron Rock":11,"Gold Rock":6,"Crimstone Rock":3,"Sunstone Rock":4,"Oil Reserve":1,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"13":{"Crop Plot":54,"Fruit Patch":13,"Tree":20,"Stone Rock":17,"Iron Rock":11,"Gold Rock":6,"Crimstone Rock":3,"Sunstone Rock":4,"Oil Reserve":1,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"14":{"Crop Plot":55,"Fruit Patch":13,"Tree":20,"Stone Rock":18,"Iron Rock":11,"Gold Rock":6,"Crimstone Rock":3,"Sunstone Rock":4,"Oil Reserve":1,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"15":{"Crop Plot":56,"Fruit Patch":13,"Tree":20,"Stone Rock":18,"Iron Rock":11,"Gold Rock":6,"Crimstone Rock":3,"Sunstone Rock":4,"Oil Reserve":2,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"16":{"Crop Plot":57,"Fruit Patch":13,"Tree":21,"Stone Rock":18,"Iron Rock":11,"Gold Rock":6,"Crimstone Rock":3,"Sunstone Rock":4,"Oil Reserve":2,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"17":{"Crop Plot":59,"Fruit Patch":13,"Tree":21,"Stone Rock":18,"Iron Rock":11,"Gold Rock":6,"Crimstone Rock":3,"Sunstone Rock":4,"Oil Reserve":2,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"18":{"Crop Plot":60,"Fruit Patch":13,"Tree":21,"Stone Rock":18,"Iron Rock":11,"Gold Rock":7,"Crimstone Rock":3,"Sunstone Rock":4,"Oil Reserve":2,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"19":{"Crop Plot":61,"Fruit Patch":14,"Tree":21,"Stone Rock":18,"Iron Rock":11,"Gold Rock":7,"Crimstone Rock":3,"Sunstone Rock":4,"Oil Reserve":2,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"20":{"Crop Plot":61,"Fruit Patch":14,"Tree":22,"Stone Rock":19,"Iron Rock":11,"Gold Rock":7,"Crimstone Rock":3,"Sunstone Rock":4,"Oil Reserve":3,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"21":{"Crop Plot":62,"Fruit Patch":14,"Tree":22,"Stone Rock":19,"Iron Rock":12,"Gold Rock":7,"Crimstone Rock":3,"Sunstone Rock":5,"Oil Reserve":3,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"22":{"Crop Plot":62,"Fruit Patch":15,"Tree":23,"Stone Rock":19,"Iron Rock":12,"Gold Rock":7,"Crimstone Rock":3,"Sunstone Rock":5,"Oil Reserve":3,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"23":{"Crop Plot":63,"Fruit Patch":15,"Tree":23,"Stone Rock":19,"Iron Rock":12,"Gold Rock":7,"Crimstone Rock":4,"Sunstone Rock":5,"Oil Reserve":3,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"24":{"Crop Plot":64,"Fruit Patch":15,"Tree":23,"Stone Rock":19,"Iron Rock":12,"Gold Rock":7,"Crimstone Rock":4,"Sunstone Rock":6,"Oil Reserve":3,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"25":{"Crop Plot":65,"Fruit Patch":15,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":7,"Crimstone Rock":4,"Sunstone Rock":6,"Oil Reserve":3,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2}},"volcano":{"5":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":7,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":6,"Oil Reserve":3,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":2},"6":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":7,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":6,"Oil Reserve":3,"Lava Pit":0,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"7":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":7,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":6,"Oil Reserve":3,"Lava Pit":1,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"8":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":7,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":7,"Oil Reserve":3,"Lava Pit":1,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"9":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":7,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":7,"Oil Reserve":3,"Lava Pit":1,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"10":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":7,"Oil Reserve":3,"Lava Pit":1,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"11":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":7,"Oil Reserve":3,"Lava Pit":1,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"12":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":8,"Oil Reserve":3,"Lava Pit":1,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"13":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":8,"Oil Reserve":3,"Lava Pit":1,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"14":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":8,"Oil Reserve":3,"Lava Pit":1,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"15":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":8,"Oil Reserve":3,"Lava Pit":2,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"16":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":8,"Oil Reserve":4,"Lava Pit":2,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"17":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":9,"Oil Reserve":4,"Lava Pit":2,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"18":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":9,"Oil Reserve":4,"Lava Pit":2,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"19":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":10,"Oil Reserve":4,"Lava Pit":2,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"20":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":10,"Oil Reserve":4,"Lava Pit":2,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"21":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":11,"Oil Reserve":4,"Lava Pit":2,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"22":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":12,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":11,"Oil Reserve":4,"Lava Pit":2,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"23":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":13,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":11,"Oil Reserve":4,"Lava Pit":2,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"24":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":13,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":4,"Sunstone Rock":11,"Oil Reserve":4,"Lava Pit":3,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"25":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":13,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":5,"Sunstone Rock":11,"Oil Reserve":4,"Lava Pit":3,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"26":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":13,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":5,"Sunstone Rock":11,"Oil Reserve":4,"Lava Pit":3,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"27":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":13,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":5,"Sunstone Rock":11,"Oil Reserve":4,"Lava Pit":3,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"28":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":13,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":5,"Sunstone Rock":12,"Oil Reserve":4,"Lava Pit":3,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"29":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":13,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":5,"Sunstone Rock":12,"Oil Reserve":4,"Lava Pit":3,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3},"30":{"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":13,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":5,"Sunstone Rock":13,"Oil Reserve":4,"Lava Pit":3,"Beehive":3,"Flower Bed":3,"Ascension Crystal":3}}};
+const ES_REQ_TABLE = {"basic":{"4":{"resources":{"Wood":3},"coins":0,"seconds":5,"bumpkinLevel":{"ascension":0,"level":1}},"5":{"resources":{"Wood":5},"coins":0.25,"seconds":5,"bumpkinLevel":{"ascension":0,"level":1}},"6":{"resources":{"Stone":1},"coins":60,"seconds":60,"bumpkinLevel":{"ascension":0,"level":2}},"7":{"resources":{"Stone":5,"Iron":1},"coins":100,"seconds":1800,"bumpkinLevel":{"ascension":0,"level":5}},"8":{"resources":{"Iron":3,"Gold":1},"coins":200,"seconds":14400,"bumpkinLevel":{"ascension":0,"level":8}},"9":{"resources":{"Wood":100,"Stone":40,"Iron":5},"coins":300,"seconds":43200,"bumpkinLevel":{"ascension":0,"level":11}},"10":{"resources":{"Wood":100,"Stone":50,"Iron":5,"Gold":2,"Gem":15},"coins":0,"seconds":86400,"bumpkinLevel":{"ascension":0,"level":13}},"11":{"resources":{"Gold":10,"Gem":15},"coins":0,"seconds":86400,"bumpkinLevel":{"ascension":0,"level":15}},"12":{"resources":{"Wood":500,"Stone":20,"Gold":2,"Gem":15},"coins":0,"seconds":86400,"bumpkinLevel":{"ascension":0,"level":17}},"13":{"resources":{"Wood":100,"Stone":150,"Gold":5,"Gem":15},"coins":0,"seconds":86400,"bumpkinLevel":{"ascension":0,"level":20}},"14":{"resources":{"Wood":40,"Stone":30,"Iron":10,"Gold":10,"Gem":15},"coins":0,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":23}},"15":{"resources":{"Wood":200,"Gold":15,"Gem":15},"coins":0,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":26}},"16":{"resources":{"Stone":150,"Iron":30,"Gold":10,"Gem":15},"coins":0,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":30}},"17":{"resources":{"Wood":200,"Stone":50,"Gold":25,"Gem":15},"coins":0,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":34}},"18":{"resources":{"Wood":300,"Stone":200,"Iron":30,"Gold":10,"Gem":15},"coins":0,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":37}},"19":{"resources":{"Wood":100,"Stone":250,"Gold":30,"Gem":15},"coins":0,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":40}},"20":{"resources":{"Wood":1000,"Stone":100,"Iron":10,"Gold":25,"Gem":15},"coins":0,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":45}},"21":{"resources":{"Wood":1500,"Stone":100,"Iron":20,"Gold":25,"Gem":30},"coins":0,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":50}},"22":{"resources":{"Wood":2000,"Stone":200,"Iron":20,"Gold":40,"Gem":30},"coins":0,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":55}},"23":{"resources":{"Wood":2000,"Stone":250,"Iron":50,"Gold":60,"Gem":30},"coins":0,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":60}}},"spring":{"5":{"resources":{"Wood":20},"coins":100,"seconds":60,"bumpkinLevel":{"ascension":0,"level":11}},"6":{"resources":{"Wood":10,"Stone":5,"Gold":2},"coins":200,"seconds":300,"bumpkinLevel":{"ascension":0,"level":13}},"7":{"resources":{"Wood":30,"Stone":20,"Iron":5,"Gem":15},"coins":300,"seconds":1800,"bumpkinLevel":{"ascension":0,"level":16}},"8":{"resources":{"Wood":20,"Crimstone":1,"Gem":15},"coins":400,"seconds":7200,"bumpkinLevel":{"ascension":0,"level":20}},"9":{"resources":{"Wood":50,"Gold":5,"Gem":15},"coins":500,"seconds":7200,"bumpkinLevel":{"ascension":0,"level":23}},"10":{"resources":{"Stone":10,"Crimstone":3,"Gem":15},"coins":500,"seconds":14400,"bumpkinLevel":{"ascension":0,"level":25}},"11":{"resources":{"Wood":100,"Stone":25,"Gold":5,"Crimstone":1,"Gem":15},"coins":500,"seconds":28800,"bumpkinLevel":{"ascension":0,"level":27}},"12":{"resources":{"Wood":50,"Iron":5,"Crimstone":3,"Gem":30},"coins":500,"seconds":43200,"bumpkinLevel":{"ascension":0,"level":29}},"13":{"resources":{"Wood":50,"Stone":25,"Iron":10,"Gold":10,"Gem":30},"coins":500,"seconds":43200,"bumpkinLevel":{"ascension":0,"level":32}},"14":{"resources":{"Wood":100,"Stone":10,"Crimstone":5,"Gem":30},"coins":500,"seconds":86400,"bumpkinLevel":{"ascension":0,"level":36}},"15":{"resources":{"Wood":150,"Stone":10,"Iron":10,"Gold":5,"Crimstone":5,"Gem":30},"coins":500,"seconds":86400,"bumpkinLevel":{"ascension":0,"level":40}},"16":{"resources":{"Wood":100,"Stone":10,"Gold":5,"Crimstone":8,"Gem":30},"coins":500,"seconds":86400,"bumpkinLevel":{"ascension":0,"level":43}},"17":{"resources":{"Wood":100,"Stone":20,"Iron":10,"Gold":5,"Crimstone":12,"Gem":30},"coins":500,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":47}},"18":{"resources":{"Wood":150,"Stone":20,"Iron":10,"Gold":5,"Crimstone":16,"Gem":30},"coins":500,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":51}},"19":{"resources":{"Wood":150,"Stone":10,"Iron":5,"Gold":5,"Crimstone":20,"Gem":30},"coins":500,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":53}},"20":{"resources":{"Wood":50,"Stone":5,"Iron":5,"Gold":5,"Crimstone":24,"Gem":30},"coins":500,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":55}}},"desert":{"5":{"resources":{"Wood":50,"Stone":10,"Iron":5,"Gold":5},"coins":500,"seconds":60,"bumpkinLevel":{"ascension":0,"level":40}},"6":{"resources":{"Wood":100,"Stone":20,"Iron":10,"Gold":5},"coins":500,"seconds":300,"bumpkinLevel":{"ascension":0,"level":40}},"7":{"resources":{"Wood":150,"Stone":20,"Iron":10,"Gold":5,"Gem":15},"coins":500,"seconds":1800,"bumpkinLevel":{"ascension":0,"level":41}},"8":{"resources":{"Wood":150,"Stone":10,"Iron":5,"Gold":5,"Crimstone":3,"Oil":5,"Gem":30},"coins":500,"seconds":7200,"bumpkinLevel":{"ascension":0,"level":42}},"9":{"resources":{"Wood":50,"Stone":5,"Iron":5,"Gold":5,"Crimstone":6,"Oil":5,"Gem":30},"coins":500,"seconds":7200,"bumpkinLevel":{"ascension":0,"level":43}},"10":{"resources":{"Wood":100,"Stone":50,"Iron":10,"Gold":5,"Crimstone":12,"Oil":10,"Gem":45},"coins":384,"seconds":28800,"bumpkinLevel":{"ascension":0,"level":44}},"11":{"resources":{"Wood":150,"Stone":75,"Iron":10,"Gold":5,"Crimstone":15,"Oil":30,"Gem":45},"coins":768,"seconds":43200,"bumpkinLevel":{"ascension":0,"level":45}},"12":{"resources":{"Wood":100,"Stone":100,"Iron":5,"Gold":10,"Crimstone":18,"Oil":30,"Gem":45},"coins":1536,"seconds":43200,"bumpkinLevel":{"ascension":0,"level":47}},"13":{"resources":{"Wood":200,"Stone":50,"Iron":15,"Gold":10,"Crimstone":21,"Oil":40,"Gem":45},"coins":3072,"seconds":86400,"bumpkinLevel":{"ascension":0,"level":50}},"14":{"resources":{"Wood":200,"Stone":100,"Iron":15,"Gold":10,"Crimstone":24,"Oil":50,"Gem":45},"coins":3840,"seconds":86400,"bumpkinLevel":{"ascension":0,"level":53}},"15":{"resources":{"Wood":300,"Stone":50,"Iron":20,"Gold":10,"Crimstone":27,"Oil":75,"Gem":45},"coins":3840,"seconds":86400,"bumpkinLevel":{"ascension":0,"level":56}},"16":{"resources":{"Wood":250,"Stone":125,"Iron":15,"Gold":15,"Crimstone":30,"Oil":100,"Gem":60},"coins":3840,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":58}},"17":{"resources":{"Wood":350,"Stone":75,"Iron":20,"Gold":10,"Crimstone":33,"Oil":125,"Gem":60},"coins":5760,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":60}},"18":{"resources":{"Wood":400,"Stone":125,"Iron":25,"Gold":15,"Crimstone":36,"Oil":150,"Gem":75},"coins":5760,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":63}},"19":{"resources":{"Wood":450,"Stone":150,"Iron":30,"Gold":20,"Crimstone":39,"Oil":200,"Gem":60},"coins":7680,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":65}},"20":{"resources":{"Wood":525,"Stone":200,"Iron":35,"Gold":30,"Crimstone":42,"Oil":250,"Gem":60},"coins":7680,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":68}},"21":{"resources":{"Wood":550,"Stone":150,"Iron":30,"Gold":25,"Crimstone":45,"Oil":350,"Gem":60},"coins":9600,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":70}},"22":{"resources":{"Wood":600,"Stone":200,"Iron":35,"Gold":30,"Crimstone":48,"Oil":450,"Gem":75},"coins":9600,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":72}},"23":{"resources":{"Wood":650,"Stone":250,"Iron":40,"Gold":35,"Crimstone":51,"Oil":500,"Gem":75},"coins":9600,"seconds":216000,"bumpkinLevel":{"ascension":0,"level":73}},"24":{"resources":{"Wood":700,"Stone":300,"Iron":50,"Gold":45,"Crimstone":54,"Oil":550,"Gem":75},"coins":11520,"seconds":216000,"bumpkinLevel":{"ascension":0,"level":74}},"25":{"resources":{"Wood":750,"Stone":350,"Iron":50,"Gold":50,"Crimstone":60,"Oil":650,"Gem":75},"coins":13440,"seconds":216000,"bumpkinLevel":{"ascension":0,"level":75}}},"volcano":{"6":{"resources":{"Wood":100,"Stone":50,"Iron":30,"Gold":10},"coins":500,"seconds":10,"bumpkinLevel":{"ascension":0,"level":70}},"7":{"resources":{"Wood":200,"Stone":75,"Iron":25,"Gold":15,"Crimstone":4,"Oil":30,"Gem":30},"coins":384,"seconds":300,"bumpkinLevel":{"ascension":0,"level":72}},"8":{"resources":{"Wood":300,"Stone":100,"Iron":40,"Gold":20,"Crimstone":8,"Oil":60,"Gem":30},"coins":768,"seconds":1800.0,"bumpkinLevel":{"ascension":0,"level":74}},"9":{"resources":{"Wood":400,"Stone":150,"Iron":35,"Gold":25,"Crimstone":12,"Oil":90,"Gem":60},"coins":1152,"seconds":3600,"bumpkinLevel":{"ascension":0,"level":76}},"10":{"resources":{"Wood":450,"Stone":200,"Iron":30,"Gold":20,"Crimstone":16,"Oil":120,"Obsidian":1,"Gem":60},"coins":1920,"seconds":7200,"bumpkinLevel":{"ascension":0,"level":78}},"11":{"resources":{"Wood":500,"Stone":175,"Iron":30,"Gold":30,"Crimstone":20,"Oil":100,"Gem":90},"coins":3000,"seconds":14400,"bumpkinLevel":{"ascension":0,"level":80}},"12":{"resources":{"Wood":650,"Stone":225,"Iron":25,"Gold":25,"Crimstone":24,"Oil":100,"Obsidian":2,"Gem":150},"coins":3840,"seconds":28800,"bumpkinLevel":{"ascension":0,"level":82}},"13":{"resources":{"Wood":550,"Stone":200,"Iron":40,"Gold":30,"Crimstone":28,"Oil":100,"Gem":150},"coins":4800,"seconds":43200,"bumpkinLevel":{"ascension":0,"level":84}},"14":{"resources":{"Wood":700,"Stone":250,"Iron":35,"Gold":35,"Crimstone":32,"Oil":100,"Obsidian":1,"Gem":150},"coins":5760,"seconds":43200,"bumpkinLevel":{"ascension":0,"level":86}},"15":{"resources":{"Wood":650,"Stone":200,"Iron":30,"Gold":40,"Crimstone":36,"Oil":200,"Obsidian":2,"Gem":150},"coins":6720,"seconds":86400,"bumpkinLevel":{"ascension":0,"level":88}},"16":{"resources":{"Wood":750,"Stone":250,"Iron":40,"Gold":30,"Crimstone":40,"Oil":200,"Obsidian":4,"Gem":150},"coins":7680,"seconds":86400,"bumpkinLevel":{"ascension":0,"level":90}},"17":{"resources":{"Wood":700,"Stone":200,"Iron":35,"Gold":35,"Crimstone":44,"Oil":200,"Obsidian":4,"Gem":150},"coins":9600,"seconds":86400,"bumpkinLevel":{"ascension":0,"level":92}},"18":{"resources":{"Wood":800,"Stone":300,"Iron":45,"Gold":45,"Crimstone":48,"Oil":200,"Obsidian":6,"Gem":180},"coins":12000,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":94}},"19":{"resources":{"Wood":750,"Stone":250,"Iron":40,"Gold":40,"Crimstone":52,"Oil":200,"Obsidian":6,"Gem":180},"coins":15360,"seconds":129600,"bumpkinLevel":{"ascension":0,"level":96}},"20":{"resources":{"Wood":850,"Stone":300,"Iron":45,"Gold":30,"Crimstone":56,"Oil":200,"Obsidian":8,"Gem":180},"coins":18000,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":98}},"21":{"resources":{"Wood":900,"Stone":325,"Iron":50,"Gold":35,"Crimstone":60,"Oil":200,"Obsidian":8,"Gem":180},"coins":21600,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":100}},"22":{"resources":{"Wood":800,"Stone":300,"Iron":45,"Gold":30,"Crimstone":64,"Oil":200,"Obsidian":10,"Gem":180},"coins":25200,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":102}},"23":{"resources":{"Wood":950,"Stone":350,"Iron":50,"Gold":35,"Crimstone":68,"Oil":200,"Obsidian":10,"Gem":180},"coins":30000,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":104}},"24":{"resources":{"Wood":1000,"Stone":400,"Iron":55,"Gold":40,"Crimstone":72,"Oil":300,"Obsidian":12,"Gem":180},"coins":33600,"seconds":172800,"bumpkinLevel":{"ascension":0,"level":106}},"25":{"resources":{"Wood":1100,"Stone":450,"Iron":60,"Gold":35,"Crimstone":80,"Oil":300,"Obsidian":12,"Gem":180},"coins":38400,"seconds":216000,"bumpkinLevel":{"ascension":0,"level":108}},"26":{"resources":{"Wood":1200,"Stone":350,"Iron":65,"Gold":30,"Crimstone":85,"Oil":300,"Obsidian":18,"Gem":180},"coins":42000,"seconds":216000,"bumpkinLevel":{"ascension":0,"level":110}},"27":{"resources":{"Wood":1250,"Stone":450,"Iron":70,"Gold":40,"Crimstone":95,"Oil":300,"Obsidian":24,"Gem":225},"coins":45600,"seconds":216000,"bumpkinLevel":{"ascension":0,"level":112}},"28":{"resources":{"Wood":1150,"Stone":500,"Iron":60,"Gold":45,"Crimstone":100,"Oil":300,"Obsidian":30,"Gem":225},"coins":50400,"seconds":216000,"bumpkinLevel":{"ascension":0,"level":114}},"29":{"resources":{"Wood":1350,"Stone":550,"Iron":65,"Gold":40,"Crimstone":105,"Oil":300,"Obsidian":36,"Gem":225},"coins":54000,"seconds":259200,"bumpkinLevel":{"ascension":0,"level":116}},"30":{"resources":{"Wood":1500,"Stone":600,"Iron":70,"Gold":50,"Crimstone":125,"Oil":300,"Obsidian":42,"Gem":225},"coins":60000,"seconds":259200,"bumpkinLevel":{"ascension":0,"level":120}}}};
+const ES_ISLAND_ICONS = {"basic":"data:image/webp;base64,UklGRpIAAABXRUJQVlA4TIUAAAAvD8ADADegqI0UOKxgDewC39MTQlDUthGbg9BxE8G9T1EbKdBef2RgAQHYRgpe5j/29m0EGv2yCn58HjBqbNvJ/2nrgoIm4JETDPyigLBnhX8P/Ochov8TYFR5+DvpFwNcqv0+wMnaWzlxAg9M+sVwwlL7fTiBtbdihanTUp5a7f2mUTMqAA==","crystal":"data:image/webp;base64,UklGRuQAAABXRUJQVlA4TNgAAAAvD8ADAK+gNLLVaHD0hUXSKyWkgOj7dpkoJG2oiWSruV+RZOAHd6jAFRVdpktKAgBIkMwDKnN4TmQA3d1l/sP/b3IlgEDQ6C7SYIBEsKcoRr86/WstK8aCTohlqRt77vPjaGD2bERxBoaRJCnB4f9ekfyDPQpSmI3o/wT0rytICsTwuo7DGtz7OsL8weZpZJmtKzwCsEkLFrue/XgCFZMUcHpiHa4afJf5enHX+AIRqzeUqhAdYHfB0RUd5nH5Z1eSlKUkZaXcdbZpOZskpuVsXbAJmmAT9P8=","desert":"data:image/webp;base64,UklGRrIAAABXRUJQVlA4TKUAAAAvD8ADAFegGADQyKH7MuiVQL65TGY2ahpJga677gARnxf8iyCYUNBIUvO9Ukzh3wFWYP6j6xw8Ep/SbapSe9toNgC4v/4hOI0k2XUO3v/Imzgstwm4BNyrl8H/0EsLRcWEFed7OUT0fwKIiCybaAdQ1AfvQFRXHu9YozRTNbXPOxC1g6OIY4f3DTKOR97Xt8xjwfsGCPHiHYAU4M9Xaeh+f6WpIy0A","galaxy":"data:image/webp;base64,UklGRs4AAABXRUJQVlA4TMIAAAAvD8ADAGegJpKtpvo5QJlq/HtCyNOhqI0UaF+7nB6wggD8uyGKI0mJuPnBEzyiMf8yGAOw5j/unJME3roL0YU7IKkRfIj4fl/rtrcP3Gb7pybJTRAXHFbw1lZggjzPSZmOlDiUDic12ju9jgW3Q0T/J0CXhsN8fk1XfliBsBs9ExMCT4I+4hMKN9/rPTaJVs3b9WhPKl1KKfXbQalVyXf9CVmOA1jyJpRSCKH7Q+DSrzb+WjI1B3K5TE5TM0oGKEDTpQ==","marble":"data:image/webp;base64,UklGRtwAAABXRUJQVlA4TM8AAAAvD8ADAG+gKADI6CWIApoIrIgQ14vdC6I0kq2mgB8bSP3bXwkFoJJCMXjURpLazJD5/quhB+iBnMxIyfzH+NnPU68tCNbNv+imk1ZgDN1fFmP9yACqgNta29bkX+EL7lL+FQ4DOJ1rGVkBqVwGcLp48vd0VLQOPdOQ7BDR/wkghJD1WiNuCqYIjQU3QAahiPZHc3ENQyXDcSkNU7DguKWMf1BpNBq8++6DBwDfvd2/FyrM4/P92rOFeTeEwwDAl7OG0umYzR5LG2nUN1TNiCkA","spooky":"data:image/webp;base64,UklGRt4AAABXRUJQVlA4TNEAAAAvD8ADAH+gJpIkpc7DCbns/Vv4+EPmj5hsqAkANClBDGJwE5mTMDb/VG0CoA14gKu7/9/i6gHOpvcC8x9fJFdlu6tg5n6kJf9d54FQXGtI/Ab8iOtD7ogIQwan2f65SZZIAFcn4H+4Dn95jicS2xkB3escdxtc4nrzuK47A3R2iOj/BIR/cwCAyYzxlZZWRq4KEJPiXg5JLZZIerknEDmZtHLnIlxU1eyfzo9NFU26Ph/rWTQowrdBya9e46c9GzUao9bA1plgjLNA5xoXmgjCvwA=","spring":"data:image/webp;base64,UklGRpgAAABXRUJQVlA4TIwAAAAvD8ADAD9AJADxwB5zDdGNcMALNxS1bcQUSG8BWYiO/6+K2jZiegPARHiUj0r/N/9x/WkFpzdYDgxq8hMYxLYVBdAA2mBJsGsArvMDiBU0gCz9R+gQ0f8JSEUBcHhZ1ch9eqlbg8NL1RvLbzC2Gr1saqQxXu7F0pkg7oRqDAKwXj4D/liyX+l9srGUig==","swamp":"data:image/webp;base64,UklGRrYAAABXRUJQVlA4TKkAAAAvD8ADAF+gtpGkRp/5x9uMmAZpmY7UNJIC3fHVByLw7wNJNEoDIGEAR/Is/7/ERrLNf9zd+y1YQW9rpFYCAGfLsqPx+vx7cBtJsup8JnEGKqXAAVAK3xe5n9c485ciUBZnieFeeu/lENH/CbCMGQHTPcKbEK6rJryxoL2UYaYEbVqG2bmhZUphdlKCp4TZhwWKO9lXaMfsZQCwXocaIBxPtI5pONLaJssIAA==","volcano":"data:image/webp;base64,UklGRqwAAABXRUJQVlA4TJ8AAAAvD8ADAFegJADQRuN+HRQUJRfsuLVYDTUBgDRsLmKsHGYxuh08URRJUnPxGQlqcIM5fIEQ5j/+/m+3mAdjAjcpl6eqv9x79BN2CpzGth03Ldgt/PHGvyr4ul6pXcnOzULDwoXUZqQeIvo/AZI1gEhlOEKxVIb6UP5FiENloVjc6isL5eLUV0YcUCpjA6jM+ZRqQrLvr5PvR7r9SbY5yQIA"};
+const ES_BOOST_ICONS = {grinx:"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAPCAYAAAA/I0V3AAAAAXNSR0IArs4c6QAAARZJREFUKJGFkTFLA0EQhb87D5IyBOEIKEiCl8ApaUwhiDZrZZvyCkkR/AF2IY1WguCf8C/YXRMJmEIkIkIIxErQNMHSK2RTHLduuF195cx78+bNOEEoJAZMX2PHVAfwACbxZq7REELahA5AEAo5ufxKyf2SzUBtoCYFoZDPJ28Ur2YMHmcAfN+eA1CMrgE42qtR3znGDUIhs1zNu+rK1Hg8Jx7P/88kPzscbsD9ew8/6hlXzGVS2N8FILqoq1K306Z7eoabhWv0SySjBclokTIeXkhuBkYnT79KEyHXK1V4+iVsbVvW06E/u/KTun6slVV/5eQmsS7SH+3aRAAtv0DLL+TqnoF7YJmR1Yd/OtlgymRzyjBcAq3BVxMGLgpcAAAAAElFTkSuQmCC",vip:"data:image/webp;base64,UklGRogAAABXRUJQVlA4THsAAAAvDQADEDdAFmAyf7CG0ptAHmTSNtVWVVO9e9cgCzAZ3TzS7Y0kg/kPQJ8yTmlNPAc2jSQ5muQAvM3PEph/AD4+twDe8EdxICL6H4CIAIgkFbCSLMBFsiLe53n+amqSv8du+7N/gnnn7Hu99Dp7Y05jcmwUvDEmA1FEFAAA",monument:"data:image/webp;base64,UklGRlACAABXRUJQVlA4TEMCAAAvK8AMEHegJLYVizJ4hj4kogRxsGgaYH8rt4aiRpKUWSObtUD3Q/9OTgKfokiSk4OAj7xQAPu3EQX5cxFk21Rs9Ad7AMDHP3z06GksBS1f4nMypmL0SZZQDNaIkqV9gBwJYBxJUXSY8+YFmMjDFNF5k+IhvwhP6rINu3ZzTEZ4NbtUDR5W3dFl22q8nxb+I6fWDPOEiP5DcCRJUhPFkNxgPwPS1ocAoP4XKHeSX2PJ5Rrr95ODf/RPqOnt1D0rKXcvV3vnhjgxs/xPXLxcSXnhtnRlcnLPmLjglIKv3xB7t5xJPvOwKjOK81vOC2R29bKsVhHZ2Tq+5DAMUPD/scAmsLHCiSd1ZkU5XAUHs+wP1Aglu2xYcuystMhKdnG44JKfzKUs/E3dnNUwPiEVVZoNmNgy83Pqfy42beY8i4DzT+rMfsAoSpUqVTdc2BSBiChS/XARMNg5P4zETFjYTR/VSwgxekssI28DIvEwlIEE8fG1tY9MgqIDKMpgo4+8JuNgg49uGKCwaKOLUkkog0efBELP1Su2SHEYAL4HsjHoh2PwFB+CeNBHixJmKXrs7oS0jbyPyGqI3bytjtkgQkR9kKhtRMu8HBB1Ua1P1OuY7VKz0c3zXMvzvN82RsHegGwfseupN8CklXhJpTbZriD3tAGjYpQyUC6j6BSjIQeSRcYaRuxjtcfCVLxE3PU+ObALsVNlEPeR2uNKWzpes7rbFVPHKGBUqjoKaKbKVLRMg20HgCYAGl1Ar+EBaHhqP2w7JAAA"};
+const ES_ISLAND_BG_IMAGE = {
+  basic: "./icons/basic_max.webp",
+  spring: "./icons/spring_max.webp",
+  desert: "./icons/desert_max.webp",
+  volcano: "./icons/volcano_max.webp",
+  swamp: "./icons/swamp_max.webp",
+  spooky: "./icons/spooky_max.webp",
+  crystal: "./icons/crystal_max.webp",
+  galaxy: "./icons/galaxy_max.webp",
+  marble5: "./icons/marble_max.webp",
+  marble6: "./icons/marble_max.webp",
+  marble7: "./icons/marble_max.webp",
+  marble8: "./icons/marble_max.webp",
+  marble9: "./icons/marble_max.webp",
+  marble10: "./icons/marble_max.webp"
+};
+const ES_ISLAND_ORDER = ["basic","spring","desert","volcano","swamp","spooky","crystal","galaxy","marble5","marble6","marble7","marble8","marble9","marble10"];
+const ES_ISLAND_LABEL = {basic:"Basic",spring:"Spring",desert:"Desert",volcano:"Volcano",swamp:"Swamp",spooky:"Spooky (A2)",crystal:"Crystal (A3)",galaxy:"Galaxy (A4)",marble5:"Marble Age (A5)",marble6:"Marble Age (A6)",marble7:"Marble Age (A7)",marble8:"Marble Age (A8)",marble9:"Marble Age (A9)",marble10:"Marble Age (A10)"};
+const ES_ISLAND_MAX = {basic:9,spring:16,desert:25,volcano:30,swamp:42,spooky:42,crystal:42,galaxy:42,marble5:42,marble6:42,marble7:42,marble8:42,marble9:42,marble10:42};
+const ES_ISLAND_MIN = {basic:4,spring:5,desert:5,volcano:6,swamp:31,spooky:31,crystal:31,galaxy:31,marble5:31,marble6:31,marble7:31,marble8:31,marble9:31,marble10:31};
+const ES_ISLAND_UPGRADE_COST = {"spring":{"resources":{"Gold":10},"coins":0,"seconds":0,"bumpkinLevel":null},"desert":{"resources":{"Crimstone":20},"coins":0,"seconds":0,"bumpkinLevel":null},"volcano":{"resources":{"Oil":200},"coins":0,"seconds":0,"bumpkinLevel":null},"swamp":{"resources":{"Crimstone":30,"Oil":50,"Obsidian":3},"coins":5000,"seconds":0,"bumpkinLevel":{"ascension":0,"level":150}},"spooky":{"resources":{"Crimstone":42,"Oil":70,"Obsidian":4},"coins":7000,"seconds":0,"bumpkinLevel":{"ascension":1,"level":50}},"crystal":{"resources":{"Crimstone":58,"Oil":98,"Obsidian":5},"coins":9800,"seconds":0,"bumpkinLevel":{"ascension":2,"level":50}},"galaxy":{"resources":{"Crimstone":82,"Oil":137,"Obsidian":8},"coins":13720,"seconds":0,"bumpkinLevel":{"ascension":3,"level":50}},"marble5":{"resources":{"Crimstone":115,"Oil":192,"Obsidian":11},"coins":19208,"seconds":0,"bumpkinLevel":{"ascension":4,"level":50}},"marble6":{"resources":{"Crimstone":161,"Oil":268,"Obsidian":16},"coins":26891,"seconds":0,"bumpkinLevel":{"ascension":5,"level":50}},"marble7":{"resources":{"Crimstone":225,"Oil":376,"Obsidian":22},"coins":37647,"seconds":0,"bumpkinLevel":{"ascension":6,"level":50}},"marble8":{"resources":{"Crimstone":316,"Oil":527,"Obsidian":31},"coins":52706,"seconds":0,"bumpkinLevel":{"ascension":7,"level":50}},"marble9":{"resources":{"Crimstone":442,"Oil":737,"Obsidian":44},"coins":73789,"seconds":0,"bumpkinLevel":{"ascension":8,"level":50}},"marble10":{"resources":{"Crimstone":619,"Oil":1033,"Obsidian":61},"coins":103305,"seconds":0,"bumpkinLevel":{"ascension":9,"level":50}}};
+const ES_ASCENSION_LEVEL = {swamp:1,spooky:2,crystal:3,galaxy:4,marble5:5,marble6:6,marble7:7,marble8:8,marble9:9,marble10:10};
+const ES_BIOME_COLORS = {
+  basic:["#5fc14c","#3e8948"], spring:["#5fc14c","#3e8948"], desert:["#e4d572","#cf7e4f"],
+  volcano:["#3a4466","#5a6988"], swamp:["#43944e","#23543c"], spooky:["#89a975","#6c855c"],
+  crystal:["#63d6c9","#33817c"], galaxy:["#5b569e","#423c7a"],
+  marble5:["#ebe0cc","#c7b49b"], marble6:["#ebe0cc","#c7b49b"], marble7:["#ebe0cc","#c7b49b"],
+  marble8:["#ebe0cc","#c7b49b"], marble9:["#ebe0cc","#c7b49b"], marble10:["#ebe0cc","#c7b49b"]
+};
+const ASCENSION_SHARDS_PER_CRYSTAL = 3;
+const ES_NODE_ORDER = ["Crop Plot","Tree","Stone Rock","Iron Rock","Gold Rock","Crimstone Rock","Sunstone Rock","Fruit Patch","Flower Bed","Beehive","Oil Reserve","Lava Pit","Ascension Crystal"];
+const ES_ASCENSION_REQ = {"1":{"1":{"resources":{"Crimstone":10,"Oil":50,"Obsidian":2},"coins":5000,"seconds":25200,"bumpkinLevel":{"ascension":1,"level":1}},"2":{"resources":{"Crimstone":12,"Oil":65,"Obsidian":3},"coins":8100,"seconds":50400,"bumpkinLevel":{"ascension":1,"level":4}},"3":{"resources":{"Crimstone":14,"Oil":88,"Obsidian":4},"coins":12640,"seconds":75600,"bumpkinLevel":{"ascension":1,"level":8}},"4":{"resources":{"Crimstone":17,"Oil":115,"Obsidian":5},"coins":17930,"seconds":100800,"bumpkinLevel":{"ascension":1,"level":12}},"5":{"resources":{"Crimstone":21,"Oil":144,"Obsidian":7},"coins":23800,"seconds":126000,"bumpkinLevel":{"ascension":1,"level":16}},"6":{"resources":{"Crimstone":24,"Oil":176,"Obsidian":8},"coins":30120,"seconds":151200,"bumpkinLevel":{"ascension":1,"level":20}},"7":{"resources":{"Crimstone":28,"Oil":209,"Obsidian":10},"coins":36840,"seconds":176400,"bumpkinLevel":{"ascension":1,"level":24}},"8":{"resources":{"Crimstone":32,"Oil":244,"Obsidian":12},"coins":43900,"seconds":201600,"bumpkinLevel":{"ascension":1,"level":28}},"9":{"resources":{"Crimstone":36,"Oil":281,"Obsidian":14},"coins":51280,"seconds":226800,"bumpkinLevel":{"ascension":1,"level":32}},"10":{"resources":{"Crimstone":41,"Oil":320,"Obsidian":16},"coins":58930,"seconds":252000,"bumpkinLevel":{"ascension":1,"level":36}},"11":{"resources":{"Crimstone":45,"Oil":359,"Obsidian":18},"coins":66850,"seconds":277200,"bumpkinLevel":{"ascension":1,"level":40}},"12":{"resources":{"Crimstone":50,"Oil":400,"Obsidian":20},"coins":75000,"seconds":302400,"bumpkinLevel":{"ascension":1,"level":45}}},"2":{"1":{"resources":{"Crimstone":13,"Oil":65,"Obsidian":3},"coins":6500,"seconds":25200,"bumpkinLevel":{"ascension":2,"level":1}},"2":{"resources":{"Crimstone":15,"Oil":85,"Obsidian":4},"coins":10530,"seconds":50400,"bumpkinLevel":{"ascension":2,"level":4}},"3":{"resources":{"Crimstone":19,"Oil":115,"Obsidian":5},"coins":16430,"seconds":75600,"bumpkinLevel":{"ascension":2,"level":8}},"4":{"resources":{"Crimstone":23,"Oil":149,"Obsidian":7},"coins":23310,"seconds":100800,"bumpkinLevel":{"ascension":2,"level":12}},"5":{"resources":{"Crimstone":27,"Oil":187,"Obsidian":9},"coins":30930,"seconds":126000,"bumpkinLevel":{"ascension":2,"level":16}},"6":{"resources":{"Crimstone":32,"Oil":228,"Obsidian":11},"coins":39160,"seconds":151200,"bumpkinLevel":{"ascension":2,"level":20}},"7":{"resources":{"Crimstone":37,"Oil":272,"Obsidian":13},"coins":47890,"seconds":176400,"bumpkinLevel":{"ascension":2,"level":24}},"8":{"resources":{"Crimstone":42,"Oil":318,"Obsidian":16},"coins":57070,"seconds":201600,"bumpkinLevel":{"ascension":2,"level":28}},"9":{"resources":{"Crimstone":47,"Oil":366,"Obsidian":18},"coins":66660,"seconds":226800,"bumpkinLevel":{"ascension":2,"level":32}},"10":{"resources":{"Crimstone":53,"Oil":416,"Obsidian":21},"coins":76610,"seconds":252000,"bumpkinLevel":{"ascension":2,"level":36}},"11":{"resources":{"Crimstone":59,"Oil":467,"Obsidian":23},"coins":86900,"seconds":277200,"bumpkinLevel":{"ascension":2,"level":40}},"12":{"resources":{"Crimstone":65,"Oil":520,"Obsidian":26},"coins":97500,"seconds":302400,"bumpkinLevel":{"ascension":2,"level":45}}},"3":{"1":{"resources":{"Crimstone":17,"Oil":85,"Obsidian":3},"coins":8450,"seconds":25200,"bumpkinLevel":{"ascension":3,"level":1}},"2":{"resources":{"Crimstone":20,"Oil":111,"Obsidian":5},"coins":13690,"seconds":50400,"bumpkinLevel":{"ascension":3,"level":4}},"3":{"resources":{"Crimstone":24,"Oil":149,"Obsidian":7},"coins":21350,"seconds":75600,"bumpkinLevel":{"ascension":3,"level":8}},"4":{"resources":{"Crimstone":29,"Oil":194,"Obsidian":9},"coins":30300,"seconds":100800,"bumpkinLevel":{"ascension":3,"level":12}},"5":{"resources":{"Crimstone":35,"Oil":243,"Obsidian":12},"coins":40210,"seconds":126000,"bumpkinLevel":{"ascension":3,"level":16}},"6":{"resources":{"Crimstone":41,"Oil":297,"Obsidian":14},"coins":50900,"seconds":151200,"bumpkinLevel":{"ascension":3,"level":20}},"7":{"resources":{"Crimstone":48,"Oil":353,"Obsidian":17},"coins":62250,"seconds":176400,"bumpkinLevel":{"ascension":3,"level":24}},"8":{"resources":{"Crimstone":54,"Oil":413,"Obsidian":20},"coins":74190,"seconds":201600,"bumpkinLevel":{"ascension":3,"level":28}},"9":{"resources":{"Crimstone":62,"Oil":475,"Obsidian":23},"coins":86650,"seconds":226800,"bumpkinLevel":{"ascension":3,"level":32}},"10":{"resources":{"Crimstone":69,"Oil":540,"Obsidian":27},"coins":99590,"seconds":252000,"bumpkinLevel":{"ascension":3,"level":36}},"11":{"resources":{"Crimstone":77,"Oil":607,"Obsidian":30},"coins":112970,"seconds":277200,"bumpkinLevel":{"ascension":3,"level":40}},"12":{"resources":{"Crimstone":85,"Oil":676,"Obsidian":34},"coins":126750,"seconds":302400,"bumpkinLevel":{"ascension":3,"level":45}}},"4":{"1":{"resources":{"Crimstone":22,"Oil":110,"Obsidian":4},"coins":10990,"seconds":25200,"bumpkinLevel":{"ascension":4,"level":1}},"2":{"resources":{"Crimstone":26,"Oil":144,"Obsidian":6},"coins":17800,"seconds":50400,"bumpkinLevel":{"ascension":4,"level":4}},"3":{"resources":{"Crimstone":32,"Oil":194,"Obsidian":9},"coins":27760,"seconds":75600,"bumpkinLevel":{"ascension":4,"level":8}},"4":{"resources":{"Crimstone":38,"Oil":252,"Obsidian":12},"coins":39390,"seconds":100800,"bumpkinLevel":{"ascension":4,"level":12}},"5":{"resources":{"Crimstone":46,"Oil":316,"Obsidian":15},"coins":52280,"seconds":126000,"bumpkinLevel":{"ascension":4,"level":16}},"6":{"resources":{"Crimstone":54,"Oil":386,"Obsidian":19},"coins":66170,"seconds":151200,"bumpkinLevel":{"ascension":4,"level":20}},"7":{"resources":{"Crimstone":62,"Oil":460,"Obsidian":22},"coins":80930,"seconds":176400,"bumpkinLevel":{"ascension":4,"level":24}},"8":{"resources":{"Crimstone":71,"Oil":537,"Obsidian":26},"coins":96450,"seconds":201600,"bumpkinLevel":{"ascension":4,"level":28}},"9":{"resources":{"Crimstone":80,"Oil":618,"Obsidian":31},"coins":112650,"seconds":226800,"bumpkinLevel":{"ascension":4,"level":32}},"10":{"resources":{"Crimstone":90,"Oil":702,"Obsidian":35},"coins":129470,"seconds":252000,"bumpkinLevel":{"ascension":4,"level":36}},"11":{"resources":{"Crimstone":100,"Oil":789,"Obsidian":39},"coins":146860,"seconds":277200,"bumpkinLevel":{"ascension":4,"level":40}},"12":{"resources":{"Crimstone":110,"Oil":879,"Obsidian":44},"coins":164780,"seconds":302400,"bumpkinLevel":{"ascension":4,"level":45}}},"5":{"1":{"resources":{"Crimstone":29,"Oil":143,"Obsidian":6},"coins":14290,"seconds":25200,"bumpkinLevel":{"ascension":5,"level":1}},"2":{"resources":{"Crimstone":34,"Oil":187,"Obsidian":8},"coins":23140,"seconds":50400,"bumpkinLevel":{"ascension":5,"level":4}},"3":{"resources":{"Crimstone":41,"Oil":252,"Obsidian":11},"coins":36080,"seconds":75600,"bumpkinLevel":{"ascension":5,"level":8}},"4":{"resources":{"Crimstone":50,"Oil":327,"Obsidian":15},"coins":51210,"seconds":100800,"bumpkinLevel":{"ascension":5,"level":12}},"5":{"resources":{"Crimstone":59,"Oil":411,"Obsidian":20},"coins":67960,"seconds":126000,"bumpkinLevel":{"ascension":5,"level":16}},"6":{"resources":{"Crimstone":70,"Oil":501,"Obsidian":24},"coins":86020,"seconds":151200,"bumpkinLevel":{"ascension":5,"level":20}},"7":{"resources":{"Crimstone":81,"Oil":597,"Obsidian":29},"coins":105210,"seconds":176400,"bumpkinLevel":{"ascension":5,"level":24}},"8":{"resources":{"Crimstone":92,"Oil":698,"Obsidian":34},"coins":125380,"seconds":201600,"bumpkinLevel":{"ascension":5,"level":28}},"9":{"resources":{"Crimstone":104,"Oil":804,"Obsidian":40},"coins":146440,"seconds":226800,"bumpkinLevel":{"ascension":5,"level":32}},"10":{"resources":{"Crimstone":117,"Oil":913,"Obsidian":45},"coins":168310,"seconds":252000,"bumpkinLevel":{"ascension":5,"level":36}},"11":{"resources":{"Crimstone":129,"Oil":1026,"Obsidian":51},"coins":190910,"seconds":277200,"bumpkinLevel":{"ascension":5,"level":40}},"12":{"resources":{"Crimstone":143,"Oil":1142,"Obsidian":57},"coins":214210,"seconds":302400,"bumpkinLevel":{"ascension":5,"level":45}}},"6":{"1":{"resources":{"Crimstone":37,"Oil":186,"Obsidian":7},"coins":18570,"seconds":25200,"bumpkinLevel":{"ascension":6,"level":1}},"2":{"resources":{"Crimstone":44,"Oil":243,"Obsidian":10},"coins":30080,"seconds":50400,"bumpkinLevel":{"ascension":6,"level":4}},"3":{"resources":{"Crimstone":53,"Oil":327,"Obsidian":15},"coins":46910,"seconds":75600,"bumpkinLevel":{"ascension":6,"level":8}},"4":{"resources":{"Crimstone":65,"Oil":426,"Obsidian":20},"coins":66570,"seconds":100800,"bumpkinLevel":{"ascension":6,"level":12}},"5":{"resources":{"Crimstone":77,"Oil":535,"Obsidian":25},"coins":88340,"seconds":126000,"bumpkinLevel":{"ascension":6,"level":16}},"6":{"resources":{"Crimstone":90,"Oil":652,"Obsidian":31},"coins":111820,"seconds":151200,"bumpkinLevel":{"ascension":6,"level":20}},"7":{"resources":{"Crimstone":105,"Oil":777,"Obsidian":38},"coins":136770,"seconds":176400,"bumpkinLevel":{"ascension":6,"level":24}},"8":{"resources":{"Crimstone":120,"Oil":908,"Obsidian":45},"coins":162990,"seconds":201600,"bumpkinLevel":{"ascension":6,"level":28}},"9":{"resources":{"Crimstone":135,"Oil":1045,"Obsidian":52},"coins":190370,"seconds":226800,"bumpkinLevel":{"ascension":6,"level":32}},"10":{"resources":{"Crimstone":152,"Oil":1187,"Obsidian":59},"coins":218800,"seconds":252000,"bumpkinLevel":{"ascension":6,"level":36}},"11":{"resources":{"Crimstone":168,"Oil":1334,"Obsidian":66},"coins":248190,"seconds":277200,"bumpkinLevel":{"ascension":6,"level":40}},"12":{"resources":{"Crimstone":186,"Oil":1485,"Obsidian":74},"coins":278470,"seconds":302400,"bumpkinLevel":{"ascension":6,"level":45}}},"7":{"1":{"resources":{"Crimstone":48,"Oil":241,"Obsidian":10},"coins":24140,"seconds":25200,"bumpkinLevel":{"ascension":7,"level":1}},"2":{"resources":{"Crimstone":57,"Oil":316,"Obsidian":14},"coins":39100,"seconds":50400,"bumpkinLevel":{"ascension":7,"level":4}},"3":{"resources":{"Crimstone":69,"Oil":426,"Obsidian":19},"coins":60980,"seconds":75600,"bumpkinLevel":{"ascension":7,"level":8}},"4":{"resources":{"Crimstone":84,"Oil":553,"Obsidian":26},"coins":86540,"seconds":100800,"bumpkinLevel":{"ascension":7,"level":12}},"5":{"resources":{"Crimstone":100,"Oil":695,"Obsidian":33},"coins":114840,"seconds":126000,"bumpkinLevel":{"ascension":7,"level":16}},"6":{"resources":{"Crimstone":118,"Oil":847,"Obsidian":41},"coins":145370,"seconds":151200,"bumpkinLevel":{"ascension":7,"level":20}},"7":{"resources":{"Crimstone":136,"Oil":1010,"Obsidian":49},"coins":177790,"seconds":176400,"bumpkinLevel":{"ascension":7,"level":24}},"8":{"resources":{"Crimstone":156,"Oil":1180,"Obsidian":58},"coins":211890,"seconds":201600,"bumpkinLevel":{"ascension":7,"level":28}},"9":{"resources":{"Crimstone":176,"Oil":1358,"Obsidian":67},"coins":247480,"seconds":226800,"bumpkinLevel":{"ascension":7,"level":32}},"10":{"resources":{"Crimstone":197,"Oil":1543,"Obsidian":77},"coins":284430,"seconds":252000,"bumpkinLevel":{"ascension":7,"level":36}},"11":{"resources":{"Crimstone":219,"Oil":1734,"Obsidian":86},"coins":322640,"seconds":277200,"bumpkinLevel":{"ascension":7,"level":40}},"12":{"resources":{"Crimstone":241,"Oil":1931,"Obsidian":97},"coins":362020,"seconds":302400,"bumpkinLevel":{"ascension":7,"level":45}}},"8":{"1":{"resources":{"Crimstone":63,"Oil":314,"Obsidian":13},"coins":31380,"seconds":25200,"bumpkinLevel":{"ascension":8,"level":1}},"2":{"resources":{"Crimstone":74,"Oil":411,"Obsidian":18},"coins":50830,"seconds":50400,"bumpkinLevel":{"ascension":8,"level":4}},"3":{"resources":{"Crimstone":90,"Oil":553,"Obsidian":25},"coins":79270,"seconds":75600,"bumpkinLevel":{"ascension":8,"level":8}},"4":{"resources":{"Crimstone":109,"Oil":719,"Obsidian":33},"coins":112500,"seconds":100800,"bumpkinLevel":{"ascension":8,"level":12}},"5":{"resources":{"Crimstone":130,"Oil":903,"Obsidian":43},"coins":149290,"seconds":126000,"bumpkinLevel":{"ascension":8,"level":16}},"6":{"resources":{"Crimstone":153,"Oil":1102,"Obsidian":53},"coins":188980,"seconds":151200,"bumpkinLevel":{"ascension":8,"level":20}},"7":{"resources":{"Crimstone":177,"Oil":1312,"Obsidian":64},"coins":231130,"seconds":176400,"bumpkinLevel":{"ascension":8,"level":24}},"8":{"resources":{"Crimstone":202,"Oil":1534,"Obsidian":75},"coins":275450,"seconds":201600,"bumpkinLevel":{"ascension":8,"level":28}},"9":{"resources":{"Crimstone":229,"Oil":1765,"Obsidian":87},"coins":321720,"seconds":226800,"bumpkinLevel":{"ascension":8,"level":32}},"10":{"resources":{"Crimstone":256,"Oil":2006,"Obsidian":100},"coins":369760,"seconds":252000,"bumpkinLevel":{"ascension":8,"level":36}},"11":{"resources":{"Crimstone":284,"Oil":2254,"Obsidian":112},"coins":419430,"seconds":277200,"bumpkinLevel":{"ascension":8,"level":40}},"12":{"resources":{"Crimstone":314,"Oil":2510,"Obsidian":125},"coins":470620,"seconds":302400,"bumpkinLevel":{"ascension":8,"level":45}}},"9":{"1":{"resources":{"Crimstone":82,"Oil":408,"Obsidian":16},"coins":40790,"seconds":25200,"bumpkinLevel":{"ascension":9,"level":1}},"2":{"resources":{"Crimstone":96,"Oil":534,"Obsidian":23},"coins":66070,"seconds":50400,"bumpkinLevel":{"ascension":9,"level":4}},"3":{"resources":{"Crimstone":117,"Oil":719,"Obsidian":32},"coins":103050,"seconds":75600,"bumpkinLevel":{"ascension":9,"level":8}},"4":{"resources":{"Crimstone":142,"Oil":935,"Obsidian":43},"coins":146250,"seconds":100800,"bumpkinLevel":{"ascension":9,"level":12}},"5":{"resources":{"Crimstone":169,"Oil":1174,"Obsidian":56},"coins":194080,"seconds":126000,"bumpkinLevel":{"ascension":9,"level":16}},"6":{"resources":{"Crimstone":199,"Oil":1432,"Obsidian":69},"coins":245670,"seconds":151200,"bumpkinLevel":{"ascension":9,"level":20}},"7":{"resources":{"Crimstone":230,"Oil":1706,"Obsidian":83},"coins":300470,"seconds":176400,"bumpkinLevel":{"ascension":9,"level":24}},"8":{"resources":{"Crimstone":263,"Oil":1994,"Obsidian":98},"coins":358090,"seconds":201600,"bumpkinLevel":{"ascension":9,"level":28}},"9":{"resources":{"Crimstone":297,"Oil":2295,"Obsidian":113},"coins":418230,"seconds":226800,"bumpkinLevel":{"ascension":9,"level":32}},"10":{"resources":{"Crimstone":333,"Oil":2607,"Obsidian":129},"coins":480690,"seconds":252000,"bumpkinLevel":{"ascension":9,"level":36}},"11":{"resources":{"Crimstone":370,"Oil":2930,"Obsidian":146},"coins":545260,"seconds":277200,"bumpkinLevel":{"ascension":9,"level":40}},"12":{"resources":{"Crimstone":408,"Oil":3263,"Obsidian":163},"coins":611800,"seconds":302400,"bumpkinLevel":{"ascension":9,"level":45}}},"10":{"1":{"resources":{"Crimstone":106,"Oil":530,"Obsidian":21},"coins":53030,"seconds":25200,"bumpkinLevel":{"ascension":10,"level":1}},"2":{"resources":{"Crimstone":125,"Oil":695,"Obsidian":30},"coins":85900,"seconds":50400,"bumpkinLevel":{"ascension":10,"level":4}},"3":{"resources":{"Crimstone":152,"Oil":935,"Obsidian":42},"coins":133960,"seconds":75600,"bumpkinLevel":{"ascension":10,"level":8}},"4":{"resources":{"Crimstone":184,"Oil":1216,"Obsidian":56},"coins":190130,"seconds":100800,"bumpkinLevel":{"ascension":10,"level":12}},"5":{"resources":{"Crimstone":220,"Oil":1527,"Obsidian":72},"coins":252300,"seconds":126000,"bumpkinLevel":{"ascension":10,"level":16}},"6":{"resources":{"Crimstone":258,"Oil":1862,"Obsidian":90},"coins":319370,"seconds":151200,"bumpkinLevel":{"ascension":10,"level":20}},"7":{"resources":{"Crimstone":299,"Oil":2218,"Obsidian":108},"coins":390610,"seconds":176400,"bumpkinLevel":{"ascension":10,"level":24}},"8":{"resources":{"Crimstone":342,"Oil":2593,"Obsidian":127},"coins":465510,"seconds":201600,"bumpkinLevel":{"ascension":10,"level":28}},"9":{"resources":{"Crimstone":386,"Oil":2984,"Obsidian":147},"coins":543700,"seconds":226800,"bumpkinLevel":{"ascension":10,"level":32}},"10":{"resources":{"Crimstone":433,"Oil":3390,"Obsidian":168},"coins":624890,"seconds":252000,"bumpkinLevel":{"ascension":10,"level":36}},"11":{"resources":{"Crimstone":481,"Oil":3809,"Obsidian":190},"coins":708840,"seconds":277200,"bumpkinLevel":{"ascension":10,"level":40}},"12":{"resources":{"Crimstone":530,"Oil":4242,"Obsidian":212},"coins":795340,"seconds":302400,"bumpkinLevel":{"ascension":10,"level":45}}},"11":{"1":{"resources":{"Crimstone":138,"Oil":689,"Obsidian":28},"coins":68930,"seconds":25200,"bumpkinLevel":{"ascension":11,"level":1}},"2":{"resources":{"Crimstone":162,"Oil":903,"Obsidian":39},"coins":111660,"seconds":50400,"bumpkinLevel":{"ascension":11,"level":4}},"3":{"resources":{"Crimstone":198,"Oil":1215,"Obsidian":55},"coins":174140,"seconds":75600,"bumpkinLevel":{"ascension":11,"level":8}},"4":{"resources":{"Crimstone":240,"Oil":1580,"Obsidian":73},"coins":247160,"seconds":100800,"bumpkinLevel":{"ascension":11,"level":12}},"5":{"resources":{"Crimstone":286,"Oil":1985,"Obsidian":94},"coins":327990,"seconds":126000,"bumpkinLevel":{"ascension":11,"level":16}},"6":{"resources":{"Crimstone":336,"Oil":2421,"Obsidian":117},"coins":415180,"seconds":151200,"bumpkinLevel":{"ascension":11,"level":20}},"7":{"resources":{"Crimstone":389,"Oil":2884,"Obsidian":140},"coins":507790,"seconds":176400,"bumpkinLevel":{"ascension":11,"level":24}},"8":{"resources":{"Crimstone":444,"Oil":3370,"Obsidian":165},"coins":605160,"seconds":201600,"bumpkinLevel":{"ascension":11,"level":28}},"9":{"resources":{"Crimstone":502,"Oil":3879,"Obsidian":192},"coins":706810,"seconds":226800,"bumpkinLevel":{"ascension":11,"level":32}},"10":{"resources":{"Crimstone":563,"Oil":4406,"Obsidian":219},"coins":812360,"seconds":252000,"bumpkinLevel":{"ascension":11,"level":36}},"11":{"resources":{"Crimstone":625,"Oil":4952,"Obsidian":247},"coins":921490,"seconds":277200,"bumpkinLevel":{"ascension":11,"level":40}},"12":{"resources":{"Crimstone":689,"Oil":5514,"Obsidian":276},"coins":1033940,"seconds":302400,"bumpkinLevel":{"ascension":11,"level":45}}},"12":{"1":{"resources":{"Crimstone":179,"Oil":896,"Obsidian":36},"coins":89610,"seconds":25200,"bumpkinLevel":{"ascension":12,"level":1}},"2":{"resources":{"Crimstone":211,"Oil":1174,"Obsidian":50},"coins":145160,"seconds":50400,"bumpkinLevel":{"ascension":12,"level":4}},"3":{"resources":{"Crimstone":257,"Oil":1580,"Obsidian":71},"coins":226390,"seconds":75600,"bumpkinLevel":{"ascension":12,"level":8}},"4":{"resources":{"Crimstone":312,"Oil":2055,"Obsidian":95},"coins":321310,"seconds":100800,"bumpkinLevel":{"ascension":12,"level":12}},"5":{"resources":{"Crimstone":372,"Oil":2580,"Obsidian":122},"coins":426390,"seconds":126000,"bumpkinLevel":{"ascension":12,"level":16}},"6":{"resources":{"Crimstone":436,"Oil":3147,"Obsidian":152},"coins":539730,"seconds":151200,"bumpkinLevel":{"ascension":12,"level":20}},"7":{"resources":{"Crimstone":505,"Oil":3749,"Obsidian":183},"coins":660120,"seconds":176400,"bumpkinLevel":{"ascension":12,"level":24}},"8":{"resources":{"Crimstone":578,"Oil":4382,"Obsidian":215},"coins":786710,"seconds":201600,"bumpkinLevel":{"ascension":12,"level":28}},"9":{"resources":{"Crimstone":653,"Oil":5042,"Obsidian":249},"coins":918860,"seconds":226800,"bumpkinLevel":{"ascension":12,"level":32}},"10":{"resources":{"Crimstone":731,"Oil":5728,"Obsidian":284},"coins":1056060,"seconds":252000,"bumpkinLevel":{"ascension":12,"level":36}},"11":{"resources":{"Crimstone":813,"Oil":6438,"Obsidian":321},"coins":1197930,"seconds":277200,"bumpkinLevel":{"ascension":12,"level":40}},"12":{"resources":{"Crimstone":896,"Oil":7169,"Obsidian":358},"coins":1344130,"seconds":302400,"bumpkinLevel":{"ascension":12,"level":45}}}};
+const ES_ASCENSION_BASE_NODES = {"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":13,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":5,"Sunstone Rock":13,"Oil Reserve":4,"Lava Pit":3,"Beehive":3,"Flower Bed":3,"Ascension Crystal":0};
+
+function esIslandIcon(island) {
+  if (island.indexOf("marble") === 0) return ES_ISLAND_ICONS.marble;
+  return ES_ISLAND_ICONS[island] || ES_ISLAND_ICONS.basic;
+}
+
+function esLocalIndex(island, level) {
+  return ES_ASCENSION_LEVEL[island] ? level - 30 : level;
+}
+
+function esBandExpansionCrystalTotal(ascLevel) {
+  return Math.min(ascLevel + 2, 12);
+}
+
+const ES_SWAMP_EXPANSIONS_PER_ASCENSION = 12;
+const ES_SWAMP_DRIP_WIDEN_PER_ASCENSION = 0.25;
+const ES_SWAMP_DRIP_CAP = ES_SWAMP_EXPANSIONS_PER_ASCENSION;
+const ES_SWAMP_GOLDEN_RATIO = 0.6180339887498949;
+const ES_SWAMP_NODE_DRIP = {
+  "Crop Plot": 2, "Tree": 4, "Stone Rock": 4, "Fruit Patch": 6, "Iron Rock": 6,
+  "Gold Rock": 8, "Crimstone Rock": 8, "Oil Reserve": 12, "Lava Pit": 16,
+  "Beehive": 10, "Flower Bed": 10, "Sunstone Rock": 10, "Ascension Crystal": 0
+};
+const ES_SWAMP_NODE_ORDER = Object.keys(ES_SWAMP_NODE_DRIP);
+const ES_SWAMP_NO_DRIP_CAP_NODES = ["Beehive", "Flower Bed", "Oil Reserve", "Sunstone Rock", "Crimstone Rock", "Lava Pit"];
+
+function esAscensionNodeDrip(node, ascLevel) {
+  const base = ES_SWAMP_NODE_DRIP[node];
+  if (base <= 0) return 0;
+  const widened = Math.floor(base * (1 + ES_SWAMP_DRIP_WIDEN_PER_ASCENSION * (ascLevel - 1)));
+  if (ES_SWAMP_NO_DRIP_CAP_NODES.indexOf(node) !== -1) return widened;
+  return Math.min(widened, ES_SWAMP_DRIP_CAP);
+}
+
+function esAscensionCumulativeNodes(node, ascLevel) {
+  let total = 0;
+  for (let a = 1; a <= ascLevel; a++) {
+    const drip = esAscensionNodeDrip(node, a);
+    if (drip > 0) total += ES_SWAMP_EXPANSIONS_PER_ASCENSION / drip;
+  }
+  return Math.floor(total);
+}
+
+function esAscensionNodeTotal(node, ascLevel) {
+  if (ascLevel < 1) return 0;
+  return esAscensionCumulativeNodes(node, ascLevel) - esAscensionCumulativeNodes(node, ascLevel - 1);
+}
+
+function esBuildAscensionSchedule(ascLevel) {
+  const span = ES_SWAMP_EXPANSIONS_PER_ASCENSION;
+  const items = [];
+  ES_SWAMP_NODE_ORDER.forEach((node, t) => {
+    if (node === "Flower Bed") return;
+    const count = esAscensionNodeTotal(node, ascLevel);
+    const phase = (t * ES_SWAMP_GOLDEN_RATIO) % 1;
+    for (let i = 0; i < count; i++) {
+      items.push({ pos: (i + phase) / count, node: node, tie: t });
+    }
+  });
+  items.sort((a, b) => (a.pos - b.pos) || (a.tie - b.tie));
+  const schedule = [];
+  for (let s = 0; s < span; s++) schedule.push({});
+  items.forEach((item, k) => {
+    const slot = Math.floor((k * span) / items.length);
+    schedule[slot][item.node] = (schedule[slot][item.node] || 0) + 1;
+    if (item.node === "Beehive") {
+      schedule[slot]["Flower Bed"] = (schedule[slot]["Flower Bed"] || 0) + 1;
+    }
+  });
+  return schedule;
+}
+
+const ES_ASCENSION_SCHEDULE_CACHE = {};
+function esGetAscensionSchedule(ascLevel) {
+  if (!ES_ASCENSION_SCHEDULE_CACHE[ascLevel]) {
+    ES_ASCENSION_SCHEDULE_CACHE[ascLevel] = esBuildAscensionSchedule(ascLevel);
+  }
+  return ES_ASCENSION_SCHEDULE_CACHE[ascLevel];
+}
+
+function esAddDelta(nodes, delta) {
+  Object.keys(delta).forEach(k => { nodes[k] = (nodes[k] || 0) + delta[k]; });
+}
+
+function esAscensionFloorNodes(ascLevel) {
+  return esComputeAscensionNodes(ascLevel, 30);
+}
+
+function esComputeAscensionNodes(ascLevel, level) {
+  const nodes = Object.assign({}, ES_ASCENSION_BASE_NODES);
+  for (let prior = 1; prior < ascLevel; prior++) {
+    esGetAscensionSchedule(prior).forEach(delta => esAddDelta(nodes, delta));
+  }
+  const cap = Math.max(0, Math.min(level - 30, ES_SWAMP_EXPANSIONS_PER_ASCENSION));
+  if (ascLevel >= 1) {
+    const schedule = esGetAscensionSchedule(ascLevel);
+    for (let e = 1; e <= cap; e++) esAddDelta(nodes, schedule[e - 1]);
+  }
+  let crystals = 3;
+  for (let prior = 1; prior < ascLevel; prior++) {
+    crystals += 1 + esBandExpansionCrystalTotal(prior);
+  }
+  if (ascLevel >= 1) {
+    crystals += 1 + Math.min(cap, esBandExpansionCrystalTotal(ascLevel));
+  }
+  nodes["Ascension Crystal"] = crystals;
+  return nodes;
+}
+
+function esPrevIslandOf(island) {
+  const idx = ES_ISLAND_ORDER.indexOf(island);
+  return idx > 0 ? ES_ISLAND_ORDER[idx - 1] : null;
+}
+
+function esGetNodesAt(island, level) {
+  if (ES_NODE_TABLE[island]) {
+    const table = ES_NODE_TABLE[island];
+    const keys = Object.keys(table).map(Number).sort((a, b) => a - b);
+    if (level < keys[0]) {
+      const prevIsland = esPrevIslandOf(island);
+      if (prevIsland) return esGetNodesAt(prevIsland, ES_ISLAND_MAX[prevIsland]);
+      return {};
+    }
+    let use = keys[0];
+    keys.forEach(k => { if (k <= level) use = k; });
+    return table[use] || {};
+  }
+  const ascLevel = ES_ASCENSION_LEVEL[island];
+  if (!ascLevel) return {};
+  return esComputeAscensionNodes(ascLevel, level);
+}
+
+function esGetRequirementsAt(island, level) {
+  if (ES_REQ_TABLE[island]) {
+    return ES_REQ_TABLE[island][level] || null;
+  }
+  const ascLevel = ES_ASCENSION_LEVEL[island];
+  if (!ascLevel) return null;
+  const local = esLocalIndex(island, level);
+  if (local < 1 || local > 12) return null;
+  const table = ES_ASCENSION_REQ[ascLevel];
+  return (table && table[local]) || null;
+}
+
+function esGenerateSpiral(n) {
+  const cells = [{ num: 1, row: 0, col: 0 }];
+  let row = 0, col = 0;
+  const dirs = [[0, 1], [-1, 0], [0, -1], [1, 0]];
+  let dirIndex = 0, runLength = 1, num = 1;
+  while (num < n) {
+    for (let r = 0; r < 2 && num < n; r++) {
+      const d = dirs[dirIndex];
+      for (let s = 0; s < runLength && num < n; s++) {
+        row += d[0]; col += d[1]; num += 1;
+        cells.push({ num, row, col });
+      }
+      dirIndex = (dirIndex + 1) % 4;
+    }
+    runLength += 1;
+  }
+  const rows = cells.map(c => c.row);
+  const cols = cells.map(c => c.col);
+  const minRow = Math.min.apply(null, rows), maxRow = Math.max.apply(null, rows);
+  const minCol = Math.min.apply(null, cols), maxCol = Math.max.apply(null, cols);
+  cells.forEach(c => { c.gridRow = c.row - minRow + 1; c.gridCol = c.col - minCol + 1; });
+  return { cells, numRows: maxRow - minRow + 1, numCols: maxCol - minCol + 1 };
+}
+const ES_SPIRAL_CACHE = {};
+function esGetSpiral(n) {
+  if (!ES_SPIRAL_CACHE[n]) ES_SPIRAL_CACHE[n] = esGenerateSpiral(n);
+  return ES_SPIRAL_CACHE[n];
+}
+
+function esApplyBoosts(resources, coins, seconds) {
+  let outRes = Object.assign({}, resources);
+  let outCoins = coins;
+  let outSeconds = seconds;
+  if (esState.boosts.grinx) {
+    Object.keys(outRes).forEach(k => {
+      if (k !== "Gem") outRes[k] = outRes[k] / 2;
+    });
+  }
+  if (esState.boosts.monument) {
+    outSeconds *= 0.8;
+  }
+  if (esState.boosts.vip) {
+    if (outCoins > 0) {
+      const discount = Math.max(500, Math.floor(outCoins * 0.2));
+      outCoins = Math.max(0, outCoins - discount);
+    }
+    outSeconds = Math.round(outSeconds * 0.9);
+  }
+  return { resources: outRes, coins: outCoins, seconds: outSeconds };
+}
+
+function esFormatSeconds(total) {
+  total = Math.max(0, Math.round(total));
+  const d = Math.floor(total / 86400);
+  const h = Math.floor((total % 86400) / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  const parts = [];
+  if (d) parts.push(d + "d");
+  if (h || d) parts.push(h + "h");
+  if (m || h || d) parts.push(m + "m");
+  parts.push(s + "s");
+  return parts.join(" ");
+}
+
+function esGetIconHtml(name) {
+  if (name === "Coins" && typeof COIN_ICON !== "undefined") return COIN_ICON;
+  if (name === "Gem" && typeof GEM_ICON !== "undefined") return GEM_ICON;
+  if (typeof IMAGE_ICONS !== "undefined" && IMAGE_ICONS[name]) {
+    return `<img src="${IMAGE_ICONS[name]}" alt="${escapeHtml(name)}">`;
+  }
+  return getIcon(name);
+}
+
+let esState = {
+  start: { island: "basic", level: 3 },
+  target: { island: "basic", level: 4 },
+  boosts: { grinx: false, vip: false, monument: false },
+  costMode: "buy",
+  applyMissing: true
+};
+
+function esGetOwnedQty(name) {
+  if (!farmPanelGameState || typeof farmSyncExtractGameState !== "function") return 0;
+  const g = farmSyncExtractGameState(farmPanelGameState);
+  if (!g) return 0;
+  if (name === "Coins") {
+    const raw = typeof farmPanelField === "function" ? farmPanelField(g, "coins") : g.coins;
+    const q = typeof raw === "string" ? parseFloat(raw) : Number(raw);
+    return isNaN(q) ? 0 : q;
+  }
+  const inv = typeof farmPanelField === "function" ? farmPanelField(g, "inventory") : g.inventory;
+  if (!inv || typeof inv !== "object") return 0;
+  const raw = inv[name];
+  const q = typeof raw === "string" ? parseFloat(raw) : Number(raw);
+  return isNaN(q) ? 0 : q;
+}
+
+function esMissingRowsData(resources, coins) {
+  const rows = [];
+  Object.keys(resources || {}).forEach(k => {
+    if (!(resources[k] > 0)) return;
+    const missing = Math.max(0, resources[k] - esGetOwnedQty(k));
+    if (missing > 0) rows.push({ name: k, qty: missing });
+  });
+  const coinsMissing = coins > 0 ? Math.max(0, coins - esGetOwnedQty("Coins")) : 0;
+  return { rows: rows, coinsMissing: coinsMissing };
+}
+
+function esRenderMissingToggle() {
+  const btn = $("esMissingToggleBtn");
+  if (!btn) return;
+  btn.classList.toggle("active", esState.applyMissing);
+  btn.textContent = esState.applyMissing ? "ON" : "OFF";
+}
+
+function esClampSection(which) {
+  const s = esState[which];
+  const max = ES_ISLAND_MAX[s.island];
+  const min = ES_ISLAND_MIN[s.island];
+  if (s.level < min) s.level = min;
+  if (s.level > max) s.level = max;
+}
+
+function esDetectCollectiblePlaced(name) {
+  if (!farmPanelGameState || typeof farmSyncExtractGameState !== "function") return false;
+  const g = farmSyncExtractGameState(farmPanelGameState);
+  const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
+  const main = asObj(typeof farmPanelField === "function" ? farmPanelField(g, "collectibles") : (g && g.collectibles)) || {};
+  const home = asObj(g && g.home);
+  const homeCollectibles = asObj(home && home.collectibles) || {};
+  const a = main[name];
+  const b = homeCollectibles[name];
+  const instances = [].concat(Array.isArray(a) ? a : [], Array.isArray(b) ? b : []);
+  return instances.some(inst => inst && typeof inst === "object" && !inst.removedAt);
+}
+
+function esGetBoostSyncStatus() {
+  if (!farmPanelGameState) return null;
+  return {
+    grinx: esDetectCollectiblePlaced("Grinx's Hammer"),
+    vip: typeof readFarmVipEnabled === "function" ? readFarmVipEnabled() : false,
+    monument: esDetectCollectiblePlaced("Ascension Monument")
+  };
+}
+
+function esSyncAutoBoostsFromFarm() {
+  const status = esGetBoostSyncStatus();
+  if (!status) return;
+  if (status.grinx) esState.boosts.grinx = true;
+  if (status.vip) esState.boosts.vip = true;
+  if (status.monument) esState.boosts.monument = true;
+}
+
+function esRenderBoosts() {
+  const row = $("esBoostsRow");
+  if (!row) return;
+  const status = esGetBoostSyncStatus();
+  const defs = [
+    { key: "grinx", name: "Grinx's Hammer", effect: "-50% Resources" },
+    { key: "vip", name: "VIP Access", effect: "-20% Coins, -10% Time" },
+    { key: "monument", name: "Ascension Monument", effect: "-20% Time" }
+  ];
+  row.innerHTML = defs.map(b => {
+    const synced = status && status[b.key];
+    return `
+    <div class="es-boost-chip${esState.boosts[b.key] ? " active" : ""}" data-es-boost="${b.key}">
+      <div class="es-boost-chip-icon"><img src="${ES_BOOST_ICONS[b.key]}" alt="${escapeHtml(b.name)}"></div>
+      <div class="es-boost-chip-text">
+        <div class="es-boost-chip-name">${escapeHtml(b.name)}</div>
+        <div class="es-boost-chip-effect">${b.effect}</div>
+        ${synced ? "<div class=\"es-boost-chip-synced\">🔄 Synced from farm</div>" : ""}
+      </div>
+    </div>`;
+  }).join("");
+  row.querySelectorAll("[data-es-boost]").forEach(el => {
+    el.onclick = () => {
+      const key = el.getAttribute("data-es-boost");
+      esState.boosts[key] = !esState.boosts[key];
+      esRenderAll();
+    };
+  });
+}
+
+function esRenderModeToggle() {
+  const collectBtn = $("esModeCollectBtn");
+  const buyBtn = $("esModeBuyBtn");
+  if (!collectBtn || !buyBtn) return;
+  collectBtn.innerHTML = getIcon("Axe") + " Collect";
+  buyBtn.innerHTML = FLOWER_ICON + " Buy";
+  collectBtn.classList.toggle("active", esState.costMode === "collect");
+  buyBtn.classList.toggle("active", esState.costMode === "buy");
+}
+
+function esComputeFlowerSubtotal(resources, coins) {
+  const cpf = (typeof coinPerFlower === "number" && coinPerFlower > 0) ? coinPerFlower : 1;
+  let total = (coins || 0) / cpf;
+  Object.keys(resources || {}).forEach(k => {
+    if (resources[k] > 0) total += esResourceFlowerCost(k, resources[k]);
+  });
+  return total;
+}
+
+function esComputeMissingFlowerSubtotal(resources, coins) {
+  const missing = esMissingRowsData(resources, coins);
+  const cpf = (typeof coinPerFlower === "number" && coinPerFlower > 0) ? coinPerFlower : 1;
+  let total = (missing.coinsMissing || 0) / cpf;
+  missing.rows.forEach(r => { total += esResourceFlowerCost(r.name, r.qty); });
+  return total;
+}
+
+function esSubtotalRowHtml(resources, coins, useMissing) {
+  const total = useMissing ? esComputeMissingFlowerSubtotal(resources, coins) : esComputeFlowerSubtotal(resources, coins);
+  const label = useMissing ? "Missing Subtotal (incl. Coins \u2192 Flower)" : "Subtotal (incl. Coins \u2192 Flower)";
+  return "<div class=\"es-cost-total-row\"><div class=\"es-cost-total-label\">" + label + "</div><div class=\"es-cost-total-value\">" + fmt(total) + " " + FLOWER_ICON + "</div></div>";
+}
+
+function esRenderShardsCard() {
+  const el = $("esShardsCard");
+  if (!el) return;
+  const target = esState.target;
+  const nodes = esGetNodesAt(target.island, target.level);
+  const crystalCount = nodes["Ascension Crystal"] || 0;
+  const shardCount = crystalCount * ASCENSION_SHARDS_PER_CRYSTAL;
+  el.innerHTML = "<div class=\"es-shards-title\">Total Shards Accumulated</div>" +
+    "<div class=\"es-shards-grid\">" +
+      "<div class=\"es-shards-item\">" + esGetIconHtml("Ascension Crystal") + "<span class=\"es-shards-item-name\">Crystal Rock</span><span class=\"es-shards-item-count\">" + fmt(crystalCount) + "</span></div>" +
+      "<div class=\"es-shards-item\">" + esGetIconHtml("Ascension Shard") + "<span class=\"es-shards-item-name\">Shards</span><span class=\"es-shards-item-count\">" + fmt(shardCount) + "</span></div>" +
+    "</div>" +
+    "<div class=\"es-shards-ratio\">" + esGetIconHtml("Ascension Crystal") + "<span>1</span><span class=\"es-shards-ratio-eq\">=</span>" + esGetIconHtml("Ascension Shard") + "<span>" + ASCENSION_SHARDS_PER_CRYSTAL + "</span></div>";
+}
+
+function esRenderTotalResources() {
+  const el = $("esTotalResources");
+  if (!el) return;
+  const target = esState.target;
+  const nodes = esGetNodesAt(target.island, target.level);
+  const rows = ES_NODE_ORDER.filter(k => (nodes[k] || 0) > 0);
+  if (!rows.length) {
+    el.innerHTML = "<div class=\"es-total-resources-title\">Total Resources Accumulated \u2014 Basic Island \u2192 " + escapeHtml(ES_ISLAND_LABEL[target.island]) + "</div><div class=\"es-selected-req-empty\">No resource nodes yet.</div>";
+    return;
+  }
+  el.innerHTML = "<div class=\"es-total-resources-title\">Total Resources Accumulated \u2014 Basic Island \u2192 " + escapeHtml(ES_ISLAND_LABEL[target.island]) + "</div>" +
+    "<div class=\"es-total-resources-grid\">" + rows.map(k =>
+      "<div class=\"es-total-resources-item\">" + esGetIconHtml(k) + "<span class=\"es-total-resources-name\">" + escapeHtml(k) + "</span><span class=\"es-total-resources-count\">" + fmt(nodes[k]) + "</span></div>"
+    ).join("") + "</div>";
+}
+
+function esGetIslandUpgradeCost(toIsland) {
+  return ES_ISLAND_UPGRADE_COST[toIsland] || null;
+}
+
+function esFormatBumpkinLevel(bumpkinLevel) {
+  if (!bumpkinLevel) return "";
+  if (bumpkinLevel.ascension > 0) return "Ascension " + bumpkinLevel.ascension + " \u00B7 Level " + bumpkinLevel.level;
+  return "Level " + bumpkinLevel.level;
+}
+
+function esRenderAscensionUpgrade() {
+  const el = $("esAscensionUpgrade");
+  if (!el) return;
+  const start = esState.start, target = esState.target;
+  const startIdx = ES_ISLAND_ORDER.indexOf(start.island);
+  const targetIdx = ES_ISLAND_ORDER.indexOf(target.island);
+  if (startIdx < 0 || targetIdx <= startIdx) {
+    el.innerHTML = "<div class=\"es-ascension-title\">One-Time Upgrade Cost</div><div class=\"es-selected-req-empty\">No island upgrade needed \u2014 Start and Target are on the same island, or Target isn't past Start.</div>";
+    return;
+  }
+  const transitions = [];
+  for (let i = startIdx + 1; i <= targetIdx; i++) {
+    const fromIsland = ES_ISLAND_ORDER[i - 1];
+    const toIsland = ES_ISLAND_ORDER[i];
+    const req = esGetIslandUpgradeCost(toIsland);
+    if (req) transitions.push({ fromIsland, toIsland, req });
+  }
+  if (!transitions.length) {
+    el.innerHTML = "<div class=\"es-ascension-title\">One-Time Upgrade Cost</div><div class=\"es-selected-req-empty\">No upgrade cost data for this range.</div>";
+    return;
+  }
+  el.innerHTML = "<div class=\"es-ascension-title\">One-Time Upgrade Cost</div>" +
+    transitions.map(t => {
+      const boosted = { resources: t.req.resources || {}, coins: t.req.coins || 0, seconds: t.req.seconds || 0 };
+      const resKeys = Object.keys(boosted.resources).filter(k => boosted.resources[k] > 0);
+      const rows = resKeys.map(k => esMaterialRowHtml(k, boosted.resources[k])).join("");
+      const coinRow = boosted.coins > 0 ? "<div class=\"es-cost-row\"><div class=\"es-cost-row-name\">" + esGetIconHtml("Coins") + "<span>Coins</span></div><div class=\"es-cost-row-val\">" + fmt(boosted.coins) + "</div></div>" : "";
+      const bumpkinRow = t.req.bumpkinLevel ? "<div class=\"es-cost-row\"><div class=\"es-cost-row-name\"><span>\uD83E\uDDD1\u200D\uD83C\uDF3E Bumpkin Level</span></div><div class=\"es-cost-row-val\">" + esFormatBumpkinLevel(t.req.bumpkinLevel) + "</div></div>" : "";
+      return "<details class=\"es-ascension-item\">" +
+        "<summary>" + escapeHtml(ES_ISLAND_LABEL[t.fromIsland]) + " \u2192 " + escapeHtml(ES_ISLAND_LABEL[t.toIsland]) + "</summary>" +
+        "<div class=\"es-ascension-item-body\">" + rows + coinRow + bumpkinRow + esSubtotalRowHtml(boosted.resources, boosted.coins) + "</div>" +
+        "</details>";
+    }).join("");
+}
+
+function esRenderBumpkinLevel() {
+  const el = $("esBumpkinLevel");
+  if (!el) return;
+  const target = esState.target;
+  const req = esGetRequirementsAt(target.island, target.level);
+  if (!req || !req.bumpkinLevel) {
+    el.innerHTML = "<div class=\"es-bumpkin-title\">Bumpkin Level Requirement</div><div class=\"es-selected-req-empty\">No Bumpkin Level requirement for " + escapeHtml(ES_ISLAND_LABEL[target.island]) + " #" + target.level + ".</div>";
+    return;
+  }
+  el.innerHTML = "<div class=\"es-bumpkin-title\">Bumpkin Level Requirement</div>" +
+    "<div class=\"es-bumpkin-row\"><span class=\"es-bumpkin-req-text\">Required Bumpkin Level for " + escapeHtml(ES_ISLAND_LABEL[target.island]) + " Expansion #" + target.level + "</span><span class=\"es-bumpkin-level-value\">" + esFormatBumpkinLevel(req.bumpkinLevel) + "</span></div>";
+}
+
+function esRenderIslandTabs(which) {
+  const wrap = $(which === "start" ? "esStartIslandTabs" : "esTargetIslandTabs");
+  if (!wrap) return;
+  wrap.innerHTML = ES_ISLAND_ORDER.map(isl => `
+    <div class="es-island-tab${esState[which].island === isl ? " active" : ""}" data-es-island="${isl}">
+      <img src="${esIslandIcon(isl)}" alt="">
+      <span>${ES_ISLAND_LABEL[isl]}</span>
+    </div>`).join("");
+  wrap.querySelectorAll("[data-es-island]").forEach(el => {
+    el.onclick = () => {
+      const isl = el.getAttribute("data-es-island");
+      esState[which].island = isl;
+      esState[which].level = ES_ISLAND_MIN[isl];
+      esRenderAll();
+    };
+  });
+}
+
+function esRenderStepper(which) {
+  const el = $(which === "start" ? "esStartValue" : "esTargetValue");
+  if (el) el.textContent = esState[which].level;
+  const label = $(which === "start" ? "esStartLabel" : "esTargetLabel");
+  if (label) label.textContent = ES_ISLAND_LABEL[esState[which].island];
+}
+
+function esRenderGrid(which) {
+  const grid = $(which === "start" ? "esStartGrid" : "esTargetGrid");
+  const wrap = $(which === "start" ? "esStartGridWrap" : "esTargetGridWrap");
+  if (!grid || !wrap) return;
+  const s = esState[which];
+  const max = ES_ISLAND_MAX[s.island];
+  const min = ES_ISLAND_MIN[s.island];
+  const spiral = esGetSpiral(max);
+  grid.style.gridTemplateColumns = "repeat(" + spiral.numCols + ", minmax(0, 1fr))";
+  grid.style.gridTemplateRows = "repeat(" + spiral.numRows + ", minmax(0, 1fr))";
+  const bgImage = ES_ISLAND_BG_IMAGE[s.island];
+  const colors = ES_BIOME_COLORS[s.island] || ["#5c7a3e", "#33461f"];
+  wrap.style.background = bgImage
+    ? "top / 100% auto no-repeat url('" + bgImage + "'), linear-gradient(160deg, " + colors[0] + ", " + colors[1] + ")"
+    : "linear-gradient(160deg, " + colors[0] + ", " + colors[1] + ")";
+  let html = "";
+  spiral.cells.forEach(cell => {
+    const lvl = cell.num;
+    const owned = lvl <= min - 1;
+    const revealed = owned || lvl <= s.level;
+    const nodesHere = esGetNodesAt(s.island, lvl);
+    const nodesPrev = esGetNodesAt(s.island, lvl - 1);
+    const deltas = [];
+    ES_NODE_ORDER.forEach(k => {
+      const diff = (nodesHere[k] || 0) - (nodesPrev[k] || 0);
+      if (diff > 0) deltas.push(k);
+    });
+    const isSelected = lvl === s.level;
+    const clickable = lvl >= min;
+    html += "<div class=\"es-tile" + (revealed ? " revealed" : " covered") + (isSelected ? " selected" : "") + (clickable ? " clickable" : "") + "\" style=\"grid-row:" + cell.gridRow + ";grid-column:" + cell.gridCol + ";\" data-es-level=\"" + lvl + "\">" +
+      "<div class=\"es-tile-overlay\"></div>" +
+      "<div class=\"es-tile-num\">" + lvl + "</div>" +
+      "<div class=\"es-tile-icons\">" + deltas.map(d => "<span class=\"es-tile-icon-item\">" + esGetIconHtml(d) + "<b class=\"es-tile-icon-qty\">+" + ((nodesHere[d] || 0) - (nodesPrev[d] || 0)) + "</b></span>").join("") + "</div>" +
+      (isSelected ? "<div class=\"es-tile-badge\">" + (which === "start" ? "S" : "T") + "</div>" : "") +
+      "</div>";
+  });
+  grid.innerHTML = html;
+  grid.querySelectorAll("[data-es-level]").forEach(el => {
+    el.onclick = () => {
+      if (!el.classList.contains("clickable")) return;
+      const lvl = Number(el.getAttribute("data-es-level"));
+      esState[which].level = lvl;
+      esRenderAll();
+    };
+  });
+}
+
+function esResourceFlowerCost(name, qty) {
+  if (!qty || qty <= 0) return 0;
+  const cpf = (typeof coinPerFlower === "number" && coinPerFlower > 0) ? coinPerFlower : 1;
+  if (name === "Oil") {
+    const coins = typeof getItemCostByName === "function" ? (getItemCostByName("Oil") || 0) : 0;
+    return (coins / cpf) * qty;
+  }
+  if (name === "Gem" || name === "Coins") return 0;
+  if (esState.costMode === "buy") {
+    const price = typeof farmPanelGetMarketPriceFlower === "function" ? (farmPanelGetMarketPriceFlower(name) || 0) : 0;
+    return price * qty;
+  }
+  const coinsEach = typeof getItemCostByName === "function" ? (getItemCostByName(name) || 0) : 0;
+  if (coinsEach > 0) return (coinsEach / cpf) * qty;
+  const marketPrice = typeof farmPanelGetMarketPriceFlower === "function" ? (farmPanelGetMarketPriceFlower(name) || 0) : 0;
+  return marketPrice * qty;
+}
+
+function esMaterialRowHtml(name, qty, showOwned) {
+  const flowerCost = esResourceFlowerCost(name, qty);
+  const costLabel = name === "Oil" ? "Coin cost" : (esState.costMode === "buy" ? "Buy" : "Collect");
+  const valueText = showOwned ? (fmt(esGetOwnedQty(name)) + "/" + fmt(qty)) : fmt(qty);
+  return "<div class=\"es-cost-row\"><div class=\"es-cost-row-name\">" + esGetIconHtml(name) + "<span>" + escapeHtml(name) + "</span></div><div class=\"es-cost-row-val\">" + valueText +
+    (flowerCost > 0 && !showOwned ? "<small class=\"es-cost-row-sub\">" + costLabel + " \u00b7 " + fmt(flowerCost) + " " + FLOWER_ICON + "</small>" : "") + "</div></div>";
+}
+
+function esMissingSectionHtml(resources, coins) {
+  if (!esState.applyMissing) return "";
+  const missing = esMissingRowsData(resources, coins);
+  const rowsHtml = missing.rows.map(r => esMaterialRowHtml(r.name, r.qty, false)).join("");
+  const coinRowHtml = missing.coinsMissing > 0 ? "<div class=\"es-cost-row\"><div class=\"es-cost-row-name\">" + esGetIconHtml("Coins") + "<span>Coins</span></div><div class=\"es-cost-row-val\">" + fmt(missing.coinsMissing) + "</div></div>" : "";
+  const body = (rowsHtml || coinRowHtml) ? (rowsHtml + coinRowHtml) : "<div class=\"es-selected-req-empty\">Nothing missing \u2014 you have it all!</div>";
+  return "<div class=\"es-missing-section\"><div class=\"es-missing-title\">What's Missing!</div>" + body + "</div>";
+}
+
+function esRenderSelectedReq() {
+  const el = $("esSelectedReq");
+  if (!el) return;
+  const s = esState.target;
+  const req = esGetRequirementsAt(s.island, s.level);
+  if (!req) {
+    el.innerHTML = "<div class=\"es-selected-req-title\">Selected Expansion \u2014 " + escapeHtml(ES_ISLAND_LABEL[s.island]) + " #" + s.level + "</div><div class=\"es-selected-req-empty\">Already owned or no cost data for this tile.</div>";
+    return;
+  }
+  const boosted = esApplyBoosts(req.resources || {}, req.coins || 0, req.seconds || 0);
+  const resKeys = Object.keys(boosted.resources).filter(k => boosted.resources[k] > 0);
+  const rows = resKeys.map(k => esMaterialRowHtml(k, boosted.resources[k], esState.applyMissing)).join("");
+  const coinRow = boosted.coins > 0 ? "<div class=\"es-cost-row\"><div class=\"es-cost-row-name\">" + esGetIconHtml("Coins") + "<span>Coins</span></div><div class=\"es-cost-row-val\">" + (esState.applyMissing ? (fmt(esGetOwnedQty("Coins")) + "/" + fmt(boosted.coins)) : fmt(boosted.coins)) + "</div></div>" : "";
+  el.innerHTML = "<div class=\"es-selected-req-title\">Selected Expansion \u2014 " + escapeHtml(ES_ISLAND_LABEL[s.island]) + " #" + s.level + "</div>" +
+    "<div class=\"es-material-cost-subtitle\">Material Cost</div>" +
+    (resKeys.length || boosted.coins > 0 ? rows + coinRow : "<div class=\"es-selected-req-empty\">No resources required.</div>") +
+    esMissingSectionHtml(boosted.resources, boosted.coins) +
+    "<div class=\"es-cost-total-row\"><div class=\"es-cost-total-label\">Build Time</div><div class=\"es-cost-total-value\">" + esFormatSeconds(boosted.seconds) + "</div></div>" +
+    esSubtotalRowHtml(boosted.resources, boosted.coins, esState.applyMissing);
+}
+
+function esRenderNodesSummary() {
+  const el = $("esNodesSummary");
+  if (!el) return;
+  const start = esState.start, target = esState.target;
+  const startNodes = esGetNodesAt(start.island, start.level);
+  const targetNodes = esGetNodesAt(target.island, target.level);
+  const rows = [];
+  ES_NODE_ORDER.forEach(k => {
+    const diff = (targetNodes[k] || 0) - (startNodes[k] || 0);
+    if (diff > 0) rows.push({ name: k, diff, total: targetNodes[k] });
+  });
+  if (!rows.length) {
+    el.innerHTML = "<div class=\"es-nodes-summary-title\">Newly Added Resources</div><div class=\"es-nodes-summary-grid\"><div class=\"es-nodes-summary-item\"><span>No new nodes in this range.</span></div></div>";
+    return;
+  }
+  el.innerHTML = "<div class=\"es-nodes-summary-title\">Newly Added Resources</div><div class=\"es-nodes-summary-grid\">" + rows.map(r =>
+    "<div class=\"es-nodes-summary-item\">" + esGetIconHtml(r.name) + "<span>+" + r.diff + " <b>(" + r.total + ")</b></span></div>"
+  ).join("") + "</div>";
+}
+
+function esSumRequirements(island, fromLevel, toLevel) {
+  const totals = { resources: {}, coins: 0, seconds: 0 };
+  if (toLevel <= fromLevel) return totals;
+  for (let lvl = fromLevel + 1; lvl <= toLevel; lvl++) {
+    const req = esGetRequirementsAt(island, lvl);
+    if (!req) continue;
+    Object.keys(req.resources || {}).forEach(k => {
+      totals.resources[k] = (totals.resources[k] || 0) + req.resources[k];
+    });
+    totals.coins += req.coins || 0;
+    totals.seconds += req.seconds || 0;
+  }
+  return totals;
+}
+
+function esCalculateTotals() {
+  const start = esState.start, target = esState.target;
+  const startIdx = ES_ISLAND_ORDER.indexOf(start.island);
+  const targetIdx = ES_ISLAND_ORDER.indexOf(target.island);
+  let raw = { resources: {}, coins: 0, seconds: 0 };
+  let migration = { resources: {}, coins: 0 };
+  let crossNote = null;
+  if (start.island === target.island && target.level <= start.level) {
+    crossNote = "Target must be past Start on the same island for a total.";
+  } else if (targetIdx < startIdx) {
+    crossNote = "Target must be the same island as Start, or a later island in the progression.";
+  } else {
+    for (let i = startIdx; i <= targetIdx; i++) {
+      const island = ES_ISLAND_ORDER[i];
+      const fromLevel = i === startIdx ? start.level : ES_ISLAND_MIN[island] - 1;
+      const toLevel = i === targetIdx ? target.level : ES_ISLAND_MAX[island];
+      const leg = esSumRequirements(island, fromLevel, toLevel);
+      Object.keys(leg.resources).forEach(k => { raw.resources[k] = (raw.resources[k] || 0) + leg.resources[k]; });
+      raw.coins += leg.coins;
+      raw.seconds += leg.seconds;
+      if (i > startIdx) {
+        const upgradeReq = esGetIslandUpgradeCost(island);
+        if (upgradeReq) {
+          Object.keys(upgradeReq.resources || {}).forEach(k => { migration.resources[k] = (migration.resources[k] || 0) + upgradeReq.resources[k]; });
+          migration.coins += upgradeReq.coins || 0;
+        }
+      }
+    }
+  }
+  return { raw, migration, crossNote };
+}
+
+function esRenderTotals() {
+  const el = $("esTotalsSummary");
+  const flowerEl = $("esFlowerTotal");
+  if (!el) return;
+  const result = esCalculateTotals();
+  if (result.crossNote) {
+    el.innerHTML = "<div class=\"es-totals-title\">Total Materials \u2014 Start \u2192 Target</div><div class=\"es-selected-req-empty\">" + escapeHtml(result.crossNote) + "</div>";
+    if (flowerEl) flowerEl.innerHTML = "0 " + FLOWER_ICON;
+    return;
+  }
+  const boosted = esApplyBoosts(result.raw.resources, result.raw.coins, result.raw.seconds);
+  Object.keys(result.migration.resources).forEach(k => { boosted.resources[k] = (boosted.resources[k] || 0) + result.migration.resources[k]; });
+  boosted.coins += result.migration.coins;
+  const resKeys = Object.keys(boosted.resources).filter(k => boosted.resources[k] > 0);
+  const rows = resKeys.map(k => esMaterialRowHtml(k, boosted.resources[k], esState.applyMissing)).join("");
+  const coinRow = boosted.coins > 0 ? "<div class=\"es-cost-row\"><div class=\"es-cost-row-name\">" + esGetIconHtml("Coins") + "<span>Coins</span></div><div class=\"es-cost-row-val\">" + (esState.applyMissing ? (fmt(esGetOwnedQty("Coins")) + "/" + fmt(boosted.coins)) : fmt(boosted.coins)) + "</div></div>" : "";
+  const flowerTotal = esState.applyMissing ? esComputeMissingFlowerSubtotal(boosted.resources, boosted.coins) : esComputeFlowerSubtotal(boosted.resources, boosted.coins);
+  el.innerHTML = "<div class=\"es-totals-title\">Total Materials \u2014 Start \u2192 Target</div>" +
+    "<div class=\"es-material-cost-subtitle\">Material Cost</div>" +
+    (resKeys.length || boosted.coins > 0 ? rows + coinRow : "<div class=\"es-selected-req-empty\">No resources required.</div>") +
+    esMissingSectionHtml(boosted.resources, boosted.coins) +
+    "<div class=\"es-cost-total-row\"><div class=\"es-cost-total-label\">Total Build Time</div><div class=\"es-cost-total-value\">" + esFormatSeconds(boosted.seconds) + "</div></div>" +
+    esSubtotalRowHtml(boosted.resources, boosted.coins, esState.applyMissing);
+  if (flowerEl) flowerEl.innerHTML = fmt(flowerTotal) + " " + FLOWER_ICON;
+}
+
+function esSyncFromFarm() {
+  if (!farmPanelGameState) {
+    toast("\u26a0\ufe0f Sync your farm first from the main Sync menu.");
+    return;
+  }
+  const g = farmSyncExtractGameState(farmPanelGameState);
+  const islandType = g && g.island && typeof g.island.type === "string" ? g.island.type : null;
+  const ascensionLevel = Number(g && g.island && g.island.ascensionLevel) || 0;
+  const basicLandRaw = g && g.inventory ? g.inventory["Basic Land"] : undefined;
+  const basicLand = typeof basicLandRaw === "string" ? parseFloat(basicLandRaw) : Number(basicLandRaw);
+  if (!islandType || !Number.isFinite(basicLand)) {
+    toast("\u26a0\ufe0f Couldn't read island data from your synced farm.");
+    return;
+  }
+  let matchedIsland = null;
+  if (ascensionLevel > 0) {
+    matchedIsland = ES_ISLAND_ORDER.find(isl => ES_ASCENSION_LEVEL[isl] === ascensionLevel);
+  } else {
+    matchedIsland = ES_ISLAND_ORDER.find(isl => isl === islandType);
+  }
+  if (!matchedIsland) {
+    toast("\u26a0\ufe0f Couldn't match your island to the simulator.");
+    return;
+  }
+  let level = ascensionLevel > 0 ? Math.max(31, basicLand) : basicLand;
+  level = Math.max(ES_ISLAND_MIN[matchedIsland], Math.min(ES_ISLAND_MAX[matchedIsland], level));
+  esState.start.island = matchedIsland;
+  esState.start.level = level;
+  esState.target.island = matchedIsland;
+  esState.target.level = Math.min(level + 1, ES_ISLAND_MAX[matchedIsland]);
+  esSyncAutoBoostsFromFarm();
+  esRenderAll();
+  toast("\u2705 Synced to " + ES_ISLAND_LABEL[matchedIsland] + " #" + level);
+}
+
+function esRenderAll() {
+  esClampSection("start");
+  esClampSection("target");
+  esRenderBoosts();
+  esRenderModeToggle();
+  esRenderMissingToggle();
+  esRenderIslandTabs("start");
+  esRenderIslandTabs("target");
+  esRenderStepper("start");
+  esRenderStepper("target");
+  esRenderGrid("start");
+  esRenderGrid("target");
+  esRenderShardsCard();
+  esRenderAscensionUpgrade();
+  esRenderBumpkinLevel();
+  esRenderSelectedReq();
+  esRenderNodesSummary();
+  esRenderTotalResources();
+  esRenderTotals();
+}
+
+function openExpansionSim() {
+  $("expansionSimTitleIcon").src = esIslandIcon(esState.start.island);
+  esSyncAutoBoostsFromFarm();
+  esRenderAll();
+  $("expansionSimOverlay").classList.add("show");
+}
+function closeExpansionSim() {
+  $("expansionSimOverlay").classList.remove("show");
+}
+$("expansionSimCloseBtn").onclick = closeExpansionSim;
+$("expansionSimOverlay").addEventListener("click", e => {
+  if (e.target.id === "expansionSimOverlay") closeExpansionSim();
+});
+$("esStartMinus").onclick = () => { esState.start.level--; esRenderAll(); };
+$("esStartPlus").onclick = () => { esState.start.level++; esRenderAll(); };
+$("esTargetMinus").onclick = () => { esState.target.level--; esRenderAll(); };
+$("esTargetPlus").onclick = () => { esState.target.level++; esRenderAll(); };
+$("esModeCollectBtn").onclick = () => { esState.costMode = "collect"; esRenderAll(); };
+$("esModeBuyBtn").onclick = () => { esState.costMode = "buy"; esRenderAll(); };
+$("esMissingToggleBtn").onclick = () => { esState.applyMissing = !esState.applyMissing; esRenderAll(); };
+$("esSyncBtn").onclick = esSyncFromFarm;
+
+function openMoreMenu() {
+  $("moreMenuOverlay").classList.add("show");
+}
+function closeMoreMenu() {
+  $("moreMenuOverlay").classList.remove("show");
+}
+$("openMoreMenuBtn").onclick = openMoreMenu;
+$("moreMenuCloseBtn").onclick = closeMoreMenu;
+$("moreMenuOverlay").addEventListener("click", e => {
+  if (e.target.id === "moreMenuOverlay") closeMoreMenu();
+});
+$("moreMenuExpansionSimBtn").onclick = () => {
+  closeMoreMenu();
+  openExpansionSim();
+};
+if (typeof IMAGE_ICONS !== "undefined" && IMAGE_ICONS["Foreman Beaver"]) {
+  $("moreMenuBtnIcon").src = IMAGE_ICONS["Foreman Beaver"];
+}
+
+function openSettingsModal() {
+  if (typeof IMAGE_ICONS !== "undefined" && IMAGE_ICONS["Foreman Beaver"]) {
+    $("settingsModalTitleIcon").src = IMAGE_ICONS["Foreman Beaver"];
+  }
+  updateSettingsSummary();
+  $("settingsModalOverlay").classList.add("show");
+}
+function closeSettingsModal() {
+  $("settingsModalOverlay").classList.remove("show");
+}
+$("settingsModalCloseBtn").onclick = closeSettingsModal;
+$("settingsModalOverlay").addEventListener("click", e => {
+  if (e.target.id === "settingsModalOverlay") closeSettingsModal();
+});
+$("moreMenuSettingsBtn").onclick = () => {
+  closeMoreMenu();
+  openSettingsModal();
+};
+
 
 function renderGunterShop() {
   gunterRenderTop();
