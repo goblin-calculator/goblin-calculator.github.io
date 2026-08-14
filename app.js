@@ -21277,7 +21277,7 @@ function closeDisclaimer() {
   $("disclaimerOverlay").classList.remove("show");
 }
 
-$("openDisclaimerBtn").onclick = openDisclaimer;
+$("openDisclaimerBtn").onclick = () => { closeMoreMenu(); openDisclaimer(); };
 
 $("closeDisclaimer").onclick = closeDisclaimer;
 
@@ -21442,7 +21442,7 @@ function closeBettyShop() {
   $("bettyShopOverlay").classList.remove("show");
 }
 
-$("openBettyShopBtn").onclick = openBettyShop;
+$("openBettyShopBtn").onclick = () => { closeMoreMenu(); openBettyShop(); };
 
 $("bettyShopCloseBtn").onclick = closeBettyShop;
 
@@ -21679,7 +21679,7 @@ const BOOST_LABELS = {
   tier3: "Tier 3 Boost"
 };
 
-const BOUNTY_WEEKLY_BONUS = 50;
+const BOUNTY_WEEKLY_BONUS = 100;
 
 let ticketBoosts = safeParse(localStorage.getItem("hl_ticket_v2_boosts"), {});
 
@@ -22119,7 +22119,7 @@ function closeTicketCalc() {
   $("ticketCalcOverlay").classList.remove("show");
 }
 
-$("openTicketCalcBtn").onclick = openTicketCalc;
+$("openTicketCalcBtn").onclick = () => { closeMoreMenu(); openTicketCalc(); };
 
 $("ticketCalcCloseBtn").onclick = closeTicketCalc;
 
@@ -22459,12 +22459,14 @@ const ES_ISLAND_BG_IMAGE = {
   marble7: "./icons/marble_max.webp",
   marble8: "./icons/marble_max.webp",
   marble9: "./icons/marble_max.webp",
-  marble10: "./icons/marble_max.webp"
+  marble10: "./icons/marble_max.webp",
+  marbleX: "./icons/marble_max.webp"
 };
-const ES_ISLAND_ORDER = ["basic","spring","desert","volcano","swamp","spooky","crystal","galaxy","marble5","marble6","marble7","marble8","marble9","marble10"];
-const ES_ISLAND_LABEL = {basic:"Basic",spring:"Spring",desert:"Desert",volcano:"Volcano",swamp:"Swamp",spooky:"Spooky (A2)",crystal:"Crystal (A3)",galaxy:"Galaxy (A4)",marble5:"Marble Age (A5)",marble6:"Marble Age (A6)",marble7:"Marble Age (A7)",marble8:"Marble Age (A8)",marble9:"Marble Age (A9)",marble10:"Marble Age (A10)"};
-const ES_ISLAND_MAX = {basic:9,spring:16,desert:25,volcano:30,swamp:42,spooky:42,crystal:42,galaxy:42,marble5:42,marble6:42,marble7:42,marble8:42,marble9:42,marble10:42};
-const ES_ISLAND_MIN = {basic:4,spring:5,desert:5,volcano:6,swamp:31,spooky:31,crystal:31,galaxy:31,marble5:31,marble6:31,marble7:31,marble8:31,marble9:31,marble10:31};
+const ES_ISLAND_ORDER = ["basic","spring","desert","volcano","swamp","spooky","crystal","galaxy","marble5","marble6","marble7","marble8","marble9","marble10","marbleX"];
+const ES_ISLAND_LABEL = {basic:"Basic",spring:"Spring",desert:"Desert",volcano:"Volcano",swamp:"Swamp",spooky:"Spooky (A2)",crystal:"Crystal (A3)",galaxy:"Galaxy (A4)",marble5:"Marble Age (A5)",marble6:"Marble Age (A6)",marble7:"Marble Age (A7)",marble8:"Marble Age (A8)",marble9:"Marble Age (A9)",marble10:"Marble Age (A10)",marbleX:"Marble Age (A11+)"};
+const ES_ISLAND_MAX = {basic:9,spring:16,desert:25,volcano:30,swamp:42,spooky:42,crystal:42,galaxy:42,marble5:42,marble6:42,marble7:42,marble8:42,marble9:42,marble10:42,marbleX:42};
+const ES_ISLAND_MIN = {basic:4,spring:5,desert:5,volcano:6,swamp:31,spooky:31,crystal:31,galaxy:31,marble5:31,marble6:31,marble7:31,marble8:31,marble9:31,marble10:31,marbleX:31};
+const ES_CUSTOM_ASCENSION_MIN = 11;
 const ES_ISLAND_UPGRADE_COST = {"spring":{"resources":{"Gold":10},"coins":0,"seconds":0,"bumpkinLevel":null},"desert":{"resources":{"Crimstone":20},"coins":0,"seconds":0,"bumpkinLevel":null},"volcano":{"resources":{"Oil":200},"coins":0,"seconds":0,"bumpkinLevel":null},"swamp":{"resources":{"Crimstone":30,"Oil":50,"Obsidian":3},"coins":5000,"seconds":0,"bumpkinLevel":{"ascension":0,"level":150}},"spooky":{"resources":{"Crimstone":42,"Oil":70,"Obsidian":4},"coins":7000,"seconds":0,"bumpkinLevel":{"ascension":1,"level":50}},"crystal":{"resources":{"Crimstone":58,"Oil":98,"Obsidian":5},"coins":9800,"seconds":0,"bumpkinLevel":{"ascension":2,"level":50}},"galaxy":{"resources":{"Crimstone":82,"Oil":137,"Obsidian":8},"coins":13720,"seconds":0,"bumpkinLevel":{"ascension":3,"level":50}},"marble5":{"resources":{"Crimstone":115,"Oil":192,"Obsidian":11},"coins":19208,"seconds":0,"bumpkinLevel":{"ascension":4,"level":50}},"marble6":{"resources":{"Crimstone":161,"Oil":268,"Obsidian":16},"coins":26891,"seconds":0,"bumpkinLevel":{"ascension":5,"level":50}},"marble7":{"resources":{"Crimstone":225,"Oil":376,"Obsidian":22},"coins":37647,"seconds":0,"bumpkinLevel":{"ascension":6,"level":50}},"marble8":{"resources":{"Crimstone":316,"Oil":527,"Obsidian":31},"coins":52706,"seconds":0,"bumpkinLevel":{"ascension":7,"level":50}},"marble9":{"resources":{"Crimstone":442,"Oil":737,"Obsidian":44},"coins":73789,"seconds":0,"bumpkinLevel":{"ascension":8,"level":50}},"marble10":{"resources":{"Crimstone":619,"Oil":1033,"Obsidian":61},"coins":103305,"seconds":0,"bumpkinLevel":{"ascension":9,"level":50}}};
 const ES_ASCENSION_LEVEL = {swamp:1,spooky:2,crystal:3,galaxy:4,marble5:5,marble6:6,marble7:7,marble8:8,marble9:9,marble10:10};
 const ES_BIOME_COLORS = {
@@ -22472,12 +22474,115 @@ const ES_BIOME_COLORS = {
   volcano:["#3a4466","#5a6988"], swamp:["#43944e","#23543c"], spooky:["#89a975","#6c855c"],
   crystal:["#63d6c9","#33817c"], galaxy:["#5b569e","#423c7a"],
   marble5:["#ebe0cc","#c7b49b"], marble6:["#ebe0cc","#c7b49b"], marble7:["#ebe0cc","#c7b49b"],
-  marble8:["#ebe0cc","#c7b49b"], marble9:["#ebe0cc","#c7b49b"], marble10:["#ebe0cc","#c7b49b"]
+  marble8:["#ebe0cc","#c7b49b"], marble9:["#ebe0cc","#c7b49b"], marble10:["#ebe0cc","#c7b49b"], marbleX:["#ebe0cc","#c7b49b"]
 };
 const ASCENSION_SHARDS_PER_CRYSTAL = 3;
 const ES_NODE_ORDER = ["Crop Plot","Tree","Stone Rock","Iron Rock","Gold Rock","Crimstone Rock","Sunstone Rock","Fruit Patch","Flower Bed","Beehive","Oil Reserve","Lava Pit","Ascension Crystal"];
 const ES_ASCENSION_REQ = {"1":{"1":{"resources":{"Crimstone":10,"Oil":50,"Obsidian":2},"coins":5000,"seconds":25200,"bumpkinLevel":{"ascension":1,"level":1}},"2":{"resources":{"Crimstone":12,"Oil":65,"Obsidian":3},"coins":8100,"seconds":50400,"bumpkinLevel":{"ascension":1,"level":4}},"3":{"resources":{"Crimstone":14,"Oil":88,"Obsidian":4},"coins":12640,"seconds":75600,"bumpkinLevel":{"ascension":1,"level":8}},"4":{"resources":{"Crimstone":17,"Oil":115,"Obsidian":5},"coins":17930,"seconds":100800,"bumpkinLevel":{"ascension":1,"level":12}},"5":{"resources":{"Crimstone":21,"Oil":144,"Obsidian":7},"coins":23800,"seconds":126000,"bumpkinLevel":{"ascension":1,"level":16}},"6":{"resources":{"Crimstone":24,"Oil":176,"Obsidian":8},"coins":30120,"seconds":151200,"bumpkinLevel":{"ascension":1,"level":20}},"7":{"resources":{"Crimstone":28,"Oil":209,"Obsidian":10},"coins":36840,"seconds":176400,"bumpkinLevel":{"ascension":1,"level":24}},"8":{"resources":{"Crimstone":32,"Oil":244,"Obsidian":12},"coins":43900,"seconds":201600,"bumpkinLevel":{"ascension":1,"level":28}},"9":{"resources":{"Crimstone":36,"Oil":281,"Obsidian":14},"coins":51280,"seconds":226800,"bumpkinLevel":{"ascension":1,"level":32}},"10":{"resources":{"Crimstone":41,"Oil":320,"Obsidian":16},"coins":58930,"seconds":252000,"bumpkinLevel":{"ascension":1,"level":36}},"11":{"resources":{"Crimstone":45,"Oil":359,"Obsidian":18},"coins":66850,"seconds":277200,"bumpkinLevel":{"ascension":1,"level":40}},"12":{"resources":{"Crimstone":50,"Oil":400,"Obsidian":20},"coins":75000,"seconds":302400,"bumpkinLevel":{"ascension":1,"level":45}}},"2":{"1":{"resources":{"Crimstone":13,"Oil":65,"Obsidian":3},"coins":6500,"seconds":25200,"bumpkinLevel":{"ascension":2,"level":1}},"2":{"resources":{"Crimstone":15,"Oil":85,"Obsidian":4},"coins":10530,"seconds":50400,"bumpkinLevel":{"ascension":2,"level":4}},"3":{"resources":{"Crimstone":19,"Oil":115,"Obsidian":5},"coins":16430,"seconds":75600,"bumpkinLevel":{"ascension":2,"level":8}},"4":{"resources":{"Crimstone":23,"Oil":149,"Obsidian":7},"coins":23310,"seconds":100800,"bumpkinLevel":{"ascension":2,"level":12}},"5":{"resources":{"Crimstone":27,"Oil":187,"Obsidian":9},"coins":30930,"seconds":126000,"bumpkinLevel":{"ascension":2,"level":16}},"6":{"resources":{"Crimstone":32,"Oil":228,"Obsidian":11},"coins":39160,"seconds":151200,"bumpkinLevel":{"ascension":2,"level":20}},"7":{"resources":{"Crimstone":37,"Oil":272,"Obsidian":13},"coins":47890,"seconds":176400,"bumpkinLevel":{"ascension":2,"level":24}},"8":{"resources":{"Crimstone":42,"Oil":318,"Obsidian":16},"coins":57070,"seconds":201600,"bumpkinLevel":{"ascension":2,"level":28}},"9":{"resources":{"Crimstone":47,"Oil":366,"Obsidian":18},"coins":66660,"seconds":226800,"bumpkinLevel":{"ascension":2,"level":32}},"10":{"resources":{"Crimstone":53,"Oil":416,"Obsidian":21},"coins":76610,"seconds":252000,"bumpkinLevel":{"ascension":2,"level":36}},"11":{"resources":{"Crimstone":59,"Oil":467,"Obsidian":23},"coins":86900,"seconds":277200,"bumpkinLevel":{"ascension":2,"level":40}},"12":{"resources":{"Crimstone":65,"Oil":520,"Obsidian":26},"coins":97500,"seconds":302400,"bumpkinLevel":{"ascension":2,"level":45}}},"3":{"1":{"resources":{"Crimstone":17,"Oil":85,"Obsidian":3},"coins":8450,"seconds":25200,"bumpkinLevel":{"ascension":3,"level":1}},"2":{"resources":{"Crimstone":20,"Oil":111,"Obsidian":5},"coins":13690,"seconds":50400,"bumpkinLevel":{"ascension":3,"level":4}},"3":{"resources":{"Crimstone":24,"Oil":149,"Obsidian":7},"coins":21350,"seconds":75600,"bumpkinLevel":{"ascension":3,"level":8}},"4":{"resources":{"Crimstone":29,"Oil":194,"Obsidian":9},"coins":30300,"seconds":100800,"bumpkinLevel":{"ascension":3,"level":12}},"5":{"resources":{"Crimstone":35,"Oil":243,"Obsidian":12},"coins":40210,"seconds":126000,"bumpkinLevel":{"ascension":3,"level":16}},"6":{"resources":{"Crimstone":41,"Oil":297,"Obsidian":14},"coins":50900,"seconds":151200,"bumpkinLevel":{"ascension":3,"level":20}},"7":{"resources":{"Crimstone":48,"Oil":353,"Obsidian":17},"coins":62250,"seconds":176400,"bumpkinLevel":{"ascension":3,"level":24}},"8":{"resources":{"Crimstone":54,"Oil":413,"Obsidian":20},"coins":74190,"seconds":201600,"bumpkinLevel":{"ascension":3,"level":28}},"9":{"resources":{"Crimstone":62,"Oil":475,"Obsidian":23},"coins":86650,"seconds":226800,"bumpkinLevel":{"ascension":3,"level":32}},"10":{"resources":{"Crimstone":69,"Oil":540,"Obsidian":27},"coins":99590,"seconds":252000,"bumpkinLevel":{"ascension":3,"level":36}},"11":{"resources":{"Crimstone":77,"Oil":607,"Obsidian":30},"coins":112970,"seconds":277200,"bumpkinLevel":{"ascension":3,"level":40}},"12":{"resources":{"Crimstone":85,"Oil":676,"Obsidian":34},"coins":126750,"seconds":302400,"bumpkinLevel":{"ascension":3,"level":45}}},"4":{"1":{"resources":{"Crimstone":22,"Oil":110,"Obsidian":4},"coins":10990,"seconds":25200,"bumpkinLevel":{"ascension":4,"level":1}},"2":{"resources":{"Crimstone":26,"Oil":144,"Obsidian":6},"coins":17800,"seconds":50400,"bumpkinLevel":{"ascension":4,"level":4}},"3":{"resources":{"Crimstone":32,"Oil":194,"Obsidian":9},"coins":27760,"seconds":75600,"bumpkinLevel":{"ascension":4,"level":8}},"4":{"resources":{"Crimstone":38,"Oil":252,"Obsidian":12},"coins":39390,"seconds":100800,"bumpkinLevel":{"ascension":4,"level":12}},"5":{"resources":{"Crimstone":46,"Oil":316,"Obsidian":15},"coins":52280,"seconds":126000,"bumpkinLevel":{"ascension":4,"level":16}},"6":{"resources":{"Crimstone":54,"Oil":386,"Obsidian":19},"coins":66170,"seconds":151200,"bumpkinLevel":{"ascension":4,"level":20}},"7":{"resources":{"Crimstone":62,"Oil":460,"Obsidian":22},"coins":80930,"seconds":176400,"bumpkinLevel":{"ascension":4,"level":24}},"8":{"resources":{"Crimstone":71,"Oil":537,"Obsidian":26},"coins":96450,"seconds":201600,"bumpkinLevel":{"ascension":4,"level":28}},"9":{"resources":{"Crimstone":80,"Oil":618,"Obsidian":31},"coins":112650,"seconds":226800,"bumpkinLevel":{"ascension":4,"level":32}},"10":{"resources":{"Crimstone":90,"Oil":702,"Obsidian":35},"coins":129470,"seconds":252000,"bumpkinLevel":{"ascension":4,"level":36}},"11":{"resources":{"Crimstone":100,"Oil":789,"Obsidian":39},"coins":146860,"seconds":277200,"bumpkinLevel":{"ascension":4,"level":40}},"12":{"resources":{"Crimstone":110,"Oil":879,"Obsidian":44},"coins":164780,"seconds":302400,"bumpkinLevel":{"ascension":4,"level":45}}},"5":{"1":{"resources":{"Crimstone":29,"Oil":143,"Obsidian":6},"coins":14290,"seconds":25200,"bumpkinLevel":{"ascension":5,"level":1}},"2":{"resources":{"Crimstone":34,"Oil":187,"Obsidian":8},"coins":23140,"seconds":50400,"bumpkinLevel":{"ascension":5,"level":4}},"3":{"resources":{"Crimstone":41,"Oil":252,"Obsidian":11},"coins":36080,"seconds":75600,"bumpkinLevel":{"ascension":5,"level":8}},"4":{"resources":{"Crimstone":50,"Oil":327,"Obsidian":15},"coins":51210,"seconds":100800,"bumpkinLevel":{"ascension":5,"level":12}},"5":{"resources":{"Crimstone":59,"Oil":411,"Obsidian":20},"coins":67960,"seconds":126000,"bumpkinLevel":{"ascension":5,"level":16}},"6":{"resources":{"Crimstone":70,"Oil":501,"Obsidian":24},"coins":86020,"seconds":151200,"bumpkinLevel":{"ascension":5,"level":20}},"7":{"resources":{"Crimstone":81,"Oil":597,"Obsidian":29},"coins":105210,"seconds":176400,"bumpkinLevel":{"ascension":5,"level":24}},"8":{"resources":{"Crimstone":92,"Oil":698,"Obsidian":34},"coins":125380,"seconds":201600,"bumpkinLevel":{"ascension":5,"level":28}},"9":{"resources":{"Crimstone":104,"Oil":804,"Obsidian":40},"coins":146440,"seconds":226800,"bumpkinLevel":{"ascension":5,"level":32}},"10":{"resources":{"Crimstone":117,"Oil":913,"Obsidian":45},"coins":168310,"seconds":252000,"bumpkinLevel":{"ascension":5,"level":36}},"11":{"resources":{"Crimstone":129,"Oil":1026,"Obsidian":51},"coins":190910,"seconds":277200,"bumpkinLevel":{"ascension":5,"level":40}},"12":{"resources":{"Crimstone":143,"Oil":1142,"Obsidian":57},"coins":214210,"seconds":302400,"bumpkinLevel":{"ascension":5,"level":45}}},"6":{"1":{"resources":{"Crimstone":37,"Oil":186,"Obsidian":7},"coins":18570,"seconds":25200,"bumpkinLevel":{"ascension":6,"level":1}},"2":{"resources":{"Crimstone":44,"Oil":243,"Obsidian":10},"coins":30080,"seconds":50400,"bumpkinLevel":{"ascension":6,"level":4}},"3":{"resources":{"Crimstone":53,"Oil":327,"Obsidian":15},"coins":46910,"seconds":75600,"bumpkinLevel":{"ascension":6,"level":8}},"4":{"resources":{"Crimstone":65,"Oil":426,"Obsidian":20},"coins":66570,"seconds":100800,"bumpkinLevel":{"ascension":6,"level":12}},"5":{"resources":{"Crimstone":77,"Oil":535,"Obsidian":25},"coins":88340,"seconds":126000,"bumpkinLevel":{"ascension":6,"level":16}},"6":{"resources":{"Crimstone":90,"Oil":652,"Obsidian":31},"coins":111820,"seconds":151200,"bumpkinLevel":{"ascension":6,"level":20}},"7":{"resources":{"Crimstone":105,"Oil":777,"Obsidian":38},"coins":136770,"seconds":176400,"bumpkinLevel":{"ascension":6,"level":24}},"8":{"resources":{"Crimstone":120,"Oil":908,"Obsidian":45},"coins":162990,"seconds":201600,"bumpkinLevel":{"ascension":6,"level":28}},"9":{"resources":{"Crimstone":135,"Oil":1045,"Obsidian":52},"coins":190370,"seconds":226800,"bumpkinLevel":{"ascension":6,"level":32}},"10":{"resources":{"Crimstone":152,"Oil":1187,"Obsidian":59},"coins":218800,"seconds":252000,"bumpkinLevel":{"ascension":6,"level":36}},"11":{"resources":{"Crimstone":168,"Oil":1334,"Obsidian":66},"coins":248190,"seconds":277200,"bumpkinLevel":{"ascension":6,"level":40}},"12":{"resources":{"Crimstone":186,"Oil":1485,"Obsidian":74},"coins":278470,"seconds":302400,"bumpkinLevel":{"ascension":6,"level":45}}},"7":{"1":{"resources":{"Crimstone":48,"Oil":241,"Obsidian":10},"coins":24140,"seconds":25200,"bumpkinLevel":{"ascension":7,"level":1}},"2":{"resources":{"Crimstone":57,"Oil":316,"Obsidian":14},"coins":39100,"seconds":50400,"bumpkinLevel":{"ascension":7,"level":4}},"3":{"resources":{"Crimstone":69,"Oil":426,"Obsidian":19},"coins":60980,"seconds":75600,"bumpkinLevel":{"ascension":7,"level":8}},"4":{"resources":{"Crimstone":84,"Oil":553,"Obsidian":26},"coins":86540,"seconds":100800,"bumpkinLevel":{"ascension":7,"level":12}},"5":{"resources":{"Crimstone":100,"Oil":695,"Obsidian":33},"coins":114840,"seconds":126000,"bumpkinLevel":{"ascension":7,"level":16}},"6":{"resources":{"Crimstone":118,"Oil":847,"Obsidian":41},"coins":145370,"seconds":151200,"bumpkinLevel":{"ascension":7,"level":20}},"7":{"resources":{"Crimstone":136,"Oil":1010,"Obsidian":49},"coins":177790,"seconds":176400,"bumpkinLevel":{"ascension":7,"level":24}},"8":{"resources":{"Crimstone":156,"Oil":1180,"Obsidian":58},"coins":211890,"seconds":201600,"bumpkinLevel":{"ascension":7,"level":28}},"9":{"resources":{"Crimstone":176,"Oil":1358,"Obsidian":67},"coins":247480,"seconds":226800,"bumpkinLevel":{"ascension":7,"level":32}},"10":{"resources":{"Crimstone":197,"Oil":1543,"Obsidian":77},"coins":284430,"seconds":252000,"bumpkinLevel":{"ascension":7,"level":36}},"11":{"resources":{"Crimstone":219,"Oil":1734,"Obsidian":86},"coins":322640,"seconds":277200,"bumpkinLevel":{"ascension":7,"level":40}},"12":{"resources":{"Crimstone":241,"Oil":1931,"Obsidian":97},"coins":362020,"seconds":302400,"bumpkinLevel":{"ascension":7,"level":45}}},"8":{"1":{"resources":{"Crimstone":63,"Oil":314,"Obsidian":13},"coins":31380,"seconds":25200,"bumpkinLevel":{"ascension":8,"level":1}},"2":{"resources":{"Crimstone":74,"Oil":411,"Obsidian":18},"coins":50830,"seconds":50400,"bumpkinLevel":{"ascension":8,"level":4}},"3":{"resources":{"Crimstone":90,"Oil":553,"Obsidian":25},"coins":79270,"seconds":75600,"bumpkinLevel":{"ascension":8,"level":8}},"4":{"resources":{"Crimstone":109,"Oil":719,"Obsidian":33},"coins":112500,"seconds":100800,"bumpkinLevel":{"ascension":8,"level":12}},"5":{"resources":{"Crimstone":130,"Oil":903,"Obsidian":43},"coins":149290,"seconds":126000,"bumpkinLevel":{"ascension":8,"level":16}},"6":{"resources":{"Crimstone":153,"Oil":1102,"Obsidian":53},"coins":188980,"seconds":151200,"bumpkinLevel":{"ascension":8,"level":20}},"7":{"resources":{"Crimstone":177,"Oil":1312,"Obsidian":64},"coins":231130,"seconds":176400,"bumpkinLevel":{"ascension":8,"level":24}},"8":{"resources":{"Crimstone":202,"Oil":1534,"Obsidian":75},"coins":275450,"seconds":201600,"bumpkinLevel":{"ascension":8,"level":28}},"9":{"resources":{"Crimstone":229,"Oil":1765,"Obsidian":87},"coins":321720,"seconds":226800,"bumpkinLevel":{"ascension":8,"level":32}},"10":{"resources":{"Crimstone":256,"Oil":2006,"Obsidian":100},"coins":369760,"seconds":252000,"bumpkinLevel":{"ascension":8,"level":36}},"11":{"resources":{"Crimstone":284,"Oil":2254,"Obsidian":112},"coins":419430,"seconds":277200,"bumpkinLevel":{"ascension":8,"level":40}},"12":{"resources":{"Crimstone":314,"Oil":2510,"Obsidian":125},"coins":470620,"seconds":302400,"bumpkinLevel":{"ascension":8,"level":45}}},"9":{"1":{"resources":{"Crimstone":82,"Oil":408,"Obsidian":16},"coins":40790,"seconds":25200,"bumpkinLevel":{"ascension":9,"level":1}},"2":{"resources":{"Crimstone":96,"Oil":534,"Obsidian":23},"coins":66070,"seconds":50400,"bumpkinLevel":{"ascension":9,"level":4}},"3":{"resources":{"Crimstone":117,"Oil":719,"Obsidian":32},"coins":103050,"seconds":75600,"bumpkinLevel":{"ascension":9,"level":8}},"4":{"resources":{"Crimstone":142,"Oil":935,"Obsidian":43},"coins":146250,"seconds":100800,"bumpkinLevel":{"ascension":9,"level":12}},"5":{"resources":{"Crimstone":169,"Oil":1174,"Obsidian":56},"coins":194080,"seconds":126000,"bumpkinLevel":{"ascension":9,"level":16}},"6":{"resources":{"Crimstone":199,"Oil":1432,"Obsidian":69},"coins":245670,"seconds":151200,"bumpkinLevel":{"ascension":9,"level":20}},"7":{"resources":{"Crimstone":230,"Oil":1706,"Obsidian":83},"coins":300470,"seconds":176400,"bumpkinLevel":{"ascension":9,"level":24}},"8":{"resources":{"Crimstone":263,"Oil":1994,"Obsidian":98},"coins":358090,"seconds":201600,"bumpkinLevel":{"ascension":9,"level":28}},"9":{"resources":{"Crimstone":297,"Oil":2295,"Obsidian":113},"coins":418230,"seconds":226800,"bumpkinLevel":{"ascension":9,"level":32}},"10":{"resources":{"Crimstone":333,"Oil":2607,"Obsidian":129},"coins":480690,"seconds":252000,"bumpkinLevel":{"ascension":9,"level":36}},"11":{"resources":{"Crimstone":370,"Oil":2930,"Obsidian":146},"coins":545260,"seconds":277200,"bumpkinLevel":{"ascension":9,"level":40}},"12":{"resources":{"Crimstone":408,"Oil":3263,"Obsidian":163},"coins":611800,"seconds":302400,"bumpkinLevel":{"ascension":9,"level":45}}},"10":{"1":{"resources":{"Crimstone":106,"Oil":530,"Obsidian":21},"coins":53030,"seconds":25200,"bumpkinLevel":{"ascension":10,"level":1}},"2":{"resources":{"Crimstone":125,"Oil":695,"Obsidian":30},"coins":85900,"seconds":50400,"bumpkinLevel":{"ascension":10,"level":4}},"3":{"resources":{"Crimstone":152,"Oil":935,"Obsidian":42},"coins":133960,"seconds":75600,"bumpkinLevel":{"ascension":10,"level":8}},"4":{"resources":{"Crimstone":184,"Oil":1216,"Obsidian":56},"coins":190130,"seconds":100800,"bumpkinLevel":{"ascension":10,"level":12}},"5":{"resources":{"Crimstone":220,"Oil":1527,"Obsidian":72},"coins":252300,"seconds":126000,"bumpkinLevel":{"ascension":10,"level":16}},"6":{"resources":{"Crimstone":258,"Oil":1862,"Obsidian":90},"coins":319370,"seconds":151200,"bumpkinLevel":{"ascension":10,"level":20}},"7":{"resources":{"Crimstone":299,"Oil":2218,"Obsidian":108},"coins":390610,"seconds":176400,"bumpkinLevel":{"ascension":10,"level":24}},"8":{"resources":{"Crimstone":342,"Oil":2593,"Obsidian":127},"coins":465510,"seconds":201600,"bumpkinLevel":{"ascension":10,"level":28}},"9":{"resources":{"Crimstone":386,"Oil":2984,"Obsidian":147},"coins":543700,"seconds":226800,"bumpkinLevel":{"ascension":10,"level":32}},"10":{"resources":{"Crimstone":433,"Oil":3390,"Obsidian":168},"coins":624890,"seconds":252000,"bumpkinLevel":{"ascension":10,"level":36}},"11":{"resources":{"Crimstone":481,"Oil":3809,"Obsidian":190},"coins":708840,"seconds":277200,"bumpkinLevel":{"ascension":10,"level":40}},"12":{"resources":{"Crimstone":530,"Oil":4242,"Obsidian":212},"coins":795340,"seconds":302400,"bumpkinLevel":{"ascension":10,"level":45}}},"11":{"1":{"resources":{"Crimstone":138,"Oil":689,"Obsidian":28},"coins":68930,"seconds":25200,"bumpkinLevel":{"ascension":11,"level":1}},"2":{"resources":{"Crimstone":162,"Oil":903,"Obsidian":39},"coins":111660,"seconds":50400,"bumpkinLevel":{"ascension":11,"level":4}},"3":{"resources":{"Crimstone":198,"Oil":1215,"Obsidian":55},"coins":174140,"seconds":75600,"bumpkinLevel":{"ascension":11,"level":8}},"4":{"resources":{"Crimstone":240,"Oil":1580,"Obsidian":73},"coins":247160,"seconds":100800,"bumpkinLevel":{"ascension":11,"level":12}},"5":{"resources":{"Crimstone":286,"Oil":1985,"Obsidian":94},"coins":327990,"seconds":126000,"bumpkinLevel":{"ascension":11,"level":16}},"6":{"resources":{"Crimstone":336,"Oil":2421,"Obsidian":117},"coins":415180,"seconds":151200,"bumpkinLevel":{"ascension":11,"level":20}},"7":{"resources":{"Crimstone":389,"Oil":2884,"Obsidian":140},"coins":507790,"seconds":176400,"bumpkinLevel":{"ascension":11,"level":24}},"8":{"resources":{"Crimstone":444,"Oil":3370,"Obsidian":165},"coins":605160,"seconds":201600,"bumpkinLevel":{"ascension":11,"level":28}},"9":{"resources":{"Crimstone":502,"Oil":3879,"Obsidian":192},"coins":706810,"seconds":226800,"bumpkinLevel":{"ascension":11,"level":32}},"10":{"resources":{"Crimstone":563,"Oil":4406,"Obsidian":219},"coins":812360,"seconds":252000,"bumpkinLevel":{"ascension":11,"level":36}},"11":{"resources":{"Crimstone":625,"Oil":4952,"Obsidian":247},"coins":921490,"seconds":277200,"bumpkinLevel":{"ascension":11,"level":40}},"12":{"resources":{"Crimstone":689,"Oil":5514,"Obsidian":276},"coins":1033940,"seconds":302400,"bumpkinLevel":{"ascension":11,"level":45}}},"12":{"1":{"resources":{"Crimstone":179,"Oil":896,"Obsidian":36},"coins":89610,"seconds":25200,"bumpkinLevel":{"ascension":12,"level":1}},"2":{"resources":{"Crimstone":211,"Oil":1174,"Obsidian":50},"coins":145160,"seconds":50400,"bumpkinLevel":{"ascension":12,"level":4}},"3":{"resources":{"Crimstone":257,"Oil":1580,"Obsidian":71},"coins":226390,"seconds":75600,"bumpkinLevel":{"ascension":12,"level":8}},"4":{"resources":{"Crimstone":312,"Oil":2055,"Obsidian":95},"coins":321310,"seconds":100800,"bumpkinLevel":{"ascension":12,"level":12}},"5":{"resources":{"Crimstone":372,"Oil":2580,"Obsidian":122},"coins":426390,"seconds":126000,"bumpkinLevel":{"ascension":12,"level":16}},"6":{"resources":{"Crimstone":436,"Oil":3147,"Obsidian":152},"coins":539730,"seconds":151200,"bumpkinLevel":{"ascension":12,"level":20}},"7":{"resources":{"Crimstone":505,"Oil":3749,"Obsidian":183},"coins":660120,"seconds":176400,"bumpkinLevel":{"ascension":12,"level":24}},"8":{"resources":{"Crimstone":578,"Oil":4382,"Obsidian":215},"coins":786710,"seconds":201600,"bumpkinLevel":{"ascension":12,"level":28}},"9":{"resources":{"Crimstone":653,"Oil":5042,"Obsidian":249},"coins":918860,"seconds":226800,"bumpkinLevel":{"ascension":12,"level":32}},"10":{"resources":{"Crimstone":731,"Oil":5728,"Obsidian":284},"coins":1056060,"seconds":252000,"bumpkinLevel":{"ascension":12,"level":36}},"11":{"resources":{"Crimstone":813,"Oil":6438,"Obsidian":321},"coins":1197930,"seconds":277200,"bumpkinLevel":{"ascension":12,"level":40}},"12":{"resources":{"Crimstone":896,"Oil":7169,"Obsidian":358},"coins":1344130,"seconds":302400,"bumpkinLevel":{"ascension":12,"level":45}}}};
 const ES_ASCENSION_BASE_NODES = {"Crop Plot":65,"Tree":23,"Stone Rock":20,"Iron Rock":13,"Gold Rock":8,"Fruit Patch":15,"Crimstone Rock":5,"Sunstone Rock":13,"Oil Reserve":4,"Lava Pit":3,"Beehive":3,"Flower Bed":3,"Ascension Crystal":0};
+
+const ES_SWAMP_EXPANSION_LEVELS = {1:1,2:4,3:8,4:12,5:16,6:20,7:24,8:28,9:32,10:36,11:40,12:45};
+const ES_SWAMP_COST_CURVE = {Crimstone:{start:10,end:50},Oil:{start:50,end:400},Obsidian:{start:2,end:20}};
+const ES_SWAMP_COIN_CURVE = {start:5000,end:75000};
+const ES_ASCENSION_UPGRADE_BASE_ITEMS = {Crimstone:30,Oil:50,Obsidian:3};
+const ES_ASCENSION_UPGRADE_BASE_COINS = 5000;
+
+function esSwampCostBase(start, end, e) {
+  return start + (end - start) * Math.pow((e - 1) / (ES_SWAMP_EXPANSIONS_PER_ASCENSION - 1), 1.3);
+}
+
+function esBigIntPow(base, exp) {
+  let result = 1n;
+  let b = BigInt(base);
+  let e = BigInt(exp);
+  while (e > 0n) {
+    if (e & 1n) result *= b;
+    b *= b;
+    e >>= 1n;
+  }
+  return result;
+}
+
+function esBigFloorDiv(num, den) {
+  return num / den;
+}
+
+function esBigRoundHalfUpDiv(num, den) {
+  const q = num / den;
+  const r = num % den;
+  return (r * 2n >= den) ? q + 1n : q;
+}
+
+function esBigCeilToTenDiv(num, den) {
+  const q = num / den;
+  const r = num % den;
+  const ceilVal = r > 0n ? q + 1n : q;
+  const rem = ceilVal % 10n;
+  return rem === 0n ? ceilVal : ceilVal + (10n - rem);
+}
+
+const ES_FIXED_POINT_SCALE = 100000000000n;
+
+function esBigFromDouble(x) {
+  return BigInt(Math.round(x * 100000000000));
+}
+
+function esComputeAscensionExpansionReqFormula(ascLevel, e) {
+  if (e < 1 || e > 12) return null;
+  const exp = ascLevel - 1;
+  const numer = esBigIntPow(13, exp);
+  const denom = esBigIntPow(10, exp);
+  const scaleResource = baseDouble => {
+    const baseFixed = esBigFromDouble(baseDouble);
+    return Number(esBigRoundHalfUpDiv(baseFixed * numer, denom * ES_FIXED_POINT_SCALE));
+  };
+  const scaleCoins = baseDouble => {
+    const baseFixed = esBigFromDouble(baseDouble);
+    return Number(esBigCeilToTenDiv(baseFixed * numer, denom * ES_FIXED_POINT_SCALE));
+  };
+  return {
+    resources: {
+      Crimstone: scaleResource(esSwampCostBase(ES_SWAMP_COST_CURVE.Crimstone.start, ES_SWAMP_COST_CURVE.Crimstone.end, e)),
+      Oil: scaleResource(esSwampCostBase(ES_SWAMP_COST_CURVE.Oil.start, ES_SWAMP_COST_CURVE.Oil.end, e)),
+      Obsidian: scaleResource(esSwampCostBase(ES_SWAMP_COST_CURVE.Obsidian.start, ES_SWAMP_COST_CURVE.Obsidian.end, e))
+    },
+    coins: scaleCoins(esSwampCostBase(ES_SWAMP_COIN_CURVE.start, ES_SWAMP_COIN_CURVE.end, e)),
+    seconds: e * 7 * 3600,
+    bumpkinLevel: { ascension: ascLevel, level: ES_SWAMP_EXPANSION_LEVELS[e] || 45 }
+  };
+}
+
+function esComputeAscensionUpgradeCostGeneric(ascLevel) {
+  const exp = ascLevel - 1;
+  const numer = esBigIntPow(14, exp);
+  const denom = esBigIntPow(10, exp);
+  const floorItem = baseInt => Number(esBigFloorDiv(BigInt(baseInt) * numer, denom));
+  return {
+    resources: {
+      Crimstone: floorItem(ES_ASCENSION_UPGRADE_BASE_ITEMS.Crimstone),
+      Oil: floorItem(ES_ASCENSION_UPGRADE_BASE_ITEMS.Oil),
+      Obsidian: floorItem(ES_ASCENSION_UPGRADE_BASE_ITEMS.Obsidian)
+    },
+    coins: floorItem(ES_ASCENSION_UPGRADE_BASE_COINS),
+    seconds: 0,
+    bumpkinLevel: ascLevel === 1 ? { ascension: 0, level: 150 } : { ascension: ascLevel - 1, level: 50 }
+  };
+}
+
+function esResolvedAscLevel(which) {
+  const s = esState[which];
+  if (s.island === "marbleX") return Math.max(ES_CUSTOM_ASCENSION_MIN, s.customAsc || ES_CUSTOM_ASCENSION_MIN);
+  return ES_ASCENSION_LEVEL[s.island] || 0;
+}
+
+function esAscLevelToIsland(a) {
+  return ES_ISLAND_ORDER.find(isl => ES_ASCENSION_LEVEL[isl] === a) || null;
+}
+
+function esAscLevelLabel(a) {
+  const isl = esAscLevelToIsland(a);
+  return isl ? ES_ISLAND_LABEL[isl] : ("Marble Age (A" + a + ")");
+}
 
 function esIslandIcon(island) {
   if (island.indexOf("marble") === 0) return ES_ISLAND_ICONS.marble;
@@ -22485,7 +22590,7 @@ function esIslandIcon(island) {
 }
 
 function esLocalIndex(island, level) {
-  return ES_ASCENSION_LEVEL[island] ? level - 30 : level;
+  return (ES_ASCENSION_LEVEL[island] || island === "marbleX") ? level - 30 : level;
 }
 
 function esBandExpansionCrystalTotal(ascLevel) {
@@ -22592,7 +22697,7 @@ function esPrevIslandOf(island) {
   return idx > 0 ? ES_ISLAND_ORDER[idx - 1] : null;
 }
 
-function esGetNodesAt(island, level) {
+function esGetNodesAt(island, level, ascOverride) {
   if (ES_NODE_TABLE[island]) {
     const table = ES_NODE_TABLE[island];
     const keys = Object.keys(table).map(Number).sort((a, b) => a - b);
@@ -22605,21 +22710,22 @@ function esGetNodesAt(island, level) {
     keys.forEach(k => { if (k <= level) use = k; });
     return table[use] || {};
   }
-  const ascLevel = ES_ASCENSION_LEVEL[island];
+  const ascLevel = island === "marbleX" ? Math.max(ES_CUSTOM_ASCENSION_MIN, ascOverride || ES_CUSTOM_ASCENSION_MIN) : ES_ASCENSION_LEVEL[island];
   if (!ascLevel) return {};
   return esComputeAscensionNodes(ascLevel, level);
 }
 
-function esGetRequirementsAt(island, level) {
+function esGetRequirementsAt(island, level, ascOverride) {
   if (ES_REQ_TABLE[island]) {
     return ES_REQ_TABLE[island][level] || null;
   }
-  const ascLevel = ES_ASCENSION_LEVEL[island];
+  const ascLevel = island === "marbleX" ? Math.max(ES_CUSTOM_ASCENSION_MIN, ascOverride || ES_CUSTOM_ASCENSION_MIN) : ES_ASCENSION_LEVEL[island];
   if (!ascLevel) return null;
   const local = esLocalIndex(island, level);
   if (local < 1 || local > 12) return null;
   const table = ES_ASCENSION_REQ[ascLevel];
-  return (table && table[local]) || null;
+  if (table && table[local]) return table[local];
+  return esComputeAscensionExpansionReqFormula(ascLevel, local);
 }
 
 function esGenerateSpiral(n) {
@@ -22697,8 +22803,8 @@ function esGetIconHtml(name) {
 }
 
 let esState = {
-  start: { island: "basic", level: 3 },
-  target: { island: "basic", level: 4 },
+  start: { island: "basic", level: 3, customAsc: ES_CUSTOM_ASCENSION_MIN },
+  target: { island: "basic", level: 4, customAsc: ES_CUSTOM_ASCENSION_MIN },
   boosts: { grinx: false, vip: false, monument: false },
   costMode: "buy",
   applyMissing: true
@@ -22843,7 +22949,7 @@ function esRenderShardsCard() {
   const el = $("esShardsCard");
   if (!el) return;
   const target = esState.target;
-  const nodes = esGetNodesAt(target.island, target.level);
+  const nodes = esGetNodesAt(target.island, target.level, target.customAsc);
   const crystalCount = nodes["Ascension Crystal"] || 0;
   const shardCount = crystalCount * ASCENSION_SHARDS_PER_CRYSTAL;
   el.innerHTML = "<div class=\"es-shards-title\">Total Shards Accumulated</div>" +
@@ -22858,7 +22964,7 @@ function esRenderTotalResources() {
   const el = $("esTotalResources");
   if (!el) return;
   const target = esState.target;
-  const nodes = esGetNodesAt(target.island, target.level);
+  const nodes = esGetNodesAt(target.island, target.level, target.customAsc);
   const rows = ES_NODE_ORDER.filter(k => (nodes[k] || 0) > 0);
   if (!rows.length) {
     el.innerHTML = "<div class=\"es-total-resources-title\">Total Resources Accumulated \u2014 Basic Island \u2192 " + escapeHtml(ES_ISLAND_LABEL[target.island]) + "</div><div class=\"es-selected-req-empty\">No resource nodes yet.</div>";
@@ -22880,25 +22986,41 @@ function esFormatBumpkinLevel(bumpkinLevel) {
   return "Level " + bumpkinLevel.level;
 }
 
-function esRenderAscensionUpgrade() {
-  const el = $("esAscensionUpgrade");
-  if (!el) return;
+function esBuildUpgradeTransitions() {
   const start = esState.start, target = esState.target;
   const startIdx = ES_ISLAND_ORDER.indexOf(start.island);
   const targetIdx = ES_ISLAND_ORDER.indexOf(target.island);
-  if (startIdx < 0 || targetIdx <= startIdx) {
-    el.innerHTML = "<div class=\"es-ascension-title\">One-Time Upgrade Cost</div><div class=\"es-selected-req-empty\">No island upgrade needed \u2014 Start and Target are on the same island, or Target isn't past Start.</div>";
-    return;
-  }
+  const startAsc = esResolvedAscLevel("start");
+  const targetAsc = esResolvedAscLevel("target");
   const transitions = [];
-  for (let i = startIdx + 1; i <= targetIdx; i++) {
-    const fromIsland = ES_ISLAND_ORDER[i - 1];
-    const toIsland = ES_ISLAND_ORDER[i];
-    const req = esGetIslandUpgradeCost(toIsland);
-    if (req) transitions.push({ fromIsland, toIsland, req });
+  const volcanoIdx = ES_ISLAND_ORDER.indexOf("volcano");
+  if (startAsc === 0 && startIdx >= 0 && startIdx <= volcanoIdx) {
+    const preEnd = Math.min(targetIdx >= 0 ? targetIdx : volcanoIdx, volcanoIdx);
+    for (let i = startIdx + 1; i <= preEnd; i++) {
+      const fromIsland = ES_ISLAND_ORDER[i - 1];
+      const toIsland = ES_ISLAND_ORDER[i];
+      const req = ES_ISLAND_UPGRADE_COST[toIsland];
+      if (req) transitions.push({ label: ES_ISLAND_LABEL[fromIsland] + " \u2192 " + ES_ISLAND_LABEL[toIsland], req });
+    }
   }
+  if (targetAsc > Math.max(startAsc, 0)) {
+    const fromAsc = Math.max(startAsc, 0);
+    for (let a = fromAsc + 1; a <= targetAsc; a++) {
+      const req = esComputeAscensionUpgradeCostGeneric(a);
+      const fromLabel = a === fromAsc + 1 ? (fromAsc === 0 ? "Volcano" : esAscLevelLabel(fromAsc)) : esAscLevelLabel(a - 1);
+      const toLabel = esAscLevelLabel(a);
+      transitions.push({ label: fromLabel + " \u2192 " + toLabel, req });
+    }
+  }
+  return transitions;
+}
+
+function esRenderAscensionUpgrade() {
+  const el = $("esAscensionUpgrade");
+  if (!el) return;
+  const transitions = esBuildUpgradeTransitions();
   if (!transitions.length) {
-    el.innerHTML = "<div class=\"es-ascension-title\">One-Time Upgrade Cost</div><div class=\"es-selected-req-empty\">No upgrade cost data for this range.</div>";
+    el.innerHTML = "<div class=\"es-ascension-title\">One-Time Upgrade Cost</div><div class=\"es-selected-req-empty\">No island upgrade needed \u2014 Start and Target are on the same island, or Target isn't past Start.</div>";
     return;
   }
   el.innerHTML = "<div class=\"es-ascension-title\">One-Time Upgrade Cost</div>" +
@@ -22909,7 +23031,7 @@ function esRenderAscensionUpgrade() {
       const coinRow = boosted.coins > 0 ? "<div class=\"es-cost-row\"><div class=\"es-cost-row-name\">" + esGetIconHtml("Coins") + "<span>Coins</span></div><div class=\"es-cost-row-val\">" + fmt(boosted.coins) + "</div></div>" : "";
       const bumpkinRow = t.req.bumpkinLevel ? "<div class=\"es-cost-row\"><div class=\"es-cost-row-name\"><span>\uD83E\uDDD1\u200D\uD83C\uDF3E Bumpkin Level</span></div><div class=\"es-cost-row-val\">" + esFormatBumpkinLevel(t.req.bumpkinLevel) + "</div></div>" : "";
       return "<details class=\"es-ascension-item\">" +
-        "<summary>" + escapeHtml(ES_ISLAND_LABEL[t.fromIsland]) + " \u2192 " + escapeHtml(ES_ISLAND_LABEL[t.toIsland]) + "</summary>" +
+        "<summary>" + escapeHtml(t.label) + "</summary>" +
         "<div class=\"es-ascension-item-body\">" + rows + coinRow + bumpkinRow + esSubtotalRowHtml(boosted.resources, boosted.coins) + "</div>" +
         "</details>";
     }).join("");
@@ -22919,7 +23041,7 @@ function esRenderBumpkinLevel() {
   const el = $("esBumpkinLevel");
   if (!el) return;
   const target = esState.target;
-  const req = esGetRequirementsAt(target.island, target.level);
+  const req = esGetRequirementsAt(target.island, target.level, target.customAsc);
   if (!req || !req.bumpkinLevel) {
     el.innerHTML = "<div class=\"es-bumpkin-title\">Bumpkin Level Requirement</div><div class=\"es-selected-req-empty\">No Bumpkin Level requirement for " + escapeHtml(ES_ISLAND_LABEL[target.island]) + " #" + target.level + ".</div>";
     return;
@@ -22941,9 +23063,35 @@ function esRenderIslandTabs(which) {
       const isl = el.getAttribute("data-es-island");
       esState[which].island = isl;
       esState[which].level = ES_ISLAND_MIN[isl];
+      if (isl === "marbleX" && !(esState[which].customAsc >= ES_CUSTOM_ASCENSION_MIN)) {
+        esState[which].customAsc = ES_CUSTOM_ASCENSION_MIN;
+      }
       esRenderAll();
     };
   });
+  esRenderCustomAscInput(which);
+}
+
+function esRenderCustomAscInput(which) {
+  const wrap = $(which === "start" ? "esStartCustomAsc" : "esTargetCustomAsc");
+  if (!wrap) return;
+  const s = esState[which];
+  if (s.island !== "marbleX") {
+    wrap.innerHTML = "";
+    wrap.style.display = "none";
+    return;
+  }
+  wrap.style.display = "";
+  wrap.innerHTML = "<label class=\"es-custom-asc-label es-custom-asc-glow\">Marble Age A<input type=\"number\" class=\"es-custom-asc-input\" id=\"" + (which === "start" ? "esStartCustomAscInput" : "esTargetCustomAscInput") + "\" min=\"" + ES_CUSTOM_ASCENSION_MIN + "\" step=\"1\" value=\"" + (s.customAsc || ES_CUSTOM_ASCENSION_MIN) + "\"></label>";
+  const input = $(which === "start" ? "esStartCustomAscInput" : "esTargetCustomAscInput");
+  if (input) {
+    input.onchange = () => {
+      let v = parseInt(input.value, 10);
+      if (!Number.isFinite(v) || v < ES_CUSTOM_ASCENSION_MIN) v = ES_CUSTOM_ASCENSION_MIN;
+      esState[which].customAsc = v;
+      esRenderAll();
+    };
+  }
 }
 
 function esRenderStepper(which) {
@@ -22973,8 +23121,8 @@ function esRenderGrid(which) {
     const lvl = cell.num;
     const owned = lvl <= min - 1;
     const revealed = owned || lvl <= s.level;
-    const nodesHere = esGetNodesAt(s.island, lvl);
-    const nodesPrev = esGetNodesAt(s.island, lvl - 1);
+    const nodesHere = esGetNodesAt(s.island, lvl, s.customAsc);
+    const nodesPrev = esGetNodesAt(s.island, lvl - 1, s.customAsc);
     const deltas = [];
     ES_NODE_ORDER.forEach(k => {
       const diff = (nodesHere[k] || 0) - (nodesPrev[k] || 0);
@@ -23039,7 +23187,7 @@ function esRenderSelectedReq() {
   const el = $("esSelectedReq");
   if (!el) return;
   const s = esState.target;
-  const req = esGetRequirementsAt(s.island, s.level);
+  const req = esGetRequirementsAt(s.island, s.level, s.customAsc);
   if (!req) {
     el.innerHTML = "<div class=\"es-selected-req-title\">Selected Expansion \u2014 " + escapeHtml(ES_ISLAND_LABEL[s.island]) + " #" + s.level + "</div><div class=\"es-selected-req-empty\">Already owned or no cost data for this tile.</div>";
     return;
@@ -23060,8 +23208,8 @@ function esRenderNodesSummary() {
   const el = $("esNodesSummary");
   if (!el) return;
   const start = esState.start, target = esState.target;
-  const startNodes = esGetNodesAt(start.island, start.level);
-  const targetNodes = esGetNodesAt(target.island, target.level);
+  const startNodes = esGetNodesAt(start.island, start.level, start.customAsc);
+  const targetNodes = esGetNodesAt(target.island, target.level, target.customAsc);
   const rows = [];
   ES_NODE_ORDER.forEach(k => {
     const diff = (targetNodes[k] || 0) - (startNodes[k] || 0);
@@ -23076,11 +23224,11 @@ function esRenderNodesSummary() {
   ).join("") + "</div>";
 }
 
-function esSumRequirements(island, fromLevel, toLevel) {
+function esSumRequirements(island, fromLevel, toLevel, ascOverride) {
   const totals = { resources: {}, coins: 0, seconds: 0 };
   if (toLevel <= fromLevel) return totals;
   for (let lvl = fromLevel + 1; lvl <= toLevel; lvl++) {
-    const req = esGetRequirementsAt(island, lvl);
+    const req = esGetRequirementsAt(island, lvl, ascOverride);
     if (!req) continue;
     Object.keys(req.resources || {}).forEach(k => {
       totals.resources[k] = (totals.resources[k] || 0) + req.resources[k];
@@ -23093,16 +23241,22 @@ function esSumRequirements(island, fromLevel, toLevel) {
 
 function esCalculateTotals() {
   const start = esState.start, target = esState.target;
-  const startIdx = ES_ISLAND_ORDER.indexOf(start.island);
-  const targetIdx = ES_ISLAND_ORDER.indexOf(target.island);
   let raw = { resources: {}, coins: 0, seconds: 0 };
   let migration = { resources: {}, coins: 0 };
   let crossNote = null;
-  if (start.island === target.island && target.level <= start.level) {
-    crossNote = "Target must be past Start on the same island for a total.";
-  } else if (targetIdx < startIdx) {
-    crossNote = "Target must be the same island as Start, or a later island in the progression.";
-  } else {
+  const usesCustom = start.island === "marbleX" || target.island === "marbleX";
+
+  if (!usesCustom) {
+    const startIdx = ES_ISLAND_ORDER.indexOf(start.island);
+    const targetIdx = ES_ISLAND_ORDER.indexOf(target.island);
+    if (start.island === target.island && target.level <= start.level) {
+      crossNote = "Target must be past Start on the same island for a total.";
+      return { raw, migration, crossNote };
+    }
+    if (targetIdx < startIdx) {
+      crossNote = "Target must be the same island as Start, or a later island in the progression.";
+      return { raw, migration, crossNote };
+    }
     for (let i = startIdx; i <= targetIdx; i++) {
       const island = ES_ISLAND_ORDER[i];
       const fromLevel = i === startIdx ? start.level : ES_ISLAND_MIN[island] - 1;
@@ -23119,7 +23273,36 @@ function esCalculateTotals() {
         }
       }
     }
+    return { raw, migration, crossNote };
   }
+
+  const startAsc = esResolvedAscLevel("start");
+  const targetAsc = esResolvedAscLevel("target");
+  const sameBand = start.island === target.island && startAsc === targetAsc;
+  if (sameBand && target.level <= start.level) {
+    crossNote = "Target must be past Start on the same island for a total.";
+    return { raw, migration, crossNote };
+  }
+  if (targetAsc < startAsc) {
+    crossNote = "Target must be the same island as Start, or a later island in the progression.";
+    return { raw, migration, crossNote };
+  }
+  for (let a = Math.max(startAsc, 1); a <= targetAsc; a++) {
+    const island = (a === targetAsc && target.island === "marbleX") ? "marbleX" :
+      (a === startAsc && start.island === "marbleX") ? "marbleX" :
+      (esAscLevelToIsland(a) || "marbleX");
+    const ascOverride = island === "marbleX" ? a : undefined;
+    const fromLevel = (a === startAsc && startAsc >= 1) ? start.level : (ES_ISLAND_MIN.marbleX - 1);
+    const toLevel = (a === targetAsc) ? target.level : ES_ISLAND_MAX.marbleX;
+    const leg = esSumRequirements(island, fromLevel, toLevel, ascOverride);
+    Object.keys(leg.resources).forEach(k => { raw.resources[k] = (raw.resources[k] || 0) + leg.resources[k]; });
+    raw.coins += leg.coins;
+    raw.seconds += leg.seconds;
+  }
+  esBuildUpgradeTransitions().forEach(t => {
+    Object.keys(t.req.resources || {}).forEach(k => { migration.resources[k] = (migration.resources[k] || 0) + t.req.resources[k]; });
+    migration.coins += t.req.coins || 0;
+  });
   return { raw, migration, crossNote };
 }
 
@@ -23164,7 +23347,9 @@ function esSyncFromFarm() {
     return;
   }
   let matchedIsland = null;
-  if (ascensionLevel > 0) {
+  if (ascensionLevel > 10) {
+    matchedIsland = "marbleX";
+  } else if (ascensionLevel > 0) {
     matchedIsland = ES_ISLAND_ORDER.find(isl => ES_ASCENSION_LEVEL[isl] === ascensionLevel);
   } else {
     matchedIsland = ES_ISLAND_ORDER.find(isl => isl === islandType);
@@ -23179,6 +23364,10 @@ function esSyncFromFarm() {
   esState.start.level = level;
   esState.target.island = matchedIsland;
   esState.target.level = Math.min(level + 1, ES_ISLAND_MAX[matchedIsland]);
+  if (matchedIsland === "marbleX") {
+    esState.start.customAsc = ascensionLevel;
+    esState.target.customAsc = ascensionLevel;
+  }
   esSyncAutoBoostsFromFarm();
   esRenderAll();
   toast("\u2705 Synced to " + ES_ISLAND_LABEL[matchedIsland] + " #" + level);
@@ -23379,7 +23568,7 @@ function closeGunterShop() {
   $("gunterShopOverlay").classList.remove("show");
 }
 
-$("openGunterShopBtn").onclick = openGunterShop;
+$("openGunterShopBtn").onclick = () => { closeMoreMenu(); openGunterShop(); };
 
 $("gunterShopCloseBtn").onclick = closeGunterShop;
 
@@ -23396,7 +23585,7 @@ function closeTradeShop() {
   $("tradeShopOverlay").classList.remove("show");
 }
 
-$("openTradeShopBtn").onclick = openTradeShop;
+$("openTradeShopBtn").onclick = () => { closeMoreMenu(); openTradeShop(); };
 
 $("tradeShopCloseBtn").onclick = closeTradeShop;
 
@@ -25206,7 +25395,7 @@ function hideTop10Card() {
 
 $("top10CloseBtn").onclick = hideTop10Card;
 
-$("openTop10HeaderBtn").onclick = showTop10Card;
+$("openTop10HeaderBtn").onclick = () => { closeMoreMenu(); showTop10Card(); };
 
 $("top10Overlay").addEventListener("click", e => {
   if (e.target.id === "top10Overlay") hideTop10Card();
@@ -25407,7 +25596,7 @@ function hideDailyProfitCard() {
 
 $("dailyProfitCloseBtn").onclick = hideDailyProfitCard;
 
-$("openDailyProfitHeaderBtn").onclick = showDailyProfitCard;
+$("openDailyProfitHeaderBtn").onclick = () => { closeMoreMenu(); showDailyProfitCard(); };
 
 $("dailyProfitOverlay").addEventListener("click", e => {
   if (e.target.id === "dailyProfitOverlay") hideDailyProfitCard();
@@ -31593,8 +31782,8 @@ function isAppDarkModeOn() {
 
 function applyAppDarkMode(on) {
   document.body.classList.toggle("app-dark", on);
-  const toggleBtn = $("appDarkToggleFab");
-  if (toggleBtn) toggleBtn.textContent = on ? "☀️" : "🌙";
+  const toggleIcon = $("appDarkToggleFabIcon");
+  if (toggleIcon) toggleIcon.textContent = on ? "☀️" : "🌙";
 }
 
 function setAppDarkMode(on) {
