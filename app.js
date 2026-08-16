@@ -1,3 +1,7 @@
+const __getIconCache = new Map();
+
+const __getTreasureIconCache = new Map();
+
 function safeLSJSON(raw, fallback) {
   if (raw === null || raw === undefined) return fallback;
   try {
@@ -706,6 +710,12 @@ const FLOWER_ICON = '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAk
 
 const GEM_ICON = '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:12px;height:11px;vertical-align:-1px;image-rendering:pixelated;">';
 
+const MARK_ICON_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAASUExURQAAACYrRMDL3IubtFppiP///3HJjMgAAAABdFJOUwBA5thmAAAAAWJLR0QF+G/pxwAAAAd0SU1FB+gGGwoLLgwuR6MAAABlSURBVAjXNY3REYAwCEPTDVp1AaELSFhAYf+ZxN6ZH3JJjgcAY2BpiCzXhJReZqMpzwrURNQ6GuczH3ZsFqauJ/Zqqruwe5biwuHqYXHXuLazxi2qC6+PBz14f4gksy9o5o//7gtDxBATtPGuAAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNC0wNi0yN1QxMDoxMTo0NiswMDowMLD9+BsAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjQtMDYtMjdUMTA6MTE6NDYrMDA6MDDBoECnAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDI0LTA2LTI3VDEwOjExOjQ2KzAwOjAwlrVheAAAAABJRU5ErkJggg==";
+
+const LOVE_CHARM_ICON_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMBAMAAACQIoDIAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAACYrRP///8DL3IubtPZ1euQ7RP4qkxoAAAABdFJOUwBA5thmAAAAAWJLR0QCZgt8ZAAAAAd0SU1FB+kEAQAJOT5kEg4AAABiSURBVAjXNYy5DYBADATXHdjAXc5RAYgGEDRAYPILcP8lsHwjB6OR1hAzEDNFUwrdSunRboureLeNkCH5zpsUMqdwj31VoMlxHlF7btscpI5UsVv564a54kUi9FPkPzI/8QKQthBGeCDlPQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNS0wNC0wMVQwMDowOTo1NyswMDowMHFHFmEAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjUtMDQtMDFUMDA6MDk6NTcrMDA6MDAAGq7dAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDI1LTA0LTAxVDAwOjA5OjU3KzAwOjAwVw+PAgAAAABJRU5ErkJggg==";
+
+const CHEER_ICON_SRC = "data:image/webp;base64,UklGRroAAABXRUJQVlA4TK4AAAAvEAAEEEegGAAaKIQE8ui///wVToZpqAkANOEjDYGo6hJrqqiRFOY0YAybmOvty/wHAP7/ohOLMeAkJSsj0Qg4biTbiUZ6ETxMAKy5P+n/D1zRfxsBNgI2AHv2+/N+BBHR/wmAFefISFTdyFkHI8zdaPJOnyNBHBfVZyHEnIvdt4UMJR9NHJmXMRH6kGtKLSDnqCkRcJn0k1psuMVtjPXozbrOJzKPR+8BwDknZAA=";
+
 const $ = id => document.getElementById(id);
 
 const COOK_LEVEL_XP = [ 0, 2, 22, 205, 555, 1155, 2155, 3405, 5405, 7905, 10905, 14405, 18405, 22905, 27905, 33655, 40155, 47405, 55405, 64155, 73905, 84655, 96405, 109155, 122905, 137405, 152905, 169405, 186905, 205405, 225405, 246905, 269905, 294405, 320405, 348405, 378405, 410405, 444405, 480405, 518905, 559905, 603405, 649405, 697905, 749405, 803905, 861405, 921905, 985405, 1053905, 1127405, 1205905, 1289405, 1377905, 1476405, 1584905, 1703405, 1831905, 1970405, 2128905, 2287405, 2485905, 2704405, 2942905, 3221405, 3539905, 3898405, 4296905, 4735405, 5233905, 5743905, 6263905, 6793905, 7333905, 7883905, 8443905, 9013905, 9593905, 10183905, 10783905, 11393905, 12013905, 12643905, 13283905, 13933905, 14593905, 15263905, 15943905, 16633905, 17333905, 18043905, 18763905, 19493905, 20233905, 20983905, 21743905, 22513905, 23293905, 24083905, 24893905, 25723905, 26573905, 27443905, 28333905, 29243905, 30173905, 31123905, 32093905, 33083905, 34093905, 35123905, 36173905, 37243905, 38333905, 39443905, 40573905, 41723905, 42893905, 44083905, 45293905, 46523905, 47773905, 49043905, 50333905, 51653905, 53003905, 54383905, 55793905, 57233905, 58708905, 60218905, 61763905, 63343905, 64958905, 66613905, 68308905, 70043905, 71818905, 73633905, 75493905, 77398905, 79348905, 81343905, 83383905, 85473905, 87613905, 89803905, 92043905, 94333905, 95662605, 97031166, 98440783, 99892688, 101388150, 102928475, 104515009, 106149139, 107832292, 109565939, 111351595, 113190820, 115085221, 117036454, 119046223, 121116285, 123248448, 125444575, 127706585, 130036455, 132436221, 134907979, 137453889, 140076176, 142777131, 145559114, 148424556, 151375961, 154415908, 157547053, 160772132, 164093963, 167515448, 171039577, 174669429, 178408176, 182259085, 186225521, 190310950, 194518941, 198853171, 203317427, 207915610, 212651738, 217529949, 222554506, 227729799, 233060350, 238550817, 244206e3 ];
@@ -723,7 +733,7 @@ function cookGetLevelInfo(experience) {
   const curFloor = COOK_LEVEL_XP[level - 1];
   const nextCeil = isMax ? curFloor : COOK_LEVEL_XP[level];
   const span = isMax ? COOK_LEVEL_XP[maxLevel - 1] - COOK_LEVEL_XP[maxLevel - 2] : nextCeil - curFloor;
-  const progress = isMax ? span : experience - curFloor;
+  const progress = experience - curFloor;
   return {
     level: level,
     isMax: isMax,
@@ -1008,6 +1018,14 @@ function fmt(n) {
   return cleaned.toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 6
+  });
+}
+
+function fmtInt(n) {
+  if (!isFinite(n)) return "—";
+  return Math.round(n).toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
   });
 }
 
@@ -1670,7 +1688,8 @@ const BASE_FRUITS = {
     timeSec: 7200,
     yieldPerHarvest: 1,
     minHarvest: 3,
-    marketPrice: 0
+    marketPrice: 0,
+    seasons: [ "Spring", "Autumn" ]
   },
   Lemon: {
     seedCost: 15,
@@ -1679,7 +1698,8 @@ const BASE_FRUITS = {
     timeSec: 14400,
     yieldPerHarvest: 1,
     minHarvest: 3,
-    marketPrice: 0
+    marketPrice: 0,
+    seasons: [ "Summer", "Winter" ]
   },
   Blueberry: {
     seedCost: 30,
@@ -1688,7 +1708,8 @@ const BASE_FRUITS = {
     timeSec: 21600,
     yieldPerHarvest: 1,
     minHarvest: 3,
-    marketPrice: 0
+    marketPrice: 0,
+    seasons: [ "Spring", "Winter" ]
   },
   Orange: {
     seedCost: 50,
@@ -1697,7 +1718,8 @@ const BASE_FRUITS = {
     timeSec: 28800,
     yieldPerHarvest: 1,
     minHarvest: 3,
-    marketPrice: 0
+    marketPrice: 0,
+    seasons: [ "Spring", "Summer" ]
   },
   Apple: {
     seedCost: 70,
@@ -1706,7 +1728,8 @@ const BASE_FRUITS = {
     timeSec: 43200,
     yieldPerHarvest: 1,
     minHarvest: 3,
-    marketPrice: 0
+    marketPrice: 0,
+    seasons: [ "Autumn", "Winter" ]
   },
   Banana: {
     seedCost: 70,
@@ -1715,7 +1738,8 @@ const BASE_FRUITS = {
     timeSec: 43200,
     yieldPerHarvest: 1,
     minHarvest: 3,
-    marketPrice: 0
+    marketPrice: 0,
+    seasons: [ "Summer", "Autumn" ]
   },
   Celestine: {
     seedCost: 300,
@@ -1725,7 +1749,8 @@ const BASE_FRUITS = {
     yieldPerHarvest: 1,
     minHarvest: 4,
     marketPrice: 0,
-    moonOnly: true
+    moonOnly: true,
+    seasons: [ "Spring", "Summer", "Autumn", "Winter" ]
   },
   Lunara: {
     seedCost: 750,
@@ -1735,7 +1760,8 @@ const BASE_FRUITS = {
     yieldPerHarvest: 1,
     minHarvest: 4,
     marketPrice: 0,
-    moonOnly: true
+    moonOnly: true,
+    seasons: [ "Spring", "Summer", "Autumn", "Winter" ]
   },
   Duskberry: {
     seedCost: 1250,
@@ -1745,7 +1771,8 @@ const BASE_FRUITS = {
     yieldPerHarvest: 1,
     minHarvest: 4,
     marketPrice: 0,
-    moonOnly: true
+    moonOnly: true,
+    seasons: [ "Spring", "Summer", "Autumn", "Winter" ]
   }
 };
 
@@ -2027,7 +2054,18 @@ const BASE_CROP_MACHINE = {
   }
 };
 
-const CROP_MACHINE_QUEUE_SLOTS = 5;
+const CROP_MACHINE_QUEUE_SLOTS_BASE = 5;
+
+function getCropMachineQueueSlots() {
+  let add = 0;
+  try {
+    if (isSkillActive("skill_field_expansion_module")) {
+      const s = SKILL_BOOSTS.find(sk => sk.id === "skill_field_expansion_module");
+      add = s && s.queueAdd || 0;
+    }
+  } catch (e) {}
+  return CROP_MACHINE_QUEUE_SLOTS_BASE + add;
+}
 
 const CROP_MACHINE_PACK_MAX = {
   Sunflower: 2e3,
@@ -2041,7 +2079,18 @@ const CROP_MACHINE_PACK_MAX = {
   Broccoli: 450
 };
 
-const CROP_MACHINE_OIL_CAP = 48;
+const CROP_MACHINE_OIL_CAP_BASE = 48;
+
+function getCropMachineOilCap() {
+  let mult = 1;
+  try {
+    if (isSkillActive("skill_leak_proof_tank")) {
+      const s = SKILL_BOOSTS.find(sk => sk.id === "skill_leak_proof_tank");
+      mult = s && s.oilTankMult || 1;
+    }
+  } catch (e) {}
+  return CROP_MACHINE_OIL_CAP_BASE * mult;
+}
 
 const RESTOCK_GEM_COST = {
   seeds: 15,
@@ -2847,6 +2896,16 @@ function isCropInSeason(name, season) {
   return getCropSeasons(name).includes(season);
 }
 
+function getFruitSeasons(name) {
+  const d = BASE_FRUITS[name];
+  return d && Array.isArray(d.seasons) && d.seasons.length ? d.seasons : SEASON_ORDER.slice();
+}
+
+function isFruitInSeason(name, season) {
+  season = season || previewSeason;
+  return getFruitSeasons(name).includes(season);
+}
+
 function renderCropSeasonBadges(name) {
   const seasons = getCropSeasons(name);
   if (seasons.length === SEASON_ORDER.length) return `<span class="crop-season-badges" title="Grows year-round">${SEASON_ORDER.map(s => `<span class="active-season">${SEASON_EMOJI[s]}</span>`).join("")}</span>`;
@@ -2883,7 +2942,7 @@ function renderSeasonToggle() {
     });
   });
   const noteText = previewSeason === currentSeason ? `📅 This week's real season: ${currentSeason}` : `👀 Previewing ${previewSeason} — real season is ${currentSeason} (resets on refresh)`;
-  [ "seasonToggleNote", "cropsSeasonToggleNote", "fishMarketSeasonToggleNote" ].forEach(id => {
+  [ "seasonToggleNote", "cropsSeasonToggleNote", "fishMarketSeasonToggleNote", "fruitsSeasonToggleNote" ].forEach(id => {
     const note = document.getElementById(id);
     if (note) note.textContent = noteText;
   });
@@ -3142,7 +3201,7 @@ function saveCmQueue() {
   localStorage.setItem("hl_cm_queue", JSON.stringify(cmQueue));
 }
 
-let cmOilTank = parseFloat(localStorage.getItem("hl_cm_oil_tank") || String(CROP_MACHINE_OIL_CAP));
+let cmOilTank = parseFloat(localStorage.getItem("hl_cm_oil_tank") || String(getCropMachineOilCap()));
 
 function saveCmOilTank() {
   localStorage.setItem("hl_cm_oil_tank", String(cmOilTank));
@@ -3412,11 +3471,18 @@ function getSicknessEstimate(type) {
   };
 }
 
+function getEffectiveSickHeads(type) {
+  const qty = Math.max(0, parseFloat(getAnimalCount(type).qty) || 0);
+  const est = getSicknessEstimate(type);
+  let sickHeads = Math.min(Math.max(0, est.sickHeads || 0), qty);
+  if (isSkillActive("skill_healthy_livestock")) sickHeads *= .5;
+  return sickHeads;
+}
+
 function getCuresPerLevelForType(type) {
   const qty = Math.max(0, parseFloat(getAnimalCount(type).qty) || 0);
   if (qty <= 0) return 0;
-  const est = getSicknessEstimate(type);
-  const sickHeads = Math.min(Math.max(0, est.sickHeads || 0), qty);
+  const sickHeads = getEffectiveSickHeads(type);
   return sickHeads / qty;
 }
 
@@ -3922,7 +3988,7 @@ function computeBoostedGreenhouseStatsUncached(name, baseYield, baseTimeSec, nod
   windowSec = windowSec || 86400;
   const active = getActiveBoostsForGreenhouse(name);
   let addSum = 0, multBonusSum = 0;
-  let alwaysTimeMult = 1, seedQtyMult = 1, oilQtyMult = 1;
+  let alwaysTimeMult = 1, seedQtyMult = 1, oilQtyMult = 1, oilFlatReduce = 0;
   const totalNodes = nodeCountOverride != null ? nodeCountOverride : getGreenhouseCount(name);
   const limitedTimeFactors = [];
   const haveSyncData = hasLimitedBoostSyncData();
@@ -3953,6 +4019,7 @@ function computeBoostedGreenhouseStatsUncached(name, baseYield, baseTimeSec, nod
     }
     if (b.seedQtyMult) seedQtyMult *= b.seedQtyMult;
     if (b.oilQtyMult) oilQtyMult *= b.oilQtyMult;
+    if (b.oilFlatReduce) oilFlatReduce += b.oilFlatReduce;
   });
   const budAddValues = Object.values(budAddSum);
   if (budAddValues.length) addSum += Math.max(...budAddValues);
@@ -3966,7 +4033,8 @@ function computeBoostedGreenhouseStatsUncached(name, baseYield, baseTimeSec, nod
     timeVal: Math.max(1, timeVal),
     activeBoosts: active,
     seedQtyMult: seedQtyMult,
-    oilQtyMult: oilQtyMult
+    oilQtyMult: oilQtyMult,
+    oilFlatReduce: oilFlatReduce
   };
 }
 
@@ -3997,10 +4065,12 @@ function computeBoostedMachineTimeSec(baseTimeSec, windowSec) {
 
 function computeCropMachineOilMult() {
   let oilQtyMult = 1;
+  let oilReducePct = 0;
   getActiveBoostsForCropMachine().forEach(b => {
     if (b.oilQtyMult) oilQtyMult *= b.oilQtyMult;
+    if (b.oilReducePct) oilReducePct += b.oilReducePct;
   });
-  return oilQtyMult;
+  return oilQtyMult * Math.max(0, 1 - oilReducePct);
 }
 
 function getCropMachineYieldMultiplier(name) {
@@ -5550,20 +5620,65 @@ const SKILL_FRUITPATCH = [ {
   id: "skill_long_pickings",
   name: "Long Pickings",
   skillTier: 3,
-  notModeled: true,
-  note: "-50% Apple & Banana growth time / +100% growth time for all other fruits — tradeoff not wired into the time math yet"
+  category: "fruits",
+  scope: "fruitList",
+  fruits: [ "Apple", "Banana" ],
+  timeMult: .75,
+  _ascRole: "buff",
+  note: "-25% Apple & Banana growth time / +10% growth time for Blueberry, Orange, Tomato, Lemon, Celestine, Lunara & Duskberry"
+}, {
+  id: "skill_long_pickings",
+  name: "Long Pickings",
+  skillTier: 3,
+  category: "fruits",
+  scope: "fruitList",
+  fruits: [ "Blueberry", "Orange", "Tomato", "Lemon", "Celestine", "Lunara", "Duskberry" ],
+  timeMult: 1.1,
+  _ascRole: "debuff",
+  hideInPanel: true,
+  note: "-25% Apple & Banana growth time / +10% growth time for Blueberry, Orange, Tomato, Lemon, Celestine, Lunara & Duskberry"
 }, {
   id: "skill_short_pickings",
   name: "Short Pickings",
   skillTier: 3,
-  notModeled: true,
-  note: "-50% Blueberry & Orange growth time / +100% growth time for all other fruits — tradeoff not wired into the time math yet"
+  category: "fruits",
+  scope: "fruitList",
+  fruits: [ "Blueberry", "Orange" ],
+  timeMult: .75,
+  _ascRole: "buff",
+  note: "-25% Blueberry & Orange growth time / +10% growth time for Apple, Banana, Tomato, Lemon, Celestine, Lunara & Duskberry"
+}, {
+  id: "skill_short_pickings",
+  name: "Short Pickings",
+  skillTier: 3,
+  category: "fruits",
+  scope: "fruitList",
+  fruits: [ "Apple", "Banana", "Tomato", "Lemon", "Celestine", "Lunara", "Duskberry" ],
+  timeMult: 1.1,
+  _ascRole: "debuff",
+  hideInPanel: true,
+  note: "-25% Blueberry & Orange growth time / +10% growth time for Apple, Banana, Tomato, Lemon, Celestine, Lunara & Duskberry"
 }, {
   id: "skill_zesty_vibes",
   name: "Zesty Vibes",
   skillTier: 3,
-  notModeled: true,
-  note: "+1 Tomato & Lemon yield / -0.25 yield for all other fruits — tradeoff not wired into the yield math yet"
+  category: "fruits",
+  scope: "fruitList",
+  fruits: [ "Tomato", "Lemon" ],
+  yieldAdd: 1,
+  _ascRole: "buff",
+  note: "+1 Tomato & Lemon yield / -0.25 yield for Apple, Banana, Blueberry, Orange, Celestine, Lunara & Duskberry"
+}, {
+  id: "skill_zesty_vibes",
+  name: "Zesty Vibes",
+  skillTier: 3,
+  category: "fruits",
+  scope: "fruitList",
+  fruits: [ "Apple", "Banana", "Blueberry", "Orange", "Celestine", "Lunara", "Duskberry" ],
+  yieldAdd: -.25,
+  _ascRole: "debuff",
+  hideInPanel: true,
+  note: "+1 Tomato & Lemon yield / -0.25 yield for Apple, Banana, Blueberry, Orange, Celestine, Lunara & Duskberry"
 } ];
 
 SKILL_FRUITPATCH.forEach(s => {
@@ -5636,8 +5751,7 @@ const SKILL_ANIMALS = [ {
   id: "skill_bale_economy",
   name: "Bale Economy",
   skillTier: 1,
-  notModeled: true,
-  note: "Bale affects Milk and Wool production — exact mechanic not confirmed"
+  note: "Bale's Egg yield boost (+0.1, doubled by Double Bale) also applies to Wool and Milk"
 }, {
   id: "skill_abundant_harvest",
   name: "Abundant Harvest",
@@ -5674,8 +5788,7 @@ const SKILL_ANIMALS = [ {
   id: "skill_healthy_livestock",
   name: "Healthy Livestock",
   skillTier: 2,
-  notModeled: true,
-  note: "-50% chance of animal sickness — sickness isn't modeled in this app"
+  note: "-50% chance of animal sickness — averaged as -50% of your entered sick-head estimate in the medicine cost math"
 }, {
   id: "skill_heartwarming_instruments",
   name: "Heartwarming Instruments",
@@ -6085,8 +6198,10 @@ const SKILL_GREENHOUSE = [ {
   id: "skill_slick_saver",
   name: "Slick Saver",
   skillTier: 3,
-  notModeled: true,
-  note: "-1 Oil to grow greenhouse produce — depends on Greasy Plants, oil cost isn't wired into this app's math yet"
+  category: "greenhouse",
+  scope: "global",
+  oilFlatReduce: 1,
+  note: "-1 Oil to grow greenhouse produce"
 }, {
   id: "skill_greasy_plants",
   name: "Greasy Plants",
@@ -6122,8 +6237,10 @@ const SKILL_MACHINE = [ {
   id: "skill_oil_gadget",
   name: "Oil Gadget",
   skillTier: 1,
-  notModeled: true,
-  note: "-10% Oil consumption in the Crop Machine — oil consumption isn't wired into this app's math yet"
+  category: "cropmachine",
+  scope: "machineGlobal",
+  oilReducePct: .1,
+  note: "-10% Oil consumption in the Crop Machine"
 }, {
   id: "skill_oil_extraction",
   name: "Oil Extraction",
@@ -6137,8 +6254,10 @@ const SKILL_MACHINE = [ {
   id: "skill_leak_proof_tank",
   name: "Leak-Proof Tank",
   skillTier: 1,
-  notModeled: true,
-  note: "Triples oil tank capacity in the Crop Machine — the app's oil tank cap is a fixed constant, not wired to boosts yet"
+  category: "cropmachine",
+  scope: "machineGlobal",
+  oilTankMult: 3,
+  note: "Triples oil tank capacity in the Crop Machine"
 }, {
   id: "skill_crop_extension_module_2",
   name: "Crop Extension Module II",
@@ -6186,8 +6305,10 @@ const SKILL_MACHINE = [ {
   id: "skill_field_expansion_module",
   name: "Field Expansion Module",
   skillTier: 3,
-  notModeled: true,
-  note: "+5 packs added to the Crop Machine queue — queue size is a fixed constant in this app, not wired to boosts yet"
+  category: "cropmachine",
+  scope: "machineGlobal",
+  queueAdd: 5,
+  note: "+5 packs added to the Crop Machine queue"
 }, {
   id: "skill_field_extension_module",
   name: "Field Extension Module",
@@ -6198,8 +6319,10 @@ const SKILL_MACHINE = [ {
   id: "skill_efficiency_extension_module",
   name: "Efficiency Extension Module",
   skillTier: 3,
-  notModeled: true,
-  note: "-30% Oil consumption in the Crop Machine — not wired into this app's math yet"
+  category: "cropmachine",
+  scope: "machineGlobal",
+  oilReducePct: .3,
+  note: "-30% Oil consumption in the Crop Machine"
 }, {
   id: "skill_grease_lightning",
   name: "Grease Lightning",
@@ -6426,7 +6549,7 @@ const SKILL_CATEGORY_META = [ {
   label: "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALBAMAAAC0QAErAAAABGdBTUEAALGPC/xhBQAAABVQTFRFAAAAuG9Q////vkov6tSqwoVp6LeWFD5WfgAAAAF0Uk5TAEDm2GYAAABDSURBVAjXY2BgDQ1gYGAIS0tlYGBNc0oLAJJpQDIsTQkoFJai5JbKIJbiAiRF01zSAhlEgSoDGZhDQ0MNGBiMjY0ZAM3UDhfpAMERAAAAAElFTkSuQmCC' style='width:11px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Animals"
 }, {
   id: "bees",
-  label: "<img src='" + IMAGE_ICONS.Beehive + "' style='width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Bees & Flowers"
+  label: "<img src='data:image/webp;base64,UklGRt4AAABXRUJQVlA4TNIAAAAvD4AEEGegJgAIRgGfewXQQ3MCSLK6KAYANIrgPjHiCTSFMe2nJpKt5lc5OKBksIB/AblHAhoEAklO+xsMFQCAuhZY9kZMjeZjknC62SHhqv/1C38Kjmprc5OftupNAhZgzcECyyxpDrqBfw4ImC8jICd/6H0yBiiRFTxE9H8CiJxzjohOYEaRaKOc06/CSb+TZKuK/4xWSaKVNQxmsDWKAdY2AjMz4sgHM8LYiA+EYu8QEYF3FwAQbxCIiKw67Vkgspr2e8Onc+tuq1ZP/5OhNAI=' style='width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Bees & Flowers"
 }, {
   id: "greenhouse",
   label: "<img src='data:image/webp;base64,UklGRr4AAABXRUJQVlA4TLEAAAAvDoADEF+gppEU6M4Cb0muwr8FLGBOUWwb1FNAgG8Ae1uxdZBBATEURZLU3C9nMIJ/DwiCz/wHALbPLkICGcjYTA7JpnHY6+77f+A2kmTV2Trze99mUgQy5akUASXA4DFm8ELYJzKle2F+iCGi/wSTNNV2DL74wgNgPKM/IKVS/zmmalS5lb0hlXfZU8kaJN1D9s46G+xk79ug193J9FK5kuGkpvQHNVuvzPPadZBOJgIA' style='width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;'> Greenhouse"
@@ -6617,21 +6740,45 @@ const ASCENSION_RANK_DATA = {
     note: "+1 fruit chance 20/30/50% (EV shown)"
   },
   skill_long_pickings: {
-    field: null,
-    values: [ .75, .65, .55 ],
+    byRole: {
+      buff: {
+        field: "timeMult",
+        values: [ .75, .65, .55 ]
+      },
+      debuff: {
+        field: "timeMult",
+        values: [ 1.1, 1.125, 1.15 ]
+      }
+    },
     unit: "×",
-    note: "Growth-time tradeoff — not wired yet"
+    note: "Apple/Banana faster, other fruits slower"
   },
   skill_short_pickings: {
-    field: null,
-    values: [ .75, .65, .55 ],
+    byRole: {
+      buff: {
+        field: "timeMult",
+        values: [ .75, .65, .55 ]
+      },
+      debuff: {
+        field: "timeMult",
+        values: [ 1.1, 1.125, 1.15 ]
+      }
+    },
     unit: "×",
-    note: "Growth-time tradeoff — not wired yet"
+    note: "Blueberry/Orange faster, other fruits slower"
   },
   skill_zesty_vibes: {
-    field: null,
-    values: [ 1, 1.5, 2 ],
-    note: "Tomato/Lemon yield tradeoff — not wired yet"
+    byRole: {
+      buff: {
+        field: "yieldAdd",
+        values: [ 1, 1.5, 2 ]
+      },
+      debuff: {
+        field: "yieldAdd",
+        values: [ -.25, -.4, -.5 ]
+      }
+    },
+    note: "Tomato/Lemon yield up, other fruits yield down"
   },
   skill_fishermans_5_rod: {
     field: null,
@@ -7074,10 +7221,9 @@ const ASCENSION_RANK_DATA = {
     note: "+1/+2/+3 food from cooking, needs 2x/3x/4x ingredients — not wired yet"
   },
   skill_efficiency_extension_module: {
-    field: null,
-    values: [ 30, 40, 50 ],
-    unit: "%",
-    note: "Oil consumption reduction in Crop Machine — not wired yet"
+    field: "oilReducePct",
+    values: [ .3, .4, .5 ],
+    note: "Oil consumption reduction in Crop Machine (now wired; stacks additively with Oil Gadget)"
   },
   skill_feathery_business: {
     field: null,
@@ -7086,9 +7232,9 @@ const ASCENSION_RANK_DATA = {
     note: "Feather cost multiplier for composter speed-up — not wired yet"
   },
   skill_field_expansion_module: {
-    field: null,
+    field: "queueAdd",
     values: [ 5, 7, 10 ],
-    note: "Extra packs added to Crop Machine queue — not wired yet"
+    note: "Extra packs added to Crop Machine queue (now wired)"
   },
   skill_field_extension_module: {
     field: null,
@@ -7145,7 +7291,7 @@ const ASCENSION_RANK_DATA = {
     field: null,
     values: [ 1, .5, .01 ],
     unit: "×",
-    note: "-50% animal sickness chance flat every rank; sickness spread multiplier shown — not wired yet"
+    note: "-50% sickness chance applies flat once the skill is owned (now wired into the medicine cost math); rank only shrinks the sickness spread multiplier shown here, which isn't modeled"
   },
   skill_heartwarming_instruments: {
     field: null,
@@ -7154,10 +7300,10 @@ const ASCENSION_RANK_DATA = {
     note: "Animal XP from Affection tools — XP isn't tracked in this app"
   },
   skill_leak_proof_tank: {
-    field: null,
+    field: "oilTankMult",
     values: [ 3, 4, 5 ],
     unit: "×",
-    note: "Crop Machine oil tank capacity multiplier — not wired yet"
+    note: "Crop Machine oil tank capacity multiplier (now wired)"
   },
   skill_nom_nom: {
     field: null,
@@ -7166,10 +7312,9 @@ const ASCENSION_RANK_DATA = {
     note: "Food delivery revenue — not wired yet"
   },
   skill_oil_gadget: {
-    field: null,
-    values: [ 10, 15, 20 ],
-    unit: "%",
-    note: "Oil consumption reduction in Crop Machine — not wired yet"
+    field: "oilReducePct",
+    values: [ .1, .15, .2 ],
+    note: "Oil consumption reduction in Crop Machine (now wired; stacks additively with Efficiency Extension Module)"
   },
   skill_refiner: {
     field: null,
@@ -7190,9 +7335,9 @@ const ASCENSION_RANK_DATA = {
     note: "Greenhouse seed cost multiplier — not wired yet"
   },
   skill_slick_saver: {
-    field: null,
+    field: "oilFlatReduce",
     values: [ 1, 1.5, 2 ],
-    note: "Oil reduction to grow greenhouse produce — not wired yet"
+    note: "Oil reduction to grow greenhouse produce (now wired)"
   },
   skill_speedy_aging: {
     field: null,
@@ -7289,6 +7434,18 @@ function applyAscensionRanks() {
         }
         return;
       }
+      if (data.byRole) {
+        const cfg = data.byRole[entry._ascRole];
+        if (!cfg) return;
+        const f = cfg.field;
+        if (entry._ascBase[f] === undefined) entry._ascBase[f] = ascensionGetPath(entry, f);
+        if (owned) {
+          ascensionSetPath(entry, f, cfg.values[rank - 1]);
+        } else {
+          ascensionSetPath(entry, f, entry._ascBase[f]);
+        }
+        return;
+      }
       if (!data.field) return;
       const fields = Array.isArray(data.field) ? data.field : [ data.field ];
       fields.forEach(f => {
@@ -7337,6 +7494,9 @@ function ascensionDescribeRank(id, rank) {
   if (data.byScope) {
     const firstKey = Object.keys(data.byScope)[0];
     primaryValues = data.byScope[firstKey].values;
+  } else if (data.byRole) {
+    const firstKey = Object.keys(data.byRole)[0];
+    primaryValues = data.byRole[firstKey].values;
   } else if (data.byTarget) {
     primaryValues = data.values[Object.keys(data.values)[0]];
   } else {
@@ -8611,6 +8771,15 @@ const BUD_RESOURCE_TYPES = [ {
   } ]
 } ];
 
+const BUD_FISH_TYPES = [ {
+  id: "none",
+  name: "None"
+}, {
+  id: "port",
+  name: "Port",
+  label: "Bonus Fish EXP"
+} ];
+
 const BUD_RESOURCE_STEMS = [ {
   id: "none",
   name: "None"
@@ -9541,6 +9710,19 @@ function allResourceBudBoostEntries() {
     all = all.concat(buildResourceBudBoostEntries(bud.id, bud.typeId, bud.stemId, bud.auraId));
   });
   return all;
+}
+
+let fishBuds = [];
+
+try {
+  fishBuds = safeLSJSON(localStorage.getItem("hl_fish_buds"), []);
+  if (!Array.isArray(fishBuds)) fishBuds = [];
+} catch (e) {
+  fishBuds = [];
+}
+
+function saveFishBuds() {
+  localStorage.setItem("hl_fish_buds", JSON.stringify(fishBuds));
 }
 
 const COOKING_BOOSTS = [ {
@@ -11481,11 +11663,13 @@ function renderBoostPanel() {
     const fruitBudSectionEl0 = document.getElementById("fruitBudSection");
     const cropBudSectionEl0 = document.getElementById("cropBudSection");
     const resourceBudSectionEl0 = document.getElementById("resourceBudSection");
+    const fishBudSectionEl0 = document.getElementById("fishBudSection");
     if (budSectionEl0) budSectionEl0.style.display = "none";
     if (animalBudSectionEl0) animalBudSectionEl0.style.display = "none";
     if (fruitBudSectionEl0) fruitBudSectionEl0.style.display = "none";
     if (cropBudSectionEl0) cropBudSectionEl0.style.display = "none";
     if (resourceBudSectionEl0) resourceBudSectionEl0.style.display = "none";
+    if (fishBudSectionEl0) fishBudSectionEl0.style.display = "none";
     return;
   }
   const inCategory = BOOSTS.filter(b => (b.category || "crops") === boostCategory && b.source !== "skill");
@@ -11832,6 +12016,7 @@ function renderBoostPanel() {
   const fruitBudSectionEl = document.getElementById("fruitBudSection");
   const cropBudSectionEl = document.getElementById("cropBudSection");
   const resourceBudSectionEl = document.getElementById("resourceBudSection");
+  const fishBudSectionEl = document.getElementById("fishBudSection");
   if (budSectionEl) {
     if (boostCategory === "greenhouse") {
       budSectionEl.style.display = "";
@@ -11839,6 +12024,7 @@ function renderBoostPanel() {
       if (fruitBudSectionEl) fruitBudSectionEl.style.display = "none";
       if (cropBudSectionEl) cropBudSectionEl.style.display = "none";
       if (resourceBudSectionEl) resourceBudSectionEl.style.display = "none";
+      if (fishBudSectionEl) fishBudSectionEl.style.display = "none";
       renderBudList();
     } else if (boostCategory === "animals") {
       budSectionEl.style.display = "none";
@@ -11846,6 +12032,7 @@ function renderBoostPanel() {
       if (fruitBudSectionEl) fruitBudSectionEl.style.display = "none";
       if (cropBudSectionEl) cropBudSectionEl.style.display = "none";
       if (resourceBudSectionEl) resourceBudSectionEl.style.display = "none";
+      if (fishBudSectionEl) fishBudSectionEl.style.display = "none";
       renderAnimalBudList();
     } else if (boostCategory === "fruits") {
       budSectionEl.style.display = "none";
@@ -11853,6 +12040,7 @@ function renderBoostPanel() {
       if (fruitBudSectionEl) fruitBudSectionEl.style.display = "";
       if (cropBudSectionEl) cropBudSectionEl.style.display = "none";
       if (resourceBudSectionEl) resourceBudSectionEl.style.display = "none";
+      if (fishBudSectionEl) fishBudSectionEl.style.display = "none";
       renderFruitBudList();
     } else if (boostCategory === "crops" || boostCategory === "cropmachine") {
       budSectionEl.style.display = "none";
@@ -11860,6 +12048,7 @@ function renderBoostPanel() {
       if (fruitBudSectionEl) fruitBudSectionEl.style.display = "none";
       if (cropBudSectionEl) cropBudSectionEl.style.display = "";
       if (resourceBudSectionEl) resourceBudSectionEl.style.display = "none";
+      if (fishBudSectionEl) fishBudSectionEl.style.display = "none";
       renderCropBudList();
     } else if (boostCategory === "resources") {
       budSectionEl.style.display = "none";
@@ -11867,13 +12056,23 @@ function renderBoostPanel() {
       if (fruitBudSectionEl) fruitBudSectionEl.style.display = "none";
       if (cropBudSectionEl) cropBudSectionEl.style.display = "none";
       if (resourceBudSectionEl) resourceBudSectionEl.style.display = "";
+      if (fishBudSectionEl) fishBudSectionEl.style.display = "none";
       renderResourceBudList();
+    } else if (boostCategory === "fishing") {
+      budSectionEl.style.display = "none";
+      if (animalBudSectionEl) animalBudSectionEl.style.display = "none";
+      if (fruitBudSectionEl) fruitBudSectionEl.style.display = "none";
+      if (cropBudSectionEl) cropBudSectionEl.style.display = "none";
+      if (resourceBudSectionEl) resourceBudSectionEl.style.display = "none";
+      if (fishBudSectionEl) fishBudSectionEl.style.display = "";
+      renderFishBudList();
     } else {
       budSectionEl.style.display = "none";
       if (animalBudSectionEl) animalBudSectionEl.style.display = "none";
       if (fruitBudSectionEl) fruitBudSectionEl.style.display = "none";
       if (cropBudSectionEl) cropBudSectionEl.style.display = "none";
       if (resourceBudSectionEl) resourceBudSectionEl.style.display = "none";
+      if (fishBudSectionEl) fishBudSectionEl.style.display = "none";
     }
   }
 }
@@ -12040,6 +12239,47 @@ function removeResourceBud(budUID) {
   if (typeof renderResourceList === "function") renderResourceList();
   updateCalcSummary();
   if (typeof updateResourceBudDuplicateState === "function") updateResourceBudDuplicateState();
+  toast("BUD removed");
+}
+
+function fishBudSummaryText(typeId, auraId) {
+  if (typeId !== "port") return "No Fish EXP bonus";
+  const aura = BUD_AURAS.find(a => a.id === auraId) || BUD_AURAS[0];
+  const mult = 1 + aura.mult * .1;
+  return mult === 1 ? "No Fish EXP bonus" : `×${fmt(mult)} Fish EXP (raw catch + fish dishes)`;
+}
+
+function refreshFishBoostDisplays() {
+  invalidateCostCache();
+  if (typeof renderCookingFoodList === "function") renderCookingFoodList();
+  if (typeof renderFishingTierList === "function") renderFishingTierList();
+  updateCalcSummary();
+}
+
+function renderFishBudList() {
+  const wrap = document.getElementById("fishBudCreatedList");
+  if (!wrap) return;
+  if (!fishBuds.length) {
+    wrap.innerHTML = `<div class="lib-empty" style="margin-bottom:10px;">No BUD NFTs added yet.</div>`;
+    return;
+  }
+  wrap.innerHTML = fishBuds.map((bud, i) => {
+    const typeName = (BUD_FISH_TYPES.find(t => t.id === bud.typeId) || {}).name || "None";
+    const auraName = (BUD_AURAS.find(a => a.id === bud.auraId) || {}).name || "No Aura";
+    const summary = fishBudSummaryText(bud.typeId, bud.auraId);
+    return `<div class="bud-row fish-bud-row">\n      <div class="bud-row-main">\n        <div class="bud-row-title">Bud ${i + 1}<span class="bud-row-combo">${escapeHtml(typeName)} · ${escapeHtml(auraName)}</span></div>\n        <div class="bud-row-effect">${escapeHtml(summary)}</div>\n      </div>\n      <button type="button" class="bud-remove-btn" data-fish-bud-remove="${bud.id}" title="Remove this BUD">✕</button>\n    </div>`;
+  }).join("");
+  wrap.querySelectorAll("[data-fish-bud-remove]").forEach(btn => {
+    btn.onclick = () => removeFishBud(btn.dataset.fishBudRemove);
+  });
+}
+
+function removeFishBud(budUID) {
+  fishBuds = fishBuds.filter(b => b.id !== budUID);
+  saveFishBuds();
+  renderFishBudList();
+  refreshFishBoostDisplays();
+  if (typeof updateFishBudDuplicateState === "function") updateFishBudDuplicateState();
   toast("BUD removed");
 }
 
@@ -12857,7 +13097,7 @@ function getGreenhouseCostCoins(name) {
   if (!d) return 0;
   const boosted = computeBoostedGreenhouseStats(name, d.baseYield || 1, d.timeSec);
   const seedCoinCost = hasFreeCostBoostGreenhouse(name) ? 0 : (d.seedCost || 0) * (boosted.seedQtyMult || 1);
-  const oilQty = (d.oilQty || 0) * (boosted.oilQtyMult || 1);
+  const oilQty = Math.max(0, (d.oilQty || 0) * (boosted.oilQtyMult || 1) - (boosted.oilFlatReduce || 0));
   const oilCoinCost = oilQty * getItemCostByName("Oil");
   return (seedCoinCost + oilCoinCost) / boosted.yieldVal;
 }
@@ -13246,7 +13486,19 @@ function getActiveFeedInfo(feedKey, visited) {
 }
 
 function getActiveAnimalBoosts(type) {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "animals" && (b.scope === "animalGlobal" || b.scope === "animalType" && b.target === type));
+  const active = BOOSTS.filter(b => isBoostActive(b.id) && b.category === "animals" && (b.scope === "animalGlobal" || b.scope === "animalType" && b.target === type));
+  if ((type === "sheep" || type === "cow") && isBoostActive("bale") && isSkillActive("skill_bale_economy")) {
+    const bale = BOOSTS.find(b => b.id === "bale");
+    if (bale && bale.yieldAdd) {
+      active.push({
+        id: "bale_economy_" + type,
+        name: "Bale Economy",
+        productIndex: 0,
+        yieldAdd: bale.yieldAdd
+      });
+    }
+  }
+  return active;
 }
 
 const ANIMAL_BASE_CYCLE_SEC = 86400;
@@ -13288,8 +13540,7 @@ function computeAnimalTypeFigures(type, visited) {
   const costPerCureFlower = cureFree ? 0 : computeMedicineCostFlower(visited) * cureCostMult;
   const medicineFlowerPerLevel = cureFree ? 0 : costPerCureFlower * curesPerLevel;
   const consumablesFlowerPerLevel = spice.costFlowerPerCyclePerAnimal;
-  const est = getSicknessEstimate(type);
-  const sickHeads = Math.min(Math.max(0, est.sickHeads || 0), qty);
+  const sickHeads = getEffectiveSickHeads(type);
   const extraCoinsPerLevel = (medicineFlowerPerLevel + consumablesFlowerPerLevel) * coinPerFlower;
   const totalCostCoinsPerAnimal = feedCostCoins + extraCoinsPerLevel;
   const costPerUnit = totalYieldUnits > 0 ? totalCostCoinsPerAnimal / totalYieldUnits : 0;
@@ -13807,15 +14058,59 @@ const ICONS = {
   "Pickled Broccoli": "🥦",
   "Pickled Radish": "🔴",
   "Pickled Pepper": "🫑",
-  "Pickled Onion": "🧅"
+  "Pickled Onion": "🧅",
+  Gem: "💎",
+  Mark: "🎫",
+  "Love Charm": "💘",
+  Cheer: "🎉"
 };
 
+IMAGE_ICONS["Gem"] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC";
+IMAGE_ICONS["Mark"] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAASUExURQAAACYrRMDL3IubtFppiP///3HJjMgAAAABdFJOUwBA5thmAAAAAWJLR0QF+G/pxwAAAAd0SU1FB+gGGwoLLgwuR6MAAABlSURBVAjXNY3REYAwCEPTDVp1AaELSFhAYf+ZxN6ZH3JJjgcAY2BpiCzXhJReZqMpzwrURNQ6GuczH3ZsFqauJ/Zqqruwe5biwuHqYXHXuLazxi2qC6+PBz14f4gksy9o5o//7gtDxBATtPGuAAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNC0wNi0yN1QxMDoxMTo0NiswMDowMLD9+BsAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjQtMDYtMjdUMTA6MTE6NDYrMDA6MDDBoECnAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDI0LTA2LTI3VDEwOjExOjQ2KzAwOjAwlrVheAAAAABJRU5ErkJggg==";
+IMAGE_ICONS["Love Charm"] = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMBAMAAACQIoDIAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAACYrRP///8DL3IubtPZ1euQ7RP4qkxoAAAABdFJOUwBA5thmAAAAAWJLR0QCZgt8ZAAAAAd0SU1FB+kEAQAJOT5kEg4AAABiSURBVAjXNYy5DYBADATXHdjAXc5RAYgGEDRAYPILcP8lsHwjB6OR1hAzEDNFUwrdSunRboureLeNkCH5zpsUMqdwj31VoMlxHlF7btscpI5UsVv564a54kUi9FPkPzI/8QKQthBGeCDlPQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNS0wNC0wMVQwMDowOTo1NyswMDowMHFHFmEAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjUtMDQtMDFUMDA6MDk6NTcrMDA6MDAAGq7dAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDI1LTA0LTAxVDAwOjA5OjU3KzAwOjAwVw+PAgAAAABJRU5ErkJggg==";
+IMAGE_ICONS["Cheer"] = "data:image/webp;base64,UklGRroAAABXRUJQVlA4TK4AAAAvEAAEEEegGAAaKIQE8ui///wVToZpqAkANOEjDYGo6hJrqqiRFOY0YAybmOvty/wHAP7/ohOLMeAkJSsj0Qg4biTbiUZ6ETxMAKy5P+n/D1zRfxsBNgI2AHv2+/N+BBHR/wmAFefISFTdyFkHI8zdaPJOnyNBHBfVZyHEnIvdt4UMJR9NHJmXMRH6kGtKLSDnqCkRcJn0k1psuMVtjPXozbrOJzKPR+8BwDknZAA=";
+
+const IMAGE_ICON_FALLBACK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeAAAAHgCAMAAABKCk6nAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAKpUExURei4lui2kuWoduWmcuWmcuWmc+ezjOi4l+i4luOlcuGkceGkcuOwiuS2leS1lOe3luencqF6YlpNUVxOUV1SWF1TXF1TW2BVXcCbheq6l+ioc4RnWyAnQyMpQycrRLCPfuu6l4ZpWyYrRCouRrGQf+uqc4VpWyAoQiMqQyMpQiMoQSIoQScrQ7KQf+69mYpcXY5QX49SYZJgbpNicJNhb5N8iZOWopOVopKUoIp8fIdxbIdybYZxbZJ6ct2wkem5lvx3fPl2e/p6f/+Wmf+bnv+bnf+ZnP/O0P////7+/mNneR8lQCIoQjo6TdGnjOq5l/Z1evd5fv6VmP+Xmv/Mzvv7+2RneSInQSUqQz08Tum5l/+Xm/6Ul/+Ym//LzP/9/fv5+fZ2e/h+g/l/hPybnv+3uf+2uPuztmRTZSIpQvZ0evZ0efqGivuVmWRKXSIpQ/uHi/+anfuXmvh2evd2evuXm+9zeN5sdN1sdOBtdPN0efqFifqTlmRJXMJibEI1Sz40Sj0zSlQ7UPd3fPN4fWJBVbpgaiksRSQqRPJzeWFAU7tgayosRfJ0eZBRX/13fL1ha1o+UnBFVygsRSQqQ19QUiotRSgsROSlcr6Naa6CZa+DZbGEZWpXVCUrRDgxSalaZrxga+enc4dqWz80SuFtdPt3e+iocoVoW9GojeWoduiqd4ZqXT07TdGmiem3kui2kuu4k4dwayUqRD06Ss+ZcOepd+u6mDw5Sc6XbOancs+YbfV1emJAVPd1eupxd5pUYo1QX4xPXkQ2TDwzSiEpQ99tdDs5Sc6XbchlbjEyRz06SVBGTtGZbXphWOKkcempcy0tRtprczIvR4JMXI9QX4dxbYlzbicsRCouRcykirGQfq+HbK+DZMqUa+mtfei4learfOWmcWXLs0kAAAAEdFJOU8/Pz89A910XAAAAAWJLR0RI8ALU6gAAAAd0SU1FB+gIDQk4D3woOrYAAAegSURBVHja7d1pfx1lGcDhyF5AKDsGA03YwiJGcEeBsBRUoC3FsgkKKDtuVdJWhaBAw1YoKCBLQIltBUEhrMWqQChr1ZYdcf0k+poXfYgz58x97lz/D3Ce38z1e+Y5b+aero2mVBtvsulmU6qurqZvOWDAgAEDBgx4KgQ4eYCTBzh5gJMHOHmAkwc4eYCTBzh5gJMHOHmAkwc4eYCTBzh5gJMHOHmAkwc4eYCTBzh5gJMHOHmAkwc4eYCTBzh5gJMHOHmAkwc4eYCTBzh5gJMHOHmAkwc4eYCTBzh5gJMHOHmAkwc4eYCTBzh5gJMHOHmAkwc4eYDjNG3zFrTFlh/cqiVt3bRkxwFP32bb7VrQ9jvs2Ip22vlDTVN2GnD3Lh/u6Zx23W1G05QdB9zb09c57b4HYMCAAQMOGmDAgAEDDhtgwIABAw4bYMCAAQMOG2DAgAEDDhtgwIABAw4bYMCAAQMOG2DAgAEDDhtgwIABAw4bYMCAAQMOG2DAUwt4enepPffau789lV/v3mffQvvt/5EDZpSaSsDTttmlt9BeHx1oTx878KBCH//EJz9V6NOf+ezB6+9znz/k0KkDvPm2xfkMew8cNtiWDj/iyKPW38yjjyn1hS9+qXA9xx53/KwpBLxd8YDtHxic3ZbmnDCz0NwTi8BfnndS4XpOPuX4UwEDBgwYMGDAgAEDBgwYMGDAgAEDBgwYMGDAgAEDBgwYMGDAgAEDBgwYMGDAgAEDBgwYMGDAgAEDBgwYMGDAgAFHAD4NcEcDf2Xm6etv7hnHfLXQ1+btBzgo8JlnnV3orK9/45xC5553PuCgwLMvuLDURafPLXTxN78FOCpwsQu//Z3SMf1dwIABAwYMGDBgwIABAwYMGDBgwICbDzBgwIABAwYMGDBgwIABAwYMGDBgwIADBBgwYMCAAQMGDBgwYMCAAQMGDBhw64HnF/teHcDfB9wM8CVDC4bW34KFi4q/8oMTSv3wR4CbAB689LLhQpf/eGFxD/9kTqkrruwH3ATwVYtHCvVfvmB+9YWuvgZwI8DXXldaZ2R4qAbg6wEDBgwYMGDAgAEDBgwYMGDAgAEDBgwYMGDAgAEDBgwYMGDAgAEDBgwYMGDAgAEDBgwYMGDAgAEDBgwYMGDAgAEXgJccNli5G24EHBV4ZOmSgcotuelmwEGB+0b6a+in5WUANwTcpgADBgwYMGDAgAEDBgwYMGDAgAEDBgw4QIABAwYMGDBgwIABAwYMGDBgwIABAwYcIMCAAQMGDBgwYMCAAQMGDBgw4ETAdXwBHPB7gH+26y2lbi3jXFdDiy+zg+vvtp/ffkehO+8aKdyy0bvv+cW1lbvq0kuq+wJ+b7/sLrXnvaWn+MjYr5ZVn9MyWMMwH8D/R929ReBa/h7VE2DAgAEDBgwYMGDAEQKcHHj5imzAv57VCPB9Qbv/N8mAH3jwt79rfx/oamDR99VDD+cCHn/k0cca2CcbdDXw2HhfPX5wMuAnnlzZwEm3YVjgGemAnwIMGDBgwIABA24+wIABAwYMGDBgwIABAwYMGDBgwIABAw4QYMCAAQMGDBgw4I4GruMl8t+vAhwU+A9//NPTA5V75tnSwAnADQHPXzDxXH/1RvsABwUeGi5tvloCDBgwYMCAAQMOEWDAgAEDBgwYMGDAgAEDBgwYMGDAgAEHCDBgwIABAwYMGDBgwIABAwYMGDBgwIADBBgwYMCAAQMOCzy2enB+5QZXjxWBR8er1/P8C4AnBzw+8eLqocqtfnFivAT80stPVO75V9YAnhxw3+KJseHKjU0sLq3T8+c1T1XuhTV/acC3s4H7xkdqqLh/+3p6/7qyhprw7XDgNtXT290IDmDAgAE3DQkYcNMBBhw2wIABAwYcNsCAAQMGHDbAgAEDBhw2wIABAwYcNsCAAQMGHDbAgAEDBhw2wIABAwYcNsCAAQMGHDbAgAMD1/Bp9v8FOCrw2qWrrqncqqVrAccEHhlet+j6yi1aV5yyA7gh4LF6xigVp+wAbgi4XXOyAAMOG2DAgAEDDhtgwIABAw4bYMCAAQMOG2DAgAEDDhtgwIABAw4bYMCAAQMOG2DAgAEDDhtgwIABAw4bYMCAAQMOG2DAgAE3BDy2cNlg5ZYt9H5wUODRV197faByr7/26ijgkMCGsKQHblOAAYcNMGDAgAGHDTBgwIABhw0wYMCAAYcNMGDAgAGHDTBgwIABhw0wYMCAAYcNMGDAgAGHDTBgwIABhw0wYMCAAYcNMGDAgFsC/EYc4BWAWwD85lu7t6C3b5l8b90LuP4OfWe3Pervb+/+/Y5Jd/s/VjbtlBB4s1kzWtE/l3dPvulNM6UEbkn/+vd/mr7lgAEDBgwYMOCpEODkAU4e4OQBTh7g5AFOHuDkAU4e4OQBTh7g5AFOHuDkAU4e4OQBTh7g5AFOHuDkAU4e4OQBTh7g5AFOHuDkAU4e4OQBTh7g5AFOHuDkAU4e4OQBTh7g5AFOHuDkAU4e4OQBTh7g5AFOHuDkAU4e4OQBTh7g5AFOHuDkAU4e4OQBTh7g5AFOHuDkAU4e4OQBTh7g5AFOHuDkAU4e4ORt+F/QJnURvAp1EQAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNC0wOC0xM1QwOTo1NjoxMSswMDowMGbzSgEAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjQtMDgtMTNUMDk6NTY6MTErMDA6MDAXrvK9AAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDI0LTA4LTEzVDA5OjU2OjE1KzAwOjAwtPT3cQAAAABJRU5ErkJggg==";
+IMAGE_ICONS["Camel"] = "data:image/webp;base64,UklGRhgBAABXRUJQVlA4TAsBAAAvIAAGEFegJgAIRoi9bjf9k6igkKJIUiOKJ+9TAU6wjYIrcaQkkhXqqZfg8VMoJEUpSwWBQBLY9osFAAAg9Lm7fT39NBmYysYqlOMDuLFtu2oONua7Xgi9Ce15ECLzrojtpQFJtwGVoEr//Y8WIvo/AQCw7uHVGF6hWS9pTjt+H1PWQ7MYVil/Q7uorgDpN8z1orrEyc7efamqyz1+zPrO+n82m+15MrOzA+zJqDcze/a8Lil6+zXTQ8rjpvZU7SUs1A3OaM3ofUnV9PmoiVQtACg5F3moikiV1cazfRS/yloAsg3phNiQkbHGGLxNFIpIiNIkEkhSmjKyyrIsI6sMAAZZaquGJPgJAAAA";
+IMAGE_ICONS["Treasure Map"] = "data:image/webp;base64,UklGRuIAAABXRUJQVlA4TNUAAAAvIYAFEE+gJgAIxvj0EEGB3T+GEORQ2kgKdOeRdET/fyFIJGYiEHKC2G0C6J/J9C8QSHLa32CoAICoGs9/Txfuz864GZNMCpAjya4Uie/5jwE6yQQcYDx4xDsCu1KMCXt+sW+iXMBeRg8XIvo/AamleEsP3YYevp2ooYFxorbonETn3tE5VETcEbl1cARBIxiAREomo/QcrGAKEqBQcP56BobRo5CxAtC5FjIWwgDLOaJAAeuJOA6If2hV+XRUbsP/OLX6jg5tfNa7ROv9smvfLtL+2wQA";
+
 function getIcon(name) {
-  if (!name) return "🌾";
-  const imgSrc = IMAGE_ICONS[name] || Object.entries(IMAGE_ICONS).find(([k]) => k.toLowerCase() === name.trim().toLowerCase())?.[1];
-  if (imgSrc) return `<img src="${imgSrc}" alt="${escapeHtml(name)}" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">`;
-  const emoji = ICONS[name] || Object.entries(ICONS).find(([k]) => k.toLowerCase() === name.trim().toLowerCase())?.[1];
-  return `<span style="font-size:16px;line-height:1;">${emoji || "🌾"}</span>`;
+  const cacheKey = name || "";
+  if (__getIconCache.has(cacheKey)) return __getIconCache.get(cacheKey);
+  let result;
+  if (!name) {
+    result = `<img src="${IMAGE_ICON_FALLBACK}" alt="item" width="16" height="16" decoding="async" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">`;
+  } else {
+    const imgSrc = IMAGE_ICONS[name] || Object.entries(IMAGE_ICONS).find(([k]) => k.toLowerCase() === name.trim().toLowerCase())?.[1];
+    if (imgSrc) {
+      result = `<img src="${imgSrc}" alt="${escapeHtml(name)}" width="16" height="16" decoding="async" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">`;
+    } else {
+      const emoji = ICONS[name] || Object.entries(ICONS).find(([k]) => k.toLowerCase() === name.trim().toLowerCase())?.[1];
+      if (emoji) {
+        result = `<span style="font-size:16px;line-height:1;">${emoji}</span>`;
+      } else {
+        result = `<img src="${IMAGE_ICON_FALLBACK}" alt="${escapeHtml(name)}" width="16" height="16" decoding="async" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">`;
+      }
+    }
+  }
+  __getIconCache.set(cacheKey, result);
+  return result;
+}
+
+function getTreasureIcon(name) {
+  const cacheKey = name || "";
+  if (__getTreasureIconCache.has(cacheKey)) return __getTreasureIconCache.get(cacheKey);
+  let result;
+  if (!name) {
+    result = `<img src="${IMAGE_ICON_FALLBACK}" alt="item" width="16" height="16" decoding="async" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">`;
+  } else {
+    const imgSrc = IMAGE_ICONS[name] || Object.entries(IMAGE_ICONS).find(([k]) => k.toLowerCase() === name.trim().toLowerCase())?.[1];
+    result = imgSrc
+      ? `<img src="${imgSrc}" alt="${escapeHtml(name)}" width="16" height="16" decoding="async" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">`
+      : `<img src="${IMAGE_ICON_FALLBACK}" alt="${escapeHtml(name)}" width="16" height="16" decoding="async" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">`;
+  }
+  __getTreasureIconCache.set(cacheKey, result);
+  return result;
 }
 
 function getFishIcon(fishName, isPrime) {
@@ -13882,15 +14177,35 @@ function normalizeItemName(name) {
   return (name || "").trim().toLowerCase().replace(/\bseeds?\b/g, "").replace(/\bcrop\b/g, "").replace(/\bfruit\b/g, "").replace(/[^a-z0-9]/g, "");
 }
 
+const _priceIndexCache = new WeakMap();
+
+function getPoolIndex(pool) {
+  let idx = _priceIndexCache.get(pool);
+  if (idx) return idx;
+  const exact = new Map();
+  const norm = new Map();
+  Object.keys(pool).forEach(k => {
+    const lower = k.trim().toLowerCase();
+    if (!exact.has(lower)) exact.set(lower, k);
+    const n = normalizeItemName(k);
+    if (n && !norm.has(n)) norm.set(n, k);
+  });
+  idx = { exact: exact, norm: norm };
+  _priceIndexCache.set(pool, idx);
+  return idx;
+}
+
 function findPriceInPool(pool, name) {
   if (!name) return null;
   const isRealPrice = v => typeof v === "number" && isFinite(v) && v > 0;
   if (isRealPrice(pool[name])) return pool[name];
-  const exactKey = Object.keys(pool).find(k => k.toLowerCase() === name.trim().toLowerCase());
+  const idx = getPoolIndex(pool);
+  const lower = name.trim().toLowerCase();
+  const exactKey = idx.exact.get(lower);
   if (exactKey != null && isRealPrice(pool[exactKey])) return pool[exactKey];
   const target = normalizeItemName(name);
   if (!target) return null;
-  const fuzzyKey = Object.keys(pool).find(k => normalizeItemName(k) === target);
+  const fuzzyKey = idx.norm.get(target);
   return fuzzyKey != null && isRealPrice(pool[fuzzyKey]) ? pool[fuzzyKey] : null;
 }
 
@@ -13941,6 +14256,10 @@ function setLivePrices(p2p, updatedAt, nft) {
   if (nft) {
     liveNftPrices = nft;
     localStorage.setItem("hl_live_nft_prices", JSON.stringify(liveNftPrices));
+  }
+  if (typeof __profileTradableRowsCacheG !== "undefined") {
+    __profileTradableRowsCacheG = null;
+    __profileTradableRowsCacheByTab = {};
   }
   updateLiveSyncStatus();
   if (typeof renderBettyShop === "function") renderBettyShop();
@@ -14364,6 +14683,28 @@ function applyFarmSkillsOnly(json, fallbackJson) {
   };
 }
 
+function farmSyncGetInteriorBagSources(g) {
+  const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
+  const home = asObj(g && g.home);
+  const interior = asObj(g && g.interior);
+  const levels = interior ? Object.keys(interior).map(k => asObj(interior[k])) : [];
+  return [ home ].concat(levels).filter(Boolean);
+}
+
+function farmSyncGetInteriorCollectiblesMerged(g) {
+  const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
+  const merged = {};
+  farmSyncGetInteriorBagSources(g).forEach(bagSource => {
+    const bag = asObj(bagSource.collectibles);
+    if (!bag) return;
+    Object.entries(bag).forEach(([name, arr]) => {
+      if (!Array.isArray(arr)) return;
+      merged[name] = (merged[name] || []).concat(arr);
+    });
+  });
+  return merged;
+}
+
 function farmSyncCollectEquippedAndPlacedNames(g) {
   const names = new Set;
   const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
@@ -14386,7 +14727,7 @@ function farmSyncCollectEquippedAndPlacedNames(g) {
     Object.values(farmHands).forEach(addEquippedFrom);
   }
   const home = g && asObj(g.home);
-  [ g, home ].forEach(bagSource => {
+  [ g, home ].concat(farmSyncGetInteriorBagSources(g)).forEach(bagSource => {
     if (!bagSource) return;
     [ "collectibles", "buildings" ].forEach(key => {
       const bag = asObj(bagSource[key]);
@@ -14409,7 +14750,7 @@ function farmSyncCollectEquippedAndPlacedNames(g) {
 function farmSyncHasLifetimeFarmerBanner(g) {
   const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
   const home = g && asObj(g.home);
-  for (const bagSource of [ g, home ]) {
+  for (const bagSource of [ g, home ].concat(farmSyncGetInteriorBagSources(g))) {
     if (!bagSource) continue;
     const bag = asObj(bagSource.collectibles);
     const arr = bag && bag["Lifetime Farmer Banner"];
@@ -14440,7 +14781,7 @@ function farmSyncIsTradingShrineActive(g) {
   const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
   const home = g && asObj(g.home);
   const now = Date.now();
-  for (const bagSource of [ g, home ]) {
+  for (const bagSource of [ g, home ].concat(farmSyncGetInteriorBagSources(g))) {
     if (!bagSource) continue;
     const bag = asObj(bagSource.collectibles);
     const arr = bag && bag["Trading Shrine"];
@@ -14469,7 +14810,7 @@ function farmSyncGetLimitedTimeBoostStatus(g, name, durationMs) {
     if (!isNaN(q)) status.quantity = q;
   }
   const home = asObj(g.home);
-  for (const bagSource of [ g, home ]) {
+  for (const bagSource of [ g, home ].concat(farmSyncGetInteriorBagSources(g))) {
     if (!bagSource) continue;
     const bag = asObj(bagSource.collectibles);
     const arr = bag && bag[name];
@@ -14962,6 +15303,35 @@ $("farmPanelToggle").onclick = () => {
 };
 
 $("farmPanelOverlay").onclick = closeFarmPanel;
+
+function positionFarmPanelTab() {
+  const tab = $("farmPanelToggle");
+  const ratioCard = $("settingsPanel");
+  const sidePanel = $("farmSidePanel");
+  if (!tab || !ratioCard || !sidePanel) return;
+  const profileOverlay = $("profileOverlay");
+  if (profileOverlay && profileOverlay.classList.contains("show")) return;
+  const cardRect = ratioCard.getBoundingClientRect();
+  const sideRect = sidePanel.getBoundingClientRect();
+  const gap = 8;
+  const desiredTop = cardRect.top - sideRect.top - tab.offsetHeight - gap;
+  const newTop = Math.max(8, desiredTop) + "px";
+  if (tab.style.top !== newTop) tab.style.top = newTop;
+}
+
+positionFarmPanelTab();
+let __farmPanelTabRepositionScheduled = false;
+function schedulePositionFarmPanelTab() {
+  if (__farmPanelTabRepositionScheduled) return;
+  __farmPanelTabRepositionScheduled = true;
+  requestAnimationFrame(() => {
+    __farmPanelTabRepositionScheduled = false;
+    positionFarmPanelTab();
+  });
+}
+window.addEventListener("load", () => setTimeout(positionFarmPanelTab, 0));
+window.addEventListener("resize", schedulePositionFarmPanelTab);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(positionFarmPanelTab);
 
 const SALT_BASE_YIELD = 10;
 
@@ -17648,6 +18018,15 @@ $("farmPanelDebugToggle").onclick = () => {
   $("farmPanelDebugToggle").classList.toggle("open");
 };
 
+const farmPanelDebugCloseBtnEl = $("farmPanelDebugCloseBtn");
+
+if (farmPanelDebugCloseBtnEl) farmPanelDebugCloseBtnEl.onclick = () => {
+  $("farmPanelDebugPanel").classList.remove("open");
+  $("farmPanelDebugToggle").classList.remove("open");
+  const box = $("farmPanelDebugOutput");
+  if (box) box.style.display = "none";
+};
+
 $("farmPanelDebugBtn").onclick = () => {
   const box = $("farmPanelDebugOutput");
   if (!farmPanelGameState) {
@@ -17907,6 +18286,116 @@ if (farmPanelDebugPetsBtnEl) farmPanelDebugPetsBtnEl.onclick = () => {
   box.select();
 };
 
+const farmPanelDebugNftPricesBtnEl = $("farmPanelDebugNftPricesBtn");
+
+if (farmPanelDebugNftPricesBtnEl) farmPanelDebugNftPricesBtnEl.onclick = async () => {
+  const box = $("farmPanelDebugOutput");
+  box.style.display = "block";
+  box.value = "Fetching " + SFL_NFT_PRICE_API + " ...";
+  let json = null;
+  let fetchError = null;
+  try {
+    const res = await fetch(SFL_NFT_PRICE_API, {
+      cache: "no-store"
+    });
+    if (!res.ok) throw new Error("Bad response " + res.status);
+    json = await res.json();
+  } catch (e) {
+    fetchError = String(e && e.message || e);
+  }
+  if (!json) {
+    box.value = "Fetch failed: " + fetchError;
+    box.focus();
+    box.select();
+    return;
+  }
+  const topLevelKeys = Object.keys(json);
+  const budsArr = Array.isArray(json.buds) ? json.buds : null;
+  const petsArr = Array.isArray(json.pets) ? json.pets : null;
+  const collectiblesArr = Array.isArray(json.collectibles) ? json.collectibles : [];
+  const wearablesArr = Array.isArray(json.wearables) ? json.wearables : [];
+  const petTypeWords = [ "ram", "dragon", "phoenix", "griffin", "warthog", "wolf", "bear", "pet" ];
+  const looksLikeBudOrPet = name => {
+    const n = String(name || "").toLowerCase();
+    return n.indexOf("bud") !== -1 || petTypeWords.some(w => n.indexOf(w) !== -1);
+  };
+  const collectiblesSuspects = collectiblesArr.filter(it => it && looksLikeBudOrPet(it.name));
+  const wearablesSuspects = wearablesArr.filter(it => it && looksLikeBudOrPet(it.name));
+  const g = farmPanelGameState ? farmSyncExtractGameState(farmPanelGameState) : null;
+  const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
+  const budsBag = g ? asObj(farmPanelField(g, "buds")) : null;
+  const firstBudId = budsBag ? Object.keys(budsBag)[0] : null;
+  const firstBudTraits = firstBudId ? farmSyncExtractBudTraits(budsBag[firstBudId]) : null;
+  const petsRoot = g ? asObj(farmPanelField(g, "pets")) : null;
+  const petNfts = petsRoot ? asObj(petsRoot.nfts) : null;
+  const firstPetId = petNfts ? Object.keys(petNfts)[0] : null;
+  const firstPetTraitType = firstPetId && asObj(petNfts[firstPetId]) && asObj(petNfts[firstPetId].traits) ? petNfts[firstPetId].traits.type : null;
+  const out = {
+    "Top-level keys on the /api/v1/nfts response": topLevelKeys,
+    "json.buds (array?)": budsArr ? {
+      count: budsArr.length,
+      first: budsArr[0] || null,
+      firstFew: budsArr.slice(0, 5)
+    } : "(json.buds is missing or not an array — raw value: " + JSON.stringify(json.buds) + ")",
+    "json.pets (array?)": petsArr ? {
+      count: petsArr.length,
+      first: petsArr[0] || null,
+      firstFew: petsArr.slice(0, 5)
+    } : "(json.pets is missing or not an array — raw value: " + JSON.stringify(json.pets) + ")",
+    "collectibles count": collectiblesArr.length,
+    "collectibles entries whose name contains bud/pet-type words": collectiblesSuspects.length ? collectiblesSuspects : "(none found)",
+    "wearables count": wearablesArr.length,
+    "wearables entries whose name contains bud/pet-type words": wearablesSuspects.length ? wearablesSuspects : "(none found)",
+    "Your farm's first Bud type (from synced farm data, if any)": firstBudTraits ? firstBudTraits.type : "(sync a Farm ID first, or you have no buds)",
+    "Your farm's first NFT Pet type (from synced farm data, if any)": firstPetTraitType || "(sync a Farm ID first, or you have no NFT pets)"
+  };
+  box.value = JSON.stringify(out, null, 2);
+  box.focus();
+  box.select();
+};
+
+const farmPanelDebugMarketplaceProbeBtnEl = $("farmPanelDebugMarketplaceProbeBtn");
+
+if (farmPanelDebugMarketplaceProbeBtnEl) farmPanelDebugMarketplaceProbeBtnEl.onclick = async () => {
+  const box = $("farmPanelDebugOutput");
+  box.style.display = "block";
+  box.value = "Probing candidate endpoints...";
+  const candidates = [ SFL_PROXY_BASE + "/api/v1/marketplace?filters=buds,pets", SFL_PROXY_BASE + "/api/v1/marketplace/buds", SFL_PROXY_BASE + "/api/v1/marketplace/pets", SFL_PROXY_BASE + "/api/v1/collection/buds", SFL_PROXY_BASE + "/api/v1/collection/pets", SFL_PROXY_BASE + "/api/v1.1/marketplace", SFL_PROXY_BASE + "/api/v1.1/marketplace/buds", SFL_PROXY_BASE + "/api/v1.1/marketplace/pets", SFL_COMMUNITY_PROXY_BASE + "community/marketplace", SFL_COMMUNITY_PROXY_BASE + "community/marketplace/buds", SFL_COMMUNITY_PROXY_BASE + "community/marketplace/pets", SFL_COMMUNITY_PROXY_BASE + "community/nfts" ];
+  const results = [];
+  for (const url of candidates) {
+    try {
+      const res = await fetch(url, {
+        cache: "no-store"
+      });
+      let bodyPreview = null;
+      let keys = null;
+      try {
+        const j = await res.json();
+        keys = j && typeof j === "object" ? Object.keys(j).slice(0, 10) : null;
+        bodyPreview = JSON.stringify(j).slice(0, 300);
+      } catch (e) {
+        bodyPreview = "(non-JSON or empty body)";
+      }
+      results.push({
+        url: url,
+        status: res.status,
+        ok: res.ok,
+        topLevelKeys: keys,
+        bodyPreview: bodyPreview
+      });
+    } catch (e) {
+      results.push({
+        url: url,
+        status: "fetch failed",
+        error: String(e && e.message || e)
+      });
+    }
+  }
+  box.value = JSON.stringify(results, null, 2);
+  box.focus();
+  box.select();
+};
+
 const farmPanelDebugMutantsBtnEl = $("farmPanelDebugMutantsBtn");
 
 if (farmPanelDebugMutantsBtnEl) farmPanelDebugMutantsBtnEl.onclick = () => {
@@ -18152,7 +18641,7 @@ $("farmPanelDebugCrowBtn").onclick = () => {
   const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
   const mainCollectibles = asObj(farmPanelField(g, "collectibles")) || {};
   const home = asObj(g && g.home);
-  const homeCollectibles = asObj(home && home.collectibles) || {};
+  const homeCollectibles = farmSyncGetInteriorCollectiblesMerged(g);
   const cropsBag = asObj(farmPanelField(g, "crops")) || {};
   const skills = asObj(g && g.bumpkin && g.bumpkin.skills) || {};
   const hasSkill = name => Object.keys(skills).some(sn => sn.trim().toLowerCase() === name.trim().toLowerCase());
@@ -18972,7 +19461,7 @@ function syncCrowAoeOverrides(g) {
   const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
   const mainCollectibles = asObj(farmPanelField(g, "collectibles")) || {};
   const home = asObj(g && g.home);
-  const homeCollectibles = asObj(home && home.collectibles) || {};
+  const homeCollectibles = farmSyncGetInteriorCollectiblesMerged(g);
   const cropsBag = asObj(farmPanelField(g, "crops")) || {};
   const skills = asObj(g && g.bumpkin && g.bumpkin.skills) || {};
   const hasSkill = name => Object.keys(skills).some(sn => sn.trim().toLowerCase() === name.trim().toLowerCase());
@@ -19312,6 +19801,7 @@ async function performFarmPanelSync(farmId) {
     renderFarmPanelInfo();
     renderFarmPanelTabContent();
     __mark("info panel + tab content done");
+    if (typeof profileCaptureSyncSnapshot === "function") profileCaptureSyncSnapshot(farmId);
     __syncMark = null;
     const nameNote = apiUsername ? ` · 👤 ${apiUsername}` : "";
     const dataNote = communityResult.ok ? " · 📦 full data synced" : ` · ⚠️ full sync failed (${communityResult.error})`;
@@ -19904,7 +20394,7 @@ function renderCropsList() {
   if (!wrap) return;
   invalidateCostCache();
   loadBaseCropsIfNeeded();
-  const names = Object.keys(BASE_CROPS).filter(name => cropTierFilter === "All" || BASE_CROPS[name].tier === cropTierFilter);
+  const names = Object.keys(BASE_CROPS).filter(name => (cropTierFilter === "All" || BASE_CROPS[name].tier === cropTierFilter) && isCropInSeason(name));
   __markSub("      renderCropsList: n=" + names.length);
   withPreservedCardScrolls(wrap, () => {
     wrap.innerHTML = names.map(renderCropCard).join("");
@@ -20023,7 +20513,7 @@ function renderFruitsList() {
   invalidateCostCache();
   loadBaseFruitsIfNeeded();
   withPreservedCardScrolls(wrap, () => {
-    wrap.innerHTML = Object.keys(BASE_FRUITS).map(renderFruitCard).join("");
+    wrap.innerHTML = Object.keys(BASE_FRUITS).filter(name => isFruitInSeason(name)).map(renderFruitCard).join("");
   });
   wrap.querySelectorAll(".card-toggle, .card-24h-box").forEach(el => {
     el.onclick = () => {
@@ -20076,7 +20566,7 @@ function renderGreenhouseCard(name) {
   const boosted = computeBoostedGreenhouseStats(name, d.baseYield || 1, d.timeSec);
   const plotCount = getGreenhouseCount(name);
   const boostListHtml = renderBoostAppliedList(boosted.activeBoosts, name);
-  const oilQty = (d.oilQty || 0) * (boosted.oilQtyMult || 1);
+  const oilQty = Math.max(0, (d.oilQty || 0) * (boosted.oilQtyMult || 1) - (boosted.oilFlatReduce || 0));
   const oilUnitCost = getItemCostByName("Oil");
   const oilCoinCost = oilQty * oilUnitCost;
   const greenhouseManualCycleKey = "greenhouse_" + name;
@@ -20277,16 +20767,16 @@ function renderCmSelectedDetail() {
 function renderCmQtyControls() {
   const addBtn = $("cmAddBtn");
   if (!addBtn) return;
-  addBtn.disabled = cmQty <= 0 || cmQueue.length >= CROP_MACHINE_QUEUE_SLOTS;
+  addBtn.disabled = cmQty <= 0 || cmQueue.length >= getCropMachineQueueSlots();
 }
 
 function renderCmPacksGrid() {
   const wrap = $("cmPacksGrid");
   const label = $("cmPackCountLabel");
   if (!wrap) return;
-  if (label) label.textContent = `${cmQueue.length}/${CROP_MACHINE_QUEUE_SLOTS}`;
+  if (label) label.textContent = `${cmQueue.length}/${getCropMachineQueueSlots()}`;
   const slots = [];
-  for (let i = 0; i < CROP_MACHINE_QUEUE_SLOTS; i++) {
+  for (let i = 0; i < getCropMachineQueueSlots(); i++) {
     const pack = cmQueue[i];
     if (pack) {
       const b = computeCropMachineBatch(pack.name, pack.qty);
@@ -20313,9 +20803,9 @@ function renderCmOilTank() {
   const fill = $("cmOilBarFill");
   const marks = $("cmOilBarMarks");
   if (!readout) return;
-  cmOilTank = Math.max(0, Math.min(CROP_MACHINE_OIL_CAP, cmOilTank));
+  cmOilTank = Math.max(0, Math.min(getCropMachineOilCap(), cmOilTank));
   readout.textContent = `${fmt(cmOilTank)} oil`;
-  const pct = CROP_MACHINE_OIL_CAP > 0 ? cmOilTank / CROP_MACHINE_OIL_CAP * 100 : 0;
+  const pct = getCropMachineOilCap() > 0 ? cmOilTank / getCropMachineOilCap() * 100 : 0;
   if (fill) fill.style.width = pct + "%";
   if (marks) marks.innerHTML = [ "0s", "6h", "12h", "18h", "1d", "1d 6h", "1d 12h", "1d 18h", "2d" ].map(s => `<span>${s}</span>`).join("");
 }
@@ -20357,7 +20847,7 @@ function renderCmSummary() {
   const isProfit = profitFlower >= 0;
   const cells = [ {
     label: "Packs",
-    value: `${cmQueue.length}/${CROP_MACHINE_QUEUE_SLOTS}`,
+    value: `${cmQueue.length}/${getCropMachineQueueSlots()}`,
     sub: "Queue"
   }, {
     label: "Seeds",
@@ -21079,8 +21569,8 @@ if ($("cmQtyRow")) {
 if ($("cmAddBtn")) {
   $("cmAddBtn").onclick = () => {
     if (cmQty <= 0) return;
-    if (cmQueue.length >= CROP_MACHINE_QUEUE_SLOTS) {
-      toast(`🚜 Queue is full (${CROP_MACHINE_QUEUE_SLOTS}/${CROP_MACHINE_QUEUE_SLOTS} packs) — remove a pack first`);
+    if (cmQueue.length >= getCropMachineQueueSlots()) {
+      toast(`🚜 Queue is full (${getCropMachineQueueSlots()}/${getCropMachineQueueSlots()} packs) — remove a pack first`);
       return;
     }
     const max = CROP_MACHINE_PACK_MAX[cmSelectedCrop] || 0;
@@ -21100,7 +21590,7 @@ if ($("cmOilRow")) {
   $("cmOilRow").querySelectorAll("[data-cmoil]").forEach(btn => {
     btn.onclick = () => {
       const mode = btn.dataset.cmoil;
-      if (mode === "full") cmOilTank = CROP_MACHINE_OIL_CAP; else if (mode === "+1") cmOilTank = Math.min(CROP_MACHINE_OIL_CAP, cmOilTank + 1); else if (mode === "-1") cmOilTank = Math.max(0, cmOilTank - 1);
+      if (mode === "full") cmOilTank = getCropMachineOilCap(); else if (mode === "+1") cmOilTank = Math.min(getCropMachineOilCap(), cmOilTank + 1); else if (mode === "-1") cmOilTank = Math.max(0, cmOilTank - 1);
       saveCmOilTank();
       renderCmOilTank();
       renderCmSummary();
@@ -21112,7 +21602,7 @@ if ($("cmResetBtn")) {
   $("cmResetBtn").onclick = () => {
     cmQueue = [];
     saveCmQueue();
-    cmOilTank = CROP_MACHINE_OIL_CAP;
+    cmOilTank = getCropMachineOilCap();
     saveCmOilTank();
     renderCropMachineMachine();
     toast("🚜 Crop Machine queue reset");
@@ -21159,6 +21649,12 @@ let resourceBudSelected = {
   aura: "none"
 };
 
+let fishBudSelected = {
+  type: "none",
+  stem: "none",
+  aura: "none"
+};
+
 let budPickerKind = null;
 
 let budPickerContext = "greenhouse";
@@ -21193,6 +21689,15 @@ const RESOURCE_BUD_DROPDOWN_FIELDS = {
   aura: BUD_AURAS
 };
 
+const FISH_BUD_DROPDOWN_FIELDS = {
+  type: BUD_FISH_TYPES,
+  stem: [ {
+    id: "none",
+    name: "None"
+  } ],
+  aura: BUD_AURAS
+};
+
 const BUD_FIELD_LABELS = {
   type: "Type",
   stem: "Stem",
@@ -21204,19 +21709,19 @@ function budFieldCap(kind) {
 }
 
 function budContextState(context) {
-  return context === "animal" ? animalBudSelected : context === "fruit" ? fruitBudSelected : context === "crop" ? cropBudSelected : context === "resource" ? resourceBudSelected : budSelected;
+  return context === "animal" ? animalBudSelected : context === "fruit" ? fruitBudSelected : context === "crop" ? cropBudSelected : context === "resource" ? resourceBudSelected : context === "fish" ? fishBudSelected : budSelected;
 }
 
 function budContextFields(context) {
-  return context === "animal" ? ANIMAL_BUD_DROPDOWN_FIELDS : context === "fruit" ? FRUIT_BUD_DROPDOWN_FIELDS : context === "crop" ? CROP_BUD_DROPDOWN_FIELDS : context === "resource" ? RESOURCE_BUD_DROPDOWN_FIELDS : BUD_DROPDOWN_FIELDS;
+  return context === "animal" ? ANIMAL_BUD_DROPDOWN_FIELDS : context === "fruit" ? FRUIT_BUD_DROPDOWN_FIELDS : context === "crop" ? CROP_BUD_DROPDOWN_FIELDS : context === "resource" ? RESOURCE_BUD_DROPDOWN_FIELDS : context === "fish" ? FISH_BUD_DROPDOWN_FIELDS : BUD_DROPDOWN_FIELDS;
 }
 
 function budContextPrefix(context) {
-  return context === "animal" ? "animalBud" : context === "fruit" ? "fruitBud" : context === "crop" ? "cropBud" : context === "resource" ? "resourceBud" : "bud";
+  return context === "animal" ? "animalBud" : context === "fruit" ? "fruitBud" : context === "crop" ? "cropBud" : context === "resource" ? "resourceBud" : context === "fish" ? "fishBud" : "bud";
 }
 
 function budContextUpdateDuplicateState(context) {
-  if (context === "animal") updateAnimalBudDuplicateState(); else if (context === "fruit") updateFruitBudDuplicateState(); else if (context === "crop") updateCropBudDuplicateState(); else if (context === "resource") updateResourceBudDuplicateState(); else updateBudDuplicateState();
+  if (context === "animal") updateAnimalBudDuplicateState(); else if (context === "fruit") updateFruitBudDuplicateState(); else if (context === "crop") updateCropBudDuplicateState(); else if (context === "resource") updateResourceBudDuplicateState(); else if (context === "fish") updateFishBudDuplicateState(); else updateBudDuplicateState();
 }
 
 function budToggleLabel(context, kind) {
@@ -22857,8 +23362,7 @@ function esDetectCollectiblePlaced(name) {
   const g = farmSyncExtractGameState(farmPanelGameState);
   const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
   const main = asObj(typeof farmPanelField === "function" ? farmPanelField(g, "collectibles") : (g && g.collectibles)) || {};
-  const home = asObj(g && g.home);
-  const homeCollectibles = asObj(home && home.collectibles) || {};
+  const homeCollectibles = farmSyncGetInteriorCollectiblesMerged(g);
   const a = main[name];
   const b = homeCollectibles[name];
   const instances = [].concat(Array.isArray(a) ? a : [], Array.isArray(b) ? b : []);
@@ -23898,6 +24402,15 @@ function populateResourceBudSelects() {
 
 populateResourceBudSelects();
 
+function populateFishBudSelects() {
+  if (!$("fishBudTypeToggle")) return;
+  renderBudDropdown("fish", "type");
+  renderBudDropdown("fish", "aura");
+  updateFishBudDuplicateState();
+}
+
+populateFishBudSelects();
+
 function isDuplicateBud(typeId, stemId, auraId) {
   return greenhouseBuds.some(b => b.typeId === typeId && b.stemId === stemId && b.auraId === auraId);
 }
@@ -23962,6 +24475,20 @@ function updateResourceBudDuplicateState() {
   const btn = $("createResourceBudBtn"), note = $("resourceBudDuplicateNote");
   if (!btn || !note) return;
   const dup = isDuplicateResourceBud(resourceBudSelected.type, resourceBudSelected.stem, resourceBudSelected.aura);
+  btn.disabled = dup;
+  btn.style.opacity = dup ? "0.5" : "";
+  btn.style.cursor = dup ? "not-allowed" : "";
+  note.style.display = dup ? "" : "none";
+}
+
+function isDuplicateFishBud(typeId, auraId) {
+  return fishBuds.some(b => b.typeId === typeId && b.auraId === auraId);
+}
+
+function updateFishBudDuplicateState() {
+  const btn = $("createFishBudBtn"), note = $("fishBudDuplicateNote");
+  if (!btn || !note) return;
+  const dup = isDuplicateFishBud(fishBudSelected.type, fishBudSelected.aura);
   btn.disabled = dup;
   btn.style.opacity = dup ? "0.5" : "";
   btn.style.cursor = dup ? "not-allowed" : "";
@@ -24168,6 +24695,32 @@ if ($("createResourceBudBtn")) {
   };
 }
 
+if ($("createFishBudBtn")) {
+  $("createFishBudBtn").onclick = () => {
+    const typeId = fishBudSelected.type;
+    const auraId = fishBudSelected.aura;
+    if (typeId === "none") {
+      toast("Pick a Type for this BUD 🌱");
+      return;
+    }
+    if (isDuplicateFishBud(typeId, auraId)) {
+      toast("That exact BUD (Type/Aura) is already added");
+      return;
+    }
+    const budUID = "pbud_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7);
+    fishBuds.push({
+      id: budUID,
+      typeId: typeId,
+      auraId: auraId
+    });
+    saveFishBuds();
+    renderFishBudList();
+    refreshFishBoostDisplays();
+    updateFishBudDuplicateState();
+    toast("BUD added 🌿");
+  };
+}
+
 function applyMarketSearchFilter() {
   const term = normalizeSearch($("marketSearchInput").value);
   $("marketItemList").querySelectorAll(".lib-item-row").forEach(row => {
@@ -24353,6 +24906,15 @@ $("priceResetBtn").onclick = () => {
 };
 
 function openMarketPriceEdit(id) {
+  if (id === "budFloor" || id === "petFloor") {
+    marketPriceEditId = id;
+    const label = id === "budFloor" ? "Bud" : "Pet";
+    $("marketPriceEditSub").textContent = `Cheapest currently-listed ${label} NFT price in the game's own Marketplace — applied to every ${label} NFT you own`;
+    const currentFloor = id === "budFloor" ? budFloorPrice : petFloorPrice;
+    $("marketPriceInput").value = currentFloor != null ? currentFloor : "";
+    $("marketPriceEditOverlay").classList.add("show");
+    return;
+  }
   if (String(id).indexOf("petcost_") === 0) {
     const name = PET_COST_TRACK_RESOURCES.find(n => "petcost_" + n.replace(/\s+/g, "_").toLowerCase() === String(id));
     if (!name) return;
@@ -24373,6 +24935,23 @@ function openMarketPriceEdit(id) {
 $("marketPriceCancelBtn").onclick = () => $("marketPriceEditOverlay").classList.remove("show");
 
 $("marketPriceSaveBtn").onclick = () => {
+  if (marketPriceEditId === "budFloor" || marketPriceEditId === "petFloor") {
+    const raw = $("marketPriceInput").value;
+    const v = raw === "" || raw == null || isNaN(parseFloat(raw)) ? null : parseFloat(raw);
+    if (marketPriceEditId === "budFloor") {
+      budFloorPrice = v;
+      saveBudFloorPrice();
+      if (typeof profileClearTradableCacheTab === "function") profileClearTradableCacheTab("bud");
+    } else {
+      petFloorPrice = v;
+      savePetFloorPrice();
+      if (typeof profileClearTradableCacheTab === "function") profileClearTradableCacheTab("pet");
+    }
+    if (typeof renderProfileTradable === "function" && profileState.view === "tradable") renderProfileTradable();
+    $("marketPriceEditOverlay").classList.remove("show");
+    toast(`${marketPriceEditId === "budFloor" ? "Bud" : "Pet"} floor price updated 💰`);
+    return;
+  }
   if (String(marketPriceEditId).indexOf("petcost_") === 0) {
     const name = PET_COST_TRACK_RESOURCES.find(n => "petcost_" + n.replace(/\s+/g, "_").toLowerCase() === String(marketPriceEditId));
     if (name) {
@@ -27739,6 +28318,28 @@ function cookingSkillRankMultiplier(skillId, rankAddValues) {
   return 1 + (rankAddValues[idx] !== undefined ? rankAddValues[idx] : rankAddValues[0]);
 }
 
+function getPortBudFishXpMult() {
+  let maxBoost = 1;
+  const g = typeof profileGetG === "function" ? profileGetG() : null;
+  const buds = g && g.buds && typeof g.buds === "object" ? g.buds : {};
+  Object.values(buds).forEach(bud => {
+    if (!bud || !bud.coordinates) return;
+    const traits = typeof farmSyncExtractBudTraits === "function" ? farmSyncExtractBudTraits(bud) : null;
+    if (!traits || traits.type !== "Port") return;
+    let auraBoost = 1;
+    if (traits.aura === "Basic") auraBoost = 1.05; else if (traits.aura === "Green") auraBoost = 1.2; else if (traits.aura === "Rare") auraBoost = 2; else if (traits.aura === "Mythical") auraBoost = 5;
+    const boost = 1 + auraBoost * .1;
+    if (boost > maxBoost) maxBoost = boost;
+  });
+  (typeof fishBuds !== "undefined" ? fishBuds : []).forEach(bud => {
+    if (!bud || bud.typeId !== "port") return;
+    const aura = BUD_AURAS.find(a => a.id === bud.auraId) || BUD_AURAS[0];
+    const boost = 1 + aura.mult * .1;
+    if (boost > maxBoost) maxBoost = boost;
+  });
+  return maxBoost;
+}
+
 function cookingComputeFoodExp(building, name) {
   const memoKey = building + "|" + name;
   if (__cookingFoodExpMemo.has(memoKey)) return __cookingFoodExpMemo.get(memoKey);
@@ -27783,7 +28384,11 @@ function cookingComputeFoodExpUncached(building, name) {
   applyMult(cookingSkillRankMultiplier("skill_munching_mastery", [ .05, .1, .15 ]), "Munching Mastery");
   if (building === "Deli") applyMult(cookingSkillRankMultiplier("skill_drive_through_deli", [ .15, .2, .25 ]), "Drive-Through Deli");
   if (building === "Smoothie Shack") applyMult(cookingSkillRankMultiplier("skill_juicy_boost", [ .1, .2, .3 ]), "Juicy Boost");
-  if (COOKING_FISH_DISHES.has(name)) applyMult(cookingSkillRankMultiplier("skill_fishy_feast", [ .2, .25, .3 ]), "Fishy Feast");
+  if (COOKING_FISH_DISHES.has(name)) {
+    applyMult(cookingSkillRankMultiplier("skill_fishy_feast", [ .2, .25, .3 ]), "Fishy Feast");
+    const portBudMult = getPortBudFishXpMult();
+    if (portBudMult !== 1) applyMult(portBudMult, `Port Bud ×${portBudMult}`);
+  }
   if (cookingFoodHasIngredient(building, name, "Honey")) applyMult(cookingSkillRankMultiplier("skill_buzzworthy_treats", [ .1, .2, .3 ]), "Buzzworthy Treats");
   try {
     const info = typeof farmPanelGetLastInfo === "function" ? farmPanelGetLastInfo() : null;
@@ -28881,6 +29486,10 @@ function fishCatchComputeXPUncached(fishName, stage) {
   if (typeof cookingSkillRankMultiplier === "function") {
     applyMult(cookingSkillRankMultiplier("skill_munching_mastery", [ .05, .1, .15 ]), "Munching Mastery");
     applyMult(cookingSkillRankMultiplier("skill_fishy_feast", [ .2, .25, .3 ]), "Fishy Feast");
+  }
+  if (typeof getPortBudFishXpMult === "function") {
+    const portBudMult = getPortBudFishXpMult();
+    if (portBudMult !== 1) applyMult(portBudMult, `Port Bud ×${portBudMult}`);
   }
   if ((stage === "aged" || stage === "primeAged") && typeof getActiveAgedFishXpMult === "function") {
     const astrolabeMult = getActiveAgedFishXpMult();
@@ -30274,6 +30883,17 @@ function savePetResourceCostOverride() {
   localStorage.setItem("hl_pet_resource_cost_override", JSON.stringify(petResourceCostOverride));
 }
 
+let budFloorPrice = safeLSJSON(localStorage.getItem("hl_bud_floor_price"), null);
+let petFloorPrice = safeLSJSON(localStorage.getItem("hl_pet_floor_price"), null);
+
+function saveBudFloorPrice() {
+  localStorage.setItem("hl_bud_floor_price", JSON.stringify(budFloorPrice));
+}
+
+function savePetFloorPrice() {
+  localStorage.setItem("hl_pet_floor_price", JSON.stringify(petFloorPrice));
+}
+
 function petResourceAutoCostPerUnit(name) {
   if (typeof petsData === "undefined" || !petsData.length || typeof petComputeCardCached !== "function") return null;
   let total = 0, count = 0;
@@ -30936,9 +31556,6 @@ if (typeof loadNftCollectibleMarketItemsIfNeeded === "function") loadNftCollecti
 
 if (typeof loadWearableMarketItemsIfNeeded === "function") loadWearableMarketItemsIfNeeded();
 
-if (typeof renderMarketList === "function") renderMarketList();
-
-if (typeof renderBoostPanel === "function") renderBoostPanel();
 const DESERT_CHAPTERS = {
   "Solar Flare": { start: Date.parse("2023-01-01T00:00:00.000Z"), end: Date.parse("2023-05-01T00:00:00.000Z") },
   "Dawn Breaker": { start: Date.parse("2023-05-01T00:00:00.000Z"), end: Date.parse("2023-08-01T00:00:00.000Z") },
@@ -31839,3 +32456,1985 @@ function setDigDarkMode(on) {
     };
   }
 })();
+
+const SFL_EXCHANGE_API = SFL_PROXY_BASE + "/api/v1.1/exchange";
+let liveExchangeRates = safeLSJSON(localStorage.getItem("hl_live_exchange"), {});
+let profileSyncSnapshot = safeLSJSON(localStorage.getItem("hl_profile_snapshot"), null);
+let profileState = { view: "overview", buildTab: "crops", tradableTab: "resources" };
+
+function profileFindNumericRateInObj(obj, keyRegex, depth) {
+  if (!obj || typeof obj !== "object" || depth > 3) return null;
+  const entries = Object.entries(obj);
+  for (const [k, v] of entries) {
+    if (keyRegex.test(k) && typeof v === "number" && isFinite(v) && v > 0) return v;
+  }
+  for (const [, v] of entries) {
+    if (v && typeof v === "object") {
+      const found = profileFindNumericRateInObj(v, keyRegex, (depth || 0) + 1);
+      if (found != null) return found;
+    }
+  }
+  return null;
+}
+
+function profileFindStrictUsdRate(obj, currencyRegex, depth) {
+  if (!obj || typeof obj !== "object" || (depth || 0) > 4) return null;
+  const entries = Object.entries(obj);
+  for (const [k, v] of entries) {
+    if (typeof v === "number" && isFinite(v) && v > 0 && currencyRegex.test(k) && /usd/i.test(k)) return v;
+  }
+  for (const [k, v] of entries) {
+    if (v && typeof v === "object" && currencyRegex.test(k)) {
+      if (typeof v.usd === "number" && isFinite(v.usd) && v.usd > 0) return v.usd;
+      const nested = profileFindStrictUsdRate(v, /usd/i, (depth || 0) + 1);
+      if (nested != null) return nested;
+    }
+  }
+  for (const [, v] of entries) {
+    if (v && typeof v === "object") {
+      const found = profileFindStrictUsdRate(v, currencyRegex, (depth || 0) + 1);
+      if (found != null) return found;
+    }
+  }
+  return null;
+}
+
+async function ensureExchangeRates() {
+  try {
+    const res = await fetch(SFL_EXCHANGE_API);
+    if (!res.ok) return liveExchangeRates;
+    const data = await res.json();
+    if (data && typeof data === "object") {
+      liveExchangeRates = data;
+      localStorage.setItem("hl_live_exchange", JSON.stringify(liveExchangeRates));
+    }
+  } catch (e) {}
+  return liveExchangeRates;
+}
+
+function flowerToUsdRate() {
+  const strict = profileFindStrictUsdRate(liveExchangeRates, /sfl|flower/i, 0);
+  if (strict != null) return strict;
+  return profileFindNumericRateInObj(liveExchangeRates, /sfl|flower/i, 0);
+}
+
+function flowerToUsd(flowerAmount) {
+  const rate = flowerToUsdRate();
+  if (rate == null || !isFinite(flowerAmount)) return null;
+  return flowerAmount * rate;
+}
+
+function profileFmtUsd(flowerAmount) {
+  const usd = flowerToUsd(flowerAmount);
+  if (usd == null) return "";
+  return `($${usd < 1000 ? usd.toFixed(2) : formatCompactNum(usd)})`;
+}
+
+function profileAsObj(v) {
+  return v && typeof v === "object" && !Array.isArray(v) ? v : null;
+}
+
+function profileGetG() {
+  return farmPanelGameState ? farmSyncExtractGameState(farmPanelGameState) : null;
+}
+
+function profileGetInventoryAmount(g, name) {
+  const inv = profileAsObj(g && g.inventory);
+  if (!inv) return 0;
+  const exactKey = Object.prototype.hasOwnProperty.call(inv, name) ? name : Object.keys(inv).find(k => k.toLowerCase() === name.trim().toLowerCase());
+  if (exactKey == null) return 0;
+  const v = inv[exactKey];
+  const n = typeof v === "string" ? parseFloat(v) : Number(v);
+  return isFinite(n) ? n : 0;
+}
+
+function profileCaptureSyncSnapshot(farmId) {
+  profileSyncSnapshot = {
+    farmId: farmId,
+    boosts: (typeof selectedBoosts !== "undefined" ? selectedBoosts.slice() : []),
+    skills: (typeof selectedSkills !== "undefined" ? selectedSkills.slice() : []),
+    at: Date.now()
+  };
+  try {
+    localStorage.setItem("hl_profile_snapshot", JSON.stringify(profileSyncSnapshot));
+  } catch (e) {}
+}
+
+function profileGetTaxPercentage(amount) {
+  if (amount < 10) return 30;
+  if (amount < 100) return 25;
+  if (amount < 1000) return 20;
+  if (amount < 5000) return 15;
+  return 10;
+}
+
+function profileTaxBracketPercent(amount, islandType, lp) {
+  let percent = profileGetTaxPercentage(amount);
+  if (islandType && islandType !== "basic") percent -= 2.5;
+  if (lp >= 1) percent = percent * 0.5;
+  if (percent < 0) percent = 0;
+  return percent;
+}
+
+function profileComputeWithdrawTax(g) {
+  const balance = Number(g && g.balance) || 0;
+  const taxFree = Number(g && g.bank && g.bank.taxFreeSFL) || 0;
+  const islandType = g && g.island && g.island.type;
+  const lp = profileGetInventoryAmount(g, "Liquidity Provider");
+  const taxable = balance - taxFree;
+
+  const percent = profileTaxBracketPercent(balance, islandType, lp);
+
+  let taxAmount = 0;
+  let afterWithdrawal = balance;
+  if (taxable > 0) {
+    const taxablePercent = profileTaxBracketPercent(taxable, islandType, lp);
+    taxAmount = taxable * (taxablePercent / 100);
+    afterWithdrawal = balance - taxAmount;
+  }
+
+  return { taxFree: taxFree, taxable: Math.max(taxable, 0), percent: percent, taxAmount: taxAmount, afterWithdrawal: afterWithdrawal };
+}
+
+const REPUTATION_NAME = {
+  0: "Beginner",
+  2: "Seedling",
+  3: "Grower",
+  4: "Cropkeeper",
+  5: "Grand Harvester"
+};
+
+const REPUTATION_TIERS = {
+  0: 0,
+  2: 250,
+  3: 400,
+  4: 600,
+  5: 1000
+};
+
+function profileIsFaceVerified(g) {
+  if (g && g.verified) return true;
+  const fr = g && g.faceRecognition;
+  const history = fr && Array.isArray(fr.history) ? fr.history : [];
+  if (!history.length) return false;
+  const last = history.reduce((latest, attempt) => attempt && latest && attempt.createdAt >= latest.createdAt ? attempt : (latest || attempt), null);
+  return !!last && last.event === "succeeded";
+}
+
+function profileGetReputationPoints(g) {
+  if (!g) return 0;
+  const islandType = g.island && g.island.type;
+  const ascInfo = getAscensionLevelInfo(g.bumpkin && g.bumpkin.experience || 0, g.island && g.island.ascensionLevel || 0);
+  const meetsLevel = level => ascInfo.ascension > 0 || ascInfo.level >= level;
+  const vip = farmSyncGetVipStatus(g);
+  let points = 0;
+  if (islandType && islandType !== "basic") points += 100;
+  if (islandType && islandType !== "basic" && islandType !== "spring") points += 50;
+  if (islandType && islandType !== "basic" && islandType !== "spring" && islandType !== "desert") points += 50;
+  if (g.discord && g.discord.verified) points += 50;
+  if (profileIsFaceVerified(g)) points += 100;
+  if (meetsLevel(100)) points += 150;
+  if (meetsLevel(15)) points += 50;
+  if (g.buds && Object.keys(g.buds).length > 0) points += 300;
+  if (vip.active) points += 600;
+  return points;
+}
+
+function profileGetReputation(g) {
+  const points = profileGetReputationPoints(g);
+  const tiers = Object.keys(REPUTATION_TIERS).map(Number).sort((a, b) => b - a);
+  for (const tier of tiers) {
+    if (points >= REPUTATION_TIERS[tier]) return { tier: tier, tierName: REPUTATION_NAME[tier], points: points };
+  }
+  return { tier: 0, tierName: REPUTATION_NAME[0], points: points };
+}
+
+function profileGetFarmAgeText(createdAt) {
+  if (!createdAt) return "";
+  const created = new Date(createdAt);
+  if (isNaN(created.getTime())) return "";
+  const now = new Date();
+  let years = now.getFullYear() - created.getFullYear();
+  let months = now.getMonth() - created.getMonth();
+  if (now.getDate() < created.getDate()) months -= 1;
+  if (months < 0) {
+    months += 12;
+    years -= 1;
+  }
+  if (years < 0) return "";
+  if (years === 0 && months === 0) {
+    const days = Math.max(0, Math.floor((now - created) / 864e5));
+    return `${days} day${days === 1 ? "" : "s"}`;
+  }
+  const parts = [];
+  if (years > 0) parts.push(`${years} year${years === 1 ? "" : "s"}`);
+  if (months > 0) parts.push(`${months} month${months === 1 ? "" : "s"}`);
+  return parts.join(" and ");
+}
+
+function profileGetExpansionInfo(g) {
+  const islandType = g && g.island && typeof g.island.type === "string" ? g.island.type : null;
+  const ascensionLevel = Number(g && g.island && g.island.ascensionLevel) || 0;
+  const basicLand = profileGetInventoryAmount(g, "Basic Land");
+  let matchedIsland = null;
+  if (ascensionLevel > 10) {
+    matchedIsland = "marbleX";
+  } else if (ascensionLevel > 0) {
+    matchedIsland = ES_ISLAND_ORDER.find(isl => ES_ASCENSION_LEVEL[isl] === ascensionLevel);
+  } else if (islandType) {
+    matchedIsland = ES_ISLAND_ORDER.find(isl => isl === islandType);
+  }
+  const label = matchedIsland ? ES_ISLAND_LABEL[matchedIsland] : (islandType || "—");
+  return { islandLabel: label, expansionLevel: basicLand || 0, ascensionLevel: ascensionLevel };
+}
+
+const BUMPKIN_ITEM_IDS = {
+  "Beige Farmer Potion": 1,
+  "Dark Brown Farmer Potion": 2,
+  "Light Brown Farmer Potion": 3,
+  "Goblin Potion": 4,
+  "Basic Hair": 5,
+  "Rancher Hair": 6,
+  "Explorer Hair": 7,
+  "Red Farmer Shirt": 13,
+  "Yellow Farmer Shirt": 14,
+  "Blue Farmer Shirt": 15,
+  "Chef Apron": 16,
+  "Warrior Shirt": 17,
+  "Farmer Overalls": 18,
+  "Lumberjack Overalls": 19,
+  "Farmer Pants": 20,
+  "Warrior Pants": 21,
+  "Black Farmer Boots": 22,
+  "Farmer Pitchfork": 23,
+  "Farmer Hat": 24,
+  "Chef Hat": 25,
+  "Warrior Helmet": 26,
+  "Sunflower Amulet": 27,
+  "Carrot Amulet": 28,
+  "Beetroot Amulet": 29,
+  "Green Amulet": 30,
+  "Sunflower Shield": 31,
+  "Farm Background": 32,
+  "Fancy Top": 33,
+  "Brown Boots": 34,
+  "Brown Suspenders": 35,
+  "Fancy Pants": 36,
+  "Maiden Skirt": 37,
+  "Maiden Top": 38,
+  "Peasant Skirt": 39,
+  "SFL T-Shirt": 40,
+  "Yellow Boots": 41,
+  "Buzz Cut": 42,
+  "Parlour Hair": 43,
+  Axe: 44,
+  Sword: 45,
+  "Blue Suspenders": 46,
+  "Forest Background": 47,
+  "Seashore Background": 48,
+  Blondie: 49,
+  "Brown Long Hair": 50,
+  "Sun Spots": 51,
+  "White Long Hair": 52,
+  "Cemetery Background": 53,
+  "Teal Mohawk": 54,
+  "Space Background": 55,
+  Parsnip: 56,
+  "Jail Background": 57,
+  "Golden Spatula": 58,
+  "Artist Scarf": 59,
+  "Bumpkin Art Competition Merch": 60,
+  "Project Dignity Hoodie": 61,
+  "Developer Hoodie": 62,
+  "Blacksmith Hair": 63,
+  Hammer: 64,
+  "Bumpkin Boots": 65,
+  "Fire Shirt": 66,
+  "Red Long Hair": 67,
+  "Snowman Onesie": 68,
+  "Reindeer Suit": 69,
+  "Shark Onesie": 70,
+  "Christmas Background": 71,
+  "Devil Wings": 72,
+  "Angel Wings": 73,
+  "Fire Hair": 74,
+  "Luscious Hair": 75,
+  "Ancient War Hammer": 76,
+  "Ancient Goblin Sword": 77,
+  "Mountain View Background": 78,
+  "Skull Hat": 79,
+  "Reindeer Antlers": 80,
+  "Santa Hat": 81,
+  "Pineapple Shirt": 82,
+  "China Town Background": 83,
+  "Lion Dance Mask": 84,
+  "Fruit Picker Shirt": 85,
+  "Fruit Picker Apron": 86,
+  "Fruit Bowl": 87,
+  "Striped Blue Shirt": 88,
+  "Peg Leg": 89,
+  "Pirate Potion": 90,
+  "Pirate Hat": 91,
+  "Pirate General Coat": 92,
+  "Pirate Pants": 93,
+  "Pirate Leather Polo": 94,
+  "Crab Claw": 95,
+  "Pirate Scimitar": 96,
+  "Cupid Hair": 97,
+  "Cupid Dress": 98,
+  "Cupid Sandals": 99,
+  "Love Quiver": 100,
+  "SFL Office Background": 101,
+  "Bumpkin Puppet": 102,
+  "Goblin Puppet": 103,
+  "Hawaiian Shirt": 104,
+  "Bear Onesie": 105,
+  "Frog Onesie": 106,
+  "Tiger Onesie": 107,
+  "Beach Sarong": 108,
+  "Lifeguard Hat": 109,
+  "Lifeguard Pants": 110,
+  "Lifeguard Shirt": 111,
+  "Sleeping Otter": 112,
+  "Tropical Sarong": 113,
+  "Sequence Hat": 114,
+  "Sequence Shirt": 115,
+  "St Patricks Hat": 116,
+  "Bunny Onesie": 117,
+  "Light Brown Worried Farmer Potion": 118,
+  "Polkastarter Shirt": 119,
+  "Beach Trunks": 120,
+  "Club Polo": 121,
+  "Dawn Breaker Background": 122,
+  "Dawn Lamp": 123,
+  "Eggplant Onesie": 124,
+  "Fox Hat": 125,
+  "Grave Diggers Shovel": 126,
+  "Infected Potion": 127,
+  "Mushroom Hat": 128,
+  "Mushroom Lamp": 129,
+  "Mushroom Lights Background": 130,
+  "Mushroom Pants": 131,
+  "Mushroom Shield": 132,
+  "Mushroom Shoes": 133,
+  "Mushroom Sweater": 134,
+  "Rash Vest": 135,
+  "Squid Hat": 136,
+  "Striped Red Shirt": 137,
+  "Striped Yellow Shirt": 138,
+  "Summer Top": 139,
+  "Sunburst Potion": 140,
+  "Water Gun": 141,
+  "Wavy Pants": 142,
+  "White Turtle Neck": 143,
+  "Trial Tee": 144,
+  "Auction Megaphone": 145,
+  "Auctioneer Slacks": 146,
+  "Bidder's Brocade": 147,
+  "Harry's Hat": 148,
+  "Leather Shoes": 149,
+  "Tangerine Hair": 150,
+  "Straw Hat": 151,
+  "Traveller's Backpack": 152,
+  "Traveller's Pants": 153,
+  "Traveller's Shirt": 154,
+  "Witching Wardrobe": 155,
+  "Witch's Broom": 156,
+  "Infernal Bumpkin Potion": 157,
+  "Infernal Goblin Potion": 158,
+  "Imp Costume": 159,
+  "Ox Costume": 160,
+  "Luna's Hat": 161,
+  "Infernal Pitchfork": 162,
+  "Infernal Horns": 163,
+  Cattlegrim: 164,
+  "Crumple Crown": 165,
+  "Merch Bucket Hat": 166,
+  "Merch Coffee Mug": 167,
+  "Dawn Breaker Tee": 168,
+  "Merch Tee": 169,
+  "Merch Hoodie": 170,
+  "Birthday Hat": 171,
+  "Double Harvest Cap": 172,
+  "Streamer Helmet": 173,
+  "Corn Onesie": 174,
+  "Crow Wings": 175,
+  "Witches' Eve Tee": 176,
+  "Wise Beard": 177,
+  "Pumpkin Hat": 178,
+  "Wise Book": 179,
+  "Wise Hair": 180,
+  "Wise Robes": 181,
+  "Wise Slacks": 182,
+  "Wise Staff": 183,
+  "Greyed Glory": 184,
+  "Tattered Jacket": 185,
+  "Hoary Chin": 186,
+  "Tattered Slacks": 187,
+  "Old Shoes": 188,
+  "Bat Wings": 189,
+  "Gothic Twilight": 190,
+  "Dark Enchantment Gown": 191,
+  "Goth Hair": 192,
+  "Pale Potion": 193,
+  "Stretched Jeans": 194,
+  "Skull Shirt": 195,
+  "Victorian Hat": 196,
+  "Boater Hat": 197,
+  "Antique Dress": 198,
+  "Crimson Skirt": 199,
+  "Chic Gala Blouse": 200,
+  "Ash Ponytail": 201,
+  "Pink Ponytail": 202,
+  "Silver Streaks": 203,
+  "Brown Rancher Hair": 204,
+  "Parsnip Horns": 205,
+  "Potato Suit": 206,
+  "Whale Hat": 207,
+  "Pumpkin Shirt": 208,
+  Halo: 209,
+  Kama: 210,
+  "Grey Merch Hoodie": 211,
+  "Unicorn Horn": 212,
+  "Unicorn Hat": 213,
+  "Feather Hat": 214,
+  "Valoria Wreath": 215,
+  "Earn Alliance Sombrero": 216,
+  "Fresh Catch Vest": 217,
+  "Fish Pro Vest": 218,
+  "Reel Fishing Vest": 219,
+  "Clown Shirt": 220,
+  "Luminous Anglerfish Topper": 221,
+  "Abyssal Angler Hat": 222,
+  Harpoon: 223,
+  "Ancient Rod": 224,
+  "Fishing Hat": 225,
+  Trident: 226,
+  "Infernal Rod": 227,
+  "Bucket O' Worms": 228,
+  "Coconut Mask": 229,
+  "Crab Trap": 230,
+  "Seaside Tank Top": 231,
+  "Fish Trap": 232,
+  "Fishing Pants": 233,
+  "Angler Waders": 234,
+  "Fishing Spear": 235,
+  "Flip Flops": 236,
+  Wellies: 237,
+  "Saw Fish": 238,
+  "Skinning Knife": 239,
+  "Sunflower Rod": 240,
+  "Tackle Box": 241,
+  "Mermaid Potion": 242,
+  "Squirrel Monkey Potion": 243,
+  "Koi Fish Hat": 244,
+  "Normal Fish Hat": 245,
+  "Stockeye Salmon Onesie": 246,
+  "Tiki Armor": 247,
+  "Tiki Mask": 248,
+  "Tiki Pants": 249,
+  "Banana Amulet": 250,
+  "Banana Onesie": 251,
+  "Blossom Dumbo": 252,
+  "Companion Cap": 253,
+  "Radiant Dumbo": 254,
+  "Deep Sea Helm": 255,
+  "Maple Dumbo": 256,
+  "Pickaxe Shark": 257,
+  "Seedling Hat": 258,
+  "Gloomy Dumbo": 259,
+  "Ugly Christmas Sweater": 260,
+  "Candy Cane": 261,
+  "Elf Hat": 262,
+  "Elf Potion": 263,
+  "Elf Shoes": 264,
+  "Elf Suit": 265,
+  "Santa Beard": 266,
+  "Santa Suit": 267,
+  "Butterfly Wings": 268,
+  "Cozy Hoodie": 269,
+  "New Years Tiara": 270,
+  "Northern Lights Background": 271,
+  "Short Shorts": 272,
+  "Winter Jacket": 273,
+  "Beehive Staff": 274,
+  "Bee Smoker": 275,
+  "Bee Suit": 276,
+  "Bee Wings": 277,
+  "Beekeeper Hat": 278,
+  "Beekeeper Suit": 279,
+  "Crimstone Boots": 280,
+  "Crimstone Pants": 281,
+  "Crimstone Armor": 282,
+  "Gardening Overalls": 283,
+  "Crimstone Hammer": 284,
+  "Crimstone Amulet": 285,
+  "Full Bloom Shirt": 286,
+  "Blue Blossom Shirt": 287,
+  "Fairy Sandals": 288,
+  "Daisy Tee": 289,
+  "Propeller Hat": 290,
+  "Honeycomb Shield": 291,
+  "Hornet Mask": 292,
+  "Flower Crown": 293,
+  "Blue Monarch Dress": 294,
+  "Green Monarch Dress": 295,
+  "Orange Monarch Dress": 296,
+  "Blue Monarch Shirt": 297,
+  "Green Monarch Shirt": 298,
+  "Orange Monarch Shirt": 299,
+  "Queen Bee Crown": 300,
+  "Rose Dress": 301,
+  "Blue Rose Dress": 302,
+  "Chicken Hat": 303,
+  "Lucky Red Hat": 304,
+  "Lucky Red Suit": 305,
+  "Valentine's Field Background": 306,
+  "Love's Topper": 307,
+  "Oil Can": 308,
+  "Non La Hat": 309,
+  "Olive Shield": 310,
+  "Paw Shield": 311,
+  "Royal Robe": 312,
+  Crown: 313,
+  Pan: 314,
+  "Soybean Onesie": 315,
+  "Gift Giver": 316,
+  "Olive Royalty Shirt": 317,
+  "Royal Scepter": 318,
+  "Tofu Mask": 319,
+  "Goblin Armor": 320,
+  "Goblin Helmet": 321,
+  "Goblin Pants": 322,
+  "Goblin Sabatons": 323,
+  "Goblin Axe": 324,
+  "Nightshade Armor": 325,
+  "Nightshade Helmet": 326,
+  "Nightshade Pants": 327,
+  "Nightshade Sabatons": 328,
+  "Nightshade Sword": 329,
+  "Bumpkin Armor": 330,
+  "Bumpkin Helmet": 331,
+  "Bumpkin Sword": 332,
+  "Bumpkin Pants": 333,
+  "Bumpkin Sabatons": 334,
+  "Sunflorian Armor": 335,
+  "Sunflorian Sword": 336,
+  "Sunflorian Helmet": 337,
+  "Sunflorian Pants": 338,
+  "Sunflorian Sabatons": 339,
+  "Cap n Bells": 340,
+  "Knight Gambit": 341,
+  "Pixel Perfect Hoodie": 342,
+  "Queen's Crown": 343,
+  "Royal Dress": 344,
+  Motley: 345,
+  "Royal Braids": 346,
+  "Painter's Cap": 347,
+  "Festival of Colors Background": 348,
+
+  "Pharaoh Headdress": 349,
+  "Camel Onesie": 350,
+  "Amber Amulet": 351,
+  "Desert Background": 352,
+  "Explorer Shirt": 353,
+  "Dev Wrench": 354,
+  "Rock Hammer": 355,
+  "Sun Scarab Amulet": 356,
+  "Explorer Hat": 357,
+  "Oil Protection Hat": 358,
+  "Explorer Shorts": 359,
+  "Oil Overalls": 360,
+  "Desert Merchant Turban": 361,
+  "Desert Merchant Shoes": 362,
+  "Desert Merchant Suit": 363,
+  "Desert Camel Background": 364,
+  "Water Gourd": 365,
+  "Rocket Onesie": 366,
+  "Coin Aura": 367,
+  "Ankh Shirt": 368,
+  "Ancient Shovel": 369,
+  "Infernal Drill": 370,
+  "Lemon Shield": 371,
+  "Scarab Wings": 372,
+  "Grape Pants": 373,
+  "Bionic Drill": 374,
+  "Fossil Head": 375,
+
+  "Bumpkin Crown": 376,
+  "Goblin Crown": 377,
+  "Nightshade Crown": 378,
+  "Sunflorian Crown": 379,
+  "Bumpkin Shield": 380,
+  "Goblin Shield": 381,
+  "Nightshade Shield": 382,
+  "Sunflorian Shield": 383,
+  "Bumpkin Quiver": 384,
+  "Goblin Quiver": 385,
+  "Nightshade Quiver": 386,
+  "Sunflorian Quiver": 387,
+  "Bumpkin Medallion": 388,
+  "Goblin Medallion": 389,
+  "Nightshade Medallion": 390,
+  "Sunflorian Medallion": 391,
+
+  "Pumpkin Plaza Background": 392,
+  "Goblin Retreat Background": 393,
+  "Kingdom Background": 394,
+
+  "Gam3s Cap": 395,
+
+  "Cowboy Hat": 396,
+  "Cowboy Shirt": 397,
+  "Cowboy Trouser": 398,
+  "Cowboy Boots": 399,
+  "Infernal Bullwhip": 400,
+  "White Sheep Onesie": 401,
+  "Black Sheep Onesie": 402,
+  "Chicken Suit": 403,
+  "Cowgirl Skirt": 404,
+  "Merino Jumper": 405,
+  "Dream Scarf": 406,
+  "Cowbell Necklace": 407,
+  "Milk Apron": 408,
+  "Shepherd Staff": 409,
+  "Sol & Luna": 410,
+  "Fossil Armor": 411,
+  "Fossil Pants": 412,
+  "Rice Shirt": 413,
+  Sickle: 414,
+  "Speed Boots": 415,
+  "Tomato Apron": 416,
+  "Adventurer's Suit": 417,
+  "Adventurer's Torch": 418,
+  "Pumpkin Head": 419,
+  "Gingerbread Onesie": 420,
+  "New Years Crown": 421,
+
+  "Ladybug Suit": 422,
+  "Acorn Hat": 423,
+  "Crab Hat": 424,
+  "Weather Hat": 425,
+  "Sakura Shirt": 426,
+  "Squirrel Onesie": 427,
+  "Locust Onesie": 428,
+  "Locust King Onesie": 429,
+  "Glacial Plume": 430,
+  "Solflare Aegis": 431,
+  "Blossom Ward": 432,
+  "Autumn's Embrace": 433,
+  "Frozen Heart": 434,
+
+  "Love Heart Onesie": 435,
+  "Love Bear Onesie": 436,
+  "Flower Bouquet": 437,
+  "Streamer Hat": 438,
+
+  "Dino Onesie": 439,
+  "Golden Wings": 440,
+  "Flower Mask": 441,
+  "Luvvy Head": 442,
+  "Grumpy Cat": 443,
+  "Love Puff Aura": 444,
+
+  "Carrot Pitchfork": 445,
+  "Handheld Bunny": 446,
+  "Bunny Pants": 447,
+  "Bunny Mask": 448,
+  "Easter Apron": 449,
+
+  "Bloomwarden Suit": 450,
+  "Embersteel Suit": 451,
+  "Amberfall Suit": 452,
+  "Glacierguard Suit": 453,
+  "Broccoli Hat": 454,
+  "Frost Sword": 455,
+  "Medic Apron": 456,
+  "Obsidian Necklace": 457,
+  "Red Pepper Onesie": 458,
+  "Love Charm Shirt": 459,
+  "Sky Island Background": 460,
+  "Oracle Syringe": 461,
+  "Coin Head": 462,
+
+  "Paint Splattered Hair": 463,
+  "Paint Splattered Shirt": 464,
+  "Paint Splattered Overalls": 465,
+  "Paint Spray Can": 466,
+  "Slime Hat": 467,
+  "Slime Wings": 468,
+  "Slime Aura": 469,
+
+  "Brush Back Hair": 470,
+  Moustache: 471,
+  "Chemist Potion": 472,
+  "Diamond Patterned Vest": 473,
+  "Recycle Shirt": 474,
+  "Garbage Bin Hat": 475,
+  "Turd Topper": 476,
+  "Architect Ruler": 477,
+  "Onion Leek": 478,
+  "Oil Gallon": 479,
+  "Alchemist Apron": 480,
+  "Lava Swimwear": 481,
+  "Wooly Dress": 482,
+  "Raccoon Onesie": 483,
+  "Golden Seedling": 484,
+
+  "Moonseeker Potion": 485,
+  "Frizzy Bob Cut": 486,
+  "Two-toned Layered": 487,
+  "Halloween Deathscythe": 488,
+  "Moonseeker Hand Puppet": 489,
+  "Sweet Devil Horns": 490,
+  "Trick and Treat": 491,
+  "Jack O'Sweets": 492,
+  "Frank Onesie": 493,
+  "Research Uniform": 494,
+  "Sweet Devil Dress": 495,
+  "Underworld Stimpack": 496,
+  "Sweet Devil Wings": 497,
+  "Wisp Aura": 498,
+
+  "Luna's Crescent": 499,
+  "Master Chef's Cleaver": 500,
+  "Training Whistle": 501,
+  "Chef Shirt": 502,
+  "Pet Specialist Shirt": 503,
+  "Pet Specialist Pants": 504,
+  "Pet Specialist Hat": 505,
+
+  "Xmas Top Hat": 506,
+  "Reindeer Mask": 507,
+  "Snowman Mask": 508,
+  "Cool Glasses": 509,
+  "Comfy Xmas Pants": 510,
+  "Holiday Feast Background": 511,
+  "Comfy Xmas Sweater": 512,
+  "Candy Halbred": 513,
+  "Cookie Shield": 514,
+  "Cozy Reindeer Onesie": 515,
+  "Diamond Snow Aura": 516,
+  "2026 Tiara": 517,
+  "Walrus Onesie": 518,
+  "Crimstone Spikes Hair": 519,
+  "Paw Aura": 520,
+  "Victoria's Apron": 521,
+  "Beast Shoes": 522,
+  "Fish Hook Hat": 523,
+  "Fish Hook Vest": 524,
+  "Fish Hook Waders": 525,
+  "Corn Silk Hair": 526,
+
+  "Neon Noiz Jacket": 527,
+  "404 Chic Top": 528,
+  "Neon Noiz Pants": 529,
+  "404 Chic Skirt": 530,
+  "Admin Fools Tools": 531,
+  "Neon Noiz Shoes": 532,
+  "404 Chic Boots": 533,
+  "Aether Specs": 534,
+  "Faulty Barrier Background": 535,
+  "Cardboard Wings": 536,
+  "Glitch Aura": 537,
+  "Bumpkin Eyes": 538,
+  "Big Wink Eyes": 539,
+  "Fun Eyes": 540,
+  "Giggle Eyes": 541,
+  "Grumpy Eyes": 542,
+  "Relaxed Eyes": 543,
+  "Scared Eyes": 544,
+  "Surprised Eyes": 545,
+  "Wink Eyes": 546,
+  "Bumpkin Smile": 547,
+  "Angry Mouth": 548,
+  "Baby Teeth": 549,
+  "Big Smile": 550,
+  "Fanged Smile": 551,
+  "Gold Teeth": 552,
+  "Infernal Smile": 553,
+  "Neutral Mouth": 554,
+  "Pistol Shrimp": 555,
+
+  "Spa Hat": 556,
+  "Spa Robe": 557,
+  "Spa Slippers": 558,
+  "Bubble Aura": 559,
+  "Deep Sea Salt Cave Background": 560,
+  "Clam Shell Hat": 561,
+  "Shrimp Onesie": 562,
+  "Brasil Jersey": 563,
+
+  "Rainbow Wings": 564,
+  "Butterfly Aura": 565,
+  "Slime Wall Background": 566,
+  "Green Slime Hair": 567,
+  "Blue Slime Shirt": 568,
+  "Slime Splattered Shirt": 569,
+  "Yellow Slime Puppet": 570,
+  "Blue Jelly Shoes": 571,
+  "Sad Slime Slippers": 572,
+  "Sad Slime Hat": 573,
+  "Sad Slime Pants": 574,
+  "Red Jelly Pants": 575,
+  "Ascension Staff": 576,
+  "Ascension Wings": 577,
+  "Salt Bottle Onesie": 578,
+  "Swamp Armor": 579,
+  "Swamp Lily Hat": 580,
+  "Swamp Pants": 581,
+  "Moon Hair": 582,
+  "Crystal Shoes": 583,
+  "Marble Pants": 584,
+  "Spooky Coat": 585,
+  "Surfer Hair": 586,
+};
+
+const BUMPKIN_TOKEN_URI_SLOTS = [ "background", "body", "hair", "shirt", "pants", "shoes", "tool", "hat", "necklace", "secondaryTool", "coat", "onesie", "suit", "wings", "dress", "beard", "aura", "eyes", "mouth" ];
+
+function bumpkinBuildTokenUri(equipped) {
+  const parts = equipped && typeof equipped === "object" ? equipped : {};
+  const ids = BUMPKIN_TOKEN_URI_SLOTS.map(slot => {
+    const name = parts[slot];
+    return name && BUMPKIN_ITEM_IDS[name] ? BUMPKIN_ITEM_IDS[name] : 0;
+  });
+  const reversed = ids.slice().reverse();
+  const lastPartIndex = reversed.findIndex(Boolean);
+  const validIds = lastPartIndex > 0 ? ids.slice(0, -lastPartIndex) : ids;
+  return validIds.join("_");
+}
+
+function getBumpkinImageUrls(equipped, size) {
+  const parts = equipped && typeof equipped === "object" ? equipped : {};
+  if (!Object.keys(parts).length) return [];
+  const tokenUri = bumpkinBuildTokenUri(parts);
+  if (!tokenUri || /^0(_0)*$/.test(tokenUri)) return [];
+  const s = size || 100;
+  return [
+    `https://images.bumpkins.io/nfts/${tokenUri}x${s}.png`,
+    `https://testnet-images.bumpkins.io/nfts/${tokenUri}x${s}.png`,
+    `https://animations.sunflower-land.com/bumpkin_image/0_v1_${tokenUri}/${s}`,
+  ];
+}
+
+function profileBumpkinGridHtml(equipped) {
+  const names = Object.values(equipped).filter(v => typeof v === "string" && v.trim()).slice(0, 9);
+  const slots = [];
+  for (let i = 0; i < 9; i++) {
+    const name = names[i];
+    slots.push(`<div class="profile-bumpkin-slot">${name ? getIcon(name) : ""}</div>`);
+  }
+  return slots.join("");
+}
+
+function profileBumpkinNoteText(g) {
+  const equipped = profileAsObj(g && g.bumpkin && g.bumpkin.equipped) || {};
+  return Object.keys(equipped).length ? "" : "No equipped items synced";
+}
+
+function profileBumpkinIdHtml(g) {
+  const id = g && g.bumpkin && g.bumpkin.id;
+  if (id === undefined || id === null || id === "") return "";
+  return `<div class="profile-bumpkin-id-card">Bumpkin #${escapeHtml(String(id))}</div>`;
+}
+
+function profileBumpkinImageOnError(img) {
+  console.log("[BUMPKIN DEBUG] failed to load:", img.src);
+  const queue = profileBumpkinUrlQueues[img.dataset.queueId] || [];
+  const next = queue.shift();
+  if (next) {
+    console.log("[BUMPKIN DEBUG] trying next:", next);
+    img.src = next;
+    return;
+  }
+  console.log("[BUMPKIN DEBUG] all candidates failed, falling back to grid");
+  delete profileBumpkinUrlQueues[img.dataset.queueId];
+  const frame = img.closest(".profile-bumpkin-frame");
+  if (frame) frame.classList.add("render-failed");
+  const note = document.getElementById("profileBumpkinNote");
+  if (note) note.textContent = "Equipped items shown (character render unavailable)";
+  if (profileBumpkinCache.tokenUri === img.dataset.tokenUri) {
+    profileBumpkinCache.status = "failed";
+    profileBumpkinCache.resolvedUrl = null;
+    profileBumpkinCachePersist();
+  }
+  img.remove();
+}
+
+
+const profileBumpkinUrlQueues = {};
+let profileBumpkinQueueCounter = 0;
+const PROFILE_BUMPKIN_CACHE_KEY = "profileBumpkinCache";
+
+function profileBumpkinCacheLoad() {
+  try {
+    const raw = localStorage.getItem(PROFILE_BUMPKIN_CACHE_KEY);
+    if (!raw) return { tokenUri: null, status: "idle", resolvedUrl: null };
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object") return { tokenUri: null, status: "idle", resolvedUrl: null };
+    return {
+      tokenUri: parsed.tokenUri || null,
+      status: parsed.status === "loaded" || parsed.status === "failed" ? parsed.status : "idle",
+      resolvedUrl: parsed.resolvedUrl || null,
+    };
+  } catch (e) {
+    return { tokenUri: null, status: "idle", resolvedUrl: null };
+  }
+}
+
+function profileBumpkinCachePersist() {
+  try {
+    localStorage.setItem(PROFILE_BUMPKIN_CACHE_KEY, JSON.stringify(profileBumpkinCache));
+  } catch (e) {}
+}
+
+const profileBumpkinCache = profileBumpkinCacheLoad();
+
+function profileBumpkinFrameHtml(g) {
+  const equipped = profileAsObj(g && g.bumpkin && g.bumpkin.equipped) || {};
+  const imageUrls = getBumpkinImageUrls(equipped, 200);
+  const tokenUri = bumpkinBuildTokenUri(equipped);
+  const gridHtml = profileBumpkinGridHtml(equipped);
+  console.log("[BUMPKIN DEBUG] equipped:", equipped);
+  console.log("[BUMPKIN DEBUG] imageUrls:", imageUrls);
+
+  if (profileBumpkinCache.tokenUri === tokenUri) {
+    if (profileBumpkinCache.status === "failed") return gridHtml;
+    if (profileBumpkinCache.status === "loaded" && profileBumpkinCache.resolvedUrl) {
+      return `<img src="${profileBumpkinCache.resolvedUrl}" alt="Bumpkin" class="profile-bumpkin-render" data-token-uri="${tokenUri}">
+    <div class="profile-bumpkin-grid-fallback">${gridHtml}</div>`;
+    }
+  }
+
+  if (!imageUrls.length) {
+    profileBumpkinCache.tokenUri = tokenUri;
+    profileBumpkinCache.status = "failed";
+    profileBumpkinCache.resolvedUrl = null;
+    profileBumpkinCachePersist();
+    return gridHtml;
+  }
+
+  const queueId = "q" + (profileBumpkinQueueCounter++);
+  const firstUrl = imageUrls[0];
+  profileBumpkinUrlQueues[queueId] = imageUrls.slice(1);
+  profileBumpkinCache.tokenUri = tokenUri;
+  profileBumpkinCache.status = "loading";
+  profileBumpkinCache.resolvedUrl = null;
+  profileBumpkinCachePersist();
+  return `<img src="${firstUrl}" alt="Bumpkin" class="profile-bumpkin-render" data-queue-id="${queueId}" data-token-uri="${tokenUri}">
+    <div class="profile-bumpkin-grid-fallback">${gridHtml}</div>`;
+}
+
+function profileFactionHtml() {
+  const info = farmPanelGetLastInfo();
+  if (!info.id) return "—";
+  if (info.factionIsMember && info.factionName && FACTION_DISPLAY_NAMES[info.factionName]) {
+    return escapeHtml(FACTION_DISPLAY_NAMES[info.factionName]);
+  }
+  return "No Faction";
+}
+
+function profileFactionIconHtml() {
+  const info = farmPanelGetLastInfo();
+  if (!info.id || !info.factionIsMember || !info.factionName || !FACTION_BANNER_ICONS[info.factionName]) return "";
+  return `<img src="${FACTION_BANNER_ICONS[info.factionName]}" class="profile-inline-icon" alt="${escapeHtml(FACTION_DISPLAY_NAMES[info.factionName] || "")}">`;
+}
+
+function profileVipHtml() {
+  const info = farmPanelGetLastInfo();
+  if (!info.id) return "—";
+  if (!info.vipActive) return "Not Active";
+  if (info.vipLifetime) return "Life Time";
+  if (info.vipExpiresAt) return `Active (until ${new Date(info.vipExpiresAt).toLocaleDateString()})`;
+  return "Active";
+}
+
+const PROFILE_TAB_TO_SKILL_CATS = {
+  crops: ["crops"],
+  resources: ["trees", "mining"],
+  fruits: ["fruitpatch"],
+  honey: ["bees"],
+  animals: ["animals"],
+  salt: [],
+  greenhouse: ["greenhouse"],
+  cropmachine: ["machine"],
+  composter: ["compost"],
+  cooking: ["cooking"],
+  fishing: ["fishing"],
+  pets: []
+};
+
+function profileGetMainTabMeta() {
+  const btns = document.querySelectorAll("#mainCategoryToggle button[data-view]");
+  return Array.from(btns).map(b => ({ id: b.dataset.view, html: b.innerHTML }));
+}
+
+function profileEffectLabel(entry) {
+  if (!entry) return "Active";
+  if (typeof entry.timeMult === "number") {
+    const pct = Math.round((1 - entry.timeMult) * 100);
+    return pct >= 0 ? `-${pct}% time` : `+${Math.abs(pct)}% time`;
+  }
+  if (typeof entry.yieldMult === "number") {
+    const pct = Math.round((entry.yieldMult - 1) * 100);
+    return `${pct >= 0 ? "+" : ""}${pct}% yield`;
+  }
+  if (typeof entry.yieldAdd === "number") {
+    return `${entry.yieldAdd >= 0 ? "+" : ""}${entry.yieldAdd} yield`;
+  }
+  if (typeof entry.stockAdd === "number") {
+    return `${entry.stockAdd >= 0 ? "+" : ""}${entry.stockAdd} stock`;
+  }
+  if (entry.note) {
+    return escapeHtml(String(entry.note).split(/[;,.]/)[0].trim());
+  }
+  return "Active";
+}
+
+function profileSkillEffectText(s) {
+  const level = skillSyncedLevel(s);
+  let text = s.note || profileEffectLabel(s);
+  if (Array.isArray(s.aoeSizeByRank) && s.aoeSizeByRank[level - 1] != null) {
+    const size = s.aoeSizeByRank[level - 1];
+    text = text.replace(/\d+x\d+\s*\(\d+\s*plots\)/i, `${size}x${size} (${size * size} plots)`);
+  }
+  if (typeof s.extraYieldAdd === "number") {
+    text = text.replace(/[+-]?\d+(?:\.\d+)?(?=\s+[A-Za-z][^;]*\byield\b)/i, (s.extraYieldAdd >= 0 ? "+" : "") + s.extraYieldAdd);
+  }
+  return text;
+}
+
+function profileAllSkillEntries() {
+  const all = [];
+  Object.values(SKILL_TREES).forEach(arr => {
+    if (Array.isArray(arr)) arr.forEach(s => all.push(s));
+  });
+  return all;
+}
+
+function profileRenderSkillTierGroups(activeSkills) {
+  const byTier = {};
+  activeSkills.forEach(s => {
+    const tier = s.skillTier || 1;
+    (byTier[tier] = byTier[tier] || []).push(s);
+  });
+  const tiers = Object.keys(byTier).map(Number).sort((a, b) => a - b);
+  return tiers.map(tier => {
+    const items = byTier[tier].map(s => `<div class="profile-build-item">${getIcon(s.name)}<div class="profile-build-item-text"><span class="profile-build-item-name">${escapeHtml(s.name)} Level [${skillSyncedLevel(s)}]</span><br><span class="profile-build-item-eff">${profileSkillEffectText(s)}</span></div></div>`).join("");
+    return `<div class="profile-skill-tier-title profile-skill-tier-${tier}">Tier ${tier} Skills</div>${items}`;
+  }).join("");
+}
+
+function profileRenderBuildColumns(tabId) {
+  const snapshot = profileSyncSnapshot || { boosts: [], skills: [] };
+  const boostIds = new Set(snapshot.boosts || []);
+  const skillIds = new Set(snapshot.skills || []);
+  const activeBoosts = BOOSTS.filter(b => b.category === tabId && boostIds.has(b.id));
+  const skillCats = PROFILE_TAB_TO_SKILL_CATS[tabId] || [];
+  const allSkills = profileAllSkillEntries();
+  const activeSkills = allSkills.filter(s => skillIds.has(s.id) && skillCats.some(cat => (SKILL_TREES[cat] || []).some(x => x.id === s.id)));
+  const boostHtml = activeBoosts.length ? activeBoosts.map(b => `<div class="profile-build-item">${getIcon(b.name)}<div class="profile-build-item-text"><span class="profile-build-item-name">${escapeHtml(b.name)}</span><br><span class="profile-build-item-eff">${profileEffectLabel(b)}</span></div></div>`).join("") : `<div class="profile-build-empty">No active boosts synced for this category.</div>`;
+  const skillHtml = activeSkills.length ? profileRenderSkillTierGroups(activeSkills) : `<div class="profile-build-empty">No active skills synced for this category.</div>`;
+  return `<div class="profile-build-cols">
+    <div class="profile-build-col"><div class="profile-build-col-title">⚡ Boost</div>${boostHtml}</div>
+    <div class="profile-build-col"><div class="profile-build-col-title">🎓 Skills</div>${skillHtml}</div>
+  </div>`;
+}
+
+function profileGetDisplayName() {
+  const info = farmPanelGetLastInfo();
+  if (!info.id) return "Unsynced Farm";
+  const apiName = farmSyncGetApiUsername(info.id);
+  return apiName || `Farm #${info.id}`;
+}
+
+function profileComputeFarmValue(g) {
+  return profileTradableTotalFlower(g);
+}
+
+function renderProfileOverview() {
+  const g = profileGetG();
+  const info = farmPanelGetLastInfo();
+  const displayName = profileGetDisplayName();
+  const levelInfo = info.id ? cookGetLevelInfo(info.experience) : null;
+  const levelText = !info.id ? "—" : levelInfo.isMax ? `${info.level || levelInfo.level} (MAX)<br><span class="profile-stat-value-sub"><span class="profile-xp-current">${fmtInt(levelInfo.progress)}</span><span class="profile-xp-sep">/</span><span class="profile-xp-max">- XP</span></span>` : `${info.level || levelInfo.level}<br><span class="profile-stat-value-sub"><span class="profile-xp-current">${fmt(levelInfo.progress)}</span><span class="profile-xp-sep">/</span><span class="profile-xp-max">${fmt(levelInfo.span)} XP</span></span>`;
+  const expInfo = g ? profileGetExpansionInfo(g) : { islandLabel: "—", expansionLevel: 0, ascensionLevel: 0 };
+  const balance = Number(g && g.balance) || 0;
+  const coins = Number(g && g.coins) || 0;
+  const gems = g ? profileGetInventoryAmount(g, "Gem") : 0;
+  const marks = g ? profileGetInventoryAmount(g, "Mark") : 0;
+  const loveCharm = g ? profileGetInventoryAmount(g, "Love Charm") : 0;
+  const cheers = g ? profileGetInventoryAmount(g, "Cheer") : 0;
+  const taxInfo = g ? profileComputeWithdrawTax(g) : { taxFree: 0, percent: 0, taxAmount: 0, afterWithdrawal: 0 };
+  const createdText = g && g.createdAt ? new Date(g.createdAt).toLocaleDateString() : "—";
+  const farmAgeText = g && g.createdAt ? profileGetFarmAgeText(g.createdAt) : "";
+  const referrals = g && g.referrals && g.referrals.totalReferrals != null ? g.referrals.totalReferrals : 0;
+  const telegramText = g && g.telegram && g.telegram.linkedAt ? "Connected" : "Not Connected";
+  const discordText = g && g.discord && g.discord.connected ? "Connected" : "Not Connected";
+  const farmValueFlower = g ? profileComputeFarmValue(g) : 0;
+  const islandIconHtml = g && g.island && g.island.type ? `<img src="${esIslandIcon(g.island.type)}" class="profile-inline-icon" alt="">` : "";
+  const factionIconHtml = profileFactionIconHtml();
+  const repInfo = g ? profileGetReputation(g) : { tierName: "—", points: 0 };
+
+  $("profileTopSection").innerHTML = `
+    <div class="profile-bumpkin-frame">${profileBumpkinFrameHtml(g)}</div>
+    ${profileBumpkinIdHtml(g)}
+    <div class="profile-section-title">Farm Overview of ${escapeHtml(displayName)}</div>
+    <div class="profile-bumpkin-note" id="profileBumpkinNote">${profileBumpkinNoteText(g)}</div>
+    <div class="profile-stat-row"><span class="profile-stat-label">Name</span><span class="profile-stat-value">${escapeHtml(displayName)}</span></div>
+    <div class="profile-stat-row"><span class="profile-stat-label">Farm Id</span><span class="profile-stat-value">${escapeHtml(info.id || "—")}</span></div>
+    <div class="profile-stat-row"><span class="profile-stat-label">Bumpkin Level</span><span class="profile-stat-value">${levelText}</span></div>
+    <div class="profile-stat-row"><span class="profile-stat-label">VIP Status</span><span class="profile-stat-value">${profileVipHtml()}</span></div>
+    <div class="profile-stat-card">
+      <div class="profile-stat-card-row"><span class="profile-stat-label">Ascension</span><span class="profile-stat-value">[${fmtInt(expInfo.ascensionLevel)}]</span></div>
+      <div class="profile-stat-card-row"><span class="profile-stat-label">Island</span><span class="profile-stat-value">${islandIconHtml}${escapeHtml(expInfo.islandLabel)}</span></div>
+    </div>
+    <div class="profile-stat-row"><span class="profile-stat-label">Expansion Level</span><span class="profile-stat-value">${fmtInt(expInfo.expansionLevel)}</span></div>
+    <div class="profile-stat-row"><span class="profile-stat-label">Faction</span><span class="profile-stat-value">${factionIconHtml}${profileFactionHtml()}</span></div>
+    <div class="profile-stat-row"><span class="profile-stat-label">Reputation</span><span class="profile-stat-value">[${escapeHtml(repInfo.tierName)}][${fmtInt(repInfo.points)}]</span></div>
+
+    <div class="profile-balance-title">Balance</div>
+    <div class="profile-balance-grid">
+      <div class="profile-balance-chip">${FLOWER_ICON}<span class="profile-balance-chip-val">${fmt(balance)}</span></div>
+      <div class="profile-balance-chip">${COIN_ICON}<span class="profile-balance-chip-val">${fmt(coins)}</span></div>
+      <div class="profile-balance-chip">${GEM_ICON}<span class="profile-balance-chip-val">${fmt(gems)}</span></div>
+      <div class="profile-balance-chip"><img src="${MARK_ICON_SRC}" class="profile-inline-icon" alt="Marks"><span class="profile-balance-chip-val">${fmt(marks)}</span></div>
+      <div class="profile-balance-chip"><img src="${LOVE_CHARM_ICON_SRC}" class="profile-inline-icon" alt="Love Charm"><span class="profile-balance-chip-val">${fmt(loveCharm)}</span></div>
+      <div class="profile-balance-chip"><img src="${CHEER_ICON_SRC}" class="profile-inline-icon" alt="Cheer"><span class="profile-balance-chip-val">${fmt(cheers)}</span></div>
+    </div>
+
+    <div class="profile-stat-row"><span class="profile-stat-label">Resource Tax</span><span class="profile-stat-value">${fmt(feePercent)}%</span></div>
+    <div class="profile-stat-row"><span class="profile-stat-label">Withdraw Tax</span><span class="profile-stat-value">${fmt(taxInfo.percent)}%</span></div>
+    <div class="profile-stat-row"><span class="profile-stat-label">Tax Free</span><span class="profile-stat-value">${fmt(taxInfo.taxFree)} ${FLOWER_ICON}</span></div>
+    <div class="profile-stat-row"><span class="profile-stat-label">After Withdrawal</span><span class="profile-stat-value">${fmt(taxInfo.afterWithdrawal)} ${FLOWER_ICON}</span></div>
+
+    <div class="profile-stat-row"><span class="profile-stat-label">Created</span><span class="profile-stat-value">${createdText}${farmAgeText ? `<span class="profile-stat-value-sub">${escapeHtml(farmAgeText)}</span>` : ""}</span></div>
+    <div class="profile-stat-row"><span class="profile-stat-label">Referrals</span><span class="profile-stat-value">${fmtInt(referrals)}</span></div>
+    <div class="profile-stat-row"><span class="profile-stat-label">Telegram</span><span class="profile-stat-value">${telegramText}</span></div>
+    <div class="profile-stat-row"><span class="profile-stat-label">Discord</span><span class="profile-stat-value">${discordText}</span></div>
+
+    <div class="profile-farmvalue-card">
+      <div class="profile-farmvalue-label">FARM VALUE</div>
+      <div class="profile-farmvalue-amount">${FLOWER_ICON} ${fmt(farmValueFlower)}</div>
+      <div class="profile-farmvalue-usd">${profileFmtUsd(farmValueFlower)}</div>
+    </div>
+  `;
+  const bumpkinImg = document.querySelector(".profile-bumpkin-render");
+  if (bumpkinImg) {
+    bumpkinImg.addEventListener("error", () => profileBumpkinImageOnError(bumpkinImg));
+    bumpkinImg.addEventListener("load", () => {
+      console.log("[BUMPKIN DEBUG] loaded successfully:", bumpkinImg.src);
+      if (profileBumpkinCache.tokenUri === bumpkinImg.dataset.tokenUri) {
+        profileBumpkinCache.status = "loaded";
+        profileBumpkinCache.resolvedUrl = bumpkinImg.src;
+        profileBumpkinCachePersist();
+      }
+    });
+  }
+}
+
+function profileGoBottomNav() {
+  const displayName = profileGetDisplayName();
+  $("profileBottomSection").innerHTML = `
+    <div class="profile-nav-title" id="profileNavTitle">See what Boost and Build does ${escapeHtml(displayName)} have on its farm!</div>
+    <div class="profile-nav-btns">
+      <button type="button" class="profile-nav-btn" id="profileNavBuildBtn">${escapeHtml(displayName)}'s Build</button>
+      <button type="button" class="profile-nav-btn" id="profileNavTradableBtn">${escapeHtml(displayName)}'s Tradable Items</button>
+    </div>
+  `;
+  $("profileNavBuildBtn").onclick = () => { profileState.view = "build"; renderProfileView(); };
+  $("profileNavTradableBtn").onclick = () => { profileState.view = "tradable"; renderProfileView(); };
+}
+
+function profileBackNav() {
+  $("profileBottomSection").innerHTML = `<button type="button" class="profile-nav-btn is-back" id="profileBackBtn">‹ Back to Overview</button>`;
+  $("profileBackBtn").onclick = () => { profileState.view = "overview"; renderProfileView(); };
+}
+
+function renderProfileBuild() {
+  const displayName = profileGetDisplayName();
+  const tabs = profileGetMainTabMeta();
+  if (!tabs.some(t => t.id === profileState.buildTab)) profileState.buildTab = tabs[0] ? tabs[0].id : "crops";
+  const tabsHtml = tabs.map(t => `<button type="button" data-tab="${t.id}" class="${t.id === profileState.buildTab ? "active" : ""}">${t.html}</button>`).join("");
+  $("profileTopSection").innerHTML = `
+    <div class="profile-section-title">${escapeHtml(displayName)}'s Build!</div>
+    <div class="profile-tabgrid" id="profileBuildTabs">${tabsHtml}</div>
+    <div class="profile-build-divider"></div>
+    <div id="profileBuildContent">${profileRenderBuildColumns(profileState.buildTab)}</div>
+  `;
+  $("profileBuildTabs").querySelectorAll("button[data-tab]").forEach(btn => {
+    btn.onclick = () => {
+      profileState.buildTab = btn.dataset.tab;
+      $("profileBuildTabs").querySelectorAll("button[data-tab]").forEach(b => b.classList.toggle("active", b.dataset.tab === profileState.buildTab));
+      $("profileBuildContent").innerHTML = profileRenderBuildColumns(profileState.buildTab);
+    };
+  });
+  profileBackNav();
+}
+
+const PROFILE_TRADABLE_TABS = [
+  { id: "resources", label: "Resources" },
+  { id: "collectibles", label: "Collectibles" },
+  { id: "wearable", label: "Wearable" },
+  { id: "bud", label: "BUD" },
+  { id: "pet", label: "PET NFT" },
+  { id: "cosmetics", label: "Cosmetics" }
+];
+
+const PROFILE_RESOURCE_CATEGORIES = [
+  { id: "crops", label: "Crops" },
+  { id: "fruits", label: "Fruits" },
+  { id: "greenhouse", label: "Greenhouse" },
+  { id: "resources", label: "Resources" },
+  { id: "animal", label: "Animal Produce" },
+  { id: "treasures", label: "Treasures" },
+  { id: "other", label: "Other" },
+  { id: "seeds", label: "Seeds" }
+];
+
+function profileResourceCategoryOf(name) {
+  if (typeof BASE_CROPS !== "undefined" && Object.prototype.hasOwnProperty.call(BASE_CROPS, name)) return "crops";
+  if (typeof BASE_FRUITS !== "undefined" && Object.prototype.hasOwnProperty.call(BASE_FRUITS, name)) return "fruits";
+  if (typeof BASE_GREENHOUSE !== "undefined" && Object.prototype.hasOwnProperty.call(BASE_GREENHOUSE, name)) return "greenhouse";
+  if (typeof RESOURCE_DATA !== "undefined" && Object.prototype.hasOwnProperty.call(RESOURCE_DATA, name)) return "resources";
+  if (/ Seed$/.test(name)) return "seeds";
+  const animalNames = new Set([ "Egg", "Feather", "Wool", "Merino Wool", "Milk", "Leather", "Shell", "Honey", "Royal Jelly", "Kernel Blend", "Hay", "Nutri Barley", "Mixed Grain" ]);
+  if (animalNames.has(name)) return "animal";
+  return "other";
+}
+
+const SELLABLE_TREASURES = {
+  Sand: 10,
+  "Camel Bone": 10,
+  Crab: 15,
+  "Old Bottle": 22.5,
+  "Sea Cucumber": 22.5,
+  Vase: 50,
+  Seaweed: 75,
+  "Cockle Shell": 100,
+  Starfish: 112.5,
+  "Wooden Compass": 131.25,
+  "Iron Compass": 187.5,
+  "Emerald Compass": 187.5,
+  Pipi: 187.5,
+  Hieroglyph: 250,
+  "Clam Shell": 375,
+  Coral: 1500,
+  Pearl: 3750,
+  "Pirate Bounty": 7500,
+  Scarab: 200,
+  "Cow Skull": 200,
+  "Ancient Clock": 200,
+  "Broken Pillar": 200,
+  Coprolite: 200,
+  "Moon Crystal": 200,
+  "Ammonite Shell": 200,
+  "Salt Dino Egg": 200,
+  "Otter Pebble": 200
+};
+
+function profileGetTreasureBoosts(g) {
+  const placed = farmSyncCollectEquippedAndPlacedNames(g);
+  const camelActive = placed.has("Camel");
+  const treasureMapActive = placed.has("Treasure Map");
+  let bonusPct = 0;
+  if (treasureMapActive) bonusPct += 20;
+  if (camelActive) bonusPct += 30;
+  return { camelActive: camelActive, treasureMapActive: treasureMapActive, bonusPct: bonusPct };
+}
+
+function profileTradableTreasureRows(g) {
+  const inv = profileAsObj(g && g.inventory) || {};
+  const boosts = profileGetTreasureBoosts(g);
+  const rows = [];
+  Object.entries(SELLABLE_TREASURES).forEach(([name, basePrice]) => {
+    const amt = inv[name];
+    const qty = typeof amt === "string" ? parseFloat(amt) : Number(amt);
+    if (!isFinite(qty) || qty <= 0) return;
+    const boostedPrice = basePrice * (1 + boosts.bonusPct / 100);
+    const totalCoins = boostedPrice * qty;
+    rows.push({
+      name: name,
+      qty: qty,
+      value: coinsToFlower(totalCoins),
+      category: "treasures",
+      basePricePerUnit: basePrice,
+      boostedPricePerUnit: boostedPrice,
+      boosted: boosts.bonusPct > 0
+    });
+  });
+  return rows.sort((a, b) => b.value - a.value);
+}
+
+function profileTradableResourceRows(g) {
+  const inv = profileAsObj(g && g.inventory) || {};
+  const rows = [];
+  const skipNames = new Set(Object.keys(SELLABLE_TREASURES).concat([ "Basic Land", "Gem", "Love Charm" ]));
+  Object.entries(inv).forEach(([name, amt]) => {
+    if (skipNames.has(name)) return;
+    const qty = typeof amt === "string" ? parseFloat(amt) : Number(amt);
+    if (!isFinite(qty) || qty <= 0) return;
+    const price = findLivePriceForName(name);
+    if (price == null) return;
+    rows.push({ name: name, qty: qty, value: qty * price, category: profileResourceCategoryOf(name) });
+  });
+  rows.push(...profileTradableTreasureRows(g));
+  const gemQty = profileGetInventoryAmount(g, "Gem");
+  if (gemQty > 0) rows.push({ name: "Gem", qty: gemQty, value: gemsToFlower(gemQty), category: "other" });
+  const coinQty = Number(g && g.coins) || 0;
+  if (coinQty > 0) rows.push({ name: "Coins", qty: coinQty, value: coinsToFlower(coinQty), category: "other" });
+  const loveCharmQty = profileGetInventoryAmount(g, "Love Charm");
+  if (loveCharmQty > 0) rows.push({ name: "Love Charm", qty: loveCharmQty, value: loveCharmQty / 80, category: "other" });
+  return rows.sort((a, b) => b.value - a.value);
+}
+
+const COLLECTIBLE_BOOST_NAMES = [
+  "Alba",
+  "Alien Chicken",
+  "Ancient Tree",
+  "Anemone Flower",
+  "Apprentice Beaver",
+  "Ascended Chicken",
+  "Ascended Cow",
+  "Ascended Idol",
+  "Ascended Sheep",
+  "Ascension Monument",
+  "Astrolabe",
+  "Astronaut Sheep",
+  "Autumn Guardian",
+  "Ayam Cemani",
+  "Baby Cow",
+  "Badger Shrine",
+  "Bale",
+  "Banana Chicken",
+  "Bantam Shrine",
+  "Barn Blueprint",
+  "Basic Scarecrow",
+  "Battle Fish",
+  "Bear Shrine",
+  "Beehive",
+  "Black Bearry",
+  "Blossom Hourglass",
+  "Blossombeard",
+  "Boar Shrine",
+  "Butterfly",
+  "Cabbage Boy",
+  "Cabbage Girl",
+  "Camel",
+  "Cannonball",
+  "Carrot Sword",
+  "Chicken Coop",
+  "Chicory",
+  "Christmas Tree",
+  "Cluckulator",
+  "Collie Shrine",
+  "Cornucopia",
+  "Crab House",
+  "Crim Peckster",
+  "Crimson Carp",
+  "Crimstone Clam",
+  "Crystal Altar",
+  "Deep Sea Slug",
+  "Desert Gnome",
+  "Desert Rose",
+  "Dino Egg Trophy",
+  "Dr Cow",
+  "Dumbo Octopus",
+  "Easter Bunny",
+  "El Pollo Veloz",
+  "Emerald Turtle",
+  "Fairy Circle",
+  "Farm Dog",
+  "Farmer's Monument",
+  "Fat Chicken",
+  "Festive Tree",
+  "Fisher's Hourglass",
+  "Flamingo Chicken",
+  "Flower Fox",
+  "Foliant",
+  "Foreman Beaver",
+  "Fox Shrine",
+  "Freya Fox",
+  "Frozen Cow",
+  "Frozen Sheep",
+  "Fruit Tune Box",
+  "Fruitful Blend",
+  "Fused Stone Rock",
+  "Genie Lamp",
+  "Giant Artichoke",
+  "Giant Gold Bone",
+  "Giant Kale",
+  "Giant Onion",
+  "Giant Turnip",
+  "Giant Yam",
+  "Giant Zucchini",
+  "Gilded Swordfish",
+  "Gnome",
+  "Gold Beetle",
+  "Gold Egg",
+  "Golden Cauliflower",
+  "Golden Cow",
+  "Golden Sheep",
+  "Gourmet Hourglass",
+  "Grain Grinder",
+  "Grape Granny",
+  "Greenhouse Glow",
+  "Greenhouse Goodie",
+  "Grinx's Hammer",
+  "Groovy Gramophone",
+  "Harvest Hourglass",
+  "Heart of Davy Jones",
+  "Honey Treat",
+  "Hoot",
+  "Hound Shrine",
+  "Humming Bird",
+  "Hungry Caterpillar",
+  "Hungry Hare",
+  "Immortal Pear",
+  "Iron Beetle",
+  "Iron Idol",
+  "Janitor Chicken",
+  "Jellyfish",
+  "Karkinos",
+  "Kernaldo",
+  "King of Bears",
+  "Knight Chicken",
+  "Knowledge Crab",
+  "Kuebiko",
+  "Lab Grown Carrot",
+  "Lab Grown Pumpkin",
+  "Lab Grown Radish",
+  "Lady Bug",
+  "Laurie the Chuckle Crow",
+  "Legendary Shrine",
+  "Lemon Frog",
+  "Lemon Shark",
+  "Lemon Tea Bath",
+  "Longhorn Cowfish",
+  "Lunar Calendar",
+  "Lunar Temple",
+  "Macaw",
+  "Magma Stone",
+  "Mammoth",
+  "Maneki Neko",
+  "Maximus",
+  "Meerkat",
+  "Mermaid Sheep",
+  "Miner's Monument",
+  "Mole Shrine",
+  "Moo-ver",
+  "Mootant",
+  "Moth Shrine",
+  "Mushroom House",
+  "Mysterious Parsnip",
+  "Nana",
+  "Nancy",
+  "Nautilus",
+  "Navigation Table",
+  "Nugget",
+  "Nurse Sheep",
+  "Oaken",
+  "Obie",
+  "Observatory",
+  "Obsidian Shrine",
+  "Obsidian Turtle",
+  "Orchard Hourglass",
+  "Ore Hourglass",
+  "Otty the Otter",
+  "Pablo The Bunny",
+  "Peeled Potato",
+  "Pet Bowls",
+  "Pharaoh Chicken",
+  "Pharaoh Gnome",
+  "Pink Dolphin",
+  "Poppy",
+  "Poseidon",
+  "Poseidon's Throne",
+  "Potent Potato",
+  "Prime Gold Rock",
+  "Pure Gold Rock",
+  "Purple Trail",
+  "Quarry",
+  "Queen Bee",
+  "Queen Cornelia",
+  "Radiant Ray",
+  "Radical Radish",
+  "Rapid Root",
+  "Reelmaster's Chair",
+  "Refined Iron Rock",
+  "Reinforced Stone Rock",
+  "Reveling Lemon",
+  "Rice Panda",
+  "Rich Chicken",
+  "Rock Golem",
+  "Rocky the Mole",
+  "Rooster",
+  "Royal Crab Pot",
+  "Ruins Flower",
+  "Sacred Tree",
+  "Salt Crystal Flower",
+  "Salt Lick",
+  "Salt Sculpture",
+  "Salt Worker Gnome",
+  "Scarecrow",
+  "Scary Mike",
+  "Sheaf of Plenty",
+  "Sir Goldensnout",
+  "Skill Shrimpy",
+  "Sleepy Chicken",
+  "Soil Krabby",
+  "Soybliss",
+  "Spa Cow",
+  "Spa Sheep",
+  "Sparrow Shrine",
+  "Speed Chicken",
+  "Speed Trap",
+  "Spring Guardian",
+  "Sprout Mix",
+  "Sproutroot Surprise",
+  "Squid Chicken",
+  "Squirrel",
+  "Squirrel Monkey",
+  "Stag Shrine",
+  "Stellar Sunflower",
+  "Stone Beetle",
+  "Summer Chicken",
+  "Summer Guardian",
+  "Super Star",
+  "Super Totem",
+  "Swiss Whiskers",
+  "Teamwork Monument",
+  "Tempered Iron Rock",
+  "Tiki Totem",
+  "Timber Hourglass",
+  "Time Warp Totem",
+  "Tin Turtle",
+  "Tomato Bombard",
+  "Tomato Clown",
+  "Toolshed",
+  "Tortoise Shrine",
+  "Toucan Shrine",
+  "Toxic Tuft",
+  "Trading Shrine",
+  "Treasure Map",
+  "Tunnel Mole",
+  "Turbo Sprout",
+  "Turbofruit Mix",
+  "Undead Rooster",
+  "Vibraphone",
+  "Victoria Sisters",
+  "Vinny",
+  "Volcano Gnome",
+  "Walrus",
+  "Warehouse",
+  "Winged Vase",
+  "Winter Guardian",
+  "Wood Nymph Wendy",
+  "Woodcutter's Monument",
+  "Woody the Beaver"
+];
+
+const WEARABLE_BOOST_NAMES = [
+  "Alchemist Apron",
+  "Ancient Rod",
+  "Ancient Shovel",
+  "Angel Wings",
+  "Angler Waders",
+  "Architect Ruler",
+  "Autumn's Embrace",
+  "Banana Amulet",
+  "Banana Onesie",
+  "Beast Shoes",
+  "Bee Suit",
+  "Beekeeper Hat",
+  "Beetroot Amulet",
+  "Bionic Drill",
+  "Black Sheep Onesie",
+  "Blossom Ward",
+  "Broccoli Hat",
+  "Bubble Aura",
+  "Bucket O' Worms",
+  "Bumpkin Armor",
+  "Bumpkin Crown",
+  "Bumpkin Helmet",
+  "Bumpkin Medallion",
+  "Bumpkin Pants",
+  "Bumpkin Quiver",
+  "Bumpkin Sabatons",
+  "Bumpkin Shield",
+  "Bumpkin Sword",
+  "Camel Onesie",
+  "Carrot Amulet",
+  "Cattlegrim",
+  "Chef Apron",
+  "Chicken Suit",
+  "Corn Onesie",
+  "Corn Silk Hair",
+  "Cowbell Necklace",
+  "Crab Hat",
+  "Crab Trap",
+  "Crimstone Amulet",
+  "Crimstone Armor",
+  "Crimstone Hammer",
+  "Crimstone Spikes Hair",
+  "Deep Sea Helm",
+  "Deep Sea Salt Cave Background",
+  "Dev Wrench",
+  "Devil Wings",
+  "Dream Scarf",
+  "Eggplant Onesie",
+  "Flower Crown",
+  "Frozen Heart",
+  "Fruit Picker Apron",
+  "Goblin Armor",
+  "Goblin Axe",
+  "Goblin Crown",
+  "Goblin Helmet",
+  "Goblin Medallion",
+  "Goblin Pants",
+  "Goblin Quiver",
+  "Goblin Sabatons",
+  "Goblin Shield",
+  "Golden Spatula",
+  "Grape Pants",
+  "Green Amulet",
+  "Honeycomb Shield",
+  "Hornet Mask",
+  "Infernal Bullwhip",
+  "Infernal Drill",
+  "Infernal Pitchfork",
+  "Ladybug Suit",
+  "Lava Swimwear",
+  "Lemon Shield",
+  "Luminous Anglerfish Topper",
+  "Luna's Crescent",
+  "Luna's Hat",
+  "Master Chef's Cleaver",
+  "Medic Apron",
+  "Merino Jumper",
+  "Milk Apron",
+  "Moon Hair",
+  "Mushroom Hat",
+  "Nightshade Armor",
+  "Nightshade Crown",
+  "Nightshade Helmet",
+  "Nightshade Medallion",
+  "Nightshade Pants",
+  "Nightshade Quiver",
+  "Nightshade Sabatons",
+  "Nightshade Shield",
+  "Nightshade Sword",
+  "Non La Hat",
+  "Obsidian Necklace",
+  "Oil Can",
+  "Oil Gallon",
+  "Oil Overalls",
+  "Olive Royalty Shirt",
+  "Olive Shield",
+  "Oracle Syringe",
+  "Pan",
+  "Parsnip",
+  "Paw Aura",
+  "Paw Shield",
+  "Pickaxe Shark",
+  "Pirate Potion",
+  "Pistol Shrimp",
+  "Red Pepper Onesie",
+  "Rice Shirt",
+  "Salt Bottle Onesie",
+  "Saw Fish",
+  "Shrimp Onesie",
+  "Sickle",
+  "Sol & Luna",
+  "Solflare Aegis",
+  "Squirrel Onesie",
+  "Sunflorian Armor",
+  "Sunflorian Crown",
+  "Sunflorian Helmet",
+  "Sunflorian Medallion",
+  "Sunflorian Pants",
+  "Sunflorian Quiver",
+  "Sunflorian Sabatons",
+  "Sunflorian Shield",
+  "Sunflorian Sword",
+  "Sunflower Amulet",
+  "Sunflower Rod",
+  "Sunflower Shield",
+  "Surfer Hair",
+  "Tofu Mask",
+  "Training Whistle",
+  "Trident",
+  "Turd Topper",
+  "Victoria's Apron",
+  "Walrus Onesie",
+  "White Sheep Onesie"
+];
+
+function profileCollectibleBoostNameSet() {
+  return new Set(COLLECTIBLE_BOOST_NAMES);
+}
+
+function profileWearableBoostNameSet() {
+  return new Set(WEARABLE_BOOST_NAMES);
+}
+
+function profileTradableCollectibleRows(g, wantBoostOnes) {
+  const mainCollectibles = profileAsObj(farmPanelField(g, "collectibles")) || {};
+  const homeCollectibles = farmSyncGetInteriorCollectiblesMerged(g) || {};
+  const collectibles = {};
+  Object.entries(mainCollectibles).forEach(([name, arr]) => {
+    if (!Array.isArray(arr)) return;
+    collectibles[name] = (collectibles[name] || []).concat(arr);
+  });
+  Object.entries(homeCollectibles).forEach(([name, arr]) => {
+    if (!Array.isArray(arr)) return;
+    collectibles[name] = (collectibles[name] || []).concat(arr);
+  });
+  const boostNames = profileCollectibleBoostNameSet();
+  const rows = [];
+  Object.entries(collectibles).forEach(([name, arr]) => {
+    if (!Array.isArray(arr)) return;
+    const count = arr.filter(inst => inst && !inst.removedAt).length;
+    if (!count) return;
+    const hasBoost = boostNames.has(name);
+    if (wantBoostOnes && !hasBoost) return;
+    if (!wantBoostOnes && hasBoost) return;
+    const price = findLiveNftPriceForName(name);
+    if (wantBoostOnes && price == null) return;
+    if (!wantBoostOnes && price == null) return;
+    rows.push({ name: name, qty: count, value: price * count });
+  });
+  return rows.sort((a, b) => (b.value || 0) - (a.value || 0));
+}
+
+function profileTradableWearableRows(g, mode) {
+  const wardrobe = profileAsObj(g && g.wardrobe) || {};
+  const boostNames = profileWearableBoostNameSet();
+  const rows = [];
+  Object.entries(wardrobe).forEach(([name, count]) => {
+    const n = Number(count);
+    if (!isFinite(n) || n <= 0) return;
+    const hasBoost = boostNames.has(name);
+    if (mode === "boost" && !hasBoost) return;
+    if (mode === "nonboost" && hasBoost) return;
+    const price = findLiveNftPriceForName(name);
+    if (mode !== "all" && price == null) return;
+    rows.push({ name: name, qty: n, value: price != null ? price * n : null });
+  });
+  return rows.sort((a, b) => (b.value || 0) - (a.value || 0));
+}
+
+function profileTradableBudRows(g) {
+  const buds = profileAsObj(g && g.buds) || {};
+  const rows = [];
+  Object.entries(buds).forEach(([id, bud]) => {
+    const traits = farmSyncExtractBudTraits(bud);
+    const type = traits && traits.type ? traits.type : null;
+    const label = type ? `${type} Bud #${id}` : `Bud #${id}`;
+    rows.push({ name: label, qty: 1, value: budFloorPrice });
+  });
+  return rows.sort((a, b) => (b.value || 0) - (a.value || 0));
+}
+
+function profileTradablePetRows(g) {
+  const petsRoot = profileAsObj(g && g.pets) || {};
+  const nfts = profileAsObj(petsRoot.nfts) || {};
+  const rows = [];
+  Object.entries(nfts).forEach(([id, pet]) => {
+    const p = profileAsObj(pet);
+    if (!p) return;
+    const traitType = p.traits && p.traits.type ? p.traits.type : null;
+    const label = traitType ? `${traitType} Pet #${id}` : (p.name || `Pet #${id}`);
+    rows.push({ name: label, qty: 1, value: petFloorPrice });
+  });
+  return rows.sort((a, b) => (b.value || 0) - (a.value || 0));
+}
+
+function profileTradableRowsForTabUncached(g, tab) {
+  if (tab === "resources") return profileTradableResourceRows(g);
+  if (tab === "collectibles") return profileTradableCollectibleRows(g, true);
+  if (tab === "cosmetics") return profileTradableCollectibleRows(g, false).concat(profileTradableWearableRows(g, "nonboost")).sort((a, b) => (b.value || 0) - (a.value || 0));
+  if (tab === "wearable") return profileTradableWearableRows(g, "boost");
+  if (tab === "bud") return profileTradableBudRows(g);
+  if (tab === "pet") return profileTradablePetRows(g);
+  return [];
+}
+
+let __profileTradableRowsCacheG = null;
+let __profileTradableRowsCacheByTab = {};
+
+function profileTradableRowsForTab(g, tab) {
+  if (__profileTradableRowsCacheG !== g) {
+    __profileTradableRowsCacheG = g;
+    __profileTradableRowsCacheByTab = {};
+  }
+  if (!Object.prototype.hasOwnProperty.call(__profileTradableRowsCacheByTab, tab)) {
+    __profileTradableRowsCacheByTab[tab] = profileTradableRowsForTabUncached(g, tab);
+  }
+  return __profileTradableRowsCacheByTab[tab];
+}
+
+function profileClearTradableCache() {
+  __profileTradableRowsCacheG = null;
+  __profileTradableRowsCacheByTab = {};
+}
+
+function profileClearTradableCacheTab(tab) {
+  if (Object.prototype.hasOwnProperty.call(__profileTradableRowsCacheByTab, tab)) {
+    delete __profileTradableRowsCacheByTab[tab];
+  }
+}
+
+function profileTradableTotalFlower(g) {
+  let total = 0;
+  PROFILE_TRADABLE_TABS.forEach(t => {
+    profileTradableRowsForTab(g, t.id).forEach(r => { if (r.value != null) total += r.value; });
+  });
+  return total;
+}
+
+function profileTradableRowHtml(r) {
+  if (r.category === "treasures") {
+    const coinLine = r.boosted ? `<span class="profile-treasure-coin-base strike">${fmt(r.basePricePerUnit)} coin</span><span class="profile-treasure-coin-boosted">${fmt(r.boostedPricePerUnit)} coin</span>` : `<span class="profile-treasure-coin-base">${fmt(r.basePricePerUnit)} coin</span>`;
+    return `<div class="profile-tradable-row">${getTreasureIcon(r.name)}<div class="profile-tradable-name-wrap"><span class="profile-tradable-name">${escapeHtml(r.name)}</span><div class="profile-treasure-coin-line">${coinLine}</div></div><span class="profile-tradable-qty">x${fmt(r.qty)}</span><span class="profile-tradable-val">${r.value != null ? fmt(r.value) + " " + FLOWER_ICON : "—"}</span></div>`;
+  }
+  const iconHtml = r.name === "Coins" ? COIN_ICON : getIcon(r.name);
+  return `<div class="profile-tradable-row">${iconHtml}<span class="profile-tradable-name">${escapeHtml(r.name)}</span><span class="profile-tradable-qty">x${fmt(r.qty)}</span><span class="profile-tradable-val">${r.value != null ? fmt(r.value) + " " + FLOWER_ICON : "—"}</span></div>`;
+}
+
+function profileTreasuresCategoryHeaderHtml(g) {
+  const boosts = profileGetTreasureBoosts(g);
+  const camelCard = `<div class="profile-treasure-boost-card ${boosts.camelActive ? "active" : ""}">${getIcon("Camel")}<span>Camel</span>${boosts.camelActive ? "✅" : "—"}<span class="profile-treasure-boost-eff">+30% sell</span></div>`;
+  const mapCard = `<div class="profile-treasure-boost-card ${boosts.treasureMapActive ? "active" : ""}">${getIcon("Treasure Map")}<span>Treasure Map</span>${boosts.treasureMapActive ? "✅" : "—"}<span class="profile-treasure-boost-eff">+20% sell</span></div>`;
+  return `<div class="profile-resource-cat-title-row"><div class="profile-resource-cat-title">Treasures</div><div class="profile-treasure-boosts">${camelCard}${mapCard}</div></div>`;
+}
+
+function profileTradableFloorHeaderHtml(tab) {
+  const isBud = tab === "bud";
+  const label = isBud ? "Bud" : "Pet";
+  const val = isBud ? budFloorPrice : petFloorPrice;
+  const overrideId = isBud ? "budFloor" : "petFloor";
+  const valHtml = val != null ? `${fmt(val)} ${FLOWER_ICON} ✏️` : `<span class="profile-tradable-set-price">Tap to set floor price</span>`;
+  return `<div class="profile-tradable-row profile-tradable-row-editable" data-override-id="${overrideId}" style="cursor:pointer;"><span class="profile-tradable-name">${label} NFT Floor Price</span><span class="profile-tradable-val">${valHtml}</span></div>`;
+}
+
+function profileTradableContentHtml(rows, tab, g) {
+  const floorHeader = tab === "bud" || tab === "pet" ? profileTradableFloorHeaderHtml(tab) : "";
+  if (!rows.length) return `${floorHeader}<div class="profile-build-empty">Nothing found in this category.</div>`;
+  if (tab !== "resources") return `${floorHeader}${rows.map(profileTradableRowHtml).join("")}`;
+  const grouped = PROFILE_RESOURCE_CATEGORIES.map(cat => ({ cat: cat, items: rows.filter(r => r.category === cat.id) })).filter(g => g.items.length);
+  return grouped.map(grp => `${grp.cat.id === "treasures" ? profileTreasuresCategoryHeaderHtml(g) : `<div class="profile-resource-cat-title">${escapeHtml(grp.cat.label)}</div>`}${grp.items.map(profileTradableRowHtml).join("")}`).join("");
+}
+
+function attachProfileTradableEditHandlers(g) {
+  $("profileTradableContent").querySelectorAll(".profile-tradable-row-editable[data-override-id]").forEach(el => {
+    el.onclick = () => {
+      openMarketPriceEdit(el.dataset.overrideId);
+    };
+  });
+}
+
+function renderProfileTradable() {
+  const displayName = profileGetDisplayName();
+  const g = profileGetG();
+  const total = g ? profileTradableTotalFlower(g) : 0;
+  const tabsHtml = PROFILE_TRADABLE_TABS.map(t => `<button type="button" data-tab="${t.id}" class="${t.id === profileState.tradableTab ? "active" : ""}">${escapeHtml(t.label)}</button>`).join("");
+  const rows = g ? profileTradableRowsForTab(g, profileState.tradableTab) : [];
+  $("profileTopSection").innerHTML = `
+    <div class="profile-section-title">${escapeHtml(displayName)}'s Tradable Items</div>
+    <div class="profile-tradable-total">
+      <div class="profile-tradable-total-label">FLOWER VALUE</div>
+      <div class="profile-tradable-total-val">${FLOWER_ICON} ${fmt(total)}</div>
+      <div class="profile-tradable-total-usd">${profileFmtUsd(total)}</div>
+    </div>
+    <div class="profile-tabgrid is-3col" id="profileTradableTabs">${tabsHtml}</div>
+    <div id="profileTradableContent">${profileTradableContentHtml(rows, profileState.tradableTab, g)}</div>
+  `;
+  attachProfileTradableEditHandlers(g);
+  $("profileTradableTabs").querySelectorAll("button[data-tab]").forEach(btn => {
+    btn.onclick = () => {
+      profileState.tradableTab = btn.dataset.tab;
+      $("profileTradableTabs").querySelectorAll("button[data-tab]").forEach(b => b.classList.toggle("active", b.dataset.tab === profileState.tradableTab));
+      const newRows = profileTradableRowsForTab(g, profileState.tradableTab);
+      $("profileTradableContent").innerHTML = profileTradableContentHtml(newRows, profileState.tradableTab, g);
+      attachProfileTradableEditHandlers(g);
+    };
+  });
+  profileBackNav();
+}
+
+function renderProfileView() {
+  if (profileState.view === "build") {
+    renderProfileBuild();
+  } else if (profileState.view === "tradable") {
+    renderProfileTradable();
+  } else {
+    renderProfileOverview();
+    profileGoBottomNav();
+  }
+  const topSection = $("profileTopSection");
+  if (topSection) topSection.scrollTop = 0;
+}
+
+function openProfile() {
+  profileState.view = "overview";
+  try {
+    renderProfileView();
+  } catch (e) {
+    console.error("Profile render failed:", e);
+  }
+  const card = $("profileModalCard");
+  if (card) {
+    const vv = window.visualViewport;
+    const lockW = vv ? vv.width : window.innerWidth;
+    const lockH = vv ? vv.height : window.innerHeight;
+    card.style.width = lockW + "px";
+    card.style.height = lockH + "px";
+  }
+  $("profileOverlay").classList.add("show");
+  ensureExchangeRates().then(() => {
+    if (profileState.view === "overview") {
+      renderProfileOverview();
+      const ts = $("profileTopSection");
+      if (ts) ts.scrollTop = 0;
+    }
+  });
+}
+
+function closeProfile() {
+  $("profileOverlay").classList.remove("show");
+  const card = $("profileModalCard");
+  if (card) {
+    card.style.width = "";
+    card.style.height = "";
+  }
+  if (typeof profileClearTradableCache === "function") profileClearTradableCache();
+  if (typeof positionFarmPanelTab === "function") positionFarmPanelTab();
+}
+
+function profileLockCardSize() {
+  const overlay = $("profileOverlay");
+  const card = $("profileModalCard");
+  if (!overlay || !card || !overlay.classList.contains("show")) return;
+  const vv = window.visualViewport;
+  const lockW = vv ? vv.width : window.innerWidth;
+  const lockH = vv ? vv.height : window.innerHeight;
+  card.style.width = lockW + "px";
+  card.style.height = lockH + "px";
+}
+window.addEventListener("resize", profileLockCardSize);
+window.addEventListener("orientationchange", profileLockCardSize);
+
+if ($("farmPanelProfileBtn")) $("farmPanelProfileBtn").onclick = openProfile;
+if ($("profileCloseBtn")) $("profileCloseBtn").onclick = closeProfile;
+if ($("profileOverlay")) $("profileOverlay").addEventListener("click", e => {
+  if (e.target.id === "profileOverlay") closeProfile();
+});
+
+document.addEventListener("click", e => {
+  const target = e.target.closest("#farmPanelProfileBtn, #profileOverlay button, #profileOverlay .profile-tradable-row-editable");
+  if (!target) return;
+  target.classList.remove("btn-pop-click");
+  void target.offsetWidth;
+  target.classList.add("btn-pop-click");
+});
