@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://sfl-proxy.bossweki.workers.dev https://sfl-community-proxy.bossweki.workers.dev https://*.firebaseio.com wss://*.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://images.bumpkins.io https://testnet-images.bumpkins.io https://animations.sunflower-land.com; connect-src 'self' https://sfl-proxy.bossweki.workers.dev https://sfl-community-proxy.bossweki.workers.dev https://*.firebaseio.com wss://*.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Goblin Calculator</title>
 <meta name="description" content="Goblin Calculator — an unofficial profit/loss calculator for Sunflower Land. Know your real profit before you list it." />
@@ -72,6 +72,8 @@
   <div class="farm-panel-card">
     <button type="button" class="farm-panel-timing-toggle" id="syncTimingToggle" aria-label="Toggle sync timing panel" title="Sync timing">⏱️</button>
     <button type="button" class="farm-panel-debug-toggle" id="farmPanelDebugToggle" aria-label="Toggle debug tools" title="Debug tools">🐞</button>
+    <button type="button" class="farm-panel-profile-btn" id="farmPanelProfileBtn" aria-label="Open farm profile">Profile</button>
+    <div class="farm-panel-profile-caption">Click Profile button..</div>
     <div class="farm-panel-header">
       <div class="farm-panel-name" id="farmPanelName">No farm synced</div>
       <div class="farm-panel-id" id="farmPanelId">Farm Id: —</div>
@@ -88,6 +90,7 @@
     <div class="farm-panel-divider"></div>
     <div class="farm-panel-status" id="farmPanelStatus">Not synced yet</div>
     <div class="farm-panel-debug-panel" id="farmPanelDebugPanel">
+      <button type="button" class="farm-panel-debug-close" id="farmPanelDebugCloseBtn">✕ Close debug tools</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Salt/Honey/Lava data shape</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugBoostsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show equipped/placed boost matches</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugNodesBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show mining node data shape</button>
@@ -99,6 +102,8 @@
       <button type="button" class="btn btn-ghost" id="farmPanelDebugTreeDataBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show tree wood.amount/farmActivity source data</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugMiningBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Stone/Iron/Gold exact-yield breakdown</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugCropsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Crops/Fruit/Flowers/Crimstone/Greenhouse exact-yield breakdown</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugNftPricesBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show raw NFT price feed (Bud/Pet)</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugMarketplaceProbeBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: probe for a public Bud/Pet floor price endpoint</button>
       <textarea id="farmPanelDebugOutput" readonly style="display:none;width:100%;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:7.5px;height:160px;border:1.25px solid var(--line);border-radius:6px;padding:4px;"></textarea>
     </div>
     <div class="farm-panel-divider-solid"></div>
@@ -149,7 +154,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V2.9</span>
+  <span class="app-version-badge">V3.0</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -311,6 +316,13 @@
     <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAM1JREFUKJGFkD8OAUEUh79hmo0b0IhCaZttNXsAoncDap1e9BIHcAGFdiW029hEQyJR4AKExMYqZMaMXfyq+fN9894bwZ9U236i1ptJIKR5ee1VEnPvHsvUOwXjxE+kCUvvgWzWAJi39tT7BbaLu1VRpuDDCoDZuchydLHgzSQQUsGAhuNQALBu7JDeq8vbOI8D5LIGlV7CoHvSsJlMQUk6JdeeQSUORSYYTyP9tiWY/QMQRqnKAt6/9C1xmMMZ7oQWfkkmbAlK+hRMGOAJOLpMxjYgUowAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fruits (auto)</span></div>
     <div class="library-body" id="fruitsBody">
       <div class="library-sub">Tomato, Lemon, Blueberry, Orange, Apple &amp; Banana — cost, yield &amp; profit update live with your boosts. Grapes are excluded (greenhouse crop). Edit sell price in Marketplace Prices below.</div>
+      <div class="season-toggle" id="fruitsSeasonToggle" style="margin-top:2px;">
+        <button type="button" data-season="Spring"><span class="season-emoji">🌸</span>Spring</button>
+        <button type="button" data-season="Summer"><span class="season-emoji">☀️</span>Summer</button>
+        <button type="button" data-season="Autumn"><span class="season-emoji">🍁</span>Autumn</button>
+        <button type="button" data-season="Winter"><span class="season-emoji">❄️</span>Winter</button>
+      </div>
+      <div class="season-toggle-note" id="fruitsSeasonToggleNote"></div>
       <div id="fruitsItemList" class="retro-scroll" style="max-height:48vh;"></div>
     </div>
   </div>
@@ -1231,6 +1243,26 @@
         <span id="resourceBudDuplicateNote" style="display:none;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
       </div>
     </div>
+
+    <div style="margin-top:16px;border-top:1.5px dashed var(--line);padding-top:12px;display:none;" id="fishBudSection">
+      <div class="lib-section-title">🎣 BUD NFTs</div>
+      <div class="hint-collapsible"><button type="button" class="hint-q-btn" aria-label="More info">❓</button><div class="hint-slide"><div class="field-hint" style="margin-bottom:10px;">A Port BUD boosts EXP from raw fish catches and cooked fish dishes, scaled by its Aura. Add it here so it shows up as an applied boost on Fish EXP, Aged and Prime Aged — or leave it to auto-detect from Farm Sync if your real farm has one placed.</div></div></div>
+      <div id="fishBudCreatedList"></div>
+      <div class="bud-field-grid" style="grid-template-columns:1fr;">
+        <div class="field">
+          <label>Type</label>
+          <button type="button" class="bud-dropdown-toggle" id="fishBudTypeToggle" data-context="fish" data-field="type"></button>
+        </div>
+      </div>
+      <div class="field bud-aura-field">
+        <label>Aura</label>
+        <button type="button" class="bud-dropdown-toggle" id="fishBudAuraToggle" data-context="fish" data-field="aura"></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="btn btn-outline btn-block" id="createFishBudBtn" type="button" style="flex:1;">+ Add this BUD</button>
+        <span id="fishBudDuplicateNote" style="display:none;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
+      </div>
+    </div>
       </div>
   </div>
 </div>
@@ -1624,6 +1656,26 @@
       <button type="button" class="pixel-picker-close" id="pixelPickerCloseBtn">✕</button>
     </div>
     <div class="pixel-picker-body retro-scroll" id="pixelPickerBody"></div>
+  </div>
+</div>
+
+<div id="profileOverlay">
+  <div class="profile-modal-card" id="profileModalCard">
+    <div class="profile-modal-titlebar">
+      <div class="profile-modal-title-text" id="profileModalTitleText">FARM PROFILE</div>
+      <button class="profile-modal-close" id="profileCloseBtn" type="button" aria-label="Close">✕</button>
+    </div>
+    <div class="profile-modal-body">
+      <div class="profile-top retro-scroll" id="profileTopSection"></div>
+      <div class="profile-hdivider"></div>
+      <div class="profile-bottom" id="profileBottomSection">
+        <div class="profile-nav-title" id="profileNavTitle">See what Boost and Build does this Farm have on its farm!</div>
+        <div class="profile-nav-btns" id="profileNavBtns">
+          <button type="button" class="profile-nav-btn" id="profileNavBuildBtn">Build</button>
+          <button type="button" class="profile-nav-btn" id="profileNavTradableBtn">Tradable Items</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
