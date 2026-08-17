@@ -154,7 +154,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V3.0</span>
+  <span class="app-version-badge">V3.1</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -954,9 +954,9 @@
 <div class="trade-pixel-overlay" id="deleteTradeConfirmOverlay">
   <div class="trade-pixel-sheet" style="max-width:340px;">
     <button type="button" class="trade-pixel-close" id="closeDeleteTradeBtn">✕</button>
-    <div class="trade-pixel-title">🗑 Delete this trade?</div>
+    <div class="trade-pixel-title" id="deleteTradeConfirmTitle">🗑 Delete this trade?</div>
     <div class="trade-delete-confirm-item" id="deleteTradeConfirmItem"></div>
-    <div class="trade-delete-confirm-warn">This can't be undone — the trade and its sale history will be gone for good.</div>
+    <div class="trade-delete-confirm-warn" id="deleteTradeConfirmWarn">This can't be undone — the trade and its sale history will be gone for good.</div>
     <div style="display:flex;gap:8px;margin-top:14px;">
       <button type="button" class="btn btn-ghost" id="cancelDeleteTradeBtn" style="flex:1;">Cancel</button>
       <button type="button" class="btn btn-danger" id="confirmDeleteTradeBtn" style="flex:1;background:var(--loss);color:#fff;border-color:var(--loss);">🗑 Delete</button>

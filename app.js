@@ -14687,7 +14687,7 @@ function farmSyncGetInteriorBagSources(g) {
   const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
   const home = asObj(g && g.home);
   const interior = asObj(g && g.interior);
-  const levels = interior ? Object.keys(interior).map(k => asObj(interior[k])) : [];
+  const levels = interior ? Object.keys(interior).map(k => asObj(interior[k])).filter(lvl => lvl && lvl !== home) : [];
   return [ home ].concat(levels).filter(Boolean);
 }
 
@@ -22087,7 +22087,7 @@ function renderTradeHistoryCard(t) {
   const isProfit = t.realizedPl >= 0;
   const totalFees = (t.sells || []).reduce((s, x) => s + (x.feeAmount || 0), 0);
   const feeRow = totalFees > 0 ? `\n      <div class="trade-card-stat"><span class="label">Fees paid</span><span class="value is-loss">−${fmt(totalFees)} ${FLOWER_ICON}</span></div>` : "";
-  return `\n  <div class="trade-history-card">\n    <div class="trade-card-top">\n      <span class="trade-card-icon">${getIcon(t.itemName)}</span>\n      <div class="trade-card-main">\n        <div class="trade-card-name">${escapeHtml(t.itemName)}</div>\n        <div class="trade-card-date">Bought ${formatTrade12h(t.createdAt)} · Closed ${formatTrade12h(t.closedAt)}</div>\n      </div>\n    </div>\n    <div class="trade-card-grid">\n      <div class="trade-card-stat"><span class="label">Qty traded</span><span class="value">${fmt(t.qty)}</span></div>\n      <div class="trade-card-stat"><span class="label">Total capital</span><span class="value">${fmt(t.qty * t.buyPrice)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat"><span class="label">Total sold value (net)</span><span class="value">${fmt(t.totalSoldValue)} ${FLOWER_ICON}</span></div>\n      ${feeRow}\n      <div class="trade-card-stat"><span class="label">Realized P/L</span><span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(t.realizedPl)} ${FLOWER_ICON}</span></div>\n    </div>\n  </div>`;
+  return `\n  <div class="trade-history-card">\n    <div class="trade-card-top">\n      <span class="trade-card-icon">${getIcon(t.itemName)}</span>\n      <div class="trade-card-main">\n        <div class="trade-card-name">${escapeHtml(t.itemName)}</div>\n        <div class="trade-card-date">Bought ${formatTrade12h(t.createdAt)} · Closed ${formatTrade12h(t.closedAt)}</div>\n      </div>\n    </div>\n    <div class="trade-card-grid">\n      <div class="trade-card-stat"><span class="label">Qty traded</span><span class="value">${fmt(t.qty)}</span></div>\n      <div class="trade-card-stat"><span class="label">Total capital</span><span class="value">${fmt(t.qty * t.buyPrice)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat"><span class="label">Total sold value (net)</span><span class="value">${fmt(t.totalSoldValue)} ${FLOWER_ICON}</span></div>\n      ${feeRow}\n      <div class="trade-card-stat"><span class="label">Realized P/L</span><span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(t.realizedPl)} ${FLOWER_ICON}</span></div>\n    </div>\n    <div class="trade-card-actions">\n      <button type="button" class="trade-delete-btn" data-del-history-id="${t.id}">🗑</button>\n    </div>\n  </div>`;
 }
 
 function renderTradeLifetimeBanner() {
@@ -22120,6 +22120,9 @@ function renderTradeShop() {
     });
   } else {
     listEl.innerHTML = tradeHistory.length ? tradeHistory.map(renderTradeHistoryCard).join("") : `<div class="trade-empty">📜 No closed trades yet.<br>Trades move here once fully sold.</div>`;
+    listEl.querySelectorAll("[data-del-history-id]").forEach(btn => {
+      btn.onclick = () => deleteHistoryTrade(btn.dataset.delHistoryId);
+    });
   }
 }
 
@@ -24117,18 +24120,36 @@ document.querySelectorAll(".trade-sort-btn").forEach(btn => {
 
 let tradePendingDeleteId = null;
 
+let tradePendingDeleteType = "active";
+
 function deleteActiveTrade(id) {
   const t = tradeActive.find(x => x.id === id);
   if (!t) return;
   tradePendingDeleteId = id;
+  tradePendingDeleteType = "active";
   const fig = computeTradeFigures(t);
+  $("deleteTradeConfirmTitle").textContent = "🗑 Delete this trade?";
   $("deleteTradeConfirmItem").innerHTML = `\n    <span class="trade-card-icon" style="font-size:18px;">${getIcon(t.itemName)}</span>\n    <div>\n      <div class="name">${escapeHtml(t.itemName)}</div>\n      <div class="meta">${fmt(t.remainingQty)}× held · ${fmt(fig.costBasis)} ${FLOWER_ICON} FLOWER capital</div>\n    </div>`;
+  $("deleteTradeConfirmWarn").textContent = "This can't be undone — the trade and its sale history will be gone for good.";
+  $("deleteTradeConfirmOverlay").classList.add("show");
+}
+
+function deleteHistoryTrade(id) {
+  const t = tradeHistory.find(x => x.id === id);
+  if (!t) return;
+  tradePendingDeleteId = id;
+  tradePendingDeleteType = "history";
+  const isProfit = t.realizedPl >= 0;
+  $("deleteTradeConfirmTitle").textContent = "🗑 Delete this trade record?";
+  $("deleteTradeConfirmItem").innerHTML = `\n    <span class="trade-card-icon" style="font-size:18px;">${getIcon(t.itemName)}</span>\n    <div>\n      <div class="name">${escapeHtml(t.itemName)}</div>\n      <div class="meta">${fmt(t.qty)}× traded · <span class="${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(t.realizedPl)} ${FLOWER_ICON} realized P/L</span></div>\n    </div>`;
+  $("deleteTradeConfirmWarn").textContent = "This can't be undone — the record will be permanently erased and removed from your lifetime totals, as if it never existed.";
   $("deleteTradeConfirmOverlay").classList.add("show");
 }
 
 function closeDeleteTradeConfirm() {
   $("deleteTradeConfirmOverlay").classList.remove("show");
   tradePendingDeleteId = null;
+  tradePendingDeleteType = "active";
 }
 
 $("closeDeleteTradeBtn").onclick = closeDeleteTradeConfirm;
@@ -24141,6 +24162,22 @@ $("deleteTradeConfirmOverlay").addEventListener("click", e => {
 
 $("confirmDeleteTradeBtn").onclick = () => {
   const id = tradePendingDeleteId;
+  const type = tradePendingDeleteType;
+  if (type === "history") {
+    const t = tradeHistory.find(x => x.id === id);
+    if (!t) {
+      closeDeleteTradeConfirm();
+      return;
+    }
+    tradeLifetime.invested = Math.max(0, tradeLifetime.invested - t.qty * t.buyPrice);
+    tradeLifetime.sold = Math.max(0, tradeLifetime.sold - t.totalSoldValue);
+    tradeHistory = tradeHistory.filter(x => x.id !== id);
+    saveTradeState();
+    closeDeleteTradeConfirm();
+    renderTradeShop();
+    toast("🗑 Trade record erased");
+    return;
+  }
   const t = tradeActive.find(x => x.id === id);
   if (!t) {
     closeDeleteTradeConfirm();
@@ -33529,10 +33566,20 @@ function profileRenderBuildColumns(tabId) {
   const snapshot = profileSyncSnapshot || { boosts: [], skills: [] };
   const boostIds = new Set(snapshot.boosts || []);
   const skillIds = new Set(snapshot.skills || []);
-  const activeBoosts = BOOSTS.filter(b => b.category === tabId && boostIds.has(b.id));
+  const seenBoostIds = new Set();
+  const activeBoosts = BOOSTS.filter(b => b.category === tabId && boostIds.has(b.id) && !b.hideInPanel).filter(b => {
+    if (seenBoostIds.has(b.id)) return false;
+    seenBoostIds.add(b.id);
+    return true;
+  });
   const skillCats = PROFILE_TAB_TO_SKILL_CATS[tabId] || [];
   const allSkills = profileAllSkillEntries();
-  const activeSkills = allSkills.filter(s => skillIds.has(s.id) && skillCats.some(cat => (SKILL_TREES[cat] || []).some(x => x.id === s.id)));
+  const seenSkillIds = new Set();
+  const activeSkills = allSkills.filter(s => skillIds.has(s.id) && !s.hideInPanel && skillCats.some(cat => (SKILL_TREES[cat] || []).some(x => x.id === s.id))).filter(s => {
+    if (seenSkillIds.has(s.id)) return false;
+    seenSkillIds.add(s.id);
+    return true;
+  });
   const boostHtml = activeBoosts.length ? activeBoosts.map(b => `<div class="profile-build-item">${getIcon(b.name)}<div class="profile-build-item-text"><span class="profile-build-item-name">${escapeHtml(b.name)}</span><br><span class="profile-build-item-eff">${profileEffectLabel(b)}</span></div></div>`).join("") : `<div class="profile-build-empty">No active boosts synced for this category.</div>`;
   const skillHtml = activeSkills.length ? profileRenderSkillTierGroups(activeSkills) : `<div class="profile-build-empty">No active skills synced for this category.</div>`;
   return `<div class="profile-build-cols">
@@ -34250,14 +34297,33 @@ function profileTradablePetRows(g) {
   return rows.sort((a, b) => (b.value || 0) - (a.value || 0));
 }
 
+function profileMergeDuplicateRows(rows) {
+  const merged = [];
+  const indexByKey = new Map();
+  rows.forEach(r => {
+    const key = r.category ? `${r.name}|${r.category}` : r.name;
+    if (indexByKey.has(key)) {
+      const existing = merged[indexByKey.get(key)];
+      existing.qty = (existing.qty || 0) + (r.qty || 0);
+      if (existing.value != null || r.value != null) existing.value = (existing.value || 0) + (r.value || 0);
+    } else {
+      indexByKey.set(key, merged.length);
+      merged.push(Object.assign({}, r));
+    }
+  });
+  return merged;
+}
+
 function profileTradableRowsForTabUncached(g, tab) {
-  if (tab === "resources") return profileTradableResourceRows(g);
-  if (tab === "collectibles") return profileTradableCollectibleRows(g, true);
-  if (tab === "cosmetics") return profileTradableCollectibleRows(g, false).concat(profileTradableWearableRows(g, "nonboost")).sort((a, b) => (b.value || 0) - (a.value || 0));
-  if (tab === "wearable") return profileTradableWearableRows(g, "boost");
-  if (tab === "bud") return profileTradableBudRows(g);
-  if (tab === "pet") return profileTradablePetRows(g);
-  return [];
+  let rows;
+  if (tab === "resources") rows = profileTradableResourceRows(g);
+  else if (tab === "collectibles") rows = profileTradableCollectibleRows(g, true);
+  else if (tab === "cosmetics") rows = profileTradableCollectibleRows(g, false).concat(profileTradableWearableRows(g, "nonboost")).sort((a, b) => (b.value || 0) - (a.value || 0));
+  else if (tab === "wearable") rows = profileTradableWearableRows(g, "boost");
+  else if (tab === "bud") rows = profileTradableBudRows(g);
+  else if (tab === "pet") rows = profileTradablePetRows(g);
+  else rows = [];
+  return profileMergeDuplicateRows(rows);
 }
 
 let __profileTradableRowsCacheG = null;
@@ -34318,12 +34384,28 @@ function profileTradableFloorHeaderHtml(tab) {
   return `<div class="profile-tradable-row profile-tradable-row-editable" data-override-id="${overrideId}" style="cursor:pointer;"><span class="profile-tradable-name">${label} NFT Floor Price</span><span class="profile-tradable-val">${valHtml}</span></div>`;
 }
 
+function profileTradableRowsValueSum(rows) {
+  return rows.reduce((sum, r) => sum + (r.value || 0), 0);
+}
+
+function profileTradableSubtotalCardHtml(label, total) {
+  return `<div class="profile-tradable-subtotal-card"><span class="profile-tradable-subtotal-label">${escapeHtml(label)} Subtotal</span><span class="profile-tradable-subtotal-val">${FLOWER_ICON} ${fmt(total)}</span></div>`;
+}
+
 function profileTradableContentHtml(rows, tab, g) {
   const floorHeader = tab === "bud" || tab === "pet" ? profileTradableFloorHeaderHtml(tab) : "";
   if (!rows.length) return `${floorHeader}<div class="profile-build-empty">Nothing found in this category.</div>`;
-  if (tab !== "resources") return `${floorHeader}${rows.map(profileTradableRowHtml).join("")}`;
+  if (tab !== "resources") {
+    const tabMeta = PROFILE_TRADABLE_TABS.find(t => t.id === tab);
+    const tabTotal = profileTradableRowsValueSum(rows);
+    return `${floorHeader}${profileTradableSubtotalCardHtml(tabMeta ? tabMeta.label : "Category", tabTotal)}${rows.map(profileTradableRowHtml).join("")}`;
+  }
   const grouped = PROFILE_RESOURCE_CATEGORIES.map(cat => ({ cat: cat, items: rows.filter(r => r.category === cat.id) })).filter(g => g.items.length);
-  return grouped.map(grp => `${grp.cat.id === "treasures" ? profileTreasuresCategoryHeaderHtml(g) : `<div class="profile-resource-cat-title">${escapeHtml(grp.cat.label)}</div>`}${grp.items.map(profileTradableRowHtml).join("")}`).join("");
+  return grouped.map(grp => {
+    const header = grp.cat.id === "treasures" ? profileTreasuresCategoryHeaderHtml(g) : `<div class="profile-resource-cat-title">${escapeHtml(grp.cat.label)}</div>`;
+    const catTotal = profileTradableRowsValueSum(grp.items);
+    return `${header}${profileTradableSubtotalCardHtml(grp.cat.label, catTotal)}${grp.items.map(profileTradableRowHtml).join("")}`;
+  }).join("");
 }
 
 function attachProfileTradableEditHandlers(g) {

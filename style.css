@@ -5202,6 +5202,15 @@ body.app-dark .profile-modal-title-text{ background:#1c1208; color:#fff8e3; }
 .profile-tradable-set-price{ font-weight:600; color:var(--sun-deep); text-decoration:underline dashed; text-underline-offset:2px; }
 .profile-tradable-row-editable:active{ opacity:.7; }
 
+.profile-tradable-subtotal-card{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  margin:0 0 8px; padding:7px 10px;
+  background:linear-gradient(160deg,#ffe6a0,#e0b24a 55%,#a87a1f);
+  border:2.5px solid #7a5410; box-shadow:2px 2px 0 rgba(0,0,0,.3);
+}
+.profile-tradable-subtotal-label{ font-family:var(--pixel-font); font-size:7px; letter-spacing:.2px; color:#4a2f0a; }
+.profile-tradable-subtotal-val{ font-size:10.5px; font-weight:800; color:#2b1a0f; flex-shrink:0; }
+
 @media (max-width:420px){
   .profile-balance-grid{ grid-template-columns:repeat(2,1fr); }
   .profile-build-cols{ grid-template-columns:1fr; }
