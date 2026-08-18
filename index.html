@@ -26,6 +26,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<script>(function(){try{var t=localStorage.getItem("hl_sfl_theme");if(t!=="0")document.body.classList.add("sfl-theme");}catch(e){}})();</script>
 
 
 <div id="appLoadingScreen" aria-hidden="true">
@@ -70,10 +71,14 @@
     <span class="farm-panel-tab-arrow" id="farmPanelToggleArrow">›</span>
   </button>
   <div class="farm-panel-card">
-    <button type="button" class="farm-panel-timing-toggle" id="syncTimingToggle" aria-label="Toggle sync timing panel" title="Sync timing">⏱️</button>
-    <button type="button" class="farm-panel-debug-toggle" id="farmPanelDebugToggle" aria-label="Toggle debug tools" title="Debug tools">🐞</button>
-    <button type="button" class="farm-panel-profile-btn" id="farmPanelProfileBtn" aria-label="Open farm profile">Profile</button>
-    <div class="farm-panel-profile-caption">Click Profile button..</div>
+    <div class="farm-panel-topright-box">
+      <div class="farm-panel-toggle-row">
+        <button type="button" class="farm-panel-timing-toggle" id="syncTimingToggle" aria-label="Toggle sync timing panel" title="Sync timing">⏱️</button>
+        <button type="button" class="farm-panel-debug-toggle" id="farmPanelDebugToggle" aria-label="Toggle debug tools" title="Debug tools">🐞</button>
+      </div>
+      <button type="button" class="farm-panel-profile-btn" id="farmPanelProfileBtn" aria-label="Open farm profile">Profile</button>
+      <div class="farm-panel-profile-caption">Click Profile button..</div>
+    </div>
     <div class="farm-panel-header">
       <div class="farm-panel-name" id="farmPanelName">No farm synced</div>
       <div class="farm-panel-id" id="farmPanelId">Farm Id: —</div>
@@ -91,19 +96,19 @@
     <div class="farm-panel-status" id="farmPanelStatus">Not synced yet</div>
     <div class="farm-panel-debug-panel" id="farmPanelDebugPanel">
       <button type="button" class="farm-panel-debug-close" id="farmPanelDebugCloseBtn">✕ Close debug tools</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Salt/Honey/Lava data shape</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugBoostsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show equipped/placed boost matches</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugNodesBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show mining node data shape</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugFertBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show fertiliser/BUD/spice data shape</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugCrowBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show crow AoE plot-by-plot detection</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugFactionBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Faction Wings/Green Amulet detection</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugPetsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Pets data shape</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugMutantsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show mutant reward field on growing jobs</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugTreeDataBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show tree wood.amount/farmActivity source data</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugMiningBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Stone/Iron/Gold exact-yield breakdown</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugCropsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show Crops/Fruit/Flowers/Crimstone/Greenhouse exact-yield breakdown</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugNftPricesBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: show raw NFT price feed (Bud/Pet)</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugMarketplaceProbeBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;">🔍 Debug: probe for a public Bud/Pet floor price endpoint</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Salt/Honey/Lava data shape</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugBoostsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show equipped/placed boost matches</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugNodesBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show mining node data shape</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugFertBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show fertiliser/BUD/spice data shape</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugCrowBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show crow AoE plot-by-plot detection</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugFactionBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Faction Wings/Green Amulet detection</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugPetsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Pets data shape</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugMutantsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show mutant reward field on growing jobs</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugTreeDataBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show tree wood.amount/farmActivity source data</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugMiningBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Stone/Iron/Gold exact-yield breakdown</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugCropsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Crops/Fruit/Flowers/Crimstone/Greenhouse exact-yield breakdown</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugNftPricesBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show raw NFT price feed (Bud/Pet)</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugMarketplaceProbeBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: probe for a public Bud/Pet floor price endpoint</button>
       <textarea id="farmPanelDebugOutput" readonly style="display:none;width:100%;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:7.5px;height:160px;border:1.25px solid var(--line);border-radius:6px;padding:4px;"></textarea>
     </div>
     <div class="farm-panel-divider-solid"></div>
@@ -123,7 +128,7 @@
     <button type="button" class="dig-panel-dark-toggle" id="digPanelDarkToggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
     <button type="button" class="dig-panel-close" id="digPanelCloseBtn" aria-label="Close treasure map">✕</button>
     <div class="dig-panel-header">
-      <div class="dig-panel-title">🗺️ TREASURE MAP</div>
+      <div class="dig-panel-title"><img src="icons/treasure_map.webp" alt="" class="dig-panel-title-icon"> TREASURE MAP</div>
       <div class="dig-panel-chapter" id="digPanelChapter">Sync your farm to detect today's patterns</div>
       <div class="dig-panel-patterns" id="digPanelPatterns"></div>
     </div>
@@ -154,7 +159,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V3.1</span>
+  <span class="app-version-badge">V3.2</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -175,7 +180,7 @@
           <button id="openMoreMenuBtn" type="button" class="more-menu-btn" aria-label="More">
             <img id="moreMenuBtnIcon" src="" alt="More" />
           </button>
-          <span class="more-menu-btn-label">Menu</span>
+          <span class="more-menu-btn-label" id="moreMenuBtnLabel" role="button" tabindex="0" aria-label="More">Menu</span>
         </div>
         <button id="openBoostPanelBtn" type="button" style="background:var(--sun);border:2px solid #5c3d1e;border-radius:8px;padding:8px 10px;font-weight:700;font-size:11px;cursor:pointer;color:var(--soil-dark);white-space:nowrap;flex-shrink:0;">⚡ Boosts</button>
       </div>
@@ -199,7 +204,7 @@
 
   <div class="library-panel" id="marketPanel">
     <button class="library-toggle" id="marketToggle" type="button">
-      <span>💰 Marketplace Prices</span>
+      <span style="display:inline-flex;align-items:center;gap:4px;"><span class="mp-marketplace-icon">💰</span>Marketplace Prices</span>
       <span class="chev">▾</span>
     </button>
     <div class="library-body" id="marketBody">
@@ -208,7 +213,7 @@
 
       <div class="live-sync-row">
         <div class="live-sync-status" id="liveSyncStatus">🔄 Live prices not synced yet</div>
-        <button class="btn btn-sun" id="syncLivePricesBtn" type="button">🔄 Sync live prices</button>
+        <button class="btn btn-sun js-sync-live-prices-btn" id="syncLivePricesBtn" type="button">🔄 Sync live prices</button>
       </div>
       <button type="button" class="live-paste-toggle" id="livePasteToggleBtn">Fetch blocked by browser? Paste the API response manually →</button>
       <div class="live-paste-wrap" id="livePasteWrap">
@@ -288,10 +293,10 @@
     <div class="library-body" id="cropsBody">
       <div class="library-sub">All base crops, loaded automatically — cost, yield & profit update live with your boosts and plot count. Edit sell price in Marketplace Prices below.</div>
       <div class="season-toggle" id="cropsSeasonToggle" style="margin-top:2px;">
-        <button type="button" data-season="Spring"><span class="season-emoji">🌸</span>Spring</button>
-        <button type="button" data-season="Summer"><span class="season-emoji">☀️</span>Summer</button>
-        <button type="button" data-season="Autumn"><span class="season-emoji">🍁</span>Autumn</button>
-        <button type="button" data-season="Winter"><span class="season-emoji">❄️</span>Winter</button>
+        <button type="button" data-season="Spring"><span class="season-emoji"><img src="icons/season_spring.png" alt="Spring"></span>Spring</button>
+        <button type="button" data-season="Summer"><span class="season-emoji"><img src="icons/season_summer.png" alt="Summer"></span>Summer</button>
+        <button type="button" data-season="Autumn"><span class="season-emoji"><img src="icons/season_autumn.png" alt="Autumn"></span>Autumn</button>
+        <button type="button" data-season="Winter"><span class="season-emoji"><img src="icons/season_winter.png" alt="Winter"></span>Winter</button>
       </div>
       <div class="season-toggle-note" id="cropsSeasonToggleNote"></div>
       <div class="tier-toggle" id="cropTierToggle">
@@ -317,10 +322,10 @@
     <div class="library-body" id="fruitsBody">
       <div class="library-sub">Tomato, Lemon, Blueberry, Orange, Apple &amp; Banana — cost, yield &amp; profit update live with your boosts. Grapes are excluded (greenhouse crop). Edit sell price in Marketplace Prices below.</div>
       <div class="season-toggle" id="fruitsSeasonToggle" style="margin-top:2px;">
-        <button type="button" data-season="Spring"><span class="season-emoji">🌸</span>Spring</button>
-        <button type="button" data-season="Summer"><span class="season-emoji">☀️</span>Summer</button>
-        <button type="button" data-season="Autumn"><span class="season-emoji">🍁</span>Autumn</button>
-        <button type="button" data-season="Winter"><span class="season-emoji">❄️</span>Winter</button>
+        <button type="button" data-season="Spring"><span class="season-emoji"><img src="icons/season_spring.png" alt="Spring"></span>Spring</button>
+        <button type="button" data-season="Summer"><span class="season-emoji"><img src="icons/season_summer.png" alt="Summer"></span>Summer</button>
+        <button type="button" data-season="Autumn"><span class="season-emoji"><img src="icons/season_autumn.png" alt="Autumn"></span>Autumn</button>
+        <button type="button" data-season="Winter"><span class="season-emoji"><img src="icons/season_winter.png" alt="Winter"></span>Winter</button>
       </div>
       <div class="season-toggle-note" id="fruitsSeasonToggleNote"></div>
       <div id="fruitsItemList" class="retro-scroll" style="max-height:48vh;"></div>
@@ -409,10 +414,10 @@
       <div class="cook-divider"></div>
 
       <div class="season-toggle" id="fishMarketSeasonToggle">
-        <button type="button" data-season="Spring"><span class="season-emoji">🌸</span>Spring</button>
-        <button type="button" data-season="Summer"><span class="season-emoji">☀️</span>Summer</button>
-        <button type="button" data-season="Autumn"><span class="season-emoji">🍁</span>Autumn</button>
-        <button type="button" data-season="Winter"><span class="season-emoji">❄️</span>Winter</button>
+        <button type="button" data-season="Spring"><span class="season-emoji"><img src="icons/season_spring.png" alt="Spring"></span>Spring</button>
+        <button type="button" data-season="Summer"><span class="season-emoji"><img src="icons/season_summer.png" alt="Summer"></span>Summer</button>
+        <button type="button" data-season="Autumn"><span class="season-emoji"><img src="icons/season_autumn.png" alt="Autumn"></span>Autumn</button>
+        <button type="button" data-season="Winter"><span class="season-emoji"><img src="icons/season_winter.png" alt="Winter"></span>Winter</button>
       </div>
       <div class="season-toggle-note" id="fishMarketSeasonToggleNote"></div>
 
@@ -481,6 +486,7 @@
       <div id="petAddFormWrap" style="display:none;"></div>
 
       <div class="pet-section-divider"></div>
+      <div class="pet-house-title">🏠 Pet House</div>
       <div id="petHouseList"></div>
 
       <div id="petCardsWrap" class="pet-cards-wrap"></div>
@@ -506,7 +512,7 @@
           style="width:100%;font-family:'JetBrains Mono',monospace;font-size:11px;border:1.5px solid var(--line);border-radius:6px;padding:5px 6px;">
       </div>
       <div id="honeySummaryCard"></div>
-      <div class="lib-section-title" style="margin-top:10px;">🔍 Flower Finder</div>
+      <div class="lib-section-title" style="margin-top:10px;"><span class="sfl-search-icon-emoji">🔍</span> Flower Finder</div>
       <div class="library-sub" style="margin:-3px 0 8px;">Pick a Seed and what you're pairing it with — see exactly which flower grows, and what it costs (using its saved pairing below).</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 8px;margin-bottom:6px;">
         <div class="seed-picker" id="finderSeedPicker">
@@ -714,7 +720,7 @@
       <div class="calc-btn-grid">
         <button type="button" class="calc-btn calc-btn-mode active" id="calcModeHarvestBtn">🌿 Harvest</button>
         <button type="button" class="calc-btn calc-btn-mode" id="calcModeBoughtBtn">💰 Buy &amp; Sell</button>
-        <button type="button" class="calc-btn calc-btn-wide" id="calcPickItemBtn">🔍 Select item</button>
+        <button type="button" class="calc-btn calc-btn-wide" id="calcPickItemBtn"><span class="sfl-search-icon-emoji">🔍</span> Select item</button>
       </div>
     </div>
   </div>
@@ -909,6 +915,7 @@
       <div class="trade-footer-note">Up to 69 closed trades are kept in History · oldest trades are replaced by new ones.</div>
     </div>
   </div>
+  <button type="button" class="trade-shop-sync-fab js-sync-live-prices-btn" id="tradeShopSyncBtn">🔄 Sync live prices</button>
 </div>
 
 <div class="trade-pixel-overlay" id="newTradeOverlay">
@@ -954,9 +961,9 @@
 <div class="trade-pixel-overlay" id="deleteTradeConfirmOverlay">
   <div class="trade-pixel-sheet" style="max-width:340px;">
     <button type="button" class="trade-pixel-close" id="closeDeleteTradeBtn">✕</button>
-    <div class="trade-pixel-title" id="deleteTradeConfirmTitle">🗑 Delete this trade?</div>
+    <div class="trade-pixel-title">🗑 Delete this trade?</div>
     <div class="trade-delete-confirm-item" id="deleteTradeConfirmItem"></div>
-    <div class="trade-delete-confirm-warn" id="deleteTradeConfirmWarn">This can't be undone — the trade and its sale history will be gone for good.</div>
+    <div class="trade-delete-confirm-warn">This can't be undone — the trade and its sale history will be gone for good.</div>
     <div style="display:flex;gap:8px;margin-top:14px;">
       <button type="button" class="btn btn-ghost" id="cancelDeleteTradeBtn" style="flex:1;">Cancel</button>
       <button type="button" class="btn btn-danger" id="confirmDeleteTradeBtn" style="flex:1;background:var(--loss);color:#fff;border-color:var(--loss);">🗑 Delete</button>
@@ -1078,10 +1085,10 @@
       
       <div class="lib-section-title" style="margin-top:10px;">📅 Weekly Seasons</div>
       <div class="season-toggle" id="seasonToggle">
-        <button type="button" data-season="Spring"><span class="season-emoji">🌸</span>Spring</button>
-        <button type="button" data-season="Summer"><span class="season-emoji">☀️</span>Summer</button>
-        <button type="button" data-season="Autumn"><span class="season-emoji">🍁</span>Autumn</button>
-        <button type="button" data-season="Winter"><span class="season-emoji">❄️</span>Winter</button>
+        <button type="button" data-season="Spring"><span class="season-emoji"><img src="icons/season_spring.png" alt="Spring"></span>Spring</button>
+        <button type="button" data-season="Summer"><span class="season-emoji"><img src="icons/season_summer.png" alt="Summer"></span>Summer</button>
+        <button type="button" data-season="Autumn"><span class="season-emoji"><img src="icons/season_autumn.png" alt="Autumn"></span>Autumn</button>
+        <button type="button" data-season="Winter"><span class="season-emoji"><img src="icons/season_winter.png" alt="Winter"></span>Winter</button>
       </div>
       <div class="season-toggle-note" id="seasonToggleNote"></div>
 
@@ -1097,13 +1104,13 @@
         </div>
       </div>
       <div class="skill-tree-wrap collapsed" id="skillTreeWrap">
-        <div class="lib-section-title section-collapse-header" id="skillTreeToggleHeader">🎓 Skill Tree <span class="collapse-arrow" id="skillTreeArrow">▸</span></div>
+        <div class="lib-section-title section-collapse-header" id="skillTreeToggleHeader">🎓 Skill Tree <span class="collapse-arrow is-collapsed" id="skillTreeArrow">▸</span></div>
         <div class="type-toggle" id="skillCategoryToggle"></div>
         <div id="skillListWrap"></div>
       </div>
 
       <div class="all-boost-settings-wrap collapsed" id="allBoostSettingsWrap">
-      <div class="lib-section-title section-collapse-header" id="allBoostToggleHeader">⚡ All Boost Settings <span class="collapse-arrow" id="allBoostArrow">▸</span></div>
+      <div class="lib-section-title section-collapse-header" id="allBoostToggleHeader">⚡ All Boost Settings <span class="collapse-arrow is-collapsed" id="allBoostArrow">▸</span></div>
        <div class="type-toggle" id="boostCategoryToggle" style="margin-bottom:10px;">
       <button type="button" data-cat="crops" class="active"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAKCAYAAABv7tTEAAAAAXNSR0IArs4c6QAAAKNJREFUKJGNkSEOwzAMRX8mb3CoIKSoytiuMNwL7RS9UPCuUGhYEhBU2IEMtE68dJX2Ufzft2U5wB+yjUu2cUlq0kDeIbLR/u3ZrcWAFCIb2gEFxXeP8wY6YECiPShQfH691w3GpawnBYDcfO1bAMgNWlQbdUgPnP2EENlQiGzgkYD2K2zvF4RxweynMmA7EOXCI19PVqvDopMGNTzSz9DRn4k+drNQZqnfgIoAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crops</button>
       <button type="button" data-cat="resources"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAFVBMVEUAAAAYFCXkpnLChWlzPjnq1Kq+Si+8xtD3AAAAAXRSTlMAQObYZgAAAE5JREFUCNdjYBAUFGAAAkal0EBGEEtYSVXMESQgbBToCJYxVhWA0EaBIFrMGSzAmOIoDKLFXAQYgTSQy8BoJADkAsWEBBhEwGYAEVgvAwCyQwfhatKS0wAAAABJRU5ErkJggg==" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Resources</button>
@@ -1320,7 +1327,7 @@
           <button type="button" class="gunter-fc-mode-btn" data-gunter-fc-mode="collect">Collect</button>
           <button type="button" class="gunter-fc-mode-btn active" data-gunter-fc-mode="buy">Buy</button>
         </div>
-        <div class="gunter-flowercost-note-toggle" id="gunterFlowerCostNoteToggle">What's this? ▾</div>
+        <div class="gunter-flowercost-note-toggle" id="gunterFlowerCostNoteToggle">What's this? <span class="gunter-fc-note-chev">▾</span></div>
         <div class="gunter-flowercost-note" id="gunterFlowerCostNote"></div>
       </div>
       <div class="gunter-shop-mid-content" id="gunterShopMidContent"></div>
@@ -1387,6 +1394,11 @@
       <button type="button" id="appDarkToggleFab" class="more-menu-item" aria-label="Toggle dark mode" title="Toggle dark mode">
         <span class="more-menu-item-icon" id="appDarkToggleFabIcon">🌙</span>
         <span class="more-menu-item-label">Dark Mode</span>
+        <span class="more-menu-item-chev">›</span>
+      </button>
+      <button type="button" id="sflThemeToggleFab" class="more-menu-item" aria-label="Toggle SFL theme" title="Toggle SFL theme">
+        <span class="more-menu-item-icon" id="sflThemeToggleFabIcon">🌟</span>
+        <span class="more-menu-item-label" id="sflThemeToggleFabLabel">SFL Theme [on]</span>
         <span class="more-menu-item-chev">›</span>
       </button>
       <button id="openDisclaimerBtn" type="button" class="more-menu-item" aria-label="About Goblin Calculator">
