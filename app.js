@@ -2880,10 +2880,10 @@ const LAVA_PIT_RECIPES = {
 const SEASON_ORDER = [ "Spring", "Summer", "Autumn", "Winter" ];
 
 const SEASON_EMOJI = {
-  Spring: "🌸",
-  Summer: "☀️",
-  Autumn: "🍁",
-  Winter: "❄️"
+  Spring: '<img src="icons/season_spring.png" alt="Spring" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+  Summer: '<img src="icons/season_summer.png" alt="Summer" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+  Autumn: '<img src="icons/season_autumn.png" alt="Autumn" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+  Winter: '<img src="icons/season_winter.png" alt="Winter" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">'
 };
 
 function getCropSeasons(name) {
@@ -2908,6 +2908,12 @@ function isFruitInSeason(name, season) {
 
 function renderCropSeasonBadges(name) {
   const seasons = getCropSeasons(name);
+  if (seasons.length === SEASON_ORDER.length) return `<span class="crop-season-badges" title="Grows year-round">${SEASON_ORDER.map(s => `<span class="active-season">${SEASON_EMOJI[s]}</span>`).join("")}</span>`;
+  return `<span class="crop-season-badges">${seasons.map(s => `<span class="${s === previewSeason ? "active-season" : ""}" title="${s}">${SEASON_EMOJI[s]}</span>`).join("")}</span>`;
+}
+
+function renderFruitSeasonBadges(name) {
+  const seasons = getFruitSeasons(name);
   if (seasons.length === SEASON_ORDER.length) return `<span class="crop-season-badges" title="Grows year-round">${SEASON_ORDER.map(s => `<span class="active-season">${SEASON_EMOJI[s]}</span>`).join("")}</span>`;
   return `<span class="crop-season-badges">${seasons.map(s => `<span class="${s === previewSeason ? "active-season" : ""}" title="${s}">${SEASON_EMOJI[s]}</span>`).join("")}</span>`;
 }
@@ -11973,10 +11979,10 @@ function renderBoostPanel() {
       const manualToggleBlocked = b.id === "bee_swarm" || !!b.isDebuff;
       const syncIconSrc = IMAGE_ICONS[b.name] || BEE_SWARM_ICON;
       const seasonEmoji = {
-        Spring: "🌸",
-        Summer: "☀️",
-        Autumn: "🍁",
-        Winter: "❄️"
+        Spring: '<img src="icons/season_spring.png" alt="Spring" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+        Summer: '<img src="icons/season_summer.png" alt="Summer" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+        Autumn: '<img src="icons/season_autumn.png" alt="Autumn" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+        Winter: '<img src="icons/season_winter.png" alt="Winter" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">'
       };
       const seasonList = b.seasons && b.seasons.length ? b.seasons : b.season ? [ b.season ] : null;
       const seasonTag = seasonList ? ` · <span class="season-lock-tag">${seasonList.map(s => seasonEmoji[s] || "").join("")} ${seasonList.map(s => escapeHtml(s)).join(" & ")} only${locked ? " (locked this season)" : ""}</span>` : "";
@@ -14345,11 +14351,11 @@ async function fetchLivePrices() {
 async function performLiveSync() {
   if (liveSyncInFlight) return null;
   liveSyncInFlight = true;
-  const btn = $("syncLivePricesBtn");
-  if (btn) {
+  const btns = document.querySelectorAll(".js-sync-live-prices-btn");
+  btns.forEach((btn) => {
     btn.classList.add("is-loading");
     btn.textContent = "🔄 Syncing...";
-  }
+  });
   try {
     const {p2p: p2p, nft: nft, updatedAt: updatedAt} = await fetchLivePrices();
     setLivePrices(p2p, updatedAt, nft);
@@ -14366,10 +14372,10 @@ async function performLiveSync() {
     };
   } finally {
     liveSyncInFlight = false;
-    if (btn) {
+    btns.forEach((btn) => {
       btn.classList.remove("is-loading");
       btn.textContent = "🔄 Sync live prices";
-    }
+    });
   }
 }
 
@@ -14378,6 +14384,14 @@ $("syncLivePricesBtn").onclick = async () => {
   if (!r) return;
   if (r.ok) toast(describeSyncResult(r.result)); else toast("⚠️ Couldn't reach sfl.world directly (blocked by file:// or CORS). Try the paste option below.");
 };
+
+if ($("tradeShopSyncBtn")) {
+  $("tradeShopSyncBtn").onclick = async () => {
+    const r = await performLiveSync();
+    if (!r) return;
+    if (r.ok) toast(describeSyncResult(r.result)); else toast("⚠️ Couldn't reach sfl.world directly (blocked by file:// or CORS). Try the paste option below.");
+  };
+}
 
 performLiveSync();
 
@@ -14687,7 +14701,7 @@ function farmSyncGetInteriorBagSources(g) {
   const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
   const home = asObj(g && g.home);
   const interior = asObj(g && g.interior);
-  const levels = interior ? Object.keys(interior).map(k => asObj(interior[k])).filter(lvl => lvl && lvl !== home) : [];
+  const levels = interior ? Object.keys(interior).map(k => asObj(interior[k])) : [];
   return [ home ].concat(levels).filter(Boolean);
 }
 
@@ -20465,7 +20479,7 @@ function renderFruitCard(name) {
     cyclesPerStockUnit: boosted.minHarvestVal,
     maxRestocksPerDay: d.moonOnly ? 1 / SYNODIC_MONTH_DAYS : undefined
   }, fruitManualCycle);
-  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}${isExpanded ? " expanded" : ""}" data-search="${name.toLowerCase()}">\n  \n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon(name)}</span>\n        <div>\n          <div class="card-name">${name}${d.moonOnly ? ` <span style="font-size:9px;font-weight:700;color:${isFullMoonToday() ? "var(--profit)" : "var(--ink-soft)"};">🌕 ${isFullMoonToday() ? `Full Moon today — ${fmt(fullMoonSeedStockQty(name))} seed${fullMoonSeedStockQty(name) === 1 ? "" : "s"} buyable!` : `Moon-fruit — Betty sells ${fmt(fullMoonSeedStockQty(name))} seed${fullMoonSeedStockQty(name) === 1 ? "" : "s"} on a real Full Moon Day`}</span>` : ""}</div>\n          <div class="card-type">${fmt(costCoins)}${COIN_ICON} tool cost / unit</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        ${boosted.activeBoosts.length ? `<span class="boost-badge">⚡${boosted.activeBoosts.length}</span>` : ""}\n        <span class="pvalue-mini ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(profitFlower)} ${FLOWER_ICON} FLOWER</span>\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    ${render24hBadge(proj.profit24h, proj.cost24h, proj.cyclesPerDay, `${fmt(fruitCount)} trees · ${fmt(proj.cyclesPerDay)} cycles/day`, proj.restockCost24h, `${fmt(proj.unitsPerDay)} ${name}`, [ `${fmt(boosted.minHarvestVal)} HARVESTS × ${fmt(boosted.yieldVal)} = ${fmt(totalYield)} ${name.toUpperCase()}`, `${fmt(proj.cost24h)} ${FLOWER_ICON} FLOWER COST (24H) · <span style="color:var(--flower);">${fmt(proj.revenue24h)} ${FLOWER_ICON} FLOWER SELL (24H)</span>` ], {
+  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}${isExpanded ? " expanded" : ""}" data-search="${name.toLowerCase()}">\n  \n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon(name)}</span>\n        <div>\n          <div class="card-name">${name} ${renderFruitSeasonBadges(name)}${d.moonOnly ? ` <span style="font-size:9px;font-weight:700;color:${isFullMoonToday() ? "var(--profit)" : "var(--ink-soft)"};">🌕 ${isFullMoonToday() ? `Full Moon today — ${fmt(fullMoonSeedStockQty(name))} seed${fullMoonSeedStockQty(name) === 1 ? "" : "s"} buyable!` : `Moon-fruit — Betty sells ${fmt(fullMoonSeedStockQty(name))} seed${fullMoonSeedStockQty(name) === 1 ? "" : "s"} on a real Full Moon Day`}</span>` : ""}</div>\n          <div class="card-type">${fmt(costCoins)}${COIN_ICON} tool cost / unit</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        ${boosted.activeBoosts.length ? `<span class="boost-badge">⚡${boosted.activeBoosts.length}</span>` : ""}\n        <span class="pvalue-mini ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(profitFlower)} ${FLOWER_ICON} FLOWER</span>\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    ${render24hBadge(proj.profit24h, proj.cost24h, proj.cyclesPerDay, `${fmt(fruitCount)} trees · ${fmt(proj.cyclesPerDay)} cycles/day`, proj.restockCost24h, `${fmt(proj.unitsPerDay)} ${name}`, [ `${fmt(boosted.minHarvestVal)} HARVESTS × ${fmt(boosted.yieldVal)} = ${fmt(totalYield)} ${name.toUpperCase()}`, `${fmt(proj.cost24h)} ${FLOWER_ICON} FLOWER COST (24H) · <span style="color:var(--flower);">${fmt(proj.revenue24h)} ${FLOWER_ICON} FLOWER SELL (24H)</span>` ], {
     itemName: `${name} Seed`,
     restockItemName: name,
     unitCost: costFlower,
@@ -20947,10 +20961,10 @@ function renderFlowerCard(name) {
   const isActive = selectedHoneyFlower === name;
   const isSelfCross = ing.name === name;
   const seasonEmoji = {
-    Spring: "🌸",
-    Summer: "☀️",
-    Autumn: "🍁",
-    Winter: "❄️"
+    Spring: '<img src="icons/season_spring.png" alt="Spring" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+    Summer: '<img src="icons/season_summer.png" alt="Summer" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+    Autumn: '<img src="icons/season_autumn.png" alt="Autumn" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+    Winter: '<img src="icons/season_winter.png" alt="Winter" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">'
   };
   const seasonTag = seedData.season ? `<span class="season-lock-tag">${seasonEmoji[seedData.season]} ${seedData.season} only${locked ? " (locked this season)" : ""}</span>` : `<span class="season-lock-tag">🌐 Any season</span>`;
   const boostNames = boosted.activeBoosts.map(b => escapeHtml(b.name));
@@ -21070,10 +21084,10 @@ function renderHoneySummaryCard() {
   __markSub("      renderHoneySummaryCard: computeHiveEconomics");
   const isProfit = econ.totalProfitDay >= 0;
   const seasonEmoji = {
-    Spring: "🌸",
-    Summer: "☀️",
-    Autumn: "🍁",
-    Winter: "❄️"
+    Spring: '<img src="icons/season_spring.png" alt="Spring" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+    Summer: '<img src="icons/season_summer.png" alt="Summer" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+    Autumn: '<img src="icons/season_autumn.png" alt="Autumn" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+    Winter: '<img src="icons/season_winter.png" alt="Winter" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">'
   };
   el.innerHTML = `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}" style="padding:10px;">\n    <div class="card-grid">\n      <div class="stat"><span class="label">Honey speed</span><span class="value">${fmt(econ.hiveStats.speed)}</span></div>\n      <div class="stat"><span class="label">Time to full hive</span><span class="value">${formatDuration(econ.hiveStats.timeToFullSec)}</span></div>\n      <div class="stat"><span class="label">Honey / hive / day</span><span class="value">${fmt(econ.hiveStats.honeyPerHiveDay)}</span></div>\n      <div class="stat"><span class="label">Swarm chance / fill</span><span class="value">${(econ.hiveStats.swarmChance * 100).toFixed(2)}%</span></div>\n    </div>\n    <div class="lib-item-row" style="margin-top:6px;">\n      <span class="lib-item-icon">${getIcon(selectedHoneyFlower)}</span>\n      <div class="lib-item-main">\n        <div class="lib-item-name">Active flower: ${selectedHoneyFlower} <span style="font-weight:400;color:var(--ink-soft);">(${fmt(econ.replantsPerDay)} replants/day)</span></div>\n        <div class="lib-item-meta">Cost / hive / day: ${fmt(econ.costPerHiveDay)} ${FLOWER_ICON} FLOWER${econ.flowerStats.expectedYield > 1 ? ` <span style="color:var(--ink-soft);">(${fmt(econ.flowerCostFlower)} ${FLOWER_ICON} FLOWER ÷ ${fmt(econ.flowerStats.expectedYield)} expected flowers/cycle = ${fmt(econ.costPerFlower)} ${FLOWER_ICON} FLOWER/flower)</span>` : ""}</div>\n      </div>\n    </div>\n    <div class="lib-item-row">\n      <span class="lib-item-icon">${getIcon("Honey")}</span>\n      <div class="lib-item-main">\n        <div class="lib-item-name">Honey sell price: ${fmt(econ.honeySellFlower)} ${FLOWER_ICON} FLOWER${feePercent > 0 ? ` <span style="color:var(--ink-soft);">(${fmt(econ.netHoneySell)} after ${feePercent}% fee)</span>` : ""}</div>\n        <div class="lib-item-meta">Revenue / hive / day: ${fmt(econ.hiveStats.honeyPerHiveDay * econ.netHoneySell)} ${FLOWER_ICON} FLOWER</div>\n      </div>\n    </div>\n    <div class="lib-item-row">\n      <span class="lib-item-icon"><img src="${BEE_SWARM_ICON}" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"></span>\n      <div class="lib-item-main">\n        <div class="lib-item-name">Bee Swarm bonus <span style="font-weight:400;color:var(--ink-soft);">(valued vs\n          <span class="seed-picker" id="swarmCropPicker" style="position:relative;display:inline-block;width:120px;vertical-align:middle;">\n            <select id="swarmCropSelect" style="display:none;">\n              ${Object.keys(BASE_CROPS).map(n => `<option value="${escapeHtml(n)}" ${n === selectedSwarmCrop ? "selected" : ""}>${escapeHtml(n)}</option>`).join("")}\n            </select>\n            <button type="button" class="seed-picker-btn" id="swarmCropPickerBtn" style="width:100%;font-size:10px;padding:2px 4px;">${getIcon(selectedSwarmCrop)}<span class="seed-picker-label">${escapeHtml(selectedSwarmCrop)}</span><span class="seed-picker-chev">▾</span></button>\n            <div class="seed-picker-menu" id="swarmCropPickerMenu" style="display:none;">\n              ${Object.keys(BASE_CROPS).map(n => `<div class="seed-picker-option${n === selectedSwarmCrop ? " active" : ""}" data-crop="${escapeHtml(n)}">${getIcon(n)}<span class="seed-picker-label">${escapeHtml(n)}</span></div>`).join("")}\n            </div>\n          </span>, ${fmt(getPlotCount())} plots)</span></div>\n        <div class="lib-item-meta">${fmt(econ.expectedSwarmsPerHiveDay)} expected swarms/hive/day × +0.2 yield → +${fmt(econ.bonusCropValuePerPlotPerHiveDay)} ${FLOWER_ICON} FLOWER/plot/hive/day</div>\n        <div class="lib-item-meta">× ${fmt(econ.cropPlots)} plots → <b>+${fmt(econ.bonusCropYieldPerHiveDay)} ${escapeHtml(selectedSwarmCrop)}/hive/day</b> from swarms <span style="color:var(--ink-soft);">(the extra crops themselves, before pricing)</span></div>\n        <div class="lib-item-meta">× ${fmt(econ.cropSellFlower)} ${FLOWER_ICON} FLOWER/${escapeHtml(selectedSwarmCrop)} → <b>+${fmt(econ.bonusCropValuePerHiveDay)} ${FLOWER_ICON} FLOWER/hive/day total</b></div>\n      </div>\n    </div>\n    <div style="margin-top:8px;">\n      <div class="lib-section-title" style="font-size:10px;">🎲 Swarm Distribution (today, ${fmt(econ.swarmTrialsPerDay)} rolls across ${fmt(econ.hives)} hives)</div>\n      <table style="width:100%;border-collapse:collapse;font-size:9.5px;margin-top:4px;">\n        <thead>\n          <tr style="border-bottom:1.5px solid var(--line);">\n            <th style="text-align:left;padding:3px 4px;color:var(--ink-soft);">Swarms</th>\n            <th style="text-align:right;padding:3px 4px;color:var(--ink-soft);">Chance</th>\n            <th style="text-align:right;padding:3px 4px;color:var(--ink-soft);">Bonus Crop Yield</th>\n            <th style="text-align:right;padding:3px 4px;color:var(--ink-soft);">Flower Value</th>\n          </tr>\n        </thead>\n        <tbody>\n          ${econ.swarmDistribution.map(row => `\n            <tr style="border-bottom:1px solid var(--line-soft, var(--line));">\n              <td style="padding:3px 4px;font-weight:700;">${row.k}</td>\n              <td style="text-align:right;padding:3px 4px;">${(row.chance * 100).toFixed(2)}%</td>\n              <td style="text-align:right;padding:3px 4px;">${fmt(row.bonusCropYield)}</td>\n              <td style="text-align:right;padding:3px 4px;color:var(--flower);">${fmt(row.flowerValue)}</td>\n            </tr>`).join("")}\n        </tbody>\n      </table>\n    </div>\n    ${render24hTotalsGrid(econ.totalCostDay, econ.totalRevenueGrossDay, econ.totalRevenueDay, econ.totalProfitDay, (() => {
     const s = getActiveShrineDailyCost(econ.hiveStats.activeBoosts, econ.flowerStats.activeBoosts);
@@ -21132,10 +21146,10 @@ function renderHoneyList() {
   const hiveInput = $("hiveCountInput");
   if (hiveInput && document.activeElement !== hiveInput) hiveInput.value = getHiveCount() || "";
   const seasonEmoji = {
-    Spring: "🌸",
-    Summer: "☀️",
-    Autumn: "🍁",
-    Winter: "❄️"
+    Spring: '<img src="icons/season_spring.png" alt="Spring" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+    Summer: '<img src="icons/season_summer.png" alt="Summer" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+    Autumn: '<img src="icons/season_autumn.png" alt="Autumn" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
+    Winter: '<img src="icons/season_winter.png" alt="Winter" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">'
   };
   withPreservedCardScrolls(wrap, () => {
     wrap.innerHTML = Object.keys(FLOWER_SEEDS).map(seedKey => {
@@ -21479,7 +21493,10 @@ $("plotsToggle").onclick = () => {
     if (!header || !wrap) return;
     header.onclick = () => {
       const nowCollapsed = wrap.classList.toggle("collapsed");
-      if (arrow) arrow.textContent = nowCollapsed ? "▸" : "▾";
+      if (arrow) {
+        arrow.textContent = nowCollapsed ? "▸" : "▾";
+        arrow.classList.toggle("is-collapsed", nowCollapsed);
+      }
     };
   });
 })();
@@ -21999,6 +22016,10 @@ let tradeActiveTab = "active";
 
 let tradeSortMode = "profit";
 
+let tradeExpandedIds = new Set();
+
+function tradeCardKey(prefix, id){ return prefix + ":" + id; }
+
 let tradePickedItemName = null;
 
 let tradeSellingId = null;
@@ -22074,20 +22095,25 @@ function tradeGatherActiveSorted() {
 
 function renderTradeCard(t, fig, index) {
   const isProfit = fig.pl >= 0;
+  const expanded = tradeExpandedIds.has(tradeCardKey("active", t.id));
   const sellsLog = (t.sells || []).length ? `\n    <div class="trade-sells-log">\n      <div class="trade-sells-log-label">💵 Sale history</div>\n      ${t.sells.map(s => {
     const sFee = s.feePercent || 0;
     const feeNote = sFee > 0 ? ` <span style="opacity:.75;">(${fmt(sFee)}% fee: −${fmt(s.feeAmount)})</span>` : "";
     return `\n        <div class="trade-sell-row">\n          <span>${fmt(s.qty)}× @ ${fmt(s.price)} ${FLOWER_ICON}/u${feeNote}</span>\n          <b>${fmt(s.net != null ? s.net : s.total)} ${FLOWER_ICON}</b>\n          <span>${formatTrade12h(s.timestamp)}</span>\n        </div>`;
   }).join("")}\n    </div>` : "";
   const feeRow = fig.feePercent > 0 ? `\n      <div class="trade-card-stat"><span class="label">Sell fee (${fmt(fig.feePercent)}%)</span><span class="value is-loss">−${fmt(fig.feeAmount)} ${FLOWER_ICON}</span></div>` : "";
-  return `\n  <div class="trade-card ${index === 0 && tradeSortMode === "profit" ? "rank-1" : ""}" style="--row-i:${index};" data-trade-id="${t.id}">\n    <div class="trade-card-top">\n      <span class="trade-card-icon">${getIcon(t.itemName)}</span>\n      <div class="trade-card-main">\n        <div class="trade-card-name">\n          ${index === 0 && tradeSortMode === "profit" ? `<span class="trade-card-rank">1</span>` : ""}\n          ${escapeHtml(t.itemName)}\n        </div>\n        <div class="trade-card-date">Bought ${formatTrade12h(t.createdAt)}</div>\n      </div>\n    </div>\n    <div class="trade-card-grid">\n      <div class="trade-card-stat"><span class="label">Quantity held</span><span class="value">${fmt(t.remainingQty)}</span></div>\n      <div class="trade-card-stat"><span class="label">Buying price/u</span><span class="value">${fmt(t.buyPrice)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat"><span class="label">Market price/u</span><span class="value">${fmt(fig.marketPrice)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat"><span class="label">Market value (net)</span><span class="value">${fmt(fig.marketValue)} ${FLOWER_ICON}</span></div>\n      ${feeRow}\n      <div class="trade-card-stat"><span class="label">Total capital</span><span class="value">${fmt(fig.costBasis)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat"><span class="label">Profit / Loss</span><span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(fig.pl)} ${FLOWER_ICON}</span></div>\n    </div>\n    ${sellsLog}\n    <div class="trade-card-actions">\n      <button type="button" class="trade-sell-btn" data-sell-id="${t.id}">💰 Sell</button>\n      <button type="button" class="trade-delete-btn" data-del-id="${t.id}">🗑</button>\n    </div>\n  </div>`;
+  return `\n  <div class="trade-card ${index === 0 && tradeSortMode === "profit" ? "rank-1" : ""}${expanded ? "" : " is-collapsed"}" style="--row-i:${index};" data-trade-id="${t.id}">\n    <div class="trade-card-top">\n      <span class="trade-card-icon">${getIcon(t.itemName)}</span>\n      <div class="trade-card-main">\n        <div class="trade-card-name">\n          ${index === 0 && tradeSortMode === "profit" ? `<span class="trade-card-rank">1</span>` : ""}\n          ${escapeHtml(t.itemName)}\n        </div>\n        <div class="trade-card-date">Bought ${formatTrade12h(t.createdAt)}</div>\n      </div>\n      <span class="trade-card-fold-chev collapse-arrow${expanded ? "" : " is-collapsed"}">${expanded ? "▾" : "▸"}</span>\n    </div>\n    <div class="trade-card-grid">\n      <div class="trade-card-stat is-primary-stat"><span class="label">Buying price/u</span><span class="value">${fmt(t.buyPrice)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat"><span class="label">Quantity held</span><span class="value">${fmt(t.remainingQty)}</span></div>\n      <div class="trade-card-stat"><span class="label">Market price/u</span><span class="value">${fmt(fig.marketPrice)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat"><span class="label">Total capital</span><span class="value">${fmt(fig.costBasis)} ${FLOWER_ICON}</span></div>\n      ${feeRow}\n      <div class="trade-card-stat"><span class="label">Gross</span><span class="value">${fmt(fig.grossMarketValue)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat is-primary-stat"><span class="label">Profit / Loss</span><span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(fig.pl)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat"><span class="label">Net</span><span class="value">${fmt(fig.marketValue)} ${FLOWER_ICON}</span></div>\n    </div>\n    ${sellsLog}\n    <div class="trade-card-actions">\n      <button type="button" class="trade-sell-btn" data-sell-id="${t.id}">💰 Sell</button>\n      <button type="button" class="trade-delete-btn" data-del-id="${t.id}">🗑</button>\n    </div>\n  </div>`;
 }
 
 function renderTradeHistoryCard(t) {
   const isProfit = t.realizedPl >= 0;
+  const expanded = tradeExpandedIds.has(tradeCardKey("hist", t.id));
   const totalFees = (t.sells || []).reduce((s, x) => s + (x.feeAmount || 0), 0);
+  const totalGrossSoldValue = (t.sells || []).reduce((s, x) => s + (x.total != null ? x.total : (x.net || 0) + (x.feeAmount || 0)), 0);
+  const totalQtySold = (t.sells || []).reduce((s, x) => s + (x.qty || 0), 0);
+  const avgSellPricePerUnit = totalQtySold > 0 ? totalGrossSoldValue / totalQtySold : 0;
   const feeRow = totalFees > 0 ? `\n      <div class="trade-card-stat"><span class="label">Fees paid</span><span class="value is-loss">−${fmt(totalFees)} ${FLOWER_ICON}</span></div>` : "";
-  return `\n  <div class="trade-history-card">\n    <div class="trade-card-top">\n      <span class="trade-card-icon">${getIcon(t.itemName)}</span>\n      <div class="trade-card-main">\n        <div class="trade-card-name">${escapeHtml(t.itemName)}</div>\n        <div class="trade-card-date">Bought ${formatTrade12h(t.createdAt)} · Closed ${formatTrade12h(t.closedAt)}</div>\n      </div>\n    </div>\n    <div class="trade-card-grid">\n      <div class="trade-card-stat"><span class="label">Qty traded</span><span class="value">${fmt(t.qty)}</span></div>\n      <div class="trade-card-stat"><span class="label">Total capital</span><span class="value">${fmt(t.qty * t.buyPrice)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat"><span class="label">Total sold value (net)</span><span class="value">${fmt(t.totalSoldValue)} ${FLOWER_ICON}</span></div>\n      ${feeRow}\n      <div class="trade-card-stat"><span class="label">Realized P/L</span><span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(t.realizedPl)} ${FLOWER_ICON}</span></div>\n    </div>\n    <div class="trade-card-actions">\n      <button type="button" class="trade-delete-btn" data-del-history-id="${t.id}">🗑</button>\n    </div>\n  </div>`;
+  return `\n  <div class="trade-history-card${expanded ? "" : " is-collapsed"}" data-trade-id="${t.id}">\n    <div class="trade-card-top">\n      <span class="trade-card-icon">${getIcon(t.itemName)}</span>\n      <div class="trade-card-main">\n        <div class="trade-card-name">${escapeHtml(t.itemName)}</div>\n        <div class="trade-card-date">Bought ${formatTrade12h(t.createdAt)} · Closed ${formatTrade12h(t.closedAt)}</div>\n      </div>\n      <span class="trade-card-fold-chev collapse-arrow${expanded ? "" : " is-collapsed"}">${expanded ? "▾" : "▸"}</span>\n    </div>\n    <div class="trade-card-grid">\n      <div class="trade-card-stat"><span class="label">Sell price/u</span><span class="value">${fmt(avgSellPricePerUnit)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat"><span class="label">Buy price/u</span><span class="value">${fmt(t.buyPrice)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat is-primary-stat"><span class="label">Qty traded</span><span class="value">${fmt(t.qty)}</span></div>\n      <div class="trade-card-stat"><span class="label">Total capital</span><span class="value">${fmt(t.qty * t.buyPrice)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat"><span class="label">Gross</span><span class="value">${fmt(totalGrossSoldValue)} ${FLOWER_ICON}</span></div>\n      <div class="trade-card-stat"><span class="label">Total sold value (net)</span><span class="value">${fmt(t.totalSoldValue)} ${FLOWER_ICON}</span></div>\n      ${feeRow}\n      <div class="trade-card-stat is-primary-stat"><span class="label">Realized P/L</span><span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(t.realizedPl)} ${FLOWER_ICON}</span></div>\n    </div>\n    <div class="trade-card-actions">\n      <button type="button" class="trade-delete-btn" data-hist-del-id="${t.id}">🗑</button>\n    </div>\n  </div>`;
 }
 
 function renderTradeLifetimeBanner() {
@@ -22118,10 +22144,28 @@ function renderTradeShop() {
     listEl.querySelectorAll("[data-del-id]").forEach(btn => {
       btn.onclick = () => deleteActiveTrade(btn.dataset.delId);
     });
+    listEl.querySelectorAll(".trade-card").forEach(card => {
+      const top = card.querySelector(".trade-card-top");
+      if (!top) return;
+      top.onclick = () => {
+        const key = tradeCardKey("active", card.dataset.tradeId);
+        if (tradeExpandedIds.has(key)) tradeExpandedIds.delete(key); else tradeExpandedIds.add(key);
+        renderTradeShop();
+      };
+    });
   } else {
     listEl.innerHTML = tradeHistory.length ? tradeHistory.map(renderTradeHistoryCard).join("") : `<div class="trade-empty">📜 No closed trades yet.<br>Trades move here once fully sold.</div>`;
-    listEl.querySelectorAll("[data-del-history-id]").forEach(btn => {
-      btn.onclick = () => deleteHistoryTrade(btn.dataset.delHistoryId);
+    listEl.querySelectorAll("[data-hist-del-id]").forEach(btn => {
+      btn.onclick = () => deleteHistoryTrade(btn.dataset.histDelId);
+    });
+    listEl.querySelectorAll(".trade-history-card").forEach(card => {
+      const top = card.querySelector(".trade-card-top");
+      if (!top) return;
+      top.onclick = () => {
+        const key = tradeCardKey("hist", card.dataset.tradeId);
+        if (tradeExpandedIds.has(key)) tradeExpandedIds.delete(key); else tradeExpandedIds.add(key);
+        renderTradeShop();
+      };
     });
   }
 }
@@ -22830,7 +22874,9 @@ function gunterRenderFlowerCost() {
     noteEl.style.display = gunterFlowerCostNoteOpen ? "block" : "none";
     noteEl.textContent = gunterFlowerCostMode === "buy" ? "Obsidian priced at the live Marketplace rate; Coins converted to FLOWER at your set rate; required upgrade nodes are costed the same way and added in." : "Obsidian priced at what it costs you to craft; Coins converted to FLOWER at your set rate; required upgrade nodes are costed the same way and added in.";
   }
-  if (noteToggleEl) noteToggleEl.textContent = gunterFlowerCostNoteOpen ? "What's this? ▴" : "What's this? ▾";
+  if (noteToggleEl) {
+    noteToggleEl.innerHTML = `What's this? <span class="gunter-fc-note-chev${gunterFlowerCostNoteOpen ? " is-open" : ""}">${gunterFlowerCostNoteOpen ? "▴" : "▾"}</span>`;
+  }
 }
 
 
@@ -23930,6 +23976,13 @@ function closeMoreMenu() {
   $("moreMenuOverlay").classList.remove("show");
 }
 $("openMoreMenuBtn").onclick = openMoreMenu;
+$("moreMenuBtnLabel").onclick = openMoreMenu;
+$("moreMenuBtnLabel").onkeydown = function(e){
+  if(e.key === "Enter" || e.key === " "){
+    e.preventDefault();
+    openMoreMenu();
+  }
+};
 $("moreMenuCloseBtn").onclick = closeMoreMenu;
 $("moreMenuOverlay").addEventListener("click", e => {
   if (e.target.id === "moreMenuOverlay") closeMoreMenu();
@@ -24128,9 +24181,7 @@ function deleteActiveTrade(id) {
   tradePendingDeleteId = id;
   tradePendingDeleteType = "active";
   const fig = computeTradeFigures(t);
-  $("deleteTradeConfirmTitle").textContent = "🗑 Delete this trade?";
   $("deleteTradeConfirmItem").innerHTML = `\n    <span class="trade-card-icon" style="font-size:18px;">${getIcon(t.itemName)}</span>\n    <div>\n      <div class="name">${escapeHtml(t.itemName)}</div>\n      <div class="meta">${fmt(t.remainingQty)}× held · ${fmt(fig.costBasis)} ${FLOWER_ICON} FLOWER capital</div>\n    </div>`;
-  $("deleteTradeConfirmWarn").textContent = "This can't be undone — the trade and its sale history will be gone for good.";
   $("deleteTradeConfirmOverlay").classList.add("show");
 }
 
@@ -24139,10 +24190,7 @@ function deleteHistoryTrade(id) {
   if (!t) return;
   tradePendingDeleteId = id;
   tradePendingDeleteType = "history";
-  const isProfit = t.realizedPl >= 0;
-  $("deleteTradeConfirmTitle").textContent = "🗑 Delete this trade record?";
-  $("deleteTradeConfirmItem").innerHTML = `\n    <span class="trade-card-icon" style="font-size:18px;">${getIcon(t.itemName)}</span>\n    <div>\n      <div class="name">${escapeHtml(t.itemName)}</div>\n      <div class="meta">${fmt(t.qty)}× traded · <span class="${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(t.realizedPl)} ${FLOWER_ICON} realized P/L</span></div>\n    </div>`;
-  $("deleteTradeConfirmWarn").textContent = "This can't be undone — the record will be permanently erased and removed from your lifetime totals, as if it never existed.";
+  $("deleteTradeConfirmItem").innerHTML = `\n    <span class="trade-card-icon" style="font-size:18px;">${getIcon(t.itemName)}</span>\n    <div>\n      <div class="name">${escapeHtml(t.itemName)}</div>\n      <div class="meta">${fmt(t.qty)}× traded · ${fmt(t.qty * t.buyPrice)} ${FLOWER_ICON} FLOWER capital</div>\n    </div>`;
   $("deleteTradeConfirmOverlay").classList.add("show");
 }
 
@@ -24175,7 +24223,7 @@ $("confirmDeleteTradeBtn").onclick = () => {
     saveTradeState();
     closeDeleteTradeConfirm();
     renderTradeShop();
-    toast("🗑 Trade record erased");
+    toast("🗑 Trade removed");
     return;
   }
   const t = tradeActive.find(x => x.id === id);
@@ -32363,6 +32411,7 @@ function openDigPanel() {
   if (statusEl) statusEl.textContent = "Loading dig data…";
   if (gridEl) gridEl.innerHTML = "";
   if (patternsEl) patternsEl.innerHTML = "";
+  if (typeof refreshSflThemeClass === "function") refreshSflThemeClass();
   requestAnimationFrame(() => {
     renderDigTreasurePanel();
   });
@@ -32373,6 +32422,7 @@ function closeDigPanel() {
   const panel = $("digSidePanel");
   if (overlay) overlay.classList.remove("show");
   if (panel) panel.classList.remove("open");
+  if (typeof refreshSflThemeClass === "function") refreshSflThemeClass();
 }
 
 function digGetFarmId() {
@@ -32441,6 +32491,7 @@ function applyAppDarkMode(on) {
 }
 
 function setAppDarkMode(on) {
+  if (on && isSflThemeOn()) setSflTheme(false);
   localStorage.setItem("hl_app_dark_mode", on ? "1" : "0");
   applyAppDarkMode(on);
 }
@@ -32449,6 +32500,57 @@ function setAppDarkMode(on) {
   const fab = $("appDarkToggleFab");
   if (fab) fab.onclick = () => setAppDarkMode(!isAppDarkModeOn());
   applyAppDarkMode(isAppDarkModeOn());
+})();
+
+function isSflThemeOn() {
+  return localStorage.getItem("hl_sfl_theme") !== "0";
+}
+
+function isDigPanelNativeModeActive() {
+  const panel = $("digSidePanel");
+  const panelOpen = !!(panel && panel.classList.contains("open"));
+  return panelOpen && isDigDarkModeOn();
+}
+
+function refreshSflThemeClass() {
+  const shouldApply = isSflThemeOn() && !isDigPanelNativeModeActive();
+  document.body.classList.toggle("sfl-theme", shouldApply);
+  syncSflSearchPlaceholders();
+}
+
+function syncSflSearchPlaceholders() {
+  const on = document.body.classList.contains("sfl-theme");
+  const ids = ["marketSearchInput", "librarySearchInput", "boostSearchInput", "pickerSearchInput", "tradeItemSearchInput"];
+  ids.forEach((id) => {
+    const el = $(id);
+    if (!el) return;
+    const ph = el.getAttribute("placeholder") || "";
+    if (on && ph.indexOf("🔍 ") === 0) {
+      el.setAttribute("placeholder", ph.slice(2));
+    } else if (!on && ph.indexOf("🔍 ") !== 0) {
+      el.setAttribute("placeholder", "🔍 " + ph);
+    }
+  });
+}
+
+function applySflTheme(on) {
+  refreshSflThemeClass();
+  const toggleIcon = $("sflThemeToggleFabIcon");
+  if (toggleIcon) toggleIcon.textContent = on ? "🌟" : "🌻";
+  const toggleLabel = $("sflThemeToggleFabLabel");
+  if (toggleLabel) toggleLabel.textContent = on ? "SFL Theme [on]" : "SFL Theme [off]";
+}
+
+function setSflTheme(on) {
+  if (on && isAppDarkModeOn()) setAppDarkMode(false);
+  localStorage.setItem("hl_sfl_theme", on ? "1" : "0");
+  applySflTheme(on);
+}
+
+(function initSflThemeFeature() {
+  const fab = $("sflThemeToggleFab");
+  if (fab) fab.onclick = () => setSflTheme(!isSflThemeOn());
+  applySflTheme(isSflThemeOn());
 })();
 
 function isDigDarkModeOn() {
@@ -32461,6 +32563,7 @@ function applyDigDarkMode(on) {
   panel.classList.toggle("dig-dark", on);
   const toggleBtn = $("digPanelDarkToggle");
   if (toggleBtn) toggleBtn.textContent = on ? "☀️" : "🌙";
+  if (typeof refreshSflThemeClass === "function") refreshSflThemeClass();
 }
 
 function setDigDarkMode(on) {
@@ -32470,8 +32573,8 @@ function setDigDarkMode(on) {
 
 (function initDigTreasureFeature() {
   const fab = $("digTreasureFab");
-  if (fab && IMAGE_ICONS["Sand Shovel"]) {
-    fab.innerHTML = `<img src="${IMAGE_ICONS["Sand Shovel"]}" alt="Treasure Map">`;
+  if (fab) {
+    fab.innerHTML = `<img src="icons/sand_shovel.png" alt="Treasure Map">`;
   }
   if (fab) fab.onclick = openDigPanel;
   const closeBtn = $("digPanelCloseBtn");
@@ -33543,10 +33646,38 @@ function profileSkillEffectText(s) {
 
 function profileAllSkillEntries() {
   const all = [];
+  const seenIds = new Set();
   Object.values(SKILL_TREES).forEach(arr => {
-    if (Array.isArray(arr)) arr.forEach(s => all.push(s));
+    if (!Array.isArray(arr)) return;
+    arr.forEach(s => {
+      if (s.hideInPanel) return;
+      if (seenIds.has(s.id)) return;
+      seenIds.add(s.id);
+      all.push(s);
+    });
   });
   return all;
+}
+
+function profileDedupeBuildBoostRows(list) {
+  const groups = [];
+  const groupByKey = new Map();
+  list.forEach(b => {
+    const key = b.isBud && b.budId ? "bud:" + b.budId : b.id;
+    let group = groupByKey.get(key);
+    if (!group) {
+      group = [];
+      groupByKey.set(key, group);
+      groups.push(group);
+    }
+    group.push(b);
+  });
+  return groups.map(group => {
+    if (group.length === 1) return group[0];
+    const first = group[0];
+    const labels = group.map(b => `${profileEffectLabel(b)}${b.target ? " " + b.target : ""}`);
+    return Object.assign({}, first, { mergedLabel: labels.join(", ") });
+  });
 }
 
 function profileRenderSkillTierGroups(activeSkills) {
@@ -33566,21 +33697,12 @@ function profileRenderBuildColumns(tabId) {
   const snapshot = profileSyncSnapshot || { boosts: [], skills: [] };
   const boostIds = new Set(snapshot.boosts || []);
   const skillIds = new Set(snapshot.skills || []);
-  const seenBoostIds = new Set();
-  const activeBoosts = BOOSTS.filter(b => b.category === tabId && boostIds.has(b.id) && !b.hideInPanel).filter(b => {
-    if (seenBoostIds.has(b.id)) return false;
-    seenBoostIds.add(b.id);
-    return true;
-  });
+  const activeBoostsRaw = BOOSTS.filter(b => b.category === tabId && boostIds.has(b.id) && !b.hideInPanel);
+  const activeBoosts = profileDedupeBuildBoostRows(activeBoostsRaw);
   const skillCats = PROFILE_TAB_TO_SKILL_CATS[tabId] || [];
   const allSkills = profileAllSkillEntries();
-  const seenSkillIds = new Set();
-  const activeSkills = allSkills.filter(s => skillIds.has(s.id) && !s.hideInPanel && skillCats.some(cat => (SKILL_TREES[cat] || []).some(x => x.id === s.id))).filter(s => {
-    if (seenSkillIds.has(s.id)) return false;
-    seenSkillIds.add(s.id);
-    return true;
-  });
-  const boostHtml = activeBoosts.length ? activeBoosts.map(b => `<div class="profile-build-item">${getIcon(b.name)}<div class="profile-build-item-text"><span class="profile-build-item-name">${escapeHtml(b.name)}</span><br><span class="profile-build-item-eff">${profileEffectLabel(b)}</span></div></div>`).join("") : `<div class="profile-build-empty">No active boosts synced for this category.</div>`;
+  const activeSkills = allSkills.filter(s => skillIds.has(s.id) && skillCats.some(cat => (SKILL_TREES[cat] || []).some(x => x.id === s.id)));
+  const boostHtml = activeBoosts.length ? activeBoosts.map(b => `<div class="profile-build-item">${getIcon(b.name)}<div class="profile-build-item-text"><span class="profile-build-item-name">${escapeHtml(b.name)}</span><br><span class="profile-build-item-eff">${escapeHtml(b.mergedLabel || profileEffectLabel(b))}</span></div></div>`).join("") : `<div class="profile-build-empty">No active boosts synced for this category.</div>`;
   const skillHtml = activeSkills.length ? profileRenderSkillTierGroups(activeSkills) : `<div class="profile-build-empty">No active skills synced for this category.</div>`;
   return `<div class="profile-build-cols">
     <div class="profile-build-col"><div class="profile-build-col-title">⚡ Boost</div>${boostHtml}</div>
@@ -33694,7 +33816,7 @@ function profileGoBottomNav() {
 }
 
 function profileBackNav() {
-  $("profileBottomSection").innerHTML = `<button type="button" class="profile-nav-btn is-back" id="profileBackBtn">‹ Back to Overview</button>`;
+  $("profileBottomSection").innerHTML = `<button type="button" class="profile-nav-btn is-back" id="profileBackBtn"><span class="profile-nav-btn-chev">‹</span> Back to Overview</button>`;
   $("profileBackBtn").onclick = () => { profileState.view = "overview"; renderProfileView(); };
 }
 
@@ -34225,6 +34347,14 @@ function profileWearableBoostNameSet() {
   return new Set(WEARABLE_BOOST_NAMES);
 }
 
+function profileCollectibleInstanceKey(inst) {
+  if (!inst || typeof inst !== "object") return null;
+  const coords = farmSyncGetCoords(inst);
+  const created = typeof inst.createdAt === "number" ? inst.createdAt : null;
+  if (created == null && !coords) return null;
+  return `${created}|${coords ? coords.x + "," + coords.y : ""}`;
+}
+
 function profileTradableCollectibleRows(g, wantBoostOnes) {
   const mainCollectibles = profileAsObj(farmPanelField(g, "collectibles")) || {};
   const homeCollectibles = farmSyncGetInteriorCollectiblesMerged(g) || {};
@@ -34241,7 +34371,16 @@ function profileTradableCollectibleRows(g, wantBoostOnes) {
   const rows = [];
   Object.entries(collectibles).forEach(([name, arr]) => {
     if (!Array.isArray(arr)) return;
-    const count = arr.filter(inst => inst && !inst.removedAt).length;
+    const seenKeys = new Set();
+    const count = arr.filter(inst => {
+      if (!inst || inst.removedAt) return false;
+      const key = profileCollectibleInstanceKey(inst);
+      if (key) {
+        if (seenKeys.has(key)) return false;
+        seenKeys.add(key);
+      }
+      return true;
+    }).length;
     if (!count) return;
     const hasBoost = boostNames.has(name);
     if (wantBoostOnes && !hasBoost) return;
@@ -34274,7 +34413,10 @@ function profileTradableWearableRows(g, mode) {
 function profileTradableBudRows(g) {
   const buds = profileAsObj(g && g.buds) || {};
   const rows = [];
+  const seenIds = new Set();
   Object.entries(buds).forEach(([id, bud]) => {
+    if (seenIds.has(id)) return;
+    seenIds.add(id);
     const traits = farmSyncExtractBudTraits(bud);
     const type = traits && traits.type ? traits.type : null;
     const label = type ? `${type} Bud #${id}` : `Bud #${id}`;
@@ -34287,7 +34429,10 @@ function profileTradablePetRows(g) {
   const petsRoot = profileAsObj(g && g.pets) || {};
   const nfts = profileAsObj(petsRoot.nfts) || {};
   const rows = [];
+  const seenIds = new Set();
   Object.entries(nfts).forEach(([id, pet]) => {
+    if (seenIds.has(id)) return;
+    seenIds.add(id);
     const p = profileAsObj(pet);
     if (!p) return;
     const traitType = p.traits && p.traits.type ? p.traits.type : null;
@@ -34297,33 +34442,14 @@ function profileTradablePetRows(g) {
   return rows.sort((a, b) => (b.value || 0) - (a.value || 0));
 }
 
-function profileMergeDuplicateRows(rows) {
-  const merged = [];
-  const indexByKey = new Map();
-  rows.forEach(r => {
-    const key = r.category ? `${r.name}|${r.category}` : r.name;
-    if (indexByKey.has(key)) {
-      const existing = merged[indexByKey.get(key)];
-      existing.qty = (existing.qty || 0) + (r.qty || 0);
-      if (existing.value != null || r.value != null) existing.value = (existing.value || 0) + (r.value || 0);
-    } else {
-      indexByKey.set(key, merged.length);
-      merged.push(Object.assign({}, r));
-    }
-  });
-  return merged;
-}
-
 function profileTradableRowsForTabUncached(g, tab) {
-  let rows;
-  if (tab === "resources") rows = profileTradableResourceRows(g);
-  else if (tab === "collectibles") rows = profileTradableCollectibleRows(g, true);
-  else if (tab === "cosmetics") rows = profileTradableCollectibleRows(g, false).concat(profileTradableWearableRows(g, "nonboost")).sort((a, b) => (b.value || 0) - (a.value || 0));
-  else if (tab === "wearable") rows = profileTradableWearableRows(g, "boost");
-  else if (tab === "bud") rows = profileTradableBudRows(g);
-  else if (tab === "pet") rows = profileTradablePetRows(g);
-  else rows = [];
-  return profileMergeDuplicateRows(rows);
+  if (tab === "resources") return profileTradableResourceRows(g);
+  if (tab === "collectibles") return profileTradableCollectibleRows(g, true);
+  if (tab === "cosmetics") return profileTradableCollectibleRows(g, false).concat(profileTradableWearableRows(g, "nonboost")).sort((a, b) => (b.value || 0) - (a.value || 0));
+  if (tab === "wearable") return profileTradableWearableRows(g, "boost");
+  if (tab === "bud") return profileTradableBudRows(g);
+  if (tab === "pet") return profileTradablePetRows(g);
+  return [];
 }
 
 let __profileTradableRowsCacheG = null;
@@ -34384,28 +34510,20 @@ function profileTradableFloorHeaderHtml(tab) {
   return `<div class="profile-tradable-row profile-tradable-row-editable" data-override-id="${overrideId}" style="cursor:pointer;"><span class="profile-tradable-name">${label} NFT Floor Price</span><span class="profile-tradable-val">${valHtml}</span></div>`;
 }
 
-function profileTradableRowsValueSum(rows) {
-  return rows.reduce((sum, r) => sum + (r.value || 0), 0);
+function profileTradableRowsSubtotal(rows) {
+  return rows.reduce((s, r) => s + (r.value != null ? r.value : 0), 0);
 }
 
-function profileTradableSubtotalCardHtml(label, total) {
-  return `<div class="profile-tradable-subtotal-card"><span class="profile-tradable-subtotal-label">${escapeHtml(label)} Subtotal</span><span class="profile-tradable-subtotal-val">${FLOWER_ICON} ${fmt(total)}</span></div>`;
+function profileTradableSubtotalHtml(rows) {
+  return `<div class="profile-tradable-subtotal"><span>Subtotal</span><span>${FLOWER_ICON} ${fmt(profileTradableRowsSubtotal(rows))}</span></div>`;
 }
 
 function profileTradableContentHtml(rows, tab, g) {
   const floorHeader = tab === "bud" || tab === "pet" ? profileTradableFloorHeaderHtml(tab) : "";
   if (!rows.length) return `${floorHeader}<div class="profile-build-empty">Nothing found in this category.</div>`;
-  if (tab !== "resources") {
-    const tabMeta = PROFILE_TRADABLE_TABS.find(t => t.id === tab);
-    const tabTotal = profileTradableRowsValueSum(rows);
-    return `${floorHeader}${profileTradableSubtotalCardHtml(tabMeta ? tabMeta.label : "Category", tabTotal)}${rows.map(profileTradableRowHtml).join("")}`;
-  }
+  if (tab !== "resources") return `${floorHeader}${rows.map(profileTradableRowHtml).join("")}`;
   const grouped = PROFILE_RESOURCE_CATEGORIES.map(cat => ({ cat: cat, items: rows.filter(r => r.category === cat.id) })).filter(g => g.items.length);
-  return grouped.map(grp => {
-    const header = grp.cat.id === "treasures" ? profileTreasuresCategoryHeaderHtml(g) : `<div class="profile-resource-cat-title">${escapeHtml(grp.cat.label)}</div>`;
-    const catTotal = profileTradableRowsValueSum(grp.items);
-    return `${header}${profileTradableSubtotalCardHtml(grp.cat.label, catTotal)}${grp.items.map(profileTradableRowHtml).join("")}`;
-  }).join("");
+  return grouped.map(grp => `${grp.cat.id === "treasures" ? profileTreasuresCategoryHeaderHtml(g) : `<div class="profile-resource-cat-title">${escapeHtml(grp.cat.label)}</div>`}${grp.items.map(profileTradableRowHtml).join("")}${profileTradableSubtotalHtml(grp.items)}`).join("");
 }
 
 function attachProfileTradableEditHandlers(g) {
@@ -34422,6 +34540,7 @@ function renderProfileTradable() {
   const total = g ? profileTradableTotalFlower(g) : 0;
   const tabsHtml = PROFILE_TRADABLE_TABS.map(t => `<button type="button" data-tab="${t.id}" class="${t.id === profileState.tradableTab ? "active" : ""}">${escapeHtml(t.label)}</button>`).join("");
   const rows = g ? profileTradableRowsForTab(g, profileState.tradableTab) : [];
+  const activeTabLabel = (PROFILE_TRADABLE_TABS.find(t => t.id === profileState.tradableTab) || {}).label || "";
   $("profileTopSection").innerHTML = `
     <div class="profile-section-title">${escapeHtml(displayName)}'s Tradable Items</div>
     <div class="profile-tradable-total">
@@ -34430,6 +34549,7 @@ function renderProfileTradable() {
       <div class="profile-tradable-total-usd">${profileFmtUsd(total)}</div>
     </div>
     <div class="profile-tabgrid is-3col" id="profileTradableTabs">${tabsHtml}</div>
+    <div class="profile-tradable-tab-subtotal" id="profileTradableTabSubtotal"><span>${escapeHtml(activeTabLabel)} Subtotal</span><span>${FLOWER_ICON} ${fmt(profileTradableRowsSubtotal(rows))}</span></div>
     <div id="profileTradableContent">${profileTradableContentHtml(rows, profileState.tradableTab, g)}</div>
   `;
   attachProfileTradableEditHandlers(g);
@@ -34438,6 +34558,9 @@ function renderProfileTradable() {
       profileState.tradableTab = btn.dataset.tab;
       $("profileTradableTabs").querySelectorAll("button[data-tab]").forEach(b => b.classList.toggle("active", b.dataset.tab === profileState.tradableTab));
       const newRows = profileTradableRowsForTab(g, profileState.tradableTab);
+      const newTabLabel = (PROFILE_TRADABLE_TABS.find(t => t.id === profileState.tradableTab) || {}).label || "";
+      const tabSubtotalEl = $("profileTradableTabSubtotal");
+      if (tabSubtotalEl) tabSubtotalEl.innerHTML = `<span>${escapeHtml(newTabLabel)} Subtotal</span><span>${FLOWER_ICON} ${fmt(profileTradableRowsSubtotal(newRows))}</span>`;
       $("profileTradableContent").innerHTML = profileTradableContentHtml(newRows, profileState.tradableTab, g);
       attachProfileTradableEditHandlers(g);
     };
