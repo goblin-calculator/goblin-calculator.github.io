@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=78">
 </head>
 <body>
 <script>(function(){try{var t=localStorage.getItem("hl_sfl_theme");if(t!=="0")document.body.classList.add("sfl-theme");}catch(e){}})();</script>
@@ -96,20 +96,20 @@
     <div class="farm-panel-status" id="farmPanelStatus">Not synced yet</div>
     <div class="farm-panel-debug-panel" id="farmPanelDebugPanel">
       <button type="button" class="farm-panel-debug-close" id="farmPanelDebugCloseBtn">✕ Close debug tools</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Salt/Honey/Lava data shape</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugBoostsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show equipped/placed boost matches</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugNodesBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show mining node data shape</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugFertBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show fertiliser/BUD/spice data shape</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugCrowBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show crow AoE plot-by-plot detection</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugFactionBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Faction Wings/Green Amulet detection</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugPetsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Pets data shape</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugMutantsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show mutant reward field on growing jobs</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugTreeDataBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show tree wood.amount/farmActivity source data</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugMiningBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Stone/Iron/Gold exact-yield breakdown</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugCropsBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Crops/Fruit/Flowers/Crimstone/Greenhouse exact-yield breakdown</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugNftPricesBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show raw NFT price feed (Bud/Pet)</button>
-      <button type="button" class="btn btn-ghost" id="farmPanelDebugMarketplaceProbeBtn" style="width:100%;margin-top:4px;font-size:8px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: probe for a public Bud/Pet floor price endpoint</button>
-      <textarea id="farmPanelDebugOutput" readonly style="display:none;width:100%;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:7.5px;height:160px;border:1.25px solid var(--line);border-radius:6px;padding:4px;"></textarea>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Salt/Honey/Lava data shape</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugBoostsBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show equipped/placed boost matches</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugNodesBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show mining node data shape</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugFertBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show fertiliser/BUD/spice data shape</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugCrowBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show crow AoE plot-by-plot detection</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugFactionBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Faction Wings/Green Amulet detection</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugPetsBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Pets data shape</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugMutantsBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show mutant reward field on growing jobs</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugTreeDataBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show tree wood.amount/farmActivity source data</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugMiningBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Stone/Iron/Gold exact-yield breakdown</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugCropsBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Crops/Fruit/Flowers/Crimstone/Greenhouse exact-yield breakdown</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugNftPricesBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show raw NFT price feed (Bud/Pet)</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugMarketplaceProbeBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: probe for a public Bud/Pet floor price endpoint</button>
+      <textarea id="farmPanelDebugOutput" readonly style="display:none;width:100%;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:9px;height:160px;border:1.25px solid var(--line);border-radius:6px;padding:4px;"></textarea>
     </div>
     <div class="farm-panel-divider-solid"></div>
     <div class="farm-panel-tabs">
@@ -159,7 +159,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V3.2</span>
+  <span class="app-version-badge">V3.3</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -182,7 +182,7 @@
           </button>
           <span class="more-menu-btn-label" id="moreMenuBtnLabel" role="button" tabindex="0" aria-label="More">Menu</span>
         </div>
-        <button id="openBoostPanelBtn" type="button" style="background:var(--sun);border:2px solid #5c3d1e;border-radius:8px;padding:8px 10px;font-weight:700;font-size:11px;cursor:pointer;color:var(--soil-dark);white-space:nowrap;flex-shrink:0;">⚡ Boosts</button>
+        <button id="openBoostPanelBtn" type="button" style="background:var(--sun);border:2px solid #5c3d1e;border-radius:8px;padding:8px 10px;font-weight:700;font-size:13.2px;cursor:pointer;color:var(--soil-dark);white-space:nowrap;flex-shrink:0;">⚡ Boosts</button>
       </div>
     </div>
   </div>
@@ -190,6 +190,7 @@
 
 <main>
 
+<div class="rate-market-group">
   <div class="settings-panel" id="settingsPanel">
     <button class="settings-toggle" id="settingsToggle" type="button">
       <span id="settingsSummary">1 FLOWER = 1000 Coins · Fee 0%</span>
@@ -202,11 +203,14 @@
     </div>
   </div>
 
-  <div class="library-panel" id="marketPanel">
-    <button class="library-toggle" id="marketToggle" type="button">
-      <span style="display:inline-flex;align-items:center;gap:4px;"><span class="mp-marketplace-icon">💰</span>Marketplace Prices</span>
-      <span class="chev">▾</span>
-    </button>
+  <div class="type-toggle" id="priceToggle" style="grid-template-columns:repeat(2, 1fr); margin:0;">
+    <button type="button" data-view="market"><span class="mp-marketplace-icon">💰</span> Marketplace Prices</button>
+    <button type="button" data-view="library"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQBAMAAADUulMJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAAAAAAK9IMf6uNP7nYfd2Iv///8kLUD8AAAACdFJOUwAzyUOsLgAAAAFiS0dEBmFmuH0AAAAHdElNRQfoBAMBCyeWyjz2AAAAW0lEQVQI103N0RGAIAwD0OgE4ASSygIWFrBMgPvvYuuP9if3LncpAKwk4mTYHmzazkhTvT6T3k/XOLUTYmrkxKHa5OfaRpdewFsnmVDJWjKwuZOvLWR5v+UcfADJng8ZS5A75AAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNC0wNC0wM1QwMToxMTozOCswMDowMN4naB0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjQtMDQtMDNUMDE6MTE6MzgrMDA6MDCvetChAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDI0LTA0LTAzVDAxOjExOjM5KzAwOjAwXhj6ygAAAABJRU5ErkJggg==" alt="" style="width:14px;height:14px;vertical-align:-2px;image-rendering:pixelated;"> Base Coin Cost</button>
+  </div>
+</div>
+
+  <div class="library-panel main-tab-modal tab-hidden" id="marketPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="market">✕</button><span style="display:inline-flex;align-items:center;gap:4px;"><span class="mp-marketplace-icon">💰</span>Marketplace Prices</span></div>
     <div class="library-body" id="marketBody">
       <div class="market-source-note">📡 All price data is pulled from <a href="https://sfl.world" target="_blank" rel="noopener">sfl.world</a> — for more details, visit <a href="https://sfl.world" target="_blank" rel="noopener">sfl.world</a>.</div>
       <div class="library-sub">What each item currently sells for on the marketplace, in FLOWER. Every seed, tool, or animal produce you add above shows up here automatically — set or update its price any time and every Harvested item recalculates instantly. Delete the source above to remove it from here too.</div>
@@ -234,11 +238,8 @@
     </div>
   </div>
 
-  <div class="library-panel" id="libraryPanel">
-    <button class="library-toggle" id="libraryToggle" type="button">
-      <span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQBAMAAADUulMJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAAAAAAK9IMf6uNP7nYfd2Iv///8kLUD8AAAACdFJOUwAzyUOsLgAAAAFiS0dEBmFmuH0AAAAHdElNRQfoBAMBCyeWyjz2AAAAW0lEQVQI103N0RGAIAwD0OgE4ASSygIWFrBMgPvvYuuP9if3LncpAKwk4mTYHmzazkhTvT6T3k/XOLUTYmrkxKHa5OfaRpdewFsnmVDJWjKwuZOvLWR5v+UcfADJng8ZS5A75AAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNC0wNC0wM1QwMToxMTozOCswMDowMN4naB0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjQtMDQtMDNUMDE6MTE6MzgrMDA6MDCvetChAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDI0LTA0LTAzVDAxOjExOjM5KzAwOjAwXhj6ygAAAABJRU5ErkJggg==" alt="Coins" style="width:14px;height:14px;vertical-align:-2px;image-rendering:pixelated;"> Base Coin Cost</span>
-      <span class="chev">▾</span>
-    </button>
+  <div class="library-panel main-tab-modal tab-hidden" id="libraryPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="library">✕</button><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQBAMAAADUulMJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAAAAAAK9IMf6uNP7nYfd2Iv///8kLUD8AAAACdFJOUwAzyUOsLgAAAAFiS0dEBmFmuH0AAAAHdElNRQfoBAMBCyeWyjz2AAAAW0lEQVQI103N0RGAIAwD0OgE4ASSygIWFrBMgPvvYuuP9if3LncpAKwk4mTYHmzazkhTvT6T3k/XOLUTYmrkxKHa5OfaRpdewFsnmVDJWjKwuZOvLWR5v+UcfADJng8ZS5A75AAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNC0wNC0wM1QwMToxMTozOCswMDowMN4naB0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjQtMDQtMDNUMDE6MTE6MzgrMDA6MDCvetChAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDI0LTA0LTAzVDAxOjExOjM5KzAwOjAwXhj6ygAAAABJRU5ErkJggg==" alt="Coins" style="width:14px;height:14px;vertical-align:-2px;image-rendering:pixelated;"> Base Coin Cost</span></div>
     <div class="library-body" id="libraryBody">
       <div class="library-sub">The base game cost of every tool, crop, fruit, resource and animal — what it produces and how much, loaded automatically. Nothing here is hand-editable: it's the game's own numbers. When a boost changes a cost or a yield, the new number is shown with the original struck through and the boost named next to it.</div>
 
@@ -246,7 +247,7 @@
         <input type="text" id="librarySearchInput" placeholder="🔍 Search everything below..." />
       </div>
 
-      <div class="lib-section-title">🔨 Tools <span class="count" id="toolCount"></span></div>
+      <div class="lib-section-title"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANBAMAAACEMClyAAAAG1BMVEUAAAAYFCVaaYiLm7TAy9y+Si90PznXdkM+JzFHDkyrAAAAAXRSTlMAQObYZgAAAEtJREFUCNdjAAFBAQYwYDQOhDCETRShAk5KAmCGiZKSIpgRpKRkAhISzVBSBjEYSxuFjB2BAuJhAowuYIFEoIlgAaixokABiHFQAQDhBAhtK6bgXwAAAABJRU5ErkJggg==" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Tools <span class="count" id="toolCount"></span></div>
       <div id="toolLibList" class="retro-scroll on-parchment lib-list-scroll"></div>
 
       <div class="lib-add-row" id="addToolRow" style="display:none;">
@@ -273,6 +274,12 @@
     </div>
   </div>
 
+<div class="calc-grid-frame">
+<div class="calc-grid-header">
+  <div class="calc-grid-title">Your Calculators</div>
+  <div class="calc-grid-desc">All your selected boosts and skills, plus synced boosts and skills, are automatically applied into the math!</div>
+</div>
+
 <div class="type-toggle" id="mainCategoryToggle" style="margin:0 0 8px;">
   <button type="button" data-view="crops"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAKCAYAAABv7tTEAAAAAXNSR0IArs4c6QAAAKNJREFUKJGNkSEOwzAMRX8mb3CoIKSoytiuMNwL7RS9UPCuUGhYEhBU2IEMtE68dJX2Ufzft2U5wB+yjUu2cUlq0kDeIbLR/u3ZrcWAFCIb2gEFxXeP8wY6YECiPShQfH691w3GpawnBYDcfO1bAMgNWlQbdUgPnP2EENlQiGzgkYD2K2zvF4RxweynMmA7EOXCI19PVqvDopMGNTzSz9DRn4k+drNQZqnfgIoAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crops</button>
   <button type="button" data-view="resources"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAFVBMVEUAAAAYFCXkpnLChWlzPjnq1Kq+Si+8xtD3AAAAAXRSTlMAQObYZgAAAE5JREFUCNdjYBAUFGAAAkal0EBGEEtYSVXMESQgbBToCJYxVhWA0EaBIFrMGSzAmOIoDKLFXAQYgTSQy8BoJADkAsWEBBhEwGYAEVgvAwCyQwfhatKS0wAAAABJRU5ErkJggg==" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Resources</button>
@@ -285,11 +292,14 @@
   <button type="button" data-view="composter"><img src="data:image/webp;base64,UklGRkoBAABXRUJQVlA4TD4BAAAvE8AHEK/ANACANJDcNWvn/zdoJBo7QQ9hGtlWK7BR5YzG0wQl0wEV0AKDRP7IJgCANLxE4HLrQnLPsNfdVSCQZLK/1SgBAOC1LDH8r1vaQMj/IARY2/SLigiJwxrVICXLvbSmc6/R3sw5he8/zXW5uNAzA4iRbdVtHPx5EYZc+R5e/8UCikuI6P8E3NaxvF2uFy/UcbHuRrk4FhFRxsUSEbdorZVRtqO01uJrn2swff6unWLxKWNbZCbId81lfScWYfWSY5sFe1LW+7amz05w+j8igKyP+fV61DxFBFbWx+saml6v12OuCQSGrLmtqU4EOvNdt++URXB6XAZPGllyWXLgFshcOzuBzQASEhinCKTubqGO1DECy5ItyZYsdQLbxjM22EQDOJgPOA6IaK0dl1tri3/H8/eLz+/8fBU=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Composter</button>
   <button type="button" data-view="cooking"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAKCAYAAABi8KSDAAAAAXNSR0IArs4c6QAAAO9JREFUGJVtkbFqwlAUhr+bRTSkxSSFULKVgNCA4CBesQ+QRcjQVyiFFvoqjsW9jlWcfQDByU0QN5EMGimZ7GA63ZjE/tPhnO9wDv8vKMmxvVTV0X4t8jNRhkbtGtJPODdDHj6mhSWhwFG7BsCrafEZH5B+QqVjAnD/8kO0XwvNsb3067mVgU9vOtJPeA8faXzfcJrH7Ia3OLaXCsf20rvKiUFf0um5aMtx9uO5GaItxwSTKqv4lwxWGvQlAF1jQTCpAuDWTWab6Bq2dAO3bpZNYraJ0K66wPYY/9e+uAGgLli6UTiv7CuYng9EKR/MH0NNTSwXCPCyAAAAAElFTkSuQmCC" style="width:13px;height:12px;vertical-align:-2px;image-rendering:pixelated;"> Cooking</button>
   <button type="button" data-view="fishing"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOBAMAAADUAYG5AAAAHlBMVEUAAAAYFCXXdkO+Si/Ay9zkO0RzPjn///+Lm7RaaYge9Cq/AAAAAXRSTlMAQObYZgAAAE9JREFUCNdjgABGASgtJAClDSEMIWVxMINR2RDCEDITADJAAokMQAZYgFFUECigKCjAGBoIFBBxAYkAVYjMEGAQFACqEOkA6xVOZBREsQ4AdZMHIu0fKyEAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fishing</button>
-  <button type="button" data-view="pets">🐾 Pets</button>
+  <button type="button" data-view="pets"><img id="petsTabIcon" src="" alt="Pets" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Pets</button>
+</div>
 </div>
 
-  <div class="library-panel" id="cropsPanel">
-    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAD1BMVEUAAAD3diL/3h/7qiD/+U7mGOxUAAAAAXRSTlMAQObYZgAAADVJREFUCNdjYBQUYAABIWVFGA0WEDaGCAgpQQQYkQUYIAJQHUqOYJpRUFiAAcIyZIAAuIABAAQBBIwhksxUAAAAAElFTkSuQmCC" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crops (auto)</span></div>
+  <div class="modal-overlay" id="mainTabModalBackdrop"></div>
+
+  <div class="library-panel main-tab-modal" id="cropsPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="crops">✕</button><button type="button" class="panel-boost-nodes-btn" data-view="crops">Boost &amp; Nodes</button><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAD1BMVEUAAAD3diL/3h/7qiD/+U7mGOxUAAAAAXRSTlMAQObYZgAAADVJREFUCNdjYBQUYAABIWVFGA0WEDaGCAgpQQQYkQUYIAJQHUqOYJpRUFiAAcIyZIAAuIABAAQBBIwhksxUAAAAAElFTkSuQmCC" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crops</span></div>
     <div class="library-body" id="cropsBody">
       <div class="library-sub">All base crops, loaded automatically — cost, yield & profit update live with your boosts and plot count. Edit sell price in Marketplace Prices below.</div>
       <div class="season-toggle" id="cropsSeasonToggle" style="margin-top:2px;">
@@ -305,20 +315,20 @@
         <button type="button" data-tier="Medium">Medium</button>
         <button type="button" data-tier="Advanced">Advanced</button>
       </div>
-      <div id="cropsItemList" class="retro-scroll" style="max-height:48vh;"></div>
+      <div id="cropsItemList"></div>
     </div>
   </div>
 
-  <div class="library-panel" id="resourcePanel">
-    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAFVBMVEUAAAAYFCXkpnLChWlzPjnq1Kq+Si+8xtD3AAAAAXRSTlMAQObYZgAAAE5JREFUCNdjYBAUFGAAAkal0EBGEEtYSVXMESQgbBToCJYxVhWA0EaBIFrMGSzAmOIoDKLFXAQYgTSQy8BoJADkAsWEBBhEwGYAEVgvAwCyQwfhatKS0wAAAABJRU5ErkJggg==" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Resources &amp; Tools (auto)</span></div>
+  <div class="library-panel main-tab-modal" id="resourcePanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="resources">✕</button><button type="button" class="panel-boost-nodes-btn" data-view="resources">Boost &amp; Nodes</button><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAAFVBMVEUAAAAYFCXkpnLChWlzPjnq1Kq+Si+8xtD3AAAAAXRSTlMAQObYZgAAAE5JREFUCNdjYBAUFGAAAkal0EBGEEtYSVXMESQgbBToCJYxVhWA0EaBIFrMGSzAmOIoDKLFXAQYgTSQy8BoJADkAsWEBBhEwGYAEVgvAwCyQwfhatKS0wAAAABJRU5ErkJggg==" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Resources &amp; Tools</span></div>
     <div class="library-body" id="resourceBody">
       <div class="library-sub">Wood → Stone → Iron → Gold → Crimstone → Oil. Tap a resource to see its tool's full recipe. Choose Collect or Buy per material.</div>
-      <div id="resourceItemList" class="retro-scroll" style="max-height:48vh;"></div>
+      <div id="resourceItemList"></div>
     </div>
   </div>
   
-  <div class="library-panel" id="fruitsPanel">
-    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAM1JREFUKJGFkD8OAUEUh79hmo0b0IhCaZttNXsAoncDap1e9BIHcAGFdiW029hEQyJR4AKExMYqZMaMXfyq+fN9894bwZ9U236i1ptJIKR5ee1VEnPvHsvUOwXjxE+kCUvvgWzWAJi39tT7BbaLu1VRpuDDCoDZuchydLHgzSQQUsGAhuNQALBu7JDeq8vbOI8D5LIGlV7CoHvSsJlMQUk6JdeeQSUORSYYTyP9tiWY/QMQRqnKAt6/9C1xmMMZ7oQWfkkmbAlK+hRMGOAJOLpMxjYgUowAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fruits (auto)</span></div>
+  <div class="library-panel main-tab-modal" id="fruitsPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="fruits">✕</button><button type="button" class="panel-boost-nodes-btn" data-view="fruits">Boost &amp; Nodes</button><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAM1JREFUKJGFkD8OAUEUh79hmo0b0IhCaZttNXsAoncDap1e9BIHcAGFdiW029hEQyJR4AKExMYqZMaMXfyq+fN9894bwZ9U236i1ptJIKR5ee1VEnPvHsvUOwXjxE+kCUvvgWzWAJi39tT7BbaLu1VRpuDDCoDZuchydLHgzSQQUsGAhuNQALBu7JDeq8vbOI8D5LIGlV7CoHvSsJlMQUk6JdeeQSUORSYYTyP9tiWY/QMQRqnKAt6/9C1xmMMZ7oQWfkkmbAlK+hRMGOAJOLpMxjYgUowAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fruits</span></div>
     <div class="library-body" id="fruitsBody">
       <div class="library-sub">Tomato, Lemon, Blueberry, Orange, Apple &amp; Banana — cost, yield &amp; profit update live with your boosts. Grapes are excluded (greenhouse crop). Edit sell price in Marketplace Prices below.</div>
       <div class="season-toggle" id="fruitsSeasonToggle" style="margin-top:2px;">
@@ -328,11 +338,11 @@
         <button type="button" data-season="Winter"><span class="season-emoji"><img src="icons/season_winter.png" alt="Winter"></span>Winter</button>
       </div>
       <div class="season-toggle-note" id="fruitsSeasonToggleNote"></div>
-      <div id="fruitsItemList" class="retro-scroll" style="max-height:48vh;"></div>
+      <div id="fruitsItemList"></div>
     </div>
   </div>
-  <div class="library-panel" id="composterPanel">
-    <div class="library-toggle"><span><img src="data:image/webp;base64,UklGRkoBAABXRUJQVlA4TD4BAAAvE8AHEK/ANACANJDcNWvn/zdoJBo7QQ9hGtlWK7BR5YzG0wQl0wEV0AKDRP7IJgCANLxE4HLrQnLPsNfdVSCQZLK/1SgBAOC1LDH8r1vaQMj/IARY2/SLigiJwxrVICXLvbSmc6/R3sw5he8/zXW5uNAzA4iRbdVtHPx5EYZc+R5e/8UCikuI6P8E3NaxvF2uFy/UcbHuRrk4FhFRxsUSEbdorZVRtqO01uJrn2swff6unWLxKWNbZCbId81lfScWYfWSY5sFe1LW+7amz05w+j8igKyP+fV61DxFBFbWx+saml6v12OuCQSGrLmtqU4EOvNdt++URXB6XAZPGllyWXLgFshcOzuBzQASEhinCKTubqGO1DECy5ItyZYsdQLbxjM22EQDOJgPOA6IaK0dl1tri3/H8/eLz+/8fBU=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Composter (auto)</span></div>
+  <div class="library-panel main-tab-modal" id="composterPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="composter">✕</button><button type="button" class="panel-boost-nodes-btn" data-view="composter">Boost &amp; Nodes</button><span><img src="data:image/webp;base64,UklGRkoBAABXRUJQVlA4TD4BAAAvE8AHEK/ANACANJDcNWvn/zdoJBo7QQ9hGtlWK7BR5YzG0wQl0wEV0AKDRP7IJgCANLxE4HLrQnLPsNfdVSCQZLK/1SgBAOC1LDH8r1vaQMj/IARY2/SLigiJwxrVICXLvbSmc6/R3sw5he8/zXW5uNAzA4iRbdVtHPx5EYZc+R5e/8UCikuI6P8E3NaxvF2uFy/UcbHuRrk4FhFRxsUSEbdorZVRtqO01uJrn2swff6unWLxKWNbZCbId81lfScWYfWSY5sFe1LW+7amz05w+j8igKyP+fV61DxFBFbWx+saml6v12OuCQSGrLmtqU4EOvNdt++URXB6XAZPGllyWXLgFshcOzuBzQASEhinCKTubqGO1DECy5ItyZYsdQLbxjM22EQDOJgPOA6IaK0dl1tri3/H8/eLz+/8fBU=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Composter</span></div>
     <div class="library-body" id="composterBody">
       <div class="library-sub">
         Compost Bin, Turbo Composter &amp; Premium Composter — <b>not tradable</b>, but every cycle turns crops/fruit (+ sometimes Eggs) into
@@ -341,12 +351,12 @@
         Turn fertilisers <b>on/off per-crop-type in ⚡ Boost Settings → 🪱 Composter</b> to see their yield/time effect and coin cost
         show up on the Crops &amp; Fruits cards.
       </div>
-      <div id="composterItemList" class="retro-scroll" style="max-height:48vh;"></div>
+      <div id="composterItemList"></div>
     </div>
   </div>
 
-  <div class="library-panel tab-hidden" id="cookingPanel">
-    <div class="library-toggle"><span>🍳 Cooking</span></div>
+  <div class="library-panel main-tab-modal tab-hidden" id="cookingPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="cooking">✕</button><button type="button" class="panel-boost-nodes-btn" data-view="cooking">Boost &amp; Nodes</button><span>🍳 Cooking</span></div>
     <div class="library-body" id="cookingBody">
       <div class="library-sub">
         Pre-calculate the total EXP and FLOWER cost of a cooking plan across every kitchen building. Set how many of
@@ -382,12 +392,12 @@
         </label>
       </div>
 
-      <div id="cookFoodList" class="retro-scroll on-parchment" style="max-height:52vh;"></div>
+      <div id="cookFoodList"></div>
     </div>
   </div>
 
-  <div class="library-panel tab-hidden" id="fishingPanel">
-    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOBAMAAADUAYG5AAAAHlBMVEUAAAAYFCXXdkO+Si/Ay9zkO0RzPjn///+Lm7RaaYge9Cq/AAAAAXRSTlMAQObYZgAAAE9JREFUCNdjgABGASgtJAClDSEMIWVxMINR2RDCEDITADJAAokMQAZYgFFUECigKCjAGBoIFBBxAYkAVYjMEGAQFACqEOkA6xVOZBREsQ4AdZMHIu0fKyEAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fishing</span></div>
+  <div class="library-panel main-tab-modal tab-hidden" id="fishingPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="fishing">✕</button><button type="button" class="panel-boost-nodes-btn" data-view="fishing">Boost &amp; Nodes</button><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOBAMAAADUAYG5AAAAHlBMVEUAAAAYFCXXdkO+Si/Ay9zkO0RzPjn///+Lm7RaaYge9Cq/AAAAAXRSTlMAQObYZgAAAE9JREFUCNdjgABGASgtJAClDSEMIWVxMINR2RDCEDITADJAAokMQAZYgFFUECigKCjAGBoIFBBxAYkAVYjMEGAQFACqEOkA6xVOZBREsQ4AdZMHIu0fKyEAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Fishing</span></div>
     <div class="library-body" id="fishingBody">
       <div class="library-sub">
         Cost per fish for Basic/Advance/Expert catches (rod + bait + chum, with Fishy Chance/Roll/Gamble yield skills
@@ -409,7 +419,7 @@
         <button type="button" data-tier="advanced">Advance Fish</button>
         <button type="button" data-tier="expert">Expert Fish</button>
       </div>
-      <div id="fishingTierList" class="retro-scroll" style="max-height:40vh;"></div>
+      <div id="fishingTierList"></div>
 
       <div class="cook-divider"></div>
 
@@ -426,26 +436,26 @@
         <button type="button" data-fm-tab="crustaceans">🦀 Crustaceans</button>
       </div>
 
-      <div id="fishMarketCardsList" class="retro-scroll" style="max-height:52vh;"></div>
+      <div id="fishMarketCardsList"></div>
       <div id="fishCrustaceansWrap" style="display:none;">
         <div class="fishing-section-title">Crustaceans</div>
         <div class="cook-building-tabs" id="crustaceanTrapTabs">
           <button type="button" data-trap="Crab Pot">🦀 Crab Pot</button>
           <button type="button" data-trap="Mariner Pot">🦐 Mariner Pot</button>
         </div>
-        <div id="crustaceanCardsList" class="retro-scroll" style="max-height:52vh;"></div>
+        <div id="crustaceanCardsList"></div>
       </div>
 
       <div class="cook-divider"></div>
 
       <div class="fishing-section-title">Guaranteed Catch</div>
       <div class="cook-building-tabs" id="guaranteedCatchTabs"></div>
-      <div id="guaranteedCatchList" class="retro-scroll" style="max-height:36vh;"></div>
+      <div id="guaranteedCatchList"></div>
     </div>
   </div>
 
-  <div class="library-panel tab-hidden" id="petsPanel">
-    <div class="library-toggle"><span>🐾 Pets</span></div>
+  <div class="library-panel main-tab-modal tab-hidden" id="petsPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="pets">✕</button><button type="button" class="panel-boost-nodes-btn" data-view="pets">Boost &amp; Nodes</button><span><img id="petsPanelIcon" src="" alt="Pets" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Pets</span></div>
     <div class="library-body" id="petsBody">
       <div id="petTotalYieldWrap" class="pet-total-yield-wrap"></div>
 
@@ -456,7 +466,7 @@
         ⚡ <b>Boosts → 🐾 Pets</b> tab.
       </div>
 
-      <div id="petProfitList" class="pet-profit-grid retro-scroll" style="max-height:38vh;"></div>
+      <div id="petProfitList" class="pet-profit-grid" style="margin-bottom:10px;"></div>
 
       <div class="pet-add-toggle-wrap">
         <button type="button" class="btn btn-sun" id="petAddToggleBtn">➕ Add Pet</button>
@@ -493,12 +503,12 @@
 
       <div class="pet-section-divider"></div>
       <div class="pet-food-tab-toggle" id="petFoodTabToggle"></div>
-      <div id="petFoodTabList" class="retro-scroll" style="max-height:42vh;"></div>
+      <div id="petFoodTabList"></div>
     </div>
   </div>
 
-  <div class="library-panel" id="honeyPanel">
-    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAATBAMAAABrSZD8AAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAqUExURQAAABgUJb5KL/6uNP7nYWPHTXQ/Ofd2Ij6JSKT1k02nbyZcQnToW////xdnfRkAAAACdFJOUwAzyUOsLgAAAAFiS0dEDfa0YfUAAAAHdElNRQfoAhYHIB8ksle+AAAAiUlEQVQI12NgYFACAgYgYDJ2cTFWADJUTJSUnJ0CGJic3dLSUkwUEAxlZ5O0NGcTIwZlF5BiFyDDxMXY2MXZiEEdKAAUKmJQLwZJmRcxKJcXGxublxsxBBmXA4GxKkNQuTEQlKsytE4HiVRGMKw+CWRVztnFwNUzSUlJ88RCBkZBCIAxBBgYoAIAynwlHfBeyckAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjQtMDItMjJUMDc6MzI6MzArMDA6MDAZ/vEgAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI0LTAyLTIyVDA3OjMyOjMwKzAwOjAwaKNJnAAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNC0wMi0yMlQwNzozMjozMSswMDowMJnBY/cAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Honey &amp; Flowers (auto)</span></div>
+  <div class="library-panel main-tab-modal" id="honeyPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="honey">✕</button><button type="button" class="panel-boost-nodes-btn" data-view="honey">Boost &amp; Nodes</button><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAATBAMAAABrSZD8AAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAqUExURQAAABgUJb5KL/6uNP7nYWPHTXQ/Ofd2Ij6JSKT1k02nbyZcQnToW////xdnfRkAAAACdFJOUwAzyUOsLgAAAAFiS0dEDfa0YfUAAAAHdElNRQfoAhYHIB8ksle+AAAAiUlEQVQI12NgYFACAgYgYDJ2cTFWADJUTJSUnJ0CGJic3dLSUkwUEAxlZ5O0NGcTIwZlF5BiFyDDxMXY2MXZiEEdKAAUKmJQLwZJmRcxKJcXGxublxsxBBmXA4GxKkNQuTEQlKsytE4HiVRGMKw+CWRVztnFwNUzSUlJ88RCBkZBCIAxBBgYoAIAynwlHfBeyckAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjQtMDItMjJUMDc6MzI6MzArMDA6MDAZ/vEgAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI0LTAyLTIyVDA3OjMyOjMwKzAwOjAwaKNJnAAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNC0wMi0yMlQwNzozMjozMSswMDowMJnBY/cAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Honey &amp; Flowers</span></div>
     <div class="library-body" id="honeyBody">
       <div class="library-sub">
         Every hive is paired to a flower bed. As long as that bed keeps a flower growing, the hive fills with Honey
@@ -507,9 +517,9 @@
         Seed &amp; ingredient costs are editable estimates — correct them to match your farmer's market prices.
       </div>
       <div style="display:grid;grid-template-columns:1fr 90px;gap:6px 8px;align-items:center;margin-bottom:10px;">
-        <label style="font-size:9.5px;color:#fff;"><img src="data:image/webp;base64,UklGRigBAABXRUJQVlA4TBwBAAAvM4AEEE+gGJIkZukP5aAywH0jipIIaCD6xyMAap/FchOKGklSVgMKXc1rgA9e8x8A4LKpo1P2m/Ajo79QVh0HuLW1t21YiXUcgDwJA2iBtIBs/70rhk4VP9RKABfw0bzC9/tghIj+M3DbtpHd3sjUO5IrHADLcQcojDTc0znCe4sUzpRZhA83C/gjMdR59v+C1mMyLVF8dayvjlLH2+pMSxQiWdY0YQGljje7mZYoLlVWi+SfBZQ63t4v0waK4IuIAqg+mkOYTWXKIQzTqk7thgUSd6pRkrPUj4jWRSr+eZF0C8Hxz7yZNs8iXIdB/thEufXz5Mw5yje7Aj7u4YHr9PLzGOLejyGuMNY0+R03jHiP45+dVreMCmOXAA==" alt="Flower Bed" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;"> Hives (Count of your flower bed)</label>
+        <label style="font-size:11.4px;color:#fff;"><img src="data:image/webp;base64,UklGRigBAABXRUJQVlA4TBwBAAAvM4AEEE+gGJIkZukP5aAywH0jipIIaCD6xyMAap/FchOKGklSVgMKXc1rgA9e8x8A4LKpo1P2m/Ajo79QVh0HuLW1t21YiXUcgDwJA2iBtIBs/70rhk4VP9RKABfw0bzC9/tghIj+M3DbtpHd3sjUO5IrHADLcQcojDTc0znCe4sUzpRZhA83C/gjMdR59v+C1mMyLVF8dayvjlLH2+pMSxQiWdY0YQGljje7mZYoLlVWi+SfBZQ63t4v0waK4IuIAqg+mkOYTWXKIQzTqk7thgUSd6pRkrPUj4jWRSr+eZF0C8Hxz7yZNs8iXIdB/thEufXz5Mw5yje7Aj7u4YHr9PLzGOLejyGuMNY0+R03jHiP45+dVreMCmOXAA==" alt="Flower Bed" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;"> Hives (Count of your flower bed)</label>
         <input type="number" min="0" step="1" id="hiveCountInput" placeholder="0"
-          style="width:100%;font-family:'JetBrains Mono',monospace;font-size:11px;border:1.5px solid var(--line);border-radius:6px;padding:5px 6px;">
+          style="width:100%;font-family:'JetBrains Mono',monospace;font-size:13.2px;border:1.5px solid var(--line);border-radius:6px;padding:5px 6px;">
       </div>
       <div id="honeySummaryCard"></div>
       <div class="lib-section-title" style="margin-top:10px;"><span class="sfl-search-icon-emoji">🔍</span> Flower Finder</div>
@@ -529,11 +539,11 @@
       <div id="finderResult" style="margin-bottom:10px;"></div>
       <div class="lib-section-title" style="margin-top:10px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQBAMAAAA/jegKAAAAIVBMVEUAAAC+Si//+U5zPjn/3h8+iUgmXEL7qiD3diJjx03/6zYeKP1jAAAAAXRSTlMAQObYZgAAAF5JREFUCNdjYGBgFAQSQEpICcwQaVJqEQByXdyXuzgC6ZZi45JGBgYhdWNjcyUBBiEtY2MrIA3lQ+UR6iOh+lMDgeaFAunQRMHImQEMbGlsYTNDE4AWsIWlQmm2NAYA4kUWKrbsMb4AAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Flowers <span class="count" id="flowerCount"></span></div>
       <div class="library-sub" style="margin:-3px 0 8px;">Grouped by seed. Each variety's true cost = that seed's coin cost + whatever you paired it with — if the pairing is itself a flower, its own cost is priced in too, so rarer chained flowers cost more than ones grown straight from a crop.</div>
-      <div id="flowerItemList" class="retro-scroll" style="max-height:48vh;"></div>
+      <div id="flowerItemList"></div>
     </div>
   </div>
-  <div class="library-panel" id="animalsPanel">
-    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALBAMAAAC0QAErAAAABGdBTUEAALGPC/xhBQAAABVQTFRFAAAAuG9Q////vkov6tSqwoVp6LeWFD5WfgAAAAF0Uk5TAEDm2GYAAABDSURBVAjXY2BgDQ1gYGAIS0tlYGBNc0oLAJJpQDIsTQkoFJai5JbKIJbiAiRF01zSAhlEgSoDGZhDQ0MNGBiMjY0ZAM3UDhfpAMERAAAAAElFTkSuQmCC" style="width:12px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Animals (auto)</span></div>
+  <div class="library-panel main-tab-modal" id="animalsPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="animals">✕</button><button type="button" class="panel-boost-nodes-btn" data-view="animals">Boost &amp; Nodes</button><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAALBAMAAAC0QAErAAAABGdBTUEAALGPC/xhBQAAABVQTFRFAAAAuG9Q////vkov6tSqwoVp6LeWFD5WfgAAAAF0Uk5TAEDm2GYAAABDSURBVAjXY2BgDQ1gYGAIS0tlYGBNc0oLAJJpQDIsTQkoFJai5JbKIJbiAiRF01zSAhlEgSoDGZhDQ0MNGBiMjY0ZAM3UDhfpAMERAAAAAElFTkSuQmCC" style="width:12px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Animals</span></div>
     <div class="library-body" id="animalsBody">
       <div class="library-sub">Chicken, Sheep &amp; Cow — set level and head count in ⚡ Boosts → Plots &amp; Nodes. Cost, feed and profit update live with your boosts, feed ingredient choice (Collect/Buy) and consumables/medicine.</div>
       <div class="lib-item-row" style="margin-bottom:8px;flex-wrap:wrap;gap:6px;">
@@ -543,7 +553,7 @@
         </div>
         <div class="affection-tool-toggle" id="affectionToolRow_pettingHand" data-tool="pettingHand" style="display:flex;align-items:center;gap:5px;cursor:pointer;border:1px solid var(--line);border-radius:6px;padding:4px 6px;flex:1;min-width:100px;">
           <img src="" alt="Petting Hand" id="affectionToolIcon_pettingHand" style="width:16px;height:16px;image-rendering:pixelated;">
-          <span style="font-size:11px;flex:1;">Petting Hand</span>
+          <span style="font-size:13.2px;flex:1;">Petting Hand</span>
           <label class="switch">
             <input type="checkbox" id="affectionToolInput_pettingHand">
             <span class="slider"></span>
@@ -551,7 +561,7 @@
         </div>
         <div class="affection-tool-toggle" id="affectionToolRow_brush" data-tool="brush" style="display:flex;align-items:center;gap:5px;cursor:pointer;border:1px solid var(--line);border-radius:6px;padding:4px 6px;flex:1;min-width:100px;">
           <img src="" alt="Brush" id="affectionToolIcon_brush" style="width:16px;height:16px;image-rendering:pixelated;">
-          <span style="font-size:11px;flex:1;">Brush</span>
+          <span style="font-size:13.2px;flex:1;">Brush</span>
           <label class="switch">
             <input type="checkbox" id="affectionToolInput_brush">
             <span class="slider"></span>
@@ -559,7 +569,7 @@
         </div>
         <div class="affection-tool-toggle" id="affectionToolRow_musicBox" data-tool="musicBox" style="display:flex;align-items:center;gap:5px;cursor:pointer;border:1px solid var(--line);border-radius:6px;padding:4px 6px;flex:1;min-width:100px;">
           <img src="" alt="Music Box" id="affectionToolIcon_musicBox" style="width:16px;height:16px;image-rendering:pixelated;">
-          <span style="font-size:11px;flex:1;">Music Box</span>
+          <span style="font-size:13.2px;flex:1;">Music Box</span>
           <label class="switch">
             <input type="checkbox" id="affectionToolInput_musicBox">
             <span class="slider"></span>
@@ -577,11 +587,11 @@
           <span class="slider"></span>
         </label>
       </div>
-      <div id="animalsItemList" class="retro-scroll" style="max-height:48vh;"></div>
+      <div id="animalsItemList"></div>
     </div>
   </div>
-  <div class="library-panel" id="saltPanel">
-    <div class="library-toggle"><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAA9UlEQVQokY2RsU4CQRCGvzMEg+Y6LIjG1saSZpvrfBdaci9wL+AT2dkYAiWNDYXxjuKoIHdkacaCzGRPXORvdrOz33yzWYgkz5zkmZNYPQpVrZeq9ZfBaqlaLxqFow3yzNnFeb01o+5F5BT+yzKvtx0otAP08szJdOIoG99pdn97zWjQZ70/sN4fACgbz3TiAORKL46HKWXjrcFo0LdVz8fD1Br3QosW1KJGtYcx42KzM0Ctv/eLza5rXM5WPFNQvhRWCN9s478VLGer7qgKn4tCJ28MC7F81cdxEzj+49PDDY936b/Q53fL6/tHkuihwueiEMAPcDTaSZl9MeEAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Salt (auto)</span></div>
+  <div class="library-panel main-tab-modal" id="saltPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="salt">✕</button><button type="button" class="panel-boost-nodes-btn" data-view="salt">Boost &amp; Nodes</button><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAA9UlEQVQokY2RsU4CQRCGvzMEg+Y6LIjG1saSZpvrfBdaci9wL+AT2dkYAiWNDYXxjuKoIHdkacaCzGRPXORvdrOz33yzWYgkz5zkmZNYPQpVrZeq9ZfBaqlaLxqFow3yzNnFeb01o+5F5BT+yzKvtx0otAP08szJdOIoG99pdn97zWjQZ70/sN4fACgbz3TiAORKL46HKWXjrcFo0LdVz8fD1Br3QosW1KJGtYcx42KzM0Ctv/eLza5rXM5WPFNQvhRWCN9s478VLGer7qgKn4tCJ28MC7F81cdxEzj+49PDDY936b/Q53fL6/tHkuihwueiEMAPcDTaSZl9MeEAAAAASUVORK5CYII=" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Salt</span></div>
     <div class="library-body" id="saltBody">
       <div class="library-sub">
         The Salt Awakening chapter: rake Salt from Salt Nodes, upgrade the Sculpture for bonuses, then run the Aging Rack →
@@ -592,28 +602,28 @@
       </div>
       <div id="saltFarmCardWrap"></div>
       <div id="saltSculptureCardWrap" style="margin-top:10px;"></div>
-      <div class="lib-section-title" style="margin-top:12px;">🥒 Vegs <span style="font-weight:400;color:var(--ink-soft);font-size:8px;">(pickling cost, wired to Salt)</span></div>
+      <div class="lib-section-title" style="margin-top:12px;">🥒 Vegs <span style="font-weight:400;color:var(--ink-soft);font-size:9.6px;">(pickling cost, wired to Salt)</span></div>
       <div id="saltVegCardWrap"></div>
-      <div class="lib-section-title" style="margin-top:12px;">🧪 Aging Rack &amp; Fermentation Rack — Baits <span style="font-weight:400;color:var(--ink-soft);font-size:8px;">(tradable)</span></div>
+      <div class="lib-section-title" style="margin-top:12px;">🧪 Aging Rack &amp; Fermentation Rack — Baits <span style="font-weight:400;color:var(--ink-soft);font-size:9.6px;">(tradable)</span></div>
       <div id="saltBaitCardWrap"></div>
-      <div class="lib-section-title" style="margin-top:12px;">🌿 Fermentation Rack — Fertilisers <span style="font-weight:400;color:var(--ink-soft);font-size:8px;">(applies in 🪱 Composter, not tradable)</span></div>
+      <div class="lib-section-title" style="margin-top:12px;">🌿 Fermentation Rack — Fertilisers <span style="font-weight:400;color:var(--ink-soft);font-size:9.6px;">(applies in 🪱 Composter, not tradable)</span></div>
       <div id="saltFertCardWrap"></div>
       <div class="lib-section-title" style="margin-top:12px;">🥫 Spice Rack</div>
       <div id="saltSpiceCardWrap"></div>
     </div>
   </div>
-  <div class="library-panel" id="greenhousePanel">
-    <div class="library-toggle"><span><img src="data:image/webp;base64,UklGRr4AAABXRUJQVlA4TLEAAAAvDoADEF+gppEU6M4Cb0muwr8FLGBOUWwb1FNAgG8Ae1uxdZBBATEURZLU3C9nMIJ/DwiCz/wHALbPLkICGcjYTA7JpnHY6+77f+A2kmTV2Trze99mUgQy5akUASXA4DFm8ELYJzKle2F+iCGi/wSTNNV2DL74wgNgPKM/IKVS/zmmalS5lb0hlXfZU8kaJN1D9s46G+xk79ug193J9FK5kuGkpvQHNVuvzPPadZBOJgIA" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Greenhouse (auto)</span></div>
+  <div class="library-panel main-tab-modal" id="greenhousePanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="greenhouse">✕</button><button type="button" class="panel-boost-nodes-btn" data-view="greenhouse">Boost &amp; Nodes</button><span><img src="data:image/webp;base64,UklGRr4AAABXRUJQVlA4TLEAAAAvDoADEF+gppEU6M4Cb0muwr8FLGBOUWwb1FNAgG8Ae1uxdZBBATEURZLU3C9nMIJ/DwiCz/wHALbPLkICGcjYTA7JpnHY6+77f+A2kmTV2Trze99mUgQy5akUASXA4DFm8ELYJzKle2F+iCGi/wSTNNV2DL74wgNgPKM/IKVS/zmmalS5lb0hlXfZU8kaJN1D9s46G+xk79ug193J9FK5kuGkpvQHNVuvzPPadZBOJgIA" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Greenhouse</span></div>
     <div class="library-body" id="greenhouseBody">
       <div class="library-sub">Grape, Rice &amp; Olive — grown in the Greenhouse building. Cost = Seed (coins) + Oil (always collected — Oil can't be bought). Set your plot count per crop in ⚡ Boosts → Plots &amp; Nodes. All three are tradable — edit sell price in Marketplace Prices below.</div>
-      <div id="greenhouseItemList" class="retro-scroll" style="max-height:48vh;"></div>
+      <div id="greenhouseItemList"></div>
     </div>
   </div>
 
-  <div class="library-panel" id="cropMachinePanel">
-    <div class="library-toggle"><span><img src="data:image/webp;base64,UklGRvgCAABXRUJQVlA4TOwCAAAvT0ARENegKJKk5sg5h+9ZQDZ6MIEDvthgEwBgkvnr2kDho6uWogcBHFTVtg29yTz8amCpIYbGvjSggAwWgmybio3+YA8A4P//I9YIRM6ZKS6kAFoIY4XHWmBZM4rwCOSjsJW4BkcAmzePbg2NKcu5pt0XL213P3C8cB0MEmzbjdsmtiMFHigzphWy3v9KSRAE6aFzix/Rfwhu20iSpO0aVM+VOZzsfOHtt5uuqb+7bm3o/Cp6NT+8jowTXR38JIo71KFgJdH71PFmBFS3ewAUC423n/NoNXyIVoDbQ+QWkqQeTFcrO5y9rHhszNj5zEYywbv2954WR9dvK8rOyJuJX2kAixkQN4Fdhk1caBMEUymuZVngKhw5PxHXvBMv4yWYXWK+oJtk0uQyM8msAmuDYHnHSMVoZsk0uVRR2SLEi1kMBT+Zpcsto8wlLR2LcDrdqpsgLXQkoJB0uRy1SdIndabjDGTSDBBWN27T5At5JxETBiF2LbTIK2eda7W5XGT8VUD63p9SrBZLJ5Zzduhz3kBapFxm7Fa0gq+gjC6XZ/0igRS5CSAhuQA0uew7LYEKZLrnFi3au8nf+5PQh7CQOLfum0sz47lszq2RqPtQ59zqQd+HeufMqNNiH1pGzK0MXQ1m0OdS7EPdc4tzddzmXND0oWE4kE5tH/IiyrlVNqtKEvqu2IeWQbk0wNCeaMIi96HuXNYbqxVKyCj70JBcGup3gkEAUFD2oQG5XCYTZksD4fQJSPWBEbk8TZKQFe4m1tKdS4Ze0/yZPd//dRNGawNI0SxNxh+pX1hnLhnhhkIAxtCby8ImMDZhEN253B8ZRzA+D/uj6Keqju5c7g+Md2Mc9nZ4F1XVMeB3D4PAeIzfPXMKCQT2SHeguTBgKMDwINAMEMAeaQjdOcJKmIk502PQytmIOrpz6Zs5G18HNYfT/VUgdza7Sx34QON2rtEW7lBHc8QX6veKYG58He3N/ZcHPL1rur27Lw8A" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crop Machine (auto)</span></div>
+  <div class="library-panel main-tab-modal" id="cropMachinePanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="cropmachine">✕</button><button type="button" class="panel-boost-nodes-btn" data-view="cropmachine">Boost &amp; Nodes</button><span><img src="data:image/webp;base64,UklGRvgCAABXRUJQVlA4TOwCAAAvT0ARENegKJKk5sg5h+9ZQDZ6MIEDvthgEwBgkvnr2kDho6uWogcBHFTVtg29yTz8amCpIYbGvjSggAwWgmybio3+YA8A4P//I9YIRM6ZKS6kAFoIY4XHWmBZM4rwCOSjsJW4BkcAmzePbg2NKcu5pt0XL213P3C8cB0MEmzbjdsmtiMFHigzphWy3v9KSRAE6aFzix/Rfwhu20iSpO0aVM+VOZzsfOHtt5uuqb+7bm3o/Cp6NT+8jowTXR38JIo71KFgJdH71PFmBFS3ewAUC423n/NoNXyIVoDbQ+QWkqQeTFcrO5y9rHhszNj5zEYywbv2954WR9dvK8rOyJuJX2kAixkQN4Fdhk1caBMEUymuZVngKhw5PxHXvBMv4yWYXWK+oJtk0uQyM8msAmuDYHnHSMVoZsk0uVRR2SLEi1kMBT+Zpcsto8wlLR2LcDrdqpsgLXQkoJB0uRy1SdIndabjDGTSDBBWN27T5At5JxETBiF2LbTIK2eda7W5XGT8VUD63p9SrBZLJ5Zzduhz3kBapFxm7Fa0gq+gjC6XZ/0igRS5CSAhuQA0uew7LYEKZLrnFi3au8nf+5PQh7CQOLfum0sz47lszq2RqPtQ59zqQd+HeufMqNNiH1pGzK0MXQ1m0OdS7EPdc4tzddzmXND0oWE4kE5tH/IiyrlVNqtKEvqu2IeWQbk0wNCeaMIi96HuXNYbqxVKyCj70JBcGup3gkEAUFD2oQG5XCYTZksD4fQJSPWBEbk8TZKQFe4m1tKdS4Ze0/yZPd//dRNGawNI0SxNxh+pX1hnLhnhhkIAxtCby8ImMDZhEN253B8ZRzA+D/uj6Keqju5c7g+Md2Mc9nZ4F1XVMeB3D4PAeIzfPXMKCQT2SHeguTBgKMDwINAMEMAeaQjdOcJKmIk502PQytmIOrpz6Zs5G18HNYfT/VUgdza7Sx34QON2rtEW7lBHc8QX6veKYG58He3N/ZcHPL1rur27Lw8A" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;"> Crop Machine</span></div>
     <div class="library-body" id="cropMachineBody">
-      <div class="library-sub">Queue seed packs, add Oil, and the machine grows them in bulk over a fixed runtime — no plots needed. Sunflower, Potato &amp; Pumpkin are unlocked from the start; the rest need the matching Crop Machine module skill (tick the box below once you actually own it in-game). Oil cost pulls straight from your ⛏️ Resources → 🛢️ Oil boosts; crop yield pulls from your 🌾 Crops boosts.</div>
+      <div class="library-sub">Queue seed packs, add Oil, and the machine grows them in bulk over a fixed runtime — no plots needed. Sunflower, Potato &amp; Pumpkin are unlocked from the start; the rest unlock automatically once you select the matching Crop Extension Module skill in your Skill Tree. Oil cost pulls straight from your ⛏️ Resources → 🛢️ Oil boosts; crop yield pulls from your 🌾 Crops boosts.</div>
 
       <div class="cm-modules-row" id="cmModulesRow"></div>
 
@@ -628,14 +638,16 @@
           <button type="button" data-cmmode="table">Table</button>
         </div>
         <div id="cmCalcSummary"></div>
-        <div id="cmCalcList" class="retro-scroll" style="max-height:52vh;"></div>
+        <div id="cmCalcList"></div>
       </div>
 
       <div id="cmMachineView" style="display:none;">
-        <div class="lib-section-title">Select a seed</div>
-        <div class="cm-seed-grid" id="cmSeedGrid"></div>
+        <div class="cm-group-box">
+          <div class="lib-section-title">Select a seed</div>
+          <div class="cm-seed-grid" id="cmSeedGrid"></div>
 
-        <div id="cmSelectedDetail"></div>
+          <div id="cmSelectedDetail"></div>
+        </div>
 
         <div class="cm-qty-row" id="cmQtyRow">
           <button type="button" data-cmqty="-10">-10</button>
@@ -644,22 +656,26 @@
           <button type="button" class="cm-add-btn" id="cmAddBtn">Add</button>
         </div>
 
-        <div class="lib-section-title">Seed packs <span style="font-weight:400;color:var(--wheat-dim);" id="cmPackCountLabel"></span></div>
-        <div class="cm-packs-grid" id="cmPacksGrid"></div>
+        <div class="cm-group-box">
+          <div class="lib-section-title">Seed packs <span style="font-weight:400;color:var(--wheat-dim);" id="cmPackCountLabel"></span></div>
+          <div class="cm-packs-grid" id="cmPacksGrid"></div>
 
-        <div class="lib-section-title">Oil Tank</div>
-        <div class="cm-oil-row" id="cmOilRow">
-          <div class="cm-oil-readout" id="cmOilReadout">0.00 oil</div>
-          <button type="button" data-cmoil="-1">-1.00 oil</button>
-          <button type="button" data-cmoil="+1">+1.00 oil</button>
-          <button type="button" data-cmoil="full">Full tank</button>
+          <div class="lib-section-title" id="cmOilTankSectionTitle">Oil Tank</div>
+          <div class="cm-oil-row" id="cmOilRow">
+            <div class="cm-oil-readout" id="cmOilReadout">0.00 oil</div>
+            <button type="button" data-cmoil="-1">-1.00 oil</button>
+            <button type="button" data-cmoil="+1">+1.00 oil</button>
+            <button type="button" data-cmoil="full">Full tank</button>
+          </div>
+          <div class="cm-oil-bar-wrap"><div class="cm-oil-bar-fill" id="cmOilBarFill"></div></div>
+          <div class="cm-oil-bar-marks" id="cmOilBarMarks"></div>
         </div>
-        <div class="cm-oil-bar-wrap"><div class="cm-oil-bar-fill" id="cmOilBarFill"></div></div>
-        <div class="cm-oil-bar-marks" id="cmOilBarMarks"></div>
 
-        <div class="lib-section-title" style="margin-top:12px;">Summary <button type="button" class="lib-item-price" id="cmResetBtn" style="float:right;padding:3px 8px;font-size:8px;">Reset</button></div>
-        <div class="cm-summary-grid" id="cmSummaryGrid"></div>
-        <div id="cmRestockBreakdown"></div>
+        <div class="cm-group-box">
+          <div class="lib-section-title" style="margin-top:0;">Summary <button type="button" class="lib-item-price" id="cmResetBtn" style="float:right;padding:3px 8px;font-size:9.6px;">Reset</button></div>
+          <div class="cm-summary-grid" id="cmSummaryGrid"></div>
+          <div id="cmRestockBreakdown"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -688,7 +704,7 @@
           <div class="calc-readout-cell wide"><span class="crlabel">PROFIT</span><span class="crvalue big" id="calcProfit">0</span></div>
           <div class="calc-readout-cell"><span class="crlabel">ROI</span><span class="crvalue" id="calcRoi">0%</span></div>
         </div>
-        <div class="calc-restock-note hidden" id="calcRestockNote" style="grid-column:1/-1;font-size:9.5px;font-weight:700;color:#e0a63f;padding:6px 10px 0;line-height:1.4;"></div>
+        <div class="calc-restock-note hidden" id="calcRestockNote" style="grid-column:1/-1;font-size:11.4px;font-weight:700;color:#e0a63f;padding:6px 10px 0;line-height:1.4;"></div>
       </div>
 
       <div class="calc-ingredients hidden" id="calcIngredientsWrap">
@@ -986,7 +1002,7 @@
 
 <div class="modal-overlay" id="priceEditOverlay">
   <div class="modal-sheet" style="max-width:380px;">
-    <h2 style="font-size:18px;">Edit price</h2>
+    <h2 style="font-size:21.6px;">Edit price</h2>
     <p class="modal-sub" id="priceEditSub"></p>
     <div class="field">
       <label>Price per unit (Coins)</label>
@@ -1002,7 +1018,7 @@
 
 <div class="modal-overlay" id="marketPriceEditOverlay">
   <div class="modal-sheet" style="max-width:380px;">
-    <h2 style="font-size:18px;">Edit marketplace price</h2>
+    <h2 style="font-size:21.6px;">Edit marketplace price</h2>
     <p class="modal-sub" id="marketPriceEditSub"></p>
     <div class="field">
       <label>Price per unit (FLOWER)</label>
@@ -1017,7 +1033,7 @@
 
 <div class="modal-overlay" id="confirmOverlay">
   <div class="modal-sheet" style="max-width:380px;text-align:center;">
-    <h2 style="font-size:18px;">Delete this?</h2>
+    <h2 style="font-size:21.6px;">Delete this?</h2>
     <p class="modal-sub" id="confirmSub">This entry will be removed for good. Anything referencing it will show as missing until you update it.</p>
     <div style="display:flex;gap:10px;">
       <button class="btn btn-ghost" id="confirmCancelBtn" style="flex:1;">Cancel</button>
@@ -1031,7 +1047,7 @@
        style="max-width:340px;width:88%;height:100%;max-height:100%;border-radius:0;
               border-right:3px solid var(--desert-dark);border-top:none;margin-right:auto;">
     <button class="modal-close" id="closeBoostPanel">✕</button>
-    <h2 style="font-size:19px;">⚡ Boosts</h2>
+    <h2 style="font-size:22.8px;">⚡ Boosts</h2>
     <div class="modal-sub">Tap a boost to switch it on. Active boosts change yield, grow time,
       and cost per unit everywhere in the app — instantly.</div>
       
@@ -1151,7 +1167,7 @@
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <button class="btn btn-outline btn-block" id="createBudBtn" type="button" style="flex:1;">+ Add this BUD</button>
-        <span id="budDuplicateNote" style="display:none;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
+        <span id="budDuplicateNote" style="display:none;font-size:13.8px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
       </div>
     </div>
 
@@ -1175,7 +1191,7 @@
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <button class="btn btn-outline btn-block" id="createAnimalBudBtn" type="button" style="flex:1;">+ Add this BUD</button>
-        <span id="animalBudDuplicateNote" style="display:none;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
+        <span id="animalBudDuplicateNote" style="display:none;font-size:13.8px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
       </div>
     </div>
 
@@ -1199,7 +1215,7 @@
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <button class="btn btn-outline btn-block" id="createFruitBudBtn" type="button" style="flex:1;">+ Add this BUD</button>
-        <span id="fruitBudDuplicateNote" style="display:none;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
+        <span id="fruitBudDuplicateNote" style="display:none;font-size:13.8px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
       </div>
     </div>
 
@@ -1223,7 +1239,7 @@
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <button class="btn btn-outline btn-block" id="createCropBudBtn" type="button" style="flex:1;">+ Add this BUD</button>
-        <span id="cropBudDuplicateNote" style="display:none;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
+        <span id="cropBudDuplicateNote" style="display:none;font-size:13.8px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
       </div>
     </div>
 
@@ -1247,7 +1263,7 @@
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <button class="btn btn-outline btn-block" id="createResourceBudBtn" type="button" style="flex:1;">+ Add this BUD</button>
-        <span id="resourceBudDuplicateNote" style="display:none;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
+        <span id="resourceBudDuplicateNote" style="display:none;font-size:13.8px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
       </div>
     </div>
 
@@ -1267,7 +1283,7 @@
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <button class="btn btn-outline btn-block" id="createFishBudBtn" type="button" style="flex:1;">+ Add this BUD</button>
-        <span id="fishBudDuplicateNote" style="display:none;font-size:11.5px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
+        <span id="fishBudDuplicateNote" style="display:none;font-size:13.8px;color:var(--ink-soft);white-space:nowrap;">Already added</span>
       </div>
     </div>
       </div>
@@ -1538,9 +1554,9 @@
         <div class="setting-row">
           <label>Gem restock strategy</label>
           <div class="input-wrap" id="restockModeGroup" style="gap:6px;flex-wrap:wrap;">
-            <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="tools_only" style="padding:6px 8px;font-size:10px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANBAMAAACEMClyAAAAG1BMVEUAAAAYFCVaaYiLm7TAy9y+Si90PznXdkM+JzFHDkyrAAAAAXRSTlMAQObYZgAAAEtJREFUCNdjAAFBAQYwYDQOhDCETRShAk5KAmCGiZKSIpgRpKRkAhISzVBSBjEYSxuFjB2BAuJhAowuYIFEoIlgAaixokABiHFQAQDhBAhtK6bgXwAAAABJRU5ErkJggg==" alt="Tools" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;"> 10 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — Tools only</button>
-            <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="seeds_only" style="padding:6px 8px;font-size:10px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQBAMAAAA/jegKAAAAIVBMVEUAAAC+Si//+U5zPjn/3h8+iUgmXEL7qiD3diJjx03/6zYeKP1jAAAAAXRSTlMAQObYZgAAAF5JREFUCNdjYGBgFAQSQEpICcwQaVJqEQByXdyXuzgC6ZZi45JGBgYhdWNjcyUBBiEtY2MrIA3lQ+UR6iOh+lMDgeaFAunQRMHImQEMbGlsYTNDE4AWsIWlQmm2NAYA4kUWKrbsMb4AAAAASUVORK5CYII=" alt="Seeds" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;"> 15 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — Seeds only</button>
-            <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="all" style="padding:6px 8px;font-size:10px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANBAMAAACEMClyAAAAG1BMVEUAAAAYFCVaaYiLm7TAy9y+Si90PznXdkM+JzFHDkyrAAAAAXRSTlMAQObYZgAAAEtJREFUCNdjAAFBAQYwYDQOhDCETRShAk5KAmCGiZKSIpgRpKRkAhISzVBSBjEYSxuFjB2BAuJhAowuYIFEoIlgAaixokABiHFQAQDhBAhtK6bgXwAAAABJRU5ErkJggg==" alt="Tools" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQBAMAAAA/jegKAAAAIVBMVEUAAAC+Si//+U5zPjn/3h8+iUgmXEL7qiD3diJjx03/6zYeKP1jAAAAAXRSTlMAQObYZgAAAF5JREFUCNdjYGBgFAQSQEpICcwQaVJqEQByXdyXuzgC6ZZi45JGBgYhdWNjcyUBBiEtY2MrIA3lQ+UR6iOh+lMDgeaFAunQRMHImQEMbGlsYTNDE4AWsIWlQmm2NAYA4kUWKrbsMb4AAAAASUVORK5CYII=" alt="Seeds" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;"> 20 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — All (Seeds+Tools)</button>
+            <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="tools_only" style="padding:6px 8px;font-size:12px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANBAMAAACEMClyAAAAG1BMVEUAAAAYFCVaaYiLm7TAy9y+Si90PznXdkM+JzFHDkyrAAAAAXRSTlMAQObYZgAAAEtJREFUCNdjAAFBAQYwYDQOhDCETRShAk5KAmCGiZKSIpgRpKRkAhISzVBSBjEYSxuFjB2BAuJhAowuYIFEoIlgAaixokABiHFQAQDhBAhtK6bgXwAAAABJRU5ErkJggg==" alt="Tools" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;"> 10 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — Tools only</button>
+            <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="seeds_only" style="padding:6px 8px;font-size:12px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQBAMAAAA/jegKAAAAIVBMVEUAAAC+Si//+U5zPjn/3h8+iUgmXEL7qiD3diJjx03/6zYeKP1jAAAAAXRSTlMAQObYZgAAAF5JREFUCNdjYGBgFAQSQEpICcwQaVJqEQByXdyXuzgC6ZZi45JGBgYhdWNjcyUBBiEtY2MrIA3lQ+UR6iOh+lMDgeaFAunQRMHImQEMbGlsYTNDE4AWsIWlQmm2NAYA4kUWKrbsMb4AAAAASUVORK5CYII=" alt="Seeds" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;"> 15 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — Seeds only</button>
+            <button type="button" class="btn btn-ghost restock-mode-btn" data-mode="all" style="padding:6px 8px;font-size:12px;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANBAMAAACEMClyAAAAG1BMVEUAAAAYFCVaaYiLm7TAy9y+Si90PznXdkM+JzFHDkyrAAAAAXRSTlMAQObYZgAAAEtJREFUCNdjAAFBAQYwYDQOhDCETRShAk5KAmCGiZKSIpgRpKRkAhISzVBSBjEYSxuFjB2BAuJhAowuYIFEoIlgAaixokABiHFQAQDhBAhtK6bgXwAAAABJRU5ErkJggg==" alt="Tools" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQBAMAAAA/jegKAAAAIVBMVEUAAAC+Si//+U5zPjn/3h8+iUgmXEL7qiD3diJjx03/6zYeKP1jAAAAAXRSTlMAQObYZgAAAF5JREFUCNdjYGBgFAQSQEpICcwQaVJqEQByXdyXuzgC6ZZi45JGBgYhdWNjcyUBBiEtY2MrIA3lQ+UR6iOh+lMDgeaFAunQRMHImQEMbGlsYTNDE4AWsIWlQmm2NAYA4kUWKrbsMb4AAAAASUVORK5CYII=" alt="Seeds" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;"> 20 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKBAMAAAByAqLJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAABcUJEnFznzn7+T9/wCV6f///60wStEAAAABdFJOUwBA5thmAAAAAWJLR0QGYWa4fQAAAAd0SU1FB+gJHgIoHbbKZ48AAABDSURBVAjXY2BgFBQUYGBgEDI2VmRgYDQGAgEGIWdjYxNFBiEVFxcnRQZGZWNjI6AaUWPjQKBKxtBQkAYGURAHyAVyAPaDBqVyVe5zAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA5LTMwVDAyOjQwOjI5KzAwOjAw2ty3zAAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wOS0zMFQwMjo0MDoyOSswMDowMKuBD3AAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDktMzBUMDI6NDA6MjkrMDA6MDD8lC6vAAAAAElFTkSuQmCC" alt="Gems" style="width:11px;height:10px;vertical-align:-1px;image-rendering:pixelated;"> Gems — All (Seeds+Tools)</button>
           </div>
           <div class="setting-hint" id="restockModeHint" style="font-weight:700;color:var(--soil);"></div>
         </div>
@@ -1578,7 +1594,7 @@
       <div class="modal-overlay" id="rcmInfoOverlay">
         <div class="modal-sheet" style="max-width:460px;">
           <button class="modal-close" id="closeRcmInfoModal">✕</button>
-          <h2 style="font-size:18px;">Restock Cost Mode</h2>
+          <h2 style="font-size:21.6px;">Restock Cost Mode</h2>
           <p class="modal-sub">How Shared vs Individual cost affects profit/loss across the app.</p>
           <div class="field-hint" style="margin-bottom:14px;">
             <p style="margin:0 0 10px;"><b>Individual Cost</b> — assumes you restock for a single, continuous use case, such as planting Barley for the entire day or week without switching to other crops. The full restock cost is charged to that one item alone. For example, a 15-Gem seed restock is shouldered entirely by Barley, with no portion allocated to any other crop.</p>
@@ -1607,8 +1623,8 @@
         <div class="setting-row">
           <label>Profit mode</label>
           <div class="input-wrap" id="profitModeGroup" style="gap:6px;">
-            <button type="button" class="btn btn-ghost profit-mode-btn" data-mode="24h" style="padding:6px 10px;font-size:10px;">⏱ 24hrs</button>
-            <button type="button" class="btn btn-ghost profit-mode-btn" data-mode="stock" style="padding:6px 10px;font-size:10px;">📦 Per Stock</button>
+            <button type="button" class="btn btn-ghost profit-mode-btn" data-mode="24h" style="padding:6px 10px;font-size:12px;">⏱ 24hrs</button>
+            <button type="button" class="btn btn-ghost profit-mode-btn" data-mode="stock" style="padding:6px 10px;font-size:12px;">📦 Per Stock</button>
           </div>
         </div>
         <div class="setting-hint">24hrs (default) shows profit/loss as a daily rate — this is what every calculation in the app is based on and nothing changes when you switch. Per Stock only changes what's <em>displayed</em> on each card: instead of a daily rate, it shows the total cost, yield, and profit for using up everything currently in stock for that item (e.g. all 200 Axes you have banked) — a snapshot, not a new calculation mode.</div>
@@ -1622,7 +1638,7 @@
 <div id="ticketCalcOverlay">
   <div class="trade-shop-card">
     <div class="trade-shop-titlebar">
-      <div class="trade-shop-icon-wrap" style="font-size:26px;">🎟️</div>
+      <div class="trade-shop-icon-wrap" style="font-size:31.2px;">🎟️</div>
       <div>
         <div class="trade-shop-title-text">Seasonal Ticket Calculator</div>
         <div class="trade-shop-title-sub">Project delivery ticket income over time</div>
@@ -1694,6 +1710,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="presence.js"></script>
-<script src="app.js"></script>
+<script src="app.js?v=78"></script>
 </body>
 </html>
