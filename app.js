@@ -1048,6 +1048,15 @@ function fmt(n) {
   });
 }
 
+function fmtAnimal(n) {
+  if (!isFinite(n)) return "—";
+  const cleaned = Math.round(n * 100) / 100;
+  return cleaned.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
 function fmtInt(n) {
   if (!isFinite(n)) return "—";
   return Math.round(n).toLocaleString(undefined, {
@@ -1498,18 +1507,90 @@ function computeAnimalFeedFigures(type, level) {
   };
 }
 
-function computeAnimalYieldsForLevel(type, level) {
+function computeAnimalFeedsToNextLevel(type, level, xp) {
+  const thresholds = ANIMAL_XP_THRESHOLDS[type];
+  const currentLevel = Math.min(15, Math.max(1, parseInt(level) || 1));
+  const currentXp = typeof xp === "number" && !isNaN(xp) ? xp : thresholds[currentLevel];
+  const isMax = currentLevel >= 15;
+  let xpGap, nextThreshold, nextLevelLabel, isMaxCycle;
+  if (!isMax) {
+    nextThreshold = thresholds[currentLevel + 1];
+    xpGap = Math.max(0, nextThreshold - currentXp);
+    nextLevelLabel = "Lv" + (currentLevel + 1);
+    isMaxCycle = false;
+  } else {
+    const maxLevelXp = thresholds[15];
+    const levelBeforeMaxXp = thresholds[14];
+    const cycleXP = maxLevelXp - levelBeforeMaxXp;
+    const excess = Math.max(0, currentXp - maxLevelXp);
+    const progress = excess % cycleXP;
+    xpGap = Math.max(0, cycleXP - progress);
+    nextThreshold = maxLevelXp + cycleXP;
+    nextLevelLabel = "next cycle";
+    isMaxCycle = true;
+  }
+  const favouriteFoodKey = getFavouriteFoodKeyAtLevel(currentLevel);
+  const feedKeyForXp = omnifeedEnabled ? "omnifeed" : favouriteFoodKey;
+  const baseFoodXp = ANIMAL_FOOD_XP_BY_LEVEL[Math.min(15, Math.max(0, currentLevel))][feedKeyForXp];
+  const active = getActiveAnimalBoosts(type);
+  let xpMultTotal = 1;
+  let affectionXpMultTotal = 1;
+  let loveFlatXpAddTotal = 0;
+  active.forEach(b => {
+    if (b.xpMult) xpMultTotal *= b.xpMult;
+    if (b.affectionXpMult) affectionXpMultTotal += b.affectionXpMult;
+    if (b.loveFlatXpAdd) loveFlatXpAddTotal += b.loveFlatXpAdd;
+  });
+  const boostedFoodXp = Math.max(1e-9, baseFoodXp * xpMultTotal);
+  const avgLoveXpPerCycle = computeAverageAffectionXpPerCycle(currentLevel, affectionXpMultTotal, loveFlatXpAddTotal);
+  const effectiveXpGap = Math.max(0, xpGap - avgLoveXpPerCycle);
+  const noOfFeeds = Math.ceil(effectiveXpGap / boostedFoodXp);
+  return {
+    noOfFeeds: noOfFeeds,
+    feedKeyUsed: feedKeyForXp,
+    xpGap: xpGap,
+    nextThreshold: nextThreshold,
+    nextLevelLabel: nextLevelLabel,
+    isMaxCycle: isMaxCycle
+  };
+}
+
+
+function computeAnimalYieldsForLevel(type, level, realFeedBuffName) {
   const cfg = ANIMAL_DATA[type];
   const lvl = Math.min(15, Math.max(1, parseInt(level) || 1));
   const lvlData = cfg.levels[lvl - 1];
   const active = getActiveAnimalBoosts(type);
   let yieldMultAllTotal = 1;
   const yieldAdd = [ 0, 0 ];
+  const budAddSum = [ {}, {} ];
   active.forEach(b => {
     if (b.yieldMultAll) yieldMultAllTotal *= b.yieldMultAll;
-    if (b.productIndex != null && b.yieldAdd) yieldAdd[b.productIndex] += b.yieldAdd;
+    if (b.yieldAddAll) {
+      yieldAdd[0] += b.yieldAddAll;
+      yieldAdd[1] += b.yieldAddAll;
+    }
+    if (b.productIndex != null && b.yieldAdd) {
+      const budKey = b.isBud && b.budId ? b.budId : null;
+      if (budKey) {
+        budAddSum[b.productIndex][budKey] = (budAddSum[b.productIndex][budKey] || 0) + b.yieldAdd;
+      } else {
+        yieldAdd[b.productIndex] += b.yieldAdd;
+      }
+    }
   });
-  const spice = typeof getSpiceEffectForAnimalType === "function" ? getSpiceEffectForAnimalType(type) : {
+  budAddSum.forEach((sums, idx) => {
+    const vals = Object.values(sums);
+    if (vals.length) yieldAdd[idx] += Math.max(...vals);
+  });
+  
+  
+  
+  
+  
+  const spice = realFeedBuffName !== undefined ? {
+    yieldMultAll: realFeedBuffName === "Salt Lick" ? 1.05 : 1
+  } : typeof getSpiceEffectForAnimalType === "function" ? getSpiceEffectForAnimalType(type) : {
     yieldMultAll: 1
   };
   yieldMultAllTotal *= spice.yieldMultAll;
@@ -2081,6 +2162,14 @@ const BASE_CROP_MACHINE = {
   }
 };
 
+const CORE_FIELD_CROP_NAMES = Object.keys(BASE_CROPS);
+
+const FRUIT_TREE_NAMES = Object.keys(BASE_FRUITS);
+
+const GREENHOUSE_CROP_NAMES = Object.keys(BASE_GREENHOUSE);
+
+const CROP_MACHINE_CROP_NAMES = Object.keys(BASE_CROP_MACHINE);
+
 const CROP_MACHINE_QUEUE_SLOTS_BASE = 5;
 
 function getCropMachineQueueSlots() {
@@ -2127,6 +2216,12 @@ const RESTOCK_GEM_COST = {
 
 function isBuildingBoostActive(id) {
   return typeof isBoostActive === "function" ? isBoostActive(id) : false;
+}
+
+function getArtistCoinCostMult() {
+  if (!isBuildingBoostActive("artist_discount")) return 1;
+  const b = BOOSTS.find(x => x.id === "artist_discount");
+  return b && b.coinCostMultAll || 1;
 }
 
 function computeBoostedStock(baseStock, kind, itemName) {
@@ -2500,6 +2595,7 @@ const FLOWER_VARIETIES = {
 };
 
 const OIL_SINGLE_HARVEST_BASE = 10;
+const OIL_BONUS_DROP_AMOUNT = 20;
 
 const RESOURCE_DATA = {
   Wood: {
@@ -3106,9 +3202,21 @@ let beeSwarmActiveCount = parseInt(localStorage.getItem("hl_bee_swarm_count"), 1
 
 let beeSwarmAffectedPlots = parseInt(localStorage.getItem("hl_bee_swarm_plots"), 10) || 0;
 
+let beeSwarmByCrop = safeLSJSON(localStorage.getItem("hl_bee_swarm_by_crop"), {});
+
 function saveBeeSwarmState() {
   localStorage.setItem("hl_bee_swarm_count", String(beeSwarmActiveCount));
   localStorage.setItem("hl_bee_swarm_plots", String(beeSwarmAffectedPlots));
+  localStorage.setItem("hl_bee_swarm_by_crop", JSON.stringify(beeSwarmByCrop));
+}
+
+function getBeeSwarmStatsForCrop(cropName) {
+  const perCrop = cropName && beeSwarmByCrop ? beeSwarmByCrop[cropName] : null;
+  if (perCrop && perCrop.affectedPlots > 0) return perCrop;
+  return {
+    totalCount: beeSwarmActiveCount || 0,
+    affectedPlots: beeSwarmAffectedPlots || 0
+  };
 }
 
 let aoeSyncOverrides = safeLSJSON(localStorage.getItem("hl_aoe_sync_overrides"), {});
@@ -3944,6 +4052,7 @@ function computeBoostedFruitStatsUncached(fruitName, baseYield, baseTimeSec, bas
   let alwaysTimeMult = 1, minHarvestVal = baseMinHarvest || 1;
   let noWoodCost = false;
   let woodReturnPenalty = 0;
+  let woodReturnAdd = 0;
   const totalNodes = nodeCountOverride != null ? nodeCountOverride : getFruitCount(fruitName);
   const limitedTimeFactors = [];
   const haveSyncData = hasLimitedBoostSyncData();
@@ -3976,6 +4085,7 @@ function computeBoostedFruitStatsUncached(fruitName, baseYield, baseTimeSec, bas
     if (b.harvestAdd) minHarvestVal += b.harvestAdd;
     if (b.noWood) noWoodCost = true;
     if (b.woodReturnPenalty) woodReturnPenalty += b.woodReturnPenalty;
+    if (b.woodReturnAdd) woodReturnAdd += b.woodReturnAdd;
   });
   const budAddValues = Object.values(budAddSum);
   if (budAddValues.length) addSum += Math.max(...budAddValues);
@@ -3990,13 +4100,14 @@ function computeBoostedFruitStatsUncached(fruitName, baseYield, baseTimeSec, bas
     minHarvestVal: Math.max(1, minHarvestVal),
     noWoodCost: noWoodCost,
     woodReturnPenalty: woodReturnPenalty,
+    woodReturnAdd: woodReturnAdd,
     activeBoosts: active
   };
 }
 
 const GREENHOUSE_GLOBAL_EXCLUDED_FROM_GRAPE = new Set([ "tortoise_shrine", "skill_rice_and_shine" ]);
 
-const CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE = new Set([ "sir_goldensnout", "gnome", "sparrow_shrine", "faction_wings", "autumns_embrace", "frozen_heart", "solflare_aegis", "blossom_ward", "hoot", "bee_swarm", "sunshower" ]);
+const CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE = new Set([ "sir_goldensnout", "gnome", "sparrow_shrine", "faction_wings", "autumns_embrace", "frozen_heart", "solflare_aegis", "blossom_ward", "bee_swarm", "sunshower" ]);
 
 const GRAPE_ONLY_CROPS_GLOBAL_BOOSTS = new Set([ "time_warp_totem", "super_totem", "bountiful_harvest" ]);
 
@@ -4009,7 +4120,7 @@ function getActiveBoostsForGreenhouse(name) {
   } else {
     greenhouseOwn = greenhouseOwn.filter(b => !b.isBud);
   }
-  const coreCropGlobal = isGrape ? BOOSTS.filter(b => isBoostActive(b.id) && b.category === "crops" && b.scope === "global" && GRAPE_ONLY_CROPS_GLOBAL_BOOSTS.has(b.id)) : BOOSTS.filter(b => isBoostActive(b.id) && b.category === "crops" && b.scope === "global" && !b.composterFertilizer && !CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE.has(b.id));
+  const coreCropGlobal = isGrape ? BOOSTS.filter(b => isBoostActive(b.id) && b.category === "crops" && b.scope === "global" && GRAPE_ONLY_CROPS_GLOBAL_BOOSTS.has(b.id)) : BOOSTS.filter(b => isBoostActive(b.id) && b.category === "crops" && b.scope === "global" && !b.composterFertilizer && !CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE.has(b.id)).filter(b => b.id !== "hoot" || lname === "rice");
   return greenhouseOwn.concat(coreCropGlobal);
 }
 
@@ -4377,7 +4488,7 @@ function computeResourceFigures(name, visited) {
       mode: mode
     };
   });
-  const toolCoinCostMult = typeof getActiveBoostsForTool === "function" ? getActiveBoostsForTool(data.tool).reduce((m, b) => b.coinCostMult ? m * b.coinCostMult : m, 1) : 1;
+  const toolCoinCostMult = (typeof getActiveBoostsForTool === "function" ? getActiveBoostsForTool(data.tool).reduce((m, b) => b.coinCostMult ? m * b.coinCostMult : m, 1) : 1) * getArtistCoinCostMult();
   const toolCost = boosted.noToolNeeded ? 0 : (data.toolCoinCost || 0) * boosted.toolCostMult * toolCoinCostMult;
   const totalToolCost = materialsCost + toolCost;
   const costPerUnit = totalToolCost / boosted.yieldVal;
@@ -4450,7 +4561,8 @@ function computeLavaPitFigures(season) {
   };
 }
 
-const OBSIDIAN_WEEKLY_SELL_CAP = 5;
+const OBSIDIAN_WEEKLY_SELL_CAP = 1;
+const OBSIDIAN_WEEKLY_PURCHASE_CAP = 5;
 
 const OBSIDIAN_WEEK_SEC = 7 * 24 * 60 * 60;
 
@@ -5645,7 +5757,9 @@ const SKILL_FRUITPATCH = [ {
   id: "skill_fruity_woody",
   name: "Fruity Woody",
   skillTier: 2,
-  notModeled: true,
+  category: "fruits",
+  scope: "global",
+  woodReturnAdd: 1,
   note: "+1 wood from fruit branches/stems when chopped"
 }, {
   id: "skill_crime_fruit",
@@ -9152,15 +9266,22 @@ const ANIMAL_BOOSTS = [ {
   name: "Cattlegrim",
   category: "animals",
   scope: "animalGlobal",
-  yieldMultAll: 1.25,
-  note: "+25% all produce"
+  yieldAddAll: .25,
+  note: "+0.25 all produce"
 }, {
   id: "barn_manager",
   name: "Barn Manager",
   category: "animals",
   scope: "animalGlobal",
-  yieldMultAll: 1.1,
-  note: "+10% all produce"
+  yieldAddAll: .1,
+  note: "+0.1 all produce"
+}, {
+  id: "wrangler",
+  name: "Wrangler",
+  category: "animals",
+  scope: "animalGlobal",
+  timeMultAll: .9,
+  note: "-10% all animal cooldowns"
 }, {
   id: "oracle_syringe",
   name: "Oracle Syringe",
@@ -9524,6 +9645,13 @@ const TOOL_BOOSTS = [ {
   target: "AllSeeds",
   stockMult: 1.2,
   note: "+20% Market seed restock stock (Crops/Fruits/Greenhouse)"
+}, {
+  id: "artist_discount",
+  name: "Artist",
+  category: "tools",
+  scope: "buildingGlobal",
+  coinCostMultAll: .9,
+  note: "-10% Seed cost (Crops/Fruits/Greenhouse) and -10% Tool cost"
 } ];
 
 const COMPOSTER_BOOSTS = [ {
@@ -10404,6 +10532,7 @@ function isSeasonLocked(boost) {
 }
 
 function isBoostActive(id) {
+  if (id === "gnome" && farmPanelGameState && !farmPanelGnomeComboPresent()) return false;
   if (ALWAYS_ON_BOOST_IDS.has(id)) return true;
   if (id === "bee_swarm") return beeSwarmActiveCount > 0;
   if (!selectedSkills.includes(id) && !selectedBoosts.includes(id)) return false;
@@ -10421,6 +10550,7 @@ function isBoostActive(id) {
 let boostDraftSelectedBoosts = selectedBoosts.slice();
 
 function isBoostDraftActive(id) {
+  if (id === "gnome" && farmPanelGameState && !farmPanelGnomeComboPresent()) return false;
   if (ALWAYS_ON_BOOST_IDS.has(id)) return true;
   if (id === "bee_swarm") return beeSwarmActiveCount > 0;
   if (!selectedSkills.includes(id) && !boostDraftSelectedBoosts.includes(id)) return false;
@@ -10529,6 +10659,7 @@ function draftToggleBoost(id) {
   const tappedRow = document.querySelector(`[data-boost-id="${id}"]`);
   if (tappedRow) {
     tappedRow.style.outline = nowActive ? "2px solid var(--profit)" : "";
+    tappedRow.classList.toggle("boost-active", nowActive);
     const iconEl = tappedRow.querySelector(".lib-item-icon");
     if (iconEl && !tappedRow.classList.contains("season-locked")) iconEl.textContent = nowActive ? "✅" : "⬜";
   }
@@ -10618,6 +10749,7 @@ function toggleBoost(id) {
   const tappedRow = document.querySelector(`[data-boost-id="${id}"]`);
   if (tappedRow) {
     tappedRow.style.outline = nowActive ? "2px solid var(--profit)" : "";
+    tappedRow.classList.toggle("boost-active", nowActive);
     const iconEl = tappedRow.querySelector(".lib-item-icon");
     if (iconEl && !tappedRow.classList.contains("season-locked")) iconEl.textContent = nowActive ? "✅" : "⬜";
   }
@@ -10634,6 +10766,16 @@ const SEASON_GUARDIAN_IDS = {
 function isSeasonGuardianActive() {
   const id = SEASON_GUARDIAN_IDS[previewSeason];
   return !!id && isBoostActive(id);
+}
+
+function getActiveSeasonGuardianName() {
+  const id = SEASON_GUARDIAN_IDS[currentSeason];
+  return id && isBoostActive(id) ? id : null;
+}
+
+function getCropPlotSunshowerSpeedMultiplier() {
+  if (!isBoostActive("sunshower")) return 1;
+  return getActiveSeasonGuardianName() ? 4 : 2;
 }
 
 function getActiveBoostsForCrop(cropName) {
@@ -10663,12 +10805,13 @@ function getBeeSwarmPerSwarmYield() {
   return perSwarm;
 }
 
-function getEffectiveYieldAdd(b, tier) {
+function getEffectiveYieldAdd(b, tier, cropName) {
   let add = b.yieldAdd || 0;
   if (b.beeSwarmStack) {
-    const plots = beeSwarmAffectedPlots || 0;
+    const stats = getBeeSwarmStatsForCrop(cropName);
+    const plots = stats.affectedPlots || 0;
     if (plots <= 0) return 0;
-    return getBeeSwarmPerSwarmYield() * ((beeSwarmActiveCount || 0) / plots);
+    return getBeeSwarmPerSwarmYield() * ((stats.totalCount || 0) / plots);
   }
   if (b.tierEffects) {
     add = tier && b.tierEffects[tier] != null ? b.tierEffects[tier] : 0;
@@ -10706,7 +10849,7 @@ function computeBoostedCropStatsUncached(cropName, baseYield, baseTimeSec, plotC
         debuffLossFraction = Math.max(debuffLossFraction, b.debuffLossMult * coverageFraction);
       }
     }
-    const add = getEffectiveYieldAdd(b, cropTier);
+    const add = getEffectiveYieldAdd(b, cropTier, cropName);
     const budKey = b.isBud && b.budId ? b.budId : null;
     if (add) {
       if (b.plotCap) {
@@ -10866,10 +11009,12 @@ function renderAoePlotsAffectedHtml(b, itemName) {
 
 function renderBoostAppliedList(activeBoosts, itemName) {
   if (!activeBoosts || !activeBoosts.length) return "";
-  const rows = [];
+  const yieldRows = [];
+  const timeRows = [];
+  const costRows = [];
   activeBoosts.forEach(b => {
     const itemTier = (BASE_CROPS[itemName] || {}).tier;
-    const yieldAdd = getEffectiveYieldAdd(b, itemTier);
+    const yieldAdd = getEffectiveYieldAdd(b, itemTier, itemName);
     let aoeWarning = "";
     let aoePlotsHtml = "";
     if (b.plotCap) {
@@ -10881,20 +11026,23 @@ function renderBoostAppliedList(activeBoosts, itemName) {
     }
     const yieldParts = [];
     if (yieldAdd) yieldParts.push(`+${fmt(yieldAdd)} yield`);
+    if (b.yieldAddAll) yieldParts.push(`+${fmt(b.yieldAddAll)} yield (all produce)`);
     if (b.yieldMult) yieldParts.push(`×${b.yieldMult} yield`);
+    if (b.yieldMultAll) yieldParts.push(`×${b.yieldMultAll} produce`);
     if (b.harvestAdd) yieldParts.push(`+${fmt(b.harvestAdd)} harvest`);
     if (b.flowerExtraChance) yieldParts.push(`${Math.round(b.flowerExtraChance * 100)}% chance +1 flower`);
     if (b.flowerExtraFlat) yieldParts.push(`+${fmt(b.flowerExtraFlat)} flower guaranteed`);
     if (yieldParts.length) {
-      const swarmNote = b.beeSwarmStack ? ` <span style="color:var(--ink-soft);">(${beeSwarmActiveCount} swarm${beeSwarmActiveCount === 1 ? "" : "s"} ÷ ${beeSwarmAffectedPlots} plot${beeSwarmAffectedPlots === 1 ? "" : "s"} = ${fmt(beeSwarmAffectedPlots > 0 ? beeSwarmActiveCount / beeSwarmAffectedPlots : 0)} avg/plot × +${fmt(getBeeSwarmPerSwarmYield())} each${isSkillActive("skill_pollen_power_up") ? " · incl. Pollen Power Up" : ""})</span>` : "";
-      rows.push(`<div class="boost-applied-row is-yield">Boost: ${getBoostIcon(b.name)}<b>${escapeHtml(b.name)}</b> ${yieldParts.join(", ")}${swarmNote}${aoeWarning}${aoePlotsHtml}</div>`);
+      const swarmStatsForNote = getBeeSwarmStatsForCrop(itemName);
+      const swarmNote = b.beeSwarmStack ? ` <span style="color:var(--ink-soft);">(${swarmStatsForNote.totalCount} swarm${swarmStatsForNote.totalCount === 1 ? "" : "s"} ÷ ${swarmStatsForNote.affectedPlots} plot${swarmStatsForNote.affectedPlots === 1 ? "" : "s"} = ${fmt(swarmStatsForNote.affectedPlots > 0 ? swarmStatsForNote.totalCount / swarmStatsForNote.affectedPlots : 0)} avg/plot × +${fmt(getBeeSwarmPerSwarmYield())} each${isSkillActive("skill_pollen_power_up") ? " · incl. Pollen Power Up" : ""})</span>` : "";
+      yieldRows.push(`<div class="boost-applied-row is-yield">Boost: ${getBoostIcon(b.name)}<b>${escapeHtml(b.name)}</b> ${yieldParts.join(", ")}${swarmNote}${aoeWarning}${aoePlotsHtml}</div>`);
     }
     const timeParts = [];
     if (b.timeMult) timeParts.push(`×${b.timeMult} time`);
     if (b.timeMultAll) timeParts.push(`×${b.timeMultAll} cycle time`);
     if (b.flowerTimeMult) timeParts.push(`×${b.flowerTimeMult} flower time`);
     if (timeParts.length) {
-      rows.push(`<div class="boost-applied-row is-time">Boost: ${getBoostIcon(b.name)}<b>${escapeHtml(b.name)}</b> ${timeParts.join(", ")}</div>`);
+      timeRows.push(`<div class="boost-applied-row is-time">Boost: ${getBoostIcon(b.name)}<b>${escapeHtml(b.name)}</b> ${timeParts.join(", ")}</div>`);
     }
     const freeParts = [];
     if (b.freeCost) freeParts.push(`free seeds`);
@@ -10903,13 +11051,12 @@ function renderBoostAppliedList(activeBoosts, itemName) {
     if (b.freeFeed) freeParts.push(`free feed`);
     if (b.freeCure) freeParts.push(`free medicine`);
     if (freeParts.length) {
-      rows.push(`<div class="boost-applied-row is-free">Boost: ${getBoostIcon(b.name)}<b>${escapeHtml(b.name)}</b> ${freeParts.join(", ")}</div>`);
+      costRows.push(`<div class="boost-applied-row is-free">Boost: ${getBoostIcon(b.name)}<b>${escapeHtml(b.name)}</b> ${freeParts.join(", ")}</div>`);
     }
     const otherParts = [];
     if (b.toolCostMult) otherParts.push(`×${b.toolCostMult} tool cost`);
     if (b.materialQtyMult) otherParts.push(`×${b.materialQtyMult} materials`);
     if (b.cureCostMult) otherParts.push(`×${b.cureCostMult} cure cost`);
-    if (b.yieldMultAll) otherParts.push(`×${b.yieldMultAll} produce`);
     if (b.feedMult) otherParts.push(`×${b.feedMult} feed`);
     if (b.feedMultAll) otherParts.push(`×${b.feedMultAll} feed`);
     if (b.perUseCostFlower) otherParts.push(`${fmt(b.perUseCostFlower)} ${FLOWER_ICON}/use`);
@@ -10917,11 +11064,13 @@ function renderBoostAppliedList(activeBoosts, itemName) {
     if (b.wormAdd) otherParts.push(`+${fmt(b.wormAdd)} worm/cycle`);
     if (b.fertPotencyMult) otherParts.push(`×${b.fertPotencyMult} ${b.appliesFertilizer || "fertiliser"} effect`);
     if (otherParts.length) {
-      rows.push(`<div class="boost-applied-row">Boost: ${getBoostIcon(b.name)}<b>${escapeHtml(b.name)}</b> ${otherParts.join(", ")}</div>`);
+      costRows.push(`<div class="boost-applied-row is-cost">Boost: ${getBoostIcon(b.name)}<b>${escapeHtml(b.name)}</b> ${otherParts.join(", ")}</div>`);
     }
   });
-  if (!rows.length) return "";
-  return `<div class="section-badge is-boost-label">⚡ Applied Boost</div><div class="boost-applied-list">${rows.join("")}</div>`;
+  const sections = [ [ "YIELD", yieldRows ], [ "TIME REDUCTION", timeRows ], [ "COST REDUCTION", costRows ] ].filter(([, parts]) => parts.length);
+  if (!sections.length) return "";
+  const sectionsHtml = sections.map(([label, parts]) => `<div class="lib-section-title" style="margin-top:10px;">${label}</div><div class="boost-applied-list">${parts.join("")}</div>`).join("");
+  return `<div class="section-badge is-boost-label">⚡ Applied Boost</div>${sectionsHtml}`;
 }
 
 function renderAoePlotsAffectedBlockForBoost(b) {
@@ -11358,9 +11507,50 @@ const SHRINE_BOOST_NAME_TO_ID = {
   "Collie Shrine": "lt_collie_shrine"
 };
 
+function shrineBaseName(name) {
+  return (name || "").replace(/\s*\(\d+[dD]\)\s*$/, "").trim();
+}
+
 function shrineIdFromBoostName(name) {
-  const base = (name || "").replace(/\s*\(\d+[dD]\)\s*$/, "").trim();
+  const base = shrineBaseName(name);
   return SHRINE_BOOST_NAME_TO_ID[base] || null;
+}
+
+function getShrineAffectedItemCount(shrineName) {
+  const base = shrineBaseName(shrineName);
+  const items = new Set;
+  BOOSTS.forEach(b => {
+    if (shrineBaseName(b.name) !== base) return;
+    if (b.scope === "resourceList" && Array.isArray(b.resources)) {
+      b.resources.forEach(r => items.add(r));
+    } else if (b.scope === "resource" && b.target) {
+      items.add(b.target);
+    } else if (b.scope === "animalType" && b.target) {
+      items.add(b.target);
+    } else if (b.scope === "fruit" && b.target) {
+      items.add(b.target);
+    } else if (b.scope === "fruitList" && Array.isArray(b.fruits)) {
+      b.fruits.forEach(f => items.add(f));
+    } else if (b.category === "fruits" && b.scope === "global") {
+      FRUIT_TREE_NAMES.forEach(n => items.add(n));
+    } else if (b.category === "greenhouse" && b.scope === "greenhouse" && b.target) {
+      items.add(b.target);
+    } else if (b.category === "greenhouse" && b.scope === "global") {
+      GREENHOUSE_CROP_NAMES.forEach(n => {
+        if (n === "Grape" && GREENHOUSE_GLOBAL_EXCLUDED_FROM_GRAPE.has(b.id)) return;
+        items.add(n);
+      });
+    } else if (b.category === "cropmachine" && b.scope === "machineGlobal") {
+      CROP_MACHINE_CROP_NAMES.forEach(n => items.add(n));
+    } else if ((b.category || "crops") === "crops" && b.scope === "global") {
+      CORE_FIELD_CROP_NAMES.forEach(n => items.add(n));
+    } else if (b.category === "honey" && (b.scope === "hiveGlobal" || b.scope === "flowerGlobal")) {
+      items.add("Honey");
+    } else if (b.category === "cooking" && b.scope === "cookTimeGlobal") {
+      items.add("Cooking");
+    }
+  });
+  return items.size > 0 ? items.size : 1;
 }
 
 function getActiveShrineDailyCost(...activeBoostArrays) {
@@ -11377,12 +11567,44 @@ function getActiveShrineDailyCost(...activeBoostArrays) {
       if (coverageFraction <= 0) return;
       const cost = computeShrineCost(id);
       if (cost && cost.dailyCost > 0) {
-        const dailyCost = cost.dailyCost * coverageFraction;
+        const rawDailyCost = cost.dailyCost * coverageFraction;
+        const shareCount = getShrineAffectedItemCount(b.name);
+        const dailyCost = rawDailyCost / shareCount;
         total += dailyCost;
         shrines.push({
           id: id,
           name: b.name,
-          dailyCost: dailyCost
+          dailyCost: dailyCost,
+          shareCount: shareCount
+        });
+      }
+    });
+  });
+  return {
+    total: total,
+    shrines: shrines
+  };
+}
+
+function getActiveShrineDailyCostStable(...activeBoostArrays) {
+  const seen = new Set;
+  let total = 0;
+  const shrines = [];
+  activeBoostArrays.forEach(arr => {
+    (arr || []).forEach(b => {
+      const id = shrineIdFromBoostName(b && b.name);
+      if (!id || seen.has(id)) return;
+      seen.add(id);
+      const cost = computeShrineCost(id);
+      if (cost && cost.dailyCost > 0) {
+        const shareCount = getShrineAffectedItemCount(b.name);
+        const dailyCost = cost.dailyCost / shareCount;
+        total += dailyCost;
+        shrines.push({
+          id: id,
+          name: b.name,
+          dailyCost: dailyCost,
+          shareCount: shareCount
         });
       }
     });
@@ -11636,12 +11858,199 @@ let limitedTimeBoostRefreshTimer = null;
 
 let shrineCostExpandedIds = new Set;
 
+function getShrineAffectedItemsDetailed(shrineName) {
+  const base = shrineBaseName(shrineName);
+  const items = new Map;
+  const add = (n, c) => {
+    if (n && !items.has(n)) items.set(n, c);
+  };
+  if (base === "Trading Shrine") add("Obsidian", "resources");
+  BOOSTS.forEach(b => {
+    if (shrineBaseName(b.name) !== base) return;
+    const cat = b.category || "crops";
+    if (b.scope === "resourceList" && Array.isArray(b.resources)) {
+      b.resources.forEach(r => add(r, cat));
+    } else if (b.scope === "resource" && b.target) {
+      add(b.target, cat);
+    } else if (b.scope === "animalType" && b.target) {
+      add(b.target, "animal");
+    } else if (b.scope === "fruit" && b.target) {
+      add(b.target, "fruit");
+    } else if (b.scope === "fruitList" && Array.isArray(b.fruits)) {
+      b.fruits.forEach(f => add(f, "fruit"));
+    } else if (b.category === "fruits" && b.scope === "global") {
+      FRUIT_TREE_NAMES.forEach(n => add(n, "fruit"));
+    } else if (b.category === "greenhouse" && b.scope === "greenhouse" && b.target) {
+      add(b.target, "greenhouse");
+    } else if (b.category === "greenhouse" && b.scope === "global") {
+      GREENHOUSE_CROP_NAMES.forEach(n => {
+        if (n === "Grape" && GREENHOUSE_GLOBAL_EXCLUDED_FROM_GRAPE.has(b.id)) return;
+        add(n, "greenhouse");
+      });
+    } else if ((b.category || "crops") === "crops" && b.scope === "global") {
+      CORE_FIELD_CROP_NAMES.forEach(n => add(n, "crops"));
+    } else if (b.category === "honey" && (b.scope === "hiveGlobal" || b.scope === "flowerGlobal")) {
+      add("Honey", "honey");
+    } else if (b.category === "pets") {
+      add("Pets", "pets");
+    } else {
+      add("__unmodeled__" + (b.id || b.name), "unmodeled");
+    }
+  });
+  return items;
+}
+
+function shrineNodeProfit24h_Crop(name) {
+  const d = BASE_CROPS[name];
+  if (!d) return null;
+  const costFlower = coinsToFlower(getCropCostCoins(name));
+  const m = marketItems.find(x => (x.name || "").toLowerCase() === name.toLowerCase());
+  const sellFlower = m ? m.flowerPrice || 0 : 0;
+  const boosted = computeBoostedCropStats(name, d.baseYield || 1, d.timeSec);
+  const plotCount = getPlotCount(name);
+  const manualCycle = getManualCycleOverride("crop_" + name);
+  const proj = compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, plotCount, {
+    baseStock: BASE_STOCK_CROPS[name],
+    kind: "seed",
+    itemName: name
+  }, manualCycle);
+  return proj.profit24h;
+}
+
+function shrineNodeProfit24h_Fruit(name) {
+  const d = BASE_FRUITS[name];
+  if (!d) return null;
+  const costFlower = coinsToFlower(getFruitCostCoins(name));
+  const m = marketItems.find(x => (x.name || "").toLowerCase() === name.toLowerCase());
+  const sellFlower = m ? m.flowerPrice || 0 : 0;
+  const boosted = computeBoostedFruitStats(name, d.yieldPerHarvest || 1, d.timeSec, d.minHarvest || 1);
+  const fruitCount = getFruitCount(name);
+  const manualCycle = getManualCycleOverride("fruit_" + name);
+  const proj = compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, fruitCount, {
+    baseStock: BASE_STOCK_FRUITS[name],
+    kind: "seed",
+    itemName: name,
+    cyclesPerStockUnit: boosted.minHarvestVal,
+    maxRestocksPerDay: d.moonOnly ? 1 / SYNODIC_MONTH_DAYS : undefined
+  }, manualCycle);
+  return proj.profit24h;
+}
+
+function shrineNodeProfit24h_Greenhouse(name) {
+  const d = BASE_GREENHOUSE[name];
+  if (!d) return null;
+  const costFlower = coinsToFlower(getGreenhouseCostCoins(name));
+  const m = marketItems.find(x => (x.name || "").toLowerCase() === name.toLowerCase());
+  const sellFlower = m ? m.flowerPrice || 0 : 0;
+  const boosted = computeBoostedGreenhouseStats(name, d.baseYield || 1, d.timeSec);
+  const plotCount = getGreenhouseCount(name);
+  const manualCycle = getManualCycleOverride("greenhouse_" + name);
+  const proj = compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, plotCount, {
+    baseStock: BASE_STOCK_GREENHOUSE[name],
+    kind: "seed",
+    itemName: name
+  }, manualCycle);
+  return proj.profit24h;
+}
+
+function shrineNodeProfit24h_Animal(type) {
+  const fig = ANIMAL_DATA[type] ? computeAnimalTypeFigures(type) : null;
+  if (!fig) return null;
+  const qty = fig.qty;
+  const totalCostFlower = coinsToFlower(fig.totalCostCoinsPerAnimal) * qty;
+  let totalRevenueFlower = 0;
+  fig.products.forEach((pname, idx) => {
+    const m = marketItems.find(x => (x.name || "").toLowerCase() === pname.toLowerCase());
+    const price = m ? m.flowerPrice || 0 : 0;
+    const totalUnits = fig.yields[idx] * qty;
+    totalRevenueFlower += totalUnits * price * (1 - feePercent / 100);
+  });
+  const profitFlower = totalRevenueFlower - totalCostFlower;
+  const manualCycle = getManualCycleOverride("animal_day_" + type);
+  const autoCyclesPerDay = ANIMAL_BASE_CYCLE_SEC / fig.cycleTimeSec;
+  const cyclesPerDay = manualCycle != null ? manualCycle : autoCyclesPerDay;
+  return profitFlower * cyclesPerDay;
+}
+
+function shrineNodeProfit24h_Honey() {
+  const econ = computeHiveEconomics();
+  return econ.totalProfitDay;
+}
+
+function shrineNodeProfit24h_Resource(name) {
+  if (!RESOURCE_DATA[name]) return null;
+  const fig = computeResourceFigures(name);
+  if (!fig) return null;
+  const m = marketItems.find(x => (x.name || "").toLowerCase() === name.toLowerCase());
+  const sellFlower = m ? m.flowerPrice || 0 : 0;
+  const manualCycle = getManualCycleOverride("resource_" + name);
+  const proj = computeResourceProjection24h(fig, sellFlower, manualCycle);
+  return proj.profit24h;
+}
+
+function shrineNodeProfit24h_Pets() {
+  if (typeof petComputeResourceTotals !== "function" || typeof petsData === "undefined" || !petsData.length) return null;
+  const totals = petComputeResourceTotals();
+  return totals.reduce((sum, t) => sum + (t.net || 0), 0);
+}
+
+function shrineNodeProfit24h_Obsidian() {
+  const fig = computeLavaPitFigures(currentSeason);
+  if (!fig) return null;
+  const m = marketItems.find(x => (x.name || "").toLowerCase() === "obsidian");
+  const sellFlower = m ? m.flowerPrice || 0 : 0;
+  const weekly = computeObsidianWeeklyProfit(fig, sellFlower);
+  return weekly.profit / 7;
+}
+
+function computeShrineAffectedProfitability(shrineName) {
+  const itemsMap = getShrineAffectedItemsDetailed(shrineName);
+  let sum = 0, modeled = 0, unmodeled = 0;
+  itemsMap.forEach((cat, name) => {
+    let p = null;
+    try {
+      if (name === "Obsidian") p = shrineNodeProfit24h_Obsidian();
+      else if (cat === "honey") p = shrineNodeProfit24h_Honey();
+      else if (cat === "animal") p = shrineNodeProfit24h_Animal(name);
+      else if (cat === "fruit") p = shrineNodeProfit24h_Fruit(name);
+      else if (cat === "greenhouse") p = shrineNodeProfit24h_Greenhouse(name);
+      else if (cat === "crops") p = shrineNodeProfit24h_Crop(name);
+      else if (cat === "resources") p = shrineNodeProfit24h_Resource(name);
+      else if (cat === "pets") p = shrineNodeProfit24h_Pets();
+    } catch (e) {
+      p = null;
+    }
+    if (p != null && isFinite(p)) {
+      sum += p;
+      modeled++;
+    } else {
+      unmodeled++;
+    }
+  });
+  return {
+    profit24h: sum,
+    modeledCount: modeled,
+    unmodeledCount: unmodeled
+  };
+}
+
+function renderShrineProfitabilityBlock(b, cost) {
+  const affected = computeShrineAffectedProfitability(b.name);
+  if (affected.modeledCount === 0) {
+    return `\n    <div class="lib-item-meta" style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--sun-deep);font-weight:700;">📊 Profitability <span style="font-weight:500;opacity:.7;">(no priceable affected nodes found)</span></div>`;
+  }
+  const net24h = affected.profit24h - cost.dailyCost;
+  const netDuration = affected.profit24h * cost.durationDays - cost.totalCost;
+  const partialNote = affected.unmodeledCount > 0 ? ` <span style="font-weight:500;opacity:.7;">(+${affected.unmodeledCount} affected item${affected.unmodeledCount === 1 ? "" : "s"} not priced)</span>` : "";
+  return `\n    <div class="lib-item-meta" style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--sun-deep);font-weight:700;">📊 Profitability${partialNote}</div>\n    <div class="lib-item-meta" style="font-weight:700;">⏱️ 24hrs: <span class="${net24h >= 0 ? "is-profit" : "is-loss"}" style="color:${net24h >= 0 ? "var(--profit)" : "var(--loss)"};">${net24h >= 0 ? "+" : ""}${fmt(net24h)} ${FLOWER_ICON}</span> <span style="font-weight:500;opacity:.7;">(${fmt(affected.profit24h)} affected profit − ${fmt(cost.dailyCost)} daily cost)</span></div>\n    <div class="lib-item-meta" style="font-weight:700;">📅 Duration (${fmt(cost.durationDays)}d): <span class="${netDuration >= 0 ? "is-profit" : "is-loss"}" style="color:${netDuration >= 0 ? "var(--profit)" : "var(--loss)"};">${netDuration >= 0 ? "+" : ""}${fmt(netDuration)} ${FLOWER_ICON}</span></div>`;
+}
+
 function renderShrineCostBlock(b) {
   const cost = computeShrineCost(b.id);
   if (!cost) return "";
   const expanded = shrineCostExpandedIds.has(b.id);
   const ingredientRows = cost.ingredients.map(ing => `\n    <div class="lib-item-row" style="margin:0 0 4px;padding:4px 8px;">\n      <span class="lib-item-icon">${getPetResourceIcon(ing.name)}</span>\n      <div class="lib-item-main" style="display:flex;justify-content:space-between;align-items:center;">\n        <span>${escapeHtml(ing.name)} (x${fmt(ing.qty)})</span>\n        <span style="font-weight:700;">${fmt(ing.totalPrice)} ${FLOWER_ICON}</span>\n      </div>\n    </div>`).join("");
-  return `\n    <div class="shrine-cost-toggle" data-shrine-cost-id="${b.id}" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-top:4px;padding:4px 0;border-top:1px dashed var(--sun-deep);">\n      <div>\n        <div class="lib-item-meta" style="font-weight:700;">🧾 Total Cost: ${fmt(cost.totalCost)} ${FLOWER_ICON}</div>\n        <div class="lib-item-meta" style="font-weight:700;">📅 Daily Cost (${fmt(cost.durationDays)}d): ${fmt(cost.dailyCost)} ${FLOWER_ICON}</div>\n      </div>\n      <span class="shrine-cost-chev" style="font-size:12px;color:var(--ink-soft);transition:transform .25s ease;transform:rotate(${expanded ? 180 : 0}deg);">▾</span>\n    </div>\n    <div class="shrine-cost-details" style="display:${expanded ? "block" : "none"};margin-top:4px;">\n      ${ingredientRows}\n    </div>`;
+  return `\n    <div class="shrine-cost-toggle" data-shrine-cost-id="${b.id}" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-top:4px;padding:4px 0;border-top:1px dashed var(--sun-deep);">\n      <div>\n        <div class="lib-item-meta" style="font-weight:700;">🧾 Total Cost: ${fmt(cost.totalCost)} ${FLOWER_ICON}</div>\n        <div class="lib-item-meta" style="font-weight:700;">📅 Daily Cost (${fmt(cost.durationDays)}d): ${fmt(cost.dailyCost)} ${FLOWER_ICON}</div>\n      </div>\n      <span class="shrine-cost-chev" style="font-size:12px;color:var(--ink-soft);transition:transform .25s ease;transform:rotate(${expanded ? 180 : 0}deg);">▾</span>\n    </div>\n    <div class="shrine-cost-details" style="display:${expanded ? "block" : "none"};margin-top:4px;">\n      ${ingredientRows}\n    </div>\n    ${renderShrineProfitabilityBlock(b, cost)}`;
 }
 
 function attachShrineCostToggles(wrap) {
@@ -11963,6 +12372,7 @@ function renderBoostPanel() {
         const avgPerPlot = beeSwarmAffectedPlots > 0 ? beeSwarmActiveCount / beeSwarmAffectedPlots : 0;
         parts.push(beeSwarmActiveCount > 0 ? `+${fmt(perSwarm * avgPerPlot)} yield/plot (${beeSwarmActiveCount} swarm${beeSwarmActiveCount === 1 ? "" : "s"} ÷ ${beeSwarmAffectedPlots} plot${beeSwarmAffectedPlots === 1 ? "" : "s"} = ${fmt(avgPerPlot)} avg × +${fmt(perSwarm)}${pollenActive ? " w/ Pollen Power Up" : ""})` : `+${fmt(perSwarm)} yield per active swarm${pollenActive ? " (incl. Pollen Power Up)" : ""}`);
       } else if (b.yieldAdd) parts.push(`+${b.yieldAdd} yield`);
+      if (b.yieldAddAll) parts.push(`+${b.yieldAddAll} yield (all produce)`);
       if (b.timeMult) parts.push(`×${b.timeMult} time`);
       if (b.expMult) parts.push(`×${b.expMult} EXP`);
       if (b.expAdd) parts.push(`+${fmt(b.expAdd)} EXP`);
@@ -12049,7 +12459,7 @@ function renderBoostPanel() {
         syncStatusText = active ? "Detected now" : "Auto-detected via farm sync";
       }
       const syncDetectedTag = syncDetected ? ` · <span class="season-lock-tag"><img src="${syncIconSrc}" style="width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;"> ${syncStatusText}</span>` : "";
-      return `<div class="lib-item-row${locked ? " season-locked" : ""}" data-boost-id="${b.id}" style="cursor:${locked || alwaysOn || manualToggleBlocked ? "not-allowed" : "pointer"};${active ? "outline:2px solid var(--profit);" : ""}">\n        <span class="lib-item-icon">${locked ? "🔒" : alwaysOn ? "🔁" : syncDetected ? active ? `<img src="${syncIconSrc}" style="width:14px;height:14px;image-rendering:pixelated;">` : "⬜" : active ? "✅" : "⬜"}</span>\n        <div class="lib-item-main">\n          <div class="lib-item-name">${getBoostIcon(b.name)}${escapeHtml(b.name)}${targetTxt}</div>\n          <div class="lib-item-meta">${parts.join(" · ")}${groupTag}${seasonTag}${alwaysOnTag}${syncDetectedTag}${b.note ? " · " + escapeHtml(b.note) : ""}</div>\n          ${renderAoePlotsAffectedBlockForBoost(b)}\n        </div>\n      </div>`;
+      return `<div class="lib-item-row${locked ? " season-locked" : ""}${active ? " boost-active" : ""}" data-boost-id="${b.id}" style="cursor:${locked || alwaysOn || manualToggleBlocked ? "not-allowed" : "pointer"};${active ? "outline:2px solid var(--profit);" : ""}">\n        <span class="lib-item-icon">${locked ? "🔒" : alwaysOn ? "🔁" : syncDetected ? active ? `<img src="${syncIconSrc}" style="width:14px;height:14px;image-rendering:pixelated;">` : "⬜" : active ? "✅" : "⬜"}</span>\n        <div class="lib-item-main">\n          <div class="lib-item-name">${getBoostIcon(b.name)}${escapeHtml(b.name)}${targetTxt}</div>\n          <div class="lib-item-meta">${parts.join(" · ")}${groupTag}${seasonTag}${alwaysOnTag}${syncDetectedTag}${b.note ? " · " + escapeHtml(b.note) : ""}</div>\n          ${renderAoePlotsAffectedBlockForBoost(b)}\n        </div>\n      </div>`;
     }).join("");
   }).join("") || `<div class="lib-empty">No boosts match your search.</div>`) + (boostCategory === "tools" ? renderBaseStockTables() : "") + (boostCategory === "pets" && typeof renderPetLevelPerksBlock === "function" ? renderPetLevelPerksBlock() : "");
   wrap.querySelectorAll("[data-boost-id]").forEach(el => {
@@ -12726,19 +13136,30 @@ function getRestockSharedPoolCount(kind) {
 }
 
 function getSharedPoolDivisor(kind) {
+  if (kind === "tool") {
+    const c = getRestockSharedPoolCount(kind);
+    return c > 0 ? c : 1;
+  }
   if (restockCostMode !== "shared") return 1;
   const c = getRestockSharedPoolCount(kind);
   return c > 0 ? c : 1;
 }
 
 function getRestockExclusionNote(name) {
-  return restockCostMode === "shared" && restockSharedExcluded.has(name) ? "Excluded" : "";
+  if (!restockSharedExcluded.has(name)) return "";
+  const isTool = RESTOCK_TOOLS_LIST.includes(name);
+  if (isTool) return "Excluded";
+  return restockCostMode === "shared" ? "Excluded" : "";
 }
 
 function getRestockGemCost(kind, itemName) {
   let base;
   if (restockGemMode.has("all")) base = kind === "tool" ? RESTOCK_GEM_COST.tools : RESTOCK_GEM_COST.all / 2; else if (kind === "tool") base = restockGemMode.has("tools_only") ? RESTOCK_GEM_COST.tools : 0; else base = restockGemMode.has("seeds_only") ? RESTOCK_GEM_COST.seeds : 0;
   if (base <= 0) return 0;
+  if (kind === "tool") {
+    if (itemName && restockSharedExcluded.has(itemName)) return 0;
+    return base / getSharedPoolDivisor(kind);
+  }
   if (restockCostMode === "shared") {
     if (itemName && restockSharedExcluded.has(itemName)) return 0;
     return base / getSharedPoolDivisor(kind);
@@ -12851,13 +13272,11 @@ function updateRcmToggleUI() {
   input.checked = isShared;
   if (sharedLabel) sharedLabel.classList.toggle("is-active", isShared);
   if (individualLabel) individualLabel.classList.toggle("is-active", !isShared);
-  if (panel) panel.style.display = isShared ? "block" : "none";
-  if (hint) hint.textContent = isShared ? "Shared Cost (default): the restock Gem cost (and any active Shrine's daily cost) is split evenly across every included item below — uncheck an item and hit Save to exclude it from the shared pool." : "Individual Cost: assumes one continuous use case, so the full restock/Shrine cost is charged entirely to that single item.";
-  if (isShared) {
-    renderRcmTabs();
-    renderRcmList();
-    updateRcmUnsavedNote();
-  }
+  if (panel) panel.style.display = "block";
+  if (hint) hint.textContent = isShared ? "Shared Cost (default): the restock Gem cost and any active Shrine's daily cost for Seeds is split evenly across every included seed/crop below — uncheck an item and hit Save to exclude it from the shared pool. Tools always share their restock Gem cost across every included tool below, regardless of this toggle." : "Individual Cost: Seeds — the full restock/Shrine cost is charged entirely to that single seed/crop. Tools always share their restock Gem cost across every included tool below, regardless of this toggle.";
+  renderRcmTabs();
+  renderRcmList();
+  updateRcmUnsavedNote();
 }
 
 const rcmSwitchInput = $("rcmSwitchInput");
@@ -13039,6 +13458,23 @@ function hasFreeSaltRakeCost() {
   return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "saltGlobal").some(b => b.freeCost);
 }
 
+function farmPanelGetSaltActiveBoosts() {
+  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "saltGlobal").map(b => ({
+    name: b.name,
+    yieldAdd: b.saltYieldAdd || 0,
+    timeMult: b.saltRechargeTimeMult || undefined,
+    freeCost: b.freeCost || undefined
+  }));
+}
+
+function farmPanelGetHoneyActiveBoosts() {
+  const active = typeof getActiveBoostsForHive === "function" ? getActiveBoostsForHive() : [];
+  return active.map(b => ({
+    name: b.name,
+    yieldAdd: b.honeyYieldAdd || 0
+  }));
+}
+
 function getActiveAgingSaltCostMult() {
   return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "agingGlobal" && b.agingSaltCostMult).reduce((mult, b) => mult * b.agingSaltCostMult, 1);
 }
@@ -13122,7 +13558,7 @@ function getCropCostCoins(cropName, visited) {
   const d = BASE_CROPS[cropName];
   if (!d) return 0;
   const boosted = computeBoostedCropStats(cropName, d.baseYield, d.timeSec);
-  const seedCoinCost = hasFreeCostBoost(cropName) ? 0 : d.seedCost || 0;
+  const seedCoinCost = (hasFreeCostBoost(cropName) ? 0 : d.seedCost || 0) * getArtistCoinCostMult();
   let fertCoinCost = 0;
   if (isFertilizerTierEnabled(d.tier)) {
     if (isBoostActive("apply_sprout_mix")) fertCoinCost += getFertilizerCostCoins("Sprout Mix", visited);
@@ -13139,9 +13575,9 @@ function getFruitCostCoins(fruitName, visited) {
   const d = BASE_FRUITS[fruitName];
   if (!d) return 0;
   const boosted = computeBoostedFruitStats(fruitName, d.yieldPerHarvest || 1, d.timeSec, d.minHarvest || 1);
-  const seedCoinCost = hasFreeCostBoostFruit(fruitName) ? 0 : d.seedCost || 0;
+  const seedCoinCost = (hasFreeCostBoostFruit(fruitName) ? 0 : d.seedCost || 0) * getArtistCoinCostMult();
   const axeQty = d.axeQty || 0;
-  const woodReturnQty = Math.max(0, (d.woodReturnQty || 0) - (boosted.woodReturnPenalty || 0));
+  const woodReturnQty = Math.max(0, (d.woodReturnQty || 0) - (boosted.woodReturnPenalty || 0) + (boosted.woodReturnAdd || 0));
   const axeCoinCost = boosted.noWoodCost ? 0 : axeQty * (RESOURCE_DATA.Wood.toolCoinCost || 0);
   const mode = getMaterialMode("Fruit_" + fruitName, "Wood");
   const woodRebateCoins = woodReturnQty * getMaterialUnitCostCoins("Wood", mode, visited);
@@ -13155,7 +13591,7 @@ function getGreenhouseCostCoins(name) {
   const d = BASE_GREENHOUSE[name];
   if (!d) return 0;
   const boosted = computeBoostedGreenhouseStats(name, d.baseYield || 1, d.timeSec);
-  const seedCoinCost = hasFreeCostBoostGreenhouse(name) ? 0 : (d.seedCost || 0) * (boosted.seedQtyMult || 1);
+  const seedCoinCost = (hasFreeCostBoostGreenhouse(name) ? 0 : (d.seedCost || 0) * (boosted.seedQtyMult || 1)) * getArtistCoinCostMult();
   const oilQty = Math.max(0, (d.oilQty || 0) * (boosted.oilQtyMult || 1) - (boosted.oilFlatReduce || 0));
   const oilCoinCost = oilQty * getItemCostByName("Oil");
   return (seedCoinCost + oilCoinCost) / boosted.yieldVal;
@@ -13172,7 +13608,7 @@ function getResourceForTool(toolName) {
 function getBoostedToolRecipe(item) {
   const producedName = item.producesName || item.name;
   const activeToolBoosts = getActiveBoostsForTool(producedName);
-  let coinCostMultTotal = 1, materialQtyMultTotal = 1;
+  let coinCostMultTotal = getArtistCoinCostMult(), materialQtyMultTotal = 1;
   const materialSwaps = [];
   const costAffectingBoosts = [];
   activeToolBoosts.forEach(b => {
@@ -13571,16 +14007,32 @@ function computeAnimalTypeFigures(type, visited) {
   const active = getActiveAnimalBoosts(type);
   let feedMultTotal = 1, yieldMultAllTotal = 1, timeMultTotal = 1, freeFeed = false, cureFree = false, cureCostMult = 1;
   const yieldAdd = [ 0, 0 ];
+  const budAddSum = [ {}, {} ];
   active.forEach(b => {
     if (b.feedMult) feedMultTotal *= b.feedMult;
     if (b.feedMultAll) feedMultTotal *= b.feedMultAll;
     if (b.yieldMultAll) yieldMultAllTotal *= b.yieldMultAll;
+    if (b.yieldAddAll) {
+      yieldAdd[0] += b.yieldAddAll;
+      yieldAdd[1] += b.yieldAddAll;
+    }
     if (b.timeMult) timeMultTotal *= b.timeMult;
     if (b.timeMultAll) timeMultTotal *= b.timeMultAll;
-    if (b.productIndex != null && b.yieldAdd) yieldAdd[b.productIndex] += b.yieldAdd;
+    if (b.productIndex != null && b.yieldAdd) {
+      const budKey = b.isBud && b.budId ? b.budId : null;
+      if (budKey) {
+        budAddSum[b.productIndex][budKey] = (budAddSum[b.productIndex][budKey] || 0) + b.yieldAdd;
+      } else {
+        yieldAdd[b.productIndex] += b.yieldAdd;
+      }
+    }
     if (b.freeFeed) freeFeed = true;
     if (b.freeCure) cureFree = true;
     if (b.cureCostMult) cureCostMult *= b.cureCostMult;
+  });
+  budAddSum.forEach((sums, idx) => {
+    const vals = Object.values(sums);
+    if (vals.length) yieldAdd[idx] += Math.max(...vals);
   });
   const spice = getSpiceEffectForAnimalType(type);
   feedMultTotal *= spice.feedMultAll;
@@ -13861,7 +14313,7 @@ function renderAnimalCard(type) {
     const displayUnit = row.mode === "buy" ? FLOWER_ICON : COIN_ICON;
     return `\n    <div class="lib-item-row">\n      <span class="lib-item-icon">${getIcon(row.name)}</span>\n      <div class="lib-item-main">\n        <div class="lib-item-name">${row.name} ×${fmt(row.qty)}</div>\n        <div class="lib-item-meta">${row.mode === "collect" ? "Collect" : "Buy"} @ ${fmt(displayPrice)}${displayUnit}/u</div>\n      </div>\n      <div style="display:flex;gap:2px;">\n        <button class="btn btn-ghost animal-mode-btn" data-mat="${row.name}" data-mode="collect" style="padding:4px 6px;font-size:9.6px;${row.mode === "collect" ? "border-color:var(--profit);color:var(--profit);" : ""}">Collect</button>\n        <button class="btn btn-ghost animal-mode-btn" data-mat="${row.name}" data-mode="buy" style="padding:4px 6px;font-size:9.6px;${row.mode === "buy" ? "border-color:var(--flower);color:var(--flower);" : ""}">Buy</button>\n      </div>\n    </div>`;
   }).join("");
-  const productRowsHtml = productRows.map(r => `\n    <div class="lib-item-row">\n      <span class="lib-item-icon">${getIcon(r.pname)}</span>\n      <div class="lib-item-main">\n        <div class="lib-item-name">${r.pname} — ${fmt(r.unitsPerAnimal)}/animal · ${fmt(r.totalUnits)} total</div>\n        <div class="lib-item-meta">@ ${fmt(r.price)} ${FLOWER_ICON}/u${feePercent > 0 ? ` · ${fmt(r.grossValue)} ${FLOWER_ICON} gross − ${feePercent}% fee` : ""}</div>\n      </div>\n      <div class="lib-item-price is-flower" title="${feePercent > 0 ? `After ${feePercent}% sell fee (gross ${fmt(r.grossValue)} F)` : "Value at current marketplace price"}">${fmt(r.netValue)}<small>FLOWER</small></div>\n    </div>`).join("");
+  const productRowsHtml = `<div class="animal-detail-grid">` + productRows.map(r => renderCardProductDetailRow(getIcon(r.pname), r.pname, r.totalUnits, r.grossValue, r.grossValue - r.netValue)).join("") + `</div>`;
   return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}${isExpanded ? " expanded" : ""}" data-search="${type}">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon(fig.label)}</span>\n        <div>\n          <div class="card-name">${fig.label} · Lv${fig.level}</div>\n          <div class="card-type">${fmt(fig.totalCostCoinsPerAnimal)}${COIN_ICON} feed cost / animal</div>\n          <div class="card-type" style="margin-top:2px;">${feedIcon} ${fmt(qty)} heads consumes ${fmt(feedQtyPerCycleAllHeads)} ${feedName}/cycle → yields ${cycleYieldLabel}</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        ${fig.activeBoosts.length ? `<span class="boost-badge">⚡${fig.activeBoosts.length}</span>` : ""}\n        <span class="pvalue-mini ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(profitFlower)} ${FLOWER_ICON} FLOWER</span>\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    ${render24hBadge(profit24h, cost24h, cyclesPerDay, `${fmt(qty)} heads · ${fmt(cyclesPerDay)} cycles/day`, null, animalYieldLabel, [ `${fmt(qty)} HEADS · ${fmt(fig.effectiveFeedQty)} ${fig.feedNameUsed} EACH`, `<b>Total Cost (24H):</b> ${fmt(cost24h)} ${FLOWER_ICON} FLOWER`, `<b>Gross Revenue (24H):</b> ${fmt(totalRevenueGrossFlower * cyclesPerDay)} ${FLOWER_ICON} FLOWER${feePercent > 0 ? ` <span style="opacity:.65;">(before ${feePercent}% sell fee)</span>` : ""}`, `<b>Net Revenue (24H):</b> <span style="color:var(--flower);">${fmt(cost24h + profit24h)} ${FLOWER_ICON} FLOWER</span>${feePercent > 0 ? ` <span style="opacity:.65;">(after fee)</span>` : ""}` ])}\n    <div class="card-details">\n      <div class="lib-section-title">📦 Produce &amp; Yield${feePercent > 0 ? ` <span style="font-weight:500;opacity:.7;">(value shown after ${feePercent}% sell fee)</span>` : ""}</div>\n      ${productRowsHtml}\n      <div class="lib-section-title" style="margin-top:10px;">⏱ Per-Cycle Basics <span style="font-weight:500;opacity:.7;">(${formatDuration(fig.cycleTimeSec)}${cycleChanged ? ` — ${formatDuration(ANIMAL_BASE_CYCLE_SEC)} base` : ""} · ${fmt(qty)} heads)</span></div>\n      <div class="lib-item-row" style="margin-top:8px;">\n        <span class="lib-item-icon">${feedIcon}</span>\n        <div class="lib-item-main">\n          <div class="lib-item-name">1 head (Lv${fig.level}) consumes ${fmt(fig.effectiveFeedQty)} ${feedName}</div>\n          <div class="lib-item-meta">yields ${oneHeadYieldLabel} per cycle</div>\n        </div>\n        <div class="lib-item-price">${fmt(coinsToFlower(fig.feedCostCoins))}<small>FLOWER</small></div>\n      </div>\n      <div class="card-grid" style="margin-top:8px;">\n        <div class="stat"><span class="label">Feed cost / animal</span><span class="value">${fmt(coinsToFlower(fig.feedCostCoins))} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Consumable Cost</span><span class="value">${fmt(fig.medicineFlowerPerLevel + fig.consumablesFlowerPerLevel)} ${FLOWER_ICON} FLOWER</span></div>\n      </div>\n      ${(() => {
     const s = getActiveShrineDailyCost(fig.activeBoosts);
     const otherCostItems24h = [];
@@ -14702,7 +15154,12 @@ function applyFarmSkillsOnly(json, fallbackJson) {
     if (fallbackAsc > primaryAsc) g = gFallback;
   }
   const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
-  const skills = g.bumpkin && asObj(g.bumpkin.skills);
+  const skillsFallback = gFallback && gFallback.bumpkin && asObj(gFallback.bumpkin.skills) || null;
+  const skillsPrimary = g.bumpkin && asObj(g.bumpkin.skills);
+  const skills = skillsPrimary || skillsFallback ? {
+    ...(skillsFallback || {}),
+    ...(skillsPrimary || {})
+  } : null;
   let matched = 0;
   if (skills) {
     const freshSkillIds = [];
@@ -14771,7 +15228,7 @@ function farmSyncGetInteriorCollectiblesMerged(g) {
   const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
   const merged = {};
   farmSyncGetInteriorBagSources(g).forEach(bagSource => {
-    const bag = asObj(bagSource.collectibles);
+    const bag = asObj(bagSource.collectibles != null ? bagSource.collectibles : bagSource.land && bagSource.land.collectibles);
     if (!bag) return;
     Object.entries(bag).forEach(([name, arr]) => {
       if (!Array.isArray(arr)) return;
@@ -14780,6 +15237,8 @@ function farmSyncGetInteriorCollectiblesMerged(g) {
   });
   return merged;
 }
+
+const INVENTORY_OWNED_BOOST_NAMES = [ "Green Amulet", "Coder", "Gold Rush", "Prospector", "Wrangler", "Barn Manager", "Seed Specialist", "Lumberjack", "Logger", "Discord Mod", "Artist" ];
 
 function farmSyncCollectEquippedAndPlacedNames(g) {
   const names = new Set;
@@ -14806,19 +15265,26 @@ function farmSyncCollectEquippedAndPlacedNames(g) {
   [ g, home ].concat(farmSyncGetInteriorBagSources(g)).forEach(bagSource => {
     if (!bagSource) return;
     [ "collectibles", "buildings" ].forEach(key => {
-      const bag = asObj(bagSource[key]);
+      const bag = asObj(bagSource[key] != null ? bagSource[key] : bagSource.land && bagSource.land[key]);
       if (!bag) return;
       Object.entries(bag).forEach(([name, arr]) => {
         if (!Array.isArray(arr) || !arr.length) return;
-        const stillPlaced = arr.some(inst => !inst || typeof inst !== "object" || !inst.removedAt);
+        const stillPlaced = arr.some(inst => {
+          if (!inst || typeof inst !== "object") return true;
+          const readyAt = typeof inst.readyAt === "number" ? inst.readyAt : 0;
+          return readyAt <= Date.now() && !!inst.coordinates && !inst.used;
+        });
         if (stillPlaced) names.add(name);
       });
     });
   });
   const inv = asObj(g && g.inventory);
   if (inv) {
-    const amuletQty = typeof inv["Green Amulet"] === "string" ? parseFloat(inv["Green Amulet"]) : Number(inv["Green Amulet"]);
-    if (!isNaN(amuletQty) && amuletQty > 0) names.add("Green Amulet");
+    INVENTORY_OWNED_BOOST_NAMES.forEach(name => {
+      const raw = inv[name];
+      const qty = typeof raw === "string" ? parseFloat(raw) : Number(raw);
+      if (!isNaN(qty) && qty > 0) names.add(name);
+    });
   }
   return names;
 }
@@ -14828,7 +15294,7 @@ function farmSyncHasLifetimeFarmerBanner(g) {
   const home = g && asObj(g.home);
   for (const bagSource of [ g, home ].concat(farmSyncGetInteriorBagSources(g))) {
     if (!bagSource) continue;
-    const bag = asObj(bagSource.collectibles);
+    const bag = asObj(bagSource.collectibles != null ? bagSource.collectibles : bagSource.land && bagSource.land.collectibles);
     const arr = bag && bag["Lifetime Farmer Banner"];
     if (!Array.isArray(arr)) continue;
     if (arr.some(inst => !inst || typeof inst !== "object" || !inst.removedAt)) return true;
@@ -14859,7 +15325,7 @@ function farmSyncIsTradingShrineActive(g) {
   const now = Date.now();
   for (const bagSource of [ g, home ].concat(farmSyncGetInteriorBagSources(g))) {
     if (!bagSource) continue;
-    const bag = asObj(bagSource.collectibles);
+    const bag = asObj(bagSource.collectibles != null ? bagSource.collectibles : bagSource.land && bagSource.land.collectibles);
     const arr = bag && bag["Trading Shrine"];
     if (!Array.isArray(arr)) continue;
     for (const inst of arr) {
@@ -14888,7 +15354,7 @@ function farmSyncGetLimitedTimeBoostStatus(g, name, durationMs) {
   const home = asObj(g.home);
   for (const bagSource of [ g, home ].concat(farmSyncGetInteriorBagSources(g))) {
     if (!bagSource) continue;
-    const bag = asObj(bagSource.collectibles);
+    const bag = asObj(bagSource.collectibles != null ? bagSource.collectibles : bagSource.land && bagSource.land.collectibles);
     const arr = bag && bag[name];
     if (!Array.isArray(arr)) continue;
     for (const inst of arr) {
@@ -15080,6 +15546,27 @@ function applyFarmAnimalAffectionToolsOnly(json) {
   };
 }
 
+function applyFarmGreenThumbLegacyOnly(json) {
+  const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
+  const g = farmSyncExtractGameState(json);
+  const inv = asObj(g && g.inventory) || {};
+  const raw = inv["Green Thumb"];
+  const qty = typeof raw === "string" ? parseFloat(raw) : Number(raw);
+  const owned = !isNaN(qty) && qty > 0;
+  const changed = bettyGreenThumbOn !== owned;
+  if (changed) {
+    bettyGreenThumbOn = owned;
+    localStorage.setItem("hl_betty_green_thumb", JSON.stringify(bettyGreenThumbOn));
+    if ($("bettyGreenThumbToggle")) $("bettyGreenThumbToggle").classList.toggle("on", bettyGreenThumbOn);
+    if (typeof renderBettyShop === "function") renderBettyShop();
+  }
+  return {
+    ok: true,
+    changed: changed,
+    owned: owned
+  };
+}
+
 function applyFarmBoostsOnly(json) {
   const g = farmSyncExtractGameState(json);
   farmSyncRefreshLimitedBoostActiveState(g);
@@ -15147,6 +15634,7 @@ function detectBeeSwarmFromCrops(g) {
   const cropsBag = g && typeof g.crops === "object" && g.crops ? g.crops : {};
   let totalCount = 0;
   let affectedPlots = 0;
+  const byCrop = {};
   Object.values(cropsBag).forEach(plot => {
     const bs = plot && plot.beeSwarm;
     if (!bs) return;
@@ -15155,11 +15643,21 @@ function detectBeeSwarmFromCrops(g) {
     if (count > 0) {
       totalCount += count;
       affectedPlots += 1;
+      const plotCropName = plot && plot.crop && plot.crop.name;
+      if (plotCropName) {
+        if (!byCrop[plotCropName]) byCrop[plotCropName] = {
+          totalCount: 0,
+          affectedPlots: 0
+        };
+        byCrop[plotCropName].totalCount += count;
+        byCrop[plotCropName].affectedPlots += 1;
+      }
     }
   });
   return {
     totalCount: totalCount,
-    affectedPlots: affectedPlots
+    affectedPlots: affectedPlots,
+    byCrop: byCrop
   };
 }
 
@@ -15209,9 +15707,10 @@ function applyFarmPlotsNodesOnly(json, hasFullData) {
   saveGlobalPlotCountTouched();
   touched = true;
   {
-    const {totalCount: beeSwarmTotalCount, affectedPlots: beeSwarmTotalPlots} = detectBeeSwarmFromCrops(g);
+    const {totalCount: beeSwarmTotalCount, affectedPlots: beeSwarmTotalPlots, byCrop: beeSwarmTotalByCrop} = detectBeeSwarmFromCrops(g);
     beeSwarmActiveCount = beeSwarmTotalCount;
     beeSwarmAffectedPlots = beeSwarmTotalPlots;
+    beeSwarmByCrop = beeSwarmTotalByCrop || {};
     saveBeeSwarmState();
     if (beeSwarmActiveCount > 0 && !selectedBoosts.includes("bee_swarm")) {
       selectedBoosts.push("bee_swarm");
@@ -15421,11 +15920,22 @@ const FARM_LEVEL_NODES = [ 1, 2, 4, 6 ];
 
 let farmPanelGameState = null;
 
+
+
+
+
+
+
+
+let farmPanelHoneySnapshotMs = Date.now();
+
 let farmPanelTabContentDirty = false;
 
 let farmPanelActiveTab = "inprogress";
 
 let farmPanelExpandedNames = new Set;
+
+let farmPanelInProgressCategoryFilter = "all";
 
 let farmPanelRenderAtMs = 0;
 
@@ -16072,6 +16582,11 @@ function farmPanelBuildSequentialWoodRolls(json, treeType, count) {
   const baseCounter = typeof farmActivity[activityKey] === "number" ? farmActivity[activityKey] : 0;
   const toughTreeOwned = isSkillActive("skill_tough_tree");
   const toughTreeChance = toughTreeOwned ? [ 10, 20, 30 ][Math.min(Math.max(getAscensionRank("skill_tough_tree"), 1), 3) - 1] : 0;
+  
+  
+  
+  const turnaroundOwned = isSkillActive("skill_tree_turnaround");
+  const turnaroundChance = turnaroundOwned ? ASCENSION_RANK_DATA.skill_tree_turnaround.values[Math.min(Math.max(getAscensionRank("skill_tree_turnaround"), 1), 3) - 1] : 0;
   const rolls = [];
   for (let i = 0; i < count; i++) {
     const counter = baseCounter + i;
@@ -16089,9 +16604,17 @@ function farmPanelBuildSequentialWoodRolls(json, treeType, count) {
       chance: 20,
       criticalHitName: "Native"
     });
+    const turnaroundHit = turnaroundOwned && sflPrngChance({
+      farmId: farmId,
+      itemId: itemId,
+      counter: counter,
+      chance: turnaroundChance,
+      criticalHitName: "Tree Turnaround"
+    });
     rolls.push({
       toughTreeCrit: toughTreeCrit,
-      nativeHit: nativeHit
+      nativeHit: nativeHit,
+      turnaroundHit: turnaroundHit
     });
   }
   return rolls;
@@ -16100,6 +16623,82 @@ function farmPanelBuildSequentialWoodRolls(json, treeType, count) {
 function farmPanelPredictWoodCritRolls(json, treeType) {
   const rolls = farmPanelBuildSequentialWoodRolls(json, treeType, 1);
   return rolls && rolls.length ? rolls[0] : null;
+}
+
+
+
+
+
+
+
+
+
+
+
+function farmPanelBuildSequentialWoodRollChains(json, treeType, count) {
+  const lastInfo = farmPanelGetLastInfo();
+  const farmId = Number(lastInfo.id);
+  if (!Number.isFinite(farmId) || farmId <= 0) return null;
+  const g = farmSyncExtractGameState(json);
+  const farmActivity = farmPanelField(g, "farmActivity");
+  if (!farmActivity || typeof farmActivity !== "object") return null;
+  const itemId = TREE_KNOWN_IDS[treeType];
+  if (!itemId) return null;
+  if (count <= 0) return [];
+  const activityKey = `${treeType === "Tree" ? "Basic Tree" : treeType} Chopped`;
+  const baseCounter = typeof farmActivity[activityKey] === "number" ? farmActivity[activityKey] : 0;
+  const toughTreeOwned = isSkillActive("skill_tough_tree");
+  const toughTreeChance = toughTreeOwned ? [ 10, 20, 30 ][Math.min(Math.max(getAscensionRank("skill_tough_tree"), 1), 3) - 1] : 0;
+  const turnaroundOwned = isSkillActive("skill_tree_turnaround");
+  const turnaroundChance = turnaroundOwned ? ASCENSION_RANK_DATA.skill_tree_turnaround.values[Math.min(Math.max(getAscensionRank("skill_tree_turnaround"), 1), 3) - 1] : 0;
+  const rollAt = counter => {
+    const toughTreeCrit = toughTreeOwned && sflPrngChance({
+      farmId: farmId,
+      itemId: itemId,
+      counter: counter,
+      chance: toughTreeChance,
+      criticalHitName: "Tough Tree"
+    });
+    const nativeHit = sflPrngChance({
+      farmId: farmId,
+      itemId: itemId,
+      counter: counter,
+      chance: 20,
+      criticalHitName: "Native"
+    });
+    const turnaroundHit = turnaroundOwned && sflPrngChance({
+      farmId: farmId,
+      itemId: itemId,
+      counter: counter,
+      chance: turnaroundChance,
+      criticalHitName: "Tree Turnaround"
+    });
+    return {
+      counter: counter,
+      toughTreeCrit: toughTreeCrit,
+      nativeHit: nativeHit,
+      turnaroundHit: turnaroundHit
+    };
+  };
+  
+  
+  
+  const MAX_CHAIN_LENGTH = 500;
+  let counter = baseCounter;
+  const chains = [];
+  for (let i = 0; i < count; i++) {
+    const chain = [];
+    let roll = rollAt(counter);
+    chain.push(roll);
+    counter++;
+    while (roll.turnaroundHit && chain.length < MAX_CHAIN_LENGTH) {
+      roll = rollAt(counter);
+      chain.push(roll);
+      counter++;
+    }
+    chains.push(chain);
+  }
+  return chains;
 }
 
 function farmPanelGetBudYieldForResource(resourceName) {
@@ -16177,17 +16776,37 @@ function farmPanelGetMiningPrngContext(json, knownIds, rockName) {
   };
 }
 
+function farmSyncIsReadyPlacedInstance(inst) {
+  return !!(inst && typeof inst === "object" && inst.coordinates && typeof inst.coordinates.x === "number" && typeof inst.coordinates.y === "number" && (typeof inst.readyAt !== "number" || inst.readyAt <= Date.now()));
+}
+
+function farmSyncPickActivePlacedInstances(arr) {
+  if (!Array.isArray(arr) || !arr.length) return [];
+  const placed = arr.filter(farmSyncIsReadyPlacedInstance);
+  const clean = placed.filter(inst => !inst.removedAt);
+  return clean.length ? clean : placed;
+}
+
 function farmPanelGetCollectiblePosition(g, name) {
   const collectibles = farmPanelField(g, "collectibles");
   const arr = collectibles && collectibles[name];
-  if (!Array.isArray(arr) || !arr[0]) return null;
-  const placed = arr[0];
-  const ready = (typeof placed.readyAt === "number" ? placed.readyAt : 0) <= Date.now();
-  if (!ready || !placed.coordinates || typeof placed.coordinates.x !== "number" || typeof placed.coordinates.y !== "number") return null;
+  const active = farmSyncPickActivePlacedInstances(arr);
+  const placed = active[0];
+  if (!placed) return null;
   return {
     x: placed.coordinates.x,
     y: placed.coordinates.y
   };
+}
+
+function farmPanelGnomeComboPresent() {
+  if (!farmPanelGameState) return false;
+  const g = farmSyncExtractGameState(farmPanelGameState);
+  const gnomePos = farmPanelGetCollectiblePosition(g, "Gnome");
+  const cobaltPos = farmPanelGetCollectiblePosition(g, "Cobalt");
+  const clementinePos = farmPanelGetCollectiblePosition(g, "Clementine");
+  if (!gnomePos || !cobaltPos || !clementinePos) return false;
+  return cobaltPos.y === gnomePos.y && cobaltPos.x + 1 === gnomePos.x && clementinePos.y === gnomePos.y && clementinePos.x - 1 === gnomePos.x;
 }
 
 function farmPanelIsWithinTurtleAOE(turtlePos, rockPos) {
@@ -16196,15 +16815,21 @@ function farmPanelIsWithinTurtleAOE(turtlePos, rockPos) {
   return Math.abs(dx) <= 1 && Math.abs(dy) <= 1 && (dx !== 0 || dy !== 0);
 }
 
-function farmPanelGetRockRecoveryDurationMsFromSync(node, baseRecoverySec) {
+function farmPanelGetRockRecoveryDurationMsFromSync(node, baseRecoverySec, resourceName) {
   const jobData = node && node.stone;
   const baseMs = baseRecoverySec * 1e3;
   if (!jobData) return baseMs;
-  if (typeof jobData.baseDurationMs === "number") return jobData.baseDurationMs;
+  if (typeof jobData.baseDurationMs === "number") {
+    if (!resourceName) return jobData.baseDurationMs;
+    const boosted = farmPanelGetBoostedYieldStats(resourceName);
+    const boostedMs = typeof boosted.timeVal === "number" ? boosted.timeVal * 1e3 : baseMs;
+    const ratio = baseMs > 0 ? boostedMs / baseMs : 1;
+    return jobData.baseDurationMs * ratio;
+  }
   return baseMs - (typeof jobData.boostedTime === "number" ? jobData.boostedTime : 0);
 }
 
-function farmPanelCheckTurtleAOEBonus(g, turtleName, node, baseRecoverySec, atTime) {
+function farmPanelCheckTurtleAOEBonus(g, turtleName, node, baseRecoverySec, atTime, resourceName) {
   if (!node || typeof node.x !== "number" || typeof node.y !== "number") return false;
   const turtlePos = farmPanelGetCollectiblePosition(g, turtleName);
   if (!turtlePos) return false;
@@ -16216,7 +16841,7 @@ function farmPanelCheckTurtleAOEBonus(g, turtleName, node, baseRecoverySec, atTi
   const dx = node.x - turtlePos.x;
   const dy = node.y - turtlePos.y;
   const lastUsed = aoeState[turtleName] && aoeState[turtleName][dx] && typeof aoeState[turtleName][dx][dy] === "number" ? aoeState[turtleName][dx][dy] : 0;
-  const cooldownMs = farmPanelGetRockRecoveryDurationMsFromSync(node, baseRecoverySec);
+  const cooldownMs = farmPanelGetRockRecoveryDurationMsFromSync(node, baseRecoverySec, resourceName);
   const referenceTime = typeof atTime === "number" ? atTime : Date.now();
   const idleMs = referenceTime - lastUsed;
   return idleMs >= cooldownMs;
@@ -16282,8 +16907,8 @@ function farmPanelComputeExactStoneYieldForNode(json, node, rockName, critRolls,
     amount += values[Math.min(Math.max(rank, 1), values.length) - 1];
   }
   if (critRolls.nativeHit) amount += 1;
-  if (isBoostActive("emerald_turtle") && farmPanelCheckTurtleAOEBonus(g, "Emerald Turtle", node, 14400, atTime)) amount += .5;
-  if (isBoostActive("tin_turtle") && farmPanelCheckTurtleAOEBonus(g, "Tin Turtle", node, 14400, atTime)) amount += .1;
+  if (isBoostActive("emerald_turtle") && farmPanelCheckTurtleAOEBonus(g, "Emerald Turtle", node, 14400, atTime, "Stone")) amount += .5;
+  if (isBoostActive("tin_turtle") && farmPanelCheckTurtleAOEBonus(g, "Tin Turtle", node, 14400, atTime, "Stone")) amount += .1;
   if (isBoostActive("faction_shield_res")) amount += .25;
   if (isBoostActive("legendary_shrine_res")) amount += 1;
   amount += farmPanelGetBudYieldForResource("Stone");
@@ -16347,7 +16972,7 @@ function farmPanelComputeExactIronYieldForNode(json, node, rockName, critRolls, 
     amount += values[Math.min(Math.max(rank, 1), values.length) - 1];
   }
   if (critRolls.nativeHit) amount += 1;
-  if (isBoostActive("emerald_turtle") && farmPanelCheckTurtleAOEBonus(g, "Emerald Turtle", node, 28800, atTime)) amount += .5;
+  if (isBoostActive("emerald_turtle") && farmPanelCheckTurtleAOEBonus(g, "Emerald Turtle", node, 28800, atTime, "Iron")) amount += .5;
   if (isBoostActive("faction_shield_res")) amount += .25;
   amount += farmPanelGetBudYieldForResource("Iron");
   if (isBoostActive("volcano_gnome")) amount += .1;
@@ -16364,6 +16989,9 @@ const GOLD_KNOWN_IDS = {
   "Pure Gold Rock": 2706,
   "Prime Gold Rock": 2707
 };
+
+
+
 
 function farmPanelPredictGoldInstantMineForType(json, rockName) {
   if (!isBoostActive("pickaxe_shark")) return null;
@@ -16384,6 +17012,10 @@ function farmPanelBuildSequentialGoldRolls(json, rockName, count) {
   if (!ctx) return null;
   if (count <= 0) return [];
   const {farmId: farmId, itemId: itemId, counter: baseCounter} = ctx;
+  
+  
+  
+  const pickaxeSharkOwned = isBoostActive("pickaxe_shark");
   const rolls = [];
   for (let i = 0; i < count; i++) {
     const counter = baseCounter + i;
@@ -16394,8 +17026,16 @@ function farmPanelBuildSequentialGoldRolls(json, rockName, count) {
       chance: 20,
       criticalHitName: "Native"
     });
+    const instantMineHit = pickaxeSharkOwned && sflPrngChance({
+      farmId: farmId,
+      itemId: itemId,
+      counter: counter,
+      chance: 10,
+      criticalHitName: "Pickaxe Shark"
+    });
     rolls.push({
-      nativeHit: nativeHit
+      nativeHit: nativeHit,
+      instantMineHit: instantMineHit
     });
   }
   return rolls;
@@ -16406,17 +17046,74 @@ function farmPanelPredictGoldCritRolls(json, rockName) {
   return rolls && rolls.length ? rolls[0] : null;
 }
 
+
+
+
+
+
+
+function farmPanelBuildSequentialGoldRollChains(json, rockName, count) {
+  const ctx = farmPanelGetMiningPrngContext(json, GOLD_KNOWN_IDS, rockName);
+  if (!ctx) return null;
+  if (count <= 0) return [];
+  const {farmId: farmId, itemId: itemId, counter: baseCounter} = ctx;
+  const pickaxeSharkOwned = isBoostActive("pickaxe_shark");
+  const rollAt = counter => {
+    const nativeHit = sflPrngChance({
+      farmId: farmId,
+      itemId: itemId,
+      counter: counter,
+      chance: 20,
+      criticalHitName: "Native"
+    });
+    const instantMineHit = pickaxeSharkOwned && sflPrngChance({
+      farmId: farmId,
+      itemId: itemId,
+      counter: counter,
+      chance: 10,
+      criticalHitName: "Pickaxe Shark"
+    });
+    return {
+      counter: counter,
+      nativeHit: nativeHit,
+      instantMineHit: instantMineHit
+    };
+  };
+  
+  
+  const MAX_CHAIN_LENGTH = 500;
+  let counter = baseCounter;
+  const chains = [];
+  for (let i = 0; i < count; i++) {
+    const chain = [];
+    let roll = rollAt(counter);
+    chain.push(roll);
+    counter++;
+    while (roll.instantMineHit && chain.length < MAX_CHAIN_LENGTH) {
+      roll = rollAt(counter);
+      chain.push(roll);
+      counter++;
+    }
+    chains.push(chain);
+  }
+  return chains;
+}
+
 function farmPanelComputeExactGoldYieldForNode(json, node, rockName, critRolls, atTime) {
   if (!critRolls) return null;
   const g = farmSyncExtractGameState(json);
   let amount = 1;
   if (isBoostActive("gold_rush")) amount += .5;
-  if (isSkillActive("skill_golden_touch")) amount += .5;
+  if (isSkillActive("skill_golden_touch")) {
+    const rank = getAscensionRank("skill_golden_touch");
+    const values = ASCENSION_RANK_DATA.skill_golden_touch.values;
+    amount += values[Math.min(Math.max(rank, 1), values.length) - 1];
+  }
   if (critRolls.nativeHit) amount += 1;
   if (isBoostActive("nugget")) amount += .25;
   if (isBoostActive("gilded_swordfish")) amount += .1;
   if (isBoostActive("gold_beetle")) amount += .1;
-  if (isBoostActive("emerald_turtle") && farmPanelCheckTurtleAOEBonus(g, "Emerald Turtle", node, 86400, atTime)) amount += .5;
+  if (isBoostActive("emerald_turtle") && farmPanelCheckTurtleAOEBonus(g, "Emerald Turtle", node, 86400, atTime, "Gold")) amount += .5;
   if (isBoostActive("faction_shield_res")) amount += .25;
   amount += farmPanelGetBudYieldForResource("Gold");
   if (isBoostActive("volcano_gnome")) amount += .1;
@@ -16431,6 +17128,59 @@ function farmPanelComputeExactGoldYieldForNode(json, node, rockName, critRolls, 
 const CRIMSTONE_KNOWN_IDS = {
   "Crimstone Rock": 635
 };
+
+function farmPanelGetCrimstonePrngContext(json) {
+  const lastInfo = farmPanelGetLastInfo();
+  const farmId = Number(lastInfo.id);
+  if (!Number.isFinite(farmId) || farmId <= 0) return null;
+  const g = farmSyncExtractGameState(json);
+  const farmActivity = farmPanelField(g, "farmActivity");
+  if (!farmActivity || typeof farmActivity !== "object") return null;
+  const itemId = CRIMSTONE_KNOWN_IDS["Crimstone Rock"];
+  const counter = typeof farmActivity["Crimstone Mined"] === "number" ? farmActivity["Crimstone Mined"] : 0;
+  return {
+    farmId: farmId,
+    itemId: itemId,
+    counter: counter
+  };
+}
+
+function farmPanelBuildSequentialCrimstoneRollChains(json, count) {
+  const ctx = farmPanelGetCrimstonePrngContext(json);
+  if (!ctx) return null;
+  if (count <= 0) return [];
+  const {farmId: farmId, itemId: itemId, counter: baseCounter} = ctx;
+  const clamOwned = isBoostActive("crimstone_clam");
+  const rollAt = counter => {
+    const instantHit = clamOwned && sflPrngChance({
+      farmId: farmId,
+      itemId: itemId,
+      counter: counter,
+      chance: 10,
+      criticalHitName: "Crimstone Clam"
+    });
+    return {
+      counter: counter,
+      instantHit: instantHit
+    };
+  };
+  const MAX_CHAIN_LENGTH = 500;
+  let counter = baseCounter;
+  const chains = [];
+  for (let i = 0; i < count; i++) {
+    const chain = [];
+    let roll = rollAt(counter);
+    chain.push(roll);
+    counter++;
+    while (roll.instantHit && chain.length < MAX_CHAIN_LENGTH) {
+      roll = rollAt(counter);
+      chain.push(roll);
+      counter++;
+    }
+    chains.push(chain);
+  }
+  return chains;
+}
 
 const CROP_KNOWN_IDS = {
   Sunflower: 201,
@@ -16514,7 +17264,10 @@ function farmPanelCropTierLabel(cropName) {
 
 function isOvernightGroundCrop(cropName) {
   const sec = CROP_HARVEST_SEC[cropName];
-  return sec != null && sec >= CROP_HARVEST_SEC.Radish;
+  if (sec != null) return sec >= CROP_HARVEST_SEC.Radish;
+  const gh = BASE_GREENHOUSE[cropName];
+  if (gh && typeof gh.timeSec === "number") return gh.timeSec >= 86400 && gh.timeSec <= 129600;
+  return false;
 }
 
 function farmPanelSumCatalogBoosts(matchFn, excludeIds) {
@@ -16561,7 +17314,7 @@ function renderExactBoostAppliedList(boosts) {
   return `<div class="section-badge is-boost-label">🎯 Applied Boost (this yield)</div><div class="boost-applied-list">${rows}</div>`;
 }
 
-function farmPanelComputeExactCrimstoneYield(g, rock) {
+function farmPanelComputeExactCrimstoneYield(g, rock, minesLeftOverride, allowStreakBonus) {
   let amount = 1;
   const boosts = [];
   if (isBoostActive("crimson_carp")) {
@@ -16585,8 +17338,8 @@ function farmPanelComputeExactCrimstoneYield(g, rock) {
       valueText: "+0.1 yield"
     });
   }
-  const minesLeft = rock && typeof rock.minesLeft === "number" ? rock.minesLeft : 5;
-  if (minesLeft === 1) {
+  const minesLeft = minesLeftOverride != null ? minesLeftOverride : rock && typeof rock.minesLeft === "number" ? rock.minesLeft : 5;
+  if (minesLeft === 1 && allowStreakBonus !== false) {
     if (isBoostActive("crimstone_hammer")) {
       amount += 2;
       boosts.push({
@@ -16608,6 +17361,74 @@ function farmPanelComputeExactCrimstoneYield(g, rock) {
     boosts.push({
       name: "5th Mine Streak",
       valueText: "+2 yield (guaranteed)"
+    });
+  }
+  return {
+    amount: amount,
+    boosts: boosts
+  };
+}
+
+function farmPanelComputeExactOilYield(hasBonus) {
+  let amount = OIL_SINGLE_HARVEST_BASE;
+  const boosts = [];
+  if (hasBonus) {
+    amount += OIL_BONUS_DROP_AMOUNT;
+    boosts.push({
+      name: "Bonus Drill (3rd Mine)",
+      valueText: `+${fmt(OIL_BONUS_DROP_AMOUNT)} yield (guaranteed)`
+    });
+    if (isBoostActive("stag_shrine")) {
+      amount += 15;
+      boosts.push({
+        name: "Stag Shrine",
+        valueText: "+15 yield (3rd mine)"
+      });
+    }
+  }
+  if (isBoostActive("battle_fish")) {
+    amount += .05;
+    boosts.push({
+      name: "Battle Fish",
+      valueText: "+0.05 yield"
+    });
+  }
+  if (isBoostActive("knight_chicken")) {
+    amount += .1;
+    boosts.push({
+      name: "Knight Chicken",
+      valueText: "+0.1 yield"
+    });
+  }
+  if (isBoostActive("oil_can")) {
+    amount += 2;
+    boosts.push({
+      name: "Oil Can",
+      valueText: "+2 yield"
+    });
+  }
+  if (isBoostActive("oil_overalls")) {
+    amount += 10;
+    boosts.push({
+      name: "Oil Overalls",
+      valueText: "+10 yield"
+    });
+  }
+  if (isBoostActive("oil_gallon")) {
+    amount += 5;
+    boosts.push({
+      name: "Oil Gallon",
+      valueText: "+5 yield"
+    });
+  }
+  if (isSkillActive("skill_oil_extraction")) {
+    const rank = getAscensionRank("skill_oil_extraction");
+    const values = ASCENSION_RANK_DATA.skill_oil_extraction && ASCENSION_RANK_DATA.skill_oil_extraction.values || [ 1, 1.5, 2 ];
+    const v = values[Math.min(Math.max(rank, 1), values.length) - 1];
+    amount += v;
+    boosts.push({
+      name: "Oil Extraction",
+      valueText: `+${fmt(v)} yield`
     });
   }
   return {
@@ -16751,13 +17572,18 @@ function farmPanelCropAOEBonus(g, collectibleName, plot, dims, rankSkillId, cool
   return idleMs >= cooldownSec * 1e3;
 }
 
-const CROP_PRNG_EXCLUDE = new Set([ "green_amulet", "stellar_sunflower", "potent_potato", "peeled_potato", "radical_radish", "skill_golden_sunflower", "basic_scarecrow", "skill_chonky_scarecrow", "scary_mike", "skill_horror_mike", "laurie_chuckle_crow", "skill_lauries_gains", "queen_cornelia", "skill_acre_farm", "skill_hectare_farm", "scarecrow", "kuebiko", "coder", "sunflower_amulet", "victoria_sisters", "easter_bunny", "beetroot_amulet", "golden_cauliflower", "sir_goldensnout", "gnome", "hoot", "blossom_ward", "frozen_heart", "bee_swarm", "skill_pollen_power_up", "apply_sprout_mix", "apply_rapid_root", "apply_sproutroot_surprise" ]);
+const CROP_PRNG_EXCLUDE = new Set([ "green_amulet", "stellar_sunflower", "potent_potato", "peeled_potato", "radical_radish", "skill_golden_sunflower", "basic_scarecrow", "skill_chonky_scarecrow", "scary_mike", "skill_horror_mike", "laurie_chuckle_crow", "skill_lauries_gains", "queen_cornelia", "skill_acre_farm", "skill_hectare_farm", "scarecrow", "kuebiko", "coder", "sunflower_amulet", "victoria_sisters", "easter_bunny", "beetroot_amulet", "golden_cauliflower", "sir_goldensnout", "gnome", "hoot", "blossom_ward", "frozen_heart", "bee_swarm", "skill_pollen_power_up", "apply_sprout_mix", "apply_rapid_root", "apply_sproutroot_surprise", "bountiful_harvest" ]);
 
 function farmPanelGetCropGrowDurationMsFromSync(job, cropName) {
   const baseSec = farmPanelGrowTimeSec(cropName);
   const baseMs = (typeof baseSec === "number" ? baseSec : 0) * 1e3;
   if (!job) return baseMs;
-  if (typeof job.baseDurationMs === "number") return job.baseDurationMs;
+  if (typeof job.baseDurationMs === "number") {
+    const boosted = farmPanelGetBoostedYieldStats(cropName);
+    const boostedMs = typeof boosted.timeVal === "number" ? boosted.timeVal * 1e3 : baseMs;
+    const ratio = baseMs > 0 ? boostedMs / baseMs : 1;
+    return job.baseDurationMs * ratio;
+  }
   return baseMs - (typeof job.boostedTime === "number" ? job.boostedTime : 0);
 }
 
@@ -16832,7 +17658,7 @@ function farmPanelComputeExactCropYield(json, g, cropName, plot, counter, isGree
       valueText: "×1.2 yield"
     });
   }
-  const generic = farmPanelSumCatalogBoosts(b => (b.scope === "crop" && b.target === cropName || b.scope === "tier" && b.target === tierLabel || b.scope === "global" && b.category === "crops" && (b.target === null || b.target === undefined)) && !(isGreenhouse && CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE.has(b.id)), CROP_PRNG_EXCLUDE);
+  const generic = farmPanelSumCatalogBoosts(b => (b.scope === "crop" && b.target === cropName || b.scope === "tier" && b.target === tierLabel || b.scope === "global" && b.category === "crops" && (b.target === null || b.target === undefined)) && !(isGreenhouse && CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE.has(b.id)) && (b.id !== "hoot" || !isGreenhouse || cropName === "Rice"), CROP_PRNG_EXCLUDE);
   if (generic.mult !== 1) amount *= generic.mult;
   generic.boosts.forEach(b => {
     const parts = [];
@@ -16988,7 +17814,10 @@ function farmPanelComputeExactCropYield(json, g, cropName, plot, counter, isGree
   }
   if (tierLabel) {
     if (isSkillActive("skill_acre_farm")) {
-      const v = tierLabel === "Advanced" ? 1 : -.5;
+      const rank = getAscensionRank("skill_acre_farm");
+      const data = ASCENSION_RANK_DATA.skill_acre_farm.values;
+      const idx = Math.min(Math.max(rank, 1), 3) - 1;
+      const v = tierLabel === "Advanced" ? data["tierEffects.Advanced"][idx] : data["tierEffects." + tierLabel][idx];
       amount += v;
       boosts.push({
         name: "Acre Farm",
@@ -16996,7 +17825,10 @@ function farmPanelComputeExactCropYield(json, g, cropName, plot, counter, isGree
       });
     }
     if (isSkillActive("skill_hectare_farm")) {
-      const v = tierLabel === "Advanced" ? -.5 : 1;
+      const rank = getAscensionRank("skill_hectare_farm");
+      const data = ASCENSION_RANK_DATA.skill_hectare_farm.values;
+      const idx = Math.min(Math.max(rank, 1), 3) - 1;
+      const v = tierLabel === "Advanced" ? data["tierEffects.Advanced"][idx] : data["tierEffects." + tierLabel][idx];
       amount += v;
       boosts.push({
         name: "Hectare Farm",
@@ -17033,34 +17865,68 @@ function farmPanelComputeExactCropYield(json, g, cropName, plot, counter, isGree
       valueText: `+${fmt(budAdd)} yield`
     });
   }
-  if (isBoostActive("insect_plague_active") && !isBoostActive("insect_plague_protected")) {
+  if (isBoostActive("insect_plague")) {
     amount *= .5;
     boosts.push({
       name: "Insect Plague",
       valueText: "×0.5 yield"
     });
   }
-  if (isBoostActive("bountiful_harvest_active")) {
+  if (isBoostActive("bountiful_harvest")) {
     amount += 1;
     boosts.push({
       name: "Bountiful Harvest",
       valueText: "+1 yield"
     });
-    if (isBoostActive("season_guardian_active")) {
+    if (getActiveSeasonGuardianName()) {
       amount += 1;
       boosts.push({
-        name: "Season Guardian",
+        name: currentSeason + " Guardian",
         valueText: "+1 yield (doubles Bountiful Harvest)"
       });
     }
   }
+  let seedReward = null;
+  if (!isGreenhouse && Number.isFinite(farmId) && farmId > 0 && itemId) {
+    const gotSeedDrop = sflPrngChance({
+      farmId: farmId,
+      itemId: itemId,
+      counter: counter,
+      chance: 5,
+      criticalHitName: cropName
+    });
+    if (gotSeedDrop) {
+      const seedName = cropName + " Seed";
+      const isTwoSeeds = sflPrngChance({
+        farmId: farmId,
+        itemId: itemId,
+        counter: counter,
+        chance: 50,
+        criticalHitName: seedName
+      });
+      seedReward = {
+        seedName: seedName,
+        amount: isTwoSeeds ? 2 : 3
+      };
+    }
+  }
   return {
     amount: Math.round(amount * 1e4) / 1e4,
-    boosts: boosts
+    boosts: boosts,
+    seedReward: seedReward
   };
 }
 
 const FRUIT_PRNG_EXCLUDE = new Set([ "skill_generous_orchard", "apply_fruitful_blend", "apply_turbofruit_mix" ]);
+
+
+
+
+
+
+
+
+const PATCH_FRUIT_ONLY_GLOBAL_BOOSTS_EXCLUDED_FROM_GREENHOUSE = new Set([ "camel_onesie", "macaw", "skill_fruitful_fumble", "faction_quiver" ]);
 
 function farmPanelComputeExactFruitYield(json, g, fruitName, counter, isGreenhouse, patchFertiliserName) {
   const lastInfo = farmPanelGetLastInfo();
@@ -17086,7 +17952,8 @@ function farmPanelComputeExactFruitYield(json, g, fruitName, counter, isGreenhou
       });
     }
   }
-  const generic = farmPanelSumCatalogBoosts(b => b.scope === "fruit" && b.target === fruitName || b.category === "fruits" && b.scope === "global" || b.category === "fruits" && b.scope === "fruitList" && Array.isArray(b.fruits) && b.fruits.includes(fruitName), FRUIT_PRNG_EXCLUDE);
+  const fruitExcludeIds = isGreenhouse ? new Set([ ...FRUIT_PRNG_EXCLUDE, ...PATCH_FRUIT_ONLY_GLOBAL_BOOSTS_EXCLUDED_FROM_GREENHOUSE ]) : FRUIT_PRNG_EXCLUDE;
+  const generic = farmPanelSumCatalogBoosts(b => b.scope === "fruit" && b.target === fruitName || b.category === "fruits" && b.scope === "global" || b.category === "fruits" && b.scope === "fruitList" && Array.isArray(b.fruits) && b.fruits.includes(fruitName), fruitExcludeIds);
   amount += generic.add;
   amount *= generic.mult;
   generic.boosts.forEach(b => {
@@ -17100,11 +17967,17 @@ function farmPanelComputeExactFruitYield(json, g, fruitName, counter, isGreenhou
   });
   if (!isGreenhouse && (patchFertiliserName === "Fruitful Blend" || patchFertiliserName === "Turbofruit Mix")) {
     let fertBonus = .1;
-    if (isSkillActive("skill_fruitful_bounty")) fertBonus *= 2;
+    let fruitfulBountyMult = 1;
+    if (isSkillActive("skill_fruitful_bounty")) {
+      const rank = getAscensionRank("skill_fruitful_bounty");
+      const values = ASCENSION_RANK_DATA.skill_fruitful_bounty.values;
+      fruitfulBountyMult = values[Math.min(Math.max(rank, 1), values.length) - 1];
+      fertBonus *= fruitfulBountyMult;
+    }
     amount += fertBonus;
     boosts.push({
       name: patchFertiliserName,
-      valueText: `+${fmt(fertBonus)} yield (fertiliser${isSkillActive("skill_fruitful_bounty") ? " · doubled by Fruitful Bounty" : ""})`
+      valueText: `+${fmt(fertBonus)} yield (fertiliser${isSkillActive("skill_fruitful_bounty") ? ` · ×${fmt(fruitfulBountyMult)} by Fruitful Bounty` : ""})`
     });
   }
   const budAdd = farmPanelGetBudYieldForResource(fruitName) || 0;
@@ -17115,16 +17988,16 @@ function farmPanelComputeExactFruitYield(json, g, fruitName, counter, isGreenhou
       valueText: `+${fmt(budAdd)} yield`
     });
   }
-  if (isBoostActive("bountiful_harvest_active")) {
+  if (isBoostActive("bountiful_harvest")) {
     amount += 1;
     boosts.push({
       name: "Bountiful Harvest",
       valueText: "+1 yield"
     });
-    if (isBoostActive("season_guardian_active")) {
+    if (getActiveSeasonGuardianName()) {
       amount += 1;
       boosts.push({
-        name: "Season Guardian",
+        name: currentSeason + " Guardian",
         valueText: "+1 yield (doubles Bountiful Harvest)"
       });
     }
@@ -17186,6 +18059,10 @@ function farmPanelComputeExactGreenhouseYield(json, g, plantName, counter, potFe
     boosts: boosts
   };
 }
+
+
+
+
 
 function farmPanelPredictTreeTurnaroundForType(json, treeType) {
   if (!isSkillActive("skill_tree_turnaround")) return null;
@@ -17322,15 +18199,23 @@ function farmPanelIsNodeReadyNow(resourceName, node, subKey, now) {
   return remainingSec != null ? remainingSec <= 0 : false;
 }
 
+let farmPanelAnimalYieldGroupsByType = {};
+let farmPanelAnimalBuffTrackingByType = {};
+
 function farmPanelComputeInProgressRaw(json) {
   const g = farmSyncExtractGameState(json);
   const now = Date.now();
   const rows = [];
+  farmPanelAnimalYieldGroupsByType = {};
+  farmPanelAnimalBuffTrackingByType = {};
   const farmActivity = farmPanelField(g, "farmActivity") || {};
+  const cropWeatherDestruction = computeDestroyedCropPlotIds(g);
+  const cropWeatherDestructionLabel = cropWeatherDestruction.activeEvent ? ((CALENDAR_SEASONAL_BOOSTS.find(e => e.calendarKey === cropWeatherDestruction.activeEvent) || {}).name || null) : null;
   const addPlanted = (bag, subKey, kind) => {
     if (!bag || typeof bag !== "object") return;
     const sequentialCounterBaseByName = {};
     const sequentialIndexByName = {};
+    const plotIndexByName = {};
     if (kind === "crop" || kind === "fruit" || kind === "greenhouse") {
       Object.values(bag).forEach(plot => {
         const job = plot && plot[subKey];
@@ -17349,28 +18234,43 @@ function farmPanelComputeInProgressRaw(json) {
         }
       });
     }
-    Object.values(bag).forEach(plot => {
+    Object.entries(bag).forEach(([plotId, plot]) => {
       const job = plot && plot[subKey];
       const name = job && job.name;
       const plantedAt = job && job.plantedAt;
       if (!name || !plantedAt) return;
+      const isWeatherDestroyedPlot = kind === "crop" && !!cropWeatherDestruction.activeEvent && cropWeatherDestruction.destroyedIds.has(plotId);
       const refTime = job.harvestedAt && job.harvestedAt > plantedAt ? job.harvestedAt : plantedAt;
       const growSec = farmPanelGrowTimeSec(name);
       const elapsedSec = (now - refTime) / 1e3;
-      const remainingSec = growSec != null ? Math.max(0, growSec - elapsedSec) : null;
-      const isReadyNow = remainingSec != null ? remainingSec <= 0 : false;
+      let remainingSec = growSec != null ? Math.max(0, growSec - elapsedSec) : null;
+      if (kind === "crop" && remainingSec != null && remainingSec > 0) {
+        const sunshowerMult = getCropPlotSunshowerSpeedMultiplier();
+        if (sunshowerMult > 1) remainingSec = remainingSec / sunshowerMult;
+      }
+      const isReadyNow = isWeatherDestroyedPlot ? false : remainingSec != null ? remainingSec <= 0 : false;
       const storedAmount = typeof job.amount === "number" ? job.amount : null;
+      const plotIdx = (plotIndexByName[name] || 0) + 1;
+      plotIndexByName[name] = plotIdx;
       let exactAmount = null;
       let exactBoosts = null;
-      if (storedAmount == null && kind === "flower") {
+      let seedReward = null;
+      if (isWeatherDestroyedPlot) {
+        exactAmount = 0;
+        exactBoosts = [ {
+          name: cropWeatherDestructionLabel || "Weather Event",
+          valueText: "Plot destroyed — cannot be harvested"
+        } ];
+      } else if (kind === "flower") {
         try {
           const r = farmPanelComputeExactFlowerYield(job);
           exactAmount = r.amount;
           exactBoosts = r.boosts;
         } catch (e) {
           exactAmount = null;
+          exactBoosts = null;
         }
-      } else if (storedAmount == null && (kind === "crop" || kind === "fruit" || kind === "greenhouse")) {
+      } else if (kind === "crop" || kind === "fruit" || kind === "greenhouse") {
         try {
           const idx = sequentialIndexByName[name] || 0;
           const counter = (sequentialCounterBaseByName[name] || 0) + idx;
@@ -17387,20 +18287,33 @@ function farmPanelComputeInProgressRaw(json) {
           if (r) {
             exactAmount = r.amount;
             exactBoosts = r.boosts;
+            if (kind === "crop" && r.seedReward) seedReward = r.seedReward;
           }
         } catch (e) {
           exactAmount = null;
+          exactBoosts = null;
         }
       }
-      const actualAmount = storedAmount != null ? storedAmount : exactAmount;
+      const actualAmount = exactAmount != null ? exactAmount : storedAmount;
+      const actualBoosts = exactAmount != null ? exactBoosts : null;
+      
+      
+      
+      
+      const harvestsLeft = kind === "fruit" && job && typeof job.harvestsLeft === "number" ? job.harvestsLeft : undefined;
       rows.push({
         name: name,
         qty: actualAmount,
-        ready: remainingSec != null ? remainingSec <= 0 : null,
+        ready: isWeatherDestroyedPlot ? false : remainingSec != null ? remainingSec <= 0 : null,
         remainingSec: remainingSec,
         isActualYield: actualAmount != null,
         isDeterministicYield: kind === "flower",
-        exactBoosts: actualAmount != null ? exactBoosts || [] : null
+        exactBoosts: actualAmount != null ? actualBoosts || [] : null,
+        harvestsLeft: harvestsLeft,
+        plotIndex: plotIdx,
+        seedReward: seedReward,
+        weatherDestroyed: isWeatherDestroyedPlot,
+        weatherDestroyedEvent: isWeatherDestroyedPlot ? cropWeatherDestructionLabel : null
       });
     });
   };
@@ -17415,8 +18328,6 @@ function farmPanelComputeInProgressRaw(json) {
     if (!bag || typeof bag !== "object") return;
     const tiers = RESOURCE_NODE_TIERS[resourceName] || null;
     const boostedForResource = tiers ? farmPanelGetBoostedYieldStats(resourceName) : null;
-    const turnaroundRollByType = {};
-    const goldInstantMineRollByType = {};
     const woodSequentialRollsByType = {};
     const stoneSequentialRollsByType = {};
     const ironSequentialRollsByType = {};
@@ -17430,8 +18341,7 @@ function farmPanelComputeInProgressRaw(json) {
       });
       if (resourceName === "Wood") {
         Object.keys(TREE_KNOWN_IDS).forEach(t => {
-          turnaroundRollByType[t] = farmPanelPredictTreeTurnaroundForType(json, t);
-          woodSequentialRollsByType[t] = farmPanelBuildSequentialWoodRolls(json, t, allCountByType[t] || 0);
+          woodSequentialRollsByType[t] = farmPanelBuildSequentialWoodRollChains(json, t, allCountByType[t] || 0);
           sequentialIndexByType[t] = 0;
         });
       }
@@ -17449,11 +18359,15 @@ function farmPanelComputeInProgressRaw(json) {
       }
       if (resourceName === "Gold") {
         Object.keys(GOLD_KNOWN_IDS).forEach(t => {
-          goldSequentialRollsByType[t] = farmPanelBuildSequentialGoldRolls(json, t, allCountByType[t] || 0);
-          goldInstantMineRollByType[t] = farmPanelPredictGoldInstantMineForType(json, t);
+          goldSequentialRollsByType[t] = farmPanelBuildSequentialGoldRollChains(json, t, allCountByType[t] || 0);
           sequentialIndexByType[t] = 0;
         });
       }
+    }
+    let crimstoneRollChains = null;
+    let crimstoneSequentialIndex = 0;
+    if (resourceName === "Crimstone") {
+      crimstoneRollChains = farmPanelBuildSequentialCrimstoneRollChains(json, Object.values(bag).length);
     }
     Object.values(bag).forEach(node => {
       const job = node && node[subKey];
@@ -17471,16 +18385,61 @@ function farmPanelComputeInProgressRaw(json) {
       const predictedMineAt = remainingSecForNode != null ? now + remainingSecForNode * 1e3 : now;
       let exactAmount = null;
       let exactBoosts = null;
+      let woodCritRollsForNode = null;
+      let woodChainForNode = null;
+      let goldCritRollsForNode = null;
+      let goldChainForNode = null;
+      let crimstoneChainForNode = null;
+      let crimstoneNodeIndexForRow = null;
+      let crimstoneRockMinesLeftForRow = null;
       if (storedAmount == null && resourceName === "Crimstone") {
-        const r = farmPanelComputeExactCrimstoneYield(g, node);
-        exactAmount = r.amount;
-        exactBoosts = r.boosts;
+        const idx = crimstoneSequentialIndex++;
+        crimstoneNodeIndexForRow = idx + 1;
+        const chain = crimstoneRollChains && crimstoneRollChains[idx] ? crimstoneRollChains[idx] : null;
+        crimstoneChainForNode = chain;
+        const rockMinesLeftStart = node && typeof node.minesLeft === "number" ? node.minesLeft : 5;
+        crimstoneRockMinesLeftForRow = rockMinesLeftStart;
+        if (chain && chain.length > 1) {
+          let minesLeftCursor = rockMinesLeftStart;
+          let total = 0;
+          const chainBoostTotals = new Map;
+          chain.forEach((roll, i) => {
+            const r = farmPanelComputeExactCrimstoneYield(g, node, minesLeftCursor, i === 0);
+            total += r.amount;
+            (r.boosts || []).forEach(b => {
+              const amt = parseYieldBoostAmount(b.valueText);
+              chainBoostTotals.set(b.name, (chainBoostTotals.get(b.name) || 0) + amt);
+            });
+            if (i > 0) chainBoostTotals.set("Crimstone Clam", (chainBoostTotals.get("Crimstone Clam") || 0) + 1);
+            minesLeftCursor = minesLeftCursor === 1 ? 5 : minesLeftCursor - 1;
+          });
+          exactAmount = total;
+          exactBoosts = Array.from(chainBoostTotals.entries()).map(([name, amt]) => ({
+            name: name,
+            valueText: `+${fmt(amt)} yield`
+          }));
+        } else {
+          const r = farmPanelComputeExactCrimstoneYield(g, node, rockMinesLeftStart);
+          exactAmount = r.amount;
+          exactBoosts = r.boosts;
+        }
       } else if (storedAmount == null && resourceName === "Wood" && treeType) {
         const idx = sequentialIndexByType[treeType] || 0;
         const rolls = woodSequentialRollsByType[treeType];
-        const critRolls = rolls && rolls[idx] ? rolls[idx] : null;
-        if (critRolls) sequentialIndexByType[treeType] = idx + 1;
-        exactAmount = farmPanelComputeExactWoodYieldForNode(node, treeType, critRolls);
+        
+        
+        
+        
+        const chain = rolls && rolls[idx] ? rolls[idx] : null;
+        if (chain) sequentialIndexByType[treeType] = idx + 1;
+        const critRolls = chain && chain.length ? chain[0] : null;
+        woodCritRollsForNode = critRolls;
+        woodChainForNode = chain;
+        if (chain && chain.length) {
+          exactAmount = chain.reduce((sum, roll) => sum + farmPanelComputeExactWoodYieldForNode(node, treeType, roll), 0);
+        } else {
+          exactAmount = farmPanelComputeExactWoodYieldForNode(node, treeType, critRolls);
+        }
       } else if (storedAmount == null && resourceName === "Stone" && stoneRockName) {
         const idx = sequentialIndexByType[stoneRockName] || 0;
         const rolls = stoneSequentialRollsByType[stoneRockName];
@@ -17496,17 +18455,48 @@ function farmPanelComputeInProgressRaw(json) {
       } else if (storedAmount == null && resourceName === "Gold" && goldRockName) {
         const idx = sequentialIndexByType[goldRockName] || 0;
         const rolls = goldSequentialRollsByType[goldRockName];
-        const critRolls = rolls && rolls[idx] ? rolls[idx] : null;
-        if (critRolls) sequentialIndexByType[goldRockName] = idx + 1;
-        exactAmount = farmPanelComputeExactGoldYieldForNode(json, node, goldRockName, critRolls, predictedMineAt);
+        
+        
+        const chain = rolls && rolls[idx] ? rolls[idx] : null;
+        if (chain) sequentialIndexByType[goldRockName] = idx + 1;
+        const critRolls = chain && chain.length ? chain[0] : null;
+        goldCritRollsForNode = critRolls;
+        goldChainForNode = chain;
+        if (chain && chain.length) {
+          exactAmount = chain.reduce((sum, roll) => sum + farmPanelComputeExactGoldYieldForNode(json, node, goldRockName, roll, predictedMineAt), 0);
+        } else {
+          exactAmount = farmPanelComputeExactGoldYieldForNode(json, node, goldRockName, critRolls, predictedMineAt);
+        }
       }
       const actualAmount = storedAmount != null ? storedAmount : exactAmount;
+      const tierGroupLabel = tierMatch ? tierMatch.displayLabel || tierMatch.label : resourceName === "Crimstone" ? "Crimstone Rock" : null;
       const tierAverageYield = tierMatch ? (boostedForResource.perTierYield && boostedForResource.perTierYield[tierMatch.key] != null ? boostedForResource.perTierYield[tierMatch.key] : boostedForResource.yieldVal) * tierMatch.mult + tierMatch.yieldAdd : null;
       const qty = actualAmount != null ? actualAmount : tierAverageYield;
-      const turnaroundPredicted = treeType ? turnaroundRollByType[treeType] : null;
-      const turnaroundBonusEstimate = turnaroundPredicted ? tierAverageYield : null;
-      const goldInstantMinePredicted = goldRockName ? goldInstantMineRollByType[goldRockName] : null;
-      const goldInstantMineBonusEstimate = goldInstantMinePredicted ? tierAverageYield : null;
+      const turnaroundPredicted = treeType ? Boolean(woodChainForNode && woodChainForNode.length > 1) : null;
+      
+      
+      
+      const turnaroundBonusEstimate = turnaroundPredicted ? woodChainForNode.slice(1).reduce((sum, roll) => sum + farmPanelComputeExactWoodYieldForNode(node, treeType, roll), 0) : null;
+      const turnaroundChainLength = woodChainForNode ? woodChainForNode.length : null;
+      const goldInstantMinePredicted = goldRockName ? Boolean(goldChainForNode && goldChainForNode.length > 1) : null;
+      
+      
+      const goldInstantMineBonusEstimate = goldInstantMinePredicted ? goldChainForNode.slice(1).reduce((sum, roll) => sum + farmPanelComputeExactGoldYieldForNode(json, node, goldRockName, roll, predictedMineAt), 0) : null;
+      const goldInstantMineChainLength = goldChainForNode ? goldChainForNode.length : null;
+      const crimstoneInstantMinePredicted = resourceName === "Crimstone" ? Boolean(crimstoneChainForNode && crimstoneChainForNode.length > 1) : null;
+      let crimstoneInstantMineBonusEstimate = null;
+      if (crimstoneInstantMinePredicted) {
+        const rockMinesLeftStart = node && typeof node.minesLeft === "number" ? node.minesLeft : 5;
+        let minesLeftCursor = rockMinesLeftStart;
+        let bonus = 0;
+        crimstoneChainForNode.forEach((roll, i) => {
+          if (i > 0) bonus += farmPanelComputeExactCrimstoneYield(g, node, minesLeftCursor, false).amount;
+          minesLeftCursor = minesLeftCursor === 1 ? 5 : minesLeftCursor - 1;
+        });
+        crimstoneInstantMineBonusEstimate = bonus;
+      }
+      const crimstoneInstantMineChainLength = crimstoneChainForNode ? crimstoneChainForNode.length : null;
+      const crimstoneClamActiveForRow = resourceName === "Crimstone" ? isBoostActive("crimstone_clam") : false;
       if (!ts) {
         const amountVal = job && typeof job.amount === "number" ? job.amount : node && typeof node.amount === "number" ? node.amount : null;
         const looksDepleted = amountVal === 0;
@@ -17517,15 +18507,23 @@ function farmPanelComputeInProgressRaw(json) {
           ready: !looksDepleted,
           remainingSec: looksDepleted ? growSecFallback ?? 0 : 0,
           tierLabel: tierLabel,
+          tierGroupLabel: tierGroupLabel,
           isActualYield: actualAmount != null,
-          isDeterministicYield: resourceName === "Crimstone",
+          isDeterministicYield: resourceName === "Crimstone" ? !crimstoneClamActiveForRow : false,
           treeType: treeType,
           turnaroundPredicted: turnaroundPredicted,
           turnaroundBonusEstimate: turnaroundBonusEstimate,
+          turnaroundChainLength: turnaroundChainLength,
           goldRockName: goldRockName,
           goldInstantMinePredicted: goldInstantMinePredicted,
           goldInstantMineBonusEstimate: goldInstantMineBonusEstimate,
-          exactBoosts: actualAmount != null ? exactBoosts || [] : null
+          goldInstantMineChainLength: goldInstantMineChainLength,
+          crimstoneInstantMinePredicted: crimstoneInstantMinePredicted,
+          crimstoneInstantMineBonusEstimate: crimstoneInstantMineBonusEstimate,
+          crimstoneInstantMineChainLength: crimstoneInstantMineChainLength,
+          crimstoneNodeIndex: crimstoneNodeIndexForRow,
+          crimstoneMinesLeft: crimstoneRockMinesLeftForRow,
+          exactBoosts: exactBoosts
         });
         return;
       }
@@ -17538,34 +18536,54 @@ function farmPanelComputeInProgressRaw(json) {
         ready: remainingSec != null ? remainingSec <= 0 : null,
         remainingSec: remainingSec,
         tierLabel: tierLabel,
+        tierGroupLabel: tierGroupLabel,
         isActualYield: actualAmount != null,
-        isDeterministicYield: resourceName === "Crimstone",
+        isDeterministicYield: resourceName === "Crimstone" ? !crimstoneClamActiveForRow : false,
         treeType: treeType,
         turnaroundPredicted: turnaroundPredicted,
         turnaroundBonusEstimate: turnaroundBonusEstimate,
+        turnaroundChainLength: turnaroundChainLength,
         goldRockName: goldRockName,
         goldInstantMinePredicted: goldInstantMinePredicted,
         goldInstantMineBonusEstimate: goldInstantMineBonusEstimate,
-        exactBoosts: actualAmount != null ? exactBoosts || [] : null
+        goldInstantMineChainLength: goldInstantMineChainLength,
+        crimstoneInstantMinePredicted: crimstoneInstantMinePredicted,
+        crimstoneInstantMineBonusEstimate: crimstoneInstantMineBonusEstimate,
+        crimstoneInstantMineChainLength: crimstoneInstantMineChainLength,
+        crimstoneNodeIndex: crimstoneNodeIndexForRow,
+        crimstoneMinesLeft: crimstoneRockMinesLeftForRow,
+        exactBoosts: exactBoosts
       });
     });
   });
   const oilReserves = farmPanelField(g, "oilReserves");
   if (oilReserves && typeof oilReserves === "object") {
-    const OIL_BONUS_DROP_AMOUNT = 20;
     Object.values(oilReserves).forEach(node => {
       const job = node && node.oil;
       const ts = job && job.drilledAt;
       const drilledCount = typeof node?.drilled === "number" ? node.drilled : null;
       const hasBonus = drilledCount != null ? (drilledCount + 1) % 3 === 0 : null;
-      const nodeBase = hasBonus == null ? RESOURCE_DATA.Oil.yieldPer : OIL_SINGLE_HARVEST_BASE + (hasBonus ? OIL_BONUS_DROP_AMOUNT : 0);
-      const oilQtyPerNode = computeBoostedResourceStats("Oil", nodeBase, RESOURCE_DATA.Oil.timeSec).yieldVal;
+      let oilQtyPerNode, exactOilBoosts, oilMinesUntilBonus;
+      if (hasBonus == null) {
+        oilQtyPerNode = computeBoostedResourceStats("Oil", RESOURCE_DATA.Oil.yieldPer, RESOURCE_DATA.Oil.timeSec).yieldVal;
+        exactOilBoosts = null;
+        oilMinesUntilBonus = null;
+      } else {
+        const exact = farmPanelComputeExactOilYield(hasBonus);
+        oilQtyPerNode = exact.amount;
+        exactOilBoosts = exact.boosts;
+        oilMinesUntilBonus = ((2 - (drilledCount % 3) + 3) % 3) + 1;
+      }
       if (!ts) {
         rows.push({
           name: "Oil",
           qty: oilQtyPerNode,
           ready: true,
-          remainingSec: 0
+          remainingSec: 0,
+          isActualYield: hasBonus != null,
+          isDeterministicYield: hasBonus != null,
+          exactBoosts: exactOilBoosts,
+          oilMinesUntilBonus: oilMinesUntilBonus
         });
         return;
       }
@@ -17576,7 +18594,11 @@ function farmPanelComputeInProgressRaw(json) {
         name: "Oil",
         qty: oilQtyPerNode,
         ready: remainingSec != null ? remainingSec <= 0 : null,
-        remainingSec: remainingSec
+        remainingSec: remainingSec,
+        isActualYield: hasBonus != null,
+        isDeterministicYield: hasBonus != null,
+        exactBoosts: exactOilBoosts,
+        oilMinesUntilBonus: oilMinesUntilBonus
       });
     });
   }
@@ -17613,7 +18635,9 @@ function farmPanelComputeInProgressRaw(json) {
       const sculptLvl = typeof saltSculptureLevel === "number" ? saltSculptureLevel : 0;
       const maxCharges = SALT_BASE_CHARGE_CAP + (sculptLvl >= 3 ? 1 : 0) + (sculptLvl >= 6 ? 1 : 0);
       const physicalNodeCount = Object.keys(saltNodes).length;
-      Object.values(saltNodes).forEach(node => {
+      const saltNodeKeysSorted = Object.keys(saltNodes).sort();
+      saltNodeKeysSorted.forEach((nodeKey, nodeIdx) => {
+        const node = saltNodes[nodeKey];
         const salt = node && node.salt;
         if (!salt) return;
         let storedCharges = Math.max(0, Math.min(typeof salt.storedCharges === "number" ? salt.storedCharges : 0, maxCharges));
@@ -17626,23 +18650,31 @@ function farmPanelComputeInProgressRaw(json) {
           const missedIntervals = Math.ceil((now - nextChargeAt) / intervalMs);
           nextChargeAt += missedIntervals * intervalMs;
         }
+        const saltNodeMeta = {
+          saltNodeIndex: nodeIdx + 1,
+          saltNodeStoredCharges: storedCharges,
+          saltNodeMaxCharges: maxCharges,
+          saltYieldPerCharge: saltYield
+        };
         for (let i = 0; i < storedCharges; i++) {
           rows.push({
             name: "Salt",
             qty: saltYield,
             ready: true,
             remainingSec: 0,
-            physicalNodes: physicalNodeCount
+            physicalNodes: physicalNodeCount,
+            ...saltNodeMeta
           });
         }
         if (storedCharges < maxCharges) {
           const remainingSec = Math.max(0, (nextChargeAt - now) / 1e3);
           rows.push({
             name: "Salt",
-            qty: saltYield,
+            qty: 0,
             ready: false,
             remainingSec: remainingSec,
-            physicalNodes: physicalNodeCount
+            physicalNodes: physicalNodeCount,
+            ...saltNodeMeta
           });
         }
       });
@@ -17664,30 +18696,55 @@ function farmPanelComputeInProgressRaw(json) {
   if (hiveBag && typeof hiveBag === "object" && typeof computeHiveStats === "function") {
     const hiveStats = computeHiveStats();
     const HIVE_FULL_RAW = 864e5;
-    Object.values(hiveBag).forEach(hive => {
-      if (!hive || !hive.honey || typeof hive.honey.produced !== "number") return;
+    
+    
+    const hiveEntries = Object.entries(hiveBag).filter(([, hive]) => hive && hive.honey && typeof hive.honey.produced === "number");
+    hiveEntries.sort((a, b) => a[0].localeCompare(b[0], undefined, { numeric: true }));
+    
+    
+    
+    const honeyNow = Math.min(now, farmPanelHoneySnapshotMs);
+    hiveEntries.forEach(([hiveId, hive], hiveIndex) => {
       const storedProduced = hive.honey.produced;
-      const updatedAt = typeof hive.honey.updatedAt === "number" ? hive.honey.updatedAt : now;
+      const updatedAt = typeof hive.honey.updatedAt === "number" ? hive.honey.updatedAt : honeyNow;
       const flowers = Array.isArray(hive.flowers) ? hive.flowers : [];
       const flower = flowers.find(f => f && typeof f.rate === "number" && f.rate > 0);
       let produced = storedProduced;
       let flowerStillActive = false;
       if (flower) {
         const attachedAt = typeof flower.attachedAt === "number" ? flower.attachedAt : updatedAt;
-        const attachedUntil = typeof flower.attachedUntil === "number" ? flower.attachedUntil : now;
+        const attachedUntil = typeof flower.attachedUntil === "number" ? flower.attachedUntil : honeyNow;
         const windowStart = Math.max(updatedAt, attachedAt);
-        const windowEnd = Math.min(now, attachedUntil);
+        const windowEnd = Math.min(honeyNow, attachedUntil);
         if (windowEnd > windowStart) produced = storedProduced + flower.rate * (windowEnd - windowStart);
-        flowerStillActive = attachedUntil > now;
+        flowerStillActive = attachedUntil > honeyNow;
       }
       const ready = produced >= HIVE_FULL_RAW;
       let remainingSec = 0;
       if (!ready) {
         remainingSec = flowerStillActive ? Math.max(0, (HIVE_FULL_RAW - produced) / flower.rate / 1e3) : null;
       }
+      
+      
+      
+      
+      
+      const fillFraction = Math.max(0, Math.min(1, produced / HIVE_FULL_RAW));
+      const currentHoneyQty = fillFraction * hiveStats.honeyPerFill;
       rows.push({
         name: "Honey",
-        qty: hiveStats.honeyPerFill,
+        
+        
+        qty: currentHoneyQty,
+        maxHoneyPerFill: hiveStats.honeyPerFill,
+        fillFraction: fillFraction,
+        hiveIndex: hiveIndex,
+        hiveId: hiveId,
+        
+        
+        
+        willSwarm: hive.swarm === true,
+        isActualYield: true,
         ready: ready,
         remainingSec: remainingSec
       });
@@ -17698,7 +18755,18 @@ function farmPanelComputeInProgressRaw(json) {
       const bag = farmSyncGetAnimalRecords(g, type);
       if (!bag || typeof bag !== "object") return;
       const cycleSec = computeAnimalTypeFigures(type).cycleTimeSec || ANIMAL_BASE_CYCLE_SEC;
-      Object.values(bag).forEach(animal => {
+      
+      
+      const typeBoosts = getActiveAnimalBoosts(type);
+      let baseFeedMultTotal = 1;
+      let freeFeed = false;
+      typeBoosts.forEach(b => {
+        if (b.feedMult) baseFeedMultTotal *= b.feedMult;
+        if (b.feedMultAll) baseFeedMultTotal *= b.feedMultAll;
+        if (b.freeFeed) freeFeed = true;
+      });
+      const requiredQtyPerFeed = REQUIRED_FOOD_QTY_MAP[type];
+      Object.entries(bag).forEach(([animalId, animal]) => {
         if (!animal || typeof animal !== "object") return;
         const toTs = v => typeof v === "number" ? v : typeof v === "string" && v.trim() && !isNaN(Number(v)) ? Number(v) : null;
         const awakeAt = toTs(animal.awakeAt);
@@ -17708,7 +18776,24 @@ function farmPanelComputeInProgressRaw(json) {
         const xpRaw = animal.experience ?? animal.exp ?? animal.xp;
         const xp = typeof xpRaw === "number" ? xpRaw : typeof xpRaw === "string" && xpRaw.trim() && !isNaN(Number(xpRaw)) ? Number(xpRaw) : null;
         const level = getAnimalLevelFromXp(type, xp) || 1;
-        const fig = computeAnimalYieldsForLevel(type, level);
+        
+        
+        
+        
+        const realFeedBuffName = animal.feedBuff && typeof animal.feedBuff === "object" && animal.feedBuff.name && (typeof animal.feedBuff.harvestsRemaining !== "number" || animal.feedBuff.harvestsRemaining > 0) ? animal.feedBuff.name : null;
+        const claimLevel = level < 15 ? level + 1 : 15;
+        const fig = computeAnimalYieldsForLevel(type, claimLevel, realFeedBuffName);
+        
+        
+        
+        
+        const feedFig = computeAnimalFeedFigures(type, level);
+        const feedInfo = getActiveFeedInfo(feedFig.favouriteFoodKey);
+        let animalFeedMultTotal = baseFeedMultTotal;
+        if (realFeedBuffName === "Honey Treat") animalFeedMultTotal *= 0.75;
+        const animalFeedQty = freeFeed ? 0 : Math.max(0, feedFig.noOfFeeds * requiredQtyPerFeed * animalFeedMultTotal);
+        const animalFeedCostFlower = animalFeedQty * feedInfo.cost / (coinPerFlower || 1);
+        const animalConsumableCostFlower = realFeedBuffName === "Salt Lick" ? getSpiceCostPerUseFlower("saltLick") / getSpiceLickDurationHarvests() : realFeedBuffName === "Honey Treat" ? getSpiceCostPerUseFlower("honeyTreat") / getSpiceLickDurationHarvests() : 0;
         let ready, remainingSec;
         if (sick) {
           ready = false;
@@ -17724,14 +18809,52 @@ function farmPanelComputeInProgressRaw(json) {
           ready = false;
           remainingSec = cycleSec;
         }
+        if (realFeedBuffName === "Salt Lick" || realFeedBuffName === "Honey Treat") {
+          const harvestsRemaining = typeof animal.feedBuff.harvestsRemaining === "number" ? animal.feedBuff.harvestsRemaining : getSpiceLickDurationHarvests();
+          const buffRemainingSec = remainingSec != null ? Math.max(0, harvestsRemaining - 1) * cycleSec + remainingSec : null;
+          if (!farmPanelAnimalBuffTrackingByType[type]) farmPanelAnimalBuffTrackingByType[type] = { saltLick: [], honeyTreat: [] };
+          const bucket = realFeedBuffName === "Salt Lick" ? "saltLick" : "honeyTreat";
+          farmPanelAnimalBuffTrackingByType[type][bucket].push({
+            animalId: animalId,
+            harvestsRemaining: harvestsRemaining,
+            remainingSec: buffRemainingSec,
+            feedQtySaved: realFeedBuffName === "Honey Treat" ? animalFeedQty / 3 : 0
+          });
+        }
         fig.products.forEach((pname, idx) => {
           rows.push({
             name: pname,
             qty: fig.yields[idx],
             ready: ready,
             remainingSec: remainingSec,
-            sick: sick
+            sick: sick,
+            animalId: animalId,
+            feedBuffName: realFeedBuffName,
+            
+            
+            feedCostFlowerShare: animalFeedCostFlower / fig.products.length,
+            consumableCostFlowerShare: animalConsumableCostFlower / fig.products.length
           });
+        });
+        if (!farmPanelAnimalYieldGroupsByType[type]) farmPanelAnimalYieldGroupsByType[type] = [];
+        const feedLabelUsed = FEED_LABELS[feedFig.feedKeyUsed] || feedFig.feedKeyUsed;
+        const feedsToNext = computeAnimalFeedsToNextLevel(type, level, xp);
+        const feedToNextLabel = FEED_LABELS[feedsToNext.feedKeyUsed] || feedsToNext.feedKeyUsed;
+        const feedQtyToNext = freeFeed ? 0 : Math.max(0, feedsToNext.noOfFeeds * requiredQtyPerFeed * baseFeedMultTotal);
+        farmPanelAnimalYieldGroupsByType[type].push({
+          animalId: animalId,
+          level: level,
+          xp: typeof xp === "number" ? xp : 0,
+          products: fig.products,
+          yields: fig.yields,
+          feedQty: animalFeedQty,
+          feedName: feedLabelUsed,
+          nextThreshold: feedsToNext.nextThreshold,
+          nextLevelLabel: feedsToNext.nextLevelLabel,
+          isMaxCycle: feedsToNext.isMaxCycle,
+          feedsToNextCount: feedsToNext.noOfFeeds,
+          feedQtyToNext: feedQtyToNext,
+          feedToNextName: feedToNextLabel
         });
       });
     });
@@ -17781,14 +18904,116 @@ function farmPanelBuildAnimalProductStats(rows) {
   const noEtaCount = rows.filter(r => r.ready === false && r.remainingSec == null).length;
   const totalYield = rows.reduce((sum, r) => sum + (typeof r.qty === "number" ? r.qty : 0), 0);
   const econ = farmPanelComputeEconomics(rows[0].name, count, totalYield);
+  
+  
+  const hasRealFeedCost = rows.some(r => typeof r.feedCostFlowerShare === "number");
+  const realFeedCostFlower = hasRealFeedCost ? rows.reduce((s, r) => s + (r.feedCostFlowerShare || 0) + (r.consumableCostFlowerShare || 0), 0) : econ.totalCost;
+  const realCostPerUnit = totalYield > 0 ? realFeedCostFlower / totalYield : 0;
+  const realProfit = econ.netRevenue - realFeedCostFlower;
   return {
     ...econ,
+    totalCost: realFeedCostFlower,
+    costPerUnit: realCostPerUnit,
+    profit: realProfit,
     count: count,
     readyCount: readyCount,
     sickCount: sickCount,
     soonestSec: soonestSec,
     noEtaCount: noEtaCount,
     totalYield: totalYield
+  };
+}
+
+function farmPanelComputeAnimalYieldGroups(type, meta) {
+  const list = farmPanelAnimalYieldGroupsByType[type] || [];
+  if (!list.length) return [];
+  const byKey = new Map;
+  list.forEach(a => {
+    const key = String(a.level);
+    if (!byKey.has(key)) {
+      byKey.set(key, {
+        level: a.level,
+        xpMin: a.xp,
+        xpMax: a.xp,
+        count: 0,
+        feedQty: 0,
+        feedName: a.feedName,
+        nextThreshold: a.nextThreshold,
+        nextLevelLabel: a.nextLevelLabel,
+        isMaxCycle: a.isMaxCycle,
+        feedsToNextCount: 0,
+        feedQtyToNext: 0,
+        feedToNextName: a.feedToNextName,
+        yields: (meta.products || []).map(() => 0)
+      });
+    }
+    const g = byKey.get(key);
+    g.count += 1;
+    g.feedQty += a.feedQty || 0;
+    g.feedQtyToNext += a.feedQtyToNext || 0;
+    g.feedsToNextCount += a.feedsToNextCount || 0;
+    if (a.xp < g.xpMin) g.xpMin = a.xp;
+    if (a.xp > g.xpMax) g.xpMax = a.xp;
+    a.products.forEach((pname, idx) => {
+      const productIdx = meta.products.indexOf(pname);
+      if (productIdx >= 0) g.yields[productIdx] += a.yields[idx] || 0;
+    });
+  });
+  const groups = Array.from(byKey.values());
+  groups.sort((a, b) => a.level - b.level);
+  return groups;
+}
+
+function farmPanelFormatSpiceDuration(sec) {
+  if (sec == null) return "—";
+  sec = Math.max(0, Math.round(sec));
+  const d = Math.floor(sec / 86400);
+  sec -= d * 86400;
+  const h = Math.floor(sec / 3600);
+  sec -= h * 3600;
+  const m = Math.floor(sec / 60);
+  if (d > 0) return `${d}D ${h}hr`;
+  if (h > 0) return `${h}hr ${m}m`;
+  return `${m}m`;
+}
+
+function farmPanelRenderSpiceBuffCard(key, tracking, yieldData, meta) {
+  const isSaltLick = key === "saltLick";
+  const label = isSaltLick ? "Salt Lick" : "Honey Treat";
+  const icon = getBoostIcon(label);
+  const headsAffected = tracking.length;
+  const knownDurations = tracking.map(t => t.remainingSec).filter(v => v != null);
+  const durationLeftSec = knownDurations.length ? Math.min(...knownDurations) : null;
+  const durationHarvests = getSpiceLickDurationHarvests();
+  const perUseCost = getSpiceCostPerUseFlower(key);
+  const totalCost = perUseCost * headsAffected;
+  const costPerCycle = totalCost / durationHarvests;
+  let yieldLineHtml = "";
+  let valueFlower = 0;
+  if (isSaltLick) {
+    valueFlower = Object.entries(yieldData || {}).reduce((sum, [pname, amt]) => {
+      const m = marketItems.find(x => (x.name || "").toLowerCase() === pname.toLowerCase());
+      return sum + amt * (m ? m.flowerPrice || 0 : 0);
+    }, 0);
+    const chips = Object.entries(yieldData || {}).filter(([, amt]) => amt > 1e-9).map(([pname, amt]) => `<span class="spice-yield-chip">${getIcon(pname)}+${fmtAnimal(amt)}</span>`).join("");
+    yieldLineHtml = `<div class="spice-buff-stat"><span class="label">Yield contributed (cycle)</span><span class="value">${chips || "—"}</span></div>`;
+  } else {
+    const feedsSaved = tracking.reduce((s, t) => s + (t.feedQtySaved || 0), 0);
+    yieldLineHtml = `<div class="spice-buff-stat"><span class="label">Feeds saved</span><span class="value">${fmtAnimal(feedsSaved)}</span></div>`;
+    valueFlower = typeof yieldData === "number" ? yieldData : 0;
+  }
+  const html = `
+      <div class="spice-buff-card ${isSaltLick ? "is-salt-lick" : "is-honey-treat"}">
+        <div class="spice-buff-head">${icon}<b>${label}</b> <span class="spice-buff-heads">${headsAffected} head${headsAffected === 1 ? "" : "s"}</span></div>
+        <div class="spice-buff-stat"><span class="label">Duration left</span><span class="value">${farmPanelFormatSpiceDuration(durationLeftSec)}</span></div>
+        ${yieldLineHtml}
+        <div class="spice-buff-stat"><span class="label">Total ${label} cost</span><span class="value">${fmtAnimal(totalCost)} ${FLOWER_ICON}</span></div>
+        <div class="spice-buff-stat"><span class="label">Cost per cycle</span><span class="value">${fmtAnimal(costPerCycle)} ${FLOWER_ICON}</span></div>
+        <div class="spice-buff-stat"><span class="label">Value in ${FLOWER_ICON} ${isSaltLick ? "added yield" : "saved"}</span><span class="value">${fmtAnimal(valueFlower)} ${FLOWER_ICON}</span></div>
+      </div>`;
+  return {
+    category: isSaltLick ? "yield" : "cost",
+    html: html
   };
 }
 
@@ -17814,12 +19039,46 @@ function farmPanelComputeAnimalCards(rawRows) {
     const gross = products.reduce((s, p) => s + p.grossRevenue, 0);
     const sellFee = products.reduce((s, p) => s + p.feeAmount, 0);
     const cost = products.reduce((s, p) => s + p.totalCost, 0);
-    const net = gross - sellFee - cost;
     const totalYieldAll = products.reduce((s, p) => s + p.totalYield, 0);
     const avgPricePerUnit = totalYieldAll > 0 ? gross / totalYieldAll : 0;
     const avgCostPerUnit = totalYieldAll > 0 ? cost / totalYieldAll : 0;
-    const yieldBoosts = getActiveAnimalBoosts(type).filter(b => b.yieldAdd || b.yieldMultAll);
+    const activeAnimalBoosts = getActiveAnimalBoosts(type);
+    const yieldBoosts = activeAnimalBoosts.filter(b => b.yieldAdd || b.yieldMultAll || b.yieldAddAll);
+    const timeBoosts = activeAnimalBoosts.filter(b => b.timeMult || b.timeMultAll);
+    const costBoosts = activeAnimalBoosts.filter(b => (b.feedMult && b.feedMult < 1) || b.feedMultAll && b.feedMultAll < 1);
+    const saltLickYieldByProduct = {};
+    let honeyTreatSavingsFlower = 0;
+    rows.forEach(r => {
+      if (r.feedBuffName === "Salt Lick" && typeof r.qty === "number") {
+        
+        saltLickYieldByProduct[r.name] = (saltLickYieldByProduct[r.name] || 0) + r.qty * (1 - 1 / 1.05);
+      }
+      if (r.feedBuffName === "Honey Treat" && typeof r.feedCostFlowerShare === "number") {
+        
+        
+        honeyTreatSavingsFlower += r.feedCostFlowerShare / 3;
+      }
+    });
+    const buffTracking = farmPanelAnimalBuffTrackingByType[type] || { saltLick: [], honeyTreat: [] };
+    const spiceBuffCards = [];
+    if (buffTracking.saltLick.length) {
+      spiceBuffCards.push(farmPanelRenderSpiceBuffCard("saltLick", buffTracking.saltLick, saltLickYieldByProduct, meta));
+    }
+    if (buffTracking.honeyTreat.length) {
+      spiceBuffCards.push(farmPanelRenderSpiceBuffCard("honeyTreat", buffTracking.honeyTreat, honeyTreatSavingsFlower, meta));
+    }
+    let timeMultTotal = 1;
+    activeAnimalBoosts.forEach(b => {
+      if (b.timeMult) timeMultTotal *= b.timeMult;
+      if (b.timeMultAll) timeMultTotal *= b.timeMultAll;
+    });
+    const cycleTimeSec = Math.max(1, ANIMAL_BASE_CYCLE_SEC * timeMultTotal);
+    const cyclesPerDay = 86400 / cycleTimeSec;
+    const shrineInfo = getActiveShrineDailyCostStable(activeAnimalBoosts);
+    const shrineCost = shrineInfo.total > 0 ? shrineInfo.total / cyclesPerDay : 0;
+    const net = gross - sellFee - cost - shrineCost;
     const first = products[0];
+    const animalYieldGroups = farmPanelComputeAnimalYieldGroups(type, meta);
     cards.push({
       isAnimalMerged: true,
       typeKey: type,
@@ -17835,11 +19094,18 @@ function farmPanelComputeAnimalCards(rawRows) {
       gross: gross,
       sellFee: sellFee,
       cost: cost,
+      shrineCost: shrineCost,
+      shrineNames: shrineInfo.shrines.map(x => x.name),
       net: net,
       totalYieldAll: totalYieldAll,
       avgPricePerUnit: avgPricePerUnit,
       avgCostPerUnit: avgCostPerUnit,
       yieldBoosts: yieldBoosts,
+      timeBoosts: timeBoosts,
+      costBoosts: costBoosts,
+      spiceBuffCards: spiceBuffCards,
+      cycleTimeSec: cycleTimeSec,
+      animalYieldGroups: animalYieldGroups,
       profit: net
     });
   });
@@ -17863,42 +19129,110 @@ function farmPanelComputeInProgress(json) {
     const count = g.nodes.length;
     const readyCount = g.nodes.filter(n => n.ready === true).length;
     const sickCount = g.nodes.filter(n => n.sick === true).length;
+    const weatherDestroyedCount = g.nodes.filter(n => n.weatherDestroyed === true).length;
+    const weatherDestroyedEvent = g.nodes.find(n => n.weatherDestroyed === true && n.weatherDestroyedEvent)?.weatherDestroyedEvent || null;
     const soonestSec = g.nodes.reduce((min, n) => {
       if (n.remainingSec == null) return min;
       return min == null ? n.remainingSec : Math.min(min, n.remainingSec);
     }, null);
     const noEtaCount = g.nodes.filter(n => n.ready === false && n.remainingSec == null).length;
     const actualYieldCount = g.nodes.filter(n => n.isActualYield).length;
+    const boostTrackedCount = g.nodes.filter(n => n.exactBoosts != null).length;
     const isDeterministicYield = g.nodes.some(n => n.isDeterministicYield);
     const turnaroundTypesPredicted = [ ...new Set(g.nodes.filter(n => n.turnaroundPredicted === true).map(n => n.treeType)) ];
-    const turnaroundBonusYieldEstimate = (() => {
-      const estimateByType = {};
-      g.nodes.forEach(n => {
-        if (n.treeType && typeof n.turnaroundBonusEstimate === "number" && !(n.treeType in estimateByType)) {
-          estimateByType[n.treeType] = n.turnaroundBonusEstimate;
-        }
-      });
-      return turnaroundTypesPredicted.reduce((sum, t) => sum + (estimateByType[t] || 0), 0);
-    })();
+    
+    
+    const turnaroundCountsByType = {};
+    g.nodes.forEach(n => {
+      if (n.turnaroundPredicted === true && n.treeType) {
+        turnaroundCountsByType[n.treeType] = (turnaroundCountsByType[n.treeType] || 0) + 1;
+      }
+    });
+    
+    
+    
+    
+    
+    const turnaroundBonusYieldEstimate = g.nodes.reduce((sum, n) => sum + (typeof n.turnaroundBonusEstimate === "number" ? n.turnaroundBonusEstimate : 0), 0);
     const goldInstantMineTypesPredicted = [ ...new Set(g.nodes.filter(n => n.goldInstantMinePredicted === true).map(n => n.goldRockName)) ];
-    const goldInstantMineBonusYieldEstimate = (() => {
-      const estimateByType = {};
-      g.nodes.forEach(n => {
-        if (n.goldRockName && typeof n.goldInstantMineBonusEstimate === "number" && !(n.goldRockName in estimateByType)) {
-          estimateByType[n.goldRockName] = n.goldInstantMineBonusEstimate;
-        }
-      });
-      return goldInstantMineTypesPredicted.reduce((sum, t) => sum + (estimateByType[t] || 0), 0);
-    })();
+    
+    
+    
+    const goldInstantMineBonusYieldEstimate = g.nodes.reduce((sum, n) => sum + (typeof n.goldInstantMineBonusEstimate === "number" ? n.goldInstantMineBonusEstimate : 0), 0);
+    const crimstoneInstantMinePredicted = g.nodes.some(n => n.crimstoneInstantMinePredicted === true);
+    const crimstoneInstantMineBonusYieldEstimate = g.nodes.reduce((sum, n) => sum + (typeof n.crimstoneInstantMineBonusEstimate === "number" ? n.crimstoneInstantMineBonusEstimate : 0), 0);
     const tierCounts = {};
     g.nodes.forEach(n => {
       if (n.tierLabel) tierCounts[n.tierLabel] = (tierCounts[n.tierLabel] || 0) + 1;
     });
+    let oilNodeGroups = null;
+    if (g.name === "Oil") {
+      const oilNodesList = g.nodes.filter(n => typeof n.oilMinesUntilBonus === "number").map((n, idx) => ({
+        index: idx + 1,
+        minesUntilBonus: n.oilMinesUntilBonus,
+        qty: typeof n.qty === "number" ? n.qty : 0
+      }));
+      if (oilNodesList.length) oilNodeGroups = oilNodesList;
+    }
+    let saltNodeGroups = null;
+    if (g.name === "Salt") {
+      const seen = new Map;
+      g.nodes.forEach(n => {
+        if (typeof n.saltNodeIndex !== "number") return;
+        if (seen.has(n.saltNodeIndex)) return;
+        seen.set(n.saltNodeIndex, {
+          index: n.saltNodeIndex,
+          storedCharges: n.saltNodeStoredCharges || 0,
+          maxCharges: n.saltNodeMaxCharges || 0,
+          qty: (n.saltNodeStoredCharges || 0) * (n.saltYieldPerCharge || 0),
+          yieldPerCharge: n.saltYieldPerCharge || 0
+        });
+      });
+      if (seen.size) saltNodeGroups = Array.from(seen.values()).sort((a, b) => a.index - b.index);
+    }
+    let crimstoneNodeGroups = null;
+    if (g.name === "Crimstone") {
+      const seen = new Map;
+      g.nodes.forEach(n => {
+        if (typeof n.crimstoneNodeIndex !== "number") return;
+        if (seen.has(n.crimstoneNodeIndex)) return;
+        const minesLeft = typeof n.crimstoneMinesLeft === "number" ? n.crimstoneMinesLeft : 5;
+        seen.set(n.crimstoneNodeIndex, {
+          index: n.crimstoneNodeIndex,
+          streakPosition: Math.min(5, Math.max(1, 6 - minesLeft)),
+          qty: typeof n.qty === "number" ? n.qty : 0
+        });
+      });
+      if (seen.size) crimstoneNodeGroups = Array.from(seen.values()).sort((a, b) => a.index - b.index);
+    }
+    let plantYieldLabel = null;
+    let plantYieldGroups = null;
+    if (BASE_CROPS[g.name] || BASE_GREENHOUSE[g.name] || FLOWER_VARIETIES[g.name]) {
+      plantYieldLabel = BASE_CROPS[g.name] ? "Crops Yield" : BASE_GREENHOUSE[g.name] ? "Greenhouse Yield" : "Flower Bed Yield";
+      plantYieldGroups = g.nodes.map((n, idx) => ({
+        index: typeof n.plotIndex === "number" ? n.plotIndex : idx + 1,
+        qty: typeof n.qty === "number" ? n.qty : null,
+        seedReward: n.seedReward || null
+      }));
+    }
     const boostedStats = farmPanelGetBoostedYieldStats(g.name);
+    if (g.name === "Salt") boostedStats.activeBoosts = farmPanelGetSaltActiveBoosts();
+    if (g.name === "Honey") boostedStats.activeBoosts = farmPanelGetHoneyActiveBoosts();
     const boostedPerUnit = boostedStats.yieldVal;
     const basePerUnit = farmPanelGetBaseYield(g.name);
     const usedBoostFallback = g.nodes.some(n => typeof n.qty !== "number");
-    const totalYield = g.nodes.reduce((sum, n) => sum + (typeof n.qty === "number" ? n.qty : boostedPerUnit), 0);
+    const tierYields = {};
+    g.nodes.forEach(n => {
+      if (!n.tierGroupLabel) return;
+      const y = typeof n.qty === "number" ? n.qty : boostedPerUnit;
+      tierYields[n.tierGroupLabel] = (tierYields[n.tierGroupLabel] || 0) + y;
+    });
+    const rawTotalYield = g.nodes.reduce((sum, n) => sum + (typeof n.qty === "number" ? n.qty : boostedPerUnit), 0);
+    
+    
+    
+    
+    const totalYield = rawTotalYield;
     const baseTotalYield = basePerUnit * count;
     const isBoosted = usedBoostFallback && boostedStats.activeBoosts && boostedStats.activeBoosts.length > 0 && totalYield !== baseTotalYield;
     const exactBoostsSeen = new Map;
@@ -17909,29 +19243,132 @@ function farmPanelComputeInProgress(json) {
       });
     });
     const exactBoosts = Array.from(exactBoostsSeen.values());
+    const exactBoostTotalsSeen = new Map;
+    g.nodes.forEach(n => {
+      (n.exactBoosts || []).forEach(b => {
+        const amt = parseYieldBoostAmount(b.valueText);
+        if (!amt) return;
+        if (!exactBoostTotalsSeen.has(b.name)) exactBoostTotalsSeen.set(b.name, 0);
+        exactBoostTotalsSeen.set(b.name, exactBoostTotalsSeen.get(b.name) + amt);
+      });
+    });
+    const exactBoostTotals = Array.from(exactBoostTotalsSeen.entries()).map(([name, total]) => ({
+      name: name,
+      total: total
+    }));
     const econ = farmPanelComputeEconomics(g.name, count, totalYield);
     const displayNodeCount = typeof g.nodes[0]?.physicalNodes === "number" ? g.nodes[0].physicalNodes : count;
     const cycleTimeSec = boostedStats.timeVal || farmPanelGrowTimeSec(g.name);
     const cyclesPerDay = cycleTimeSec ? 86400 / cycleTimeSec : null;
-    const shrineInfo = getActiveShrineDailyCost(boostedStats.activeBoosts);
+    const shrineInfo = getActiveShrineDailyCostStable(boostedStats.activeBoosts);
     const shrineCostPerCycle = shrineInfo.total > 0 ? cyclesPerDay ? shrineInfo.total / cyclesPerDay : shrineInfo.total : 0;
+    
+    
+    
+    
+    
+    let fruitWood = null;
+    let harvestsLeftCounts = null;
+    
+    
+    
+    
+    let fruitWoodPerTree = null;
+    const fruitDef = BASE_FRUITS[g.name];
+    if (fruitDef && g.nodes.some(n => typeof n.harvestsLeft === "number")) {
+      harvestsLeftCounts = {};
+      g.nodes.forEach(n => {
+        if (typeof n.harvestsLeft !== "number") return;
+        harvestsLeftCounts[n.harvestsLeft] = (harvestsLeftCounts[n.harvestsLeft] || 0) + 1;
+      });
+      const treesAtFinalHarvest = harvestsLeftCounts[1] || 0;
+      const boostedFruit = computeBoostedFruitStats(g.name, fruitDef.yieldPerHarvest, fruitDef.timeSec, fruitDef.minHarvest);
+      fruitWoodPerTree = Math.max(0, (fruitDef.woodReturnQty || 0) - (boostedFruit.woodReturnPenalty || 0) + (boostedFruit.woodReturnAdd || 0));
+      if (treesAtFinalHarvest > 0) {
+        const woodTotalYield = fruitWoodPerTree * treesAtFinalHarvest;
+        if (woodTotalYield > 0) {
+          const woodEcon = farmPanelComputeEconomics("Wood", treesAtFinalHarvest, woodTotalYield);
+          fruitWood = {
+            treesAtFinalHarvest: treesAtFinalHarvest,
+            perTreeQty: fruitWoodPerTree,
+            noWoodCost: boostedFruit.noWoodCost,
+            econ: woodEcon
+          };
+        }
+      }
+    }
+    const profitWithShrine = econ.profit - shrineCostPerCycle + (fruitWood ? fruitWood.econ.profit : 0);
+    
+    
+    let moneyTreeBonus = null;
+    if (g.name === "Wood") {
+      const mtData = farmPanelDetectMoneyTreeBonus(json);
+      const mtCoins = (mtData.totalCoins || 0) + (mtData.predictedCoins || 0);
+      if (mtCoins > 0) {
+        moneyTreeBonus = {
+          coins: mtCoins
+        };
+      }
+    }
+    
+    let isHoneyCard = false;
+    let honeyHiveDetails = null;
+    let honeySwarmCount = 0;
+    let honeyMaxPerFill = null;
+    if (g.name === "Honey") {
+      isHoneyCard = true;
+      const sortedHives = g.nodes.slice().sort((a, b) => (a.hiveIndex ?? 0) - (b.hiveIndex ?? 0));
+      honeyMaxPerFill = sortedHives.length && typeof sortedHives[0].maxHoneyPerFill === "number" ? sortedHives[0].maxHoneyPerFill : null;
+      honeySwarmCount = sortedHives.filter(n => n.willSwarm === true).length;
+      honeyHiveDetails = sortedHives.map((n, i) => ({
+        label: `Beehive ${i + 1}`,
+        currentQty: typeof n.qty === "number" ? n.qty : 0,
+        maxQty: typeof n.maxHoneyPerFill === "number" ? n.maxHoneyPerFill : honeyMaxPerFill,
+        fillPct: n.maxHoneyPerFill > 0 ? Math.max(0, Math.min(100, (n.qty / n.maxHoneyPerFill) * 100)) : 0,
+        willSwarm: n.willSwarm === true,
+        ready: n.ready === true
+      }));
+    }
     return {
       ...econ,
+      profit: profitWithShrine,
+      fruitWood: fruitWood,
+      harvestsLeftCounts: harvestsLeftCounts,
+      fruitWoodPerTree: fruitWoodPerTree,
       readyCount: readyCount,
       sickCount: sickCount,
+      weatherDestroyedCount: weatherDestroyedCount,
+      weatherDestroyedEvent: weatherDestroyedEvent,
       soonestSec: soonestSec,
       noEtaCount: noEtaCount,
       actualYieldCount: actualYieldCount,
+      boostTrackedCount: boostTrackedCount,
       isDeterministicYield: isDeterministicYield,
       turnaroundTypesPredicted: turnaroundTypesPredicted,
+      turnaroundCountsByType: turnaroundCountsByType,
       turnaroundBonusYieldEstimate: turnaroundBonusYieldEstimate,
+      moneyTreeBonus: moneyTreeBonus,
+      isHoneyCard: isHoneyCard,
+      honeyHiveDetails: honeyHiveDetails,
+      honeySwarmCount: honeySwarmCount,
+      honeyMaxPerFill: honeyMaxPerFill,
       goldInstantMineTypesPredicted: goldInstantMineTypesPredicted,
       goldInstantMineBonusYieldEstimate: goldInstantMineBonusYieldEstimate,
+      crimstoneInstantMinePredicted: crimstoneInstantMinePredicted,
+      crimstoneInstantMineBonusYieldEstimate: crimstoneInstantMineBonusYieldEstimate,
       baseTotalYield: baseTotalYield,
       isBoosted: isBoosted,
+      cycleTimeSec: cycleTimeSec,
       activeBoosts: boostedStats.activeBoosts,
       exactBoosts: exactBoosts,
+      exactBoostTotals: exactBoostTotals,
       tierCounts: tierCounts,
+      tierYields: tierYields,
+      oilNodeGroups: oilNodeGroups,
+      saltNodeGroups: saltNodeGroups,
+      crimstoneNodeGroups: crimstoneNodeGroups,
+      plantYieldLabel: plantYieldLabel,
+      plantYieldGroups: plantYieldGroups,
       displayNodeCount: displayNodeCount,
       cyclesPerDay: cyclesPerDay,
       shrineCostPerCycle: shrineCostPerCycle,
@@ -17963,23 +19400,34 @@ function farmPanelComputeStocks(json) {
   return rows;
 }
 
-function farmPanelRenderAnimalYieldBoostList(boosts, productNames, products, fallbackCount) {
-  if (!boosts || !boosts.length) return "";
+function farmPanelRenderAnimalYieldBoostList(boosts, productNames, products, fallbackCount, spiceBuffCards, timeBoosts, costBoosts, cycleTimeSec) {
   const countForProduct = pname => {
     const match = products && products.find(p => p.name === pname);
     return match && typeof match.count === "number" ? match.count : fallbackCount || 0;
   };
-  const entries = [];
-  boosts.forEach(b => {
+  const yieldEntries = [];
+  (boosts || []).forEach(b => {
     const boostIcon = getBoostIcon(b.name);
     if (b.yieldMultAll) {
       const mult = b.yieldMultAll;
       (products || []).forEach((p, idx) => {
         const extra = p.totalYield * (mult - 1) / mult;
         const picon = getIcon(p.name);
-        entries.push({
+        yieldEntries.push({
           productIndex: idx,
-          html: `<div class="boost-applied-row is-yield">${boostIcon}<b>${escapeHtml(b.name)}</b> <span class="boost-mult-note">(×${mult})</span> <span class="boost-total-value">+${fmt(extra)}</span>${picon}</div>`
+          html: `<div class="boost-applied-row is-yield">${boostIcon}<b>${escapeHtml(b.name)}</b> <span class="boost-mult-note">(×${mult})</span> <span class="boost-total-value">+${fmtAnimal(extra)}</span>${picon}</div>`
+        });
+      });
+      return;
+    }
+    if (b.yieldAddAll) {
+      (products || []).forEach((p, idx) => {
+        const pname = productNames && productNames[idx] ? productNames[idx] : p.name;
+        const picon = getIcon(pname);
+        const totalAdd = b.yieldAddAll * countForProduct(pname);
+        yieldEntries.push({
+          productIndex: idx,
+          html: `<div class="boost-applied-row is-yield">${boostIcon}<b>${escapeHtml(b.name)}</b> <span class="boost-total-value">+${fmtAnimal(totalAdd)}</span>${picon}</div>`
         });
       });
       return;
@@ -17989,16 +19437,252 @@ function farmPanelRenderAnimalYieldBoostList(boosts, productNames, products, fal
       const pname = productNames && productNames[pIndex] ? productNames[pIndex] : "";
       const picon = pname ? getIcon(pname) : "";
       const totalAdd = b.yieldAdd * countForProduct(pname);
-      entries.push({
+      yieldEntries.push({
         productIndex: pIndex,
-        html: `<div class="boost-applied-row is-yield">${boostIcon}<b>${escapeHtml(b.name)}</b> <span class="boost-total-value">+${fmt(totalAdd)}</span>${picon}</div>`
+        html: `<div class="boost-applied-row is-yield">${boostIcon}<b>${escapeHtml(b.name)}</b> <span class="boost-total-value">+${fmtAnimal(totalAdd)}</span>${picon}</div>`
       });
     }
   });
-  if (!entries.length) return "";
-  entries.sort((a, b) => a.productIndex - b.productIndex);
-  const rows = entries.map(e => e.html).join("");
+  yieldEntries.sort((a, b) => a.productIndex - b.productIndex);
+  const yieldHtmlParts = yieldEntries.map(e => e.html);
+  const timeHtmlParts = (timeBoosts || []).map(b => {
+    const boostIcon = getBoostIcon(b.name);
+    const mult = (b.timeMult || 1) * (b.timeMultAll || 1);
+    const pct = (1 - mult) * 100;
+    const secondsSaved = cycleTimeSec != null ? cycleTimeSec * (1 / mult - 1) : null;
+    const savedNote = secondsSaved != null ? ` <span class="boost-total-value">-${farmPanelFormatSpiceDuration(secondsSaved)}</span>` : "";
+    return `<div class="boost-applied-row is-time">${boostIcon}<b>${escapeHtml(b.name)}</b> <span class="boost-mult-note">(-${fmtAnimal(pct)}% cycle time)</span>${savedNote}</div>`;
+  });
+  const costHtmlParts = (costBoosts || []).map(b => {
+    const boostIcon = getBoostIcon(b.name);
+    const mult = (b.feedMult && b.feedMult < 1 ? b.feedMult : 1) * (b.feedMultAll && b.feedMultAll < 1 ? b.feedMultAll : 1);
+    const pct = (1 - mult) * 100;
+    return `<div class="boost-applied-row is-cost">${boostIcon}<b>${escapeHtml(b.name)}</b> <span class="boost-mult-note">(-${fmtAnimal(pct)}% feed)</span></div>`;
+  });
+  (spiceBuffCards || []).forEach(card => {
+    if (card.category === "cost") costHtmlParts.push(card.html); else yieldHtmlParts.push(card.html);
+  });
+  const sections = [ [ "YIELD", yieldHtmlParts ], [ "TIME REDUCTION", timeHtmlParts ], [ "COST REDUCTION", costHtmlParts ] ].filter(([, parts]) => parts.length);
+  if (!sections.length) return "";
+  const sectionsHtml = sections.map(([label, parts]) => `<div class="lib-section-title" style="margin-top:10px;">${label}</div>${parts.join("")}`).join("");
+  return `<div class="section-badge is-boost-label">⚡ Applied Boost</div>${sectionsHtml}`;
+}
+
+function parseYieldBoostAmount(valueText) {
+  const m = /-?[\d.]+/.exec(valueText || "");
+  return m ? parseFloat(m[0]) : 0;
+}
+
+function farmPanelComputeNodeYieldBoostSummary(row) {
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  const rawCount = row.count || 0;
+  const exactCount = row.boostTrackedCount || 0;
+  const fallbackCount = Math.max(0, rawCount - exactCount);
+  
+  
+  const estimateCount = exactCount > 0 ? fallbackCount : row.displayNodeCount || rawCount;
+  const itemTier = (BASE_CROPS[row.name] || {}).tier;
+  const totals = new Map;
+  const add = (name, amount) => {
+    if (!amount) return;
+    totals.set(name, (totals.get(name) || 0) + amount);
+  };
+  if (estimateCount > 0) {
+    const fallbackFraction = rawCount > 0 ? estimateCount / rawCount : 1;
+    (row.activeBoosts || []).forEach(b => {
+      const yieldAdd = getEffectiveYieldAdd(b, itemTier, row.name);
+      if (yieldAdd) add(b.name, yieldAdd * estimateCount);
+      if (b.yieldMult) add(b.name, (row.totalYield || 0) * fallbackFraction * (b.yieldMult - 1) / b.yieldMult);
+      if (b.yieldMultAll) add(b.name, (row.totalYield || 0) * fallbackFraction * (b.yieldMultAll - 1) / b.yieldMultAll);
+      if (b.harvestAdd) add(b.name, b.harvestAdd * estimateCount);
+      if (b.flowerExtraFlat) add(b.name, b.flowerExtraFlat * estimateCount);
+    });
+  }
+  (row.exactBoostTotals || []).forEach(eb => add(eb.name, eb.total));
+  if (row.name === "Gold" && row.goldInstantMineBonusYieldEstimate > 0) add("Pickaxe Shark", row.goldInstantMineBonusYieldEstimate);
+  return Array.from(totals.entries()).filter(([, total]) => total > 1e-9).map(([name, total]) => ({
+    name: name,
+    total: total
+  }));
+}
+
+function renderNodeYieldBoostAppliedList(summary, produceIcon) {
+  if (!summary || !summary.length) return "";
+  const rows = summary.map(b => `<div class="boost-applied-row is-yield">${getBoostIcon(b.name)}<b>${escapeHtml(b.name)}</b> <span class="boost-total-value">+${fmt(b.total)}</span>${produceIcon}</div>`).join("");
   return `<div class="lib-section-title" style="margin-top:10px;">Applied Boost</div>${rows}`;
+}
+
+function farmPanelRenderNodeYieldBoostList(row, summary, produceIcon) {
+  const yieldHtmlParts = (summary || []).map(b => `<div class="boost-applied-row is-yield">${getBoostIcon(b.name)}<b>${escapeHtml(b.name)}</b> <span class="boost-total-value">+${fmt(b.total)}</span>${produceIcon}</div>`);
+  const seenTime = new Set;
+  const timeHtmlParts = (row.activeBoosts || []).filter(b => b.timeMult && b.timeMult !== 1 && !seenTime.has(b.name) && seenTime.add(b.name)).map(b => {
+    const boostIcon = getBoostIcon(b.name);
+    const pct = (1 - b.timeMult) * 100;
+    const secondsSaved = row.cycleTimeSec != null ? row.cycleTimeSec * (1 / b.timeMult - 1) : null;
+    const savedNote = secondsSaved != null ? ` <span class="boost-total-value">-${farmPanelFormatSpiceDuration(secondsSaved)}</span>` : "";
+    return `<div class="boost-applied-row is-time">${boostIcon}<b>${escapeHtml(b.name)}</b> <span class="boost-mult-note">(-${fmt(pct)}% cycle time)</span>${savedNote}</div>`;
+  });
+  const seenCost = new Set;
+  const costHtmlParts = (row.activeBoosts || []).filter(b => (b.freeCost || b.toolCostMult && b.toolCostMult < 1) && !seenCost.has(b.name) && seenCost.add(b.name)).map(b => {
+    const boostIcon = getBoostIcon(b.name);
+    if (b.freeCost) return `<div class="boost-applied-row is-cost">${boostIcon}<b>${escapeHtml(b.name)}</b> <span class="boost-mult-note">(free cost)</span></div>`;
+    const pct = (1 - b.toolCostMult) * 100;
+    return `<div class="boost-applied-row is-cost">${boostIcon}<b>${escapeHtml(b.name)}</b> <span class="boost-mult-note">(-${fmt(pct)}% tool cost)</span></div>`;
+  });
+  const sections = [ [ "YIELD", yieldHtmlParts ], [ "TIME REDUCTION", timeHtmlParts ], [ "COST REDUCTION", costHtmlParts ] ].filter(([, parts]) => parts.length);
+  if (!sections.length) return "";
+  const sectionsHtml = sections.map(([label, parts]) => `<div class="lib-section-title" style="margin-top:10px;">${label}</div>${parts.join("")}`).join("");
+  return `<div class="section-badge is-boost-label">⚡ Applied Boost</div>${sectionsHtml}`;
+}
+
+function farmPanelCardCategory(row) {
+  if (row.isAnimalMerged) return "animals";
+  if (row.isHoneyCard) return "beehive";
+  const name = row.name;
+  if (BASE_GREENHOUSE[name]) return "greenhouse";
+  if (FLOWER_VARIETIES[name]) return "beehive";
+  if (BASE_CROPS[name]) return "crops";
+  if (BASE_FRUITS[name]) return "fruits";
+  return "resources";
+}
+
+function farmPanelRenderCategoryFilterBar() {
+  const cats = [ {
+    id: "all",
+    label: "All",
+    icon: ""
+  }, {
+    id: "crops",
+    label: "Crops",
+    icon: getIcon("Sunflower")
+  }, {
+    id: "resources",
+    label: "Resources",
+    icon: getIcon("Axe")
+  }, {
+    id: "greenhouse",
+    label: "Greenhouse",
+    icon: RCM_GREENHOUSE_ICON_HTML
+  }, {
+    id: "beehive",
+    label: "Beehive",
+    icon: getIcon("Beehive")
+  }, {
+    id: "fruits",
+    label: "Fruits",
+    icon: getIcon("Orange")
+  }, {
+    id: "animals",
+    label: "Animals",
+    icon: getIcon("Chicken")
+  } ];
+  const btns = cats.map(c => `<button type="button" class="fp-filter-btn${farmPanelInProgressCategoryFilter === c.id ? " active" : ""}${c.id === "all" ? " has-label" : ""}" data-fp-filter-btn="${c.id}" title="${c.label}">${c.icon}${c.id === "all" ? `<span>${c.label}</span>` : ""}</button>`).join("");
+  return `<div class="fp-filter-bar">${btns}</div>`;
+}
+
+function attachFarmPanelCategoryFilterBar(barWrap, wrap) {
+  const bar = barWrap.querySelector(".fp-filter-bar");
+  if (!bar) return;
+  bar.querySelectorAll("[data-fp-filter-btn]").forEach(btn => {
+    btn.onclick = () => {
+      const cat = btn.getAttribute("data-fp-filter-btn");
+      farmPanelInProgressCategoryFilter = cat;
+      bar.querySelectorAll("[data-fp-filter-btn]").forEach(b => b.classList.toggle("active", b === btn));
+      const list = wrap.querySelector(".fp-inprogress-list");
+      const target = list || wrap;
+      target.setAttribute("data-fp-filter", cat);
+    };
+  });
+}
+
+function renderNodeTierYieldList(tierYields, produceIcon) {
+  if (!tierYields) return "";
+  const entries = Object.entries(tierYields).filter(([, total]) => total > 1e-9);
+  if (!entries.length) return "";
+  const rows = entries.map(([label, total]) => `<div class="boost-applied-row is-yield">${getIcon(label)}<b>${escapeHtml(label)}</b> <span class="boost-total-value">${fmt(total)}</span>${produceIcon}</div>`).join("");
+  return `<div class="lib-section-title" style="margin-top:10px;">Nodes Yield</div>${rows}`;
+}
+
+function renderOilNodeYieldList(oilNodeGroups, produceIcon) {
+  if (!oilNodeGroups || !oilNodeGroups.length) return "";
+  const oilReserveIcon = getIcon("Oil Reserve");
+  const bonusMineTotal = OIL_SINGLE_HARVEST_BASE + OIL_BONUS_DROP_AMOUNT;
+  const rows = oilNodeGroups.map(node => {
+    const minesTag = node.minesUntilBonus === 1 ? `<span class="tier-tag">Bonus mine next</span>` : `<span class="tier-tag">${node.minesUntilBonus} mines left before +${fmt(bonusMineTotal)}</span>`;
+    return `<div class="boost-applied-row is-yield oil-node-row"><div class="oil-node-header">${oilReserveIcon}<b>Oil Reserve ${node.index}</b></div><div class="oil-node-detail">${minesTag}<span class="boost-total-value">+${fmt(node.qty)}</span>${produceIcon}</div></div>`;
+  }).join("");
+  return `<div class="lib-section-title" style="margin-top:10px;">Nodes Yield</div>${rows}`;
+}
+
+function renderSaltNodeYieldList(saltNodeGroups, produceIcon) {
+  if (!saltNodeGroups || !saltNodeGroups.length) return "";
+  const saltRockIcon = getIcon("Salt Rock");
+  const rows = saltNodeGroups.map(node => {
+    const chargeTag = `<span class="tier-tag">${node.storedCharges}/${node.maxCharges} charges</span>`;
+    const nextChargeQty = node.qty + node.yieldPerCharge;
+    const possibleHtml = node.storedCharges < node.maxCharges ? `<div class="salt-node-possible-hint"><b>Harvest Well become</b> +${fmt(nextChargeQty)} <span class="salt-hint-icon">${produceIcon}</span>Salt when the next charge is ready</div>` : "";
+    return `<div class="boost-applied-row is-yield oil-node-row"><div class="oil-node-header">${saltRockIcon}<b>Salt Rock ${node.index}</b></div><div class="oil-node-detail">${chargeTag}<span class="boost-total-value">+${fmt(node.qty)}</span>${produceIcon}</div>${possibleHtml}</div>`;
+  }).join("");
+  return `<div class="lib-section-title" style="margin-top:10px;">Nodes Yield</div>${rows}`;
+}
+
+function renderCrimstoneNodeYieldList(crimstoneNodeGroups) {
+  if (!crimstoneNodeGroups || !crimstoneNodeGroups.length) return "";
+  const crimstoneRockIcon = getIcon("Crimstone Rock");
+  const crimstoneOreIcon = getIcon("Crimstone");
+  const rows = crimstoneNodeGroups.map(node => {
+    const streakTag = node.streakPosition === 5 ? `<span class="tier-tag">Streak 5/5 (+2 mine)</span>` : `<span class="tier-tag">Streak ${node.streakPosition}/5</span>`;
+    return `<div class="boost-applied-row is-yield oil-node-row"><div class="oil-node-header">${crimstoneRockIcon}<b>Crimstone Rock ${node.index}</b></div><div class="oil-node-detail">${streakTag}<span class="boost-total-value">+${fmt(node.qty)}</span>${crimstoneOreIcon}</div></div>`;
+  }).join("");
+  return `<div class="lib-section-title" style="margin-top:10px;">Nodes Yield</div>${rows}`;
+}
+
+function renderPlantYieldNodeList(label, plotName, plantYieldGroups, produceIcon, nodeIcon) {
+  if (!plantYieldGroups || !plantYieldGroups.length) return "";
+  const count = plantYieldGroups.length;
+  const totalQty = plantYieldGroups.reduce((sum, node) => sum + (typeof node.qty === "number" ? node.qty : 0), 0);
+  const totalSeeds = plantYieldGroups.reduce((sum, node) => sum + (node.seedReward ? node.seedReward.amount : 0), 0);
+  const qtyHtml = `<span class="boost-total-value">+${fmt(totalQty)}</span>${produceIcon}`;
+  const seedHtml = totalSeeds > 0 ? ` <span class="tier-tag">🌱 Free Seeds <span class="boost-total-value">+${fmt(totalSeeds)}</span></span>` : "";
+  const row = `<div class="boost-applied-row is-yield oil-node-row"><div class="oil-node-header">${nodeIcon}<b>${escapeHtml(plotName)} x${count}</b></div><div class="oil-node-detail">${qtyHtml}${seedHtml}</div></div>`;
+  return `<div class="lib-section-title" style="margin-top:10px;">${escapeHtml(label)}</div>${row}`;
+}
+
+function renderCardProductDetailRow(icon, name, yieldVal, grossVal, feeVal, baseYieldVal) {
+  const yieldDisplay = baseYieldVal != null && baseYieldVal !== yieldVal ? `<s style="opacity:.55;">${fmt(baseYieldVal)}</s> ${fmt(yieldVal)} ⚡` : fmt(yieldVal);
+  return `\n        <div class="animal-detail-stat is-yield-row animal-yield-block">\n          <span class="label">${icon} ${escapeHtml(name)}</span>\n          <div class="animal-yield-sublines">\n            <div class="animal-yield-subline"><span class="sublabel">Yield</span><span class="value">${yieldDisplay}</span></div>\n            <div class="animal-yield-subline"><span class="sublabel">Value</span><span class="value">${fmt(grossVal)} ${FLOWER_ICON}</span></div>\n            <div class="animal-yield-subline"><span class="sublabel">Sell Fee</span><span class="value">${feeVal > 0 ? `-${fmt(feeVal)}` : "0"} ${FLOWER_ICON}</span></div>\n          </div>\n        </div>`;
+}
+
+function renderAnimalCardProductDetailRow(icon, name, yieldVal, grossVal, feeVal, baseYieldVal) {
+  const yieldDisplay = baseYieldVal != null && baseYieldVal !== yieldVal ? `<s style="opacity:.55;">${fmtAnimal(baseYieldVal)}</s> ${fmtAnimal(yieldVal)} ⚡` : fmtAnimal(yieldVal);
+  return `\n        <div class="animal-detail-stat is-yield-row animal-yield-block">\n          <span class="label">${icon} ${escapeHtml(name)}</span>\n          <div class="animal-yield-sublines">\n            <div class="animal-yield-subline"><span class="sublabel">Yield</span><span class="value">${yieldDisplay}</span></div>\n            <div class="animal-yield-subline"><span class="sublabel">Value</span><span class="value">${fmtAnimal(grossVal)} ${FLOWER_ICON}</span></div>\n            <div class="animal-yield-subline"><span class="sublabel">Sell Fee</span><span class="value">${feeVal > 0 ? `-${fmtAnimal(feeVal)}` : "0"} ${FLOWER_ICON}</span></div>\n          </div>\n        </div>`;
+}
+
+function renderAnimalYieldGroupsList(card) {
+  const groups = card.animalYieldGroups;
+  if (!groups || !groups.length) return "";
+  const animalIcon = getIcon(card.typeLabel);
+  const rows = groups.map(g => {
+    const feedIcon = g.feedToNextName ? getIcon(g.feedToNextName) : "";
+    const xpTag = g.isMaxCycle ? `<span class="tier-tag">MAX</span>` : `<span class="tier-tag">XP ${fmtAnimal(g.xpMin)}${g.xpMax !== g.xpMin ? "–" + fmtAnimal(g.xpMax) : ""}/${fmtAnimal(g.nextThreshold)}</span>`;
+    const feedToNextLine = g.feedsToNextCount > 0 ? `<div class="animal-yield-feed-note">🍽 Group needs <b>${fmtAnimal(g.feedsToNextCount)}</b> more feed${g.feedsToNextCount === 1 ? "" : "s"} total (${feedIcon} ${fmtAnimal(g.feedQtyToNext)} ${escapeHtml(g.feedToNextName || "")}) to bring all ${g.count} to ${escapeHtml(g.nextLevelLabel)}</div>` : `<div class="animal-yield-feed-note">✅ Fully fed for this cycle</div>`;
+    const productLines = card.productNames.map((pname, idx) => {
+      const val = g.yields[idx] || 0;
+      return `<div class="animal-yield-subline"><span class="sublabel">${getIcon(pname)} ${escapeHtml(pname)}</span><span class="value">${fmtAnimal(val)}</span></div>`;
+    }).join("");
+    return `\n      <div class="boost-applied-row is-yield animal-yield-group-row">\n        <div class="animal-yield-group-head">\n          ${animalIcon} <b>${escapeHtml(card.typeLabel)}</b> <span class="boost-total-value">x${g.count}</span>\n          ${xpTag}\n          <span class="tier-tag">LVL ${g.level}</span>\n        </div>\n        ${feedToNextLine}\n        <div class="animal-yield-sublines">${productLines}</div>\n      </div>`;
+  }).join("");
+  return `<div class="lib-section-title" style="margin-top:10px;">Animal Yield</div>${rows}`;
 }
 
 function farmPanelRenderAnimalMergedCard(card) {
@@ -18021,15 +19705,110 @@ function farmPanelRenderAnimalMergedCard(card) {
     badgeHtml += `<span class="harvest-badge" style="background:rgba(214,80,80,0.15);color:#c33;">🤒 ${card.sickCount} sick</span>`;
   }
   const animalIcon = getIcon(card.typeLabel);
-  const productChipsHtml = card.products.map(p => `\n      <span class="animal-produce-chip">\n        <span class="produce-icon">${getIcon(p.name)}</span>\n        <span class="produce-name">${escapeHtml(p.name)}</span>\n        <span class="produce-yield">${fmt(p.totalYield)}</span>\n        <span class="produce-value">(${fmt(p.grossRevenue)} ${FLOWER_ICON})</span>\n      </span>`).join("");
-  const netChipHtml = `\n      <span class="animal-net-chip">\n        <span class="label">Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(card.net)} ${FLOWER_ICON}</span>\n      </span>`;
-  const productDetailRows = card.products.map(p => `\n        <div class="animal-detail-stat is-yield-row animal-yield-block">\n          <span class="label">${getIcon(p.name)} ${escapeHtml(p.name)}</span>\n          <div class="animal-yield-sublines">\n            <div class="animal-yield-subline"><span class="sublabel">Yield</span><span class="value">${fmt(p.totalYield)}</span></div>\n            <div class="animal-yield-subline"><span class="sublabel">Value</span><span class="value">${fmt(p.grossRevenue)} ${FLOWER_ICON}</span></div>\n            <div class="animal-yield-subline"><span class="sublabel">Sell Fee</span><span class="value">${p.feeAmount > 0 ? `-${fmt(p.feeAmount)}` : "0"} ${FLOWER_ICON}</span></div>\n          </div>\n        </div>`).join("");
-  const yieldBoostListHtml = farmPanelRenderAnimalYieldBoostList(card.yieldBoosts, card.productNames, card.products, card.count);
-  return `\n  <div class="card animal-merged-card${isProfit ? " is-profit" : " is-loss"}${expandedCls}" data-search="${card.searchKey}">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${animalIcon}</span>\n        <div>\n          <div class="card-name">${escapeHtml(card.typeLabel)}</div>\n          <div class="card-type-row">\n            <span class="card-type">${card.count} animal${card.count === 1 ? "" : "s"}</span>\n            ${badgeHtml}\n          </div>\n          <div class="animal-fold-row">${productChipsHtml}${netChipHtml}</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    <div class="card-details">\n      <div class="stat"><span class="label">Status</span><span class="value">${statusLine}</span></div>\n      <div class="animal-detail-grid">\n        ${productDetailRows}\n        <div class="animal-detail-stat"><span class="label">Market Price/Unit</span><span class="value">${fmt(card.avgPricePerUnit)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Gross</span><span class="value">${fmt(card.gross)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Cost/Unit</span><span class="value">${fmt(card.avgCostPerUnit)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Sell Fee</span><span class="value">${card.sellFee > 0 ? `-${fmt(card.sellFee)}` : "0"} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Cost</span><span class="value">${card.cost > 0 ? `-${fmt(card.cost)}` : "0"} ${FLOWER_ICON}</span></div>\n      </div>\n      <div class="animal-net-row2">\n        <span class="label">Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(card.net)} ${FLOWER_ICON}</span>\n      </div>\n      ${yieldBoostListHtml}\n    </div>\n  </div>`;
+  const productChipsHtml = card.products.map(p => `\n      <span class="animal-produce-chip">\n        <span class="produce-icon">${getIcon(p.name)}</span>\n        <span class="produce-name">${escapeHtml(p.name)}</span>\n        <span class="produce-yield">${fmtAnimal(p.totalYield)}</span>\n        <span class="produce-value">(${fmtAnimal(p.grossRevenue)} ${FLOWER_ICON})</span>\n      </span>`).join("");
+  const netChipHtml = `\n      <span class="animal-net-chip">\n        <span class="label">Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmtAnimal(card.net)} ${FLOWER_ICON}</span>\n      </span>`;
+  const productDetailRows = card.products.map(p => renderAnimalCardProductDetailRow(getIcon(p.name), p.name, p.totalYield, p.grossRevenue, p.feeAmount)).join("");
+  const yieldBoostListHtml = farmPanelRenderAnimalYieldBoostList(card.yieldBoosts, card.productNames, card.products, card.count, card.spiceBuffCards, card.timeBoosts, card.costBoosts, card.cycleTimeSec);
+  const animalYieldGroupsHtml = renderAnimalYieldGroupsList(card);
+  return `\n  <div class="card animal-merged-card${isProfit ? " is-profit" : " is-loss"}${expandedCls}" data-search="${card.searchKey}" data-fp-category="animals">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${animalIcon}</span>\n        <div>\n          <div class="card-name">${escapeHtml(card.typeLabel)}</div>\n          <div class="card-type-row">\n            <span class="card-type">${card.count} animal${card.count === 1 ? "" : "s"}</span>\n            ${badgeHtml}\n          </div>\n          <div class="animal-fold-row">${productChipsHtml}${netChipHtml}</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    <div class="card-details">\n      <div class="stat"><span class="label">Status</span><span class="value">${statusLine}</span></div>\n      <div class="animal-detail-grid">\n        ${productDetailRows}\n        <div class="animal-detail-stat"><span class="label">Market Price/Unit</span><span class="value">${fmtAnimal(card.avgPricePerUnit)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Gross</span><span class="value">${fmtAnimal(card.gross)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Cost/Unit</span><span class="value">${fmtAnimal(card.avgCostPerUnit)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Sell Fee</span><span class="value">${card.sellFee > 0 ? `-${fmtAnimal(card.sellFee)}` : "0"} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Shrine Cost${card.shrineNames && card.shrineNames.length ? ` (${card.shrineNames.map(escapeHtml).join(", ")})` : ""}</span><span class="value" style="${card.shrineCost > 0 ? "color:#b45309;" : ""}">${card.shrineCost > 0 ? `-${fmtAnimal(card.shrineCost)}` : "0"} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Cost (Feeds &amp; Consumables)</span><span class="value">${card.cost > 0 ? `-${fmtAnimal(card.cost)}` : "0"} ${FLOWER_ICON}</span></div>\n      </div>\n      <div class="animal-net-row2">\n        <span class="label">Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmtAnimal(card.net)} ${FLOWER_ICON}</span>\n      </div>\n      ${animalYieldGroupsHtml}\n      ${yieldBoostListHtml}\n    </div>\n  </div>`;
+}
+
+function renderFruitHarvestsLeftHtml(harvestsLeftCounts, fruitName, woodPerTree) {
+  if (!harvestsLeftCounts) return "";
+  const entries = Object.keys(harvestsLeftCounts).map(Number).sort((a, b) => a - b);
+  if (!entries.length) return "";
+  const treeIcon = getIcon(fruitName);
+  
+  
+  
+  const hasWood = typeof woodPerTree === "number" && woodPerTree > 1e-9;
+  const woodNote = hasWood ? ` <span style="color:#000;">(${getIcon("Wood")} will drop ${fmt(woodPerTree)} Wood per tree once this harvest is claimed &amp; the tree is chopped)</span>` : ` <span style="color:#a12626;">(${getIcon("Wood")} won't drop any Wood when chopped — an active perk/skill fully offsets the Wood return)</span>`;
+  const rows = entries.map(n => {
+    const c = harvestsLeftCounts[n];
+    const isFinal = n === 1;
+    return `<div class="boost-applied-row is-yield">${treeIcon} <b>${c} tree${c === 1 ? "" : "s"}</b> with ${n} harvest${n === 1 ? "" : "s"} left${isFinal ? woodNote : ""}</div>`;
+  }).join("");
+  return `<div class="lib-section-title" style="margin-top:10px;">Harvests Left</div>${rows}`;
+}
+
+function renderTurnaroundBoostHtml(row) {
+  const counts = row.turnaroundCountsByType;
+  if (!counts) return "";
+  const types = Object.keys(counts);
+  if (!types.length) return "";
+  
+  
+  const chips = types.map(type => `<span class="turnaround-boost-chip">${counts[type]} ${getIcon(type)} ${escapeHtml(type)}</span>`);
+  const pairedRows = [];
+  for (let i = 0; i < chips.length; i += 2) {
+    pairedRows.push(`<div class="turnaround-boost-row">${chips.slice(i, i + 2).join("")}</div>`);
+  }
+  const estNote = row.turnaroundBonusYieldEstimate > 0 ? `<div class="turnaround-boost-note">(~+${fmt(row.turnaroundBonusYieldEstimate)} Wood, already in totals)</div>` : "";
+  return `<div class="turnaround-boost-wrap"><div class="turnaround-boost-label" title="Turnaround's PRNG counter is farm-wide per tree type, not per individual tree — so this predicts only the very next chop(s) of that type, whichever tree(s) you happen to chop first. It doesn't mean every tree of that type will regrow.">⚡ Turn Around Boost</div>${pairedRows.join("")}${estNote}</div>`;
+}
+
+function renderGoldInstantMineBoostHtml(row) {
+  const types = row.goldInstantMineTypesPredicted;
+  if (!types || !types.length) return "";
+  const typeList = types.join(", ");
+  const estNote = row.goldInstantMineBonusYieldEstimate > 0 ? `<div class="turnaround-boost-note">(~+${fmt(row.goldInstantMineBonusYieldEstimate)} Gold, already in totals)</div>` : "";
+  return `<div class="turnaround-boost-wrap"><div class="turnaround-boost-label" title="Pickaxe Shark's PRNG counter is farm-wide per Gold rock type, not per individual rock — so this predicts only the very next mine of that type, whichever rock you happen to mine first. It doesn't mean every rock of that type will instant-mine. The bonus mine's yield is estimated using the average Gold-per-mine (since its actual amount isn't rolled/stored until it happens) and is already folded into this card's Yield/Gross/Net totals.">⚡ Next ${escapeHtml(typeList)} Mine Instant (Pickaxe Shark)</div>${estNote}</div>`;
+}
+
+function renderCrimstoneInstantMineBoostHtml(row) {
+  if (!row.crimstoneInstantMinePredicted) return "";
+  const estNote = row.crimstoneInstantMineBonusYieldEstimate > 0 ? `<div class="turnaround-boost-note">(~+${fmt(row.crimstoneInstantMineBonusYieldEstimate)} Crimstone, already in totals)</div>` : "";
+  return `<div class="turnaround-boost-wrap"><div class="turnaround-boost-label" title="Crimstone Clam's PRNG counter is farm-wide across all Crimstone Rocks, not per individual rock — so this predicts only the very next mine, whichever rock you happen to mine first. It doesn't mean every rock will instant-recover. Each chained mine's yield is computed exactly (deterministic per mine streak position) and is already folded into this card's Yield/Gross/Net totals.">⚡ Next Crimstone Mine Instant (Crimstone Clam)</div>${estNote}</div>`;
+}
+
+function renderBeehiveListHtml(honeyHiveDetails) {
+  if (!honeyHiveDetails || !honeyHiveDetails.length) return "";
+  const beehiveIcon = getIcon("Beehive");
+  const honeyIcon = getIcon("Honey");
+  const rows = honeyHiveDetails.map(h => `<div class="boost-applied-row is-yield">${beehiveIcon}<b>${escapeHtml(h.label)}</b> <span class="boost-total-value">${fmt(h.currentQty)}</span> <span style="color:var(--ink-soft);font-weight:600;">(${h.fillPct.toFixed(1)}%)</span>${honeyIcon}${h.willSwarm ? `<img src="${BEE_SWARM_ICON}" title="Will trigger a Bee Swarm once full &amp; harvested" style="width:13px;height:13px;vertical-align:-2px;image-rendering:pixelated;margin-left:4px;">` : ""}</div>`).join("");
+  return `<div class="lib-section-title" style="margin-top:10px;">🐝 Bee Hives</div>${rows}`;
+}
+
+function farmPanelRenderHoneyCard(row) {
+  const baseStatus = row.readyCount > 0 ? row.readyCount === row.count ? "✅ All ready" : `✅ ${row.readyCount} ready · ⏳ ${row.count - row.readyCount} growing` : "⏳ Growing";
+  const showCountdown = row.soonestSec != null && row.readyCount < row.count;
+  const noEtaGrowing = !showCountdown && row.readyCount < row.count && row.noEtaCount > 0;
+  const statusLine = showCountdown ? `${baseStatus} <span class="farm-countdown" data-base="${row.soonestSec}">(next in ${farmPanelFormatCountdown(row.soonestSec)})</span>` : noEtaGrowing ? `${baseStatus} <span style="color:var(--ink-soft);">(no active flower/growth right now — can't estimate)</span>` : baseStatus;
+  const isProfit = row.profit >= 0;
+  const expandedCls = farmPanelExpandedNames.has(row.name.toLowerCase()) ? " expanded" : "";
+  const growingCount = row.count - row.readyCount;
+  let badgeHtml = "";
+  if (row.readyCount > 0 && growingCount > 0) {
+    badgeHtml = `<span class="harvest-badge-group">\n      <span class="harvest-badge is-ready">✅ Ready ${row.readyCount}</span>\n      <span class="harvest-badge is-growing">⏳ Growing ${growingCount}</span>\n    </span>`;
+  } else if (row.readyCount > 0) {
+    badgeHtml = `<span class="harvest-badge is-ready">✅ Ready to Harvest</span>`;
+  } else {
+    badgeHtml = `<span class="harvest-badge is-growing">⏳ In Progress</span>`;
+  }
+  const tierEntries = row.tierCounts ? Object.entries(row.tierCounts) : [];
+  const tierNote = tierEntries.length ? ` <span class="card-tier-note">(${tierEntries.map(([label, c]) => `${c} ${escapeHtml(label)}`).join(", ")})</span>` : "";
+  const beehiveIcon = getIcon("Beehive");
+  const produceIcon = getIcon("Honey");
+  const baseCost = row.totalCost - (row.restockCost || 0);
+  const shrineCost = row.shrineCostPerCycle || 0;
+  const shrineNames = row.shrineNames || [];
+  const restockCost = row.restockCost || 0;
+  const boostSummary = farmPanelComputeNodeYieldBoostSummary(row);
+  const productChipHtml = `\n      <span class="animal-produce-chip">\n        <span class="produce-icon">${produceIcon}</span>\n        <span class="produce-name">${escapeHtml(row.name)}</span>\n        <span class="produce-yield">${fmt(row.totalYield)}</span>\n        <span class="produce-value">(${fmt(row.grossRevenue)} ${FLOWER_ICON})</span>\n      </span>`;
+  const netChipHtml = `\n      <span class="animal-net-chip">\n        <span class="label">Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(row.profit)} ${FLOWER_ICON}</span>\n      </span>`;
+  
+  
+  const swarmChipHtml = row.honeySwarmCount > 0 ? `\n      <span class="animal-produce-chip">\n        <span class="produce-icon"><img src="${BEE_SWARM_ICON}" style="width:16px;height:16px;vertical-align:middle;image-rendering:pixelated;"></span>\n        <span class="produce-name">Bee Swarm</span>\n        <span class="produce-yield">+${row.honeySwarmCount}</span>\n      </span>` : "";
+  const productDetailRow = renderCardProductDetailRow(produceIcon, row.name, row.totalYield, row.grossRevenue, row.feeAmount, row.isBoosted ? row.baseTotalYield : null);
+  const restockRowHtml = `\n        <div class="animal-detail-stat"><span class="label">${GEM_ICON} Gem Restock Cost</span><span class="value" style="${restockCost > 0 ? "color:#c9821a;" : ""}">${restockCost > 0 ? `-${fmt(restockCost)}` : "0"} ${FLOWER_ICON}</span></div>`;
+  const boostListHtml = farmPanelRenderNodeYieldBoostList(row, boostSummary, produceIcon);
+  const beehiveListHtml = renderBeehiveListHtml(row.honeyHiveDetails);
+  return `\n  <div class="card animal-merged-card${isProfit ? " is-profit" : " is-loss"}${expandedCls}" data-search="honey" data-fp-category="beehive">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${beehiveIcon}</span>\n        <div>\n          <div class="card-name">Beehive</div>\n          <div class="card-type-row">\n            <span class="card-type">${row.displayNodeCount} node${row.displayNodeCount === 1 ? "" : "s"}${tierNote}</span>\n            ${badgeHtml}\n          </div>\n          <div class="animal-fold-row">${productChipHtml}${swarmChipHtml}${netChipHtml}</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    <div class="card-details">\n      <div class="stat"><span class="label">Status</span><span class="value">${statusLine}</span></div>\n      <div class="animal-detail-grid">\n        ${productDetailRow}\n        <div class="animal-detail-stat"><span class="label">Market Price/Unit</span><span class="value">${fmt(row.price)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Gross</span><span class="value">${fmt(row.grossRevenue)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Cost/Unit</span><span class="value">${fmt(row.costPerUnit)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Sell Fee</span><span class="value">${row.feeAmount > 0 ? `-${fmt(row.feeAmount)}` : "0"} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Shrine Cost${shrineNames.length ? ` (${shrineNames.map(escapeHtml).join(", ")})` : ""}</span><span class="value" style="${shrineCost > 0 ? "color:#b45309;" : ""}">${shrineCost > 0 ? `-${fmt(shrineCost)}` : "0"} ${FLOWER_ICON}</span></div>${restockRowHtml}\n        <div class="animal-detail-stat"><span class="label">Cost</span><span class="value">${baseCost > 0 ? `-${fmt(baseCost)}` : "0"} ${FLOWER_ICON}</span></div>\n      </div>\n      <div class="animal-net-row2">\n        <span class="label">Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(row.profit)} ${FLOWER_ICON}</span>\n      </div>\n      ${beehiveListHtml}\n      ${boostListHtml}\n      ${farmPanelRestockNoteHtml(row.restockInfo)}\n    </div>\n  </div>`;
 }
 
 function farmPanelRenderInProgressRow(row) {
   if (row.isAnimalMerged) return farmPanelRenderAnimalMergedCard(row);
+  if (row.isHoneyCard) return farmPanelRenderHoneyCard(row);
   const baseStatus = row.readyCount > 0 ? row.readyCount === row.count ? "✅ All ready" : `✅ ${row.readyCount} ready · ⏳ ${row.count - row.readyCount} growing` : "⏳ Growing";
   const showCountdown = row.soonestSec != null && row.readyCount < row.count;
   const noEtaGrowing = !showCountdown && row.readyCount < row.count && row.noEtaCount > 0;
@@ -18049,24 +19828,18 @@ function farmPanelRenderInProgressRow(row) {
   if (row.sickCount > 0) {
     badgeHtml += `<span class="harvest-badge" style="background:rgba(214,80,80,0.15);color:#c33;">🤒 ${row.sickCount} sick</span>`;
   }
+  if (row.weatherDestroyedCount > 0) {
+    const destroyedIcon = row.weatherDestroyedEvent ? IMAGE_ICONS[row.weatherDestroyedEvent] : null;
+    badgeHtml += `<span class="harvest-badge" style="background:rgba(214,80,80,0.18);color:#a12626;">${destroyedIcon ? `<img src="${destroyedIcon}" style="width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;margin-right:2px;">` : "🌊"} ${row.weatherDestroyedCount} destroyed by ${escapeHtml(row.weatherDestroyedEvent || "weather event")}</span>`;
+  }
   if (row.actualYieldCount > 0) {
-    const isOrderedNodeType = [ "Wood", "Stone", "Iron", "Gold" ].includes(row.name);
+    const isOrderedNodeType = [ "Wood", "Stone", "Iron", "Gold" ].includes(row.name) || row.name === "Crimstone" && !row.isDeterministicYield;
     const verb = row.name === "Wood" ? "chop" : "mine";
-    const critNote = row.name === "Wood" ? "Tough Tree crit, Native bonus" : row.name === "Stone" ? "Rock Golem crit, Native bonus, Emerald/Tin Turtle AOE" : row.name === "Iron" ? "Native bonus, Emerald Turtle AOE" : row.name === "Gold" ? "Native bonus, Emerald Turtle AOE" : "PRNG procs";
+    const critNote = row.name === "Wood" ? "Tough Tree crit, Native bonus" : row.name === "Stone" ? "Rock Golem crit, Native bonus, Emerald/Tin Turtle AOE" : row.name === "Iron" ? "Native bonus, Emerald Turtle AOE" : row.name === "Gold" ? "Native bonus, Emerald Turtle AOE" : row.name === "Crimstone" ? "Crimstone Clam instant-recovery proc" : "PRNG procs";
     const gapNote = row.name === "Stone" || row.name === "Iron" || row.name === "Gold" ? ` Emerald/Tin Turtle AOE cooldown is read from this rock's own synced recovery timing, not a full boost-window replication. Includes bud yield boosts from your manually-entered Bud NFTs panel.` : " Includes bud yield boosts from your manually-entered Bud NFTs panel.";
-    const titleText = row.isDeterministicYield ? row.name === "Crimstone" ? "Crimstone's yield is fully deterministic (depends only on this rock's mine streak position and your owned boosts, no PRNG or timing involved), so every node shown here — ready or still recovering — is the real guaranteed amount, not an average." : "This flower's crit bonuses were rolled and locked in the moment it was planted, so every node shown here — ready or still growing — is the real guaranteed amount, not an average." : isOrderedNodeType ? `Every owned ${row.name.toLowerCase()} node — ready or still recovering — gets a real PRNG roll (${critNote}), since the recovery timer has no effect on the roll; only an actual ${verb} action advances the farmActivity counter used by the PRNG. This total reflects the predicted outcome across your current chop/mine order — which physical node ends up with which result still depends on the order you actually ${verb} them in.${gapNote}` : `Only applies to nodes ready to ${verb} RIGHT NOW. Each one gets its own real PRNG roll (${critNote}) at its actual sequential position — the farmActivity counter advances by 1 with every real ${verb}, so ready nodes mined back-to-back don't all get the same result. Still-recovering nodes use the average instead, since their real future mine order/timing is too uncertain to predict.${gapNote}`;
+    const titleText = row.isDeterministicYield ? row.name === "Crimstone" ? "Crimstone's yield is fully deterministic (depends only on this rock's mine streak position and your owned boosts, no PRNG or timing involved), so every node shown here — ready or still recovering — is the real guaranteed amount, not an average." : row.name === "Oil" ? "Oil's yield is fully deterministic (depends only on this reserve's drill count and your owned boosts, no PRNG or timing involved) — the +20 bonus lands on every 3rd drill and Stag Shrine's +15 only applies alongside it, so every node shown here — ready or still recovering — is the real guaranteed amount, not an average." : "This flower's crit bonuses were rolled and locked in the moment it was planted, so every node shown here — ready or still growing — is the real guaranteed amount, not an average." : row.name === "Crimstone" ? "Crimstone's per-mine yield is always deterministic (depends only on mine streak position and your owned boosts), but Crimstone Clam gives each mine a real PRNG chance to instantly recover the rock — which can chain into extra guaranteed mines. This total includes those predicted chained mines using the same farm-wide PRNG counter as the real game; which physical rock actually gets the chain still depends on the order you mine them in." : isOrderedNodeType ? `Every owned ${row.name.toLowerCase()} node — ready or still recovering — gets a real PRNG roll (${critNote}), since the recovery timer has no effect on the roll; only an actual ${verb} action advances the farmActivity counter used by the PRNG. This total reflects the predicted outcome across your current chop/mine order — which physical node ends up with which result still depends on the order you actually ${verb} them in.${gapNote}` : `Only applies to nodes ready to ${verb} RIGHT NOW. Each one gets its own real PRNG roll (${critNote}) at its actual sequential position — the farmActivity counter advances by 1 with every real ${verb}, so ready nodes mined back-to-back don't all get the same result. Still-recovering nodes use the average instead, since their real future mine order/timing is too uncertain to predict.${gapNote}`;
     const labelText = row.isDeterministicYield || isOrderedNodeType ? `Exact yield (${row.actualYieldCount}/${row.count})` : row.actualYieldCount === row.count ? "Exact yield (" + row.actualYieldCount + " ready)" : `${row.actualYieldCount}/${row.count} exact (ready only)`;
     badgeHtml += `<span class="harvest-badge" style="background:rgba(38,212,255,.15);color:#0a7fa8;" title="${titleText}">🎯 ${labelText}</span>`;
-  }
-  if (row.turnaroundTypesPredicted && row.turnaroundTypesPredicted.length > 0) {
-    const estNote = row.turnaroundBonusYieldEstimate > 0 ? ` (~+${fmt(row.turnaroundBonusYieldEstimate)} Wood est.)` : "";
-    const typeList = row.turnaroundTypesPredicted.join(", ");
-    badgeHtml += `<span class="harvest-badge" style="background:rgba(57,255,106,.15);color:#1a8a3d;" title="Turnaround's PRNG counter is farm-wide per tree type, not per individual tree — so this predicts only the very next chop of that type, whichever tree you happen to chop first. It doesn't mean every tree of that type will regrow. Yield is estimated using the average Wood-per-chop, since the bonus chop's actual amount isn't rolled/stored until it happens.">⚡ Next ${typeList} chop will Turnaround-regrow instantly${estNote}</span>`;
-  }
-  if (row.goldInstantMineTypesPredicted && row.goldInstantMineTypesPredicted.length > 0) {
-    const estNote = row.goldInstantMineBonusYieldEstimate > 0 ? ` (~+${fmt(row.goldInstantMineBonusYieldEstimate)} Gold est.)` : "";
-    const typeList = row.goldInstantMineTypesPredicted.join(", ");
-    badgeHtml += `<span class="harvest-badge" style="background:rgba(57,255,106,.15);color:#1a8a3d;" title="Pickaxe Shark's PRNG counter is farm-wide per Gold rock type, not per individual rock — so this predicts only the very next mine of that type, whichever rock you happen to mine first. It doesn't mean every rock of that type will instant-mine. Yield is estimated using the average Gold-per-mine, since the bonus mine's actual amount isn't rolled/stored until it happens.">⚡ Next ${typeList} mine will be instant (Pickaxe Shark)${estNote}</span>`;
   }
   (row.activeBoosts || []).forEach(b => {
     if (b.limitedBoostName === "Sunshower" || b.limitedBoostName === "Bountiful Harvest") {
@@ -18084,18 +19857,35 @@ function farmPanelRenderInProgressRow(row) {
   const nodeIcon = getNodeIconHtml(row.name);
   const nodeLabel = getNodeLabel(row.name);
   const produceIcon = getIcon(row.name);
-  const yieldNote = `<span class="card-yield-note">${produceIcon} ${fmt(row.totalYield)}</span>`;
-  return `\n  <div class="card${isProfit ? " is-profit" : " is-loss"}${expandedCls}" data-search="${row.name.toLowerCase()}">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${nodeIcon}</span>\n        <div>\n          <div class="card-name">${escapeHtml(nodeLabel)}</div>\n          <div class="card-type-row">\n            <span class="card-type">${row.displayNodeCount} node${row.displayNodeCount === 1 ? "" : "s"}${tierNote}</span>\n            ${yieldNote}\n            ${badgeHtml}\n          </div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        <span class="pvalue-mini${isProfit ? " is-profit" : " is-loss"}">${isProfit ? "+" : ""}${fmt(row.profit)} ${FLOWER_ICON}</span>\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    <div class="card-details">\n      <div class="card-grid">\n        <div class="stat"><span class="label">Status</span><span class="value">${statusLine}</span></div>\n        <div class="stat"><span class="label">Quantity (nodes/crops)</span><span class="value">${row.displayNodeCount}</span></div>\n        <div class="stat"><span class="label">Price / unit (market)</span><span class="value">${fmt(row.price)} ${FLOWER_ICON}</span></div>\n        <div class="stat"><span class="label">Cost / unit (seed)</span><span class="value">${fmt(row.costPerUnit)} ${FLOWER_ICON}</span></div>\n      </div>\n      ${renderTotalsBreakdown({
-    title: "Totals",
-    totalYield: row.totalYield,
-    yieldLabel: `${row.isBoosted ? `<s style="opacity:.55;">${fmt(row.baseTotalYield)}</s> ` : ""}${escapeHtml(row.name)}${row.isBoosted ? " ⚡" : ""}`,
-    gross: row.grossRevenue,
-    baseCost: row.totalCost - (row.restockCost || 0),
-    restockCost: row.restockCost || 0,
-    shrineCost: row.shrineCostPerCycle || 0,
-    shrineNames: row.shrineNames || [],
-    sellFee: row.feeAmount
-  })}\n      ${row.exactBoosts && row.exactBoosts.length ? renderExactBoostAppliedList(row.exactBoosts) : ""}\n      ${row.isBoosted ? renderBoostAppliedList(row.activeBoosts, row.name) : ""}\n      ${farmPanelRestockNoteHtml(row.restockInfo)}\n    </div>\n  </div>`;
+  const baseCost = row.totalCost - (row.restockCost || 0);
+  const shrineCost = row.shrineCostPerCycle || 0;
+  const shrineNames = row.shrineNames || [];
+  const restockCost = row.restockCost || 0;
+  const showRestockRow = row.name !== "Obsidian";
+  const boostSummary = farmPanelComputeNodeYieldBoostSummary(row);
+  const woodIcon = row.fruitWood ? getIcon("Wood") : "";
+  const woodChipHtml = row.fruitWood ? `\n      <span class="animal-produce-chip">\n        <span class="produce-icon">${woodIcon}</span>\n        <span class="produce-name">Wood</span>\n        <span class="produce-yield">${fmt(row.fruitWood.econ.totalYield)}</span>\n        <span class="produce-value">(${fmt(row.fruitWood.econ.grossRevenue)} ${FLOWER_ICON})</span>\n      </span>` : "";
+  const productChipHtml = `\n      <span class="animal-produce-chip">\n        <span class="produce-icon">${produceIcon}</span>\n        <span class="produce-name">${escapeHtml(row.name)}</span>\n        <span class="produce-yield">${fmt(row.totalYield)}</span>\n        <span class="produce-value">(${fmt(row.grossRevenue)} ${FLOWER_ICON})</span>\n      </span>`;
+  const netChipHtml = `\n      <span class="animal-net-chip">\n        <span class="label">Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(row.profit)} ${FLOWER_ICON}</span>\n      </span>`;
+  const moneyTreeBadgeHtml = row.moneyTreeBonus ? `\n      <span class="animal-produce-chip money-tree-badge-chip">\n        <span class="produce-name">Money Tree</span>\n        <span class="produce-yield">+${fmt(row.moneyTreeBonus.coins)}</span>\n        ${COIN_ICON}\n      </span>` : "";
+  const productDetailRow = renderCardProductDetailRow(produceIcon, row.name, row.totalYield, row.grossRevenue, row.feeAmount, row.isBoosted ? row.baseTotalYield : null);
+  const woodDetailRowHtml = row.fruitWood ? renderCardProductDetailRow(woodIcon, "Wood", row.fruitWood.econ.totalYield, row.fruitWood.econ.grossRevenue, row.fruitWood.econ.feeAmount) : "";
+  const restockRowHtml = showRestockRow ? `\n        <div class="animal-detail-stat"><span class="label">${GEM_ICON} Gem Restock Cost</span><span class="value" style="${restockCost > 0 ? "color:#c9821a;" : ""}">${restockCost > 0 ? `-${fmt(restockCost)}` : "0"} ${FLOWER_ICON}</span></div>` : "";
+  const boostListHtml = farmPanelRenderNodeYieldBoostList(row, boostSummary, produceIcon);
+  const tierYieldListHtml = row.name === "Oil" ? renderOilNodeYieldList(row.oilNodeGroups, produceIcon) : row.name === "Salt" ? renderSaltNodeYieldList(row.saltNodeGroups, produceIcon) : row.name === "Crimstone" ? renderCrimstoneNodeYieldList(row.crimstoneNodeGroups) : row.plantYieldLabel ? renderPlantYieldNodeList(row.plantYieldLabel, row.name, row.plantYieldGroups, produceIcon, nodeIcon) : renderNodeTierYieldList(row.tierYields, produceIcon);
+  const harvestsLeftHtml = renderFruitHarvestsLeftHtml(row.harvestsLeftCounts, row.name, row.fruitWoodPerTree);
+  const turnaroundBoostHtml = renderTurnaroundBoostHtml(row);
+  const goldInstantMineBoostHtml = renderGoldInstantMineBoostHtml(row);
+  const crimstoneInstantMineBoostHtml = renderCrimstoneInstantMineBoostHtml(row);
+  let saltNextChargeHeaderHtml = "";
+  if (row.name === "Salt" && row.saltNodeGroups && row.saltNodeGroups.length) {
+    const anySaltRecovering = row.saltNodeGroups.some(n => n.storedCharges < n.maxCharges);
+    if (anySaltRecovering) {
+      const saltCombinedQty = row.saltNodeGroups.reduce((sum, n) => sum + n.qty + (n.storedCharges < n.maxCharges ? n.yieldPerCharge : 0), 0);
+      saltNextChargeHeaderHtml = `<div class="salt-node-possible-hint"><b>Harvest Well become</b> +${fmt(saltCombinedQty)} <span class="salt-hint-icon">${produceIcon}</span>Salt when the next charge is ready</div>`;
+    }
+  }
+  return `\n  <div class="card animal-merged-card${isProfit ? " is-profit" : " is-loss"}${expandedCls}" data-search="${row.name.toLowerCase()}" data-fp-category="${farmPanelCardCategory(row)}">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${nodeIcon}</span>\n        <div>\n          <div class="card-name">${escapeHtml(nodeLabel)}</div>\n          <div class="card-type-row">\n            <span class="card-type">${row.displayNodeCount} node${row.displayNodeCount === 1 ? "" : "s"}${tierNote}</span>\n            ${badgeHtml}\n          </div>\n          <div class="animal-fold-row">${productChipHtml}${woodChipHtml}${netChipHtml}${moneyTreeBadgeHtml}</div>\n          ${saltNextChargeHeaderHtml}${turnaroundBoostHtml}${goldInstantMineBoostHtml}${crimstoneInstantMineBoostHtml}\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    <div class="card-details">\n      <div class="stat"><span class="label">Status</span><span class="value">${statusLine}</span></div>\n      <div class="animal-detail-grid">\n        ${productDetailRow}${woodDetailRowHtml}\n        <div class="animal-detail-stat"><span class="label">Market Price/Unit</span><span class="value">${fmt(row.price)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Gross</span><span class="value">${fmt(row.grossRevenue)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Cost/Unit</span><span class="value">${fmt(row.costPerUnit)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Sell Fee</span><span class="value">${row.feeAmount > 0 ? `-${fmt(row.feeAmount)}` : "0"} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Shrine Cost${shrineNames.length ? ` (${shrineNames.map(escapeHtml).join(", ")})` : ""}</span><span class="value" style="${shrineCost > 0 ? "color:#b45309;" : ""}">${shrineCost > 0 ? `-${fmt(shrineCost)}` : "0"} ${FLOWER_ICON}</span></div>${restockRowHtml}\n        <div class="animal-detail-stat"><span class="label">Cost</span><span class="value">${baseCost > 0 ? `-${fmt(baseCost)}` : "0"} ${FLOWER_ICON}</span></div>\n      </div>\n      <div class="animal-net-row2">\n        <span class="label">Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(row.profit)} ${FLOWER_ICON}</span>\n      </div>\n      ${harvestsLeftHtml}\n      ${tierYieldListHtml}\n      ${boostListHtml}\n      ${farmPanelRestockNoteHtml(row.restockInfo)}\n    </div>\n  </div>`;
 }
 
 function farmPanelRenderStockRow(row) {
@@ -18147,6 +19937,11 @@ function renderFarmPanelTabContent() {
   farmPanelTabContentDirty = false;
   if (!farmPanelGameState) {
     wrap.innerHTML = `<div class="farm-panel-empty">Sync a Farm ID above to see what's growing and what's in your barn/shed.</div>`;
+    const filterBarWrap = $("farmPanelFilterBarWrap");
+    if (filterBarWrap) {
+      filterBarWrap.innerHTML = "";
+      filterBarWrap.style.display = "none";
+    }
     return;
   }
   withPreservedScroll(wrap, () => {
@@ -18162,9 +19957,21 @@ function renderFarmPanelTabContent() {
       const moneyTreeBonus = farmPanelDetectMoneyTreeBonus(farmPanelGameState);
       const moneyTreeHtml = farmPanelRenderMoneyTreeBonusCard(moneyTreeBonus);
       const hasAlerts = mutantAlerts.length > 0 || moneyTreeBonus.totalCoins > 0 || moneyTreeBonus.predictedCoins > 0 || moneyTreeBonus.batchPredictions && moneyTreeBonus.batchPredictions.length > 0;
-      wrap.innerHTML = mutantHtml + moneyTreeHtml + (rows.length ? rows.map(farmPanelRenderInProgressRow).join("") : hasAlerts ? "" : `<div class="farm-panel-empty">Nothing currently growing, recharging, or ready to harvest right now.</div>`);
+      const filterBarWrap = $("farmPanelFilterBarWrap");
+      if (filterBarWrap) {
+        filterBarWrap.innerHTML = rows.length ? farmPanelRenderCategoryFilterBar() : "";
+        filterBarWrap.style.display = rows.length ? "" : "none";
+      }
+      const cardsHtml = rows.length ? rows.map(farmPanelRenderInProgressRow).join("") : hasAlerts ? "" : `<div class="farm-panel-empty">Nothing currently growing, recharging, or ready to harvest right now.</div>`;
+      wrap.innerHTML = mutantHtml + moneyTreeHtml + `<div class="fp-inprogress-list" data-fp-filter="${farmPanelInProgressCategoryFilter}">${cardsHtml}</div>`;
+      if (filterBarWrap) attachFarmPanelCategoryFilterBar(filterBarWrap, wrap);
       farmPanelRenderAtMs = Date.now();
     } else {
+      const filterBarWrap = $("farmPanelFilterBarWrap");
+      if (filterBarWrap) {
+        filterBarWrap.innerHTML = "";
+        filterBarWrap.style.display = "none";
+      }
       const rows = farmPanelComputeStocks(farmPanelGameState);
       wrap.innerHTML = rows.length ? rows.map(farmPanelRenderStockRow).join("") : `<div class="farm-panel-empty">No harvested crops, fruit, or resources found in this farm's inventory.</div>`;
     }
@@ -18424,11 +20231,16 @@ $("farmPanelDebugFertBtn").onclick = () => {
       return;
     }
     const bag = farmSyncGetAnimalRecords(g, type);
+    const feedBuffSummary = Object.entries(bag || {}).map(([id, a]) => ({
+      id: id,
+      feedBuff: a && typeof a === "object" ? a.feedBuff ?? "(no feedBuff field on this animal)" : "(animal record not an object)"
+    }));
     animalDebug[type] = {
       house: houseKey,
       houseTopLevelKeys: Object.keys(house),
       recordsFound: Object.keys(bag || {}).length,
-      first: firstOf(bag)
+      first: firstOf(bag),
+      "feedBuff per animal (what the app actually sees right now)": feedBuffSummary
     };
   });
   const agingShedRaw = farmPanelField(g, "agingShed");
@@ -18706,22 +20518,28 @@ if (farmPanelDebugTreeDataBtnEl) farmPanelDebugTreeDataBtnEl.onclick = () => {
   typesInFarm.forEach(t => {
     const typeEntries = treeEntries.filter(([, node]) => farmPanelTreeTypeForNode(node) === t);
     const readyEntries = typeEntries.filter(([, node]) => farmPanelIsNodeReadyNow("Wood", node, "wood", Date.now()));
-    const rolls = farmPanelBuildSequentialWoodRolls(farmPanelGameState, t, readyEntries.length);
+    const chains = farmPanelBuildSequentialWoodRollChains(farmPanelGameState, t, readyEntries.length);
     const activityKey = `${t === "Tree" ? "Basic Tree" : t} Chopped`;
     let sequentialSum = 0;
     const perReadyNodeBreakdown = readyEntries.map(([id, node], i) => {
-      const critRolls = rolls && rolls[i] ? rolls[i] : null;
-      const amount = critRolls ? farmPanelComputeExactWoodYieldForNode(node, t, critRolls) : null;
+      const chain = chains && chains[i] ? chains[i] : null;
+      const critRolls = chain && chain.length ? chain[0] : null;
+      
+      
+      const amount = chain && chain.length ? chain.reduce((sum, roll) => sum + farmPanelComputeExactWoodYieldForNode(node, t, roll), 0) : null;
       if (typeof amount === "number") sequentialSum += amount;
       return {
         treeId: id,
         counterUsed: farmActivity ? (farmActivity[activityKey] ?? 0) + i : null,
         critRolls: critRolls,
+        chain: chain,
+        chainLength: chain ? chain.length : null,
         amount: amount
       };
     });
     perTypeRolls[t] = {
-      turnaroundPredicted: farmPanelPredictTreeTurnaroundForType(farmPanelGameState, t),
+      turnaroundPredicted: perReadyNodeBreakdown.some(n => n.chainLength > 1),
+      turnaroundPredictedNodeIds: perReadyNodeBreakdown.filter(n => n.chainLength > 1).map(n => n.treeId),
       moneyTreePredicted: farmPanelPredictMoneyTreeForType(farmPanelGameState, t),
       moneyTreeBatchPredicted: farmPanelPredictMoneyTreeBatchForType(farmPanelGameState, t, typeEntries.length, typeEntries.length ? typeof typeEntries[0][1].multiplier === "number" ? typeEntries[0][1].multiplier : 1 : 1),
       baseActivityCounter: farmActivity ? farmActivity[activityKey] ?? 0 : null,
@@ -18803,13 +20621,17 @@ if (farmPanelDebugMiningBtnEl) farmPanelDebugMiningBtnEl.onclick = () => {
       const activityKey = `${t} Mined`;
       let sequentialSum = 0;
       const perNodeBreakdown = readyEntries.map(([id, node], i) => {
-        const critRolls = rolls && rolls[i] ? rolls[i] : null;
-        const amount = critRolls ? computeFn(farmPanelGameState, node, t, critRolls) : null;
+        const rollOrChain = rolls && rolls[i] ? rolls[i] : null;
+        const isChain = Array.isArray(rollOrChain);
+        const critRolls = isChain ? (rollOrChain.length ? rollOrChain[0] : null) : rollOrChain;
+        const amount = isChain ? (rollOrChain.length ? rollOrChain.reduce((sum, roll) => sum + (computeFn(farmPanelGameState, node, t, roll) || 0), 0) : null) : (critRolls ? computeFn(farmPanelGameState, node, t, critRolls) : null);
         if (typeof amount === "number") sequentialSum += amount;
         return {
           nodeId: id,
           counterUsed: farmActivity ? (farmActivity[activityKey] ?? 0) + i : null,
           critRolls: critRolls,
+          chain: isChain ? rollOrChain : null,
+          chainLength: isChain ? rollOrChain.length : null,
           amount: amount
         };
       });
@@ -18834,7 +20656,7 @@ if (farmPanelDebugMiningBtnEl) farmPanelDebugMiningBtnEl.onclick = () => {
     "farmActivity present on merged state?": !!farmActivity,
     Stone: buildSection("Stone", "stones", STONE_KNOWN_IDS, "Stone Rock", farmPanelBuildSequentialStoneRolls, farmPanelComputeExactStoneYieldForNode, [ "rock_golem", "prospector", "tunnel_mole", "stone_beetle", "skill_rocknroll", "skill_rocky_favor", "skill_ferrous_favor", "emerald_turtle", "tin_turtle", "faction_shield_res", "legendary_shrine_res", "volcano_gnome" ]),
     Iron: buildSection("Iron", "iron", IRON_KNOWN_IDS, "Iron Rock", farmPanelBuildSequentialIronRolls, farmPanelComputeExactIronYieldForNode, [ "rocky_the_mole", "radiant_ray", "iron_idol", "iron_beetle", "skill_iron_bumpkin", "skill_rocky_favor", "skill_ferrous_favor", "emerald_turtle", "faction_shield_res", "volcano_gnome" ]),
-    Gold: buildSection("Gold", "gold", GOLD_KNOWN_IDS, "Gold Rock", farmPanelBuildSequentialGoldRolls, farmPanelComputeExactGoldYieldForNode, [ "gold_rush", "skill_golden_touch", "nugget", "gilded_swordfish", "gold_beetle", "emerald_turtle", "faction_shield_res", "pickaxe_shark", "volcano_gnome" ]),
+    Gold: buildSection("Gold", "gold", GOLD_KNOWN_IDS, "Gold Rock", farmPanelBuildSequentialGoldRollChains, farmPanelComputeExactGoldYieldForNode, [ "gold_rush", "skill_golden_touch", "nugget", "gilded_swordfish", "gold_beetle", "emerald_turtle", "faction_shield_res", "pickaxe_shark", "volcano_gnome" ]),
     "aoe object present on merged state?": !!farmPanelField(g, "aoe"),
     "collectibles present on merged state?": !!farmPanelField(g, "collectibles"),
     "Emerald Turtle position found": farmPanelGetCollectiblePosition(g, "Emerald Turtle"),
@@ -18873,13 +20695,13 @@ $("farmPanelDebugCrowBtn").onclick = () => {
     const a = mainCollectibles[def.collectibleName];
     const b = homeCollectibles[def.collectibleName];
     const rawInstances = [ ...Array.isArray(a) ? a : [], ...Array.isArray(b) ? b : [] ];
-    lines.push(`Raw placed instances found (before removedAt filter): ${rawInstances.length}`);
+    lines.push(`Raw placed instances found (before placement filter): ${rawInstances.length}`);
     rawInstances.forEach((inst, i) => {
       lines.push(`  [${i}] RAW OBJECT: ${JSON.stringify(inst)}`);
     });
-    const instances = rawInstances.filter(inst => inst && typeof inst === "object" && !inst.removedAt);
+    const instances = farmSyncPickActivePlacedInstances(rawInstances);
     const crowCoords = instances.map(farmSyncGetCoords).filter(Boolean);
-    lines.push(`Active (not removed) instances: ${instances.length} | with parseable coords: ${crowCoords.length}`);
+    lines.push(`Active (placed on farm) instances: ${instances.length} | with parseable coords: ${crowCoords.length}`);
     crowCoords.forEach((c, i) => lines.push(`  crowCoords[${i}] = x:${c.x}, y:${c.y}`));
     const skillOn = hasSkill(def.skillName);
     const radius = skillOn ? 3 : 1;
@@ -18932,6 +20754,177 @@ $("farmPanelDebugCrowBtn").onclick = () => {
     const firstTierPlotEntry = allCropEntries.find(([, plot]) => plot && plot.crop && BASE_CROPS[plot.crop.name] && BASE_CROPS[plot.crop.name].tier === def.tier);
     if (firstTierPlotEntry) {
       lines.push(`Full field list on a matching-tier plot (check for width/height/footprint fields beyond x/y): ${Object.keys(firstTierPlotEntry[1]).join(", ")}`);
+    }
+  });
+  box.style.display = "block";
+  box.value = lines.join("\n");
+  box.focus();
+  box.select();
+};
+
+$("farmPanelDebugCrowCooldownBtn").onclick = () => {
+  const box = $("farmPanelDebugOutput");
+  if (!farmPanelGameState) {
+    box.style.display = "block";
+    box.value = "Sync a Farm ID first, then tap this again.";
+    return;
+  }
+  const g = farmSyncExtractGameState(farmPanelGameState);
+  const cropsBag = farmPanelField(g, "crops") || {};
+  const aoeState = farmPanelField(g, "aoe") || {};
+  const now = Date.now();
+  const lines = [];
+  Object.entries(CROW_AOE_DEFS).forEach(([boostId, def]) => {
+    lines.push(`\n===== ${def.collectibleName} (tier: ${def.tier}) =====`);
+    const pos = farmPanelGetCollectiblePosition(g, def.collectibleName);
+    lines.push(`Crow position: ${JSON.stringify(pos)}`);
+    lines.push(`isBoostActive("${boostId}") = ${isBoostActive(boostId)}`);
+    lines.push(`isSkillActive("skill_${boostId === "laurie_chuckle_crow" ? "lauries_gains" : boostId === "scary_mike" ? "horror_mike" : "chonky_scarecrow"}") = ${isSkillActive(boostId === "laurie_chuckle_crow" ? "skill_lauries_gains" : boostId === "scary_mike" ? "skill_horror_mike" : "skill_chonky_scarecrow")}`);
+    if (!pos) {
+      lines.push("No crow position — skipping.");
+      return;
+    }
+    Object.entries(cropsBag).forEach(([plotId, plot]) => {
+      if (!plot || typeof plot !== "object") return;
+      const job = plot.crop;
+      const cropName = job && job.name;
+      if (!cropName) return;
+      const cropDef = BASE_CROPS[cropName];
+      if (!cropDef || cropDef.tier !== def.tier) return;
+      if (typeof plot.x !== "number" || typeof plot.y !== "number") return;
+      const dims = { width: 1, height: 1 };
+      const rankSkillId = boostId === "laurie_chuckle_crow" ? "skill_lauries_gains" : boostId === "scary_mike" ? "skill_horror_mike" : "skill_chonky_scarecrow";
+      const e = farmPanelAOEExtent(rankSkillId);
+      const px = plot.x, py = plot.y;
+      const within = px >= pos.x - e.xLeft && px <= pos.x + e.xRight && py <= pos.y - dims.height && py >= pos.y - dims.height - (e.depth - 1);
+      if (!within) return;
+      const dx = px - pos.x, dy = py - pos.y;
+      const lastUsed = aoeState[def.collectibleName] && aoeState[def.collectibleName][dx] && typeof aoeState[def.collectibleName][dx][dy] === "number" ? aoeState[def.collectibleName][dx][dy] : 0;
+      const idleMs = now - lastUsed;
+      const baseSec = farmPanelGrowTimeSec(cropName);
+      const baseMs = (typeof baseSec === "number" ? baseSec : 0) * 1e3;
+      const rawBaseDurationMs = job && typeof job.baseDurationMs === "number" ? job.baseDurationMs : null;
+      const boostedTimeMs = job && typeof job.boostedTime === "number" ? job.boostedTime : null;
+      const newCooldownMs = farmPanelGetCropGrowDurationMsFromSync(job, cropName);
+      const passesNow = idleMs >= newCooldownMs;
+      lines.push(`  plot #${plotId}: crop=${cropName}, x=${px}, y=${py}, dx=${dx}, dy=${dy}`);
+      lines.push(`    job.baseDurationMs = ${rawBaseDurationMs}  |  job.boostedTime = ${boostedTimeMs}  |  base crop time (ms) = ${baseMs}`);
+      lines.push(`    computed cooldownMs (current logic) = ${newCooldownMs}  (${(newCooldownMs / 1e3 / 3600).toFixed(2)}h)`);
+      lines.push(`    aoe last used at = ${lastUsed} (${lastUsed ? new Date(lastUsed).toISOString() : "never"})`);
+      lines.push(`    idleMs since last use = ${idleMs}  (${(idleMs / 1e3 / 3600).toFixed(2)}h)`);
+      lines.push(`    idleMs >= cooldownMs → bonus applies now = ${passesNow}`);
+    });
+  });
+  box.style.display = "block";
+  box.value = lines.join("\n");
+  box.focus();
+  box.select();
+};
+
+$("farmPanelDebugGnomeBtn").onclick = () => {
+  const box = $("farmPanelDebugOutput");
+  if (!farmPanelGameState) {
+    box.style.display = "block";
+    box.value = "Sync a Farm ID first, then tap this again.";
+    return;
+  }
+  const g = farmSyncExtractGameState(farmPanelGameState);
+  const lines = [];
+  const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
+  const mainCollectibles = asObj(farmPanelField(g, "collectibles")) || {};
+  [ "Gnome", "Cobalt", "Clementine" ].forEach(name => {
+    lines.push(`\n===== ${name} =====`);
+    const arr = mainCollectibles[name];
+    if (!Array.isArray(arr) || !arr.length) {
+      lines.push("Not found in g.collectibles at all.");
+      return;
+    }
+    lines.push(`Raw instances found: ${arr.length}`);
+    arr.forEach((inst, i) => {
+      lines.push(`  [${i}] RAW OBJECT: ${JSON.stringify(inst)}`);
+    });
+    const pos = farmPanelGetCollectiblePosition(g, name);
+    lines.push(`farmPanelGetCollectiblePosition(g, "${name}") = ${JSON.stringify(pos)}`);
+  });
+  const gnomePos = farmPanelGetCollectiblePosition(g, "Gnome");
+  const cobaltPos = farmPanelGetCollectiblePosition(g, "Cobalt");
+  const clementinePos = farmPanelGetCollectiblePosition(g, "Clementine");
+  lines.push("\n===== Combo geometry check =====");
+  lines.push(`gnomePos = ${JSON.stringify(gnomePos)}, cobaltPos = ${JSON.stringify(cobaltPos)}, clementinePos = ${JSON.stringify(clementinePos)}`);
+  const isCobaltLeftOfGnome = !!gnomePos && !!cobaltPos && cobaltPos.y === gnomePos.y && cobaltPos.x + 1 === gnomePos.x;
+  const isClementineRightOfGnome = !!gnomePos && !!clementinePos && clementinePos.y === gnomePos.y && clementinePos.x - 1 === gnomePos.x;
+  lines.push(`isCobaltLeftOfGnome (cobalt.y === gnome.y && cobalt.x + 1 === gnome.x) = ${isCobaltLeftOfGnome}`);
+  lines.push(`isClementineRightOfGnome (clementine.y === gnome.y && clementine.x - 1 === gnome.x) = ${isClementineRightOfGnome}`);
+  lines.push(`farmPanelGnomeComboPresent() = ${farmPanelGnomeComboPresent()}`);
+  lines.push(`isBoostActive("gnome") = ${isBoostActive("gnome")}`);
+  if (gnomePos) {
+    lines.push("\n===== Plot directly above Gnome (the only plot the boost can ever apply to) =====");
+    lines.push(`Expected plot coordinates: x:${gnomePos.x}, y:${gnomePos.y - 1}`);
+    const cropsBag = asObj(farmPanelField(g, "crops")) || {};
+    const match = Object.entries(cropsBag).find(([, plot]) => plot && plot.x === gnomePos.x && plot.y === gnomePos.y - 1);
+    if (!match) {
+      lines.push("No crop plot found at that exact coordinate — either nothing is planted there, or the plot's own x/y in your sync data doesn't match the Gnome's x/y-1.");
+    } else {
+      const [plotId, plot] = match;
+      const cropName = plot.crop && plot.crop.name;
+      lines.push(`Found plot #${plotId}: crop=${cropName || "(none planted)"}, raw plot object: ${JSON.stringify(plot)}`);
+      if (cropName) {
+        const tierLabel = farmPanelCropTierLabel(cropName);
+        lines.push(`Tier of "${cropName}" = ${tierLabel} (Gnome only boosts Medium/Advanced tier crops)`);
+        const cropAoeCooldownSec = farmPanelGetCropGrowDurationMsFromSync(plot.crop, cropName) / 1e3;
+        const bonus = farmPanelGnomeAOEBonus(g, plot, cropAoeCooldownSec, Date.now());
+        lines.push(`farmPanelGnomeAOEBonus(g, plot, ${cropAoeCooldownSec}, now) = ${bonus}`);
+        const aoeState = asObj(farmPanelField(g, "aoe")) || {};
+        lines.push(`g.aoe["Gnome"] raw = ${JSON.stringify(aoeState["Gnome"])}`);
+      }
+    }
+  } else {
+    lines.push("\nGnome position could not be resolved — see the raw object dump above for why (no coordinates, or readyAt still in the future).");
+  }
+  box.style.display = "block";
+  box.value = lines.join("\n");
+  box.focus();
+  box.select();
+};
+
+$("farmPanelDebugTurtleBtn").onclick = () => {
+  const box = $("farmPanelDebugOutput");
+  if (!farmPanelGameState) {
+    box.style.display = "block";
+    box.value = "Sync a Farm ID first, then tap this again.";
+    return;
+  }
+  const g = farmSyncExtractGameState(farmPanelGameState);
+  const lines = [];
+  const now = Date.now();
+  [ [ "Tin Turtle", "tin_turtle", "stones", "Stone" ], [ "Emerald Turtle", "emerald_turtle", "stones", "Stone" ] ].forEach(([turtleName, boostId, bagKey, resourceLabel]) => {
+    lines.push(`\n===== ${turtleName} =====`);
+    lines.push(`isBoostActive("${boostId}") = ${isBoostActive(boostId)}`);
+    const pos = farmPanelGetCollectiblePosition(g, turtleName);
+    lines.push(`farmPanelGetCollectiblePosition(g, "${turtleName}") = ${JSON.stringify(pos)}`);
+    const rawCollectibles = farmPanelField(g, "collectibles");
+    const rawArr = rawCollectibles && rawCollectibles[turtleName];
+    lines.push(`Raw collectibles["${turtleName}"] array (via farmPanelField): ${rawArr ? JSON.stringify(rawArr) : "not found"}`);
+    if (!pos) {
+      lines.push("No usable position — AoE bonus cannot apply anywhere for this collectible. Skipping node scan.");
+      return;
+    }
+    const bag = farmPanelField(g, bagKey) || {};
+    const nodeEntries = Object.entries(bag);
+    lines.push(`Total ${resourceLabel} nodes in "${bagKey}" bag: ${nodeEntries.length}`);
+    let withCoords = 0, inRange = 0, bonusActiveNow = 0;
+    nodeEntries.forEach(([nodeId, node]) => {
+      const hasCoords = node && typeof node.x === "number" && typeof node.y === "number";
+      if (hasCoords) withCoords++;
+      const inRangeNow = hasCoords && farmPanelIsWithinTurtleAOE(pos, { x: node.x, y: node.y });
+      if (inRangeNow) inRange++;
+      const bonus = farmPanelCheckTurtleAOEBonus(g, turtleName, node, 14400, now, resourceLabel);
+      if (bonus) bonusActiveNow++;
+      lines.push(`  node #${nodeId}: x=${hasCoords ? node.x : "MISSING"}, y=${hasCoords ? node.y : "MISSING"} → inRange=${inRangeNow} → bonusAppliesRightNow=${bonus}`);
+    });
+    lines.push(`\nSUMMARY for ${turtleName}: ${nodeEntries.length} total nodes · ${withCoords} had parseable x/y coords · ${inRange} fell within AoE range · ${bonusActiveNow} would get the bonus applied right now (range + off cooldown).`);
+    if (nodeEntries[0]) {
+      lines.push(`Full field list on a node object (check whether x/y actually exist): ${Object.keys(nodeEntries[0][1] || {}).join(", ")}`);
     }
   });
   box.style.display = "block";
@@ -19156,8 +21149,8 @@ $("farmPanelDebugCropsBtn").onclick = () => {
         perNode: perNode
       };
     })(),
-    Crops: buildPlantedSection(farmPanelField(g, "crops"), "crop", "crop", [ "green_amulet", "golden_cauliflower", "easter_bunny", "victoria_sisters", "beetroot_amulet", "sunflower_amulet", "scarecrow", "kuebiko", "coder", "peeled_potato", "potent_potato", "stellar_sunflower", "radical_radish", "skill_chonky_scarecrow", "scary_mike", "skill_horror_mike", "sir_goldensnout", "laurie_chuckle_crow", "skill_lauries_gains", "queen_cornelia", "skill_acre_farm", "skill_hectare_farm", "bountiful_harvest_active", "season_guardian_active", "insect_plague_active" ]),
-    "Fruit Patches": buildPlantedSection(farmPanelField(g, "fruitPatches"), "fruit", "fruit", [ "skill_generous_orchard", "lady_bug", "black_bearry", "macaw", "skill_loyal_macaw", "camel_onesie", "fruit_picker_apron", "skill_fruitful_fumble", "banana_amulet", "banana_chicken", "lemon_shark", "lemon_shield", "reveling_lemon", "tomato_bombard", "bountiful_harvest_active", "season_guardian_active" ]),
+    Crops: buildPlantedSection(farmPanelField(g, "crops"), "crop", "crop", [ "green_amulet", "golden_cauliflower", "easter_bunny", "victoria_sisters", "beetroot_amulet", "sunflower_amulet", "scarecrow", "kuebiko", "coder", "peeled_potato", "potent_potato", "stellar_sunflower", "radical_radish", "skill_chonky_scarecrow", "scary_mike", "skill_horror_mike", "sir_goldensnout", "laurie_chuckle_crow", "skill_lauries_gains", "queen_cornelia", "skill_acre_farm", "skill_hectare_farm", "bountiful_harvest", "sunshower", "summer_guardian", "autumn_guardian", "winter_guardian", "spring_guardian", "insect_plague" ]),
+    "Fruit Patches": buildPlantedSection(farmPanelField(g, "fruitPatches"), "fruit", "fruit", [ "skill_generous_orchard", "lady_bug", "black_bearry", "macaw", "skill_loyal_macaw", "camel_onesie", "fruit_picker_apron", "skill_fruitful_fumble", "banana_amulet", "banana_chicken", "lemon_shark", "lemon_shield", "reveling_lemon", "tomato_bombard", "bountiful_harvest", "summer_guardian", "autumn_guardian", "winter_guardian", "spring_guardian", "moon_hair", "faction_quiver", "skill_zesty_vibes" ]),
     "Flower Beds": buildPlantedSection((farmPanelField(g, "flowers") || {}).flowerBeds, "flower", "flower", [ "humming_bird", "butterfly", "desert_rose", "chicory", "salt_crystal_flower", "moth_shrine", "skill_petalled_perk", "legendary_shrine_flower" ]),
     Greenhouse: (() => {
       const gh = farmPanelField(g, "greenhouse");
@@ -19187,8 +21180,55 @@ $("farmPanelDebugCropsBtn").onclick = () => {
   box.select();
 };
 
+$("farmPanelDebugBeeSwarmBtn").onclick = () => {
+  const box = $("farmPanelDebugOutput");
+  if (!farmPanelGameState) {
+    box.style.display = "block";
+    box.value = "Sync a Farm ID first, then tap this again.";
+    return;
+  }
+  const g = farmSyncExtractGameState(farmPanelGameState);
+  const cropsBag = farmPanelField(g, "crops") || {};
+  const perPlotDetail = {};
+  Object.entries(cropsBag).forEach(([plotId, plot]) => {
+    const bs = plot && plot.beeSwarm;
+    if (!bs) return;
+    const cropName = plot && plot.crop && plot.crop.name || "(no crop planted)";
+    if (!perPlotDetail[cropName]) perPlotDetail[cropName] = [];
+    perPlotDetail[cropName].push({
+      plotId: plotId,
+      swarmCount: bs.count,
+      swarmActivatedAt: bs.swarmActivatedAt
+    });
+  });
+  const byCropSummary = {};
+  Object.entries(perPlotDetail).forEach(([cropName, rows]) => {
+    const totalCount = rows.reduce((sum, r) => sum + (typeof r.swarmCount === "number" ? r.swarmCount : 0), 0);
+    byCropSummary[cropName] = {
+      affectedPlots: rows.length,
+      totalSwarmCount: totalCount,
+      avgSwarmPerPlot: rows.length > 0 ? totalCount / rows.length : 0
+    };
+  });
+  const out = {
+    "beeSwarmActiveCount (farm-wide, from last sync)": beeSwarmActiveCount,
+    "beeSwarmAffectedPlots (farm-wide, from last sync)": beeSwarmAffectedPlots,
+    "farm-wide avg swarm/plot": beeSwarmAffectedPlots > 0 ? beeSwarmActiveCount / beeSwarmAffectedPlots : 0,
+    "beeSwarmByCrop (stored, from last sync)": beeSwarmByCrop,
+    "getBeeSwarmPerSwarmYield()": getBeeSwarmPerSwarmYield(),
+    "isSkillActive('skill_pollen_power_up')": isSkillActive("skill_pollen_power_up"),
+    "getBeeSwarmStatsForCrop('Barley')": typeof getBeeSwarmStatsForCrop === "function" ? getBeeSwarmStatsForCrop("Barley") : "(getBeeSwarmStatsForCrop not found — old app.js still loaded)",
+    "live re-scan of raw synced data, byCropSummary": byCropSummary,
+    "live re-scan of raw synced data, perPlotDetail": perPlotDetail
+  };
+  box.style.display = "block";
+  box.value = JSON.stringify(out, null, 2);
+  box.focus();
+  box.select();
+};
+
 (function() {
-  const debugButtonIds = [ "farmPanelDebugBtn", "farmPanelDebugBoostsBtn", "farmPanelDebugNodesBtn", "farmPanelDebugFertBtn", "farmPanelDebugCrowBtn", "farmPanelDebugFactionBtn", "farmPanelDebugPetsBtn", "farmPanelDebugMutantsBtn", "farmPanelDebugTreeDataBtn", "farmPanelDebugMiningBtn", "farmPanelDebugCropsBtn" ];
+  const debugButtonIds = [ "farmPanelDebugBtn", "farmPanelDebugBoostsBtn", "farmPanelDebugNodesBtn", "farmPanelDebugFertBtn", "farmPanelDebugCrowBtn", "farmPanelDebugCrowCooldownBtn", "farmPanelDebugGnomeBtn", "farmPanelDebugFactionBtn", "farmPanelDebugPetsBtn", "farmPanelDebugMutantsBtn", "farmPanelDebugTreeDataBtn", "farmPanelDebugMiningBtn", "farmPanelDebugCropsBtn", "farmPanelDebugBeeSwarmBtn" ];
   const outputBox = $("farmPanelDebugOutput");
   if (!outputBox) return;
   let openButtonId = null;
@@ -19226,6 +21266,8 @@ let __farmPanelSaveGameStateHandle = null;
 
 function farmPanelSaveGameState(json) {
   farmPanelGameState = json || null;
+  
+  farmPanelHoneySnapshotMs = Date.now();
   const toStore = farmPanelGameState;
   if (__farmPanelSaveGameStateHandle !== null) {
     if (typeof cancelIdleCallback === "function") cancelIdleCallback(__farmPanelSaveGameStateHandle); else clearTimeout(__farmPanelSaveGameStateHandle);
@@ -19295,6 +21337,9 @@ function farmPanelWriteGameStateSharded(toStore) {
 }
 
 function farmPanelLoadCachedGameState() {
+  
+  
+  farmPanelHoneySnapshotMs = Date.now();
   try {
     const metaRaw = localStorage.getItem("hl_fpgs_meta");
     if (!metaRaw) {
@@ -19419,6 +21464,41 @@ const BUD_SYNC_CATEGORIES = [ {
   },
   save: () => saveResourceBuds()
 } ];
+
+function clearManualBudsAndPets() {
+  BUD_SYNC_CATEGORIES.forEach(cat => {
+    const manualIds = [];
+    const kept = [];
+    cat.get().forEach(b => {
+      if (b && typeof b.id === "string" && b.id.indexOf(cat.prefix) === 0) {
+        kept.push(b);
+      } else if (b) {
+        manualIds.push(b.id);
+      }
+    });
+    if (!manualIds.length) return;
+    const removeSet = new Set(manualIds);
+    const dropBoostIds = new Set;
+    BOOSTS = BOOSTS.filter(x => {
+      if (x.budId && removeSet.has(x.budId)) {
+        dropBoostIds.add(x.id);
+        return false;
+      }
+      return true;
+    });
+    if (dropBoostIds.size) selectedBoosts = selectedBoosts.filter(id => !dropBoostIds.has(id));
+    cat.set(kept);
+    cat.save();
+  });
+  if (typeof petsData !== "undefined" && Array.isArray(petsData)) {
+    const keptPets = petsData.filter(p => p && typeof p.id === "string" && p.id.indexOf(PET_SYNC_PREFIX) === 0);
+    if (keptPets.length !== petsData.length) {
+      petsData = keptPets;
+      savePetsData();
+      if (typeof __petCardMemo !== "undefined") __petCardMemo.clear();
+    }
+  }
+}
 
 function syncBudsFromFarmData(g) {
   const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
@@ -19622,26 +21702,68 @@ const SPICE_SYNC_ANIMAL_BAGS = {
 
 const SPICE_SYNC_TARGETS = [ "salt lick", "honey treat" ];
 
-function syncSpiceFromFarmData(g) {
-  const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
+function syncSpiceFromFarmData(g, gFallback) {
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   let matched = 0;
   let touched = false;
-  Object.entries(SPICE_SYNC_ANIMAL_BAGS).forEach(([type, bagKey]) => {
-    const bag = asObj(farmPanelField(g, bagKey)) || {};
-    Object.values(bag).forEach(animal => {
-      const found = farmSyncFindConsumableName(animal, SPICE_SYNC_TARGETS, 0, new Set);
-      if (!found) return;
-      const key = farmSyncNormalizeName(found) === "salt lick" ? "saltLick" : "honeyTreat";
-      if (!spiceUsage[key][type]) {
-        spiceUsage[key][type] = true;
-        touched = true;
+  SPICE_ANIMAL_TYPES.forEach(type => {
+    let bag = farmSyncGetAnimalRecords(g, type);
+    const bagHasAnyFeedBuff = Object.values(bag || {}).some(a => a && typeof a === "object" && a.feedBuff && a.feedBuff.name);
+    if (!bagHasAnyFeedBuff && gFallback) {
+      const fallbackBag = farmSyncGetAnimalRecords(gFallback, type);
+      const fallbackHasAnyFeedBuff = Object.values(fallbackBag || {}).some(a => a && typeof a === "object" && a.feedBuff && a.feedBuff.name);
+      if (fallbackHasAnyFeedBuff || (!bag || !Object.keys(bag).length)) bag = fallbackBag;
+    }
+    let hasSaltLick = false;
+    let hasHoneyTreat = false;
+    Object.values(bag || {}).forEach(animal => {
+      if (!animal || typeof animal !== "object") return;
+      const buff = animal.feedBuff;
+      if (!buff || typeof buff !== "object" || !buff.name) return;
+      const stillActive = typeof buff.harvestsRemaining !== "number" || buff.harvestsRemaining > 0;
+      if (!stillActive) return;
+      if (buff.name === "Salt Lick") {
+        hasSaltLick = true;
+        matched++;
+      } else if (buff.name === "Honey Treat") {
+        hasHoneyTreat = true;
+        matched++;
       }
-      if (!spiceUsage[key].active) {
-        spiceUsage[key].active = true;
-        touched = true;
-      }
-      matched++;
     });
+    if (hasSaltLick !== !!spiceUsage.saltLick[type]) {
+      spiceUsage.saltLick[type] = hasSaltLick;
+      touched = true;
+    }
+    if (hasSaltLick && !spiceUsage.saltLick.active) {
+      spiceUsage.saltLick.active = true;
+      touched = true;
+    }
+    if (hasHoneyTreat !== !!spiceUsage.honeyTreat[type]) {
+      spiceUsage.honeyTreat[type] = hasHoneyTreat;
+      touched = true;
+    }
+    if (hasHoneyTreat && !spiceUsage.honeyTreat.active) {
+      spiceUsage.honeyTreat.active = true;
+      touched = true;
+    }
+    
+    
+    if (hasSaltLick && spiceUsage.honeyTreat[type]) {
+      spiceUsage.honeyTreat[type] = false;
+      touched = true;
+    }
   });
   if (touched) saveSpiceUsage();
   return {
@@ -19691,7 +21813,7 @@ function syncCrowAoeOverrides(g) {
   Object.entries(CROW_AOE_DEFS).forEach(([boostId, def]) => {
     const a = mainCollectibles[def.collectibleName];
     const b = homeCollectibles[def.collectibleName];
-    const instances = [ ...Array.isArray(a) ? a : [], ...Array.isArray(b) ? b : [] ].filter(inst => inst && typeof inst === "object" && !inst.removedAt);
+    const instances = farmSyncPickActivePlacedInstances([ ...Array.isArray(a) ? a : [], ...Array.isArray(b) ? b : [] ]);
     if (!instances.length) {
       if (aoeSyncOverrides[boostId] !== undefined) {
         delete aoeSyncOverrides[boostId];
@@ -19862,6 +21984,45 @@ function showSyncTimingPanel(farmId, marks, errorMsg) {
   }
 }
 
+function farmPanelMergeAnimalFeedBuff(communityHouse, rawHouse) {
+  
+  
+  
+  
+  
+  
+  
+  
+  if (!communityHouse || typeof communityHouse !== "object") return rawHouse;
+  if (!rawHouse || typeof rawHouse !== "object") return communityHouse;
+  const communityAnimals = communityHouse.animals && typeof communityHouse.animals === "object" ? communityHouse.animals : null;
+  const rawAnimals = rawHouse.animals && typeof rawHouse.animals === "object" ? rawHouse.animals : null;
+  if (!communityAnimals || !rawAnimals) return communityHouse;
+  const patchedAnimals = {
+    ...communityAnimals
+  };
+  let touched = false;
+  Object.keys(patchedAnimals).forEach(id => {
+    const communityAnimal = patchedAnimals[id];
+    const rawAnimal = rawAnimals[id];
+    if (!communityAnimal || typeof communityAnimal !== "object" || !rawAnimal || typeof rawAnimal !== "object") return;
+    const communityHasBuff = communityAnimal.feedBuff && typeof communityAnimal.feedBuff === "object" && communityAnimal.feedBuff.name;
+    const rawHasBuff = rawAnimal.feedBuff && typeof rawAnimal.feedBuff === "object" && rawAnimal.feedBuff.name;
+    if (!communityHasBuff && rawHasBuff) {
+      patchedAnimals[id] = {
+        ...communityAnimal,
+        feedBuff: rawAnimal.feedBuff
+      };
+      touched = true;
+    }
+  });
+  if (!touched) return communityHouse;
+  return {
+    ...communityHouse,
+    animals: patchedAnimals
+  };
+}
+
 function farmPanelMergeAuthoritativeResourceData(rawJson, communitySourceState, communityOk) {
   const rawG = farmSyncExtractGameState(rawJson);
   if (!communityOk) {
@@ -19874,8 +22035,12 @@ function farmPanelMergeAuthoritativeResourceData(rawJson, communitySourceState, 
   const merged = communityG && typeof communityG === "object" ? {
     ...communityG
   } : {};
-  [ "trees", "stones", "iron", "gold", "crimstones", "farmActivity" ].forEach(key => {
+  [ "trees", "stones", "iron", "gold", "crimstones", "farmActivity", "collectibles", "buildings", "home", "aoe", "crops", "fruitPatches", "greenhouse" ].forEach(key => {
     if (rawG[key] != null) merged[key] = rawG[key];
+  });
+  [ "henHouse", "barn" ].forEach(key => {
+    const rawHouse = farmPanelField(rawG, key);
+    if (rawHouse != null) merged[key] = farmPanelMergeAnimalFeedBuff(farmPanelField(merged, key), rawHouse);
   });
   return merged;
 }
@@ -19909,12 +22074,15 @@ async function performFarmPanelSync(farmId) {
     const prevSelectedSkillsSig = JSON.stringify(selectedSkills);
     const prevFeePercent = feePercent;
     const boostSourceState = communityResult.ok ? communityResult.data : json;
+    const mergedFreshState = farmPanelMergeAuthoritativeResourceData(json, boostSourceState, communityResult.ok);
     const result = applyFarmSkillsOnly(boostSourceState, json);
     __mark("  applyFarmSkillsOnly");
-    const boostResult = applyFarmBoostsOnly(boostSourceState);
+    const boostResult = applyFarmBoostsOnly(mergedFreshState);
     __mark("  applyFarmBoostsOnly");
     const affectionToolsResult = applyFarmAnimalAffectionToolsOnly(boostSourceState);
     __mark("  applyFarmAnimalAffectionToolsOnly");
+    const greenThumbLegacyResult = applyFarmGreenThumbLegacyOnly(boostSourceState);
+    __mark("  applyFarmGreenThumbLegacyOnly");
     const plotsResult = applyFarmPlotsNodesOnly(boostSourceState, communityResult.ok);
     __mark("  applyFarmPlotsNodesOnly");
     const feeResult = applyFarmFeeOnly(boostSourceState);
@@ -19932,14 +22100,22 @@ async function performFarmPanelSync(farmId) {
     let crowAoeResult = {
       changed: false
     };
+    let petSyncResult = {
+      matched: 0,
+      petCount: 0,
+      changed: false
+    };
     let touchGreenhouse = false, touchAnimals = false, touchFruits = false, touchCrops = false, touchResource = false;
     if (communityResult.ok) {
       const gExtra = farmSyncExtractGameState(boostSourceState);
+      const gOfficialFallback = boostSourceState === json ? null : farmSyncExtractGameState(json);
+      clearManualBudsAndPets();
       budResult = syncBudsFromFarmData(gExtra);
       fertResult = syncFertilizersFromFarmData(gExtra);
-      spiceResult = syncSpiceFromFarmData(gExtra);
+      spiceResult = syncSpiceFromFarmData(gExtra, gOfficialFallback);
       crowAoeResult = syncCrowAoeOverrides(gExtra);
       syncWeatherDestructionFromFarmData(gExtra);
+      if (typeof syncPetsFromFarmData === "function") petSyncResult = syncPetsFromFarmData(gExtra);
       __mark("buds/fert/spice/crow/weather sync done");
       if (budResult.matched || fertResult.matched || spiceResult.matched || crowAoeResult.changed) {
         const budTouched = budResult.touched || {};
@@ -19952,7 +22128,7 @@ async function performFarmPanelSync(farmId) {
     }
     const budFertSpiceCrowMatched = !!(budResult.matched || fertResult.matched || spiceResult.matched || crowAoeResult.changed);
     const anythingChanged = JSON.stringify(selectedBoosts) !== prevSelectedBoostsSig || JSON.stringify(selectedSkills) !== prevSelectedSkillsSig || feePercent !== prevFeePercent || plotsResult.touched || !!budResult.matched || !!fertResult.matched || !!spiceResult.matched || !!crowAoeResult.changed;
-    farmPanelSaveGameState(farmPanelMergeAuthoritativeResourceData(json, boostSourceState, communityResult.ok));
+    farmPanelSaveGameState(mergedFreshState);
     if (typeof invalidateCostCache === "function") invalidateCostCache();
     if (typeof syncCookingCountsFromInventory === "function") syncCookingCountsFromInventory(farmPanelGameState);
     __mark("  state prep");
@@ -20001,6 +22177,10 @@ async function performFarmPanelSync(farmId) {
       if (typeof renderCropMachinePanel === "function") renderCropMachinePanel();
     }
     __mark("  renderCropMachinePanel");
+    if (petSyncResult.changed && $("petProfitList")) {
+      if (typeof renderPetsPanel === "function") renderPetsPanel();
+    }
+    __mark("  renderPetsPanel");
     __mark("render cascade done");
     if (anythingChanged) {
       if (typeof renderSaltList === "function") renderSaltList();
@@ -20034,9 +22214,10 @@ async function performFarmPanelSync(farmId) {
     const spiceNote = spiceResult.matched ? ` · 🧂 ${spiceResult.matched} spice rack boost(s) auto-applied` : "";
     const feeNote = feeResult.applied ? ` · 💰 sell fee set to ${feeResult.feePercent}%` : "";
     const crowNote = crowAoeResult.changed ? " · 🐦 crow AoE plot counts auto-detected" : "";
+    const petNote = petSyncResult.matched ? ` · 🐾 ${petSyncResult.matched} pet(s) auto-synced to Pet House` : "";
     return {
       ok: true,
-      message: `✅ Synced Farm #${farmId} · 🎓 ${result.matched} skill(s) matched${boostNote}${plotsNote}${budNote}${fertNote}${spiceNote}${feeNote}${crowNote}${nameNote}${dataNote}`
+      message: `✅ Synced Farm #${farmId} · 🎓 ${result.matched} skill(s) matched${boostNote}${plotsNote}${budNote}${fertNote}${spiceNote}${feeNote}${crowNote}${petNote}${nameNote}${dataNote}`
     };
   } catch (e) {
     console.error("Farm panel sync failed:", e);
@@ -20366,7 +22547,7 @@ function renderResourceCard(name) {
     return {
       restockCost24h: proj.restockCost24h,
       restockNote: typeof getRestockExclusionNote === "function" ? getRestockExclusionNote(toolName) : "",
-      shrineCost24h: s.total / (typeof getSharedPoolDivisor === "function" ? getSharedPoolDivisor("tool") : 1),
+      shrineCost24h: s.total,
       shrineNames: s.shrines.map(x => x.name),
       totalYield: proj.unitsPerDay,
       yieldLabel: name,
@@ -20423,12 +22604,16 @@ function renderObsidianSection() {
   const obsidianManualCycleKey = "obsidian_week";
   const obsidianManualCycle = getManualCycleOverride(obsidianManualCycleKey);
   const weekly = computeObsidianWeeklyProfit(currentFig, sellFlower, obsidianManualCycle);
-  const isProfit = weekly.profit >= 0;
+  const isWeeklyProfit = weekly.profit >= 0;
+  const cycleNetSellFlower = sellFlower * (1 - feePercent / 100);
+  const cycleCostFlower = coinsToFlower(currentFig.costPerUnit);
+  const cycleProfitFlower = cycleNetSellFlower - cycleCostFlower;
+  const isProfit = cycleProfitFlower >= 0;
   const lavaPitCount = getNodeCount("Lava Pit");
   const nodesLine = `${fmt(lavaPitCount)} LAVA PIT${lavaPitCount === 1 ? "" : "S"} × ${fmt(currentFig.yieldVal)} = ${fmt(lavaPitCount * currentFig.yieldVal)} OBSIDIAN/CYCLE`;
   const weeklyYieldLine = `<div class="card-24h-yield">📦 WEEKLY YIELD <span class="card-24h-sub">${fmt(weekly.produced)} produced · ${fmt(weekly.sellable)} sellable (cap ${OBSIDIAN_WEEKLY_SELL_CAP})</span></div>`;
-  const weeklyBox = `<div class="card-24h-box ${isProfit ? "is-profit" : "is-loss"}">\n    <div class="card-24h-box-label">🌋 WEEKLY PROFIT</div>\n    <div class="card-24h-line">${nodesLine}</div>\n    <div class="card-24h-line">${fmt(weekly.cost)} ${FLOWER_ICON} FLOWER COST (WEEKLY) · <span style="color:var(--flower);">${fmt(weekly.revenue)} ${FLOWER_ICON} FLOWER SELL (WEEKLY)</span></div>\n    <div class="card-24h ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(weekly.profit)} ${FLOWER_ICON} FLOWER <span class="card-24h-sub">max ${OBSIDIAN_WEEKLY_SELL_CAP}/week</span></div>\n    ${weeklyYieldLine}\n  </div>`;
-  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}${isExpanded ? " expanded" : ""}" data-search="obsidian">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon("Obsidian")}</span>\n        <div>\n          <div class="card-name">Obsidian</div>\n          <div class="card-type">${fmt(currentFig.costPerUnit)}${COIN_ICON} tool cost / unit</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        ${currentFig.activeBoosts && currentFig.activeBoosts.length ? `<span class="boost-badge">⚡${currentFig.activeBoosts.length}</span>` : ""}\n        <span class="pvalue-mini ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(weekly.profit)} ${FLOWER_ICON} FLOWER/wk</span>\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    ${weeklyBox}\n    <div class="card-details">\n      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">\n        <span style="font-size:9.6px;color:var(--ink-soft);">Showing ${SEASON_ORDER.length} seasonal recipes</span>\n        <button type="button" class="ob-inputs-toggle" id="obsidianInputsToggle">${obsidianInputsHidden ? "Show Inputs" : "Hide Inputs"}</button>\n      </div>\n      <div class="ob-summary-box" style="margin-bottom:6px;">\n        🌋 Lava Pits: <b>${fmt(getNodeCount("Lava Pit"))}</b> ·\n        Produced/week: <b>${fmt(weekly.produced)}</b> ·\n        Sellable (cap ${OBSIDIAN_WEEKLY_SELL_CAP}): <b>${fmt(weekly.sellable)}</b>\n        <div style="font-size:7.8px;margin-top:3px;opacity:.8;">Only ${OBSIDIAN_WEEKLY_SELL_CAP} obsidian can be sold per player per week (any season) — 24h profit doesn't apply here.</div>\n      </div>\n      ${(() => {
+  const weeklyBox = `<div class="card-24h-box ${isWeeklyProfit ? "is-profit" : "is-loss"}">\n    <div class="card-24h-box-label">🌋 WEEKLY PROFIT</div>\n    <div class="card-24h-line">${nodesLine}</div>\n    <div class="card-24h-line">${fmt(weekly.cost)} ${FLOWER_ICON} FLOWER COST (WEEKLY) · <span style="color:var(--flower);">${fmt(weekly.revenue)} ${FLOWER_ICON} FLOWER SELL (WEEKLY)</span></div>\n    <div class="card-24h ${isWeeklyProfit ? "is-profit" : "is-loss"}">${isWeeklyProfit ? "+" : ""}${fmt(weekly.profit)} ${FLOWER_ICON} FLOWER <span class="card-24h-sub">max ${OBSIDIAN_WEEKLY_SELL_CAP}/week</span></div>\n    ${weeklyYieldLine}\n  </div>`;
+  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}${isExpanded ? " expanded" : ""}" data-search="obsidian">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon("Obsidian")}</span>\n        <div>\n          <div class="card-name">Obsidian</div>\n          <div class="card-type">${fmt(currentFig.costPerUnit)}${COIN_ICON} tool cost / unit</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        ${currentFig.activeBoosts && currentFig.activeBoosts.length ? `<span class="boost-badge">⚡${currentFig.activeBoosts.length}</span>` : ""}\n        <span class="pvalue-mini ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(cycleProfitFlower)} ${FLOWER_ICON} FLOWER</span>\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    ${weeklyBox}\n    <div class="card-details">\n      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">\n        <span style="font-size:9.6px;color:var(--ink-soft);">Showing ${SEASON_ORDER.length} seasonal recipes</span>\n        <button type="button" class="ob-inputs-toggle" id="obsidianInputsToggle">${obsidianInputsHidden ? "Show Inputs" : "Hide Inputs"}</button>\n      </div>\n      <div class="ob-summary-box" style="margin-bottom:6px;">\n        🌋 Lava Pits: <b>${fmt(getNodeCount("Lava Pit"))}</b> ·\n        Produced/week: <b>${fmt(weekly.produced)}</b> ·\n        Sellable (cap ${OBSIDIAN_WEEKLY_SELL_CAP}): <b>${fmt(weekly.sellable)}</b>\n        <div style="font-size:7.8px;margin-top:3px;opacity:.8;">Only ${OBSIDIAN_WEEKLY_SELL_CAP} obsidian can be listed/sold per player per week on the Marketplace (any season) — 24h profit doesn't apply here. Buying is capped separately at ${OBSIDIAN_WEEKLY_PURCHASE_CAP}/week.</div>\n      </div>\n      ${(() => {
     const s = getActiveShrineDailyCost(currentFig.activeBoosts);
     return renderTotalsBreakdown({
       title: "7 Days Total",
@@ -20587,11 +22772,10 @@ function renderCropCard(name) {
     simulateStock: stockQty => simulateStockCycles(pc => computeBoostedCropStats(name, d.baseYield || 1, d.timeSec, pc), plotCount, stockQty)
   })}\n    <div class="card-details">\n      <div class="card-grid">\n        <div class="stat"><span class="label">Sell (market)</span><span class="value">${fmt(sellFlower)} ${FLOWER_ICON} FLOWER${feePercent > 0 ? ` <span style="color:var(--ink-soft);font-weight:600;">(${fmt(netSellFlower)} after ${feePercent}% fee)</span>` : ""}</span></div>\n        <div class="stat"><span class="label">Cost</span><span class="value">${fmt(costFlower)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Yield</span><span class="value">${fmt(boosted.yieldVal)}</span></div>\n<div class="stat"><span class="label">Time</span><span class="value">${formatDuration(boosted.timeVal)}${Math.round(boosted.timeVal) !== Math.round(d.timeSec) ? ` <span style="color:var(--ink-soft);font-weight:600;">(${formatDuration(d.timeSec)} base)</span>` : ""}</span></div>\n      </div>\n      ${render24hTotalsGrid(proj.cost24h, proj.unitsPerDay * sellFlower, proj.revenue24h, proj.profit24h, (() => {
     const s = getActiveShrineDailyCost(boosted.activeBoosts);
-    const __rcmDivisor = typeof getSharedPoolDivisor === "function" ? getSharedPoolDivisor("seed") : 1;
     return {
       restockCost24h: proj.restockCost24h,
       restockNote: typeof getRestockExclusionNote === "function" ? getRestockExclusionNote(name) : "",
-      shrineCost24h: s.total / __rcmDivisor,
+      shrineCost24h: s.total,
       shrineNames: s.shrines.map(x => x.name),
       totalYield: proj.unitsPerDay,
       yieldLabel: name,
@@ -20670,7 +22854,7 @@ function renderFruitCard(name) {
   const totalYield = boosted.minHarvestVal * boosted.yieldVal;
   const boostListHtml = renderBoostAppliedList(boosted.activeBoosts, name);
   const axeQty = d.axeQty || 0;
-  const woodReturnQty = Math.max(0, (d.woodReturnQty || 0) - (boosted.woodReturnPenalty || 0));
+  const woodReturnQty = Math.max(0, (d.woodReturnQty || 0) - (boosted.woodReturnPenalty || 0) + (boosted.woodReturnAdd || 0));
   const axeCoinCost = boosted.noWoodCost ? 0 : axeQty * (RESOURCE_DATA.Wood.toolCoinCost || 0);
   const mode = getMaterialMode("Fruit_" + name, "Wood");
   const woodRebateCoins = woodReturnQty * getMaterialUnitCostCoins("Wood", mode);
@@ -20705,11 +22889,10 @@ function renderFruitCard(name) {
     }, fruitCount, stockQty)
   })}\n    <div class="card-details">\n      <div class="card-grid">\n        <div class="stat"><span class="label">Sell (market)</span><span class="value">${fmt(sellFlower)} ${FLOWER_ICON} FLOWER${feePercent > 0 ? ` <span style="color:var(--ink-soft);font-weight:600;">(${fmt(netSellFlower)} after ${feePercent}% fee)</span>` : ""}</span></div>\n        <div class="stat"><span class="label">Cost / unit</span><span class="value">${fmt(costFlower)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Yield / harvest</span><span class="value">${fmt(boosted.yieldVal)}</span></div>\n        <div class="stat"><span class="label">Time / harvest</span><span class="value">${formatDuration(boosted.timeVal)}${Math.round(boosted.timeVal) !== Math.round(d.timeSec) ? ` <span style="color:var(--ink-soft);font-weight:600;">(${formatDuration(d.timeSec)} base)</span>` : ""}</span></div>\n      </div>\n      ${render24hTotalsGrid(proj.cost24h, proj.unitsPerDay * sellFlower, proj.revenue24h, proj.profit24h, (() => {
     const s = getActiveShrineDailyCost(boosted.activeBoosts);
-    const __rcmDivisor = typeof getSharedPoolDivisor === "function" ? getSharedPoolDivisor("seed") : 1;
     return {
       restockCost24h: proj.restockCost24h,
       restockNote: typeof getRestockExclusionNote === "function" ? getRestockExclusionNote(name) : "",
-      shrineCost24h: s.total / __rcmDivisor,
+      shrineCost24h: s.total,
       shrineNames: s.shrines.map(x => x.name),
       totalYield: proj.unitsPerDay,
       yieldLabel: name,
@@ -20810,11 +22993,10 @@ function renderGreenhouseCard(name) {
     simulateStock: stockQty => simulateStockCycles(pc => computeBoostedGreenhouseStats(name, d.baseYield || 1, d.timeSec, pc), plotCount, stockQty)
   })}\n    <div class="card-details">\n      <div class="card-grid">\n        <div class="stat"><span class="label">Sell (market)</span><span class="value">${fmt(sellFlower)} ${FLOWER_ICON} FLOWER${feePercent > 0 ? ` <span style="color:var(--ink-soft);font-weight:600;">(${fmt(netSellFlower)} after ${feePercent}% fee)</span>` : ""}</span></div>\n        <div class="stat"><span class="label">Cost / unit</span><span class="value">${fmt(costFlower)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Yield</span><span class="value">${fmt(boosted.yieldVal)}</span></div>\n        <div class="stat"><span class="label">Time</span><span class="value">${formatDuration(boosted.timeVal)}${Math.round(boosted.timeVal) !== Math.round(d.timeSec) ? ` <span style="color:var(--ink-soft);font-weight:600;">(${formatDuration(d.timeSec)} base)</span>` : ""}</span></div>\n      </div>\n      ${render24hTotalsGrid(proj.cost24h, proj.unitsPerDay * sellFlower, proj.revenue24h, proj.profit24h, (() => {
     const s = getActiveShrineDailyCost(boosted.activeBoosts);
-    const __rcmDivisor = typeof getSharedPoolDivisor === "function" ? getSharedPoolDivisor("seed") : 1;
     return {
       restockCost24h: proj.restockCost24h,
       restockNote: typeof getRestockExclusionNote === "function" ? getRestockExclusionNote(name) : "",
-      shrineCost24h: s.total / __rcmDivisor,
+      shrineCost24h: s.total,
       shrineNames: s.shrines.map(x => x.name),
       totalYield: proj.unitsPerDay,
       yieldLabel: name,
@@ -22924,6 +25106,8 @@ let gunterSelectedBuy = null;
 let gunterSelectedUpgrade = null;
 const gunterBuyCounts = {};
 const gunterUpgradeCounts = {};
+let gunterTopNodesOpen = false;
+let gunterTopUpgradeOpen = false;
 let gunterSunstoneRockCount = parseInt(localStorage.getItem(GUNTER_SUNSTONE_ROCKS_LS_KEY), 10);
 if (!Number.isFinite(gunterSunstoneRockCount) || gunterSunstoneRockCount < 0) gunterSunstoneRockCount = 1;
 
@@ -23038,7 +25222,7 @@ function gunterRenderTop() {
   }
   const nodesRows = GUNTER_BUY_NODES.map(n => `\n      <div class="gunter-top-row">\n        <span class="gunter-top-row-name">${getIcon(n.name)} ${escapeHtml(n.name)}</span>\n        <span class="gunter-top-row-val">${n.price}${getIcon("Sunstone")}</span>\n        <span class="gunter-top-row-inc">+${n.increase}</span>\n      </div>`).join("");
   const upgradeRows = GUNTER_UPGRADE_NODES.map(n => `\n      <div class="gunter-top-row">\n        <span class="gunter-top-row-name">${escapeHtml(n.name)}</span>\n        <span class="gunter-top-row-div"></span>\n        <span class="gunter-top-row-cost">${getIcon("Obsidian")}${n.obsidian}</span>\n        <span class="gunter-top-row-div"></span>\n        <span class="gunter-top-row-cost">${getIcon(n.node)}${n.nodeCount}x</span>\n        <span class="gunter-top-row-div"></span>\n        <span class="gunter-top-row-cost">${COIN_ICON}${formatCompactNum(n.coins)}</span>\n      </div>`).join("");
-  el.innerHTML = `\n    <div class="gunter-top-col is-nodes">\n      <div class="gunter-top-col-title">🧱 Nodes Cost</div>\n      <div class="gunter-top-table">\n        <div class="gunter-top-header-row"><span>Node</span><span>Cost</span><span>Incr.</span></div>\n        ${nodesRows}\n      </div>\n    </div>\n    <div class="gunter-top-col is-upgrade">\n      <div class="gunter-top-col-title">⚒️ Upgrade Cost</div>\n      <div class="gunter-top-table is-upgrade-table">\n        <div class="gunter-top-header-row"><span>Node</span><span></span><span>${getIcon("Obsidian")}</span><span></span><span>⛏️</span><span></span><span>${COIN_ICON}</span></div>\n        ${upgradeRows}\n      </div>\n    </div>\n  `;
+  el.innerHTML = `\n    <div class="gunter-top-col is-nodes${gunterTopNodesOpen ? " is-open" : ""}">\n      <div class="gunter-top-col-title">🧱 Nodes Cost<button type="button" class="gunter-top-col-toggle" data-gunter-top-toggle="nodes">›</button></div>\n      <div class="gunter-top-table">\n        <div class="gunter-top-header-row"><span>Node</span><span>Cost</span><span>Incr.</span></div>\n        ${nodesRows}\n      </div>\n    </div>\n    <div class="gunter-top-col is-upgrade${gunterTopUpgradeOpen ? " is-open" : ""}">\n      <div class="gunter-top-col-title">⚒️ Upgrade Cost<button type="button" class="gunter-top-col-toggle" data-gunter-top-toggle="upgrade">›</button></div>\n      <div class="gunter-top-table is-upgrade-table">\n        <div class="gunter-top-header-row"><span>Node</span><span></span><span>${getIcon("Obsidian")}</span><span></span><span>⛏️</span><span></span><span>${COIN_ICON}</span></div>\n        ${upgradeRows}\n      </div>\n    </div>\n  `;
 }
 
 function gunterSunstoneDays(totalSunstone) {
@@ -23627,7 +25811,7 @@ function esDetectCollectiblePlaced(name) {
   const a = main[name];
   const b = homeCollectibles[name];
   const instances = [].concat(Array.isArray(a) ? a : [], Array.isArray(b) ? b : []);
-  return instances.some(inst => inst && typeof inst === "object" && !inst.removedAt);
+  return instances.some(inst => inst && typeof inst === "object" && inst.coordinates && typeof inst.coordinates.x === "number" && typeof inst.coordinates.y === "number" && (typeof inst.readyAt !== "number" || inst.readyAt <= Date.now()));
 }
 
 function esGetBoostSyncStatus() {
@@ -24287,6 +26471,17 @@ $("gunterTabs").addEventListener("click", e => {
   if (!btn) return;
   gunterActiveTab = btn.dataset.gunterTab;
   renderGunterShop();
+});
+
+$("gunterShopTop").addEventListener("click", e => {
+  const toggleBtn = e.target.closest("[data-gunter-top-toggle]");
+  if (!toggleBtn) return;
+  if (toggleBtn.dataset.gunterTopToggle === "nodes") {
+    gunterTopNodesOpen = !gunterTopNodesOpen;
+  } else if (toggleBtn.dataset.gunterTopToggle === "upgrade") {
+    gunterTopUpgradeOpen = !gunterTopUpgradeOpen;
+  }
+  gunterRenderTop();
 });
 
 $("gunterBottomBody").addEventListener("click", e => {
@@ -25564,8 +27759,7 @@ function computeCalcShrineCost(name, totalYield) {
     cost: 0,
     names: []
   };
-  const divisor = typeof getSharedPoolDivisor === "function" ? getSharedPoolDivisor("seed") : 1;
-  const shrineCost24h = shrineInfo.total / divisor;
+  const shrineCost24h = shrineInfo.total;
   const cycleTimeSec = boosted.timeVal || (typeof farmPanelGrowTimeSec === "function" ? farmPanelGrowTimeSec(name) : 0);
   const cyclesPerDay = cycleTimeSec > 0 ? 86400 / cycleTimeSec : 0;
   const count = getGenericPlotOrNodeCount(name);
@@ -25735,74 +27929,10 @@ $("confirmDeleteBtn").onclick = () => {
   $("confirmOverlay").classList.remove("show");
 };
 
-let deferredPrompt = null;
 
-const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
 
-const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
-let installBannerHideTimer = null;
 
-function showInstallBanner() {
-  const el = $("installBanner");
-  if (!el || isStandalone) return;
-  if (installBannerHideTimer) {
-    clearTimeout(installBannerHideTimer);
-    installBannerHideTimer = null;
-  }
-  el.style.display = "flex";
-  void el.offsetHeight;
-  el.classList.add("is-visible");
-}
-
-function hideInstallBanner() {
-  const el = $("installBanner");
-  if (!el) return;
-  el.classList.remove("is-visible");
-  if (installBannerHideTimer) clearTimeout(installBannerHideTimer);
-  installBannerHideTimer = setTimeout(() => {
-    el.style.display = "none";
-  }, 620);
-}
-
-function scheduleInstallBanner() {
-  if (isStandalone) return;
-  setTimeout(showInstallBanner, 5e3);
-}
-
-window.addEventListener("goblinAppReady", scheduleInstallBanner, {
-  once: true
-});
-
-window.addEventListener("beforeinstallprompt", e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  scheduleInstallBanner();
-});
-
-$("installBtn").onclick = async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    hideInstallBanner();
-    return;
-  }
-  if (isIOS) {
-    toast('👺 Tap the Share icon, then "Add to Home Screen"');
-  } else {
-    toast('👺 Use your browser menu → "Install app" / "Add to Home Screen"');
-  }
-};
-
-$("dismissBanner").onclick = () => {
-  hideInstallBanner();
-};
-
-window.addEventListener("appinstalled", () => {
-  deferredPrompt = null;
-  hideInstallBanner();
-});
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -31332,7 +33462,9 @@ function petLevelFromXp(xp) {
 function farmSyncExtractPetTraits(pet) {
   if (!pet || typeof pet !== "object") return null;
   const name = farmSyncPickField(pet, [ "name", "nickname", "nickName", "label" ]);
+  const traitsObj = pet.traits && typeof pet.traits === "object" && !Array.isArray(pet.traits) ? pet.traits : null;
   let type = farmSyncPickField(pet, [ "type", "petType", "species", "kind", "breed" ]);
+  if (!type && traitsObj) type = farmSyncPickField(traitsObj, [ "type", "petType", "species", "kind", "breed" ]);
   if (!type && name) {
     const norm = String(name).trim().toLowerCase();
     const nftMatch = PET_NFT_TYPES.find(t => t.toLowerCase() === norm);
@@ -31341,6 +33473,10 @@ function farmSyncExtractPetTraits(pet) {
   if (!type) return null;
   let aura = farmSyncPickField(pet, [ "aura", "Aura" ]);
   let bib = farmSyncPickField(pet, [ "bib", "Bib", "collar", "Collar" ]);
+  if (traitsObj) {
+    if (!aura) aura = farmSyncPickField(traitsObj, [ "aura", "Aura" ]);
+    if (!bib) bib = farmSyncPickField(traitsObj, [ "bib", "Bib", "collar", "Collar" ]);
+  }
   const attrs = Array.isArray(pet.attributes) ? pet.attributes : Array.isArray(pet.traits) ? pet.traits : null;
   if (attrs) {
     attrs.forEach(a => {
@@ -31363,58 +33499,125 @@ function farmSyncExtractPetTraits(pet) {
   };
 }
 
+function farmSyncFlattenPetBag(topBag, merged) {
+  const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
+  if (!topBag) return;
+  Object.keys(topBag).forEach(catKey => {
+    if (catKey !== "common" && catKey !== "nfts") return;
+    const cat = asObj(topBag[catKey]);
+    if (!cat) return;
+    Object.keys(cat).forEach(petKey => {
+      const id = catKey + ":" + petKey;
+      if (!Object.prototype.hasOwnProperty.call(merged, id)) merged[id] = cat[petKey];
+    });
+  });
+}
+
 function farmSyncGetPetRecords(g, allowHeuristic) {
   const asObj = v => v && typeof v === "object" && !Array.isArray(v) ? v : null;
   const merged = {};
-  const topBag = asObj(farmPanelField(g, "pets"));
-  if (topBag) {
-    Object.keys(topBag).forEach(catKey => {
-      const cat = asObj(topBag[catKey]);
-      if (!cat) return;
-      Object.keys(cat).forEach(petKey => {
-        merged[catKey + ":" + petKey] = cat[petKey];
-      });
-    });
-  }
-  if (allowHeuristic && !Object.keys(merged).length) {
-    const found = farmSyncFindBagByNameHeuristic(g, /^pets$/i, 3);
-    if (found) Object.assign(merged, found.value);
+  farmSyncFlattenPetBag(asObj(farmPanelField(g, "pets")), merged);
+  if (!Object.keys(merged).length) {
+    const found = farmSyncFindBagByNameHeuristic(g, /^pets$/i, 4);
+    if (found) farmSyncFlattenPetBag(asObj(found.value), merged);
   }
   return merged;
 }
 
+let __lastPetsSig = null;
+
+let __lastPetsResult = null;
+
 function syncPetsFromFarmData(g) {
   const records = farmSyncGetPetRecords(g, false);
   const realIds = Object.keys(records);
-  petsData = petsData.filter(p => !(p && typeof p.id === "string" && p.id.indexOf(PET_SYNC_PREFIX) === 0));
-  if (petOpenId && typeof petOpenId === "string" && petOpenId.indexOf(PET_SYNC_PREFIX) === 0) petOpenId = null;
+  const petsSig = realIds.length + "|" + JSON.stringify(records);
+  if (petsSig === __lastPetsSig && __lastPetsResult) return __lastPetsResult;
+  __lastPetsSig = petsSig;
+  const existingSynced = new Map;
+  const keptManual = [];
+  petsData.forEach(p => {
+    if (p && typeof p.id === "string" && p.id.indexOf(PET_SYNC_PREFIX) === 0) {
+      existingSynced.set(p.id, p);
+    } else {
+      keptManual.push(p);
+    }
+  });
+  const freshIds = new Set;
   let matched = 0;
+  let changed = false;
   realIds.forEach(realId => {
     const traits = farmSyncExtractPetTraits(records[realId]);
     if (!traits) return;
     const isNFT = PET_NFT_TYPES.includes(traits.type) ? true : PET_COMMON_TYPES.includes(traits.type) ? false : null;
     if (isNFT === null) return;
+    const id = PET_SYNC_PREFIX + realId;
+    freshIds.add(id);
+    matched++;
     const cat = PET_CATEGORIES[traits.type] || {};
     const fallbackName = isNFT ? "Pet #" + realId : (PET_NAMES_BY_TYPE[traits.type] || [ traits.type ])[0];
-    const pet = {
-      id: PET_SYNC_PREFIX + realId,
-      isNFT: isNFT,
-      petType: traits.type,
-      name: traits.name || fallbackName,
-      level: traits.level,
-      categories: cat,
-      aura: isNFT ? farmSyncMapPetAura(traits.aura) : "No Aura",
-      bib: isNFT ? farmSyncMapPetBib(traits.bib) : "No Bib",
-      synced: true
-    };
-    petsData.push(pet);
-    matched++;
+    const name = traits.name || fallbackName;
+    const aura = isNFT ? farmSyncMapPetAura(traits.aura) : "No Aura";
+    const bib = isNFT ? farmSyncMapPetBib(traits.bib) : "No Bib";
+    const existing = existingSynced.get(id);
+    if (!existing) {
+      existingSynced.set(id, {
+        id: id,
+        isNFT: isNFT,
+        petType: traits.type,
+        name: name,
+        level: traits.level,
+        categories: cat,
+        aura: aura,
+        bib: bib,
+        synced: true
+      });
+      changed = true;
+    } else {
+      if (existing.level !== traits.level) {
+        existing.level = traits.level;
+        changed = true;
+      }
+      if (existing.aura !== aura) {
+        existing.aura = aura;
+        changed = true;
+      }
+      if (existing.bib !== bib) {
+        existing.bib = bib;
+        changed = true;
+      }
+      if (existing.name !== name) {
+        existing.name = name;
+        changed = true;
+      }
+      if (existing.petType !== traits.type) {
+        existing.petType = traits.type;
+        existing.categories = cat;
+        existing.isNFT = isNFT;
+        changed = true;
+      }
+      existing.synced = true;
+    }
   });
-  savePetsData();
-  return {
+  existingSynced.forEach((pet, id) => {
+    if (!freshIds.has(id)) {
+      existingSynced.delete(id);
+      changed = true;
+      if (petOpenId === id) petOpenId = null;
+    }
+  });
+  if (changed) {
+    petsData = keptManual.concat(Array.from(existingSynced.values()));
+    savePetsData();
+    if (typeof __petCardMemo !== "undefined") __petCardMemo.clear();
+  }
+  const result = {
     matched: matched,
-    petCount: realIds.length
+    petCount: realIds.length,
+    changed: changed
   };
+  __lastPetsResult = result;
+  return result;
 }
 
 function isPetFoodChecked(name) {
@@ -31672,7 +33875,7 @@ function renderPetHouse() {
   if (!wrap) return;
   const common = petsData.filter(p => !p.isNFT);
   const nft = petsData.filter(p => p.isNFT);
-  const renderCol = (list, emptyMsg) => list.length ? list.map(p => `<div class="pet-house-chip ${petOpenId === p.id ? "active" : ""}" data-pet="${p.id}">${getPetIcon(p)} ${escapeHtml(p.petType)} <span class="pet-house-name">[${escapeHtml(p.name)}]</span> <span class="pet-house-lvl">Lv${p.level}</span></div>`).join("") : `<div class="pet-house-empty">${emptyMsg}</div>`;
+  const renderCol = (list, emptyMsg) => list.length ? list.map(p => `<div class="pet-house-chip ${petOpenId === p.id ? "active" : ""}" data-pet="${p.id}">${getPetIcon(p)} ${escapeHtml(p.petType)} <span class="pet-house-name">[${escapeHtml(p.name)}]</span> <span class="pet-house-lvl">Lv${p.level}</span>${p.synced ? ` <span class="pet-house-sync-dot" title="Auto-synced from your farm">🔒</span>` : ""}</div>`).join("") : `<div class="pet-house-empty">${emptyMsg}</div>`;
   wrap.innerHTML = `\n    <div class="pet-house-wrap">\n      <div class="pet-house-col">\n        <div class="pet-house-label">${getIcon("Barkley")} Common Pets</div>\n        <div class="pet-house-list">${renderCol(common, "No common pets yet.")}</div>\n      </div>\n      <div class="pet-house-divider"></div>\n      <div class="pet-house-col">\n        <div class="pet-house-label">${getIcon("NFT Pet")} NFT Pets</div>\n        <div class="pet-house-list">${renderCol(nft, "No NFT pets yet.")}</div>\n      </div>\n    </div>`;
   wrap.querySelectorAll(".pet-house-chip").forEach(el => {
     el.onclick = () => {
@@ -31820,7 +34023,8 @@ function renderPetCard(pet) {
   const auraBib = pet.isNFT ? `<div class="pet-card-line">✨ ${escapeHtml(pet.aura)}${petAuraInfoText(pet.aura) !== "No bonus" ? " (" + petAuraInfoText(pet.aura) + ")" : ""} &nbsp; 👔 ${escapeHtml(pet.bib)}${petBibInfoText(pet.bib) !== "No bonus" ? " (" + petBibInfoText(pet.bib) + ")" : ""}</div>` : "";
   const rows = calc.rows.filter(r => r.tradable).map(r => `\n    <div class="pet-yield-row">\n      <span class="pet-yield-name">${getPetResourceIcon(r.name)} ${escapeHtml(r.name)}</span>\n      <span class="pet-yield-qty">${fmt(r.totalYield)}u</span>\n      <span class="pet-yield-price">${r.tradable ? fmt(r.marketPrice) + " " + FLOWER_ICON + "/u" : "not tradable"}</span>\n      <span class="pet-yield-price">${r.tradable ? fmt(r.costPerUnit) + " " + FLOWER_ICON + "/u" : "—"}</span>\n    </div>\n    <div class="pet-fetch-breakdown pet-fetch-breakdown-full">\n      <span>Total Yield: <b>${fmt(r.totalYield)}u ${escapeHtml(r.name)}</b></span>\n      <span>Gross: <b class="${r.gross >= 0 ? "is-profit" : ""}">${fmt(r.gross)} ${FLOWER_ICON}</b></span>\n      <span class="pet-fetch-deductions-label">Total Deductions</span>\n      <span>&nbsp;&nbsp;Total cost: <b class="is-loss">-${fmt(calc.dailyFoodCostFlower)} ${FLOWER_ICON}</b></span>\n      <span>&nbsp;&nbsp;Restock cost: <b>0 ${FLOWER_ICON}</b></span>\n      <span>&nbsp;&nbsp;Shrine cost: <b>0 ${FLOWER_ICON}</b></span>\n      <span>&nbsp;&nbsp;Sell fee: <b class="is-loss">-${fmt(r.sellFee)} ${FLOWER_ICON}</b></span>\n      <span>Net: <b class="${r.net >= 0 ? "is-profit" : "is-loss"}">${r.net >= 0 ? "+" : ""}${fmt(r.net)} ${FLOWER_ICON}</b></span>\n    </div>`).join("");
   const nonTradableRows = calc.rows.filter(r => !r.tradable).map(r => `\n    <div class="pet-yield-row">\n      <span class="pet-yield-name">${getPetResourceIcon(r.name)} ${escapeHtml(r.name)}</span>\n      <span class="pet-yield-qty">${fmt(r.totalYield)}u</span>\n      <span class="pet-yield-price">not tradable</span>\n      <span class="pet-yield-price">${fmt(r.costPerUnit)} ${FLOWER_ICON}/u</span>\n    </div>`).join("");
-  return `\n    <div class="pet-card" data-pet="${pet.id}">\n      <div class="pet-card-head">\n        <div class="pet-card-name">${escapeHtml(pet.petType)} <span class="pet-card-name-bracket">[${escapeHtml(pet.name)}]</span> ${badge}</div>\n        <button type="button" class="pet-delete-btn" data-pet="${pet.id}" title="Remove pet">✕</button>\n      </div>\n      <div class="pet-card-traits">${typeBadge}${catTraits}</div>\n      <div class="pet-card-line">⬆️ Level ${pet.level}</div>\n      ${auraBib}\n      <div class="pet-card-stats">\n        <div>XP/day: <b>${fmt(calc.dailyXp)}</b></div>\n        <div>Energy/day: <b>${fmt(calc.dailyEnergy)}</b>⚡</div>\n        <div>Avg feed cost: <b>${fmt(calc.dailyFoodCostFlower)}</b> ${FLOWER_ICON}</div>\n      </div>\n      <div class="pet-section-title">📦 24h Profit/Loss per fetch resource <span class="pet-profit-sub">(if all daily energy is spent on that resource)</span></div>\n      <div class="pet-yield-header">\n        <span>Resource</span><span>Yield</span><span>Sell/u</span><span>Cost/u</span>\n      </div>\n      ${rows || `<div class="pet-house-empty">No tradable fetch resources unlocked yet.</div>`}\n      ${calc.bestRow ? `<div class="pet-card-line is-profit" style="margin-top:6px;">🏆 Best resource: <b>${escapeHtml(calc.bestRow.name)}</b> (${calc.bestRow.net >= 0 ? "+" : ""}${fmt(calc.bestRow.net)} ${FLOWER_ICON} net/day)</div>` : ""}\n      ${nonTradableRows ? `\n      <div class="pet-section-title">🌰 Non-tradable Yield (24h) <span class="pet-profit-sub">(shrine ingredients — no sell price, so kept out of profit/loss)</span></div>\n      <div class="pet-yield-header">\n        <span>Resource</span><span>Yield</span><span>Sell/u</span><span>Cost/u</span>\n      </div>\n      ${nonTradableRows}` : ""}\n    </div>`;
+  const deleteControl = pet.synced ? `<span class="pet-lock-badge" title="Auto-synced from your farm — remove by selling/unplacing it in-game">🔒 Synced</span>` : `<button type="button" class="pet-delete-btn" data-pet="${pet.id}" title="Remove pet">✕</button>`;
+  return `\n    <div class="pet-card" data-pet="${pet.id}">\n      <div class="pet-card-head">\n        <div class="pet-card-name">${escapeHtml(pet.petType)} <span class="pet-card-name-bracket">[${escapeHtml(pet.name)}]</span> ${badge}</div>\n        ${deleteControl}\n      </div>\n      <div class="pet-card-traits">${typeBadge}${catTraits}</div>\n      <div class="pet-card-line">⬆️ Level ${pet.level}</div>\n      ${auraBib}\n      <div class="pet-card-stats">\n        <div>XP/day: <b>${fmt(calc.dailyXp)}</b></div>\n        <div>Energy/day: <b>${fmt(calc.dailyEnergy)}</b>⚡</div>\n        <div>Avg feed cost: <b>${fmt(calc.dailyFoodCostFlower)}</b> ${FLOWER_ICON}</div>\n      </div>\n      <div class="pet-section-title">📦 24h Profit/Loss per fetch resource <span class="pet-profit-sub">(if all daily energy is spent on that resource)</span></div>\n      <div class="pet-yield-header">\n        <span>Resource</span><span>Yield</span><span>Sell/u</span><span>Cost/u</span>\n      </div>\n      ${rows || `<div class="pet-house-empty">No tradable fetch resources unlocked yet.</div>`}\n      ${calc.bestRow ? `<div class="pet-card-line is-profit" style="margin-top:6px;">🏆 Best resource: <b>${escapeHtml(calc.bestRow.name)}</b> (${calc.bestRow.net >= 0 ? "+" : ""}${fmt(calc.bestRow.net)} ${FLOWER_ICON} net/day)</div>` : ""}\n      ${nonTradableRows ? `\n      <div class="pet-section-title">🌰 Non-tradable Yield (24h) <span class="pet-profit-sub">(shrine ingredients — no sell price, so kept out of profit/loss)</span></div>\n      <div class="pet-yield-header">\n        <span>Resource</span><span>Yield</span><span>Sell/u</span><span>Cost/u</span>\n      </div>\n      ${nonTradableRows}` : ""}\n    </div>`;
 }
 
 function renderPetCards() {
@@ -31834,6 +34038,8 @@ function renderPetCards() {
   wrap.innerHTML = openPet ? renderPetCard(openPet) : `<div class="pet-info-badge pet-info-badge-alt">Tap a pet in the Pet House above to view its card.</div>`;
   wrap.querySelectorAll(".pet-delete-btn").forEach(btn => {
     btn.onclick = () => {
+      const target = petsData.find(p => p.id === btn.dataset.pet);
+      if (target && target.synced) return;
       petsData = petsData.filter(p => p.id !== btn.dataset.pet);
       savePetsData();
       if (petOpenId === btn.dataset.pet) petOpenId = null;
