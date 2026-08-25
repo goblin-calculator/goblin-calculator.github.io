@@ -13,8 +13,9 @@ const firebaseConfig = {
   const countEl = document.getElementById("liveUsersCount");
   const badgeEl = document.getElementById("liveUsersBadge");
   const CONNECT_TIMEOUT_MS = 10000;
+  const HEARTBEAT_INTERVAL_MS = 60000;
   const RECONCILE_INTERVAL_MS = 300000;
-  const RECONCILE_CHANCE = 0.1;
+  const STALE_AFTER_MS = 180000;
 
   function hideBadge() {
     if (badgeEl) badgeEl.style.display = "none";
@@ -36,7 +37,6 @@ const firebaseConfig = {
   const db = firebase.database();
   const presenceRef = db.ref("presence");
   const myPresenceRef = presenceRef.push();
-  const countRef = db.ref("onlineCount");
   const connectedRef = db.ref(".info/connected");
 
   let gotConnection = false;
@@ -51,17 +51,19 @@ const firebaseConfig = {
       clearTimeout(connectTimeoutTimer);
       if (badgeEl) badgeEl.style.display = "";
       myPresenceRef.onDisconnect().remove();
-      countRef.onDisconnect().set(firebase.database.ServerValue.increment(-1)).then(() => {
-        myPresenceRef.set({ connectedAt: firebase.database.ServerValue.TIMESTAMP });
-        countRef.set(firebase.database.ServerValue.increment(1));
-      });
+      myPresenceRef.set({ connectedAt: firebase.database.ServerValue.TIMESTAMP });
+      setInterval(() => {
+        if (gotConnection) {
+          myPresenceRef.update({ connectedAt: firebase.database.ServerValue.TIMESTAMP });
+        }
+      }, HEARTBEAT_INTERVAL_MS);
     }
   });
 
-  countRef.on("value", snap => {
-    const count = Math.max(0, snap.val() || 0);
+  presenceRef.on("value", snap => {
+    const count = Math.max(0, snap.numChildren());
     if (countEl) {
-      countEl.textContent = count === 1 ? "1 user online" : `${count} users online`;
+      countEl.textContent = `${count} Online`;
     }
   }, err => {
     console.error("[presence] read failed:", err);
@@ -69,9 +71,16 @@ const firebaseConfig = {
   });
 
   setInterval(() => {
-    if (!gotConnection || Math.random() > RECONCILE_CHANCE) return;
+    if (!gotConnection) return;
     presenceRef.once("value").then(snap => {
-      countRef.set(snap.numChildren());
+      const now = Date.now();
+      const staleBefore = now - STALE_AFTER_MS;
+      snap.forEach(child => {
+        const data = child.val();
+        if (!data || typeof data.connectedAt !== "number" || data.connectedAt < staleBefore) {
+          presenceRef.child(child.key).remove();
+        }
+      });
     }).catch(() => {});
   }, RECONCILE_INTERVAL_MS);
 })();

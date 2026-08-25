@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="style.css?v=78">
+<link rel="stylesheet" href="style.css?v=85">
 </head>
 <body>
 <script>(function(){try{var t=localStorage.getItem("hl_sfl_theme");if(t!=="0")document.body.classList.add("sfl-theme");}catch(e){}})();</script>
@@ -51,16 +51,18 @@
   </div>
 
   <div class="farm-id-prompt-content" id="farmIdPromptView">
-    <div class="farm-id-prompt-welcome">Welcome to<br>Goblin Calculator</div>
-    <div class="farm-id-prompt-box">
-      <div class="sync-modal-titlebar">
-        <span class="sync-modal-dot"></span>
-        <span>ENTER FARM ID</span>
-        <span class="sync-modal-dot"></span>
+    <div class="farm-id-prompt-wrapper">
+      <div class="farm-id-prompt-welcome">Welcome to<br>Goblin Calculator</div>
+      <div class="farm-id-prompt-box">
+        <div class="sync-modal-titlebar">
+          <span class="sync-modal-dot"></span>
+          <span>ENTER FARM ID</span>
+          <span class="sync-modal-dot"></span>
+        </div>
+        <div class="farm-id-prompt-msg">Type your Farm ID to sync your Sunflower Land Farm</div>
+        <input type="text" class="farm-id-prompt-input" id="farmIdPromptInput" inputmode="numeric" placeholder="e.g. 114779" />
+        <button type="button" class="btn btn-sun farm-id-prompt-btn" id="farmIdPromptOpenBtn">Open</button>
       </div>
-      <div class="farm-id-prompt-msg">Type your Farm ID to sync your Sunflower Land Farm</div>
-      <input type="text" class="farm-id-prompt-input" id="farmIdPromptInput" inputmode="numeric" placeholder="e.g. 114779" />
-      <button type="button" class="btn btn-sun farm-id-prompt-btn" id="farmIdPromptOpenBtn">Open</button>
     </div>
   </div>
 </div>
@@ -101,12 +103,16 @@
       <button type="button" class="btn btn-ghost" id="farmPanelDebugNodesBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show mining node data shape</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugFertBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show fertiliser/BUD/spice data shape</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugCrowBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show crow AoE plot-by-plot detection</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugCrowCooldownBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show crow AoE cooldown timing (baseDurationMs / idle check)</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugGnomeBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Gnome combo detection</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugTurtleBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Tin/Emerald Turtle AoE node-by-node detection</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugFactionBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Faction Wings/Green Amulet detection</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugPetsBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Pets data shape</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugMutantsBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show mutant reward field on growing jobs</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugTreeDataBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show tree wood.amount/farmActivity source data</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugMiningBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Stone/Iron/Gold exact-yield breakdown</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugCropsBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Crops/Fruit/Flowers/Crimstone/Greenhouse exact-yield breakdown</button>
+      <button type="button" class="btn btn-ghost" id="farmPanelDebugBeeSwarmBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show Bee Swarm distribution (per-crop vs farm-wide)</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugNftPricesBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: show raw NFT price feed (Bud/Pet)</button>
       <button type="button" class="btn btn-ghost" id="farmPanelDebugMarketplaceProbeBtn" style="width:100%;margin-top:4px;font-size:9.6px;padding:4px 6px;"><span class="sfl-search-icon-emoji">🔍</span> Debug: probe for a public Bud/Pet floor price endpoint</button>
       <textarea id="farmPanelDebugOutput" readonly style="display:none;width:100%;margin-top:4px;font-family:'JetBrains Mono',monospace;font-size:9px;height:160px;border:1.25px solid var(--line);border-radius:6px;padding:4px;"></textarea>
@@ -116,6 +122,7 @@
       <button type="button" class="farm-panel-tab-btn active" id="farmTabInprogressBtn">⏳ IN PROGRESS</button>
       <button type="button" class="farm-panel-tab-btn" id="farmTabStocksBtn">📦 STOCKS</button>
     </div>
+    <div class="fp-filter-bar-wrap" id="farmPanelFilterBarWrap"></div>
     <div class="farm-panel-tab-content retro-scroll on-parchment" id="farmPanelTabContent">
       <div class="farm-panel-empty">Sync a Farm ID above to see what's growing and what's in your barn/shed.</div>
     </div>
@@ -150,16 +157,8 @@
   <button type="button" class="dig-panel-mini-sync" id="digPanelSyncBtn" aria-label="Sync digging data only">🔄</button>
 </div>
 
-<div id="installBanner">
-  <span class="install-banner-text"><img class="install-banner-logo" src="./icons/goblin-logo.png" alt="" /> Install Goblin Calculator for quick access</span>
-  <div style="display:flex;gap:8px;align-items:center;">
-    <button id="installBtn">Install</button>
-    <button class="dismiss" id="dismissBanner">✕</button>
-  </div>
-</div>
-
 <header>
-  <span class="app-version-badge">V3.3</span>
+  <span class="app-version-badge">V3.4</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -377,8 +376,10 @@
         <button type="button" class="btn btn-ghost" data-mode="buy">🛒 Buy</button>
       </div>
 
-      <div class="cook-building-tabs" id="cookFishTabs"></div>
-      <div class="cook-building-tabs" id="cookBuildingTabs"></div>
+      <div class="cook-buildings-frame" id="cookBuildingsFrame">
+        <div class="cook-building-tabs" id="cookFishTabs"></div>
+        <div class="cook-building-tabs" id="cookBuildingTabs"></div>
+      </div>
 
       <div class="lib-item-row" id="cookGuaranteedCatchToggleRow" style="display:none;margin-bottom:8px;cursor:pointer;">
         <span class="lib-item-icon">🎯</span>
@@ -765,6 +766,9 @@
     </div>
   </div>
 </footer>
+
+<p class="app-credit-line">Developed by <b>LAKAY</b> <span class="app-credit-version">Pogi</span></p>
+<p class="app-credit-disclaimer">Unofficial community utility for Sunflower Land. Not affiliated with or endorsed by Thought Farm Pty Ltd.</p>
 
 
 
@@ -1710,6 +1714,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="presence.js"></script>
-<script src="app.js?v=78"></script>
+<script src="app.js?v=85"></script>
 </body>
 </html>
