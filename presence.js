@@ -13,9 +13,9 @@ const firebaseConfig = {
   const countEl = document.getElementById("liveUsersCount");
   const badgeEl = document.getElementById("liveUsersBadge");
   const CONNECT_TIMEOUT_MS = 10000;
-  const HEARTBEAT_INTERVAL_MS = 60000;
-  const RECONCILE_INTERVAL_MS = 300000;
-  const STALE_AFTER_MS = 180000;
+  const HEARTBEAT_INTERVAL_MS = 30000;
+  const RECONCILE_INTERVAL_MS = 60000;
+  const STALE_AFTER_MS = 90000;
 
   function hideBadge() {
     if (badgeEl) badgeEl.style.display = "none";
@@ -45,6 +45,21 @@ const firebaseConfig = {
     if (!gotConnection) hideBadge();
   }, CONNECT_TIMEOUT_MS);
 
+  function reconcileStalePresence() {
+    if (!gotConnection) return;
+    presenceRef.once("value").then(snap => {
+      const now = Date.now();
+      const staleBefore = now - STALE_AFTER_MS;
+      snap.forEach(child => {
+        const data = child.val();
+        if (child.key === myPresenceRef.key) return;
+        if (!data || typeof data.connectedAt !== "number" || data.connectedAt < staleBefore) {
+          presenceRef.child(child.key).remove();
+        }
+      });
+    }).catch(() => {});
+  }
+
   connectedRef.on("value", snap => {
     if (snap.val() === true) {
       gotConnection = true;
@@ -52,6 +67,7 @@ const firebaseConfig = {
       if (badgeEl) badgeEl.style.display = "";
       myPresenceRef.onDisconnect().remove();
       myPresenceRef.set({ connectedAt: firebase.database.ServerValue.TIMESTAMP });
+      reconcileStalePresence();
       setInterval(() => {
         if (gotConnection) {
           myPresenceRef.update({ connectedAt: firebase.database.ServerValue.TIMESTAMP });
@@ -70,17 +86,5 @@ const firebaseConfig = {
     hideBadge();
   });
 
-  setInterval(() => {
-    if (!gotConnection) return;
-    presenceRef.once("value").then(snap => {
-      const now = Date.now();
-      const staleBefore = now - STALE_AFTER_MS;
-      snap.forEach(child => {
-        const data = child.val();
-        if (!data || typeof data.connectedAt !== "number" || data.connectedAt < staleBefore) {
-          presenceRef.child(child.key).remove();
-        }
-      });
-    }).catch(() => {});
-  }, RECONCILE_INTERVAL_MS);
+  setInterval(reconcileStalePresence, RECONCILE_INTERVAL_MS);
 })();
