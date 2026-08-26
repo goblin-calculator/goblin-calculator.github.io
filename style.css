@@ -1473,6 +1473,21 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
     font-size:10.2px; font-weight:700; color:var(--ink-soft); line-height:1.4; flex-basis:100%; display:block; margin-top:4px;
     background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:4px 6px;
   }
+  .skill-rank-usage{
+    display:flex; gap:6px; flex-wrap:wrap; margin-top:-1px;
+    padding:5px 8px 6px; border:2px solid #7c5cff; border-top:1px dashed rgba(124,92,255,.4);
+    background:rgba(124,92,255,.05);
+  }
+  .skill-rank-usage-row{
+    display:flex; align-items:center; gap:4px;
+    font-family:'JetBrains Mono',monospace; font-size:10.8px; font-weight:700; color:var(--ink);
+    background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:2px 6px;
+  }
+  .skill-rank-usage-icon{ width:14px; height:14px; image-rendering:pixelated; vertical-align:-2px; }
+  .skill-rank-usage-label{
+    font-size:9.6px; letter-spacing:.3px; color:var(--ink-soft); font-weight:800;
+  }
+  .skill-rank-usage-val{ color:#7c5cff; }
 
   .skill-tree-wrap{
     background:repeating-linear-gradient(90deg, rgba(61,122,66,.14) 0 3px, transparent 3px 6px), repeating-linear-gradient(0deg, rgba(61,122,66,.14) 0 3px, transparent 3px 6px), #e4f0e2;
@@ -6023,7 +6038,7 @@ body.sfl-theme .spice-buff-card.is-salt-lick{ border-color:#c9821a !important; }
 body.sfl-theme .spice-buff-card.is-honey-treat{ border-color:#e0a63f !important; }
 body.sfl-theme button,
 body.sfl-theme .btn,
-body.sfl-theme [class*="btn"]:not(.boost-btn-stack):not(.more-menu-btn-wrap):not(.panel-boost-nodes-btn),
+body.sfl-theme [class*="btn"]:where(:not(.boost-btn-stack):not(.more-menu-btn-wrap):not(.panel-boost-nodes-btn)),
 body.sfl-theme [class*="Btn"],
 body.sfl-theme [class*="-tab"]:where(:not(.main-tab-modal):not(.es-island-tabs):not(.farm-panel-tab-content):not(.betty-tabs):not(.cook-building-tabs):not(.gunter-tabs):not(.market-tabs):not(.rcm-tabs):not(.trade-tabs):not(.profile-tabgrid):not(.profile-tradable-tab-subtotal):not(.mutant-map-table):not(.mutant-map-table-header):not(.mutant-map-table-row):not(.mutant-map-table-cell)),
 body.sfl-theme [class*="tab-"]:where(:not(.main-tab-modal):not(.es-island-tabs):not(.farm-panel-tab-content):not(.betty-tabs):not(.cook-building-tabs):not(.gunter-tabs):not(.market-tabs):not(.rcm-tabs):not(.trade-tabs):not(.profile-tabgrid):not(.profile-tradable-tab-subtotal)),
@@ -6587,6 +6602,16 @@ body.sfl-theme [class*="skill-card"].selected{
   background:var(--sfl-outer) !important;
   background-color:var(--sfl-outer) !important;
   border-image:var(--sfl-btn-pressed-image) 3 3 4 3 fill !important;
+  color:var(--sfl-text) !important;
+}
+body.sfl-theme .skill-node-btn.owned .skill-node-name,
+body.sfl-theme .skill-node-btn.owned .skill-node-note,
+body.sfl-theme .skill-node-btn.owned .skill-node-points,
+body.sfl-theme .skill-node-btn.owned .skill-level-badge,
+body.sfl-theme .skill-node-btn.owned .skill-sync-boost{
+  background:rgba(0,0,0,.08) !important;
+  border-color:var(--sfl-border) !important;
+  color:var(--sfl-text) !important;
 }
 body.sfl-theme #boostPanelSheet{
   background-color:var(--sfl-search) !important;
@@ -7693,6 +7718,8 @@ body.sfl-theme .aoe-tier-wrap,
 body.sfl-theme .skill-save-note,
 body.sfl-theme .skill-rank-picker,
 body.sfl-theme .skill-rank-boost,
+body.sfl-theme .skill-rank-usage,
+body.sfl-theme .skill-rank-usage-row,
 body.sfl-theme .skill-node-name,
 body.sfl-theme .skill-node-note,
 body.sfl-theme .skill-level-badge,

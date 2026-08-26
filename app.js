@@ -5246,8 +5246,8 @@ const SKILL_CROPS = [ {
   skillTier: 2,
   scope: "crop",
   target: "Sunflower",
-  yieldAdd: 5e-4,
-  note: "1/700 chance for 0.35 gold when harvesting Sunflowers (excl. Crop Machine) — expected value shown"
+  yieldAdd: .05,
+  note: "1/7 chance for 0.35 gold when harvesting Sunflowers (excl. Crop Machine) — expected value shown"
 }, {
   id: "skill_coin_swindler",
   name: "Coin Swindler",
@@ -5610,7 +5610,7 @@ const SKILL_FISHING = [ {
   id: "skill_fishy_feast",
   name: "Fishy Feast",
   skillTier: 3,
-  note: "+20%/+25%/+30% Fish EXP (Cooking tab)"
+  note: "+20%/+30%/+40% Fish EXP (Cooking tab)"
 }, {
   id: "skill_more_with_less",
   name: "More With Less",
@@ -5641,7 +5641,7 @@ const SKILL_COOKING = [ {
   id: "skill_munching_mastery",
   name: "Munching Mastery",
   skillTier: 1,
-  note: "+5%/+10%/+15% EXP from eating meals (Cooking tab)"
+  note: "+5%/+7.5%/+10% EXP from eating meals (Cooking tab)"
 }, {
   id: "skill_frosted_cakes",
   name: "Frosted Cakes",
@@ -6391,7 +6391,8 @@ const SKILL_MACHINE = [ {
   category: "cropmachine",
   scope: "machineGlobal",
   timeMult: .95,
-  note: "-5% Crop Machine growth time"
+  oilQtyMult: 1.1,
+  note: "-5%/-10%/-15% Crop Machine growth time, but +10%/+15%/+20% Oil consumption"
 }, {
   id: "skill_oil_gadget",
   name: "Oil Gadget",
@@ -6437,7 +6438,7 @@ const SKILL_MACHINE = [ {
   scope: "machineGlobal",
   timeMult: .8,
   oilQtyMult: 1.4,
-  note: "-20% Crop Machine batch time, but +40% Oil consumption"
+  note: "-20%/-30%/-40% Crop Machine batch time, but +40%/+50%/+60% Oil consumption"
 }, {
   id: "skill_oil_be_back",
   name: "Oil Be Back",
@@ -6778,8 +6779,8 @@ const ASCENSION_RANK_DATA = {
   },
   skill_golden_sunflower: {
     field: "yieldAdd",
-    values: [ 5e-4, 636e-6, 875e-6 ],
-    note: "1-in-700 / 550 / 400 gold odds (EV shown)"
+    values: [ .05, .0636364, .0875 ],
+    note: "1-in-7 / 5.5 / 4 gold odds (EV shown)"
   },
   skill_horror_mike: {
     field: "extraYieldAdd",
@@ -6972,7 +6973,7 @@ const ASCENSION_RANK_DATA = {
   },
   skill_fishy_feast: {
     field: null,
-    values: [ 20, 25, 30 ],
+    values: [ 20, 30, 40 ],
     unit: "%",
     note: "Fish XP"
   },
@@ -6990,7 +6991,7 @@ const ASCENSION_RANK_DATA = {
   },
   skill_munching_mastery: {
     field: null,
-    values: [ 5, 10, 15 ],
+    values: [ 5, 7.5, 10 ],
     unit: "%",
     note: "EXP from eating meals — all buildings"
   },
@@ -7083,17 +7084,22 @@ const ASCENSION_RANK_DATA = {
     }
   },
   skill_crop_processor_unit: {
-    field: "timeMult",
-    values: [ .95, .9, .85 ]
+    field: [ "timeMult", "oilQtyMult" ],
+    values: {
+      timeMult: [ .95, .9, .85 ],
+      oilQtyMult: [ 1.1, 1.15, 1.2 ]
+    }
   },
   skill_oil_extraction: {
     field: "yieldAdd",
     values: [ 1, 1.5, 2 ]
   },
   skill_rapid_rig: {
-    field: "timeMult",
-    values: [ .8, .7, .6 ],
-    note: "Oil consumption stays fixed at +40% across ranks"
+    field: [ "timeMult", "oilQtyMult" ],
+    values: {
+      timeMult: [ .8, .7, .6 ],
+      oilQtyMult: [ 1.4, 1.5, 1.6 ]
+    }
   },
   skill_oil_be_back: {
     field: "timeMult",
@@ -11081,6 +11087,18 @@ function renderAoePlotsAffectedBlockForBoost(b) {
   return renderAoePlotsAffectedHtml(b, b.target);
 }
 
+function skillRankUsageHtml(s, rank) {
+  const tier = s.skillTier || 1;
+  const cost = ASCENSION_UPGRADE_COST[tier] || ASCENSION_UPGRADE_COST[1];
+  const steps = Math.max(0, rank - 1);
+  const shardsUsed = cost.shards * steps;
+  const pointsUsed = cost.points * steps;
+  return `<div class="skill-rank-usage" data-skill-id="${s.id}">
+    <div class="skill-rank-usage-row"><img class="skill-rank-usage-icon" src="${IMAGE_ICONS["Ascension Shard"]}" alt="Ascension Shard"><span class="skill-rank-usage-val">${fmt(shardsUsed)}</span></div>
+    <div class="skill-rank-usage-row"><span class="skill-rank-usage-label">SP</span><span class="skill-rank-usage-val">${fmt(pointsUsed)}</span></div>
+  </div>`;
+}
+
 function skillSyncedLevel(s) {
   const synced = syncedSkillLevels[s.id];
   if (Number.isFinite(synced)) return Math.min(Math.max(Math.round(synced), 1), 3);
@@ -11115,7 +11133,7 @@ function renderSkillPanel() {
       const syncedLevel = owned ? skillSyncedLevel(s) : null;
       const syncedBoostText = owned ? skillSyncedBoostText(s, syncedLevel) : "";
       const pointsBadge = `<span class="skill-node-points tier-${s.skillTier}">🎓${s.skillTier}pt${s.skillTier > 1 ? "s" : ""}</span>`;
-      return `<div class="skill-node-wrap">\n            <button type="button" class="skill-node-btn ${owned ? "owned" : ""} ${locked ? "locked" : ""}" data-skill-id="${s.id}" ${locked ? "disabled" : ""}>\n              ${owned ? `<span class="skill-node-check">✓</span>` : ""}\n              <span class="skill-node-name">${s.name}${pointsBadge}${owned ? ` <span class="skill-level-badge">[Level ${syncedLevel}]</span>` : ""}</span>\n              <span class="skill-node-note">${skillAoeNoteForRank(s, rank)}</span>\n              ${owned ? `<span class="skill-sync-boost">${escapeHtml(syncedBoostText)}</span>` : ""}\n            </button>\n            ${showRankPicker ? `\n              <div class="skill-rank-picker" data-skill-id="${s.id}">\n                <span class="skill-rank-picker-label">Rank:</span>\n                ${[ 1, 2, 3 ].map(r => `<button type="button" class="skill-rank-pip ${r <= rank ? "done" : ""} ${r === rank ? "current" : ""}" data-rank="${r}">${r}</button>`).join("")}\n                <span class="skill-rank-boost">${ascensionDescribeRank(s.id, rank)}</span>\n              </div>\n            ` : ""}\n          </div>`;
+      return `<div class="skill-node-wrap">\n            <button type="button" class="skill-node-btn ${owned ? "owned" : ""} ${locked ? "locked" : ""}" data-skill-id="${s.id}" ${locked ? "disabled" : ""}>\n              ${owned ? `<span class="skill-node-check">✓</span>` : ""}\n              <span class="skill-node-name">${s.name}${pointsBadge}${owned ? ` <span class="skill-level-badge">[Level ${syncedLevel}]</span>` : ""}</span>\n              <span class="skill-node-note">${skillAoeNoteForRank(s, rank)}</span>\n              ${owned ? `<span class="skill-sync-boost">${escapeHtml(syncedBoostText)}</span>` : ""}\n            </button>\n            ${showRankPicker ? `\n              <div class="skill-rank-picker" data-skill-id="${s.id}">\n                <span class="skill-rank-picker-label">Rank:</span>\n                ${[ 1, 2, 3 ].map(r => `<button type="button" class="skill-rank-pip ${r <= rank ? "done" : ""} ${r === rank ? "current" : ""}" data-rank="${r}">${r}</button>`).join("")}\n                <span class="skill-rank-boost">${ascensionDescribeRank(s.id, rank)}</span>\n              </div>\n              ${skillRankUsageHtml(s, rank)}\n            ` : ""}\n          </div>`;
     }).join("")}\n      </div>\n    </div>`;
   }).join("");
   wrap.querySelectorAll(".skill-node-btn").forEach(btn => {
@@ -33182,11 +33200,11 @@ function cookingComputeFoodExpUncached(building, name) {
       if (b.expAdd) applyAdd(b.expAdd, `${b.name} +${fmt(b.expAdd)}`, icon);
     });
   }
-  applyMult(cookingSkillRankMultiplier("skill_munching_mastery", [ .05, .1, .15 ]), "Munching Mastery");
+  applyMult(cookingSkillRankMultiplier("skill_munching_mastery", [ .05, .075, .1 ]), "Munching Mastery");
   if (building === "Deli") applyMult(cookingSkillRankMultiplier("skill_drive_through_deli", [ .15, .2, .25 ]), "Drive-Through Deli");
   if (building === "Smoothie Shack") applyMult(cookingSkillRankMultiplier("skill_juicy_boost", [ .1, .2, .3 ]), "Juicy Boost");
   if (COOKING_FISH_DISHES.has(name)) {
-    applyMult(cookingSkillRankMultiplier("skill_fishy_feast", [ .2, .25, .3 ]), "Fishy Feast");
+    applyMult(cookingSkillRankMultiplier("skill_fishy_feast", [ .2, .3, .4 ]), "Fishy Feast");
     const portBudMult = getPortBudFishXpMult();
     if (portBudMult !== 1) applyMult(portBudMult, `Port Bud ×${portBudMult}`);
   }
@@ -34285,8 +34303,8 @@ function fishCatchComputeXPUncached(fishName, stage) {
     });
   }
   if (typeof cookingSkillRankMultiplier === "function") {
-    applyMult(cookingSkillRankMultiplier("skill_munching_mastery", [ .05, .1, .15 ]), "Munching Mastery");
-    applyMult(cookingSkillRankMultiplier("skill_fishy_feast", [ .2, .25, .3 ]), "Fishy Feast");
+    applyMult(cookingSkillRankMultiplier("skill_munching_mastery", [ .05, .075, .1 ]), "Munching Mastery");
+    applyMult(cookingSkillRankMultiplier("skill_fishy_feast", [ .2, .3, .4 ]), "Fishy Feast");
   }
   if (typeof getPortBudFishXpMult === "function") {
     const portBudMult = getPortBudFishXpMult();
