@@ -314,7 +314,7 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   body.app-dark .fp-status-msg.is-warn{ color:#e0a63f; }
   body.app-dark .library-sub{ color:#a7a5a0; }
   body.app-dark .farm-panel-tab-arrow{ color:#c7c4bc; }
-  body.app-dark .farm-panel-tab-btn.active{ color:#c7c4bc; }
+  body.app-dark .farm-panel-tab-btn.active{ color:var(--soil-dark); }
   body.app-dark .disclaimer-q-btn{ color:#c7c4bc; }
   body.app-dark .top10-title-text{ color:#c7c4bc; }
   body.app-dark .top10-title-sub{ color:#a7a5a0; }
@@ -364,6 +364,9 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   body.app-dark .pet-badge-nft{ background:#332a1c; color:#e0c07a; }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   button, a, input, select, textarea{ -webkit-tap-highlight-color:transparent; outline:none; }
+  button{ -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; }
+  button img{ pointer-events:none; -webkit-user-drag:none; user-drag:none; -khtml-user-drag:none; -moz-user-drag:none; -o-user-drag:none; }
+  img{ -webkit-user-drag:none; user-drag:none; -khtml-user-drag:none; -moz-user-drag:none; -o-user-drag:none; }
   html,body{margin:0;padding:0;min-height:100%;}
   body{
     font-family:'Inter',sans-serif;
@@ -675,12 +678,20 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   .lib-item-price{
     font-family:'JetBrains Mono',monospace; font-weight:700; font-size:10.8px; color:var(--soil); text-align:center;
     background:var(--wheat); border-radius:6px; padding:4px 6px; cursor:pointer; border:1.25px dashed var(--sun-deep);
-    white-space:nowrap; line-height:1.25; min-width:52px;
+    white-space:nowrap; line-height:1.25; min-width:52px; position:relative;
   }
   .lib-item-price.is-flower{ border-color:var(--flower); color:var(--flower); }
   .lib-item-price.is-live{ border-style:solid; border-color:var(--profit); }
   .lib-item-price small{ display:block; font-size:9px; font-weight:600; color:var(--ink-soft); }
   .lib-item-price-inline{ display:inline-flex; align-items:center; gap:3px; white-space:nowrap; }
+  .price-source-badge{
+    position:absolute; top:-6px; right:-6px; font-family:'JetBrains Mono',monospace; font-size:7.2px; font-weight:800;
+    line-height:1; padding:2px 4px; border-radius:5px; cursor:pointer; letter-spacing:.2px;
+    color:#fff; box-shadow:1px 1px 0 rgba(0,0,0,.35); z-index:2; border:1px solid rgba(0,0,0,.25);
+  }
+  .price-source-badge.price-source-lap{ background:#2f9c4a; }
+  .price-source-badge.price-source-sw{ background:#3f86c2; }
+  .price-source-badge:active{ transform:translate(1px,1px); }
   .lib-item-actions{ display:flex; gap:1px; flex-shrink:0; }
   .lib-item-actions .icon-btn{
     background:transparent; border:none; cursor:pointer; font-size:13.2px; padding:2px 4px; border-radius:5px;
@@ -1977,7 +1988,7 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
     box-shadow:2px 2px 0 rgba(0,0,0,.25);
   }
   .farm-panel-tab-btn.active{
-    background:var(--sun-deep); color:var(--wheat);
+    background:var(--sun); color:var(--soil-dark); border-color:var(--soil-dark);
     box-shadow:2px 2px 0 rgba(0,0,0,.4);
   }
   .farm-panel-tab-btn:active{ transform:translate(1px,1px); box-shadow:0 0 0 rgba(0,0,0,.3); }
@@ -2015,6 +2026,34 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   .boost-btn-stack{
     margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0;
   }
+
+  /* Header button cluster is moved into a fixed-position portal (see script near end of body)
+     so it always escapes the header's own stacking context and stays above every
+     full-screen panel overlay, on every screen size including desktop. */
+  .header-btn-portal{
+    position:fixed; top:0; left:0; z-index:2000;
+    margin:0; padding:0; pointer-events:none;
+  }
+  .header-btn-portal > *{ pointer-events:auto; }
+  .boost-btn-stack-placeholder{ flex-shrink:0; }
+  .boost-btn-stack.boost-btn-stack--portal{
+    margin-left:0 !important;
+    position:static !important; top:auto !important; right:auto !important; left:auto !important;
+    transform:none !important;
+  }
+
+  /* Only the actual buttons/labels should ever be clickable or show a pressed state —
+     never the wrapper divs around them, so a click on one button can't visually
+     "animate" the whole group. */
+  .boost-btn-stack, .boost-top10-row, .dig-treasure-fab-wrap, .more-menu-btn-wrap{
+    pointer-events:none;
+  }
+  #digTreasureFab, .dig-treasure-fab-label,
+  #openMoreMenuBtn, .more-menu-btn-label,
+  #openBoostPanelBtn{
+    pointer-events:auto;
+  }
+  #openBoostPanelBtn:active{ transform:translate(2px,2px); }
   @media (max-width:480px){
     header{ padding:16px 10px 14px; }
     .header-inner{ gap:8px; flex-wrap:nowrap; }
@@ -3326,6 +3365,7 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
 
   @media (min-width:700px){
     header h1{ font-size:30px; }
+    .header-inner{ margin:0; max-width:none; }
     .boost-btn-stack{
       position:absolute; right:24px; top:50%; transform:translateY(-50%);
       margin-left:0; z-index:101;
@@ -4302,7 +4342,7 @@ body.app-dark .dig-treasure-fab-label{ color:#c7c4bc; text-shadow:none; }
   image-rendering:pixelated;
   position:relative;
   display:flex; flex-direction:column;
-  padding:16px 14px 12px;
+  padding:64px 14px 12px;
   overflow-y:auto; overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
 }
@@ -4311,7 +4351,7 @@ body.app-dark .dig-treasure-fab-label{ color:#c7c4bc; text-shadow:none; }
   background-image:repeating-linear-gradient(90deg, var(--sun) 0 6px, var(--sun-deep) 6px 12px);
 }
 .dig-panel-close{
-  position:absolute; top:10px; right:10px; z-index:2;
+  position:absolute; top:58px; right:10px; z-index:2;
   width:28px; height:28px;
   background:var(--sun); border:2px solid var(--soil-dark);
   box-shadow:2px 2px 0 rgba(0,0,0,.4);
@@ -4321,7 +4361,7 @@ body.app-dark .dig-treasure-fab-label{ color:#c7c4bc; text-shadow:none; }
 .dig-panel-close:active{ transform:translate(2px,2px); box-shadow:0 0 0 rgba(0,0,0,.4); }
 
 .dig-panel-dark-toggle{
-  position:absolute; top:10px; right:46px; z-index:2;
+  position:absolute; top:58px; right:46px; z-index:2;
   width:28px; height:28px;
   background:var(--wheat); border:2px solid var(--soil-dark);
   box-shadow:2px 2px 0 rgba(0,0,0,.4);
@@ -4516,6 +4556,7 @@ body.app-dark .dig-treasure-fab-label{ color:#c7c4bc; text-shadow:none; }
   font-family:var(--pixel-font); font-size:8.4px; color:var(--soil-dark);
   text-shadow:0 1px 0 rgba(255,255,255,.3); line-height:1; white-space:nowrap;
   cursor:pointer; -webkit-tap-highlight-color:transparent;
+  -webkit-user-select:none; user-select:none; -webkit-touch-callout:none;
 }
 body.app-dark .more-menu-btn-label{ color:#c7c4bc; text-shadow:none; }
 
@@ -5054,6 +5095,13 @@ body.sfl-theme #esBoostsRow .es-boost-chip.active .es-boost-chip-synced{
 .es-section{
   background:var(--es-panel-2); border:2px solid var(--es-line); padding:8px; margin-bottom:10px;
 }
+.es-start-target-row{ display:block; }
+@media (min-width:700px){
+  .es-start-target-row{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; align-items:start;
+  }
+  .es-start-target-row .es-section{ margin-bottom:0; }
+}
 .es-section-title{
   font-size:11.4px; font-weight:800; letter-spacing:.03em; text-transform:uppercase;
   color:#fff; margin:-8px -8px 8px; padding:6px 8px;
@@ -5591,11 +5639,12 @@ body.app-dark .profile-modal-title-text{ background:#1c1208; color:#fff8e3; }
 }
 
 .profile-farmvalue-card{
-  margin:12px 0 6px; padding:10px 12px; text-align:center;
+  position:relative; margin:12px 0 6px; padding:10px 12px; text-align:center;
   background:linear-gradient(160deg,#ffe6a0,#e0b24a 55%,#a87a1f);
   border:3px solid #7a5410; box-shadow:3px 3px 0 rgba(0,0,0,.4);
   animation:profileValueGlow 2s ease-in-out infinite;
 }
+.profile-farmvalue-card .price-source-badge{ top:-8px; right:-8px; }
 @keyframes profileValueGlow{
   0%,100%{ box-shadow:3px 3px 0 rgba(0,0,0,.4), 0 0 10px 2px rgba(255,220,140,.7); }
   50%{ box-shadow:3px 3px 0 rgba(0,0,0,.4), 0 0 2px 0 rgba(255,220,140,.15); }
@@ -5729,6 +5778,8 @@ body.app-dark .profile-modal-title-text{ background:#1c1208; color:#fff8e3; }
 .profile-tradable-name{ flex:1; min-width:0; font-size:10.8px; font-weight:700; color:var(--pf-ink); word-break:break-word; }
 .profile-tradable-qty{ font-size:10.2px; color:var(--pf-ink-soft); flex-shrink:0; }
 .profile-tradable-val{ font-size:10.8px; font-weight:800; color:var(--pf-ink); flex-shrink:0; text-align:right; min-width:56px; }
+.profile-tradable-val-wrap{ position:relative; display:inline-flex; align-items:center; flex-shrink:0; }
+.profile-tradable-val-wrap .price-source-badge{ top:-8px; right:-6px; }
 .profile-tradable-set-price{ font-weight:600; color:var(--sun-deep); text-decoration:underline dashed; text-underline-offset:2px; }
 .profile-tradable-tab-subtotal{
   display:flex; align-items:center; justify-content:space-between;
@@ -5900,6 +5951,9 @@ body.sfl-theme select{
   border-color:var(--sfl-border) !important;
   color:var(--sfl-text) !important;
 }
+body.sfl-theme .boost-top10-row{
+  background-color:var(--sfl-inner) !important;
+}
 body.sfl-theme input::placeholder,
 body.sfl-theme textarea::placeholder{
   color:var(--sfl-border-soft) !important;
@@ -5969,7 +6023,7 @@ body.sfl-theme .spice-buff-card.is-salt-lick{ border-color:#c9821a !important; }
 body.sfl-theme .spice-buff-card.is-honey-treat{ border-color:#e0a63f !important; }
 body.sfl-theme button,
 body.sfl-theme .btn,
-body.sfl-theme [class*="btn"],
+body.sfl-theme [class*="btn"]:not(.boost-btn-stack):not(.more-menu-btn-wrap):not(.panel-boost-nodes-btn),
 body.sfl-theme [class*="Btn"],
 body.sfl-theme [class*="-tab"]:where(:not(.main-tab-modal):not(.es-island-tabs):not(.farm-panel-tab-content):not(.betty-tabs):not(.cook-building-tabs):not(.gunter-tabs):not(.market-tabs):not(.rcm-tabs):not(.trade-tabs):not(.profile-tabgrid):not(.profile-tradable-tab-subtotal):not(.mutant-map-table):not(.mutant-map-table-header):not(.mutant-map-table-row):not(.mutant-map-table-cell)),
 body.sfl-theme [class*="tab-"]:where(:not(.main-tab-modal):not(.es-island-tabs):not(.farm-panel-tab-content):not(.betty-tabs):not(.cook-building-tabs):not(.gunter-tabs):not(.market-tabs):not(.rcm-tabs):not(.trade-tabs):not(.profile-tabgrid):not(.profile-tradable-tab-subtotal)),
@@ -5991,7 +6045,7 @@ body.sfl-theme [class*="nav"]{
 }
 body.sfl-theme button:active,
 body.sfl-theme .btn:active,
-body.sfl-theme [class*="btn"]:active,
+body.sfl-theme [class*="btn"]:not(.boost-btn-stack):not(.more-menu-btn-wrap):not(.panel-boost-nodes-btn):active,
 body.sfl-theme [class*="-tab"]:where(:not(.main-tab-modal):not(.es-island-tabs):not(.farm-panel-tab-content):not(.betty-tabs):not(.cook-building-tabs):not(.gunter-tabs):not(.market-tabs):not(.rcm-tabs):not(.trade-tabs):not(.profile-tabgrid):not(.profile-tradable-tab-subtotal):not(.mutant-map-table):not(.mutant-map-table-header):not(.mutant-map-table-row):not(.mutant-map-table-cell)):active,
 body.sfl-theme [class*="toggle"] button:active{
   transform:scale(0.99) !important;
@@ -7010,6 +7064,11 @@ body.sfl-theme #digPanelOverlay{
 body.sfl-theme #boostPanelOverlay.opened-from-panel{
   background:transparent !important;
 }
+@media (min-width:700px){
+  body.sfl-theme #boostPanelOverlay{
+    background:transparent !important;
+  }
+}
 body.sfl-theme .dig-panel-card{
   background:var(--sfl-outer) !important;
 }
@@ -7070,6 +7129,7 @@ body.sfl-theme .footer-block{
 
 body.sfl-theme .gunter-fc-mode-btn.active,
 body.sfl-theme .tc-seg-btn.active,
+body.sfl-theme .farm-panel-tab-btn.active,
 body.sfl-theme .betty-sort-btn.active,
 body.sfl-theme .betty-tab-btn.active,
 body.sfl-theme .trade-sort-btn.active,

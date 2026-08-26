@@ -158,7 +158,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V3.4</span>
+  <span class="app-version-badge">V3.5</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -177,11 +177,11 @@
         </div>
         <div class="more-menu-btn-wrap">
           <button id="openMoreMenuBtn" type="button" class="more-menu-btn" aria-label="More">
-            <img id="moreMenuBtnIcon" src="" alt="More" />
+            <img id="moreMenuBtnIcon" src="" alt="More" draggable="false" />
           </button>
           <span class="more-menu-btn-label" id="moreMenuBtnLabel" role="button" tabindex="0" aria-label="More">Menu</span>
         </div>
-        <button id="openBoostPanelBtn" type="button" style="background:var(--sun);border:2px solid #5c3d1e;border-radius:8px;padding:8px 10px;font-weight:700;font-size:13.2px;cursor:pointer;color:var(--soil-dark);white-space:nowrap;flex-shrink:0;">⚡ Boosts</button>
+        <button id="openBoostPanelBtn" type="button" style="background:var(--sun);border:2px solid #5c3d1e;border-radius:8px;padding:8px 10px;font-weight:700;font-size:13.2px;cursor:pointer;color:var(--soil-dark);white-space:nowrap;flex-shrink:0;user-select:none;-webkit-user-select:none;">⚡ Boosts</button>
       </div>
     </div>
   </div>
@@ -1456,40 +1456,42 @@
 
       <div class="es-shards-card" id="esShardsCard"></div>
 
-      <div class="es-section">
-        <div class="es-section-title">Start From <span id="esStartLabel"></span></div>
-        <div class="es-island-tabs" id="esStartIslandTabs"></div>
-        <div class="es-custom-asc" id="esStartCustomAsc"></div>
-        <div class="es-range-row">
-          <div class="es-range-col">
-            <div class="es-range-stepper">
-              <button type="button" class="es-stepper-btn" id="esStartMinus">−</button>
-              <span id="esStartValue">3</span>
-              <button type="button" class="es-stepper-btn" id="esStartPlus">+</button>
+      <div class="es-start-target-row" id="esStartTargetRow">
+        <div class="es-section">
+          <div class="es-section-title">Start From <span id="esStartLabel"></span></div>
+          <div class="es-island-tabs" id="esStartIslandTabs"></div>
+          <div class="es-custom-asc" id="esStartCustomAsc"></div>
+          <div class="es-range-row">
+            <div class="es-range-col">
+              <div class="es-range-stepper">
+                <button type="button" class="es-stepper-btn" id="esStartMinus">−</button>
+                <span id="esStartValue">3</span>
+                <button type="button" class="es-stepper-btn" id="esStartPlus">+</button>
+              </div>
             </div>
+            <button type="button" class="es-sync-btn" id="esSyncBtn">🔄 SYNC</button>
           </div>
-          <button type="button" class="es-sync-btn" id="esSyncBtn">🔄 SYNC</button>
+          <div class="es-grid-wrap" id="esStartGridWrap">
+            <div class="es-grid" id="esStartGrid"></div>
+          </div>
         </div>
-        <div class="es-grid-wrap" id="esStartGridWrap">
-          <div class="es-grid" id="esStartGrid"></div>
-        </div>
-      </div>
 
-      <div class="es-section">
-        <div class="es-section-title">Target To <span id="esTargetLabel"></span></div>
-        <div class="es-island-tabs" id="esTargetIslandTabs"></div>
-        <div class="es-custom-asc" id="esTargetCustomAsc"></div>
-        <div class="es-range-row">
-          <div class="es-range-col">
-            <div class="es-range-stepper">
-              <button type="button" class="es-stepper-btn" id="esTargetMinus">−</button>
-              <span id="esTargetValue">4</span>
-              <button type="button" class="es-stepper-btn" id="esTargetPlus">+</button>
+        <div class="es-section">
+          <div class="es-section-title">Target To <span id="esTargetLabel"></span></div>
+          <div class="es-island-tabs" id="esTargetIslandTabs"></div>
+          <div class="es-custom-asc" id="esTargetCustomAsc"></div>
+          <div class="es-range-row">
+            <div class="es-range-col">
+              <div class="es-range-stepper">
+                <button type="button" class="es-stepper-btn" id="esTargetMinus">−</button>
+                <span id="esTargetValue">4</span>
+                <button type="button" class="es-stepper-btn" id="esTargetPlus">+</button>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="es-grid-wrap" id="esTargetGridWrap">
-          <div class="es-grid" id="esTargetGrid"></div>
+          <div class="es-grid-wrap" id="esTargetGridWrap">
+            <div class="es-grid" id="esTargetGrid"></div>
+          </div>
         </div>
       </div>
 
@@ -1715,5 +1717,63 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="presence.js"></script>
 <script src="app.js?v=85"></script>
+<script>
+(function(){
+  function ready(fn){
+    if(document.readyState !== "loading") fn();
+    else document.addEventListener("DOMContentLoaded", fn);
+  }
+  ready(function(){
+    var original = document.querySelector(".boost-btn-stack");
+    if(!original) return;
+    var headerInner = original.parentElement;
+
+    var placeholder = document.createElement("div");
+    placeholder.className = "boost-btn-stack-placeholder";
+    placeholder.setAttribute("aria-hidden", "true");
+    headerInner.insertBefore(placeholder, original);
+
+    var portal = document.createElement("div");
+    portal.id = "headerBtnPortal";
+    portal.className = "header-btn-portal";
+    document.body.appendChild(portal);
+    portal.appendChild(original);
+    original.classList.add("boost-btn-stack--portal");
+
+    function syncSize(){
+      var r = original.getBoundingClientRect();
+      placeholder.style.width = r.width + "px";
+      placeholder.style.height = r.height + "px";
+    }
+    function syncPosition(){
+      var r = placeholder.getBoundingClientRect();
+      portal.style.top = r.top + "px";
+      portal.style.left = r.left + "px";
+    }
+    function syncAll(){ syncSize(); syncPosition(); }
+
+    var resizeTimer;
+    window.addEventListener("resize", function(){
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(syncAll, 60);
+    });
+    window.addEventListener("orientationchange", syncAll);
+
+    syncAll();
+    setTimeout(syncAll, 150);
+    setTimeout(syncAll, 500);
+    if(document.fonts && document.fonts.ready){
+      document.fonts.ready.then(syncAll);
+    }
+    if("ResizeObserver" in window){
+      var headerEl = document.querySelector("header");
+      if(headerEl){
+        var ro = new ResizeObserver(syncAll);
+        ro.observe(headerEl);
+      }
+    }
+  });
+})();
+</script>
 </body>
 </html>
