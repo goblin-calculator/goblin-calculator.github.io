@@ -13,9 +13,11 @@ const firebaseConfig = {
   const countEl = document.getElementById("liveUsersCount");
   const badgeEl = document.getElementById("liveUsersBadge");
   const CONNECT_TIMEOUT_MS = 10000;
-  const HEARTBEAT_INTERVAL_MS = 30000;
-  const RECONCILE_INTERVAL_MS = 60000;
-  const STALE_AFTER_MS = 90000;
+  const HEARTBEAT_INTERVAL_MS = 20000;
+  const RECONCILE_INTERVAL_MS = 20000;
+  const STALE_AFTER_MS = 45000;
+  const DISPLAY_REFRESH_MS = 5000;
+  const HIDDEN_GRACE_MS = 30000;
 
   function hideBadge() {
     if (badgeEl) badgeEl.style.display = "none";
@@ -40,24 +42,69 @@ const firebaseConfig = {
   const connectedRef = db.ref(".info/connected");
 
   let gotConnection = false;
+  let heartbeatTimer = null;
+  let displayTimer = null;
+  let hiddenRemovalTimer = null;
+  let presenceIsSet = false;
+  let latestSnapshot = {};
 
   const connectTimeoutTimer = setTimeout(() => {
     if (!gotConnection) hideBadge();
   }, CONNECT_TIMEOUT_MS);
 
+  function isFresh(data, now) {
+    return !!data && typeof data.connectedAt === "number" && now - data.connectedAt <= STALE_AFTER_MS;
+  }
+
+  function updateDisplayFromCache() {
+    if (!countEl) return;
+    const now = Date.now();
+    let count = 0;
+    Object.keys(latestSnapshot).forEach(key => {
+      if (key === myPresenceRef.key) {
+        count += 1;
+        return;
+      }
+      if (isFresh(latestSnapshot[key], now)) count += 1;
+    });
+    countEl.textContent = `${count} Online`;
+  }
+
   function reconcileStalePresence() {
     if (!gotConnection) return;
     presenceRef.once("value").then(snap => {
       const now = Date.now();
-      const staleBefore = now - STALE_AFTER_MS;
       snap.forEach(child => {
-        const data = child.val();
         if (child.key === myPresenceRef.key) return;
-        if (!data || typeof data.connectedAt !== "number" || data.connectedAt < staleBefore) {
-          presenceRef.child(child.key).remove();
-        }
+        const data = child.val();
+        if (!isFresh(data, now)) presenceRef.child(child.key).remove();
       });
     }).catch(() => {});
+  }
+
+  function writePresence() {
+    myPresenceRef.set({ connectedAt: firebase.database.ServerValue.TIMESTAMP });
+    presenceIsSet = true;
+  }
+
+  function removePresence() {
+    if (!presenceIsSet) return;
+    myPresenceRef.remove();
+    presenceIsSet = false;
+  }
+
+  function startHeartbeat() {
+    if (heartbeatTimer) return;
+    heartbeatTimer = setInterval(() => {
+      if (gotConnection && presenceIsSet) {
+        myPresenceRef.update({ connectedAt: firebase.database.ServerValue.TIMESTAMP });
+      }
+    }, HEARTBEAT_INTERVAL_MS);
+  }
+
+  function startDisplayLoop() {
+    if (displayTimer) return;
+    displayTimer = setInterval(updateDisplayFromCache, DISPLAY_REFRESH_MS);
   }
 
   connectedRef.on("value", snap => {
@@ -66,25 +113,45 @@ const firebaseConfig = {
       clearTimeout(connectTimeoutTimer);
       if (badgeEl) badgeEl.style.display = "";
       myPresenceRef.onDisconnect().remove();
-      myPresenceRef.set({ connectedAt: firebase.database.ServerValue.TIMESTAMP });
+      if (document.visibilityState !== "hidden") writePresence();
       reconcileStalePresence();
-      setInterval(() => {
-        if (gotConnection) {
-          myPresenceRef.update({ connectedAt: firebase.database.ServerValue.TIMESTAMP });
-        }
-      }, HEARTBEAT_INTERVAL_MS);
+      startHeartbeat();
+      startDisplayLoop();
+    } else {
+      gotConnection = false;
+      presenceIsSet = false;
     }
   });
 
   presenceRef.on("value", snap => {
-    const count = Math.max(0, snap.numChildren());
-    if (countEl) {
-      countEl.textContent = `${count} Online`;
-    }
+    const next = {};
+    snap.forEach(child => {
+      next[child.key] = child.val();
+    });
+    latestSnapshot = next;
+    updateDisplayFromCache();
   }, err => {
     console.error("[presence] read failed:", err);
     hideBadge();
   });
 
   setInterval(reconcileStalePresence, RECONCILE_INTERVAL_MS);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      if (hiddenRemovalTimer) clearTimeout(hiddenRemovalTimer);
+      hiddenRemovalTimer = setTimeout(() => {
+        removePresence();
+      }, HIDDEN_GRACE_MS);
+    } else {
+      if (hiddenRemovalTimer) {
+        clearTimeout(hiddenRemovalTimer);
+        hiddenRemovalTimer = null;
+      }
+      if (gotConnection && !presenceIsSet) writePresence();
+    }
+  });
+
+  window.addEventListener("pagehide", removePresence);
+  window.addEventListener("beforeunload", removePresence);
 })();

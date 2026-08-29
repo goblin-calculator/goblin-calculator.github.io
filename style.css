@@ -327,6 +327,7 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   body.app-dark .loading-progress-label{ color:#c7c4bc; }
   body.app-dark .market-source-note{ color:#a7a5a0; }
   body.app-dark .cook-ascension-projected{ color:#a7a5a0; }
+  body.app-dark .cook-ascension-projected-badge{ background:#3a2a12 !important; }
   body.app-dark .cook-total-row{ background:rgba(0,0,0,.4); border-color:rgba(255,255,255,.12); color:#c7c4bc; }
   body.app-dark .cook-total-row b{ color:#e8c04a; }
   body.app-dark .fishing-section-title{ color:#c7c4bc; }
@@ -579,6 +580,13 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
     }
   }
   .library-sub{ font-size:10.8px; color:var(--wheat-dim); margin:-3px 0 8px; line-height:1.35; }
+  .cook-exp-title{
+    font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:800; color:var(--ink);
+    letter-spacing:.5px; margin:2px 0 6px; padding:0;
+    background:none !important; border:none !important; box-shadow:none !important; outline:none !important;
+  }
+  body.app-dark .cook-exp-title{ color:#f2ede2; }
+  #cookingPanel .cook-exp-title{ color:#3a2412; }
 
   .main-tab-modal.open{
     display:flex !important; flex-direction:column;
@@ -662,14 +670,51 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   }
   .lib-section-title:first-of-type{ margin-top:0; }
   .lib-section-title .count{ font-size:9.6px; color:var(--wheat-dim); font-weight:600; }
+  .lib-material-badge{
+    display:inline-flex; width:fit-content;
+    background:var(--wheat); border:1.5px solid var(--sun-deep); border-radius:999px;
+    padding:4px 12px; box-shadow:1px 1px 0 rgba(0,0,0,.12);
+  }
   .lib-empty{ font-size:11.4px; color:var(--ink-soft); padding:6px 3px; }
   .library-body .lib-empty{ color:var(--wheat-dim); }
 
   .lib-list-scroll{ max-height:none; overflow-y:visible; margin-bottom:2px; padding-right:2px; }
 
+  .recipe-materials-wrap{
+    border-radius:9px; padding:8px 8px 2px; margin-bottom:5px;
+  }
+  .recipe-materials-wrap .lib-item-row{ margin-bottom:6px; }
+
+  .lib-cycle-container{
+    border-radius:9px; padding:8px 8px 2px; margin-bottom:8px;
+  }
+  .lib-cycle-container .lib-item-row{ margin-bottom:6px; }
+  .lib-cycle-container:last-child{ margin-bottom:0; }
+
+  .material-used-badge{
+    display:inline-block; font-size:7.2px; font-weight:800; text-transform:uppercase; letter-spacing:.3px;
+    color:var(--ink-soft); background:var(--wheat); border:1px solid var(--sun-deep); border-radius:999px;
+    padding:1px 5px; vertical-align:middle; white-space:nowrap;
+  }
+
   .lib-item-row{
     display:flex; align-items:center; justify-content:space-between; gap:6px;
     background:var(--parchment); border-radius:7px; padding:6px 7px; margin-bottom:5px;
+  }
+  .lib-item-row-subtotal{
+    background:var(--sfl-outer, transparent); box-shadow:none; border-radius:0;
+    border-top:1.5px dashed var(--sun-deep);
+    padding:5px 7px 8px; margin-top:-2px;
+  }
+  .lib-item-row-subtotal .lib-item-name{ font-weight:800; }
+  .lib-item-row-subtotal .lib-item-price{
+    background:transparent; border:none; padding:0; min-width:0;
+    color:var(--flower); font-weight:800; font-size:11.4px; text-align:right;
+    white-space:nowrap;
+  }
+  .lib-item-row-subtotal .lib-item-price small{ display:inline; color:var(--flower); font-size:inherit; font-weight:inherit; margin-left:2px; }
+  #animalsItemList .lib-item-row-subtotal{
+    background:transparent; border-top:none;
   }
   .lib-item-icon{ font-size:18px; flex-shrink:0; width:20px; text-align:center; }
   .lib-item-main{ flex:1; min-width:0; }
@@ -2042,9 +2087,7 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
     margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0;
   }
 
-  /* Header button cluster is moved into a fixed-position portal (see script near end of body)
-     so it always escapes the header's own stacking context and stays above every
-     full-screen panel overlay, on every screen size including desktop. */
+  
   .header-btn-portal{
     position:fixed; top:0; left:0; z-index:2000;
     margin:0; padding:0; pointer-events:none;
@@ -2057,9 +2100,7 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
     transform:none !important;
   }
 
-  /* Only the actual buttons/labels should ever be clickable or show a pressed state —
-     never the wrapper divs around them, so a click on one button can't visually
-     "animate" the whole group. */
+  
   .boost-btn-stack, .boost-top10-row, .dig-treasure-fab-wrap, .more-menu-btn-wrap{
     pointer-events:none;
   }
@@ -3657,6 +3698,14 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
     image-rendering:pixelated;
   }
   .fp-section{ margin-bottom:10px; }
+  .cook-list-frame{ padding:8px; margin-bottom:10px; }
+  .cook-list-title{
+    font-family:var(--pixel-font); font-size:12.6px; color:var(--wheat);
+    background:var(--sun-deep); border:2px solid var(--soil-dark);
+    padding:6px 8px; letter-spacing:.4px; text-transform:uppercase; text-align:center;
+    box-shadow:2px 2px 0 rgba(0,0,0,.3);
+    margin-bottom:8px;
+  }
   .fp-title-bar{
     font-family:var(--pixel-font); font-size:12.6px; color:var(--wheat);
     background:var(--sun-deep); border:2px solid var(--soil-dark);
@@ -3801,18 +3850,61 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
     display:inline-block; background:var(--profit); color:#fff; font-weight:700; font-size:12.6px;
     padding:2px 7px; border-radius:6px; margin-left:2px;
   }
+  .cook-projected-box{
+    display:flex; flex-direction:column; align-items:flex-start; gap:6px;
+    margin-top:8px; background:#dbe4f0; border:2px solid var(--ink);
+    padding:8px; box-shadow:var(--pixel-shadow); image-rendering:pixelated;
+    clip-path:polygon(
+      0 6px, 6px 6px, 6px 0, calc(100% - 6px) 0, calc(100% - 6px) 6px, 100% 6px,
+      100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%,
+      6px 100%, 6px calc(100% - 6px), 0 calc(100% - 6px)
+    );
+  }
+  .cook-projected-chip{
+    display:inline-flex; flex-direction:column; align-items:flex-start;
+    background:#c3d0e3; border:2px solid var(--ink);
+    padding:4px 8px; image-rendering:pixelated;
+    clip-path:polygon(
+      0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
+      100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%,
+      4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
+    );
+  }
+  .cook-projected-label{
+    font-family:var(--pixel-font); font-size:9.6px; font-weight:800; letter-spacing:.4px;
+    text-transform:uppercase; color:#1c2a3d; line-height:1.3;
+  }
+  .cook-projected-label-sub{
+    font-family:var(--pixel-font); font-size:7.68px; color:#1c2a3d; opacity:.75; line-height:1.3; margin-top:2px;
+  }
+  .cook-projected-level{ font-family:var(--pixel-font); font-size:13.2px; font-weight:800; color:#1c2a3d; }
+  .cook-projected-next{ font-family:'JetBrains Mono',monospace; font-size:9.6px; font-weight:700; color:#1c2a3d; }
   .cook-ascension-row{
     display:flex; align-items:center; flex-wrap:wrap; gap:6px;
     margin:8px 0 0; padding-top:6px; border-top:1px dashed var(--line);
+    min-width:0;
   }
   .cook-ascension-badge{
     font-family:var(--pixel-font); font-size:12px; color:var(--ink);
     background:var(--sun); border:2px solid var(--ink); border-radius:4px;
-    padding:3px 7px; white-space:nowrap;
+    padding:3px 7px; white-space:normal; max-width:100%; word-break:break-word;
   }
   .cook-ascension-projected{
     font-family:'JetBrains Mono',monospace; font-size:10.2px; color:var(--wheat-dim);
     font-style:italic;
+  }
+  .cook-ascension-projected-row{
+    display:flex; flex-direction:column; align-items:flex-start; gap:4px;
+    margin:8px 0 0; padding:7px 8px; background:var(--flower);
+    border:2px solid var(--ink); border-radius:6px; min-width:0;
+  }
+  .cook-ascension-projected-badge{
+    font-family:var(--pixel-font); font-size:11.4px; color:#fff;
+    background:var(--sun-deep); border:2px solid var(--ink); border-radius:4px;
+    padding:3px 7px; white-space:normal; max-width:100%; word-break:break-word;
+  }
+  .cook-ascension-projected-caption{
+    font-family:'JetBrains Mono',monospace; font-size:10.2px; color:#fff; opacity:.92;
   }
   .cook-total-row{
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;
@@ -3821,6 +3913,16 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
     padding:8px 10px; color:var(--wheat);
   }
   .cook-total-row b{ color:var(--coin); }
+  .cook-xp-breakdown{
+    flex-basis:100%; display:flex; flex-direction:column; gap:3px;
+    margin-top:6px; padding-top:6px; border-top:1px dashed rgba(255,255,255,.25);
+  }
+  .cook-xp-breakdown-row{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:10.2px; color:var(--ink);
+    background:var(--sfl-outer, var(--wheat-dim)); padding:3px 8px; border-radius:6px;
+  }
+  .cook-xp-breakdown-row b{ color:var(--ink); font-weight:700; }
   .cook-mode-toggle{ display:flex; gap:6px; margin:10px 0 8px; }
   .cook-mode-toggle .btn{ flex:1; font-size:10.8px; padding:7px 4px; font-family:var(--pixel-font); }
   .cook-mode-toggle .btn.active{ background:var(--sun-deep); color:#fff; border-color:var(--sun-deep); }
@@ -3859,6 +3961,19 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
     font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--sun-deep); font-weight:700;
     margin:6px 0 4px;
   }
+  .cook-total-cost-line{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px 10px;
+    background:var(--sfl-outer, var(--wheat-dim)); padding:6px 9px; border-radius:6px;
+  }
+  .cook-total-cost-label{ display:inline-flex; align-items:center; gap:5px; font-size:11.4px; }
+  .cook-total-cost-label img{ width:16px; height:16px; image-rendering:pixelated; vertical-align:middle; }
+  .cook-total-cost-value{ display:inline-flex; align-items:center; gap:5px; font-size:13.2px; }
+  .cook-total-cost-mode{
+    font-family:'Inter',sans-serif; font-size:9px; font-weight:600; color:var(--ink-soft);
+    text-transform:none; letter-spacing:0;
+  }
+  .cook-food-count-total-line{ color:var(--profit); }
+  .cook-food-count-total-line .cook-total-cost-value{ color:var(--profit); }
   .cook-boost-chip-row{ display:flex; flex-wrap:wrap; align-items:center; gap:5px 6px; }
   .cook-boost-chip-label{ flex-shrink:0; }
   .cook-boost-chips{ display:flex; flex-wrap:wrap; gap:5px; flex:1; min-width:0; }
@@ -3872,6 +3987,25 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   .cook-ingredient-row{ display:flex; align-items:center; gap:6px; font-size:12.6px; padding:3px 0; }
   .cook-ingredient-row .ing-name{ flex:1; color:var(--ink); }
   .cook-ingredient-row .ing-cost{ font-family:'JetBrains Mono',monospace; color:var(--ink-soft); }
+  .cook-ing-label{
+    font-family:'JetBrains Mono',monospace; font-size:10.8px; font-weight:700; color:var(--sun-deep);
+    text-transform:uppercase; letter-spacing:.3px; margin:8px 0 3px;
+  }
+  .cook-ing-total-section{ margin-top:2px; }
+  .ing-row-boxed{
+    background:var(--sfl-outer, var(--wheat-dim)); padding:3px 8px; border-radius:6px;
+    margin:2px 0; border:none; box-shadow:none; outline:none;
+  }
+  .ing-row-boxed .ing-name{ font-family:'JetBrains Mono',monospace; font-size:11.4px; }
+  .ing-row-boxed .ing-cost{ font-family:'JetBrains Mono',monospace; font-size:11.4px; }
+  .ing-total-row{
+    display:flex; align-items:center; gap:6px; font-size:12.6px;
+    background:var(--sfl-outer, var(--wheat-dim)); padding:3px 8px; border-radius:6px;
+    margin:2px 0;
+  }
+  .ing-total-row .ing-name{ flex:1; color:var(--ink); font-family:'JetBrains Mono',monospace; font-size:11.4px; }
+  .ing-total-row .ing-cost{ font-family:'JetBrains Mono',monospace; color:var(--profit); font-weight:700; font-size:11.4px; }
+  .ing-total-row img{ width:13px; height:13px; image-rendering:pixelated; vertical-align:middle; }
   #guaranteedCatchList .cook-ingredient-row{
     background:var(--surface); border-radius:6px; padding:6px 8px; margin-bottom:5px;
     box-shadow:2px 2px 0 rgba(0,0,0,.2);
@@ -3933,6 +4067,37 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   color:var(--wheat); text-transform:uppercase; display:inline-block;
   background:var(--sun-deep); border:2px solid var(--ink); border-radius:4px;
   padding:5px 9px; box-shadow:var(--pixel-shadow);
+}
+.fishing-columns{ display:block; }
+.fishing-columns .fishing-col{ min-width:0; }
+.cook-columns{ display:block; }
+@media (min-width:700px){
+  .cook-columns{
+    display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start;
+  }
+  .cook-columns .cook-divider{ display:none; }
+  .cook-columns .cook-top-frame,
+  .cook-columns .cook-list-frame{ margin-bottom:0; }
+}
+@media (min-width:700px){
+  .fishing-columns{
+    display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; align-items:start;
+  }
+  .fishing-columns .cook-divider{ display:none; }
+  .fishing-columns .fishing-col.cook-list-frame{ margin-bottom:0; }
+}
+.cm-columns{ display:block; }
+.cm-col-title{ display:none; }
+@media (min-width:700px){
+  .cm-columns{
+    display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start;
+  }
+  .cm-columns .cook-list-frame{ display:block !important; margin-bottom:0; }
+  #cmSubToggle{ display:none; }
+  .cm-col-title{
+    display:block; font-family:var(--pixel-font); font-weight:700; font-size:13.2px;
+    color:var(--ink); margin-bottom:8px;
+  }
 }
 .fishmarket-meta-row{ display:flex; gap:14px; margin-top:6px; flex-wrap:wrap; }
 .fishmarket-meta-row span{ font-size:10.8px; color:var(--ink-soft); }
@@ -4904,26 +5069,88 @@ body.app-dark #gunterShopOverlay{
   text-align:center; padding:26px 12px; line-height:2;
 }
 
-.gunter-shop-card.is-chapter-tab{
+#chapterFishMutantsOverlay{
   --gs-bg-1:#0b3d52; --gs-bg-2:#0f5470; --gs-bg-3:#052430;
   --gs-lava:#22aed1; --gs-lava-deep:#0f7793; --gs-glow:rgba(90,225,255,.35);
   --gs-ink:#eafcff; --gs-ink-soft:#bfe9f2; --gs-line:#155e75;
   --gs-panel:#0d4258; --gs-panel-2:#082e3d;
   --gs-divider:#7ff0da; --gs-divider-deep:#1f8f80;
+  position:fixed; inset:0; background:rgba(10,8,6,.72);
+  display:none; align-items:center; justify-content:center; z-index:1260;
 }
-.gunter-shop-card.is-chapter-tab #gunterHdivTopMid{ display:none; }
-.gunter-shop-card.is-chapter-tab .gunter-shop-top,
-.gunter-shop-card.is-chapter-tab .gunter-shop-mid{
+#chapterFishMutantsOverlay.show{ display:flex; animation:top10FadeIn .2s ease both; }
+body.app-dark #chapterFishMutantsOverlay{ --gs-glow:transparent; }
+body.sfl-theme #chapterFishMutantsOverlay{
+  --gs-lava:var(--sfl-inner) !important;
+  --gs-lava-deep:var(--sfl-inner) !important;
+}
+
+.cfm-card{
+  width:100%; height:100dvh; max-width:100%; max-height:100dvh;
   background:
-    repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 6px, transparent 6px 12px),
-    linear-gradient(180deg, var(--gs-bg-2) 0%, var(--gs-bg-3) 100%);
+    radial-gradient(circle at 15% 0%, var(--gs-glow) 0%, transparent 55%),
+    repeating-linear-gradient(135deg, rgba(0,0,0,.12) 0 6px, transparent 6px 12px),
+    linear-gradient(165deg, var(--gs-bg-1) 0%, var(--gs-bg-2) 42%, var(--gs-bg-3) 100%);
+  border:0;
+  display:flex; flex-direction:column;
+  overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
+  image-rendering:pixelated;
+  animation:top10Bounce .3s cubic-bezier(.22,1,.36,1) both;
 }
-.gunter-shop-card.is-chapter-tab .gunter-shop-top{
-  flex:0 0 auto; display:block; overflow:visible;
-  padding:9px 11px 6px; border-bottom:0;
+.cfm-titlebar{
+  display:flex; align-items:center; gap:10px; flex-shrink:0;
+  padding:12px 42px 10px 12px;
+  background:linear-gradient(180deg, var(--gs-lava) 0%, var(--gs-lava-deep) 60%, #063241 100%);
+  border-bottom:3px solid var(--soil-dark);
+  position:relative;
 }
-.gunter-shop-card.is-chapter-tab .gunter-shop-mid{ display:none; }
-.gunter-shop-card.is-chapter-tab .gunter-shop-bottom{ background:var(--gs-bg-3); }
+.cfm-icon-wrap{
+  width:42px; height:42px; flex-shrink:0;
+  background:var(--parchment); border:3px solid var(--soil-dark);
+  box-shadow:3px 3px 0 rgba(0,0,0,.4);
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; image-rendering:pixelated;
+  animation:bettyIconBob 2.4s ease-in-out infinite;
+}
+.cfm-icon-wrap img{ width:100%; height:100%; object-fit:cover; image-rendering:pixelated; }
+.cfm-title-text{
+  font-family:var(--pixel-font); font-size:15.6px; color:var(--gs-ink);
+  line-height:1.5; text-shadow:2px 2px 0 rgba(0,0,0,.45);
+}
+.cfm-close{
+  position:absolute; top:10px; right:10px; width:28px; height:28px; flex-shrink:0;
+  background:var(--soil-dark); color:var(--wheat); border:2px solid rgba(0,0,0,.4);
+  border-radius:0; font-size:16.8px; cursor:pointer; box-shadow:2px 2px 0 rgba(0,0,0,.4);
+}
+.cfm-close:active{ transform:translate(2px,2px); box-shadow:0 0 0 rgba(0,0,0,.4); }
+
+.cfm-nav{ display:flex; gap:6px; padding:10px 10px 0; flex-shrink:0; }
+.cfm-nav-btn{
+  flex:1; font-family:var(--pixel-font); font-size:10.2px; letter-spacing:.3px;
+  padding:8px 6px; background:transparent; color:var(--gs-ink-soft);
+  border:0; cursor:pointer; text-align:center;
+}
+.cfm-nav-btn.active{ background:var(--moss); color:var(--wheat); border-color:var(--moss); }
+.cfm-nav-btn:active{ transform:translate(1px,1px); }
+
+.cfm-body{
+  flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:10px; font-family:'JetBrains Mono',monospace; color:var(--gs-ink);
+}
+
+.cfm-columns{ display:block; }
+.cfm-col-title{ display:none; }
+@media (min-width:700px){
+  .cfm-columns{
+    display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start;
+  }
+  .cfm-columns .cook-list-frame{ display:block !important; margin-bottom:0; }
+  #cfmNav{ display:none; }
+  .cfm-col-title{
+    display:block; font-family:var(--pixel-font); font-weight:700; font-size:13.2px;
+    color:var(--gs-ink); margin-bottom:8px;
+  }
+}
 
 #expansionSimOverlay, #settingsModalOverlay{
   --es-bg-1:var(--moss); --es-bg-2:var(--moss-deep); --es-bg-3:var(--moss-deep);
@@ -5381,7 +5608,7 @@ body.app-dark .es-total-resources-count{ color:#c7c4bc; }
   font-family:var(--pixel-font); font-size:9.6px; letter-spacing:.3px;
   color:#fff; padding:6px 8px; text-shadow:1px 1px 0 rgba(0,0,0,.4);
   background:linear-gradient(180deg,#1c6e86,#0f4b5c);
-  margin:-9px -11px 8px; position:sticky; top:-9px; z-index:2;
+  margin:-9px -11px 8px; position:static;
 }
 
 .mutant-map-list{ width:100%; display:flex; flex-direction:column; min-height:0; }
@@ -5462,6 +5689,14 @@ body.app-dark .es-total-resources-count{ color:#c7c4bc; }
 .mutant-group-header-name{
   flex:1; font-size:10.2px; font-weight:800; color:var(--gs-ink); white-space:nowrap;
 }
+.mutant-group-progress{
+  display:flex; align-items:center; gap:10px; padding:4px 8px;
+  background:rgba(0,0,0,.18); border-bottom:2px solid var(--group-border);
+}
+.mutant-group-progress-item{
+  font-family:'JetBrains Mono',monospace; font-size:8.6px; font-weight:700;
+  color:var(--gs-ink-soft); white-space:nowrap;
+}
 
 .mutant-map-table{ width:max-content; min-width:100%; font-family:'JetBrains Mono',monospace; }
 .mutant-map-table-header,
@@ -5480,7 +5715,7 @@ body.app-dark .es-total-resources-count{ color:#c7c4bc; }
 .mutant-map-table-row:last-child{ border-bottom:0; }
 .mutant-map-table-cell{
   font-size:9px; color:var(--gs-ink); display:flex; align-items:center; gap:3px; flex-wrap:wrap;
-  min-width:0;
+  min-width:0; box-sizing:border-box; overflow:hidden;
 }
 .mutant-map-table-cell.is-fish-cell{ font-weight:800; white-space:nowrap; flex-wrap:nowrap; }
 .mutant-map-table-cell.is-fish-cell img{ image-rendering:pixelated; flex-shrink:0; }
@@ -5490,6 +5725,7 @@ body.app-dark .es-total-resources-count{ color:#c7c4bc; }
   white-space:nowrap;
 }
 .mutant-map-pill img{ width:9px; height:9px; image-rendering:pixelated; }
+.mutant-map-pill.is-guaranteed{ background:rgba(31,168,111,.22); border-color:#1fa86f; color:#eafff2; }
 .mutant-map-season-badges{ display:flex; gap:2px; align-items:center; }
 .mutant-map-table-cell.is-pct-cell{
   justify-content:flex-end; text-align:right; font-weight:800; color:#ffd28a; white-space:nowrap;
@@ -6019,6 +6255,31 @@ body.sfl-theme [class*="-card"]{
   image-rendering:pixelated !important;
   clip-path:none !important;
 }
+body.sfl-theme .cfm-card{
+  background-color:var(--sfl-inner) !important;
+}
+body.sfl-theme .cfm-titlebar{
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
+}
+body.sfl-theme .cook-projected-box{
+  background-color:var(--sfl-inner) !important;
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
+  clip-path:none !important;
+}
 body.sfl-theme .spice-buff-card{
   background-color:var(--sfl-outer) !important;
   border-style:solid !important;
@@ -6045,7 +6306,7 @@ body.sfl-theme [class*="tab-"]:where(:not(.main-tab-modal):not(.es-island-tabs):
 body.sfl-theme [class*="Tab"]:where(:not(.main-tab-modal):not(.es-island-tabs):not(.farm-panel-tab-content):not(.betty-tabs):not(.cook-building-tabs):not(.gunter-tabs):not(.market-tabs):not(.rcm-tabs):not(.trade-tabs):not(.profile-tabgrid):not(.profile-tradable-tab-subtotal)),
 body.sfl-theme [class*="toggle"] button,
 body.sfl-theme [class*="toggle"],
-body.sfl-theme [class*="nav"]{
+body.sfl-theme [class*="nav"]:not(.cfm-nav){
   background-color:var(--sfl-search) !important;
   color:var(--sfl-text) !important;
   border-style:solid !important;
@@ -6906,6 +7167,14 @@ body.sfl-theme .mutant-map-table-row{
 body.sfl-theme .mutant-group-header-icon img{
   width:24px !important; height:24px !important;
 }
+body.sfl-theme .mutant-group-progress{
+  background-color:var(--sfl-inner) !important;
+  border-style:solid !important;
+  border-width:0 0 var(--sfl-card-corner-width) 0 !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% stretch !important;
+  image-rendering:pixelated !important;
+}
 body.sfl-theme .mutant-group-header-name{
   font-size:13.2px !important;
 }
@@ -6914,7 +7183,7 @@ body.sfl-theme .mutant-map-boost-badge{
 }
 body.sfl-theme .mutant-map-table-header,
 body.sfl-theme .mutant-map-table-row{
-  grid-template-columns:90px 90px 77px 63px 49px 49px !important;
+  grid-template-columns:90px 90px 77px 74px 66px 66px !important;
   column-gap:4px !important;
 }
 body.sfl-theme .mutant-map-table-header{
@@ -6952,8 +7221,10 @@ body.sfl-theme .mutant-group-card .mutant-map-pill{
   box-sizing:border-box !important;
   cursor:default !important;
 }
-body.sfl-theme .gunter-shop-bottom,
-body.sfl-theme .gunter-shop-card.is-chapter-tab .gunter-shop-bottom{
+body.sfl-theme .mutant-group-card .mutant-map-pill.is-guaranteed{
+  background-color:rgba(31,168,111,.3) !important;
+}
+body.sfl-theme .gunter-shop-bottom{
   background-color:var(--sfl-outer) !important;
 }
 body.sfl-theme .mutant-map-boost-list{
@@ -7170,6 +7441,7 @@ body.sfl-theme .cook-building-tabs button.active,
 body.sfl-theme .market-tab-btn.active,
 body.sfl-theme .cm-viewtoggle button.active,
 body.sfl-theme .restock-mode-btn.active,
+body.sfl-theme .cfm-nav-btn.active,
 body.sfl-theme #calcModeHarvestBtn.active,
 body.sfl-theme #calcModeBoughtBtn.active,
 body.sfl-theme .profit-mode-btn.active{
@@ -7439,6 +7711,7 @@ body.sfl-theme .modal-close,
 body.sfl-theme .dig-panel-close,
 body.sfl-theme .gunter-shop-close,
 body.sfl-theme .more-menu-close,
+body.sfl-theme .cfm-close,
 body.sfl-theme .expansion-sim-close,
 body.sfl-theme .trade-shop-close,
 body.sfl-theme .top10-close,
@@ -7459,6 +7732,7 @@ body.sfl-theme .modal-close img,
 body.sfl-theme .dig-panel-close img,
 body.sfl-theme .gunter-shop-close img,
 body.sfl-theme .more-menu-close img,
+body.sfl-theme .cfm-close img,
 body.sfl-theme .expansion-sim-close img,
 body.sfl-theme .trade-shop-close img,
 body.sfl-theme .top10-close img,
@@ -7480,11 +7754,85 @@ body.sfl-theme #honeyPanel,
 body.sfl-theme #animalsPanel,
 body.sfl-theme #saltPanel,
 body.sfl-theme #greenhousePanel,
-body.sfl-theme #cropMachinePanel,
 body.sfl-theme #composterPanel,
 body.sfl-theme #marketPanel,
 body.sfl-theme #libraryPanel{
   background-color:var(--sfl-outer) !important;
+}
+body.sfl-theme #cropMachinePanel{
+  background-color:var(--sfl-outer) !important;
+}
+body.sfl-theme #cropMachinePanel .library-toggle,
+body.sfl-theme #cropMachinePanel .library-body{
+  background-color:var(--sfl-inner) !important;
+}
+body.sfl-theme .recipe-materials-wrap{
+  background-color:var(--sfl-inner) !important;
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
+}
+body.sfl-theme .recipe-materials-wrap .lib-item-row-yield{
+  background-color:var(--sfl-inner) !important;
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
+}
+body.sfl-theme .recipe-materials-wrap .lib-item-row-yield-24h{
+  background-color:var(--sfl-inner) !important;
+}
+body.sfl-theme .lib-cycle-container{
+  background-color:var(--sfl-outer) !important;
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
+}
+body.sfl-theme .lib-cycle-container .lib-item-row-yield{
+  background-color:var(--sfl-inner) !important;
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
+}
+body.sfl-theme .lib-cycle-container .lib-item-row-yield-24h{
+  background-color:var(--sfl-inner) !important;
+}
+body.sfl-theme .lib-cycle-container .lib-item-row-subtotal{
+  background-color:var(--sfl-outer) !important;
+}
+body.sfl-theme .lib-material-badge{
+  background-color:var(--sfl-inner) !important;
+  border:1.5px solid var(--sfl-outer-border) !important;
+  color:var(--ink) !important;
+  box-shadow:1px 1px 0 rgba(0,0,0,.25) !important;
+}
+body.sfl-theme .lib-item-row-subtotal{
+  background-color:var(--sfl-outer) !important;
+}
+body.sfl-theme #animalsItemList .lib-cycle-container .lib-item-row-subtotal,
+body.sfl-theme #animalsItemList .lib-item-row-subtotal{
+  background-color:transparent !important;
+  border-top:none !important;
+  box-shadow:none !important;
 }
 body.sfl-theme #marketPanel .lib-item-row,
 body.sfl-theme #libraryPanel .lib-item-row{
@@ -7523,6 +7871,7 @@ body.sfl-theme #marketItemList{
 body.sfl-theme .dig-panel-close{ width:47px !important; height:47px !important; }
 body.sfl-theme .gunter-shop-close{ width:47px !important; height:47px !important; }
 body.sfl-theme .more-menu-close{ width:40px !important; height:40px !important; }
+body.sfl-theme .cfm-close{ width:47px !important; height:47px !important; }
 body.sfl-theme .expansion-sim-close{ width:47px !important; height:47px !important; }
 body.sfl-theme .trade-shop-close{ width:47px !important; height:47px !important; }
 body.sfl-theme .top10-close{ width:47px !important; height:47px !important; }
@@ -7551,6 +7900,7 @@ body.sfl-theme #dismissBanner{
 .dig-panel-card,
 .dig-side-panel,
 .expansion-sim-card,
+.cfm-card,
 .es-ascension-card,
 .es-bumpkin-card,
 .es-shards-card,
@@ -7602,6 +7952,7 @@ body.sfl-theme .modal-sheet,
 body.sfl-theme .farm-side-panel,
 body.sfl-theme .dig-side-panel,
 body.sfl-theme .expansion-sim-card,
+body.sfl-theme .cfm-card,
 body.sfl-theme .rcm-panel,
 body.sfl-theme .tc-estimate-panel,
 body.sfl-theme .fp-boost-panel,
@@ -7880,6 +8231,7 @@ body.sfl-theme .trade-shop-close,
 body.sfl-theme .trade-pixel-close,
 body.sfl-theme .gunter-shop-close,
 body.sfl-theme .more-menu-close,
+body.sfl-theme .cfm-close,
 body.sfl-theme .expansion-sim-close,
 body.sfl-theme .pixel-picker-close,
 body.sfl-theme .profile-modal-close,
@@ -7960,7 +8312,6 @@ body.app-dark .gunter-top-col.is-upgrade .gunter-top-col-title{ background:#5a34
 body.app-dark .gunter-shop-mid.is-buy-tab{ background:#17262b !important; }
 body.app-dark .gunter-shop-mid.is-upgrade-tab{ background:#17262b !important; }
 body.app-dark .gunter-mid-stat.is-total-stat{ background:#3a1c0a !important; }
-body.app-dark .gunter-shop-card.is-chapter-tab .gunter-shop-top, body.app-dark .gunter-shop-card.is-chapter-tab .gunter-shop-mid{ background:var(--gs-bg-3) !important; }
 body.app-dark .expansion-sim-card{ background:var(--es-bg-2) !important; }
 body.app-dark .expansion-sim-titlebar{ background:var(--moss-deep) !important; }
 body.app-dark .es-boosts-bar-title{ background:#a87a1f !important; }
@@ -8068,6 +8419,15 @@ body.sfl-theme #cookingPanel .lib-item-row,
 body.sfl-theme #cookingPanel #cookFoodList{
   background-color:var(--sfl-inner) !important;
 }
+body.sfl-theme #cookingPanel .ing-total-row,
+body.sfl-theme #cookingPanel .ing-row-boxed,
+body.sfl-theme #cookingPanel .cook-food-count-total-line,
+body.sfl-theme #cookingPanel .cook-total-cost-line{
+  background-color:var(--sfl-outer) !important;
+}
+body.sfl-theme #cookingPanel .ing-row-boxed{
+  border:none !important; box-shadow:none !important; outline:none !important;
+}
 body.sfl-theme #bettyShopOverlay{
   padding:0 !important;
 }
@@ -8093,6 +8453,7 @@ body.sfl-theme #gunterShopOverlay .gunter-node-box{
   image-rendering:pixelated !important;
 }
 body.sfl-theme .cook-buildings-frame{
+  background-color:var(--sfl-inner) !important;
   border-style:solid !important;
   border-width:var(--sfl-card-corner-width) !important;
   border-color:var(--sfl-outer-border) !important;
@@ -8101,6 +8462,53 @@ body.sfl-theme .cook-buildings-frame{
   border-radius:0 !important;
   box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
   image-rendering:pixelated !important;
+}
+body.sfl-theme .cook-list-frame{
+  background-color:var(--sfl-outer) !important;
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
+  padding:8px !important;
+  margin-bottom:10px !important;
+}
+body.sfl-theme .cook-list-title{
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
+}
+body.sfl-theme .cook-top-frame{
+  background-color:var(--sfl-outer) !important;
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
+  padding:8px !important;
+  margin-bottom:10px !important;
+}
+body.sfl-theme .cook-total-row,
+body.sfl-theme .fp-card{
+  background-color:var(--sfl-inner) !important;
+}
+body.sfl-theme .cook-xp-breakdown-row{
+  background-color:var(--sfl-outer) !important;
+  color:var(--ink) !important;
+}
+body.sfl-theme .cook-xp-breakdown-row b{
+  color:var(--ink) !important;
 }
 body.sfl-theme .rate-market-group{
   border-style:solid !important;
@@ -8152,4 +8560,106 @@ body.sfl-theme .trade-card-actions{
   border-image:none !important;
   box-shadow:none !important;
   border-radius:0 !important;
+}
+
+.bl-summary-box{
+  display:flex; gap:12px; align-items:flex-start; padding:10px;
+  margin-bottom:10px; background:var(--parchment,#fdf3df);
+  border:3px solid var(--soil-dark); border-radius:8px;
+  box-shadow:3px 3px 0 rgba(0,0,0,.4), inset 0 0 0 2px rgba(255,255,255,.15);
+}
+.bl-summary-box .profile-bumpkin-frame{ width:96px; height:96px; margin:0; flex-shrink:0; }
+.bl-summary-info{ flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; }
+.bl-summary-name{ font-family:var(--pixel-font); font-size:11.4px; font-weight:700; }
+.bl-summary-level{ font-size:13.2px; font-weight:800; }
+.bl-summary-xp{ display:block; font-size:10.2px; font-weight:600; opacity:.8; margin-top:2px; }
+.bl-summary-line{
+  display:flex; justify-content:space-between; gap:8px; font-size:10.2px;
+  padding:3px 0; border-top:1px dashed var(--line); margin-top:2px;
+}
+.bl-summary-sub-label{ opacity:.75; }
+.bl-summary-sub-value{ font-weight:700; text-align:right; }
+
+.bl-levels-box{
+  background:var(--wheat-dim,#f1e3c2); border:3px solid var(--soil-dark);
+  border-radius:8px; padding:8px;
+  box-shadow:3px 3px 0 rgba(0,0,0,.4), inset 0 0 0 2px rgba(255,255,255,.15);
+}
+.bl-section-caption{
+  font-size:10.2px; font-weight:800; text-transform:uppercase;
+  letter-spacing:.4px; opacity:.85; margin-bottom:6px;
+}
+.bl-picker-strip{ display:flex; flex-wrap:wrap; gap:4px; margin-bottom:8px; }
+.bl-nav-tab{
+  font-size:9.6px; font-family:inherit; padding:5px 8px; border-radius:6px;
+  border:1.5px solid var(--line); background:var(--parchment,#fff);
+  cursor:pointer; touch-action:manipulation;
+}
+.bl-nav-tab.active{ background:var(--sun-deep,#c98a3a); color:#fff; }
+
+.bl-level-block{ display:none; }
+.bl-block-title{
+  font-family:var(--pixel-font); font-size:10.2px; font-weight:700;
+  letter-spacing:.3px; margin:0 0 6px; padding:5px 7px;
+  background:var(--wheat,#f5e6c8); border:1.5px solid var(--soil-dark);
+}
+.bl-level-block.active{ display:block; }
+
+.bl-cols-head{
+  display:grid; grid-template-columns:0.6fr 1.5fr 1fr 1.3fr; gap:4px;
+  font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.3px;
+  opacity:.75; padding:3px 6px;
+}
+.bl-list-wrap{ max-height:340px; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
+.bl-level-row{
+  display:grid; grid-template-columns:0.6fr 1.5fr 1fr 1.3fr; gap:4px;
+  font-size:10.2px; font-weight:700; padding:4px 6px;
+  border-bottom:1px solid var(--line);
+}
+.bl-level-row.is-done{ background:var(--wheat,#f5e6c8); }
+.bl-cols-total{
+  display:grid; grid-template-columns:0.6fr 1.5fr 1fr 1.3fr; gap:4px;
+  font-size:10.2px; font-weight:800; padding:6px; margin-top:4px;
+  border-top:2px solid var(--line);
+}
+
+@media (min-width:700px){
+  .bl-levels-content{ display:flex; flex-wrap:wrap; gap:10px; }
+  .bl-level-block{ display:block !important; flex:1 1 300px; min-width:270px; max-width:100%; }
+}
+
+body.sfl-theme #bumpkinLevelPanel{
+  background-color:var(--sfl-outer) !important;
+  border-color:var(--sfl-border) !important;
+}
+body.sfl-theme .bl-summary-box,
+body.sfl-theme .bl-levels-box{
+  background-color:var(--sfl-inner) !important;
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
+}
+body.sfl-theme .bl-level-row,
+body.sfl-theme .bl-cols-head,
+body.sfl-theme .bl-list-wrap,
+body.sfl-theme .bl-cols-total{
+  background-color:var(--sfl-inner) !important;
+  border-color:var(--sfl-border) !important;
+}
+body.sfl-theme .bl-level-row.is-done{
+  background-color:var(--sfl-outer) !important;
+}
+body.sfl-theme .bl-block-title{
+  background-color:var(--sfl-outer) !important;
+  border-color:var(--sfl-border) !important;
+}
+body.sfl-theme .bl-nav-tab.active{
+  background-color:var(--sfl-outer) !important;
+  color:var(--sfl-text) !important;
+  border-image:var(--sfl-btn-pressed-image) 3 3 4 3 fill !important;
 }
