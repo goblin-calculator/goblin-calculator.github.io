@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Goblin Calculator</title>
+<script>
+  (function () {
+    var loc = window.location;
+    var intended = loc.pathname + loc.search + loc.hash;
+    try {
+      sessionStorage.setItem('gc_redirect_path', intended);
+    } catch (e) {}
+    loc.replace(loc.origin + '/');
+  })();
+</script>
+</head>
+<body>
+  Redirecting to Goblin Calculator…
+</body>
+</html>
