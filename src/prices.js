@@ -1,4 +1,4 @@
-import { ANIMAL_DATA, BASE_COMPOSTERS, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_RECIPES, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_TRAP_TOOL_ID, ES_ASCENSION_UPGRADE_BASE_COINS, ES_ASCENSION_UPGRADE_BASE_ITEMS, ES_ISLAND_UPGRADE_COST, ES_SWAMP_EXPANSIONS_PER_ASCENSION, FARM_LEVELS, FEED_RECIPE, FISH_CATCH_DATA, FISH_MARKET_CRAB_STICK_P2P_REF, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_MARKET_META_DEFAULTS, FISH_MARKET_SEASON_RECIPES, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, GUNTER_FLOWER_COST_MODE_LS_KEY, GUNTER_UPGRADE_NODES, LIMITED_TIME_BOOSTS, PET_COST_TRACK_RESOURCES, PET_FOOD_LISTS, PET_NOT_TRADABLE, PET_RESOURCE_DEFAULT_MARKET, PET_TRADABLE_RESOURCES, PICKLED_VEG_DATA, PRICE_SOURCE_LABELS, RESOURCE_DATA, RESTOCK_GEM_COST, SCULPTURE_LEVELS, SHRINE_RECIPES, SPICE_RECIPES, __boostedCropStatsMemo, __boostedFruitStatsMemo, __boostedGreenhouseStatsMemo, __boostedLavaPitStatsMemo, __boostedResourceStatsMemo, __cookingFoodExpMemo, __cookingFoodTimeMemo, __fishAgedFiguresMemo, __fishBasicFiguresMemo, __fishCatchXPMemo, __petCardMemo, __profileTradableRowsCacheG, __set___crabFiguresMemo, __set___profileTradableRowsCacheByTab, __set___profileTradableRowsCacheG, __set___seaweedFiguresMemo, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalTypeFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCrustaceanFigures, computeFertilizerFigures, computeHiveEconomics, computeLavaPitFigures, computeResourceFigures, computeSaltFarmFigures, computeSeaweedFigures, cookingGuaranteedCatchOn, crustaceanTrapIsFree, currentSeason, esBigFloorDiv, esBigIntPow, esState, escapeHtml, findTool, fishCatchYieldMult, fishingBoostsActiveByScope, fishingRodIsFree, flowerPerGem, flowerSeedOverrides, fmt, gemsToFlower, getActiveBoostsForCrop, getActiveBoostsForFruit, getActiveBoostsForGreenhouse, getAgingMaxXPLocal, getAnimalCount, getBoostCoverageFraction, getBoostedMedicineRecipe, getBoostedToolRecipe, getGenericPlotOrNodeCount, getGlobalCureModifiers, getKaleMixKaleQty, getMaterialMode, getMedicineIngredientMode, getPoolIndex, getSharedPoolDivisor, getShrineAffectedItemCount, getSpiceLickDurationHarvests, getVarietyIngredient, gunterSelectedUpgrade, gunterUpgradeCounts, hasLimitedBoostSyncData, isAppDarkModeOn, isBoostActive, isBuildingBoostActive, isDigPanelNativeModeActive, isFertilizerTierEnabled, isPetFoodChecked, normalizeItemName, normalizeSearch, petBoostActiveWithField, petComputeCardCached, petsData, previewSeason, restockGemMode, restockSharedExcluded, safeParse, saltFarmLevel, saltSculptureLevel, selectedHoneyFlower, setAppDarkMode, setPreviewSeason, shrineIdFromBoostName, spiceMaterialMode, toast, toolRecipes, updateCalcSummary, updateLiveSyncStatus, vegMaterialMode } from './calculator.js';
+import { ANIMAL_DATA, BASE_COMPOSTERS, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_RECIPES, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_TRAP_TOOL_ID, ES_ASCENSION_UPGRADE_BASE_COINS, ES_ASCENSION_UPGRADE_BASE_ITEMS, ES_ISLAND_UPGRADE_COST, ES_SWAMP_EXPANSIONS_PER_ASCENSION, FARM_LEVELS, FEED_RECIPE, FISH_CATCH_DATA, FISH_MARKET_CRAB_STICK_P2P_REF, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_MARKET_META_DEFAULTS, FISH_MARKET_SEASON_RECIPES, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, GUNTER_FLOWER_COST_MODE_LS_KEY, GUNTER_UPGRADE_NODES, LIMITED_TIME_BOOSTS, PET_COST_TRACK_RESOURCES, PET_FOOD_LISTS, PET_NOT_TRADABLE, PET_RESOURCE_DEFAULT_MARKET, PET_TRADABLE_RESOURCES, PICKLED_VEG_DATA, PRICE_SOURCE_LABELS, RESOURCE_DATA, RESTOCK_GEM_COST, SCULPTURE_LEVELS, SHRINE_RECIPES, SPICE_RECIPES, __boostedCropStatsMemo, __boostedFruitStatsMemo, __boostedGreenhouseStatsMemo, __boostedLavaPitStatsMemo, __boostedResourceStatsMemo, __cookingFoodExpMemo, __cookingFoodTimeMemo, __fishAgedFiguresMemo, __fishBasicFiguresMemo, __fishCatchXPMemo, __petCardMemo, __profileTradableRowsCacheG, __set___crabFiguresMemo, __set___profileTradableRowsCacheByTab, __set___profileTradableRowsCacheG, __set___seaweedFiguresMemo, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalTypeFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCrustaceanFigures, computeFertilizerFigures, computeHiveEconomics, computeLavaPitFigures, computeResourceFigures, computeSaltFarmFigures, computeSeaweedFigures, cookingGuaranteedCatchOn, crustaceanTrapIsFree, currentSeason, esBigFloorDiv, esBigIntPow, esState, escapeHtml, findTool, fishCatchYieldMult, fishingBoostsActiveByScope, fishingRodIsFree, flowerPerGem, flowerSeedOverrides, fmt, fmtFlowerPrice, gemsToFlower, getActiveBoostsForCrop, getActiveBoostsForFruit, getActiveBoostsForGreenhouse, getAgingMaxXPLocal, getAnimalCount, getBoostCoverageFraction, getBoostedMedicineRecipe, getBoostedToolRecipe, getGenericPlotOrNodeCount, getGlobalCureModifiers, getKaleMixKaleQty, getMaterialMode, getMedicineIngredientMode, getPoolIndex, getSharedPoolDivisor, getShrineAffectedItemCount, getSpiceLickDurationHarvests, getVarietyIngredient, gunterSelectedUpgrade, gunterUpgradeCounts, hasLimitedBoostSyncData, isAppDarkModeOn, isBoostActive, isBuildingBoostActive, isDigPanelNativeModeActive, isFertilizerTierEnabled, isPetFoodChecked, normalizeItemName, normalizeSearch, petBoostActiveWithField, petComputeCardCached, petsData, previewSeason, restockGemMode, restockSharedExcluded, safeParse, saltFarmLevel, saltSculptureLevel, selectedHoneyFlower, setAppDarkMode, setPreviewSeason, shrineIdFromBoostName, spiceMaterialMode, toast, toolRecipes, updateCalcSummary, updateLiveSyncStatus, vegMaterialMode } from './calculator.js';
 import { farmPanelGetBoostedYieldStats, farmPanelGetMarketPriceFlower, farmPanelGrowTimeSec } from './inprogress.js';
 import { safeLSJSON, saveFlowerSeedOverrides, saveMarketState } from './storage.js';
 import { $, getBoostIcon, getIcon, getPetResourceIcon, renderBettyShop, renderCookingPanel, renderCropsList, renderFishingPanel, renderFruitsList, renderGreenhouseList, renderHoneyList, renderShrineProfitabilityBlock } from './ui.js';
@@ -2827,7 +2827,9 @@ const SFL_WEARABLE_ID_TO_NAME = Object.entries(SFL_WEARABLE_KNOWN_IDS).reduce((a
   return acc;
 }, {});
 
-const SFL_MARKETPLACE_API_BASE = "https://api.sunflower-land.com/data?type=marketplaceActivity&date=";
+function sflMarketplaceApiBase() {
+  return SFL_COMMUNITY_PROXY_BASE + "community/data?type=marketplaceActivity";
+}
 
 const SFL_MARKETPLACE_LOOKBACK_DAYS = 10;
 
@@ -2835,35 +2837,65 @@ function sflFormatMarketplaceDate(d) {
   return d.toISOString().slice(0, 10);
 }
 
+function sflPickMarketplaceReport(reports, dateStr) {
+  if (!reports) return null;
+  if (reports[dateStr]) return {
+    dateStr: dateStr,
+    report: reports[dateStr]
+  };
+  const keys = Object.keys(reports).sort();
+  const latestKey = keys.length ? keys[keys.length - 1] : null;
+  return latestKey ? {
+    dateStr: latestKey,
+    report: reports[latestKey]
+  } : null;
+}
+
 async function fetchMarketplaceActivityReport() {
-  let lastErr = null;
-  for (let i = 0; i < SFL_MARKETPLACE_LOOKBACK_DAYS; i++) {
-    const d = new Date();
-    d.setUTCDate(d.getUTCDate() - i);
-    const dateStr = sflFormatMarketplaceDate(d);
-    try {
-      const res = await fetch(SFL_MARKETPLACE_API_BASE + dateStr, {
-        cache: "no-store"
-      });
-      if (!res.ok) throw new Error("Bad response " + res.status);
-      const json = await res.json();
-      const report = json && json.data && json.data.reports && json.data.reports[dateStr];
-      if (report && report.items && Object.keys(report.items).length) {
-        return {
-          date: dateStr,
-          items: report.items,
-          flowerPrice: json.data.flowerPrice
-        };
-      }
-      lastErr = new Error("No marketplace report for " + dateStr);
-    } catch (e) {
-      lastErr = e;
+  const dateStr = sflFormatMarketplaceDate(new Date());
+  try {
+    const res = await fetch(sflMarketplaceApiBase(), {
+      cache: "no-store"
+    });
+    if (!res.ok) throw new Error("Bad response " + res.status);
+    const json = await res.json();
+    const picked = sflPickMarketplaceReport(json && json.data && json.data.reports, dateStr);
+    if (picked && picked.report && picked.report.items && Object.keys(picked.report.items).length) {
+      return {
+        date: picked.dateStr,
+        items: picked.report.items,
+        flowerPrice: json.data.flowerPrice
+      };
     }
+    throw new Error("No marketplace report available");
+  } catch (e) {
+    for (let i = 1; i <= SFL_MARKETPLACE_LOOKBACK_DAYS; i++) {
+      const d = new Date();
+      d.setUTCDate(d.getUTCDate() - i);
+      const pastDateStr = sflFormatMarketplaceDate(d);
+      try {
+        const res = await fetch(sflMarketplaceApiBase() + "&date=" + pastDateStr, {
+          cache: "no-store"
+        });
+        if (!res.ok) continue;
+        const json = await res.json();
+        const report = json && json.data && json.data.reports && json.data.reports[pastDateStr];
+        if (report && report.items && Object.keys(report.items).length) {
+          return {
+            date: pastDateStr,
+            items: report.items,
+            flowerPrice: json.data.flowerPrice
+          };
+        }
+      } catch (e2) {}
+    }
+    throw e;
   }
-  throw lastErr || new Error("Marketplace activity report unavailable");
 }
 
 function sflItemFloorPrice(item) {
+  const latest = item && item.latestSale;
+  if (typeof latest === "number" && isFinite(latest) && latest > 0) return latest;
   const low = item && item.low;
   return typeof low === "number" && isFinite(low) && low > 0 ? low : null;
 }
@@ -2900,8 +2932,17 @@ function buildPricePoolsFromMarketplaceItems(items) {
   };
 }
 
+export let marketplaceFlowerUsdPrice = parseFloat(localStorage.getItem("hl_flower_usd_price")) || null;
+
+function setMarketplaceFlowerUsdPrice(v) {
+  if (typeof v !== "number" || !isFinite(v) || v <= 0) return;
+  marketplaceFlowerUsdPrice = v;
+  localStorage.setItem("hl_flower_usd_price", String(v));
+}
+
 async function fetchLivePricesFromMarketplaceApi() {
   const report = await fetchMarketplaceActivityReport();
+  setMarketplaceFlowerUsdPrice(report.flowerPrice);
   const pools = buildPricePoolsFromMarketplaceItems(report.items);
   const p2p = pools.collectiblesPool;
   const nft = Object.assign({}, pools.collectiblesPool, pools.wearablesPool, pools.budsPool, pools.petsPool);
@@ -3082,16 +3123,9 @@ document.addEventListener("click", e => {
 }, true);
 
 export async function fetchLivePrices() {
-  try {
-    const result = await fetchLivePricesFromMarketplaceApi();
-    setLivePriceSource("lap");
-    return result;
-  } catch (e) {
-    console.warn("sunflower-land.com marketplace price fetch failed, falling back to sfl.world:", e);
-    const result = await fetchLivePricesFromSflWorld();
-    setLivePriceSource("sw");
-    return result;
-  }
+  const result = await fetchLivePricesFromMarketplaceApi();
+  setLivePriceSource("lap");
+  return result;
 }
 
 export async function initLivePricesOnLoad() {
@@ -3191,7 +3225,7 @@ function renderMarketRow(m) {
     meta = tool ? `From "${escapeHtml(tool.name)}"${liveTag}` : isLive ? "🔄 live" : "";
   }
   const priceBadge = priceSourceBadgeHtml(getLivePriceSourceForItem(m));
-  return `\n  <div class="lib-item-row" data-search="${escapeHtml((m.name || "").toLowerCase())}">\n    <span class="lib-item-icon">${getIcon(m.name)}</span>\n    <div class="lib-item-main">\n      <div class="lib-item-name">${escapeHtml(m.name)}</div>\n      <div class="lib-item-meta">${meta}</div>\n    </div>\n    <div class="lib-item-price is-flower${isLive ? " is-live" : ""} market-price-tap" data-id="${m.id}" title="Tap to edit price">${priceBadge}<span class="lib-item-price-inline">${fmt(m.flowerPrice || 0)} ${FLOWER_ICON}</span></div>\n  </div>`;
+  return `\n  <div class="lib-item-row" data-search="${escapeHtml((m.name || "").toLowerCase())}">\n    <span class="lib-item-icon">${getIcon(m.name)}</span>\n    <div class="lib-item-main">\n      <div class="lib-item-name">${escapeHtml(m.name)}</div>\n      <div class="lib-item-meta">${meta}</div>\n    </div>\n    <div class="lib-item-price is-flower${isLive ? " is-live" : ""} market-price-tap" data-id="${m.id}" title="Tap to edit price">${priceBadge}<span class="lib-item-price-inline">${fmtFlowerPrice(m.flowerPrice || 0)} ${FLOWER_ICON}</span></div>\n  </div>`;
 }
 
 export function renderMedicineCostDisplay() {

@@ -46,6 +46,8 @@ export function farmPanelGetLastInfo() {
     factionTotalXP: parseFloat(localStorage.getItem("hl_farm_panel_faction_total_xp")) || 0,
     factionGoalXP: parseFloat(localStorage.getItem("hl_farm_panel_faction_goal_xp")) || 0,
     factionStreak: parseInt(localStorage.getItem("hl_farm_panel_faction_streak"), 10) || 0,
+    factionLastWeekStreak: parseInt(localStorage.getItem("hl_farm_panel_faction_last_week_streak"), 10) || 0,
+    factionQualifiesForBoost: localStorage.getItem("hl_farm_panel_faction_qualifies_for_boost") === "1",
     factionIsContributing: localStorage.getItem("hl_farm_panel_faction_is_contributing") === "1"
   };
 }
@@ -66,10 +68,9 @@ export function farmPanelSaveLastInfo(id, level, vipStatus, factionInfo, experie
   localStorage.setItem("hl_farm_panel_faction_total_xp", String(fi.totalXP || 0));
   localStorage.setItem("hl_farm_panel_faction_goal_xp", String(fi.goalXP || 0));
   localStorage.setItem("hl_farm_panel_faction_streak", String(fi.streak || 0));
+  localStorage.setItem("hl_farm_panel_faction_last_week_streak", String(fi.lastWeekStreak || 0));
+  localStorage.setItem("hl_farm_panel_faction_qualifies_for_boost", fi.qualifiesForBoost ? "1" : "0");
   localStorage.setItem("hl_farm_panel_faction_is_contributing", fi.isContributingMember ? "1" : "0");
-  if (fi.hasPetData) {
-    localStorage.setItem("hl_faction_pet_week_streak", String(fi.streak || 0));
-  }
 }
 
 export let farmPanelGameState = null;

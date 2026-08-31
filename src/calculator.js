@@ -1,5 +1,5 @@
 import { __set_farmPanelInProgressCategoryFilter, __set_farmPanelSyncInFlight, farmPanelAOEExtent, farmPanelCheckTurtleAOEBonus, farmPanelComputeEconomics, farmPanelComputeExactCrimstoneYield, farmPanelComputeExactCropYield, farmPanelComputeExactFlowerYield, farmPanelComputeExactFruitYield, farmPanelComputeExactGreenhouseYield, farmPanelCropTierLabel, farmPanelDebugFindShapes, farmPanelDetectNodeTier, farmPanelField, farmPanelGameState, farmPanelGetCollectiblePosition, farmPanelGetCropGrowDurationMsFromSync, farmPanelGetLastInfo, farmPanelGetMarketId, farmPanelGnomeAOEBonus, farmPanelGnomeComboPresent, farmPanelGrowTimeSec, farmPanelIsWithinTurtleAOE, farmPanelLoadCachedGameState, farmPanelMarkScrollActivity, farmPanelMergeAuthoritativeResourceData, farmPanelSaveGameState, farmPanelSaveLastInfo, farmPanelSyncInFlight } from './inprogress.js';
-import { SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, fetchLivePrices, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from './prices.js';
+import { SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, fetchLivePrices, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketplaceFlowerUsdPrice, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from './prices.js';
 import { loadBaseHoneyIfNeeded, profileBumpkinCachePersist, safeLSJSON, saveAnimalAffectionTools, saveAnimalBuds, saveAnimalCounts, saveAnimalSicknessEstimate, saveAoeSyncOverrides, saveAscensionState, saveBeeSwarmState, saveBoostState, saveBoosts, saveBudFloorPrice, saveCmOilTank, saveCmQueue, saveCookingCounts, saveCropBuds, saveCrustaceanChumSelection, saveFishBuds, saveFlowerVarietyOverrides, saveFruitBuds, saveFruitCounts, saveGlobalPlotCount, saveGlobalPlotCountTouched, saveGreenhouseBuds, saveGreenhouseCounts, saveHiveCount, saveManualCycleOverrides, saveMarketState, saveNodeCounts, saveNodeCountsTouched, savePetFloorPrice, savePetResourceCostOverride, savePetsData, saveResourceBuds, saveSaltFarmLevel, saveSaltUi, saveSculptureLevel, saveSelectedHoneyFlower, saveSelectedSwarmCrop, saveSkillState, saveSpiceUsage, saveState, saveSyncedSkillLevels, saveToolRecipes, saveTradeState, saveWeatherDestructionSync } from './storage.js';
 import { $, bountyToggle, closeBettyShop, closeBoostPanel, closeBudPicker, closeChapterFishMutants, closeDeleteTradeConfirm, closeDigPanel, closeDisclaimer, closeExpansionSim, closeFarmPanel, closeGunterShop, closeMoreMenu, closeNewTradeModal, closePetTraitPicker, closePixelPicker, closeProfile, closeRcmInfoModal, closeSellTradeModal, closeSettingsModal, closeTicketCalc, closeTradeItemPicker, closeTradeShop, esIslandIcon, esRenderMissingToggle, esRenderModeToggle, getBoostIcon, getIcon, getMutantFishIcon, getTreasureIcon, hideDailyProfitCard, hideSyncProgressModal, hideTop10Card, npcDeliverToggle, openBettyShop, openBoostPanel, openChapterFishMutants, openDigPanel, openDisclaimer, openExpansionSim, openFarmPanel, openGunterShop, openMoreMenu, openNewTradeModal, openProfile, openRcmInfoModal, openSettingsModal, openTicketCalc, openTradeItemPicker, openTradeShop, refreshAnimalAffectionToolToggleUI, renderAnimalsList, renderAscensionBar, renderBaseCoinSummaryLists, renderBettyShop, renderBoostPanel, renderBudDropdown, renderCalcIngredients, renderCmOilTank, renderCmQtyControls, renderCmSelectedDetail, renderCmSummary, renderComposterList, renderCookingFoodList, renderCookingPanel, renderCropMachineCalc, renderCropMachineMachine, renderCropMachinePanel, renderCropsList, renderDigTreasurePanel, renderFarmPanelInfo, renderFarmPanelTabContent, renderFishBudList, renderFishingPanel, renderFishingTierList, renderFruitsList, renderGreenhouseList, renderGunterShop, renderHoneyList, renderLibraryLists, renderPetFoodTabs, renderPetsPanel, renderPickerList, renderPlotNodeInputs, renderProfileTradable, renderProfileView, renderResourceList, renderSaltList, renderSeasonToggle, renderSkillPanel, renderTicketCalc, renderTotalsBreakdown, renderTradeShop, resetLibModalFields, setBountyToggle, setFarmPanelTab, showDailyProfitCard, showSyncCompleteModal, showSyncProgressModal, showSyncTimingPanel, showTop10Card, toggleMainView, updateRcmToggleUI } from './ui.js';
 
@@ -939,6 +939,26 @@ export function fmt(n) {
   return cleaned.toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 6
+  });
+}
+
+export function truncateToDecimals(n, decimals) {
+  if (!isFinite(n)) return n;
+  const neg = n < 0;
+  const abs = Math.abs(n);
+  const str = abs.toFixed(10);
+  const dot = str.indexOf(".");
+  const truncated = dot === -1 ? str : str.slice(0, dot + decimals + 1);
+  const result = parseFloat(truncated);
+  return neg ? -result : result;
+}
+
+export function fmtFlowerPrice(n) {
+  if (!isFinite(n)) return "—";
+  const cleaned = truncateToDecimals(n, 4);
+  return cleaned.toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 4
   });
 }
 
@@ -5168,7 +5188,6 @@ const SKILL_COOKING = [ {
   id: "skill_double_nom",
   name: "Double Nom",
   skillTier: 3,
-  notModeled: true,
   note: "+1 food from all cooking, but requires ×2 ingredients"
 }, {
   id: "skill_swift_sizzle",
@@ -6877,7 +6896,7 @@ export const ASCENSION_RANK_DATA = {
   skill_double_nom: {
     field: null,
     values: [ 1, 2, 3 ],
-    note: "+1/+2/+3 food from cooking, needs 2x/3x/4x ingredients — not wired yet"
+    note: "+1/+2/+3 food from cooking, needs 2x/3x/4x ingredients (now wired)"
   },
   skill_efficiency_extension_module: {
     field: "oilReducePct",
@@ -10201,11 +10220,38 @@ export function skillRankUsageHtml(s, rank) {
   const tier = s.skillTier || 1;
   const cost = ASCENSION_UPGRADE_COST[tier] || ASCENSION_UPGRADE_COST[1];
   const steps = Math.max(0, rank - 1);
+  const stepShards = steps > 0 ? cost.shards : 0;
+  const stepPoints = steps > 0 ? cost.points : 0;
   const shardsUsed = cost.shards * steps;
   const pointsUsed = cost.points * steps;
+  const rankList = [];
+  for (let r = 2; r <= rank; r++) rankList.push(r);
+  const stepCaption = `USED FOR RANK ${rank}`;
+  const totalCaption = rankList.length ? `USED FOR RANK ${rankList.join(" & ")}` : "";
   return `<div class="skill-rank-usage" data-skill-id="${s.id}">
-    <div class="skill-rank-usage-row"><img class="skill-rank-usage-icon" src="${IMAGE_ICONS["Ascension Shard"]}" alt="Ascension Shard"><span class="skill-rank-usage-val">${fmt(shardsUsed)}</span></div>
-    <div class="skill-rank-usage-row"><span class="skill-rank-usage-label">SP</span><span class="skill-rank-usage-val">${fmt(pointsUsed)}</span></div>
+    <div class="skill-rank-usage-group-wrap">
+      <div class="skill-rank-usage-label-row">
+        <img class="skill-rank-usage-mini-icon" src="${IMAGE_ICONS["Ascension Shard"]}" alt="Ascension Shard">
+        <span class="skill-rank-usage-mini-badge">SP</span>
+        <span class="skill-rank-usage-caption">${stepCaption}</span>
+      </div>
+      <div class="skill-rank-usage-group">
+        <div class="skill-rank-usage-row"><img class="skill-rank-usage-icon" src="${IMAGE_ICONS["Ascension Shard"]}" alt="Ascension Shard"><span class="skill-rank-usage-val">${fmt(stepShards)}</span></div>
+        <div class="skill-rank-usage-row"><span class="skill-rank-usage-label">SP</span><span class="skill-rank-usage-val">${fmt(stepPoints)}</span></div>
+      </div>
+    </div>
+    <div class="skill-rank-usage-group-wrap skill-rank-usage-total">
+      <div class="skill-rank-usage-label-row">
+        <span class="skill-rank-usage-caption skill-rank-usage-caption-total">TOTAL</span>
+        <img class="skill-rank-usage-mini-icon" src="${IMAGE_ICONS["Ascension Shard"]}" alt="Ascension Shard">
+        <span class="skill-rank-usage-mini-badge">SP</span>
+        <span class="skill-rank-usage-caption">${totalCaption}</span>
+      </div>
+      <div class="skill-rank-usage-group">
+        <div class="skill-rank-usage-row"><img class="skill-rank-usage-icon" src="${IMAGE_ICONS["Ascension Shard"]}" alt="Ascension Shard"><span class="skill-rank-usage-val">${fmt(shardsUsed)}</span></div>
+        <div class="skill-rank-usage-row"><span class="skill-rank-usage-label">SP</span><span class="skill-rank-usage-val">${fmt(pointsUsed)}</span></div>
+      </div>
+    </div>
   </div>`;
 }
 
@@ -12283,14 +12329,14 @@ async function performLiveSync() {
 $("syncLivePricesBtn").onclick = async () => {
   const r = await performLiveSync();
   if (!r) return;
-  if (r.ok) toast(describeSyncResult(r.result)); else toast("⚠️ Couldn't reach sfl.world directly (blocked by file:// or CORS). Try the paste option below.");
+  if (r.ok) toast(describeSyncResult(r.result)); else toast("⚠️ Couldn't reach the Marketplace API right now. Try the paste option below.");
 };
 
 if ($("tradeShopSyncBtn")) {
   $("tradeShopSyncBtn").onclick = async () => {
     const r = await performLiveSync();
     if (!r) return;
-    if (r.ok) toast(describeSyncResult(r.result)); else toast("⚠️ Couldn't reach sfl.world directly (blocked by file:// or CORS). Try the paste option below.");
+    if (r.ok) toast(describeSyncResult(r.result)); else toast("⚠️ Couldn't reach the Marketplace API right now. Try the paste option below.");
   };
 }
 
@@ -12332,7 +12378,7 @@ function describeSyncResult(result, isImport) {
   }
   if (result.updated === 0) {
     const sample = result.unmatched.slice(0, 3).join(", ");
-    return `${verb}, but 0 of ${result.total} of your items matched by name. Check your library's "produces" names match sfl.world exactly (e.g. "Corn" not "Corn Seed"). Unmatched: ${sample}${result.unmatched.length > 3 ? "..." : ""}`;
+    return `${verb}, but 0 of ${result.total} of your items matched by name. Check your library's "produces" names match the game exactly (e.g. "Corn" not "Corn Seed"). Unmatched: ${sample}${result.unmatched.length > 3 ? "..." : ""}`;
   }
   return `${verb} ${result.updated} of ${result.total} live prices 💰`;
 }
@@ -12398,6 +12444,12 @@ async function fetchCommunityFarmData(farmId) {
 export function farmSyncExtractGameState(json) {
   if (!json || typeof json !== "object") return {};
   return json.game || json.farm || json.gameState || json.state || json.data && (json.data.game || json.data.farm || json.data.gameState) || json;
+}
+
+function farmSyncGetUsernameFromState(json) {
+  const g = farmSyncExtractGameState(json);
+  const name = g && (g.username || g.Username || g.name);
+  return typeof name === "string" && name.trim() ? name.trim() : null;
 }
 
 export function farmSyncGetApiUsername(farmId) {
@@ -12750,6 +12802,8 @@ function farmSyncGetFactionPetInfo(g) {
     totalXP: 0,
     goalXP: 0,
     streak: 0,
+    lastWeekStreak: 0,
+    qualifiesForBoost: false,
     sleeping: false,
     goalReached: false,
     isContributingMember: false
@@ -12757,9 +12811,12 @@ function farmSyncGetFactionPetInfo(g) {
   const faction = farmSyncGetFaction(g);
   if (!faction) return empty;
   const week = factionGetWeekKey();
+  const lastWeek = factionGetWeekKey(new Date(new Date(week).getTime() - 7 * 24 * 60 * 60 * 1e3));
   const history = farmSyncAsObj(faction.history);
   const weekHistory = farmSyncAsObj(history && history[week]);
   const collectivePet = farmSyncAsObj(weekHistory && weekHistory.collectivePet);
+  const lastWeekHistory = farmSyncAsObj(history && history[lastWeek]);
+  const lastWeekCollectivePet = farmSyncAsObj(lastWeekHistory && lastWeekHistory.collectivePet);
   const pet = farmSyncAsObj(faction.pet);
   const requests = pet && Array.isArray(pet.requests) ? pet.requests : [];
   const isContributingMember = requests.length > 0 && requests.every(r => {
@@ -12773,6 +12830,8 @@ function farmSyncGetFactionPetInfo(g) {
     totalXP: collectivePet ? Number(collectivePet.totalXP) || 0 : 0,
     goalXP: collectivePet ? Number(collectivePet.goalXP) || 0 : 0,
     streak: collectivePet ? Number(collectivePet.streak) || 0 : 0,
+    lastWeekStreak: lastWeekCollectivePet ? Number(lastWeekCollectivePet.streak) || 0 : 0,
+    qualifiesForBoost: !!(pet && pet.qualifiesForBoost),
     sleeping: !!(collectivePet && collectivePet.sleeping),
     goalReached: !!(collectivePet && collectivePet.goalReached),
     isContributingMember: isContributingMember
@@ -15103,13 +15162,13 @@ async function performFarmPanelSync(farmId) {
   let __syncErrorMsg = null;
   try {
     __mark("sync start");
-    const [json, apiUsername, communityResult] = await Promise.all([ fetchFarmSnapshotRaw(farmId), fetchFarmUsername(farmId), fetchCommunityFarmData(farmId).then(data => ({
+    const communityData = await fetchCommunityFarmData(farmId);
+    const json = communityData;
+    const communityResult = {
       ok: true,
-      data: data
-    })).catch(e => ({
-      ok: false,
-      error: e.message
-    })) ]);
+      data: communityData
+    };
+    const apiUsername = farmSyncGetUsernameFromState(communityData);
     __mark("network fetch done");
     __syncMark = __mark;
     const prevSelectedBoostsSig = JSON.stringify(selectedBoosts);
@@ -20989,6 +21048,26 @@ function cookingSkillRankMultiplier(skillId, rankAddValues) {
   return 1 + (rankAddValues[idx] !== undefined ? rankAddValues[idx] : rankAddValues[0]);
 }
 
+const DOUBLE_NOM_BONUS_FOOD = [ 1, 2, 3 ];
+
+const DOUBLE_NOM_INGREDIENT_MULT = [ 2, 3, 4 ];
+
+export function getDoubleNomRank() {
+  if (typeof isSkillActive !== "function" || !isSkillActive("skill_double_nom")) return 0;
+  const rank = typeof getAscensionRank === "function" ? getAscensionRank("skill_double_nom") : 1;
+  return Math.min(Math.max(rank, 1), 3);
+}
+
+export function getDoubleNomIngredientMultiplier() {
+  const rank = getDoubleNomRank();
+  return rank ? DOUBLE_NOM_INGREDIENT_MULT[rank - 1] : 1;
+}
+
+export function getDoubleNomBonusFood() {
+  const rank = getDoubleNomRank();
+  return rank ? DOUBLE_NOM_BONUS_FOOD[rank - 1] : 0;
+}
+
 function getPortBudFishXpMult() {
   let maxBoost = 1;
   const g = typeof profileGetG === "function" ? profileGetG() : null;
@@ -21201,8 +21280,9 @@ export function cookingComputeTotals() {
       const {exp: exp} = cookingComputeFoodExp(b, food);
       totalExpAdded += exp * count;
       if (xpByCategory[b] !== undefined) xpByCategory[b] += exp * count;
+      const doubleNomMult = getDoubleNomIngredientMultiplier();
       Object.keys(rec.ingredients).forEach(ing => {
-        totalCostCoins += rec.ingredients[ing] * count * cookingIngredientUnitCostCoins(ing, cookingCostMode);
+        totalCostCoins += rec.ingredients[ing] * doubleNomMult * count * cookingIngredientUnitCostCoins(ing, cookingCostMode);
       });
     });
   });
@@ -21224,14 +21304,18 @@ export function cookingComputeTotals() {
 }
 
 export function factionPetGetEffectiveStreak() {
-  const raw = localStorage.getItem("hl_faction_pet_week_streak");
-  const n = parseInt(raw, 10);
-  return !isNaN(n) && n >= 0 ? n : 0;
+  if (factionPetManualMode) {
+    const raw = localStorage.getItem("hl_faction_pet_manual_streak");
+    const n = parseInt(raw, 10);
+    return !isNaN(n) && n >= 0 ? n : 0;
+  }
+  const info = farmPanelGetLastInfo();
+  return Number(info.factionLastWeekStreak) || 0;
 }
 
 export function factionPetSetManualStreak(val) {
   const n = parseInt(val, 10);
-  localStorage.setItem("hl_faction_pet_week_streak", String(!isNaN(n) && n >= 0 ? n : 0));
+  localStorage.setItem("hl_faction_pet_manual_streak", String(!isNaN(n) && n >= 0 ? n : 0));
 }
 
 export function factionPetGetActiveTier(streak) {
@@ -21245,8 +21329,9 @@ export function factionPetGetActiveTier(streak) {
 export function factionPetShouldApplyBoost() {
   if (factionPetManualMode) return true;
   const info = farmPanelGetLastInfo();
-  if (info.factionIsMember && info.factionHasPetData && !info.factionIsContributing) return false;
-  return true;
+  if (!info.factionIsMember || !info.factionHasPetData) return false;
+  if (Number(info.factionLastWeekStreak) < 2) return false;
+  return !!info.factionQualifiesForBoost;
 }
 
 function factionPetGetBoostMultiplier() {
@@ -23845,16 +23930,9 @@ async function performDigOnlySync() {
   const btn = $("digPanelSyncBtn");
   if (btn) btn.classList.add("is-syncing");
   try {
-    const [json, communityResult] = await Promise.all([ fetchFarmSnapshotRaw(farmId), fetchCommunityFarmData(farmId).then(data => ({
-      ok: true,
-      data: data
-    })).catch(e => ({
-      ok: false,
-      error: e.message
-    })) ]);
-    const g = farmSyncExtractGameState(json);
-    const communityG = communityResult.ok ? farmSyncExtractGameState(communityResult.data) : null;
-    const desert = (communityG && communityG.desert) || (g && g.desert);
+    const communityData = await fetchCommunityFarmData(farmId);
+    const g = farmSyncExtractGameState(communityData);
+    const desert = g && g.desert;
     if (!desert) {
       toast("No dig data found for this farm.");
       return;
@@ -23995,19 +24073,15 @@ function profileFindStrictUsdRate(obj, currencyRegex, depth) {
 }
 
 export async function ensureExchangeRates() {
+  if (typeof marketplaceFlowerUsdPrice === "number" && marketplaceFlowerUsdPrice > 0) return liveExchangeRates;
   try {
-    const res = await fetch(SFL_EXCHANGE_API);
-    if (!res.ok) return liveExchangeRates;
-    const data = await res.json();
-    if (data && typeof data === "object") {
-      liveExchangeRates = data;
-      localStorage.setItem("hl_live_exchange", JSON.stringify(liveExchangeRates));
-    }
+    await fetchLivePrices();
   } catch (e) {}
   return liveExchangeRates;
 }
 
 function flowerToUsdRate() {
+  if (typeof marketplaceFlowerUsdPrice === "number" && marketplaceFlowerUsdPrice > 0) return marketplaceFlowerUsdPrice;
   const strict = profileFindStrictUsdRate(liveExchangeRates, /sfl|flower/i, 0);
   if (strict != null) return strict;
   return profileFindNumericRateInObj(liveExchangeRates, /sfl|flower/i, 0);
