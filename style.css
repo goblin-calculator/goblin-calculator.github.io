@@ -1519,14 +1519,34 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
     background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:4px 6px;
   }
   .skill-rank-usage{
-    display:flex; gap:6px; flex-wrap:wrap; margin-top:-1px;
+    display:flex; flex-direction:column; gap:6px; margin-top:-1px;
     padding:5px 8px 6px; border:2px solid #7c5cff; border-top:1px dashed rgba(124,92,255,.4);
     background:rgba(124,92,255,.05);
+  }
+  .skill-rank-usage-group-wrap{ display:flex; flex-direction:column; gap:2px; }
+  .skill-rank-usage-label-row{
+    display:flex; align-items:center; gap:3px; flex-wrap:wrap;
+  }
+  .skill-rank-usage-mini-icon{ width:10px; height:10px; image-rendering:pixelated; }
+  .skill-rank-usage-mini-badge{
+    font-size:7.2px; font-weight:800; letter-spacing:.2px; color:#fff;
+    background:#7c5cff; border-radius:3px; padding:1px 3px; line-height:1;
+  }
+  .skill-rank-usage-caption{
+    font-size:8.4px; font-weight:800; letter-spacing:.3px; color:var(--ink-soft); text-transform:uppercase;
+  }
+  .skill-rank-usage-caption-total{ color:#7c5cff; }
+  .skill-rank-usage-group{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .skill-rank-usage-total{
+    padding:3px 4px; border-radius:4px; background:transparent;
+  }
+  .skill-rank-usage-total .skill-rank-usage-group{
+    background:var(--sfl-inner, transparent); border-radius:4px; padding:3px 4px;
   }
   .skill-rank-usage-row{
     display:flex; align-items:center; gap:4px;
     font-family:'JetBrains Mono',monospace; font-size:10.8px; font-weight:700; color:var(--ink);
-    background:var(--surface); border:1px solid var(--line); border-radius:4px; padding:2px 6px;
+    background:var(--sfl-search, var(--surface)); border:1px solid var(--line); border-radius:4px; padding:2px 6px;
   }
   .skill-rank-usage-icon{ width:14px; height:14px; image-rendering:pixelated; vertical-align:-2px; }
   .skill-rank-usage-label{
