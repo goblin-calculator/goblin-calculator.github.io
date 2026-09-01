@@ -4200,6 +4200,282 @@ export function renderBumpkinLevelPanel() {
   });
 }
 
+const AUCTION_TICKET_ICON_SRC = "data:image/webp;base64,UklGRpIAAABXRUJQVlA4TIUAAAAvCsADEEegkJEk5vwpDuo7QYN4DQJBiJwx2llqGkmB7jF/ElCHAVpawvwHwP9LTltlHDNNG1wB28i2lSo72cu/NGAQSwfWgJXAkLo08CGi/wHr8wC5csJaFjvkuhLWTtXCOpnxYu3TtLOGFE/yznZR1t6MO2uW4g1LmgXW7wb4BWB9AXgAAA==";
+
+const AUCTION_TICKET_ICON_HTML = `<img src="${AUCTION_TICKET_ICON_SRC}" alt="Shiny Feather" style="width:14px;height:14px;vertical-align:-2px;image-rendering:pixelated;">`;
+
+const AUCTION_TRACKER_API_URL = "https://sfl-community-proxy.bossweki.workers.dev/community/data?type=ticketLeaderboard";
+
+const AUCTION_TRACKER_FARM_ID_LS_KEY = "hl_auction_tracker_farm_id";
+
+const AUCTION_TRACKER_FILTER_DEFS = [
+  { id: "all", label: "All" },
+  { id: "ascension", label: "Ascension Level" },
+  { id: "exp", label: "EXP" },
+  { id: "nonascended", label: "None Ascended" }
+];
+
+const AUCTION_TRACKER_DISPLAY_DEFS = [
+  { id: 500, label: "Top 500" },
+  { id: 100, label: "Top 100" },
+  { id: 50, label: "Top 50" }
+];
+
+let auctionTrackerFilter = "all";
+let auctionTrackerDisplayLimit = 500;
+let auctionTrackerData = null;
+let auctionTrackerLoading = false;
+let auctionTrackerError = null;
+let auctionTrackerFetchedForFarmId = null;
+
+function auctionTrackerGetFarmId() {
+  const stored = (localStorage.getItem(AUCTION_TRACKER_FARM_ID_LS_KEY) || "").trim();
+  if (stored) return stored;
+  return (readFarmSyncedId() || "").trim();
+}
+
+function auctionTrackerSetFarmId(id) {
+  localStorage.setItem(AUCTION_TRACKER_FARM_ID_LS_KEY, id || "");
+}
+
+async function auctionTrackerFetchData(farmId, force) {
+  if (!farmId) {
+    auctionTrackerError = "Enter a Farm ID below (or sync your farm) to load the leaderboard.";
+    auctionTrackerData = null;
+    auctionTrackerFetchedForFarmId = null;
+    renderAuctionTrackerPanel();
+    return;
+  }
+  if (!force && auctionTrackerData && auctionTrackerFetchedForFarmId === farmId) return;
+  auctionTrackerLoading = true;
+  auctionTrackerError = null;
+  renderAuctionTrackerPanel();
+  try {
+    const url = AUCTION_TRACKER_API_URL + "&farmId=" + encodeURIComponent(farmId) + "&limit=500";
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error("Request failed (" + res.status + ")");
+    const json = await res.json();
+    if (!json || !json.data) throw new Error("Unexpected response from leaderboard API");
+    auctionTrackerData = json.data;
+    auctionTrackerFetchedForFarmId = farmId;
+  } catch (e) {
+    auctionTrackerError = "Couldn't load the leaderboard" + (e && e.message ? " — " + e.message : "") + ".";
+  } finally {
+    auctionTrackerLoading = false;
+    renderAuctionTrackerPanel();
+  }
+}
+
+function auctionTrackerSortedRows() {
+  const source = (auctionTrackerData && auctionTrackerData.topTen) || [];
+  return source.map((r, i) => Object.assign({}, r, { rank: i + 1 }));
+}
+
+function auctionTrackerTieBreakSort(rows) {
+  return rows.slice().sort((a, b) => {
+    const countDiff = (b.count || 0) - (a.count || 0);
+    if (countDiff !== 0) return countDiff;
+    const ascDiff = (b.ascensionLevel || 0) - (a.ascensionLevel || 0);
+    if (ascDiff !== 0) return ascDiff;
+    return (b.experience || 0) - (a.experience || 0);
+  });
+}
+
+function auctionTrackerExpSort(rows) {
+  return rows.slice().sort((a, b) => (b.experience || 0) - (a.experience || 0));
+}
+
+function auctionTrackerRankedRows(filter, limit) {
+  const rows = auctionTrackerSortedRows();
+  const pool = limit ? rows.slice(0, limit) : rows;
+  if (filter === "ascension") {
+    return auctionTrackerTieBreakSort(pool.filter(r => (r.ascensionLevel || 0) > 0));
+  }
+  if (filter === "exp") {
+    return auctionTrackerExpSort(pool);
+  }
+  if (filter === "nonascended") {
+    return auctionTrackerTieBreakSort(pool.filter(r => (r.ascensionLevel || 0) === 0));
+  }
+  return pool;
+}
+
+function auctionTrackerRelativeTime(ts) {
+  const then = new Date(ts).getTime();
+  if (!isFinite(then)) return "";
+  const diffMs = Date.now() - then;
+  const diffSec = Math.floor(diffMs / 1000);
+  if (diffSec < 5) return "just now";
+  if (diffSec < 60) return `${diffSec} second${diffSec === 1 ? "" : "s"} ago`;
+  const diffMin = Math.floor(diffSec / 60);
+  if (diffMin < 60) return `${diffMin} minute${diffMin === 1 ? "" : "s"} ago`;
+  const diffHr = Math.floor(diffMin / 60);
+  if (diffHr < 24) return `${diffHr} hour${diffHr === 1 ? "" : "s"} ago`;
+  const diffDay = Math.floor(diffHr / 24);
+  return `${diffDay} day${diffDay === 1 ? "" : "s"} ago`;
+}
+
+function auctionTrackerOwnRank(farmId) {
+  if (!auctionTrackerData || !farmId) return null;
+  const numericId = Number(farmId);
+  if (!isFinite(numericId)) return null;
+  const rows = auctionTrackerSortedRows();
+  for (let i = 0; i < rows.length; i++) {
+    if (Number(rows[i].farmId) === numericId) return { rank: rows[i].rank, row: rows[i] };
+  }
+  const details = auctionTrackerData.farmRankingDetails;
+  if (Array.isArray(details)) {
+    const match = details.find(r => Number(r.farmId) === numericId);
+    if (match) return { rank: match.rank, row: match };
+  }
+  return null;
+}
+
+export function renderAuctionTrackerPanel() {
+  const body = $("auctionTrackerBody");
+  if (!body) return;
+  const g = profileGetG();
+  const info = farmPanelGetLastInfo();
+  const experience = info.experience || 0;
+  const ascensionLevel = info.ascensionLevel || 0;
+  const curInfo = getAscensionLevelInfo(experience, ascensionLevel);
+  const displayName = profileGetDisplayName();
+  const levelLabel = ascensionLevel > 0 ? `A${fmtInt(ascensionLevel)} · Lv ${fmtInt(curInfo.level)}` : `Lv ${fmtInt(curInfo.level)}`;
+  const bumpkinFrameHtml = g ? profileBumpkinFrameHtml(g) : "";
+  const farmId = auctionTrackerGetFarmId();
+
+  if (!auctionTrackerLoading && !auctionTrackerError && (!auctionTrackerData || auctionTrackerFetchedForFarmId !== farmId)) {
+    auctionTrackerFetchData(farmId, false);
+  }
+
+  const own = auctionTrackerOwnRank(farmId);
+  const chapterRankHtml = own ? `#${fmtInt(own.rank)}` : (auctionTrackerData ? "Unranked" : "—");
+  const chapterTicketCount = own ? own.row.count : null;
+
+  const filterHtml = AUCTION_TRACKER_FILTER_DEFS.map(f => {
+    const count = auctionTrackerRankedRows(f.id, auctionTrackerDisplayLimit).length;
+    return `<button type="button" class="at-filter-btn${auctionTrackerFilter === f.id ? " active" : ""}" data-at-filter="${f.id}">${f.label} <span class="at-filter-count">[${fmtInt(count)}]</span></button>`;
+  }).join("");
+  const displayHtml = AUCTION_TRACKER_DISPLAY_DEFS.map(d => `<button type="button" class="at-display-btn${auctionTrackerDisplayLimit === d.id ? " active" : ""}" data-at-display="${d.id}">${d.label}</button>`).join("");
+
+  let listHtml = "";
+  if (auctionTrackerLoading) {
+    listHtml = `<div class="at-empty">Loading leaderboard…</div>`;
+  } else if (auctionTrackerError) {
+    listHtml = `<div class="at-empty">${escapeHtml(auctionTrackerError)}</div>`;
+  } else if (!auctionTrackerData) {
+    listHtml = `<div class="at-empty">Enter a Farm ID below to load the leaderboard.</div>`;
+  } else {
+    const rows = auctionTrackerRankedRows(auctionTrackerFilter, auctionTrackerDisplayLimit);
+    if (!rows.length) {
+      listHtml = `<div class="at-empty">No ranked farms match this filter yet.</div>`;
+    } else {
+      const showFilterRank = auctionTrackerFilter !== "all";
+      listHtml = rows.map((r, i) => {
+        const rInfo = getAscensionLevelInfo(r.experience || 0, r.ascensionLevel || 0);
+        const isOwn = farmId && Number(r.farmId) === Number(farmId);
+        const bumpLevelText = (r.ascensionLevel || 0) > 0 ? `A${fmtInt(r.ascensionLevel)} · Lv ${fmtInt(rInfo.level)}` : `Lv ${fmtInt(rInfo.level)}`;
+        return `
+        <div class="at-row${isOwn ? " is-own" : ""}">
+          <div class="at-row-top">
+            <span class="at-row-rank">${showFilterRank ? `<span class="at-row-filter-rank">#${fmtInt(i + 1)}</span><span class="at-row-real-rank">Real #${fmtInt(r.rank)}</span>` : `#${fmtInt(r.rank)}`}</span>
+            <span class="at-row-name">${escapeHtml(r.id || "—")}${isOwn ? ` <span class="at-row-you">★ You</span>` : ""}</span>
+            <span class="at-row-tickets">${AUCTION_TICKET_ICON_HTML} ${fmtInt(r.count)}</span>
+          </div>
+          <div class="at-row-stats">
+            <span class="at-stat-bumpkin"><b>Bumpkin</b> ${bumpLevelText}</span>
+            <span class="at-stat-exp"><b>Total EXP</b> ${fmtInt(r.experience || 0)}</span>
+            <span class="at-stat-ascension"><b>Ascension</b> ${fmtInt(r.ascensionLevel || 0)}</span>
+          </div>
+        </div>`;
+      }).join("");
+    }
+  }
+
+  body.innerHTML = `
+    <div class="at-title">Chapter Race</div>
+    <div class="at-summary-box">
+      <div class="profile-bumpkin-frame">${bumpkinFrameHtml}</div>
+      <div class="at-summary-stats">
+        <div class="at-stat-row"><span class="at-stat-label">Name</span><span class="at-stat-value">${escapeHtml(displayName)}</span></div>
+        <div class="at-stat-row"><span class="at-stat-label">Bumpkin Total EXP</span><span class="at-stat-value">${fmtInt(experience)}</span></div>
+        <div class="at-stat-row"><span class="at-stat-label">Bumpkin Level</span><span class="at-stat-value">${levelLabel}</span></div>
+        <div class="at-stat-row"><span class="at-stat-label">Ascension Level</span><span class="at-stat-value">${fmtInt(ascensionLevel)}</span></div>
+      </div>
+    </div>
+    <div class="at-top-row">
+      <div class="at-chapter-wrap">
+        <div class="at-rank-label">Chapter Race Ranking</div>
+        <div class="at-rank-card">
+          <div class="at-rank-value">${chapterRankHtml}</div>
+          <div class="at-ticket-row">${AUCTION_TICKET_ICON_HTML} Shiny Feather <span class="at-ticket-count">${chapterTicketCount != null ? fmtInt(chapterTicketCount) : "—"}</span></div>
+        </div>
+      </div>
+      <div class="at-display-wrap">
+        <div class="at-display-label">Display Mode</div>
+        <div class="at-display-btns">${displayHtml}</div>
+      </div>
+    </div>
+    <div class="at-list-wrap">
+      ${auctionTrackerData && auctionTrackerData.lastUpdated ? `<div class="at-updated-note">Last Updated ${escapeHtml(auctionTrackerRelativeTime(auctionTrackerData.lastUpdated))}</div>` : ""}
+      <div class="at-section-label">Top ${fmtInt(auctionTrackerDisplayLimit)} Players for ${AUCTION_TICKET_ICON_HTML} Shiny Feather</div>
+      <div class="at-filter-row">${filterHtml}</div>
+      <div class="at-cols-head">
+        <span class="at-col-rank">${auctionTrackerFilter !== "all" ? `Rank 1-${fmtInt(auctionTrackerDisplayLimit)}` : "Rank"}</span><span class="at-col-name">Name</span><span class="at-col-bumpkin">Bumpkin</span><span class="at-col-exp">EXP</span><span class="at-col-ascension">Ascension</span><span class="at-col-tickets">Tickets</span>
+      </div>
+      <div class="at-list">${listHtml}</div>
+    </div>
+    <div class="at-farmid-row">
+      <label class="at-farmid-label" for="auctionTrackerFarmIdInput">Farm ID</label>
+      <input type="text" inputmode="numeric" id="auctionTrackerFarmIdInput" class="at-farmid-input" value="${escapeHtml(farmId)}" placeholder="e.g. 12345">
+      <button type="button" id="auctionTrackerRefreshBtn" class="at-refresh-btn">${auctionTrackerLoading ? "…" : "Refresh"}</button>
+    </div>
+  `;
+
+  const bumpkinImg = body.querySelector(".profile-bumpkin-render");
+  if (bumpkinImg) {
+    bumpkinImg.addEventListener("error", () => profileBumpkinImageOnError(bumpkinImg));
+    bumpkinImg.addEventListener("load", () => {
+      if (profileBumpkinCache.tokenUri === bumpkinImg.dataset.tokenUri) {
+        profileBumpkinCache.status = "loaded";
+        profileBumpkinCache.resolvedUrl = bumpkinImg.src;
+        profileBumpkinCachePersist();
+      }
+    });
+  }
+
+  body.querySelectorAll(".at-filter-btn").forEach(btn => {
+    btn.onclick = () => {
+      auctionTrackerFilter = btn.dataset.atFilter;
+      renderAuctionTrackerPanel();
+    };
+  });
+
+  body.querySelectorAll(".at-display-btn").forEach(btn => {
+    btn.onclick = () => {
+      auctionTrackerDisplayLimit = Number(btn.dataset.atDisplay);
+      renderAuctionTrackerPanel();
+    };
+  });
+
+  const refreshBtn = $("auctionTrackerRefreshBtn");
+  if (refreshBtn) refreshBtn.onclick = () => auctionTrackerFetchData(auctionTrackerGetFarmId(), true);
+
+  const farmIdInput = $("auctionTrackerFarmIdInput");
+  if (farmIdInput) {
+    farmIdInput.onchange = e => {
+      auctionTrackerSetFarmId(e.target.value.trim());
+      auctionTrackerFetchData(auctionTrackerGetFarmId(), true);
+    };
+  }
+
+  const miniSyncBtn = $("auctionTrackerMiniSyncBtn");
+  if (miniSyncBtn) {
+    miniSyncBtn.classList.toggle("is-syncing", auctionTrackerLoading);
+    miniSyncBtn.onclick = () => auctionTrackerFetchData(auctionTrackerGetFarmId(), true);
+  }
+}
+
 export const MAIN_VIEW_PANEL_MAP = {
   crops: "cropsPanel",
   resources: "resourcePanel",
@@ -4215,7 +4491,8 @@ export const MAIN_VIEW_PANEL_MAP = {
   pets: "petsPanel",
   market: "marketPanel",
   library: "libraryPanel",
-  bumpkinlevel: "bumpkinLevelPanel"
+  bumpkinlevel: "bumpkinLevelPanel",
+  auctiontracker: "auctionTrackerPanel"
 };
 
 export const MODAL_ROUTE_MAP = {
@@ -4229,7 +4506,8 @@ export const MODAL_ROUTE_MAP = {
 };
 
 const VIEW_URL_SLUGS = {
-  resources: "mining"
+  resources: "mining",
+  auctiontracker: "auction"
 };
 
 function viewToSlug(view) {
@@ -4292,6 +4570,7 @@ function renderMainViewContent(view) {
   if (view === "pets" && typeof renderPetsPanel === "function") renderPetsPanel();
   if (view === "fishing" && typeof renderFishingPanel === "function") renderFishingPanel();
   if (view === "bumpkinlevel") renderBumpkinLevelPanel();
+  if (view === "auctiontracker") renderAuctionTrackerPanel();
 }
 
 function setRouteUrl(slug, history_ = "push") {
