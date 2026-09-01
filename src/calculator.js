@@ -17714,6 +17714,11 @@ $("moreMenuOverlay").addEventListener("click", e => {
   if (e.target.id === "moreMenuOverlay") closeMoreMenu();
 });
 
+$("moreMenuAuctionTrackerBtn").onclick = () => {
+  closeMoreMenu();
+  toggleMainView("auctiontracker");
+};
+
 $("moreMenuExpansionSimBtn").onclick = () => {
   closeMoreMenu();
   openExpansionSim();
