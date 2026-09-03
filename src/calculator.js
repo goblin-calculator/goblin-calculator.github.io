@@ -1,7 +1,7 @@
 import { __set_farmPanelInProgressCategoryFilter, __set_farmPanelSyncInFlight, farmPanelAOEExtent, farmPanelCheckTurtleAOEBonus, farmPanelComputeEconomics, farmPanelComputeExactCrimstoneYield, farmPanelComputeExactCropYield, farmPanelComputeExactFlowerYield, farmPanelComputeExactFruitYield, farmPanelComputeExactGreenhouseYield, farmPanelCropTierLabel, farmPanelDebugFindShapes, farmPanelDetectNodeTier, farmPanelField, farmPanelGameState, farmPanelGetCollectiblePosition, farmPanelGetCropGrowDurationMsFromSync, farmPanelGetLastInfo, farmPanelGetMarketId, farmPanelGnomeAOEBonus, farmPanelGnomeComboPresent, farmPanelGrowTimeSec, farmPanelIsWithinTurtleAOE, farmPanelLoadCachedGameState, farmPanelMarkScrollActivity, farmPanelMergeAuthoritativeResourceData, farmPanelSaveGameState, farmPanelSaveLastInfo, farmPanelSyncInFlight } from './inprogress.js';
 import { SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, fetchLivePrices, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketplaceFlowerUsdPrice, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from './prices.js';
 import { loadBaseHoneyIfNeeded, profileBumpkinCachePersist, safeLSJSON, saveAnimalAffectionTools, saveAnimalBuds, saveAnimalCounts, saveAnimalSicknessEstimate, saveAoeSyncOverrides, saveAscensionState, saveBeeSwarmState, saveBoostState, saveBoosts, saveBudFloorPrice, saveCmOilTank, saveCmQueue, saveCookingCounts, saveCropBuds, saveCrustaceanChumSelection, saveFishBuds, saveFlowerVarietyOverrides, saveFruitBuds, saveFruitCounts, saveGlobalPlotCount, saveGlobalPlotCountTouched, saveGreenhouseBuds, saveGreenhouseCounts, saveHiveCount, saveManualCycleOverrides, saveMarketState, saveNodeCounts, saveNodeCountsTouched, savePetFloorPrice, savePetResourceCostOverride, savePetsData, saveResourceBuds, saveSaltFarmLevel, saveSaltUi, saveSculptureLevel, saveSelectedHoneyFlower, saveSelectedSwarmCrop, saveSkillState, saveSpiceUsage, saveState, saveSyncedSkillLevels, saveToolRecipes, saveTradeState, saveWeatherDestructionSync } from './storage.js';
-import { $, bountyToggle, closeBettyShop, closeBoostPanel, closeBudPicker, closeChapterFishMutants, closeDeleteTradeConfirm, closeDigPanel, closeDisclaimer, closeExpansionSim, closeFarmPanel, closeGunterShop, closeMoreMenu, closeNewTradeModal, closePetTraitPicker, closePixelPicker, closeProfile, closeRcmInfoModal, closeSellTradeModal, closeSettingsModal, closeTicketCalc, closeTradeItemPicker, closeTradeShop, esIslandIcon, esRenderMissingToggle, esRenderModeToggle, getBoostIcon, getIcon, getMutantFishIcon, getTreasureIcon, hideDailyProfitCard, hideSyncProgressModal, hideTop10Card, npcDeliverToggle, openBettyShop, openBoostPanel, openChapterFishMutants, openDigPanel, openDisclaimer, openExpansionSim, openFarmPanel, openGunterShop, openMoreMenu, openNewTradeModal, openProfile, openRcmInfoModal, openSettingsModal, openTicketCalc, openTradeItemPicker, openTradeShop, refreshAnimalAffectionToolToggleUI, renderAnimalsList, renderAscensionBar, renderBaseCoinSummaryLists, renderBettyShop, renderBoostPanel, renderBudDropdown, renderCalcIngredients, renderCmOilTank, renderCmQtyControls, renderCmSelectedDetail, renderCmSummary, renderComposterList, renderCookingFoodList, renderCookingPanel, renderCropMachineCalc, renderCropMachineMachine, renderCropMachinePanel, renderCropsList, renderDigTreasurePanel, renderFarmPanelInfo, renderFarmPanelTabContent, renderFishBudList, renderFishingPanel, renderFishingTierList, renderFruitsList, renderGreenhouseList, renderGunterShop, renderHoneyList, renderLibraryLists, renderPetFoodTabs, renderPetsPanel, renderPickerList, renderPlotNodeInputs, renderProfileTradable, renderProfileView, renderResourceList, renderSaltList, renderSeasonToggle, renderSkillPanel, renderTicketCalc, renderTotalsBreakdown, renderTradeShop, resetLibModalFields, setBountyToggle, setFarmPanelTab, showDailyProfitCard, showSyncCompleteModal, showSyncProgressModal, showSyncTimingPanel, showTop10Card, toggleMainView, updateRcmToggleUI } from './ui.js';
+import { $, bountyToggle, closeBettyShop, closeBoostPanel, closeBudPicker, closeChapterFishMutants, closeDeleteTradeConfirm, closeDigPanel, closeDisclaimer, closeExpansionSim, closeFarmPanel, closeGunterShop, closeMoreMenu, closeNewTradeModal, closePetTraitPicker, closePixelPicker, closeProfile, closeRcmInfoModal, closeSellTradeModal, closeSettingsModal, closeTicketCalc, closeTradeItemPicker, closeTradeShop, esIslandIcon, esRenderMissingToggle, esRenderModeToggle, getBoostIcon, getIcon, getMutantFishIcon, getTreasureIcon, hideDailyProfitCard, hideSyncProgressModal, hideTop10Card, npcDeliverToggle, openBettyShop, openBoostPanel, openChapterFishMutants, openDigPanel, openDisclaimer, openExpansionSim, openFarmPanel, openGunterShop, openMoreMenu, openNewTradeModal, openProfile, openRcmInfoModal, openSettingsModal, openTicketCalc, openTradeItemPicker, openPotionPanel, closePotionPanel, renderPotionRoomPanel, openTradeShop, refreshAnimalAffectionToolToggleUI, renderAnimalsList, renderAscensionBar, renderBaseCoinSummaryLists, renderBettyShop, renderBoostPanel, renderBudDropdown, renderCalcIngredients, renderCmOilTank, renderCmQtyControls, renderCmSelectedDetail, renderCmSummary, renderComposterList, renderCookingFoodList, renderCookingPanel, renderCropMachineCalc, renderCropMachineMachine, renderCropMachinePanel, renderCropsList, renderDigTreasurePanel, renderFarmPanelInfo, renderFarmPanelTabContent, renderFishBudList, renderFishingPanel, renderFishingTierList, renderFruitsList, renderGreenhouseList, renderGunterShop, renderHoneyList, renderLibraryLists, renderPetFoodTabs, renderPetsPanel, renderPickerList, renderPlotNodeInputs, renderProfileTradable, renderProfileView, renderResourceList, renderSaltList, renderSeasonToggle, renderSkillPanel, renderTicketCalc, renderTotalsBreakdown, renderTradeShop, resetLibModalFields, setBountyToggle, setFarmPanelTab, showDailyProfitCard, showSyncCompleteModal, showSyncProgressModal, showSyncTimingPanel, showTop10Card, toggleMainView, updateRcmToggleUI } from './ui.js';
 
 export const __getIconCache = new Map();
 
@@ -23990,6 +23990,12 @@ export function isDigPanelNativeModeActive() {
   return panelOpen && isDigDarkModeOn();
 }
 
+export function isPotionPanelNativeModeActive() {
+  const panel = $("potionSidePanel");
+  const panelOpen = !!(panel && panel.classList.contains("open"));
+  return panelOpen && isPotionDarkModeOn();
+}
+
 function isDigDarkModeOn() {
   return localStorage.getItem("hl_dig_dark_mode") === "1";
 }
@@ -24030,6 +24036,482 @@ function setDigDarkMode(on) {
       if (typeof originalOnClick === "function") await originalOnClick.call(this, ev);
       const panel = $("digSidePanel");
       if (panel && panel.classList.contains("open")) renderDigTreasurePanel();
+    };
+  }
+})();
+
+export const POTION_NAMES = ["Bloom Boost", "Dream Drip", "Earth Essence", "Flower Power", "Silver Syrup", "Happy Hooch", "Organic Oasis"];
+
+export const POTION_COLORS = {
+  "Bloom Boost": "#e8862f",
+  "Dream Drip": "#c9a227",
+  "Earth Essence": "#e07ba0",
+  "Flower Power": "#3a3a3a",
+  "Silver Syrup": "#dedad2",
+  "Happy Hooch": "#3f8fd6",
+  "Organic Oasis": "#5fa84a"
+};
+
+export const POTION_ICONS = {
+  "Bloom Boost": "icons/orange_bottle.webp",
+  "Dream Drip": "icons/mustard_bottle.webp",
+  "Earth Essence": "icons/pink_bottle.webp",
+  "Flower Power": "icons/black_bottle.webp",
+  "Silver Syrup": "icons/white_bottle.webp",
+  "Happy Hooch": "icons/blue_bottle.webp",
+  "Organic Oasis": "icons/green_bottle.webp"
+};
+
+const POTION_STATUS_LABEL = {
+  correct: "✓",
+  almost: "≈",
+  incorrect: "✕",
+  bomb: "!"
+};
+
+export function potionStatusLabel(status) {
+  return POTION_STATUS_LABEL[status] || "";
+}
+
+const POTION_BADGE_CORRECT_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAICAYAAAA1BOUGAAAARElEQVQImWP8//8/g7qO638GTMDIqKbt8t92DieG1OGU7wxMyBxkGgTgkjDdyKYQpxNdAgRY0I1FBiDXgmhMrzAwMAIAo0IYCgiXiSsAAAAASUVORK5CYII=";
+const POTION_BADGE_ALMOST_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAICAYAAAA1BOUGAAAASElEQVQImWP8//8/g7qO638GTMDIqKbt8v/GHlkMKQ2XxwxMyBxkGgTgkjDdyKbAJbEBFnRjkXXDJbE5CiTJqOHyGNMrDAyMAEONFj9zX9diAAAAAElFTkSuQmCC";
+const POTION_BADGE_WRONG_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAICAYAAAA1BOUGAAAARElEQVQImWP8//8/g7qO638GTMDIqKbt8v9G8wcMKY1aAQYmZA4yDQJwSZhuZFNY0HUiK4DrRNdF0FiQa0E0plcYGBgBjREarxEkjE0AAAAASUVORK5CYII=";
+const POTION_BADGE_BOMB_ICON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAICAYAAAA1BOUGAAAAAXNSR0IArs4c6QAAAEVJREFUCJljZGBgYFDTdvnPgAZuXd3DyKim7fJ/nwC6FAOD0wcGBiZkDjLNwIAkuU8AIoFsCnE6sQEWZGPRASMDA26vAABBgBQIcNE1ygAAAABJRU5ErkJggg==";
+
+const POTION_STATUS_BADGE_ICON = {
+  correct: POTION_BADGE_CORRECT_ICON,
+  almost: POTION_BADGE_ALMOST_ICON,
+  incorrect: POTION_BADGE_WRONG_ICON,
+  bomb: POTION_BADGE_BOMB_ICON
+};
+
+export function potionStatusBadgeIcon(status) {
+  return POTION_STATUS_BADGE_ICON[status] || "";
+}
+
+function potionGetSyncedHouse() {
+  const g = farmSyncExtractGameState(farmPanelGameState) || {};
+  return g.potionHouse || null;
+}
+
+let potionMiniSyncInFlight = false;
+
+async function performPotionOnlySync() {
+  if (potionMiniSyncInFlight) return;
+  const farmId = digGetFarmId();
+  if (!farmId) {
+    toast("Sync a Farm ID first 🔢");
+    return;
+  }
+  potionMiniSyncInFlight = true;
+  const btn = $("potionPanelSyncBtn");
+  if (btn) btn.classList.add("is-syncing");
+  try {
+    const communityData = await fetchCommunityFarmData(farmId);
+    const g = farmSyncExtractGameState(communityData);
+    const potionHouse = g && g.potionHouse;
+    if (!potionHouse) {
+      toast("No potion room data found for this farm.");
+      return;
+    }
+    const currentRoot = farmPanelGameState && typeof farmPanelGameState === "object" ? farmPanelGameState : {};
+    const currentG = farmSyncExtractGameState(currentRoot);
+    if (currentG && currentG !== currentRoot) {
+      currentG.potionHouse = potionHouse;
+      farmPanelSaveGameState(currentRoot);
+    } else {
+      const merged = Object.assign({}, currentRoot, { potionHouse: potionHouse });
+      farmPanelSaveGameState(merged);
+    }
+    renderPotionRoomPanel();
+    toast("🧪 Potion room data synced!");
+  } catch (e) {
+    console.error("Potion-only sync failed:", e);
+    toast("⚠️ Potion room sync failed — try again.");
+  } finally {
+    potionMiniSyncInFlight = false;
+    if (btn) btn.classList.remove("is-syncing");
+  }
+}
+
+function potionScoreGuessAgainstHypothesis(code, chaos, guess) {
+  const statuses = new Array(4).fill("incorrect");
+  for (let i = 0; i < 4; i++) {
+    if (guess[i] === code[i]) {
+      statuses[i] = "correct";
+    } else if (code.includes(guess[i])) {
+      statuses[i] = "almost";
+    }
+  }
+  for (let i = 0; i < 4; i++) {
+    if (guess[i] === chaos) statuses[i] = "bomb";
+  }
+  return statuses;
+}
+
+function potionScoreGuessNoChaos(code, guess) {
+  let score = 0;
+  for (let i = 0; i < 4; i++) {
+    if (guess[i] === code[i]) score += 25;
+    else if (code.includes(guess[i])) score += 15;
+  }
+  return score;
+}
+
+function potionComputeOptimalGuess(slotCandidatesArr, chaosCandidatesArr, rankedCodes) {
+  const searchCombos = rankedCodes.map(entry => entry.code);
+  if (searchCombos.length === 0) return null;
+
+  let best = null;
+  for (const guess of searchCombos) {
+    let minScore = Infinity;
+    let maxScore = -Infinity;
+    let expectedScore = 0;
+    for (const entry of rankedCodes) {
+      const score = potionScoreGuessNoChaos(entry.code, guess);
+      if (score < minScore) minScore = score;
+      if (score > maxScore) maxScore = score;
+      expectedScore += score * entry.baseWeight;
+    }
+    const candidate = { code: guess, guaranteedMinScore: minScore, expectedScore: expectedScore, maxScore: maxScore };
+    const better = !best
+      || candidate.guaranteedMinScore > best.guaranteedMinScore
+      || (candidate.guaranteedMinScore === best.guaranteedMinScore && candidate.expectedScore > best.expectedScore)
+      || (candidate.guaranteedMinScore === best.guaranteedMinScore && candidate.expectedScore === best.expectedScore && candidate.maxScore > best.maxScore)
+      || (candidate.guaranteedMinScore === best.guaranteedMinScore && candidate.expectedScore === best.expectedScore && candidate.maxScore === best.maxScore && guess.join("|").localeCompare(best.code.join("|")) < 0);
+    if (better) best = candidate;
+  }
+  return best;
+}
+
+function potionAttemptsFromSync(potionHouse) {
+  const rawAttempts = potionHouse && potionHouse.game && Array.isArray(potionHouse.game.attempts) ? potionHouse.game.attempts : [];
+  return rawAttempts.filter(a => Array.isArray(a) && a.length === 4 && a.every(s => s && s.potion && s.status && s.status !== "pending"));
+}
+
+function potionCodePattern(code) {
+  const seen = new Map();
+  let next = 0;
+  return code.map(name => {
+    if (!seen.has(name)) {
+      seen.set(name, next);
+      next++;
+    }
+    return seen.get(name);
+  }).join("");
+}
+
+function potionLoadPatternHistory() {
+  return safeLSJSON(localStorage.getItem("hl_potion_pattern_history"), {});
+}
+
+function potionSavePatternHistory(history) {
+  localStorage.setItem("hl_potion_pattern_history", JSON.stringify(history));
+}
+
+function potionLoadRecordedSolves() {
+  const list = safeLSJSON(localStorage.getItem("hl_potion_recorded_solves"), []);
+  return Array.isArray(list) ? list : [];
+}
+
+function potionSaveRecordedSolves(list) {
+  localStorage.setItem("hl_potion_recorded_solves", JSON.stringify(list.slice(-300)));
+}
+
+function potionRecordSolvedCode(code, signature) {
+  const recorded = potionLoadRecordedSolves();
+  if (recorded.includes(signature)) return;
+  recorded.push(signature);
+  potionSaveRecordedSolves(recorded);
+  const history = potionLoadPatternHistory();
+  const pattern = potionCodePattern(code);
+  history[pattern] = (history[pattern] || 0) + 1;
+  potionSavePatternHistory(history);
+}
+
+function potionBuildBackupPayload() {
+  return {
+    type: "goblin-calculator-potion-trainer-backup",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    patternHistory: potionLoadPatternHistory(),
+    recordedSolves: potionLoadRecordedSolves()
+  };
+}
+
+function potionHandleTrainerBackup() {
+  const textarea = $("potionTrainerTextarea");
+  const statusEl = $("potionTrainerStatus");
+  if (!textarea) return;
+  const payload = potionBuildBackupPayload();
+  const json = JSON.stringify(payload, null, 2);
+  const patternCount = Object.keys(payload.patternHistory).length;
+  textarea.value = json;
+  textarea.focus();
+  textarea.select();
+  const fallbackMsg = `Backup ready below — select all and copy (${patternCount} pattern${patternCount === 1 ? "" : "s"}).`;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(json).then(() => {
+      if (statusEl) statusEl.textContent = `📋 Copied to clipboard — ${patternCount} pattern${patternCount === 1 ? "" : "s"} backed up.`;
+      toast("📋 Combination backup copied to clipboard!");
+    }).catch(() => {
+      if (statusEl) statusEl.textContent = fallbackMsg;
+    });
+  } else if (statusEl) {
+    statusEl.textContent = fallbackMsg;
+  }
+}
+
+function potionHandleTrainerRestore() {
+  const textarea = $("potionTrainerTextarea");
+  const statusEl = $("potionTrainerStatus");
+  if (!textarea) return;
+  const raw = textarea.value.trim();
+  if (!raw) {
+    if (statusEl) statusEl.textContent = "⚠️ Paste a backup JSON into the box first.";
+    return;
+  }
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (e) {
+    if (statusEl) statusEl.textContent = "⚠️ That doesn't look like valid JSON.";
+    return;
+  }
+  const incomingHistory = parsed && typeof parsed.patternHistory === "object" && parsed.patternHistory ? parsed.patternHistory : null;
+  if (!incomingHistory) {
+    if (statusEl) statusEl.textContent = "⚠️ No combination pattern data found in that JSON.";
+    return;
+  }
+  const currentHistory = potionLoadPatternHistory();
+  let mergedCount = 0;
+  Object.keys(incomingHistory).forEach(pattern => {
+    const incomingHits = Number(incomingHistory[pattern]) || 0;
+    if (incomingHits <= 0) return;
+    currentHistory[pattern] = (currentHistory[pattern] || 0) + incomingHits;
+    mergedCount++;
+  });
+  potionSavePatternHistory(currentHistory);
+
+  const incomingSolves = Array.isArray(parsed.recordedSolves) ? parsed.recordedSolves : [];
+  if (incomingSolves.length) {
+    const currentSolves = potionLoadRecordedSolves();
+    const combined = Array.from(new Set(currentSolves.concat(incomingSolves)));
+    potionSaveRecordedSolves(combined);
+  }
+
+  potionSolveCache = null;
+  renderPotionRoomPanel();
+  if (statusEl) statusEl.textContent = `✅ Restored — merged ${mergedCount} pattern${mergedCount === 1 ? "" : "s"} into your saved data.`;
+  toast("✅ Combination patterns restored!");
+}
+
+let potionSolveCache = null;
+
+export function potionSolveState() {
+  const potionHouse = potionGetSyncedHouse();
+  const attempts = potionAttemptsFromSync(potionHouse);
+  const cacheKey = JSON.stringify({ attempts: attempts, status: potionHouse && potionHouse.game ? potionHouse.game.status : null });
+  if (potionSolveCache && potionSolveCache.key === cacheKey) return potionSolveCache.result;
+
+  const guesses = attempts.map(a => a.map(s => s.potion));
+  const actualStatuses = attempts.map(a => a.map(s => s.status));
+
+  const slotCandidates = [new Set(), new Set(), new Set(), new Set()];
+  const chaosCandidates = new Set();
+  const eliminatedAnywhere = new Set(POTION_NAMES);
+  const codeMap = new Map();
+  let consistentCount = 0;
+
+  for (let ci = 0; ci < POTION_NAMES.length; ci++) {
+    for (let cj = 0; cj < POTION_NAMES.length; cj++) {
+      for (let ck = 0; ck < POTION_NAMES.length; ck++) {
+        for (let cl = 0; cl < POTION_NAMES.length; cl++) {
+          const code = [POTION_NAMES[ci], POTION_NAMES[cj], POTION_NAMES[ck], POTION_NAMES[cl]];
+          for (let xi = 0; xi < POTION_NAMES.length; xi++) {
+            const chaos = POTION_NAMES[xi];
+            if (code.includes(chaos)) continue;
+            let ok = true;
+            for (let a = 0; a < guesses.length && ok; a++) {
+              const predicted = potionScoreGuessAgainstHypothesis(code, chaos, guesses[a]);
+              for (let s = 0; s < 4; s++) {
+                if (predicted[s] !== actualStatuses[a][s]) { ok = false; break; }
+              }
+            }
+            if (!ok) continue;
+            consistentCount++;
+            for (let s = 0; s < 4; s++) slotCandidates[s].add(code[s]);
+            code.forEach(p => eliminatedAnywhere.delete(p));
+            chaosCandidates.add(chaos);
+            const codeKey = code.join("|");
+            if (!codeMap.has(codeKey)) codeMap.set(codeKey, { code: code.slice(), chaosOptions: new Set() });
+            codeMap.get(codeKey).chaosOptions.add(chaos);
+          }
+        }
+      }
+    }
+  }
+
+  const patternHistory = potionLoadPatternHistory();
+  const rankedCodes = Array.from(codeMap.values()).map(e => ({ code: e.code, chaosOptions: Array.from(e.chaosOptions) }));
+  const maxChaosOptionsCount = rankedCodes.reduce((m, e) => Math.max(m, e.chaosOptions.length), 0);
+  rankedCodes.forEach(e => {
+    e.weight = consistentCount > 0 ? e.chaosOptions.length / consistentCount : 0;
+    e.baseWeight = e.weight;
+    e.pattern = potionCodePattern(e.code);
+    e.patternHits = patternHistory[e.pattern] || 0;
+  });
+  const tieGroup = maxChaosOptionsCount > 0 ? rankedCodes.filter(e => e.chaosOptions.length === maxChaosOptionsCount) : [];
+  if (tieGroup.length > 1) {
+    const groupWeightTotal = tieGroup.reduce((sum, e) => sum + e.weight, 0);
+    const patternScoreTotal = tieGroup.reduce((sum, e) => sum + (1 + e.patternHits), 0);
+    const maxPatternScore = tieGroup.reduce((m, e) => Math.max(m, 1 + e.patternHits), 0);
+    tieGroup.forEach(e => {
+      e.weight = patternScoreTotal > 0 ? groupWeightTotal * (1 + e.patternHits) / patternScoreTotal : e.weight;
+      e.isTopPick = (1 + e.patternHits) === maxPatternScore;
+    });
+    const tieGroupSet = new Set(tieGroup);
+    rankedCodes.forEach(e => {
+      if (!tieGroupSet.has(e)) e.isTopPick = false;
+    });
+  } else {
+    rankedCodes.forEach(e => {
+      e.isTopPick = maxChaosOptionsCount > 0 && e.chaosOptions.length === maxChaosOptionsCount;
+    });
+  }
+  rankedCodes.sort((a, b) => b.weight - a.weight || b.chaosOptions.length - a.chaosOptions.length || a.code.join("|").localeCompare(b.code.join("|")));
+
+  if (rankedCodes.length === 1) {
+    const lastSolveInfo = typeof farmPanelGetLastInfo === "function" ? farmPanelGetLastInfo() : null;
+    const farmIdForSignature = lastSolveInfo && lastSolveInfo.id ? lastSolveInfo.id : "unknown";
+    const solvedCode = rankedCodes[0].code;
+    potionRecordSolvedCode(solvedCode, `${farmIdForSignature}|${solvedCode.join(",")}`);
+  }
+
+  const slotCandidatesArr = slotCandidates.map(set => Array.from(set));
+  const chaosCandidatesForGuess = Array.from(chaosCandidates);
+  const unsolvedSlotCount = slotCandidatesArr.filter(c => c.length > 1).length;
+  let optimalGuess = null;
+  if (guesses.length > 0 && unsolvedSlotCount > 0 && rankedCodes.length > 1) {
+    optimalGuess = potionComputeOptimalGuess(slotCandidatesArr, chaosCandidatesForGuess, rankedCodes);
+  }
+
+  const result = {
+    attemptCount: guesses.length,
+    attempts: attempts,
+    game: potionHouse ? potionHouse.game : null,
+    consistentCount: consistentCount,
+    slotCandidates: slotCandidatesArr,
+    chaosCandidates: Array.from(chaosCandidates),
+    neverInCode: Array.from(eliminatedAnywhere),
+    consistentCodes: rankedCodes,
+    optimalGuess: optimalGuess
+  };
+  potionSolveCache = { key: cacheKey, result: result };
+  return result;
+}
+
+function potionBuildDebugDump() {
+  const potionHouse = potionGetSyncedHouse();
+  const solveState = potionSolveState();
+  const patternHistory = potionLoadPatternHistory();
+  const recordedSolves = potionLoadRecordedSolves();
+
+  const lines = [];
+  lines.push("=== RAW SYNCED potionHouse (exact server payload) ===");
+  lines.push(potionHouse ? JSON.stringify(potionHouse, null, 2) : "(no potionHouse in the synced data — sync a farm first)");
+  lines.push("");
+  lines.push("=== SOLVER STATE ===");
+  lines.push(`attemptCount: ${solveState.attemptCount}`);
+  lines.push(`consistentCount (total code+chaos hypotheses still valid): ${solveState.consistentCount}`);
+  lines.push(`slotCandidates: ${JSON.stringify(solveState.slotCandidates)}`);
+  lines.push(`chaosCandidates: ${JSON.stringify(solveState.chaosCandidates)}`);
+  lines.push(`neverInCode: ${JSON.stringify(solveState.neverInCode)}`);
+  lines.push("");
+  lines.push(`=== CONSISTENT CODES (${solveState.consistentCodes.length}) ===`);
+  solveState.consistentCodes.forEach((e, i) => {
+    lines.push(`#${i + 1} ${e.isTopPick ? "★TOP PICK★ " : ""}code=[${e.code.join(", ")}] weight=${e.weight.toFixed(4)} chaosOptions(${e.chaosOptions.length})=[${e.chaosOptions.join(", ")}] pattern=${e.pattern} patternHits=${e.patternHits}`);
+  });
+  lines.push("");
+  lines.push("=== OPTIMAL FINAL GUESS (maximizes guaranteed worst-case score, never risks a bomb) ===");
+  lines.push(solveState.optimalGuess ? JSON.stringify(solveState.optimalGuess, null, 2) : "(not applicable right now — either not enough attempts yet, already solved, or too many hypotheses to search safely)");
+  lines.push("");
+  lines.push("=== LOCAL PATTERN HISTORY (hl_potion_pattern_history) ===");
+  lines.push(JSON.stringify(patternHistory, null, 2));
+  lines.push("");
+  lines.push("=== LOCAL RECORDED SOLVES (hl_potion_recorded_solves) ===");
+  lines.push(JSON.stringify(recordedSolves, null, 2));
+
+  return lines.join("\n");
+}
+
+function potionShowDebugDump() {
+  const box = $("farmPanelDebugOutput");
+  if (!box) return;
+  box.style.display = "block";
+  box.value = potionBuildDebugDump();
+  closePotionPanel();
+  openFarmPanel();
+  const debugPanel = $("farmPanelDebugPanel");
+  const debugToggle = $("farmPanelDebugToggle");
+  if (debugPanel && !debugPanel.classList.contains("open")) debugPanel.classList.add("open");
+  if (debugToggle && !debugToggle.classList.contains("open")) debugToggle.classList.add("open");
+  box.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+export let potionActiveGuessSlot = 0;
+
+export function potionSetActiveGuessSlot(slot) {
+  potionActiveGuessSlot = slot;
+  renderPotionRoomPanel();
+}
+
+function isPotionDarkModeOn() {
+  return localStorage.getItem("hl_potion_dark_mode") === "1";
+}
+
+function applyPotionDarkMode(on) {
+  const panel = $("potionSidePanel");
+  if (!panel) return;
+  panel.classList.toggle("potion-dark", on);
+  const toggleBtn = $("potionPanelDarkToggle");
+  if (toggleBtn) toggleBtn.textContent = on ? "☀️" : "🌙";
+  if (typeof refreshSflThemeClass === "function") refreshSflThemeClass();
+}
+
+function setPotionDarkMode(on) {
+  localStorage.setItem("hl_potion_dark_mode", on ? "1" : "0");
+  applyPotionDarkMode(on);
+}
+
+(function initPotionRoomFeature() {
+  const fab = $("potionRoomFab");
+  if (fab) {
+    fab.innerHTML = `<img src="icons/eins_potion.jpg" alt="Potion Room" draggable="false">`;
+  }
+  if (fab) fab.onclick = openPotionPanel;
+  const closeBtn = $("potionPanelCloseBtn");
+  if (closeBtn) closeBtn.onclick = closePotionPanel;
+  const overlay = $("potionPanelOverlay");
+  if (overlay) overlay.onclick = closePotionPanel;
+  const syncBtn = $("potionPanelSyncBtn");
+  if (syncBtn) syncBtn.onclick = performPotionOnlySync;
+  const debugBtn = $("potionPanelDebugBtn");
+  if (debugBtn) debugBtn.onclick = potionShowDebugDump;
+  const darkToggleBtn = $("potionPanelDarkToggle");
+  if (darkToggleBtn) darkToggleBtn.onclick = () => setPotionDarkMode(!isPotionDarkModeOn());
+  applyPotionDarkMode(isPotionDarkModeOn());
+  const trainerBackupBtn = $("potionTrainerBackupBtn");
+  if (trainerBackupBtn) trainerBackupBtn.onclick = potionHandleTrainerBackup;
+  const trainerRestoreBtn = $("potionTrainerRestoreBtn");
+  if (trainerRestoreBtn) trainerRestoreBtn.onclick = potionHandleTrainerRestore;
+  const mainSyncBtn = $("farmPanelSyncBtn");
+  if (mainSyncBtn) {
+    const originalOnClick = mainSyncBtn.onclick;
+    mainSyncBtn.onclick = async function(ev) {
+      if (typeof originalOnClick === "function") await originalOnClick.call(this, ev);
+      const panel = $("potionSidePanel");
+      if (panel && panel.classList.contains("open")) renderPotionRoomPanel();
     };
   }
 })();
