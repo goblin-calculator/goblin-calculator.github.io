@@ -157,8 +157,63 @@
   <button type="button" class="dig-panel-mini-sync" id="digPanelSyncBtn" aria-label="Sync digging data only">🔄</button>
 </div>
 
+<div class="potion-panel-overlay" id="potionPanelOverlay"></div>
+<div class="potion-side-panel" id="potionSidePanel">
+  <div class="potion-panel-card">
+    <button type="button" class="potion-panel-debug-btn" id="potionPanelDebugBtn" aria-label="Debug potion combination data" title="Debug: dump raw potion data + solver breakdown">🐞</button>
+    <button type="button" class="potion-panel-dark-toggle" id="potionPanelDarkToggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+    <button type="button" class="potion-panel-close" id="potionPanelCloseBtn" aria-label="Close potion room">✕</button>
+    <div class="potion-panel-inner">
+      <div class="potion-panel-header">
+        <div class="potion-panel-title"><img src="icons/eins_potion.jpg" alt="" class="potion-panel-title-icon"> POTION ROOM</div>
+        <div class="potion-panel-status" id="potionPanelStatus">Sync your farm to load potion data</div>
+      </div>
+      <div class="potion-legend">
+        <div class="potion-legend-line"><img class="potion-legend-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAICAYAAAA1BOUGAAAARElEQVQImWP8//8/g7qO638GTMDIqKbt8t92DieG1OGU7wxMyBxkGgTgkjDdyKYQpxNdAgRY0I1FBiDXgmhMrzAwMAIAo0IYCgiXiSsAAAAASUVORK5CYII=" alt="Correct"><span class="potion-legend-text">= Confirmed Correct Potion in a Correct Slot</span></div>
+        <div class="potion-legend-line"><img class="potion-legend-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAICAYAAAA1BOUGAAAASElEQVQImWP8//8/g7qO638GTMDIqKbt8v/GHlkMKQ2XxwxMyBxkGgTgkjDdyKbAJbEBFnRjkXXDJbE5CiTJqOHyGNMrDAyMAEONFj9zX9diAAAAAElFTkSuQmCC" alt="Almost"><span class="potion-legend-text">= Correct Potion in the Wrong Slot</span></div>
+        <div class="potion-legend-line"><img class="potion-legend-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAICAYAAAA1BOUGAAAARElEQVQImWP8//8/g7qO638GTMDIqKbt8v9G8wcMKY1aAQYmZA4yDQJwSZhuZFNY0HUiK4DrRNdF0FiQa0E0plcYGBgBjREarxEkjE0AAAAASUVORK5CYII=" alt="Wrong"><span class="potion-legend-text">= Wrong Potion, Not in the Combination</span></div>
+        <div class="potion-legend-line"><img class="potion-legend-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAICAYAAAA1BOUGAAAAAXNSR0IArs4c6QAAAEVJREFUCJljZGBgYFDTdvnPgAZuXd3DyKim7fJ/nwC6FAOD0wcGBiZkDjLNwIAkuU8AIoFsCnE6sQEWZGPRASMDA26vAABBgBQIcNE1ygAAAABJRU5ErkJggg==" alt="Bomb"><span class="potion-legend-text">= Bomb Potion, Avoid This One</span></div>
+      </div>
+
+      <div class="potion-panel-groups-box">
+        <div class="potion-panel-solution-box">
+          <div class="potion-section-label">COMFIRMED COMBINATIONS</div>
+          <div class="potion-panel-solution" id="potionPanelSolution"></div>
+        </div>
+        <div class="potion-panel-divider-solid"></div>
+        <div class="potion-panel-attempts-box">
+          <div class="potion-section-label">COMBINATIONS IN GAME</div>
+          <div class="potion-panel-attempts" id="potionPanelAttempts"></div>
+        </div>
+        <div class="potion-panel-solve-box">
+          <div class="potion-section-label">PROJECTED COMBINATIONS</div>
+          <div class="potion-panel-guess-row" id="potionPanelGuessRow"></div>
+          <div class="potion-picker-label">Tap a slot above, then tap a potion below</div>
+          <div class="potion-panel-picker" id="potionPanelPicker"></div>
+          <div class="potion-panel-optimal-guess" id="potionPanelOptimalGuess"></div>
+          <div class="potion-panel-solutions" id="potionPanelSolutions"></div>
+        </div>
+      </div>
+      <div class="potion-panel-note">Guidance only — mix the potions yourself in Sunflower Land. Marks update from your synced attempts (green = confirmed, gold = still possible, faded ✕ = ruled out).</div>
+
+      <div class="potion-panel-trainer-box">
+        <div class="potion-section-label">COMBINATION TRAINER</div>
+        <div class="potion-trainer-note">Do not let your wrong combination go to waste! Everytime you get the correct or wrong combination just always sync it! The app will store the patterns of the correct combinations and who knows it might be useful in the future if you ever encounter thesame patterns again..</div>
+        <div class="potion-trainer-actions">
+          <button type="button" class="potion-trainer-btn" id="potionTrainerBackupBtn">⬇️ Backup</button>
+          <button type="button" class="potion-trainer-btn" id="potionTrainerRestoreBtn">⬆️ Restore</button>
+        </div>
+        <div class="potion-trainer-hint">Tap Backup to turn your saved combination patterns into a JSON snippet in the box below — copy it and paste it somewhere safe. To bring it back (on this device or another one), paste that JSON into the box and tap Restore.</div>
+        <textarea class="potion-trainer-textarea" id="potionTrainerTextarea" placeholder="Backup JSON will appear here. Or paste a backup JSON here and tap Restore."></textarea>
+        <div class="potion-trainer-status" id="potionTrainerStatus"></div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="potion-panel-mini-sync" id="potionPanelSyncBtn" aria-label="Sync potion room data only" title="Sync potion room data only">🔄</button>
+</div>
+
 <header>
-  <span class="app-version-badge">V3.9</span>
+  <span class="app-version-badge">V4.0</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -171,6 +226,10 @@
     </div>
     <div class="boost-btn-stack">
       <div class="boost-top10-row" style="display:flex;align-items:center;gap:6px;">
+        <div class="potion-room-fab-wrap">
+          <button type="button" id="potionRoomFab" class="potion-room-fab-inline" aria-label="Potion Room"></button>
+          <span class="potion-room-fab-label">Potion</span>
+        </div>
         <div class="dig-treasure-fab-wrap">
           <button type="button" id="digTreasureFab" class="dig-treasure-fab-inline" aria-label="Beach Bounty Treasure Map"></button>
           <span class="dig-treasure-fab-label">Dig</span>
@@ -1791,7 +1850,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="presence.js"></script>
-<script src="app.e6498b256d.bundle.js"></script>
+<script src="app.d062baf71d.bundle.js"></script>
 <script>
 (function(){
   function ready(fn){
