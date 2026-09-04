@@ -1,7 +1,10 @@
-import { ALWAYS_ON_BOOST_IDS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_LOVE_ITEM_XP, ASCENSION_RANK_DATA, BAIT_RECIPES, BASE_COMPOSTERS, BASE_CROPS, BASE_CROP_MACHINE, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_CROPS, BASE_STOCK_FRUITS, BASE_STOCK_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, BOOST_LABELS, BOOST_TIERS, BOUNTY_WEEKLY_BONUS, BUD_ANIMAL_STEMS, BUD_ANIMAL_TYPES, BUD_AURAS, BUD_CROP_STEMS, BUD_CROP_TYPES, BUD_FIELD_LABELS, BUD_FISH_TYPES, BUD_FRUIT_STEMS, BUD_FRUIT_TYPES, BUD_GREENHOUSE_STEMS, BUD_GREENHOUSE_TYPES, BUD_RESOURCE_STEMS, BUD_RESOURCE_TYPES, CHEER_ICON_SRC, CM_MODULE_SKILL_IDS, CM_MODULE_SKILL_NAMES, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_FOOD_EMOJI, COOKING_FOOD_IMAGES, COOKING_RECIPES, CROP_MACHINE_PACK_MAX, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_NAMES, ES_ISLAND_ICONS, FACTION_BANNER_ICONS, FACTION_DISPLAY_NAMES, FACTION_PET_BOOST_TIERS, FACTION_PET_HAPPY_ICONS, FARM_LEVEL_NODES, FEED_LABELS, FISHING_ROD_ICON, FISH_CATCH_DATA, FISH_CATCH_NAMES, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_TIER_LABEL, FLOWER_ICON, FLOWER_SEEDS, FLOWER_SEED_ICONS, FLOWER_VARIETIES, GEM_ICON, ICONS, IMAGE_ICONS, IMAGE_ICON_FALLBACK, LIMITED_TIME_BOOSTS, LOVE_CHARM_ICON_SRC, MANUAL_CYCLE_REFRESH_FNS, MARK_ICON_SRC, MUTANT_FALLBACK_ICON, NPC_ICONS, OBSIDIAN_WEEKLY_PURCHASE_CAP, OBSIDIAN_WEEKLY_SELL_CAP, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PET_AURA_TRAITS, PET_BASE_XP_ENERGY, PET_BIB_TRAITS, PET_CATEGORIES, PET_CATEGORY_ICON, PET_COMMON_TYPES, PET_FOOD_LISTS, PET_LEVEL_PERKS, PET_NAMES_BY_TYPE, PET_NFT_TYPES, PET_RESOURCE_ENERGY, PET_RESOURCE_ICON, PET_TRADABLE_RESOURCES, PET_TYPE_EMOJI, PICKLED_VEG_DATA, PRE_ASCENSION_MAX_LEVEL, PROFILE_TRADABLE_TABS, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, RESTOCK_PANEL_CATEGORIES, SALT_BASE_YIELD, SALT_FERTILIZER_DATA, SCULPTURE_EFFECTS_LIST, SCULPTURE_LEVELS, SEASON_ACCENT, SEASON_EMOJI, SEASON_ORDER, SKILL_BOOSTS, SKILL_TREES, SPICE_ANIMAL_TYPES, SPICE_RECIPES, SYNC_PROGRESS_STAGES, SYNODIC_MONTH_DAYS, TICKET_NPC_DISPLAY_NAMES, __getIconCache, __getTreasureIconCache, __lastSyncTiming, __markSub, __postinc_craftMaterialIdSeq, __preinc_digPanelRenderToken, __set___lastSyncTiming, __set___syncTimingPanelOpen, __set_bettySortMode, __set_boostDraftSelectedBoosts, __set_budPickerContext, __set_budPickerKind, __set_cmOilTank, __set_cmQty, __set_cmSelectedCrop, __set_coinPerFlower, __set_craftMaterialRows, __set_dailyProfitCardsCache, __set_editingLibId, __set_finderIngredient, __set_finderSeed, __set_fpBoostPanelOpen, __set_harvestSelectedLibId, __set_limitedTimeBoostRefreshTimer, __set_obsidianInputsHidden, __set_pendingDeleteId, __set_pendingDeleteType, __set_petAddAuraValue, __set_petAddBibValue, __set_petAddIsNFT, __set_petAddName, __set_petAddOpen, __set_petAddStep, __set_petAddType, __set_petOpenId, __set_petTraitPickerKind, __set_petsData, __set_pixelPickerOnSelect, __set_rcmActiveTab, __set_selectedBoosts, __set_skillDraftSelectedSkills, __set_syncProgressTimer, __set_tradePendingDeleteId, __set_tradePendingDeleteType, __set_tradePickedItemName, __set_tradeSellingId, __set_tradeSortMode, __syncTimingPanelOpen, allocateAoeAcrossTiers, animalAffectionTools, animalBuds, animalSicknessEstimate, animalWeekly, applyLibTypeVisibility, applyLibrarySearchFilter, applyPickerSearchFilter, applyTradeItemSearchFilter, ascensionDescribeRank, ascensionLevelBadgeText, attachDailyProfitCardEvents, attachFarmPanelCategoryFilterBar, attachProfileTradableEditHandlers, beeSwarmActiveCount, beeSwarmAffectedPlots, bettyActiveTab, bettyGatherItems, bettyGreenThumbOn, bettyHighestRate, bettySortItems, bettySortMode, boostCategory, boostDraftSelectedBoosts, bountyWeekly, budAnimalSummaryText, budContextFields, budContextPrefix, budContextState, budContextUpdateDuplicateState, budFarmCropSummaryText, budFieldCap, budFruitSummaryText, budPickerContext, budPickerKind, budResourceSummaryText, budSummaryText, calcMode, calendarDebuffProtection, choresWeekly, cmCalcMode, cmClampQty, cmModuleTagHtml, cmOilTank, cmQty, cmQueue, cmSelectedCrop, coinPerFlower, coinsToFlower, compute24hProjection, computeAgedFishFigures, computeAll, computeAnimalBaseCoinFigures, computeAnimalFeedFigures, computeAnimalTypeFigures, computeAnimalWeeklyFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedResourceStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCropMachineBatch, computeCrustaceanFigures, computeDailyProfitProjection, computeFertilizerFigures, computeHiveEconomics, computeLavaPitFigures, computeMachineRestockGems, computeObsidianWeeklyProfit, computeResourceFigures, computeResourceProjection24h, computeSaltFarmFigures, computeSeaweedFigures, computeShrineAffectedProfitability, computeSpiceFigures, ASCENSION_LEVELS_PER_BAND, ASCENSION_LEVEL_UPS, COOK_LEVEL_XP, ascensionBandBaseline, ascensionBandXp, ascensionLevelXp, cookGetLevelInfo, cookingActiveBuilding, cookingComputeFoodExp, cookingComputeFoodTime, cookingComputeTotals, cookingExpandedFoods, cookingFindRecipeForFood, cookingFishCategory, cookingGuaranteedCatchOn, craftMaterialRows, cropBuds, cropTierFilter, crustaceanExpanded, crustaceanTrapTabActive, currentSeason, dailyProfitExpandedNames, dailyProfitGetCycleCount, deleteActiveTrade, deleteHistoryTrade, describeAoeTierAllocation, digCellClass, digPanelRenderToken, digSolveBoard, draftSetAscensionRank, editingLibId, ensureExchangeRates, esRenderAll, esState, esSyncAutoBoostsFromFarm, escapeHtml, expandedAnimalCards, expandedAnimalFeedByLevel, expandedAnimalFeedConsumption, expandedComposters, expandedCropMachine, expandedCrops, expandedFlowers, expandedFruits, expandedGreenhouse, expandedResources, factionPetGetActiveTier, factionPetGetEffectiveStreak, factionPetManualMode, factionPetSetManualStreak, factionPetShouldApplyBoost, factionPetUpdateBoostUI, farmLevelMaxNodes, farmSyncExtractGameState, farmSyncGetApiUsername, farmSyncGetLimitedTimeBoostStatus, feePercent, fertilizerTierScope, findTool, findVarietiesBySeedIngredient, finderIngredient, finderSeed, fishBudSummaryText, fishBuds, fishCatchComputeXP, fishCatchYieldMult, fishInventoryNameForCategory, fishStageForCategory, fishingExpandedTierFish, fishingTierActive, fmt, fmtAnimal, fmtCycleInputValue, fmtInt, formatDuration, formatTrade12h, fpBoostPanelOpen, fruitBuds, fullMoonSeedStockQty, gatherTop10ProfitItems, getActiveAnimalBoosts, getActiveBoostsForResource, getAllMaterialCandidates, getAnimalCount, getAscensionLevelInfo, getBeeSwarmPerSwarmYield, getBeeSwarmStatsForCrop, getBoostAoeInfo, getBoostedMedicineRecipe, getBoostedToolRecipe, getCookingCount, getCropMachineOilCap, getCropMachineQueueSlots, getCropSeasons, getDoubleNomBonusFood, getDoubleNomIngredientMultiplier, getDraftAscensionRank, getDraftAscensionTotals, getDraftSkillPointsUsed, getEffectiveDailyReward, getEffectiveYieldAdd, getFruitCount, getFruitSeasons, getGreenhouseCount, getHiveCount, getIconSmall, getLimitedBoostRemainingSec, getManualCycleOverride, getManualCycleRawValue, getMaterialMode, getMedicineIngredientMode, getMissingPlotNodeFields, getNodeCount, getNodeIconHtml, getNodeLabel, getNodeTierCounts, getPlotCount, getResourceForTool, getRestockExclusionNote, getSicknessEstimate, getSpiceEffectForAnimalType, getSpiceLickDurationHarvests, getVarietyIngredient, globalPlotCount, greenhouseBuds, gunterActiveTab, gunterGridEntranceShown, gunterMutantSyncAutoBoosts, gunterRenderBottom, gunterRenderMid, gunterRenderSunstoneInput, gunterRenderTop, harvestSelectedLibId, renderChapterFishMutants, hasPlotsNodesData, ingredientKindLabel, isBoostActive, isBoostDraftActive, isBoostDraftDirty, isCalendarSeasonalBoost, isCropInSeason, isCropMachineUnlocked, isFertilizerTierEnabled, isFlowerVarietySeasonLocked, isFruitInSeason, isFullMoonToday, isPetFoodChecked, isSeasonLocked, isSkillActive, isSkillDraftActive, isSkillDraftDirty, isSkillDraftTierUnlocked, isTieredResource, limitedTimeBoostRefreshTimer, megastoreTickets, normalizeSearch, npcSkipDays, obsidianInputsHidden, petAddAuraValue, petAddBibValue, petAddIsNFT, petAddName, petAddOpen, petAddStep, petAddType, petAuraInfoText, petBibInfoText, petCalcCacheReset, petComputeCardCached, petComputeResourceTotals, petFoodChecks, petOpenId, petPerkActive, petPerkApplies, petResetAddFlow, petTraitPickerKind, petsData, petsFoodTab, pickerTarget, pixelPickerOnSelect, POTION_ICONS, POTION_NAMES, potionActiveGuessSlot, potionSetActiveGuessSlot, potionSolveState, potionStatusBadgeIcon, potionStatusLabel, previewSeason, profileBackNav, profileBumpkinCache, profileBumpkinFrameHtml, profileBumpkinIdHtml, profileBumpkinImageOnError, profileBumpkinNoteText, profileClearTradableCache, profileComputeFarmValue, profileComputeWithdrawTax, profileFactionHtml, profileFactionIconHtml, profileFmtUsd, profileGetDisplayName, profileGetExpansionInfo, profileGetFarmAgeText, profileGetG, profileGetInventoryAmount, profileGetMainTabMeta, profileGetReputation, profileGoBottomNav, profileRenderBuildColumns, profileState, profileTradableContentHtml, profileTradableRowsForTab, profileTradableRowsSubtotal, profileTradableTotalFlower, profileVipHtml, rcmActiveTab, rcmPendingExcluded, readFarmSyncedId, readFarmVipEnabled, refreshAfterSkillChange, refreshAfterSpiceChange, removeAnimalBud, removeBud, removeCropBud, removeFishBud, removeFruitBud, removeResourceBud, render24hBadge, render24hTotalsGrid, resolveAscensionLevelInfo, resourceBuds, safeParse, saltFarmLevel, saltSculptureLevel, saltUiSet, scheduleCascade, sculptureEffects, seasonDays, seedIconHtmlFor, seedIngredientOptionsList, selectedBoosts, selectedHoneyFlower, selectedSwarmCrop, setAnimalCount, setCookingActiveBuilding, setCookingCount, setCookingFishCategory, setCookingGuaranteedCatchOn, setCrustaceanSelectedChum, setCrustaceanTrapTab, setFactionPetManualMode, setFishingTier, setFruitCount, setGreenhouseCount, setManualCycleOverride, setMaterialMode, setMedicineIngredientMode, setNodeCount, setNodeTierQty, setPetsFoodTab, setPlotCount, setPreviewSeason, setSaltFarmLevel, setSculptureLevel, setSelectedHoneyFlower, setSelectedSwarmCrop, setSpiceMaterialMode, setVarietyIngredient, setVegMaterialMode, simulateStockCycles, skillAoeNoteForRank, skillCategory, skillDraftSelectedSkills, skillRankUsageHtml, skillSyncedBoostText, skillSyncedLevel, slug, spiceUsage, stepperHtml, syncProgressTimer, ticketBoosts, tierUnlockHintText, toast, toolRecipes, tradeActive, tradeActiveTab, tradeCardKey, tradeExpandedIds, tradeGatherActiveSorted, tradeHistory, tradeLifetime, tradePickItem, tradeSortMode, undeliveredLastSeason, updateBoostSaveBarState, updateCalcSelectedDisplay, updateCalcSummary, updateDailyProfitSummary, updateLibCraftTotal, updateNewTradeLiveTotal, updateRcmUnsavedNote, updateSellTradeLiveTotal, updateSettingsSummary, updateSkillSaveBarState, varietyIngredientOptions, vegMaterialMode, wireEvents, withPreservedCardScrolls, withPreservedManualCycleFocus, withPreservedResourceScroll, withPreservedScroll } from './calculator.js';
-import { __set_farmPanelActiveTab, __set_farmPanelRenderAtMs, __set_farmPanelTabContentDirty, farmPanelActiveTab, farmPanelComputeInProgress, farmPanelComputeStocks, farmPanelDetectActiveMutants, farmPanelDetectMoneyTreeBonus, farmPanelExpandedNames, farmPanelGameState, farmPanelGetLastInfo, farmPanelInProgressCategoryFilter, farmPanelRenderCategoryFilterBar, farmPanelRenderInProgressRow, farmPanelRenderMoneyTreeBonusCard, farmPanelRenderMutantAlertCard, farmPanelRenderStockRow, farmPanelTabContentDirty } from './inprogress.js';
-import { CANCEL_ICON_SFL, TIMER_ICON_SFL, animalFlowerCost, attachShrineCostToggles, bountyFlowerCost, choresFlowerCost, computeCropBaseCostCoins, computeFarmLevelNextCost, computeHoneyBaseCostCoins, computeResourceBaseCostCoins, computeSculptureNextCost, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanTrapFreeCostLabel, fishCatchStageCostCoins, fishEffectiveBasicCostCoins, fishMarketGuaranteedTab, fishMarketItemCostCoins, fishMarketItemForFish, fishRodFreeCostLabel, getActiveShrineDailyCost, getCropCostCoins, getFlowerSeedTypeCost, getFlowerVarietyCostCoins, getFruitBaseCostCoins, getFruitCostCoins, getGreenhouseBaseCostCoins, getGreenhouseCostCoins, getItemCostByName, getMarketItemCostCoins, getMaterialUnitCostCoins, getPetResourceMarket, getSpiceCostPerUseFlower, getSpiceHeadCost, getToolBaseCostCoins, getToolCostCoins, hasFreeCostBoost, hasFreeCostBoostGreenhouse, invalidateCostCache, isSflThemeOn, livePriceSource, marketItems, npcFlowerCost, openMarketPriceEdit, openPriceEdit, petFoodCostCoins, petResourceCostOverride, petResourceCostPerUnit, pickledVegCost, pickledVegSaltCostFlower, priceSourceBadgeHtml, refreshSflThemeClass, renderBaseCostPriceBlock, renderFishMarketCardsList, renderFishMarketMainTabs, renderFishMarketSeasonToggle, renderFishingCostModeToggle, renderMarketList, renderMedicineCostDisplay, renderShrineCostBlock, restockCostMode, setCookingCostMode, setFishMarketGuaranteedTab, setFlowerSeedTypeCost, setShrineCostMode, shrineCostMode, traceZeroCostBoosts, tradeMarketPrice } from './prices.js';
-import { loadBaseAnimalProduceIfNeeded, loadBaseCropsIfNeeded, loadBaseFruitsIfNeeded, loadBaseGreenhouseIfNeeded, loadBaseHoneyIfNeeded, loadBaseResourcesIfNeeded, loadBaseSaltMarketIfNeeded, loadPetResourcesIfNeeded, profileBumpkinCachePersist, saveAnimalSicknessEstimate, saveBoostState, saveCmQueue, saveCookingExpanded, saveFertilizerTierScope, savePetFoodChecks, savePetsData, saveSpiceUsage, saveState } from './storage.js';
+import { ALWAYS_ON_BOOST_IDS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_LOVE_ITEM_XP, ASCENSION_RANK_DATA, BAIT_RECIPES, BASE_COMPOSTERS, BASE_CROPS, BASE_CROP_MACHINE, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_CROPS, BASE_STOCK_FRUITS, BASE_STOCK_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, BOOST_LABELS, BOOST_TIERS, BOUNTY_WEEKLY_BONUS, BUD_ANIMAL_STEMS, BUD_ANIMAL_TYPES, BUD_AURAS, BUD_CROP_STEMS, BUD_CROP_TYPES, BUD_FIELD_LABELS, BUD_FISH_TYPES, BUD_FRUIT_STEMS, BUD_FRUIT_TYPES, BUD_GREENHOUSE_STEMS, BUD_GREENHOUSE_TYPES, BUD_RESOURCE_STEMS, BUD_RESOURCE_TYPES, CHEER_ICON_SRC, CM_MODULE_SKILL_IDS, CM_MODULE_SKILL_NAMES, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_FOOD_EMOJI, COOKING_FOOD_IMAGES, COOKING_RECIPES, CROP_MACHINE_PACK_MAX, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_NAMES, ES_ISLAND_ICONS, FACTION_BANNER_ICONS, FACTION_DISPLAY_NAMES, FACTION_PET_BOOST_TIERS, FACTION_PET_HAPPY_ICONS, FARM_LEVEL_NODES, FEED_LABELS, FISHING_ROD_ICON, FISH_CATCH_DATA, FISH_CATCH_NAMES, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_TIER_LABEL, FLOWER_ICON, FLOWER_SEEDS, FLOWER_SEED_ICONS, FLOWER_VARIETIES, GEM_ICON, ICONS, IMAGE_ICONS, IMAGE_ICON_FALLBACK, LIMITED_TIME_BOOSTS, LOVE_CHARM_ICON_SRC, MANUAL_CYCLE_REFRESH_FNS, MARK_ICON_SRC, MUTANT_FALLBACK_ICON, NPC_ICONS, OBSIDIAN_WEEKLY_PURCHASE_CAP, OBSIDIAN_WEEKLY_SELL_CAP, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PET_AURA_TRAITS, PET_BASE_XP_ENERGY, PET_BIB_TRAITS, PET_CATEGORIES, PET_CATEGORY_ICON, PET_COMMON_TYPES, PET_FOOD_LISTS, PET_LEVEL_PERKS, PET_NAMES_BY_TYPE, PET_NFT_TYPES, PET_RESOURCE_ENERGY, PET_RESOURCE_ICON, PET_TRADABLE_RESOURCES, PET_TYPE_EMOJI, PICKLED_VEG_DATA, PRE_ASCENSION_MAX_LEVEL, PROFILE_TRADABLE_TABS, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, RESTOCK_PANEL_CATEGORIES, SALT_BASE_YIELD, SALT_FERTILIZER_DATA, SCULPTURE_EFFECTS_LIST, SCULPTURE_LEVELS, SEASON_ACCENT, SEASON_EMOJI, SEASON_ORDER, SKILL_BOOSTS, SKILL_TREES, SPICE_ANIMAL_TYPES, SPICE_RECIPES, SYNC_PROGRESS_STAGES, SYNODIC_MONTH_DAYS, TICKET_NPC_DISPLAY_NAMES, __getIconCache, __getTreasureIconCache, __lastSyncTiming, __markSub, __postinc_craftMaterialIdSeq, __preinc_digPanelRenderToken, __set___lastSyncTiming, __set___syncTimingPanelOpen, __set_bettySortMode, __set_boostDraftSelectedBoosts, __set_budPickerContext, __set_budPickerKind, __set_cmOilTank, __set_cmQty, __set_cmSelectedCrop, __set_coinPerFlower, __set_craftMaterialRows, __set_dailyProfitCardsCache, __set_editingLibId, __set_finderIngredient, __set_finderSeed, __set_fpBoostPanelOpen, __set_harvestSelectedLibId, __set_limitedTimeBoostRefreshTimer, __set_obsidianInputsHidden, __set_pendingDeleteId, __set_pendingDeleteType, __set_petAddAuraValue, __set_petAddBibValue, __set_petAddIsNFT, __set_petAddName, __set_petAddOpen, __set_petAddStep, __set_petAddType, __set_petOpenId, __set_petTraitPickerKind, __set_petsData, __set_pixelPickerOnSelect, __set_rcmActiveTab, __set_selectedBoosts, __set_skillDraftSelectedSkills, __set_syncProgressTimer, __set_tradePendingDeleteId, __set_tradePendingDeleteType, __set_tradePickedItemName, __set_tradeSellingId, __set_tradeSortMode, __syncTimingPanelOpen, allocateAoeAcrossTiers, animalAffectionTools, animalBuds, animalSicknessEstimate, animalWeekly, applyLibTypeVisibility, applyLibrarySearchFilter, applyPickerSearchFilter, applyTradeItemSearchFilter, ascensionDescribeRank, ascensionLevelBadgeText, attachDailyProfitCardEvents, attachFarmPanelCategoryFilterBar, attachProfileTradableEditHandlers, beeSwarmActiveCount, beeSwarmAffectedPlots, bettyActiveTab, bettyGatherItems, bettyGreenThumbOn, bettyHighestRate, bettySortItems, bettySortMode, boostCategory, boostDraftSelectedBoosts, bountyWeekly, budAnimalSummaryText, budContextFields, budContextPrefix, budContextState, budContextUpdateDuplicateState, budFarmCropSummaryText, budFieldCap, budFruitSummaryText, budPickerContext, budPickerKind, budResourceSummaryText, budSummaryText, calcMode, calendarDebuffProtection, choresWeekly, cmCalcMode, cmClampQty, cmModuleTagHtml, cmOilTank, cmQty, cmQueue, cmSelectedCrop, coinPerFlower, coinsToFlower, compute24hProjection, computeAgedFishFigures, computeAll, computeAnimalBaseCoinFigures, computeAnimalFeedFigures, computeAnimalTypeFigures, computeAnimalWeeklyFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedResourceStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCropMachineBatch, computeCrustaceanFigures, computeDailyProfitProjection, computeFertilizerFigures, computeHiveEconomics, computeLavaPitFigures, computeMachineRestockGems, computeObsidianWeeklyProfit, computeResourceFigures, computeResourceProjection24h, computeSaltFarmFigures, computeSeaweedFigures, computeShrineAffectedProfitability, computeSpiceFigures, ASCENSION_LEVELS_PER_BAND, ASCENSION_LEVEL_UPS, COOK_LEVEL_XP, ascensionBandBaseline, ascensionBandXp, ascensionLevelXp, cookGetLevelInfo, cookingActiveBuilding, cookingComputeFoodExp, cookingComputeFoodTime, cookingComputeTotals, cookingExpandedFoods, cookingFindRecipeForFood, cookingFishCategory, cookingGuaranteedCatchOn, craftMaterialRows, cropBuds, cropTierFilter, crustaceanExpanded, crustaceanTrapTabActive, currentSeason, dailyProfitExpandedNames, dailyProfitGetCycleCount, deleteActiveTrade, deleteHistoryTrade, describeAoeTierAllocation, digCellClass, digPanelRenderToken, digSolveBoard, draftSetAscensionRank, editingLibId, ensureExchangeRates, esRenderAll, esState, esSyncAutoBoostsFromFarm, escapeHtml, expandedAnimalCards, expandedAnimalFeedByLevel, expandedAnimalFeedConsumption, expandedComposters, expandedCropMachine, expandedCrops, expandedFlowers, expandedFruits, expandedGreenhouse, expandedResources, factionPetGetActiveTier, factionPetGetEffectiveStreak, factionPetManualMode, factionPetSetManualStreak, factionPetShouldApplyBoost, factionPetUpdateBoostUI, farmLevelMaxNodes, farmSyncExtractGameState, farmSyncGetApiUsername, farmSyncGetLimitedTimeBoostStatus, feePercent, fertilizerTierScope, findTool, findVarietiesBySeedIngredient, finderIngredient, finderSeed, fishBudSummaryText, fishBuds, fishCatchComputeXP, fishCatchYieldMult, fishInventoryNameForCategory, fishStageForCategory, fishingExpandedTierFish, fishingTierActive, fmt, fmtAnimal, fmtCycleInputValue, fmtInt, formatDuration, formatTrade12h, fpBoostPanelOpen, fruitBuds, fullMoonSeedStockQty, gatherTop10ProfitItems, getActiveAnimalBoosts, getActiveBoostsForResource, getAllMaterialCandidates, getAnimalCount, getAscensionLevelInfo, getBeeSwarmPerSwarmYield, getBeeSwarmStatsForCrop, getBoostAoeInfo, getBoostedMedicineRecipe, getBoostedToolRecipe, getCookingCount, getCropMachineOilCap, getCropMachineQueueSlots, getCropSeasons, getDoubleNomBonusFood, getDoubleNomIngredientMultiplier, getDraftAscensionRank, getDraftAscensionTotals, getDraftSkillPointsUsed, getEffectiveDailyReward, getEffectiveYieldAdd, getFruitCount, getFruitSeasons, getGreenhouseCount, getHiveCount, getIconSmall, getLimitedBoostRemainingSec, getManualCycleOverride, getManualCycleRawValue, getMaterialMode, getMedicineIngredientMode, getMissingPlotNodeFields, getNodeCount, getNodeIconHtml, getNodeLabel, getNodeTierCounts, getPlotCount, getResourceForTool, getRestockExclusionNote, getSicknessEstimate, getSpiceEffectForAnimalType, getSpiceLickDurationHarvests, getVarietyIngredient, globalPlotCount, greenhouseBuds, gunterActiveTab, gunterGridEntranceShown, gunterMutantSyncAutoBoosts, gunterRenderBottom, gunterRenderMid, gunterRenderSunstoneInput, gunterRenderTop, harvestSelectedLibId, renderChapterFishMutants, hasPlotsNodesData, ingredientKindLabel, isBoostActive, isBoostDraftActive, isBoostDraftDirty, isCalendarSeasonalBoost, isCropInSeason, isCropMachineUnlocked, isFertilizerTierEnabled, isFlowerVarietySeasonLocked, isFruitInSeason, isFullMoonToday, isPetFoodChecked, isSeasonLocked, isSkillActive, isSkillDraftActive, isSkillDraftDirty, isSkillDraftTierUnlocked, isTieredResource, limitedTimeBoostRefreshTimer, megastoreTickets, normalizeSearch, npcSkipDays, obsidianInputsHidden, petAddAuraValue, petAddBibValue, petAddIsNFT, petAddName, petAddOpen, petAddStep, petAddType, petAuraInfoText, petBibInfoText, petCalcCacheReset, petComputeCardCached, petComputeResourceTotals, petFoodChecks, petOpenId, petPerkActive, petPerkApplies, petResetAddFlow, petTraitPickerKind, petsData, petsFoodTab, pickerTarget, pixelPickerOnSelect, POTION_ICONS, POTION_NAMES, potionActiveGuessSlot, potionSetActiveGuessSlot, potionSolveState, potionStatusBadgeIcon, potionStatusLabel, previewSeason, profileBackNav, profileBumpkinCache, profileBumpkinFrameHtml, profileBumpkinIdHtml, profileBumpkinImageOnError, profileBumpkinNoteText, profileClearTradableCache, profileComputeFarmValue, profileComputeWithdrawTax, profileFactionHtml, profileFactionIconHtml, profileFmtUsd, profileGetDisplayName, profileGetExpansionInfo, profileGetFarmAgeText, profileGetG, profileGetInventoryAmount, profileGetMainTabMeta, profileGetReputation, profileGoBottomNav, profileRenderBuildColumns, profileState, profileTradableContentHtml, profileTradableRowsForTab, profileTradableRowsSubtotal, profileTradableTotalFlower, profileVipHtml, rcmActiveTab, rcmPendingExcluded, readFarmSyncedId, readFarmVipEnabled, refreshAfterSkillChange, refreshAfterSpiceChange, removeAnimalBud, removeBud, removeCropBud, removeFishBud, removeFruitBud, removeResourceBud, render24hBadge, render24hTotalsGrid, resolveAscensionLevelInfo, resourceBuds, safeParse, saltFarmLevel, saltSculptureLevel, saltUiSet, scheduleCascade, sculptureEffects, seasonDays, seedIconHtmlFor, seedIngredientOptionsList, selectedBoosts, selectedHoneyFlower, selectedSwarmCrop, setAnimalCount, setCookingActiveBuilding, setCookingCount, setCookingFishCategory, setCookingGuaranteedCatchOn, setCrustaceanSelectedChum, setCrustaceanTrapTab, setFactionPetManualMode, setFishingTier, setFruitCount, setGreenhouseCount, setManualCycleOverride, setMaterialMode, setMedicineIngredientMode, setNodeCount, setNodeTierQty, setPetsFoodTab, setPlotCount, setPreviewSeason, setSaltFarmLevel, setSculptureLevel, setSelectedHoneyFlower, setSelectedSwarmCrop, setSpiceMaterialMode, setVarietyIngredient, setVegMaterialMode, simulateStockCycles, skillAoeNoteForRank, skillCategory, skillDraftSelectedSkills, skillRankUsageHtml, skillSyncedBoostText, skillSyncedLevel, slug, spiceUsage, stepperHtml, syncProgressTimer, ticketBoosts, tierUnlockHintText, toast, toolRecipes, tradeActive, tradeActiveTab, tradeCardKey, tradeExpandedIds, tradeGatherActiveSorted, tradeHistory, tradeLifetime, tradePickItem, tradeSortMode, undeliveredLastSeason, updateBoostSaveBarState, updateCalcSelectedDisplay, updateCalcSummary, updateDailyProfitSummary, updateLibCraftTotal, updateNewTradeLiveTotal, updateRcmUnsavedNote, updateSellTradeLiveTotal, updateSettingsSummary, updateSkillSaveBarState, varietyIngredientOptions, vegMaterialMode, wireEvents, withPreservedCardScrolls, withPreservedManualCycleFocus, withPreservedResourceScroll, withPreservedScroll } from "./calculator.js";
+
+import { __set_farmPanelActiveTab, __set_farmPanelRenderAtMs, __set_farmPanelTabContentDirty, farmPanelActiveTab, farmPanelComputeInProgress, farmPanelComputeStocks, farmPanelDetectActiveMutants, farmPanelDetectMoneyTreeBonus, farmPanelExpandedNames, farmPanelGameState, farmPanelGetLastInfo, farmPanelInProgressCategoryFilter, farmPanelRenderCategoryFilterBar, farmPanelRenderInProgressRow, farmPanelRenderMoneyTreeBonusCard, farmPanelRenderMutantAlertCard, farmPanelRenderStockRow, farmPanelTabContentDirty } from "./inprogress.js";
+
+import { CANCEL_ICON_SFL, TIMER_ICON_SFL, animalFlowerCost, attachShrineCostToggles, bountyFlowerCost, choresFlowerCost, computeCropBaseCostCoins, computeFarmLevelNextCost, computeHoneyBaseCostCoins, computeResourceBaseCostCoins, computeSculptureNextCost, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanTrapFreeCostLabel, fishCatchStageCostCoins, fishEffectiveBasicCostCoins, fishMarketGuaranteedTab, fishMarketItemCostCoins, fishMarketItemForFish, fishRodFreeCostLabel, getActiveShrineDailyCost, getCropCostCoins, getFlowerSeedTypeCost, getFlowerVarietyCostCoins, getFruitBaseCostCoins, getFruitCostCoins, getGreenhouseBaseCostCoins, getGreenhouseCostCoins, getItemCostByName, getMarketItemCostCoins, getMaterialUnitCostCoins, getPetResourceMarket, getSpiceCostPerUseFlower, getSpiceHeadCost, getToolBaseCostCoins, getToolCostCoins, hasFreeCostBoost, hasFreeCostBoostGreenhouse, invalidateCostCache, isSflThemeOn, livePriceSource, marketItems, npcFlowerCost, openMarketPriceEdit, openPriceEdit, petFoodCostCoins, petResourceCostOverride, petResourceCostPerUnit, pickledVegCost, pickledVegSaltCostFlower, priceSourceBadgeHtml, refreshSflThemeClass, renderBaseCostPriceBlock, renderFishMarketCardsList, renderFishMarketMainTabs, renderFishMarketSeasonToggle, renderFishingCostModeToggle, renderMarketList, renderMedicineCostDisplay, renderShrineCostBlock, restockCostMode, setCookingCostMode, setFishMarketGuaranteedTab, setFlowerSeedTypeCost, setShrineCostMode, shrineCostMode, traceZeroCostBoosts, tradeMarketPrice } from "./prices.js";
+
+import { loadBaseAnimalProduceIfNeeded, loadBaseCropsIfNeeded, loadBaseFruitsIfNeeded, loadBaseGreenhouseIfNeeded, loadBaseHoneyIfNeeded, loadBaseResourcesIfNeeded, loadBaseSaltMarketIfNeeded, loadPetResourcesIfNeeded, profileBumpkinCachePersist, saveAnimalSicknessEstimate, saveBoostState, saveCmQueue, saveCookingExpanded, saveFertilizerTierScope, savePetFoodChecks, savePetsData, saveSpiceUsage, saveState } from "./storage.js";
 
 function getCancelIcon() {
   return isSflThemeOn() ? CANCEL_ICON_SFL : "✕";
@@ -1319,7 +1322,7 @@ export function renderTotalsBreakdown(opts) {
   const unitRow = opts.unitLabel != null ? `<div class="stat"><span class="label">${opts.unitLabel}</span><span class="value">${fmt(opts.unitCount)}</span></div>` : "";
   const yieldPerCycleRow = opts.yieldPerCycle != null ? `<div class="stat"><span class="label">Yield per Cycle</span><span class="value">${fmt(opts.yieldPerCycle)}</span></div>` : "";
   const totalCyclesRow = opts.totalCycles != null ? `<div class="stat"><span class="label">Total Cycles</span><span class="value">${fmt(opts.totalCycles)}${opts.totalCyclesSuffix != null ? opts.totalCyclesSuffix : "/day"}</span></div>` : "";
-  const manualCycleRow = opts.manualCycleKey ? `\n        <div class="stat manual-cycle-stat" style="grid-column:1 / -1;flex-direction:column;align-items:stretch;gap:3px;background:rgba(255,193,7,.22);border:1.25px solid rgba(217,119,6,.55);border-radius:8px;padding:6px 7px;">\n          <span class="label" style="color:#8a5a00;">Manual Cycle <span style="opacity:.75;font-weight:500;">(override${opts.totalCyclesSuffix != null ? " " + opts.totalCyclesSuffix : "/day"} — leave blank for auto)</span></span>\n          <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" autocomplete="off" class="manual-cycle-input" data-cycle-key="${escapeHtml(opts.manualCycleKey)}" data-cycle-refresh="${escapeHtml(opts.manualCycleRefresh || "")}" placeholder="Type Manual Cycle here" value="${opts.manualCycleValue != null && opts.manualCycleValue !== "" ? escapeHtml(String(opts.manualCycleValue)) : ""}" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:12.6px;border:1.25px solid var(--line);border-radius:6px;padding:5px 6px;background:#fffdf5;">\n        </div>` : "";
+  const manualCycleRow = opts.manualCycleKey ? `\n        <div class="stat manual-cycle-stat" style="grid-column:1 / -1;flex-direction:column;align-items:stretch;gap:3px;background:rgba(255,193,7,.22);border:1.25px solid rgba(217,119,6,.55);border-radius:8px;padding:6px 7px;">\n          <span class="label" style="color:#8a5a00;">Manual Cycle <span style="opacity:.75;font-weight:500;">(override${opts.totalCyclesSuffix != null ? " " + opts.totalCyclesSuffix : "/day"} — leave blank for auto)</span></span>\n          <input type="text" inputmode="decimal" pattern="[0-9]*.?[0-9]*" autocomplete="off" class="manual-cycle-input" data-cycle-key="${escapeHtml(opts.manualCycleKey)}" data-cycle-refresh="${escapeHtml(opts.manualCycleRefresh || "")}" placeholder="Type Manual Cycle here" value="${opts.manualCycleValue != null && opts.manualCycleValue !== "" ? escapeHtml(String(opts.manualCycleValue)) : ""}" style="width:100%;font-family:'JetBrains Mono',monospace;font-size:12.6px;border:1.25px solid var(--line);border-radius:6px;padding:5px 6px;background:#fffdf5;">\n        </div>` : "";
   const feedRow = opts.feedQty != null ? `<div class="stat"><span class="label">${opts.feedIcon || ""} Feed Consumed</span><span class="value">${fmt(opts.feedQty)} ${opts.feedName || ""}${opts.headsCount != null ? ` <span style="opacity:.65;font-weight:500;">(${fmt(opts.headsCount)} heads)</span>` : ""}</span></div>` : "";
   const perSeedHtml = opts.perSeedLabel ? `\n      <div class="profit-banner per-seed-banner">\n        <span class="plabel">${opts.perSeedLabel}</span>\n        <span><span class="pvalue ${opts.perSeedIsProfit ? "is-profit" : "is-loss"}">${opts.perSeedIsProfit ? "+" : ""}${fmt(opts.perSeedValue)} ${FLOWER_ICON} FLOWER</span>${opts.perSeedRoi != null ? `<span class="proi">(${opts.perSeedRoi.toFixed(1)}% ROI)</span>` : ""}</span>\n      </div>` : "";
   const totalDeductions = baseCost + restockCost + shrineCost + sellFee;
@@ -1617,9 +1620,7 @@ export function getTreasureIcon(name) {
     result = `<img src="${IMAGE_ICON_FALLBACK}" alt="item" width="16" height="16" decoding="async" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">`;
   } else {
     const imgSrc = IMAGE_ICONS[name] || Object.entries(IMAGE_ICONS).find(([k]) => k.toLowerCase() === name.trim().toLowerCase())?.[1];
-    result = imgSrc
-      ? `<img src="${imgSrc}" alt="${escapeHtml(name)}" width="16" height="16" decoding="async" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">`
-      : `<img src="${IMAGE_ICON_FALLBACK}" alt="${escapeHtml(name)}" width="16" height="16" decoding="async" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">`;
+    result = imgSrc ? `<img src="${imgSrc}" alt="${escapeHtml(name)}" width="16" height="16" decoding="async" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">` : `<img src="${IMAGE_ICON_FALLBACK}" alt="${escapeHtml(name)}" width="16" height="16" decoding="async" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">`;
   }
   __getTreasureIconCache.set(cacheKey, result);
   return result;
@@ -1845,9 +1846,6 @@ export function renderFruitHarvestsLeftHtml(harvestsLeftCounts, fruitName, woodP
   const entries = Object.keys(harvestsLeftCounts).map(Number).sort((a, b) => a - b);
   if (!entries.length) return "";
   const treeIcon = getIcon(fruitName);
-  
-  
-  
   const hasWood = typeof woodPerTree === "number" && woodPerTree > 1e-9;
   const woodNote = hasWood ? ` <span style="color:#000;">(${getIcon("Wood")} will drop ${fmt(woodPerTree)} Wood per tree once this harvest is claimed &amp; the tree is chopped)</span>` : ` <span style="color:#a12626;">(${getIcon("Wood")} won't drop any Wood when chopped — an active perk/skill fully offsets the Wood return)</span>`;
   const rows = entries.map(n => {
@@ -1863,8 +1861,6 @@ export function renderTurnaroundBoostHtml(row) {
   if (!counts) return "";
   const types = Object.keys(counts);
   if (!types.length) return "";
-  
-  
   const chips = types.map(type => `<span class="turnaround-boost-chip">${counts[type]} ${getIcon(type)} ${escapeHtml(type)}</span>`);
   const pairedRows = [];
   for (let i = 0; i < chips.length; i += 2) {
@@ -2598,7 +2594,7 @@ function renderFruitCard(name) {
       yieldLabel: name,
       unitLabel: "Total Trees",
       unitCount: fruitCount,
-      yieldPerCycle: fruitCount * totalYield,
+      yieldPerCycle: fruitCount * boosted.yieldVal,
       totalCycles: proj.cyclesPerDay,
       manualCycleKey: fruitManualCycleKey,
       manualCycleValue: getManualCycleRawValue(fruitManualCycleKey),
@@ -4088,7 +4084,13 @@ if ("serviceWorker" in navigator) {
 
 let bumpkinLevelActiveTab = "level";
 
-const BUMPKIN_LEVEL_TAB_DEFS = [{ id: "level", label: "Level 1-150" }].concat([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(a => ({ id: "a" + a, label: "A" + a + " 1-50" })));
+const BUMPKIN_LEVEL_TAB_DEFS = [ {
+  id: "level",
+  label: "Level 1-150"
+} ].concat([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ].map(a => ({
+  id: "a" + a,
+  label: "A" + a + " 1-50"
+})));
 
 function blComputeLevelTabRows(experience, ascensionLevel) {
   const info = cookGetLevelInfo(experience);
@@ -4108,7 +4110,14 @@ function blComputeLevelTabRows(experience, ascensionLevel) {
       state = "current";
       running = Math.min(info.progress, cap);
     }
-    rows.push({ level: i, running: running, cap: cap, cumSkill: i, totalExp: startXp, state: state });
+    rows.push({
+      level: i,
+      running: running,
+      cap: cap,
+      cumSkill: i,
+      totalExp: startXp,
+      state: state
+    });
   }
   return rows;
 }
@@ -4134,7 +4143,14 @@ function blComputeAscensionTabRows(ascension, experience, ascensionLevel) {
         running = Math.min(ascInfo.currentExperienceProgress, cap);
       }
     }
-    rows.push({ level: n, running: running, cap: cap, cumSkill: PRE_ASCENSION_MAX_LEVEL + (ascension - 1) * ASCENSION_LEVELS_PER_BAND + n, totalExp: totalExp, state: state });
+    rows.push({
+      level: n,
+      running: running,
+      cap: cap,
+      cumSkill: PRE_ASCENSION_MAX_LEVEL + (ascension - 1) * ASCENSION_LEVELS_PER_BAND + n,
+      totalExp: totalExp,
+      state: state
+    });
     if (n < ASCENSION_LEVELS_PER_BAND) cum += cap;
   }
   return rows;
@@ -4157,7 +4173,11 @@ export function renderBumpkinLevelPanel() {
   const experience = info.experience || 0;
   const ascensionLevel = info.ascensionLevel || 0;
   const curInfo = getAscensionLevelInfo(experience, ascensionLevel);
-  const expInfo = g ? profileGetExpansionInfo(g) : { islandLabel: "—", expansionLevel: 0, ascensionLevel: ascensionLevel };
+  const expInfo = g ? profileGetExpansionInfo(g) : {
+    islandLabel: "—",
+    expansionLevel: 0,
+    ascensionLevel: ascensionLevel
+  };
   const levelLabel = ascensionLevel > 0 ? `A${fmtInt(ascensionLevel)} · Lv ${fmtInt(curInfo.level)}` : `Lv ${fmtInt(curInfo.level)}`;
   const xpLabel = `${fmtInt(Math.min(curInfo.currentExperienceProgress, curInfo.experienceToNextLevel))}/${fmtInt(curInfo.experienceToNextLevel)} XP`;
   const bumpkinFrameHtml = g ? profileBumpkinFrameHtml(g) : "";
@@ -4167,23 +4187,7 @@ export function renderBumpkinLevelPanel() {
     const titleText = t.id === "level" ? "BUMPKIN LEVEL 1-150" : `BUMPKIN LEVEL (${t.label.toUpperCase()})`;
     return `<div class="bl-level-block${bumpkinLevelActiveTab === t.id ? " active" : ""}" data-bl-tab-panel="${t.id}"><div class="bl-block-title">${escapeHtml(titleText)}</div>${blRenderTableHtml(rows)}</div>`;
   }).join("");
-  body.innerHTML = `
-    <div class="bl-summary-box">
-      <div class="profile-bumpkin-frame">${bumpkinFrameHtml}</div>
-      <div class="bl-summary-info">
-        <div class="bl-summary-name">${escapeHtml(displayName)}</div>
-        <div class="bl-summary-level">${levelLabel}<span class="bl-summary-xp">${xpLabel}</span></div>
-        <div class="bl-summary-line"><span class="bl-summary-sub-label">Ascension Level</span><span class="bl-summary-sub-value">${fmtInt(ascensionLevel)}</span></div>
-        <div class="bl-summary-line"><span class="bl-summary-sub-label">Land Expansion</span><span class="bl-summary-sub-value">${fmtInt(expInfo.expansionLevel)}</span></div>
-        <div class="bl-summary-line"><span class="bl-summary-sub-label">Land</span><span class="bl-summary-sub-value">${escapeHtml(expInfo.islandLabel)}</span></div>
-      </div>
-    </div>
-    <div class="bl-levels-box">
-      <div class="bl-section-caption">Levels and Exp + Skill points</div>
-      <div class="bl-picker-strip">${navHtml}</div>
-      <div class="bl-levels-content">${tabsContentHtml}</div>
-    </div>
-  `;
+  body.innerHTML = `\n    <div class="bl-summary-box">\n      <div class="profile-bumpkin-frame">${bumpkinFrameHtml}</div>\n      <div class="bl-summary-info">\n        <div class="bl-summary-name">${escapeHtml(displayName)}</div>\n        <div class="bl-summary-level">${levelLabel}<span class="bl-summary-xp">${xpLabel}</span></div>\n        <div class="bl-summary-line"><span class="bl-summary-sub-label">Ascension Level</span><span class="bl-summary-sub-value">${fmtInt(ascensionLevel)}</span></div>\n        <div class="bl-summary-line"><span class="bl-summary-sub-label">Land Expansion</span><span class="bl-summary-sub-value">${fmtInt(expInfo.expansionLevel)}</span></div>\n        <div class="bl-summary-line"><span class="bl-summary-sub-label">Land</span><span class="bl-summary-sub-value">${escapeHtml(expInfo.islandLabel)}</span></div>\n      </div>\n    </div>\n    <div class="bl-levels-box">\n      <div class="bl-section-caption">Levels and Exp + Skill points</div>\n      <div class="bl-picker-strip">${navHtml}</div>\n      <div class="bl-levels-content">${tabsContentHtml}</div>\n    </div>\n  `;
   const bumpkinImg = body.querySelector(".profile-bumpkin-render");
   if (bumpkinImg) {
     bumpkinImg.addEventListener("error", () => profileBumpkinImageOnError(bumpkinImg));
@@ -4212,24 +4216,41 @@ const AUCTION_TRACKER_API_URL = "https://sfl-community-proxy.bossweki.workers.de
 
 const AUCTION_TRACKER_FARM_ID_LS_KEY = "hl_auction_tracker_farm_id";
 
-const AUCTION_TRACKER_FILTER_DEFS = [
-  { id: "all", label: "All" },
-  { id: "ascension", label: "Ascension Level" },
-  { id: "exp", label: "EXP" },
-  { id: "nonascended", label: "None Ascended" }
-];
+const AUCTION_TRACKER_FILTER_DEFS = [ {
+  id: "all",
+  label: "All"
+}, {
+  id: "ascension",
+  label: "Ascension Level"
+}, {
+  id: "exp",
+  label: "EXP"
+}, {
+  id: "nonascended",
+  label: "None Ascended"
+} ];
 
-const AUCTION_TRACKER_DISPLAY_DEFS = [
-  { id: 500, label: "Top 500" },
-  { id: 100, label: "Top 100" },
-  { id: 50, label: "Top 50" }
-];
+const AUCTION_TRACKER_DISPLAY_DEFS = [ {
+  id: 500,
+  label: "Top 500"
+}, {
+  id: 100,
+  label: "Top 100"
+}, {
+  id: 50,
+  label: "Top 50"
+} ];
 
 let auctionTrackerFilter = "all";
+
 let auctionTrackerDisplayLimit = 500;
+
 let auctionTrackerData = null;
+
 let auctionTrackerLoading = false;
+
 let auctionTrackerError = null;
+
 let auctionTrackerFetchedForFarmId = null;
 
 function auctionTrackerGetFarmId() {
@@ -4256,7 +4277,9 @@ async function auctionTrackerFetchData(farmId, force) {
   renderAuctionTrackerPanel();
   try {
     const url = AUCTION_TRACKER_API_URL + "&farmId=" + encodeURIComponent(farmId) + "&limit=500";
-    const res = await fetch(url, { cache: "no-store" });
+    const res = await fetch(url, {
+      cache: "no-store"
+    });
     if (!res.ok) throw new Error("Request failed (" + res.status + ")");
     const json = await res.json();
     if (!json || !json.data) throw new Error("Unexpected response from leaderboard API");
@@ -4271,8 +4294,10 @@ async function auctionTrackerFetchData(farmId, force) {
 }
 
 function auctionTrackerSortedRows() {
-  const source = (auctionTrackerData && auctionTrackerData.topTen) || [];
-  return source.map((r, i) => Object.assign({}, r, { rank: i + 1 }));
+  const source = auctionTrackerData && auctionTrackerData.topTen || [];
+  return source.map((r, i) => Object.assign({}, r, {
+    rank: i + 1
+  }));
 }
 
 function auctionTrackerTieBreakSort(rows) {
@@ -4308,7 +4333,7 @@ function auctionTrackerRelativeTime(ts) {
   const then = new Date(ts).getTime();
   if (!isFinite(then)) return "";
   const diffMs = Date.now() - then;
-  const diffSec = Math.floor(diffMs / 1000);
+  const diffSec = Math.floor(diffMs / 1e3);
   if (diffSec < 5) return "just now";
   if (diffSec < 60) return `${diffSec} second${diffSec === 1 ? "" : "s"} ago`;
   const diffMin = Math.floor(diffSec / 60);
@@ -4325,12 +4350,18 @@ function auctionTrackerOwnRank(farmId) {
   if (!isFinite(numericId)) return null;
   const rows = auctionTrackerSortedRows();
   for (let i = 0; i < rows.length; i++) {
-    if (Number(rows[i].farmId) === numericId) return { rank: rows[i].rank, row: rows[i] };
+    if (Number(rows[i].farmId) === numericId) return {
+      rank: rows[i].rank,
+      row: rows[i]
+    };
   }
   const details = auctionTrackerData.farmRankingDetails;
   if (Array.isArray(details)) {
     const match = details.find(r => Number(r.farmId) === numericId);
-    if (match) return { rank: match.rank, row: match };
+    if (match) return {
+      rank: match.rank,
+      row: match
+    };
   }
   return null;
 }
@@ -4347,21 +4378,17 @@ export function renderAuctionTrackerPanel() {
   const levelLabel = ascensionLevel > 0 ? `A${fmtInt(ascensionLevel)} · Lv ${fmtInt(curInfo.level)}` : `Lv ${fmtInt(curInfo.level)}`;
   const bumpkinFrameHtml = g ? profileBumpkinFrameHtml(g) : "";
   const farmId = auctionTrackerGetFarmId();
-
   if (!auctionTrackerLoading && !auctionTrackerError && (!auctionTrackerData || auctionTrackerFetchedForFarmId !== farmId)) {
     auctionTrackerFetchData(farmId, false);
   }
-
   const own = auctionTrackerOwnRank(farmId);
-  const chapterRankHtml = own ? `#${fmtInt(own.rank)}` : (auctionTrackerData ? "Unranked" : "—");
+  const chapterRankHtml = own ? `#${fmtInt(own.rank)}` : auctionTrackerData ? "Unranked" : "—";
   const chapterTicketCount = own ? own.row.count : null;
-
   const filterHtml = AUCTION_TRACKER_FILTER_DEFS.map(f => {
     const count = auctionTrackerRankedRows(f.id, auctionTrackerDisplayLimit).length;
     return `<button type="button" class="at-filter-btn${auctionTrackerFilter === f.id ? " active" : ""}" data-at-filter="${f.id}">${f.label} <span class="at-filter-count">[${fmtInt(count)}]</span></button>`;
   }).join("");
   const displayHtml = AUCTION_TRACKER_DISPLAY_DEFS.map(d => `<button type="button" class="at-display-btn${auctionTrackerDisplayLimit === d.id ? " active" : ""}" data-at-display="${d.id}">${d.label}</button>`).join("");
-
   let listHtml = "";
   if (auctionTrackerLoading) {
     listHtml = `<div class="at-empty">Loading leaderboard…</div>`;
@@ -4379,63 +4406,11 @@ export function renderAuctionTrackerPanel() {
         const rInfo = getAscensionLevelInfo(r.experience || 0, r.ascensionLevel || 0);
         const isOwn = farmId && Number(r.farmId) === Number(farmId);
         const bumpLevelText = (r.ascensionLevel || 0) > 0 ? `A${fmtInt(r.ascensionLevel)} · Lv ${fmtInt(rInfo.level)}` : `Lv ${fmtInt(rInfo.level)}`;
-        return `
-        <div class="at-row${isOwn ? " is-own" : ""}">
-          <div class="at-row-top">
-            <span class="at-row-rank">${showFilterRank ? `<span class="at-row-filter-rank">#${fmtInt(i + 1)}</span><span class="at-row-real-rank">Real #${fmtInt(r.rank)}</span>` : `#${fmtInt(r.rank)}`}</span>
-            <span class="at-row-name">${escapeHtml(r.id || "—")}${isOwn ? ` <span class="at-row-you">★ You</span>` : ""}</span>
-            <span class="at-row-tickets">${AUCTION_TICKET_ICON_HTML} ${fmtInt(r.count)}</span>
-          </div>
-          <div class="at-row-stats">
-            <span class="at-stat-bumpkin"><b>Bumpkin</b> ${bumpLevelText}</span>
-            <span class="at-stat-exp"><b>Total EXP</b> ${fmtInt(r.experience || 0)}</span>
-            <span class="at-stat-ascension"><b>Ascension</b> ${fmtInt(r.ascensionLevel || 0)}</span>
-          </div>
-        </div>`;
+        return `\n        <div class="at-row${isOwn ? " is-own" : ""}">\n          <div class="at-row-top">\n            <span class="at-row-rank">${showFilterRank ? `<span class="at-row-filter-rank">#${fmtInt(i + 1)}</span><span class="at-row-real-rank">Real #${fmtInt(r.rank)}</span>` : `#${fmtInt(r.rank)}`}</span>\n            <span class="at-row-name">${escapeHtml(r.id || "—")}${isOwn ? ` <span class="at-row-you">★ You</span>` : ""}</span>\n            <span class="at-row-tickets">${AUCTION_TICKET_ICON_HTML} ${fmtInt(r.count)}</span>\n          </div>\n          <div class="at-row-stats">\n            <span class="at-stat-bumpkin"><b>Bumpkin</b> ${bumpLevelText}</span>\n            <span class="at-stat-exp"><b>Total EXP</b> ${fmtInt(r.experience || 0)}</span>\n            <span class="at-stat-ascension"><b>Ascension</b> ${fmtInt(r.ascensionLevel || 0)}</span>\n          </div>\n        </div>`;
       }).join("");
     }
   }
-
-  body.innerHTML = `
-    <div class="at-title">Chapter Race</div>
-    <div class="at-summary-box">
-      <div class="profile-bumpkin-frame">${bumpkinFrameHtml}</div>
-      <div class="at-summary-stats">
-        <div class="at-stat-row"><span class="at-stat-label">Name</span><span class="at-stat-value">${escapeHtml(displayName)}</span></div>
-        <div class="at-stat-row"><span class="at-stat-label">Bumpkin Total EXP</span><span class="at-stat-value">${fmtInt(experience)}</span></div>
-        <div class="at-stat-row"><span class="at-stat-label">Bumpkin Level</span><span class="at-stat-value">${levelLabel}</span></div>
-        <div class="at-stat-row"><span class="at-stat-label">Ascension Level</span><span class="at-stat-value">${fmtInt(ascensionLevel)}</span></div>
-      </div>
-    </div>
-    <div class="at-top-row">
-      <div class="at-chapter-wrap">
-        <div class="at-rank-label">Chapter Race Ranking</div>
-        <div class="at-rank-card">
-          <div class="at-rank-value">${chapterRankHtml}</div>
-          <div class="at-ticket-row">${AUCTION_TICKET_ICON_HTML} Shiny Feather <span class="at-ticket-count">${chapterTicketCount != null ? fmtInt(chapterTicketCount) : "—"}</span></div>
-        </div>
-      </div>
-      <div class="at-display-wrap">
-        <div class="at-display-label">Display Mode</div>
-        <div class="at-display-btns">${displayHtml}</div>
-      </div>
-    </div>
-    <div class="at-list-wrap">
-      ${auctionTrackerData && auctionTrackerData.lastUpdated ? `<div class="at-updated-note">Last Updated ${escapeHtml(auctionTrackerRelativeTime(auctionTrackerData.lastUpdated))}</div>` : ""}
-      <div class="at-section-label">Top ${fmtInt(auctionTrackerDisplayLimit)} Players for ${AUCTION_TICKET_ICON_HTML} Shiny Feather</div>
-      <div class="at-filter-row">${filterHtml}</div>
-      <div class="at-cols-head">
-        <span class="at-col-rank">${auctionTrackerFilter !== "all" ? `Rank 1-${fmtInt(auctionTrackerDisplayLimit)}` : "Rank"}</span><span class="at-col-name">Name</span><span class="at-col-bumpkin">Bumpkin</span><span class="at-col-exp">EXP</span><span class="at-col-ascension">Ascension</span><span class="at-col-tickets">Tickets</span>
-      </div>
-      <div class="at-list">${listHtml}</div>
-    </div>
-    <div class="at-farmid-row">
-      <label class="at-farmid-label" for="auctionTrackerFarmIdInput">Farm ID</label>
-      <input type="text" inputmode="numeric" id="auctionTrackerFarmIdInput" class="at-farmid-input" value="${escapeHtml(farmId)}" placeholder="e.g. 12345">
-      <button type="button" id="auctionTrackerRefreshBtn" class="at-refresh-btn">${auctionTrackerLoading ? "…" : "Refresh"}</button>
-    </div>
-  `;
-
+  body.innerHTML = `\n    <div class="at-title">Chapter Race</div>\n    <div class="at-summary-box">\n      <div class="profile-bumpkin-frame">${bumpkinFrameHtml}</div>\n      <div class="at-summary-stats">\n        <div class="at-stat-row"><span class="at-stat-label">Name</span><span class="at-stat-value">${escapeHtml(displayName)}</span></div>\n        <div class="at-stat-row"><span class="at-stat-label">Bumpkin Total EXP</span><span class="at-stat-value">${fmtInt(experience)}</span></div>\n        <div class="at-stat-row"><span class="at-stat-label">Bumpkin Level</span><span class="at-stat-value">${levelLabel}</span></div>\n        <div class="at-stat-row"><span class="at-stat-label">Ascension Level</span><span class="at-stat-value">${fmtInt(ascensionLevel)}</span></div>\n      </div>\n    </div>\n    <div class="at-top-row">\n      <div class="at-chapter-wrap">\n        <div class="at-rank-label">Chapter Race Ranking</div>\n        <div class="at-rank-card">\n          <div class="at-rank-value">${chapterRankHtml}</div>\n          <div class="at-ticket-row">${AUCTION_TICKET_ICON_HTML} Shiny Feather <span class="at-ticket-count">${chapterTicketCount != null ? fmtInt(chapterTicketCount) : "—"}</span></div>\n        </div>\n      </div>\n      <div class="at-display-wrap">\n        <div class="at-display-label">Display Mode</div>\n        <div class="at-display-btns">${displayHtml}</div>\n      </div>\n    </div>\n    <div class="at-list-wrap">\n      ${auctionTrackerData && auctionTrackerData.lastUpdated ? `<div class="at-updated-note">Last Updated ${escapeHtml(auctionTrackerRelativeTime(auctionTrackerData.lastUpdated))}</div>` : ""}\n      <div class="at-section-label">Top ${fmtInt(auctionTrackerDisplayLimit)} Players for ${AUCTION_TICKET_ICON_HTML} Shiny Feather</div>\n      <div class="at-filter-row">${filterHtml}</div>\n      <div class="at-cols-head">\n        <span class="at-col-rank">${auctionTrackerFilter !== "all" ? `Rank 1-${fmtInt(auctionTrackerDisplayLimit)}` : "Rank"}</span><span class="at-col-name">Name</span><span class="at-col-bumpkin">Bumpkin</span><span class="at-col-exp">EXP</span><span class="at-col-ascension">Ascension</span><span class="at-col-tickets">Tickets</span>\n      </div>\n      <div class="at-list">${listHtml}</div>\n    </div>\n    <div class="at-farmid-row">\n      <label class="at-farmid-label" for="auctionTrackerFarmIdInput">Farm ID</label>\n      <input type="text" inputmode="numeric" id="auctionTrackerFarmIdInput" class="at-farmid-input" value="${escapeHtml(farmId)}" placeholder="e.g. 12345">\n      <button type="button" id="auctionTrackerRefreshBtn" class="at-refresh-btn">${auctionTrackerLoading ? "…" : "Refresh"}</button>\n    </div>\n  `;
   const bumpkinImg = body.querySelector(".profile-bumpkin-render");
   if (bumpkinImg) {
     bumpkinImg.addEventListener("error", () => profileBumpkinImageOnError(bumpkinImg));
@@ -4447,24 +4422,20 @@ export function renderAuctionTrackerPanel() {
       }
     });
   }
-
   body.querySelectorAll(".at-filter-btn").forEach(btn => {
     btn.onclick = () => {
       auctionTrackerFilter = btn.dataset.atFilter;
       renderAuctionTrackerPanel();
     };
   });
-
   body.querySelectorAll(".at-display-btn").forEach(btn => {
     btn.onclick = () => {
       auctionTrackerDisplayLimit = Number(btn.dataset.atDisplay);
       renderAuctionTrackerPanel();
     };
   });
-
   const refreshBtn = $("auctionTrackerRefreshBtn");
   if (refreshBtn) refreshBtn.onclick = () => auctionTrackerFetchData(auctionTrackerGetFarmId(), true);
-
   const farmIdInput = $("auctionTrackerFarmIdInput");
   if (farmIdInput) {
     farmIdInput.onchange = e => {
@@ -4472,7 +4443,6 @@ export function renderAuctionTrackerPanel() {
       auctionTrackerFetchData(auctionTrackerGetFarmId(), true);
     };
   }
-
   const miniSyncBtn = $("auctionTrackerMiniSyncBtn");
   if (miniSyncBtn) {
     miniSyncBtn.classList.toggle("is-syncing", auctionTrackerLoading);
@@ -4500,14 +4470,46 @@ export const MAIN_VIEW_PANEL_MAP = {
 };
 
 export const MODAL_ROUTE_MAP = {
-  landexpansion: { overlayId: "expansionSimOverlay", open: () => openExpansionSim(), close: () => closeExpansionSim() },
-  chapterfish: { overlayId: "chapterFishMutantsOverlay", open: () => openChapterFishMutants(), close: () => closeChapterFishMutants() },
-  guntershop: { overlayId: "gunterShopOverlay", open: () => openGunterShop(), close: () => closeGunterShop() },
-  ticketcalculator: { overlayId: "ticketCalcOverlay", open: () => openTicketCalc(), close: () => closeTicketCalc() },
-  trades: { overlayId: "tradeShopOverlay", open: () => openTradeShop(), close: () => closeTradeShop() },
-  coinconverter: { overlayId: "bettyShopOverlay", open: () => openBettyShop(), close: () => closeBettyShop() },
-  digging: { overlayId: "digPanelOverlay", open: () => openDigPanel(), close: () => closeDigPanel() },
-  potion: { overlayId: "potionPanelOverlay", open: () => openPotionPanel(), close: () => closePotionPanel() }
+  landexpansion: {
+    overlayId: "expansionSimOverlay",
+    open: () => openExpansionSim(),
+    close: () => closeExpansionSim()
+  },
+  chapterfish: {
+    overlayId: "chapterFishMutantsOverlay",
+    open: () => openChapterFishMutants(),
+    close: () => closeChapterFishMutants()
+  },
+  guntershop: {
+    overlayId: "gunterShopOverlay",
+    open: () => openGunterShop(),
+    close: () => closeGunterShop()
+  },
+  ticketcalculator: {
+    overlayId: "ticketCalcOverlay",
+    open: () => openTicketCalc(),
+    close: () => closeTicketCalc()
+  },
+  trades: {
+    overlayId: "tradeShopOverlay",
+    open: () => openTradeShop(),
+    close: () => closeTradeShop()
+  },
+  coinconverter: {
+    overlayId: "bettyShopOverlay",
+    open: () => openBettyShop(),
+    close: () => closeBettyShop()
+  },
+  digging: {
+    overlayId: "digPanelOverlay",
+    open: () => openDigPanel(),
+    close: () => closeDigPanel()
+  },
+  potion: {
+    overlayId: "potionPanelOverlay",
+    open: () => openPotionPanel(),
+    close: () => closePotionPanel()
+  }
 };
 
 const VIEW_URL_SLUGS = {
@@ -4557,7 +4559,10 @@ function initModalRouteSync() {
         setRouteUrl(null, "push");
       }
     });
-    observer.observe(overlay, { attributes: true, attributeFilter: ["class"] });
+    observer.observe(overlay, {
+      attributes: true,
+      attributeFilter: [ "class" ]
+    });
   });
 }
 
@@ -4584,13 +4589,17 @@ function setRouteUrl(slug, history_ = "push") {
   if (window.location.pathname === path) return;
   const url = path + window.location.search + window.location.hash;
   if (history_ === "replace") {
-    window.history.replaceState({ view: slug || null }, "", url);
+    window.history.replaceState({
+      view: slug || null
+    }, "", url);
   } else {
-    window.history.pushState({ view: slug || null }, "", url);
+    window.history.pushState({
+      view: slug || null
+    }, "", url);
   }
 }
 
-function openMainViewPanel(view, { historyMode = "push" } = {}) {
+function openMainViewPanel(view, {historyMode: historyMode = "push"} = {}) {
   const panelId = MAIN_VIEW_PANEL_MAP[view];
   if (!panelId || !$(panelId)) return;
   Object.keys(MAIN_VIEW_PANEL_MAP).forEach(v => {
@@ -4608,7 +4617,7 @@ function openMainViewPanel(view, { historyMode = "push" } = {}) {
   setRouteUrl(viewToSlug(view), historyMode);
 }
 
-function closeMainViewPanel(view, { historyMode = "push" } = {}) {
+function closeMainViewPanel(view, {historyMode: historyMode = "push"} = {}) {
   const panelId = MAIN_VIEW_PANEL_MAP[view];
   if (!panelId || !$(panelId)) return;
   $(panelId).classList.remove("open");
@@ -4654,7 +4663,9 @@ export function applyRouteFromLocation(historyMode = "none") {
   routeSyncSuspended = true;
   if (slug && MAIN_VIEW_PANEL_MAP[slug]) {
     closeAllModalRoutes();
-    openMainViewPanel(slug, { historyMode });
+    openMainViewPanel(slug, {
+      historyMode: historyMode
+    });
   } else if (slug && MODAL_ROUTE_MAP[slug]) {
     closeAllMainViewPanels();
     closeAllModalRoutes();
@@ -4664,7 +4675,9 @@ export function applyRouteFromLocation(historyMode = "none") {
     closeAllMainViewPanels();
     closeAllModalRoutes();
   }
-  setTimeout(() => { routeSyncSuspended = false; }, 0);
+  setTimeout(() => {
+    routeSyncSuspended = false;
+  }, 0);
 }
 
 export function initMainViewRouting() {
@@ -5045,7 +5058,7 @@ setTimeout(renderFarmPanelInfo, 0);
   });
 })();
 
-function cookFoodIcon(name) {
+export function cookFoodIcon(name) {
   const imgSrc = COOKING_FOOD_IMAGES[name];
   if (imgSrc) return `<img src="${imgSrc}" alt="${escapeHtml(name)}" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">`;
   return `<span style="font-size:19.2px;line-height:1;">${COOKING_FOOD_EMOJI[name] || "🍽️"}</span>`;
@@ -5202,7 +5215,7 @@ function renderCookTotalCostLine(totalFlower, iconHtml, modeLabel, extraClass, u
 
 function renderCookTotalCostForCountLine(totalFlower, effectiveCount, iconHtml, hidden) {
   const flowerIcon = typeof FLOWER_ICON !== "undefined" ? FLOWER_ICON : "FLOWER";
-  return `\n      <div class="cook-food-cost-line cook-total-cost-line cook-food-count-total-line"${hidden ? " style=\"display:none;\"" : ""}>\n        <span class="cook-total-cost-label">Total Cost for ${fmt(effectiveCount)}× ${iconHtml}</span>\n        <span class="cook-total-cost-value">${fmt(totalFlower * effectiveCount)}${flowerIcon}</span>\n      </div>`;
+  return `\n      <div class="cook-food-cost-line cook-total-cost-line cook-food-count-total-line"${hidden ? ' style="display:none;"' : ""}>\n        <span class="cook-total-cost-label">Total Cost for ${fmt(effectiveCount)}× ${iconHtml}</span>\n        <span class="cook-total-cost-value">${fmt(totalFlower * effectiveCount)}${flowerIcon}</span>\n      </div>`;
 }
 
 function renderCookTotalExpLine(expPerUnit, effectiveCount, iconHtml) {
@@ -5231,9 +5244,13 @@ function renderCookingFoodCard(building, name) {
     const qty = rec.ingredients[ing] * doubleNomMult;
     const unitCoins = cookingIngredientUnitCostCoins(ing, cookingCostMode);
     totalCostCoins += qty * unitCoins;
-    return { ing: ing, qty: qty, unitCoins: unitCoins };
+    return {
+      ing: ing,
+      qty: qty,
+      unitCoins: unitCoins
+    };
   });
-  const ingredientRows = ingredientEntries.map(({ing, qty, unitCoins}) => {
+  const ingredientRows = ingredientEntries.map(({ing: ing, qty: qty, unitCoins: unitCoins}) => {
     const lineCoins = qty * unitCoins;
     const displayVal = cookingCostMode === "buy" ? coinsToFlower(lineCoins) : lineCoins;
     const displayUnit = cookingCostMode === "buy" ? typeof FLOWER_ICON !== "undefined" ? FLOWER_ICON : "F" : typeof COIN_ICON !== "undefined" ? COIN_ICON : "c";
@@ -5248,7 +5265,7 @@ function renderCookingFoodCard(building, name) {
     }
     return `\n      <div class="cook-ingredient-row ing-row-boxed">\n        <span>${cookingIngredientIcon(ing)}</span>\n        <span class="ing-name">${escapeHtml(ing)} ×${fmt(qty)}</span>\n        <span class="ing-cost">${costLabel}</span>\n      </div>`;
   }).join("");
-  const ingredientTotalRows = ingredientEntries.map(({ing, qty, unitCoins}) => {
+  const ingredientTotalRows = ingredientEntries.map(({ing: ing, qty: qty, unitCoins: unitCoins}) => {
     const totalQty = qty * effectiveCount;
     const totalIngCoins = qty * effectiveCount * unitCoins;
     const totalDisplayVal = cookingCostMode === "buy" ? coinsToFlower(totalIngCoins) : totalIngCoins;
@@ -5264,7 +5281,7 @@ function renderCookingFoodCard(building, name) {
   const yieldBoostNote = isYieldBoosted ? `<div class="cook-food-cost-line cook-boost-chip-row"><span class="cook-boost-chip-label">⚡ Yield:</span><div class="cook-boost-chips"><span class="boost-chip">Double Nom +${doubleNomBonusFood} food</span></div></div>` : "";
   const foodIconHtml = cookFoodIcon(name);
   const yieldCount = doubleNomMult;
-  return `\n  <div class="cook-food-card${isExpanded ? " expanded" : ""}${count > 0 ? " is-ready" : ""}" data-food="${escapeHtml(name)}">\n    <div class="cook-food-toggle">\n      <span class="cook-food-icon">${foodIconHtml}</span>\n      <div class="cook-food-main">\n        <div class="cook-food-name">${escapeHtml(name)}</div>\n        <div class="cook-food-exp">${isBoosted ? `<span class="base">${fmt(rec.exp)}</span>` : ""}${fmt(boostedExp)} EXP · ${timeDisplay}</div>\n      </div>\n      <input type="number" min="0" step="1" class="cook-food-count" value="${count || ""}" placeholder="0" data-food="${escapeHtml(name)}" data-unit-cost="${totalFlower}" data-exp-per-unit="${boostedExp}">\n      <span class="cook-food-chev">▾</span>\n    </div>\n    <div class="cook-food-details">\n      ${isBoosted || isTimeBoosted || isIngredientBoosted || isYieldBoosted ? `<div class="cook-ing-label">Applied Boost</div>` : ""}\n      ${boostNote}\n      ${timeBoostNote}\n      ${ingredientBoostNote}\n      ${yieldBoostNote}\n      <div class="cook-ing-label">Yield</div>\n      ${renderCookYieldLine(yieldCount, foodIconHtml)}\n      <div class="cook-ing-label">Ingredients</div>\n      ${ingredientRows}\n      <div class="cook-ing-total-section"${effectiveCount > 1 ? "" : " style=\"display:none;\""}>\n        <div class="cook-ing-label">Total Ingredients for ${effectiveCount}× ${foodIconHtml}</div>\n        ${ingredientTotalRows}\n      </div>\n      <div class="cook-ing-label">Food Cost</div>\n      ${renderCookTotalCostLine(totalFlower, foodIconHtml, `${cookingCostMode === "buy" ? "Buy" : "Collect"} ingredients`, "", yieldCount)}\n      ${renderCookTotalCostForCountLine(totalFlower, effectiveCount, foodIconHtml, !(count > 1))}\n      <div class="cook-ing-label">Experience</div>\n      ${renderCookTotalExpLine(boostedExp, effectiveCount, foodIconHtml)}\n    </div>\n  </div>`;
+  return `\n  <div class="cook-food-card${isExpanded ? " expanded" : ""}${count > 0 ? " is-ready" : ""}" data-food="${escapeHtml(name)}">\n    <div class="cook-food-toggle">\n      <span class="cook-food-icon">${foodIconHtml}</span>\n      <div class="cook-food-main">\n        <div class="cook-food-name">${escapeHtml(name)}</div>\n        <div class="cook-food-exp">${isBoosted ? `<span class="base">${fmt(rec.exp)}</span>` : ""}${fmt(boostedExp)} EXP · ${timeDisplay}</div>\n      </div>\n      <input type="number" min="0" step="1" class="cook-food-count" value="${count || ""}" placeholder="0" data-food="${escapeHtml(name)}" data-unit-cost="${totalFlower}" data-exp-per-unit="${boostedExp}">\n      <span class="cook-food-chev">▾</span>\n    </div>\n    <div class="cook-food-details">\n      ${isBoosted || isTimeBoosted || isIngredientBoosted || isYieldBoosted ? `<div class="cook-ing-label">Applied Boost</div>` : ""}\n      ${boostNote}\n      ${timeBoostNote}\n      ${ingredientBoostNote}\n      ${yieldBoostNote}\n      <div class="cook-ing-label">Yield</div>\n      ${renderCookYieldLine(yieldCount, foodIconHtml)}\n      <div class="cook-ing-label">Ingredients</div>\n      ${ingredientRows}\n      <div class="cook-ing-total-section"${effectiveCount > 1 ? "" : ' style="display:none;"'}>\n        <div class="cook-ing-label">Total Ingredients for ${effectiveCount}× ${foodIconHtml}</div>\n        ${ingredientTotalRows}\n      </div>\n      <div class="cook-ing-label">Food Cost</div>\n      ${renderCookTotalCostLine(totalFlower, foodIconHtml, `${cookingCostMode === "buy" ? "Buy" : "Collect"} ingredients`, "", yieldCount)}\n      ${renderCookTotalCostForCountLine(totalFlower, effectiveCount, foodIconHtml, !(count > 1))}\n      <div class="cook-ing-label">Experience</div>\n      ${renderCookTotalExpLine(boostedExp, effectiveCount, foodIconHtml)}\n    </div>\n  </div>`;
 }
 
 export function renderCookingFoodList() {
@@ -5463,7 +5480,7 @@ function renderFishCatchCard(fishName, cat) {
     extraNote = `${stage === "primeAged" ? `<div style="font-size:9px;color:var(--ink-soft);margin-top:2px;">Same recipe as Aged — Prime Aged is a bonus chance on the same batch, not an extra cost.</div>` : ``}${cookingGuaranteedCatchOn ? `<div style="font-size:9px;color:var(--ink-soft);margin-top:2px;">🎯 Guaranteed Catch is on — the ${escapeHtml(fishName)} cost above already uses the Fish Market recipe cost instead of Rod + Bait + Chum.</div>` : ``}${cookingCostMode === "buy" ? `<div style="font-size:9px;color:var(--ink-soft);margin-top:2px;">🛒 Buy — Salt priced at Marketplace rate.</div>` : ``}`;
   }
   const fishYieldCount = d ? fishCatchYieldMult(d.tier) : 1;
-  return `\n  <div class="cook-food-card${isExpanded ? " expanded" : ""}${count > 0 ? " is-ready" : ""}" data-food="${escapeHtml(invName)}">\n    <div class="cook-food-toggle">\n      <span class="cook-food-icon">${icon}</span>\n      <div class="cook-food-main">\n        <div class="cook-food-name">${escapeHtml(fishName)}</div>\n        <div class="cook-food-exp">${isBoosted ? `<span class="base">${fmt(baseXp)}</span>` : ""}${fmt(boostedXp)} EXP · ${fmt(totalFlower)} ${FLOWER_ICON}/u</div>\n      </div>\n      <input type="number" min="0" step="1" class="cook-food-count" value="${count || ""}" placeholder="0" data-food="${escapeHtml(invName)}" data-unit-cost="${totalFlower}" data-exp-per-unit="${boostedXp}">\n      <span class="cook-food-chev">▾</span>\n    </div>\n    <div class="cook-food-details">\n      ${isBoosted ? `<div class="cook-ing-label">Applied Boost</div>` : ""}\n      ${boostNote}\n      <div class="cook-ing-label">Yield</div>\n      ${renderCookYieldLine(fishYieldCount, icon)}\n      <div class="cook-ing-label">Ingredients</div>\n      ${ingredientRows}\n      <div class="cook-ing-total-section"${effectiveCount > 1 ? "" : " style=\"display:none;\""}>\n        <div class="cook-ing-label">Total Ingredients for ${effectiveCount}× ${icon}</div>\n        ${ingredientTotalRows}\n      </div>\n      <div class="cook-ing-label">Fish Cost</div>\n      ${renderCookTotalCostLine(totalFlower, icon, `${cookingCostMode === "buy" ? "Buy" : "Collect"} ingredients`)}\n      ${renderCookTotalCostForCountLine(totalFlower, effectiveCount, icon, !(count > 1))}\n      <div class="cook-ing-label">Experience</div>\n      ${renderCookTotalExpLine(boostedXp, effectiveCount, icon)}\n      ${extraNote}\n    </div>\n  </div>`;
+  return `\n  <div class="cook-food-card${isExpanded ? " expanded" : ""}${count > 0 ? " is-ready" : ""}" data-food="${escapeHtml(invName)}">\n    <div class="cook-food-toggle">\n      <span class="cook-food-icon">${icon}</span>\n      <div class="cook-food-main">\n        <div class="cook-food-name">${escapeHtml(fishName)}</div>\n        <div class="cook-food-exp">${isBoosted ? `<span class="base">${fmt(baseXp)}</span>` : ""}${fmt(boostedXp)} EXP · ${fmt(totalFlower)} ${FLOWER_ICON}/u</div>\n      </div>\n      <input type="number" min="0" step="1" class="cook-food-count" value="${count || ""}" placeholder="0" data-food="${escapeHtml(invName)}" data-unit-cost="${totalFlower}" data-exp-per-unit="${boostedXp}">\n      <span class="cook-food-chev">▾</span>\n    </div>\n    <div class="cook-food-details">\n      ${isBoosted ? `<div class="cook-ing-label">Applied Boost</div>` : ""}\n      ${boostNote}\n      <div class="cook-ing-label">Yield</div>\n      ${renderCookYieldLine(fishYieldCount, icon)}\n      <div class="cook-ing-label">Ingredients</div>\n      ${ingredientRows}\n      <div class="cook-ing-total-section"${effectiveCount > 1 ? "" : ' style="display:none;"'}>\n        <div class="cook-ing-label">Total Ingredients for ${effectiveCount}× ${icon}</div>\n        ${ingredientTotalRows}\n      </div>\n      <div class="cook-ing-label">Fish Cost</div>\n      ${renderCookTotalCostLine(totalFlower, icon, `${cookingCostMode === "buy" ? "Buy" : "Collect"} ingredients`)}\n      ${renderCookTotalCostForCountLine(totalFlower, effectiveCount, icon, !(count > 1))}\n      <div class="cook-ing-label">Experience</div>\n      ${renderCookTotalExpLine(boostedXp, effectiveCount, icon)}\n      ${extraNote}\n    </div>\n  </div>`;
 }
 
 function renderFishCatchList(cat) {
@@ -5957,7 +5974,7 @@ function renderPatternChip(shape, confirmed) {
   const minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs);
   const minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
   const w = maxX - minX + 1, h = maxY - minY + 1;
-  const map = new Map(shape.map(c => [(c.x - minX) + "," + (c.y - minY), c.name]));
+  const map = new Map(shape.map(c => [ c.x - minX + "," + (c.y - minY), c.name ]));
   let cellsHtml = "";
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
@@ -5979,20 +5996,20 @@ function renderDigCellHtml(cell) {
   } else if (cell.status === "guaranteed") {
     if (cell.predicted) {
       icon = getIcon(cell.predicted.item);
-      label = cell.predicted.formation ? `Dig here \u2192 ${cell.predicted.item} \u2014 completes ${cell.predicted.formation}` : `Dig here \u2192 ${cell.predicted.item}`;
+      label = cell.predicted.formation ? `Dig here → ${cell.predicted.item} — completes ${cell.predicted.formation}` : `Dig here → ${cell.predicted.item}`;
     } else {
-      label = "Dig here \u2014 guaranteed treasure";
+      label = "Dig here — guaranteed treasure";
     }
   } else if (cell.status === "crab") {
     icon = getIcon("Crab");
-    label = "Provably no treasure, borders one \u2014 will reveal a Crab";
+    label = "Provably no treasure, borders one — will reveal a Crab";
   } else if (cell.status === "sand") {
     icon = getIcon("Sand");
-    label = "Provably no treasure nearby \u2014 will reveal Sand";
+    label = "Provably no treasure nearby — will reveal Sand";
   } else if (cell.status === "empty") {
-    label = "No treasure here \u2014 a Sand clue borders this tile";
+    label = "No treasure here — a Sand clue borders this tile";
   } else if (cell.status === "possible") {
-    label = "Possible treasure \u2014 a Crab clue borders this tile";
+    label = "Possible treasure — a Crab clue borders this tile";
   } else {
     label = "No clue nearby yet";
   }
@@ -6026,9 +6043,7 @@ export function renderDigTreasurePanel() {
     const lastInfo = typeof farmPanelGetLastInfo === "function" ? farmPanelGetLastInfo() : null;
     const farmLabel = lastInfo && lastInfo.id ? `Farm #${lastInfo.id}` : "No farm synced";
     chapterEl.innerHTML = `${escapeHtml(farmLabel)} · ${escapeHtml(solved.chapterName)}<br>Chapter artefact: ${getIcon(solved.artefactName)} ${escapeHtml(solved.artefactName)}`;
-    patternsEl.innerHTML = solved.instances.length
-      ? solved.instances.map((inst, i) => renderPatternChip(inst.shape, !!solved.completedByIndex[i])).join("")
-      : `<div class="dig-panel-status">No active pattern data yet — sync your farm.</div>`;
+    patternsEl.innerHTML = solved.instances.length ? solved.instances.map((inst, i) => renderPatternChip(inst.shape, !!solved.completedByIndex[i])).join("") : `<div class="dig-panel-status">No active pattern data yet — sync your farm.</div>`;
     gridEl.innerHTML = renderDigGridHtml(solved);
     const flatCells = [].concat.apply([], solved.cells);
     const guaranteedCount = flatCells.filter(c => !c.dug && c.status === "guaranteed").length;
@@ -6036,9 +6051,7 @@ export function renderDigTreasurePanel() {
     const emptyCount = flatCells.filter(c => !c.dug && c.status === "empty").length;
     const crabPredictedCount = flatCells.filter(c => !c.dug && c.status === "crab").length;
     const sandPredictedCount = flatCells.filter(c => !c.dug && c.status === "sand").length;
-    statusEl.textContent = solved.dugCount
-      ? `${solved.dugCount} tile(s) dug so far · ${solved.confirmedCount} pattern(s) confirmed · ${guaranteedCount} guaranteed spot(s) · ${possibleCount} possible spot(s) · ${emptyCount} safe-empty · ${crabPredictedCount} predicted crab(s) · ${sandPredictedCount} predicted sand`
-      : "No dig data synced yet — dig a few tiles in-game, then sync.";
+    statusEl.textContent = solved.dugCount ? `${solved.dugCount} tile(s) dug so far · ${solved.confirmedCount} pattern(s) confirmed · ${guaranteedCount} guaranteed spot(s) · ${possibleCount} possible spot(s) · ${emptyCount} safe-empty · ${crabPredictedCount} predicted crab(s) · ${sandPredictedCount} predicted sand` : "No dig data synced yet — dig a few tiles in-game, then sync.";
   }, 0);
 }
 
@@ -6087,7 +6100,7 @@ function renderPotionBottleSwatch(potionName) {
 }
 
 function renderPotionAttemptRow(attempt, rowLabel) {
-  const cellsHtml = [0, 1, 2, 3].map(i => {
+  const cellsHtml = [ 0, 1, 2, 3 ].map(i => {
     const slot = attempt ? attempt[i] : null;
     const potionName = slot ? slot.potion : null;
     const status = slot ? slot.status : null;
@@ -6104,11 +6117,9 @@ export function renderPotionRoomPanel() {
   const guessRowEl = $("potionPanelGuessRow");
   const pickerEl = $("potionPanelPicker");
   if (!statusEl || !solutionEl || !attemptsEl || !guessRowEl || !pickerEl) return;
-
   const solve = potionSolveState();
   const lastInfo = typeof farmPanelGetLastInfo === "function" ? farmPanelGetLastInfo() : null;
   const farmLabel = lastInfo && lastInfo.id ? `Farm #${lastInfo.id}` : "No farm synced";
-
   if (!solve.game) {
     statusEl.textContent = `${farmLabel} · Sync your farm to load potion data`;
   } else if (solve.game.status === "in_progress") {
@@ -6120,9 +6131,7 @@ export function renderPotionRoomPanel() {
   if (solve.attemptCount > 0 && solve.consistentCount === 0) {
     statusEl.textContent += " · Feedback didn't match our model, showing all potions as unknown";
   }
-
-  solutionEl.innerHTML = [0, 1, 2, 3].map(i => renderPotionSolutionChip(solve.slotCandidates[i], solve.consistentCount, solve.attemptCount)).join("");
-
+  solutionEl.innerHTML = [ 0, 1, 2, 3 ].map(i => renderPotionSolutionChip(solve.slotCandidates[i], solve.consistentCount, solve.attemptCount)).join("");
   const reversedAttempts = solve.attempts.slice().reverse();
   const attemptRowsHtml = [];
   for (let i = 0; i < 3; i++) {
@@ -6131,10 +6140,9 @@ export function renderPotionRoomPanel() {
     attemptRowsHtml.push(renderPotionAttemptRow(attempt, attemptNumber ? `#${attemptNumber}` : "—"));
   }
   attemptsEl.innerHTML = attemptRowsHtml.join("");
-
   if (potionActiveGuessSlot > 3) potionSetActiveGuessSlot(0);
   const activeSlot = potionActiveGuessSlot;
-  guessRowEl.innerHTML = [0, 1, 2, 3].map(i => {
+  guessRowEl.innerHTML = [ 0, 1, 2, 3 ].map(i => {
     const candidates = solve.slotCandidates[i];
     const activeCls = i === activeSlot ? " is-active" : "";
     let inner;
@@ -6150,7 +6158,6 @@ export function renderPotionRoomPanel() {
   guessRowEl.querySelectorAll(".potion-guess-slot").forEach(el => {
     el.onclick = () => potionSetActiveGuessSlot(Number(el.dataset.slot));
   });
-
   const confirmedChaos = solve.chaosCandidates.length === 1 ? solve.chaosCandidates[0] : null;
   const activeCandidates = solve.slotCandidates[activeSlot];
   const hasInfo = solve.attemptCount > 0 && solve.consistentCount > 0;
@@ -6160,7 +6167,7 @@ export function renderPotionRoomPanel() {
     if (narrowed.length === 0) narrowed = activeCandidates;
     pickerNames = narrowed;
   }
-  const confirmedElsewhere = new Set();
+  const confirmedElsewhere = new Set;
   if (hasInfo) {
     for (let s = 0; s < 4; s++) {
       if (s === activeSlot) continue;
@@ -6168,13 +6175,12 @@ export function renderPotionRoomPanel() {
     }
   }
   pickerEl.innerHTML = pickerNames.map(name => {
-    const cls = hasInfo ? (pickerNames.length === 1 ? " is-correct" : " is-maybe") : "";
+    const cls = hasInfo ? pickerNames.length === 1 ? " is-correct" : " is-maybe" : "";
     const isRepeat = confirmedElsewhere.has(name);
     const title = isRepeat ? `${name} — already confirmed in another slot, could repeat here` : name;
     const badge = isRepeat ? `<span class="potion-picker-repeat-badge" title="Already confirmed in another slot">🔁</span>` : "";
     return `<div class="potion-picker-bottle${cls}" title="${escapeHtml(title)}"><img class="potion-bottle-icon" src="${POTION_ICONS[name]}" alt="${escapeHtml(name)}">${badge}</div>`;
   }).join("");
-
   const optimalEl = $("potionPanelOptimalGuess");
   if (optimalEl) {
     if (solve.optimalGuess) {
@@ -6188,7 +6194,6 @@ export function renderPotionRoomPanel() {
       optimalEl.innerHTML = "";
     }
   }
-
   const solutionsEl = $("potionPanelSolutions");
   if (solutionsEl) {
     const allCodes = solve.consistentCodes || [];
@@ -6199,7 +6204,7 @@ export function renderPotionRoomPanel() {
         const bottles = entry.code.map(name => `<div class="potion-solution-row-bottle">${renderPotionBottleSwatch(name)}</div>`).join("");
         const pctText = entry.weight > 0 ? `${Math.round(entry.weight * 100)}%` : "";
         const topCls = entry.isTopPick ? " is-top-pick" : "";
-        const badge = entry.isTopPick ? `<span class="potion-solution-row-badge">★ Highest odds${pctText ? " · " + pctText : ""}</span>` : (pctText ? `<span class="potion-solution-row-pct">${pctText}</span>` : "");
+        const badge = entry.isTopPick ? `<span class="potion-solution-row-badge">★ Highest odds${pctText ? " · " + pctText : ""}</span>` : pctText ? `<span class="potion-solution-row-pct">${pctText}</span>` : "";
         return `<div class="potion-solution-row${topCls}">${bottles}${badge}</div>`;
       }).join("");
       solutionsEl.innerHTML = `<div class="potion-panel-solutions-label">${codes.length} full combinations still fit your feedback — the code is exactly one of these, no way to tell which without another attempt. The starred combination is statistically most likely given your feedback so far:</div><div class="potion-solution-row-list">${rowsHtml}</div>`;
@@ -6207,7 +6212,6 @@ export function renderPotionRoomPanel() {
       solutionsEl.innerHTML = "";
     }
   }
-
 }
 
 export function openPotionPanel() {
@@ -6238,14 +6242,23 @@ function renderProfileOverview() {
   const displayName = profileGetDisplayName();
   const levelInfo = info.id ? cookGetLevelInfo(info.experience) : null;
   const levelText = !info.id ? "—" : levelInfo.isMax ? `${info.level || levelInfo.level} (MAX)<br><span class="profile-stat-value-sub"><span class="profile-xp-current">${fmtInt(levelInfo.progress)}</span><span class="profile-xp-sep">/</span><span class="profile-xp-max">- XP</span></span>` : `${info.level || levelInfo.level}<br><span class="profile-stat-value-sub"><span class="profile-xp-current">${fmt(levelInfo.progress)}</span><span class="profile-xp-sep">/</span><span class="profile-xp-max">${fmt(levelInfo.span)} XP</span></span>`;
-  const expInfo = g ? profileGetExpansionInfo(g) : { islandLabel: "—", expansionLevel: 0, ascensionLevel: 0 };
+  const expInfo = g ? profileGetExpansionInfo(g) : {
+    islandLabel: "—",
+    expansionLevel: 0,
+    ascensionLevel: 0
+  };
   const balance = Number(g && g.balance) || 0;
   const coins = Number(g && g.coins) || 0;
   const gems = g ? profileGetInventoryAmount(g, "Gem") : 0;
   const marks = g ? profileGetInventoryAmount(g, "Mark") : 0;
   const loveCharm = g ? profileGetInventoryAmount(g, "Love Charm") : 0;
   const cheers = g ? profileGetInventoryAmount(g, "Cheer") : 0;
-  const taxInfo = g ? profileComputeWithdrawTax(g) : { taxFree: 0, percent: 0, taxAmount: 0, afterWithdrawal: 0 };
+  const taxInfo = g ? profileComputeWithdrawTax(g) : {
+    taxFree: 0,
+    percent: 0,
+    taxAmount: 0,
+    afterWithdrawal: 0
+  };
   const createdText = g && g.createdAt ? new Date(g.createdAt).toLocaleDateString() : "—";
   const farmAgeText = g && g.createdAt ? profileGetFarmAgeText(g.createdAt) : "";
   const referrals = g && g.referrals && g.referrals.totalReferrals != null ? g.referrals.totalReferrals : 0;
@@ -6254,52 +6267,11 @@ function renderProfileOverview() {
   const farmValueFlower = g ? profileComputeFarmValue(g) : 0;
   const islandIconHtml = g && g.island && g.island.type ? `<img src="${esIslandIcon(g.island.type)}" class="profile-inline-icon" alt="">` : "";
   const factionIconHtml = profileFactionIconHtml();
-  const repInfo = g ? profileGetReputation(g) : { tierName: "—", points: 0 };
-
-  $("profileTopSection").innerHTML = `
-    <div class="profile-bumpkin-frame">${profileBumpkinFrameHtml(g)}</div>
-    ${profileBumpkinIdHtml(g)}
-    <div class="profile-section-title">Farm Overview of ${escapeHtml(displayName)}</div>
-    <div class="profile-bumpkin-note" id="profileBumpkinNote">${profileBumpkinNoteText(g)}</div>
-    <div class="profile-stat-row"><span class="profile-stat-label">Name</span><span class="profile-stat-value">${escapeHtml(displayName)}</span></div>
-    <div class="profile-stat-row"><span class="profile-stat-label">Farm Id</span><span class="profile-stat-value">${escapeHtml(info.id || "—")}</span></div>
-    <div class="profile-stat-row"><span class="profile-stat-label">Bumpkin Level</span><span class="profile-stat-value">${levelText}</span></div>
-    <div class="profile-stat-row"><span class="profile-stat-label">VIP Status</span><span class="profile-stat-value">${profileVipHtml()}</span></div>
-    <div class="profile-stat-card">
-      <div class="profile-stat-card-row"><span class="profile-stat-label">Ascension</span><span class="profile-stat-value">[${fmtInt(expInfo.ascensionLevel)}]</span></div>
-      <div class="profile-stat-card-row"><span class="profile-stat-label">Island</span><span class="profile-stat-value">${islandIconHtml}${escapeHtml(expInfo.islandLabel)}</span></div>
-    </div>
-    <div class="profile-stat-row"><span class="profile-stat-label">Expansion Level</span><span class="profile-stat-value">${fmtInt(expInfo.expansionLevel)}</span></div>
-    <div class="profile-stat-row"><span class="profile-stat-label">Faction</span><span class="profile-stat-value">${factionIconHtml}${profileFactionHtml()}</span></div>
-    <div class="profile-stat-row"><span class="profile-stat-label">Reputation</span><span class="profile-stat-value">[${escapeHtml(repInfo.tierName)}][${fmtInt(repInfo.points)}]</span></div>
-
-    <div class="profile-balance-title">Balance</div>
-    <div class="profile-balance-grid">
-      <div class="profile-balance-chip">${FLOWER_ICON}<span class="profile-balance-chip-val">${fmt(balance)}</span></div>
-      <div class="profile-balance-chip">${COIN_ICON}<span class="profile-balance-chip-val">${fmt(coins)}</span></div>
-      <div class="profile-balance-chip">${GEM_ICON}<span class="profile-balance-chip-val">${fmt(gems)}</span></div>
-      <div class="profile-balance-chip"><img src="${MARK_ICON_SRC}" class="profile-inline-icon" alt="Marks"><span class="profile-balance-chip-val">${fmt(marks)}</span></div>
-      <div class="profile-balance-chip"><img src="${LOVE_CHARM_ICON_SRC}" class="profile-inline-icon" alt="Love Charm"><span class="profile-balance-chip-val">${fmt(loveCharm)}</span></div>
-      <div class="profile-balance-chip"><img src="${CHEER_ICON_SRC}" class="profile-inline-icon" alt="Cheer"><span class="profile-balance-chip-val">${fmt(cheers)}</span></div>
-    </div>
-
-    <div class="profile-stat-row"><span class="profile-stat-label">Resource Tax</span><span class="profile-stat-value">${fmt(feePercent)}%</span></div>
-    <div class="profile-stat-row"><span class="profile-stat-label">Withdraw Tax</span><span class="profile-stat-value">${fmt(taxInfo.percent)}%</span></div>
-    <div class="profile-stat-row"><span class="profile-stat-label">Tax Free</span><span class="profile-stat-value">${fmt(taxInfo.taxFree)} ${FLOWER_ICON}</span></div>
-    <div class="profile-stat-row"><span class="profile-stat-label">After Withdrawal</span><span class="profile-stat-value">${fmt(taxInfo.afterWithdrawal)} ${FLOWER_ICON}</span></div>
-
-    <div class="profile-stat-row"><span class="profile-stat-label">Created</span><span class="profile-stat-value">${createdText}${farmAgeText ? `<span class="profile-stat-value-sub">${escapeHtml(farmAgeText)}</span>` : ""}</span></div>
-    <div class="profile-stat-row"><span class="profile-stat-label">Referrals</span><span class="profile-stat-value">${fmtInt(referrals)}</span></div>
-    <div class="profile-stat-row"><span class="profile-stat-label">Telegram</span><span class="profile-stat-value">${telegramText}</span></div>
-    <div class="profile-stat-row"><span class="profile-stat-label">Discord</span><span class="profile-stat-value">${discordText}</span></div>
-
-    <div class="profile-farmvalue-card">
-      ${priceSourceBadgeHtml(livePriceSource)}
-      <div class="profile-farmvalue-label">FARM VALUE</div>
-      <div class="profile-farmvalue-amount">${FLOWER_ICON} ${fmt(farmValueFlower)}</div>
-      <div class="profile-farmvalue-usd">${profileFmtUsd(farmValueFlower)}</div>
-    </div>
-  `;
+  const repInfo = g ? profileGetReputation(g) : {
+    tierName: "—",
+    points: 0
+  };
+  $("profileTopSection").innerHTML = `\n    <div class="profile-bumpkin-frame">${profileBumpkinFrameHtml(g)}</div>\n    ${profileBumpkinIdHtml(g)}\n    <div class="profile-section-title">Farm Overview of ${escapeHtml(displayName)}</div>\n    <div class="profile-bumpkin-note" id="profileBumpkinNote">${profileBumpkinNoteText(g)}</div>\n    <div class="profile-stat-row"><span class="profile-stat-label">Name</span><span class="profile-stat-value">${escapeHtml(displayName)}</span></div>\n    <div class="profile-stat-row"><span class="profile-stat-label">Farm Id</span><span class="profile-stat-value">${escapeHtml(info.id || "—")}</span></div>\n    <div class="profile-stat-row"><span class="profile-stat-label">Bumpkin Level</span><span class="profile-stat-value">${levelText}</span></div>\n    <div class="profile-stat-row"><span class="profile-stat-label">VIP Status</span><span class="profile-stat-value">${profileVipHtml()}</span></div>\n    <div class="profile-stat-card">\n      <div class="profile-stat-card-row"><span class="profile-stat-label">Ascension</span><span class="profile-stat-value">[${fmtInt(expInfo.ascensionLevel)}]</span></div>\n      <div class="profile-stat-card-row"><span class="profile-stat-label">Island</span><span class="profile-stat-value">${islandIconHtml}${escapeHtml(expInfo.islandLabel)}</span></div>\n    </div>\n    <div class="profile-stat-row"><span class="profile-stat-label">Expansion Level</span><span class="profile-stat-value">${fmtInt(expInfo.expansionLevel)}</span></div>\n    <div class="profile-stat-row"><span class="profile-stat-label">Faction</span><span class="profile-stat-value">${factionIconHtml}${profileFactionHtml()}</span></div>\n    <div class="profile-stat-row"><span class="profile-stat-label">Reputation</span><span class="profile-stat-value">[${escapeHtml(repInfo.tierName)}][${fmtInt(repInfo.points)}]</span></div>\n\n    <div class="profile-balance-title">Balance</div>\n    <div class="profile-balance-grid">\n      <div class="profile-balance-chip">${FLOWER_ICON}<span class="profile-balance-chip-val">${fmt(balance)}</span></div>\n      <div class="profile-balance-chip">${COIN_ICON}<span class="profile-balance-chip-val">${fmt(coins)}</span></div>\n      <div class="profile-balance-chip">${GEM_ICON}<span class="profile-balance-chip-val">${fmt(gems)}</span></div>\n      <div class="profile-balance-chip"><img src="${MARK_ICON_SRC}" class="profile-inline-icon" alt="Marks"><span class="profile-balance-chip-val">${fmt(marks)}</span></div>\n      <div class="profile-balance-chip"><img src="${LOVE_CHARM_ICON_SRC}" class="profile-inline-icon" alt="Love Charm"><span class="profile-balance-chip-val">${fmt(loveCharm)}</span></div>\n      <div class="profile-balance-chip"><img src="${CHEER_ICON_SRC}" class="profile-inline-icon" alt="Cheer"><span class="profile-balance-chip-val">${fmt(cheers)}</span></div>\n    </div>\n\n    <div class="profile-stat-row"><span class="profile-stat-label">Resource Tax</span><span class="profile-stat-value">${fmt(feePercent)}%</span></div>\n    <div class="profile-stat-row"><span class="profile-stat-label">Withdraw Tax</span><span class="profile-stat-value">${fmt(taxInfo.percent)}%</span></div>\n    <div class="profile-stat-row"><span class="profile-stat-label">Tax Free</span><span class="profile-stat-value">${fmt(taxInfo.taxFree)} ${FLOWER_ICON}</span></div>\n    <div class="profile-stat-row"><span class="profile-stat-label">After Withdrawal</span><span class="profile-stat-value">${fmt(taxInfo.afterWithdrawal)} ${FLOWER_ICON}</span></div>\n\n    <div class="profile-stat-row"><span class="profile-stat-label">Created</span><span class="profile-stat-value">${createdText}${farmAgeText ? `<span class="profile-stat-value-sub">${escapeHtml(farmAgeText)}</span>` : ""}</span></div>\n    <div class="profile-stat-row"><span class="profile-stat-label">Referrals</span><span class="profile-stat-value">${fmtInt(referrals)}</span></div>\n    <div class="profile-stat-row"><span class="profile-stat-label">Telegram</span><span class="profile-stat-value">${telegramText}</span></div>\n    <div class="profile-stat-row"><span class="profile-stat-label">Discord</span><span class="profile-stat-value">${discordText}</span></div>\n\n    <div class="profile-farmvalue-card">\n      ${priceSourceBadgeHtml(livePriceSource)}\n      <div class="profile-farmvalue-label">FARM VALUE</div>\n      <div class="profile-farmvalue-amount">${FLOWER_ICON} ${fmt(farmValueFlower)}</div>\n      <div class="profile-farmvalue-usd">${profileFmtUsd(farmValueFlower)}</div>\n    </div>\n  `;
   const bumpkinImg = document.querySelector(".profile-bumpkin-render");
   if (bumpkinImg) {
     bumpkinImg.addEventListener("error", () => profileBumpkinImageOnError(bumpkinImg));
@@ -6319,12 +6291,7 @@ function renderProfileBuild() {
   const tabs = profileGetMainTabMeta();
   if (!tabs.some(t => t.id === profileState.buildTab)) profileState.buildTab = tabs[0] ? tabs[0].id : "crops";
   const tabsHtml = tabs.map(t => `<button type="button" data-tab="${t.id}" class="${t.id === profileState.buildTab ? "active" : ""}">${t.html}</button>`).join("");
-  $("profileTopSection").innerHTML = `
-    <div class="profile-section-title">${escapeHtml(displayName)}'s Build!</div>
-    <div class="profile-tabgrid" id="profileBuildTabs">${tabsHtml}</div>
-    <div class="profile-build-divider"></div>
-    <div id="profileBuildContent">${profileRenderBuildColumns(profileState.buildTab)}</div>
-  `;
+  $("profileTopSection").innerHTML = `\n    <div class="profile-section-title">${escapeHtml(displayName)}'s Build!</div>\n    <div class="profile-tabgrid" id="profileBuildTabs">${tabsHtml}</div>\n    <div class="profile-build-divider"></div>\n    <div id="profileBuildContent">${profileRenderBuildColumns(profileState.buildTab)}</div>\n  `;
   $("profileBuildTabs").querySelectorAll("button[data-tab]").forEach(btn => {
     btn.onclick = () => {
       profileState.buildTab = btn.dataset.tab;
@@ -6342,17 +6309,7 @@ export function renderProfileTradable() {
   const tabsHtml = PROFILE_TRADABLE_TABS.map(t => `<button type="button" data-tab="${t.id}" class="${t.id === profileState.tradableTab ? "active" : ""}">${escapeHtml(t.label)}</button>`).join("");
   const rows = g ? profileTradableRowsForTab(g, profileState.tradableTab) : [];
   const activeTabLabel = (PROFILE_TRADABLE_TABS.find(t => t.id === profileState.tradableTab) || {}).label || "";
-  $("profileTopSection").innerHTML = `
-    <div class="profile-section-title">${escapeHtml(displayName)}'s Tradable Items</div>
-    <div class="profile-tradable-total">
-      <div class="profile-tradable-total-label">FLOWER VALUE</div>
-      <div class="profile-tradable-total-val">${FLOWER_ICON} ${fmt(total)}</div>
-      <div class="profile-tradable-total-usd">${profileFmtUsd(total)}</div>
-    </div>
-    <div class="profile-tabgrid is-3col" id="profileTradableTabs">${tabsHtml}</div>
-    <div class="profile-tradable-tab-subtotal" id="profileTradableTabSubtotal"><span>${escapeHtml(activeTabLabel)} Subtotal</span><span>${FLOWER_ICON} ${fmt(profileTradableRowsSubtotal(rows))}</span></div>
-    <div id="profileTradableContent">${profileTradableContentHtml(rows, profileState.tradableTab, g)}</div>
-  `;
+  $("profileTopSection").innerHTML = `\n    <div class="profile-section-title">${escapeHtml(displayName)}'s Tradable Items</div>\n    <div class="profile-tradable-total">\n      <div class="profile-tradable-total-label">FLOWER VALUE</div>\n      <div class="profile-tradable-total-val">${FLOWER_ICON} ${fmt(total)}</div>\n      <div class="profile-tradable-total-usd">${profileFmtUsd(total)}</div>\n    </div>\n    <div class="profile-tabgrid is-3col" id="profileTradableTabs">${tabsHtml}</div>\n    <div class="profile-tradable-tab-subtotal" id="profileTradableTabSubtotal"><span>${escapeHtml(activeTabLabel)} Subtotal</span><span>${FLOWER_ICON} ${fmt(profileTradableRowsSubtotal(rows))}</span></div>\n    <div id="profileTradableContent">${profileTradableContentHtml(rows, profileState.tradableTab, g)}</div>\n  `;
   attachProfileTradableEditHandlers(g);
   $("profileTradableTabs").querySelectorAll("button[data-tab]").forEach(btn => {
     btn.onclick = () => {
@@ -6418,6 +6375,10 @@ export function closeProfile() {
   if (typeof positionFarmPanelTab === "function") positionFarmPanelTab();
 }
 
-export function __set_npcDeliverToggle(v) { return npcDeliverToggle = v; }
+export function __set_npcDeliverToggle(v) {
+  return npcDeliverToggle = v;
+}
 
-export function __set_bountyToggle(v) { return bountyToggle = v; }
+export function __set_bountyToggle(v) {
+  return bountyToggle = v;
+}

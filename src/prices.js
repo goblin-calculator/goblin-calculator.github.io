@@ -1,7 +1,10 @@
-import { ANIMAL_DATA, BASE_COMPOSTERS, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_RECIPES, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_TRAP_TOOL_ID, ES_ASCENSION_UPGRADE_BASE_COINS, ES_ASCENSION_UPGRADE_BASE_ITEMS, ES_ISLAND_UPGRADE_COST, ES_SWAMP_EXPANSIONS_PER_ASCENSION, FARM_LEVELS, FEED_RECIPE, FISH_CATCH_DATA, FISH_MARKET_CRAB_STICK_P2P_REF, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_MARKET_META_DEFAULTS, FISH_MARKET_SEASON_RECIPES, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, GUNTER_FLOWER_COST_MODE_LS_KEY, GUNTER_UPGRADE_NODES, LIMITED_TIME_BOOSTS, PET_COST_TRACK_RESOURCES, PET_FOOD_LISTS, PET_NOT_TRADABLE, PET_RESOURCE_DEFAULT_MARKET, PET_TRADABLE_RESOURCES, PICKLED_VEG_DATA, PRICE_SOURCE_LABELS, RESOURCE_DATA, RESTOCK_GEM_COST, SCULPTURE_LEVELS, SHRINE_RECIPES, SPICE_RECIPES, __boostedCropStatsMemo, __boostedFruitStatsMemo, __boostedGreenhouseStatsMemo, __boostedLavaPitStatsMemo, __boostedResourceStatsMemo, __cookingFoodExpMemo, __cookingFoodTimeMemo, __fishAgedFiguresMemo, __fishBasicFiguresMemo, __fishCatchXPMemo, __petCardMemo, __profileTradableRowsCacheG, __set___crabFiguresMemo, __set___profileTradableRowsCacheByTab, __set___profileTradableRowsCacheG, __set___seaweedFiguresMemo, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalTypeFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCrustaceanFigures, computeFertilizerFigures, computeHiveEconomics, computeLavaPitFigures, computeResourceFigures, computeSaltFarmFigures, computeSeaweedFigures, cookingGuaranteedCatchOn, crustaceanTrapIsFree, currentSeason, esBigFloorDiv, esBigIntPow, esState, escapeHtml, findTool, fishCatchYieldMult, fishingBoostsActiveByScope, fishingRodIsFree, flowerPerGem, flowerSeedOverrides, fmt, fmtFlowerPrice, gemsToFlower, getActiveBoostsForCrop, getActiveBoostsForFruit, getActiveBoostsForGreenhouse, getAgingMaxXPLocal, getAnimalCount, getBoostCoverageFraction, getBoostedMedicineRecipe, getBoostedToolRecipe, getGenericPlotOrNodeCount, getGlobalCureModifiers, getKaleMixKaleQty, getMaterialMode, getMedicineIngredientMode, getPoolIndex, getSharedPoolDivisor, getShrineAffectedItemCount, getSpiceLickDurationHarvests, getVarietyIngredient, gunterSelectedUpgrade, gunterUpgradeCounts, hasLimitedBoostSyncData, isAppDarkModeOn, isBoostActive, isBuildingBoostActive, isDigPanelNativeModeActive, isFertilizerTierEnabled, isPotionPanelNativeModeActive, isPetFoodChecked, normalizeItemName, normalizeSearch, petBoostActiveWithField, petComputeCardCached, petsData, previewSeason, restockGemMode, restockSharedExcluded, safeParse, saltFarmLevel, saltSculptureLevel, selectedHoneyFlower, setAppDarkMode, setPreviewSeason, shrineIdFromBoostName, spiceMaterialMode, toast, toolRecipes, updateCalcSummary, updateLiveSyncStatus, vegMaterialMode } from './calculator.js';
-import { farmPanelGetBoostedYieldStats, farmPanelGetMarketPriceFlower, farmPanelGrowTimeSec } from './inprogress.js';
-import { safeLSJSON, saveFlowerSeedOverrides, saveMarketState } from './storage.js';
-import { $, getBoostIcon, getIcon, getPetResourceIcon, renderBettyShop, renderCookingPanel, renderCropsList, renderFishingPanel, renderFruitsList, renderGreenhouseList, renderHoneyList, renderShrineProfitabilityBlock } from './ui.js';
+import { ANIMAL_DATA, BASE_COMPOSTERS, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_RECIPES, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_TRAP_TOOL_ID, ES_ASCENSION_UPGRADE_BASE_COINS, ES_ASCENSION_UPGRADE_BASE_ITEMS, ES_ISLAND_UPGRADE_COST, ES_SWAMP_EXPANSIONS_PER_ASCENSION, FARM_LEVELS, FEED_RECIPE, FISH_CATCH_DATA, FISH_MARKET_CRAB_STICK_P2P_REF, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_MARKET_META_DEFAULTS, FISH_MARKET_SEASON_RECIPES, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, GUNTER_FLOWER_COST_MODE_LS_KEY, GUNTER_UPGRADE_NODES, LIMITED_TIME_BOOSTS, PET_COST_TRACK_RESOURCES, PET_FOOD_LISTS, PET_NOT_TRADABLE, PET_RESOURCE_DEFAULT_MARKET, PET_TRADABLE_RESOURCES, PICKLED_VEG_DATA, PRICE_SOURCE_LABELS, RESOURCE_DATA, RESTOCK_GEM_COST, SCULPTURE_LEVELS, SHRINE_RECIPES, SPICE_RECIPES, __boostedCropStatsMemo, __boostedFruitStatsMemo, __boostedGreenhouseStatsMemo, __boostedLavaPitStatsMemo, __boostedResourceStatsMemo, __cookingFoodExpMemo, __cookingFoodTimeMemo, __fishAgedFiguresMemo, __fishBasicFiguresMemo, __fishCatchXPMemo, __petCardMemo, __profileTradableRowsCacheG, __set___crabFiguresMemo, __set___profileTradableRowsCacheByTab, __set___profileTradableRowsCacheG, __set___seaweedFiguresMemo, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalTypeFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCrustaceanFigures, computeFertilizerFigures, computeHiveEconomics, computeLavaPitFigures, computeResourceFigures, computeSaltFarmFigures, computeSeaweedFigures, cookingGuaranteedCatchOn, crustaceanTrapIsFree, currentSeason, esBigFloorDiv, esBigIntPow, esState, escapeHtml, findTool, fishCatchYieldMult, fishingBoostsActiveByScope, fishingRodIsFree, flowerPerGem, flowerSeedOverrides, fmt, fmtFlowerPrice, gemsToFlower, getActiveBoostsForCrop, getActiveBoostsForFruit, getActiveBoostsForGreenhouse, getAgingMaxXPLocal, getAnimalCount, getBoostCoverageFraction, getBoostedMedicineRecipe, getBoostedToolRecipe, getGenericPlotOrNodeCount, getGlobalCureModifiers, getKaleMixKaleQty, getMaterialMode, getMedicineIngredientMode, getPoolIndex, getSharedPoolDivisor, getShrineAffectedItemCount, getSpiceLickDurationHarvests, getVarietyIngredient, gunterSelectedUpgrade, gunterUpgradeCounts, hasLimitedBoostSyncData, isAppDarkModeOn, isBoostActive, isBuildingBoostActive, isDigPanelNativeModeActive, isFertilizerTierEnabled, isPotionPanelNativeModeActive, isPetFoodChecked, normalizeItemName, normalizeSearch, petBoostActiveWithField, petComputeCardCached, petsData, previewSeason, restockGemMode, restockSharedExcluded, safeParse, saltFarmLevel, saltSculptureLevel, selectedHoneyFlower, setAppDarkMode, setPreviewSeason, shrineIdFromBoostName, spiceMaterialMode, toast, toolRecipes, updateCalcSummary, updateLiveSyncStatus, vegMaterialMode } from "./calculator.js";
+
+import { farmPanelGetBoostedYieldStats, farmPanelGetMarketPriceFlower, farmPanelGrowTimeSec } from "./inprogress.js";
+
+import { safeLSJSON, saveFlowerSeedOverrides, saveMarketState } from "./storage.js";
+
+import { $, getBoostIcon, getIcon, getPetResourceIcon, renderBettyShop, renderCookingPanel, renderCropsList, renderFishingPanel, renderFruitsList, renderGreenhouseList, renderHoneyList, renderShrineProfitabilityBlock } from "./ui.js";
 
 const CANCEL_ICON_SFL_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALBAMAAABbgmoVAAAABGdBTUEAALGPC/xhBQAAABJQTFRFAAAA/5mc////5DtEJitE9nV62ycwCgAAAAF0Uk5TAEDm2GYAAABBSURBVAjXHYzBCcBACAT3YQupRP3LmVSg238r0YOBZWBYyIsB54kByWbNOKkBMbYB+MgAhMVeUR/NMt1SI7e8Lz8UXQ3kGudprwAAAABJRU5ErkJggg==";
 
@@ -704,7 +707,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Gladiolus Seed": 143,
   "Lavender Seed": 144,
   "Clover Seed": 145,
-
   Sunflower: 201,
   Potato: 202,
   Pumpkin: 203,
@@ -793,7 +795,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Purple Clover": 286,
   "White Clover": 287,
   "Blue Clover": 288,
-
   Axe: 301,
   Pickaxe: 302,
   "Stone Pickaxe": 303,
@@ -812,7 +813,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Music Box": 316,
   "Mariner Pot": 317,
   "Salt Rake": 318,
-
   "Sunflower Statue": 401,
   "Potato Statue": 402,
   "Christmas Tree": 403,
@@ -912,7 +912,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Royal Throne": 498,
   "Lily Egg": 499,
   "Knight Chicken": 500,
-
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
   Sauerkraut: 503,
@@ -999,7 +998,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Spaghetti al Limone": 584,
   "Lemon Cheesecake": 585,
   "Trade Cake": 586,
-
   Wood: 601,
   Stone: 602,
   Iron: 603,
@@ -1072,7 +1070,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Spiced Cheese": 670,
   "Ascension Crystal": 671,
   "Ascension Shard": 672,
-
   "Green Thumb": 701,
   "Barn Manager": 702,
   "Seed Specialist": 703,
@@ -1150,7 +1147,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "April Fools Token 2026": 774,
   "Skill Reset Ticket": 775,
   "Colors Token 2026": 776,
-
   "Australian Flag": 801,
   "Belgian Flag": 802,
   "Brazilian Flag": 803,
@@ -1193,7 +1189,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Lithuanian Flag": 840,
   "Malaysian Flag": 841,
   "Colombian Flag": 842,
-
   "Egg Basket": 901,
   "Red Egg": 902,
   "Blue Egg": 903,
@@ -1240,7 +1235,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Base Banner": 945,
   "Paw Prints Raffle Ticket": 946,
   "Crabs and Traps Raffle Ticket": 947,
-
   Market: 1001,
   "Fire Pit": 1002,
   Workbench: 1003,
@@ -1267,7 +1261,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Pet House": 1024,
   "Fish Market": 1025,
   "Aging Shed": 1026,
-
   "Chef Apron": 1101,
   "Chef Hat": 1102,
   "Sunflower Amulet": 1103,
@@ -1282,7 +1275,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "War Skull": 1112,
   "War Tombstone": 1113,
   "Undead Rooster": 1114,
-
   "White Tulips": 1201,
   "Potted Sunflower": 1202,
   Cactus: 1203,
@@ -1371,7 +1363,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Crow Rock": 1286,
   "Mini Corn Maze": 1287,
   "White Crow": 1288,
-
   "Lifeguard Ring": 1289,
   Surfboard: 1290,
   "Hideaway Herman": 1291,
@@ -1383,7 +1374,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Time Warp Totem": 1297,
   "Bumpkin Nutcracker": 1298,
   "Festive Tree": 1299,
-
   "Pirate Bounty": 1301,
   Pearl: 1302,
   Coral: 1303,
@@ -1393,7 +1383,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   Seaweed: 1307,
   "Sea Cucumber": 1308,
   Crab: 1309,
-
   "Black Magic": 1401,
   "Golden Helios": 1402,
   Chiogga: 1403,
@@ -1401,14 +1390,12 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Adirondack Potato": 1405,
   "Warty Goblin Pumpkin": 1406,
   "White Carrot": 1407,
-
   "Camel Bone": 1408,
   "Cockle Shell": 1409,
   Hieroglyph: 1410,
   Sand: 1411,
   Scarab: 1412,
   Vase: 1413,
-
   Anchovy: 1501,
   Butterflyfish: 1502,
   Blowfish: 1503,
@@ -1436,7 +1423,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Barred Knifejaw": 1525,
   "Saw Shark": 1526,
   "White Shark": 1527,
-
   "Twilight Anglerfish": 1528,
   "Starlight Tuna": 1529,
   "Radiant Ray": 1530,
@@ -1462,7 +1448,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Giant Isopod": 1550,
   Nautilus: 1551,
   Dollocaris: 1552,
-
   "White Festive Fox": 2001,
   Rug: 2002,
   Wardrobe: 2003,
@@ -1503,7 +1488,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Splendor Flag": 2038,
   "Jelly Lamp": 2039,
   "Paint Can": 2040,
-
   "Sunflorian Throne": 2041,
   "Nightshade Throne": 2042,
   "Goblin Throne": 2043,
@@ -1557,7 +1541,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Sunflorian Bronze Champion": 2091,
   "Sunflorian Gold Champion": 2092,
   "Sunflorian Silver Champion": 2093,
-
   "Desert Rose": 2100,
   "Hapy Jar": 2101,
   "Duamutef Jar": 2102,
@@ -1598,7 +1581,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   Miffy: 2137,
   Mog: 2138,
   Morty: 2139,
-
   "Basic Bed": 2140,
   "Sturdy Bed": 2141,
   "Floral Bed": 2142,
@@ -1665,7 +1647,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   Jellyfish: 2203,
   "Rhubarb Tart": 2204,
   Jin: 2205,
-
   "Floral Arch": 2206,
   "Flower Coin": 2207,
   "Flower Statue": 2208,
@@ -1674,7 +1655,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Mysterious Entrance": 2211,
   "Streamer's Statue": 2212,
   Cetus: 2213,
-
   "Goldcrest Mosaic Rug": 2214,
   "Sandy Mosaic Rug": 2215,
   "Twilight Rug": 2216,
@@ -1683,20 +1663,17 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Beetroot Rug": 2219,
   "Harlequin Rug": 2220,
   "Large Rug": 2221,
-
   "Golden Fence": 2222,
   "Golden Stone Fence": 2223,
   "Golden Pine Tree": 2224,
   "Golden Tree": 2225,
   "Golden Bush": 2226,
-
   "Black Tile": 2227,
   "Blue Tile": 2228,
   "Green Tile": 2229,
   "Purple Tile": 2230,
   "Red Tile": 2231,
   "Yellow Tile": 2232,
-
   "Easter Ticket 2025": 2234,
   "Carrot House": 2235,
   "Orange Bunny Lantern": 2236,
@@ -1722,7 +1699,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Dr Cow": 2256,
   "Nurse Sheep": 2257,
   Lunalist: 2258,
-
   Quarry: 2259,
   "Obsidian Turtle": 2260,
   "Winter Guardian": 2261,
@@ -1737,7 +1713,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Giant Zucchini": 2270,
   "Mini Floating Island": 2271,
   "Giant Kale": 2272,
-
   "Colors Ticket 2025": 2273,
   "Paint Buckets": 2274,
   "Rainbow Well": 2275,
@@ -1746,7 +1721,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Pony Toy": 2278,
   "Red Slime Balloon": 2279,
   "Blue Slime Balloon": 2280,
-
   "Halloween Ticket 2025": 2322,
   Cerberus: 2323,
   "Witch's Cauldron": 2324,
@@ -1756,14 +1730,12 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Haunted Tomb": 2328,
   Guillotine: 2329,
   "Vampire Coffin": 2330,
-
   "Paw Prints Rug": 2331,
   "Pet Bed": 2332,
   "Moon Fox Statue": 2333,
   "Giant Acorn": 2334,
   "Pet Bowls": 2335,
   "Squeaky Chicken": 2336,
-
   "Holiday Ticket 2025": 2337,
   "Holiday Decorative Totem": 2338,
   "Red Holiday Ornament": 2339,
@@ -1775,7 +1747,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Penguin Surprise": 2345,
   "Frozen Meat": 2346,
   "Ho Ho oh oh…": 2347,
-
   "Teeth Toy": 2348,
   "Fake Treasure": 2349,
   "Fake Mouse": 2350,
@@ -1787,7 +1758,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Pet Rug": 2356,
   "Jester in a box": 2357,
   "The Sunflower Man Statue": 2358,
-
   "Blue Paint Bucket": 2359,
   "Green Paint Bucket": 2360,
   "Purple Paint Bucket": 2361,
@@ -1805,7 +1775,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Silver Slime Trophy": 2373,
   "Bronze Slime Trophy": 2374,
   "Colors Ticket 2026": 2375,
-
   "Big Orange": 2281,
   "Big Apple": 2282,
   "Big Banana": 2283,
@@ -1816,11 +1785,9 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Basic Cooking Pot": 2288,
   "Expert Cooking Pot": 2289,
   "Advanced Cooking Pot": 2290,
-
   Trash: 2291,
   Dung: 2292,
   Weed: 2293,
-
   "Floor Mirror": 2294,
   "Long Rug": 2295,
   "Garbage Bin": 2296,
@@ -1838,22 +1805,17 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Giant Turnip": 2308,
   "Groovy Gramophone": 2309,
   "Wheat Whiskers": 2310,
-
   "Gold Cooking Trophy": 2311,
   "Silver Cooking Trophy": 2312,
   "Bronze Cooking Trophy": 2313,
-
   Anthill: 2314,
   Rat: 2315,
   Snail: 2316,
   "Pest Net": 2317,
-
   Poseidon: 2318,
-
   "Giant Orange": 2319,
   "Giant Apple": 2320,
   "Giant Banana": 2321,
-
   "Basic Biome": 2400,
   "Spring Biome": 2401,
   "Desert Biome": 2402,
@@ -1863,7 +1825,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Crystal Biome": 2406,
   "Galaxy Biome": 2407,
   "Marble Age Biome": 2408,
-
   Doll: 2501,
   "Buzz Doll": 2502,
   "Lunar Doll": 2503,
@@ -1903,7 +1864,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Mermaid Sheep": 2537,
   "Squid Chicken": 2538,
   "Anemone Flower": 2539,
-
   "Pet Egg": 2600,
   Barkley: 2601,
   Meowchi: 2602,
@@ -1927,7 +1887,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   Peanuts: 2620,
   Pip: 2621,
   Skipper: 2622,
-
   Acorn: 2630,
   Ruffroot: 2631,
   "Chewed Bone": 2632,
@@ -1938,7 +1897,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   Dewberry: 2637,
   "Wild Grass": 2638,
   "Frost Pebble": 2639,
-
   "Fox Shrine": 2650,
   "Boar Shrine": 2651,
   "Hound Shrine": 2652,
@@ -1948,7 +1906,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Bear Shrine": 2656,
   "Tortoise Shrine": 2657,
   "Moth Shrine": 2658,
-
   "Obsidian Shrine": 2659,
   "Sparrow Shrine": 2660,
   "Toucan Shrine": 2661,
@@ -1956,7 +1913,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Badger Shrine": 2663,
   "Bantam Shrine": 2664,
   "Trading Shrine": 2665,
-
   "Fused Stone Rock": 2700,
   "Reinforced Stone Rock": 2701,
   "Ancient Tree": 2702,
@@ -1975,12 +1931,10 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Magma Stone": 2715,
   Cornucopia: 2716,
   "Messy Bed": 2717,
-
   "Basic Farming Pack": 2718,
   "Basic Food Box": 2719,
   "Weekly Mega Box": 2720,
   "Basic Love Box": 2721,
-
   "Fish Flake": 2722,
   "Fish Stick": 2723,
   "Fish Oil": 2724,
@@ -1989,7 +1943,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Surimi Rice Bowl": 2727,
   "Creamy Crab Bite": 2728,
   "Crimstone Infused Fish Oil": 2729,
-
   Isopod: 2800,
   "Blue Crab": 2801,
   Lobster: 2802,
@@ -2006,7 +1959,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   Octopus: 2813,
   "Sea Urchin": 2814,
   "Horseshoe Crab": 2815,
-
   "Diving Helmet": 2816,
   "Speckled Kissing Fish": 2817,
   "Dark Eyed Kissing Fish": 2818,
@@ -2023,7 +1975,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Poseidon's Throne": 2829,
   "Fish Kite": 2830,
   CluckCoin: 2831,
-
   "Aged Anchovy": 2900,
   "Aged Butterflyfish": 2901,
   "Aged Blowfish": 2902,
@@ -2062,14 +2013,12 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Aged Whale Shark": 2935,
   "Aged Saw Shark": 2936,
   "Aged White Shark": 2937,
-
   "Pickled Radish": 2938,
   "Pickled Zucchini": 2939,
   "Pickled Tomato": 2940,
   "Pickled Cabbage": 2941,
   "Pickled Onion": 2942,
   "Pickled Pepper": 2943,
-
   "Prime Aged Anchovy": 2944,
   "Prime Aged Butterflyfish": 2945,
   "Prime Aged Blowfish": 2946,
@@ -2108,7 +2057,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Prime Aged Rock Blackfish": 2979,
   "Prime Aged Cobia": 2980,
   "Prime Aged Tilapia": 2981,
-
   "Greenhouse Glow": 2982,
   "Greenhouse Goodie": 2983,
   "Sproutroot Surprise": 2984,
@@ -2116,9 +2064,7 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Capsule Bait": 2986,
   "Umbrella Bait": 2987,
   "Crimson Baitfish": 2988,
-
   "Salt Sculpture": 2989,
-
   Pufferfish: 2990,
   "Fat Crab": 2991,
   "Navigation Table": 2992,
@@ -2129,16 +2075,14 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Salt Crystal Flower": 2997,
   "Spa Cow": 2998,
   "Spa Sheep": 2999,
-  "Deep Sea Pig": 3000,
+  "Deep Sea Pig": 3e3,
   "Deep Sea Slug": 3001,
   "Crystal Shrimp": 3002,
   "Salt Rock": 3003,
   "Salt Awakening Raffle Ticket": 3004,
   "Salt Awakening Banner": 3005,
   "Salt Dino Egg": 3006,
-
   "Pickled Broccoli": 3007,
-
   "Big Table": 3008,
   Crate: 3009,
   "Empty Pot": 3010,
@@ -2148,7 +2092,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Royal Podium": 3014,
   "Square Table": 3015,
   Stool: 3016,
-
   "Crystal Altar": 3017,
   "Dino Egg Trophy": 3018,
   "Salt Lamp": 3019,
@@ -2186,7 +2129,6 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Shards Turtle": 3052,
   Vibraphone: 3053,
   "Winged Vase": 3054,
-
   "Letter A Tile": 3055,
   "Letter B Tile": 3056,
   "Letter C Tile": 3057,
@@ -2212,7 +2154,7 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Letter W Tile": 3077,
   "Letter X Tile": 3078,
   "Letter Y Tile": 3079,
-  "Letter Z Tile": 3080,
+  "Letter Z Tile": 3080
 };
 
 const SFL_WEARABLE_KNOWN_IDS = {
@@ -2559,7 +2501,6 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Royal Braids": 346,
   "Painter's Cap": 347,
   "Festival of Colors Background": 348,
-
   "Pharaoh Headdress": 349,
   "Camel Onesie": 350,
   "Amber Amulet": 351,
@@ -2587,7 +2528,6 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Grape Pants": 373,
   "Bionic Drill": 374,
   "Fossil Head": 375,
-
   "Bumpkin Crown": 376,
   "Goblin Crown": 377,
   "Nightshade Crown": 378,
@@ -2604,13 +2544,10 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Goblin Medallion": 389,
   "Nightshade Medallion": 390,
   "Sunflorian Medallion": 391,
-
   "Pumpkin Plaza Background": 392,
   "Goblin Retreat Background": 393,
   "Kingdom Background": 394,
-
   "Gam3s Cap": 395,
-
   "Cowboy Hat": 396,
   "Cowboy Shirt": 397,
   "Cowboy Trouser": 398,
@@ -2637,7 +2574,6 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Pumpkin Head": 419,
   "Gingerbread Onesie": 420,
   "New Years Crown": 421,
-
   "Ladybug Suit": 422,
   "Acorn Hat": 423,
   "Crab Hat": 424,
@@ -2651,25 +2587,21 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Blossom Ward": 432,
   "Autumn's Embrace": 433,
   "Frozen Heart": 434,
-
   "Love Heart Onesie": 435,
   "Love Bear Onesie": 436,
   "Flower Bouquet": 437,
   "Streamer Hat": 438,
-
   "Dino Onesie": 439,
   "Golden Wings": 440,
   "Flower Mask": 441,
   "Luvvy Head": 442,
   "Grumpy Cat": 443,
   "Love Puff Aura": 444,
-
   "Carrot Pitchfork": 445,
   "Handheld Bunny": 446,
   "Bunny Pants": 447,
   "Bunny Mask": 448,
   "Easter Apron": 449,
-
   "Bloomwarden Suit": 450,
   "Embersteel Suit": 451,
   "Amberfall Suit": 452,
@@ -2683,7 +2615,6 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Sky Island Background": 460,
   "Oracle Syringe": 461,
   "Coin Head": 462,
-
   "Paint Splattered Hair": 463,
   "Paint Splattered Shirt": 464,
   "Paint Splattered Overalls": 465,
@@ -2691,7 +2622,6 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Slime Hat": 467,
   "Slime Wings": 468,
   "Slime Aura": 469,
-
   "Brush Back Hair": 470,
   Moustache: 471,
   "Chemist Potion": 472,
@@ -2707,7 +2637,6 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Wooly Dress": 482,
   "Raccoon Onesie": 483,
   "Golden Seedling": 484,
-
   "Moonseeker Potion": 485,
   "Frizzy Bob Cut": 486,
   "Two-toned Layered": 487,
@@ -2722,7 +2651,6 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Underworld Stimpack": 496,
   "Sweet Devil Wings": 497,
   "Wisp Aura": 498,
-
   "Luna's Crescent": 499,
   "Master Chef's Cleaver": 500,
   "Training Whistle": 501,
@@ -2730,7 +2658,6 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Pet Specialist Shirt": 503,
   "Pet Specialist Pants": 504,
   "Pet Specialist Hat": 505,
-
   "Xmas Top Hat": 506,
   "Reindeer Mask": 507,
   "Snowman Mask": 508,
@@ -2752,7 +2679,6 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Fish Hook Vest": 524,
   "Fish Hook Waders": 525,
   "Corn Silk Hair": 526,
-
   "Neon Noiz Jacket": 527,
   "404 Chic Top": 528,
   "Neon Noiz Pants": 529,
@@ -2782,7 +2708,6 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Infernal Smile": 553,
   "Neutral Mouth": 554,
   "Pistol Shrimp": 555,
-
   "Spa Hat": 556,
   "Spa Robe": 557,
   "Spa Slippers": 558,
@@ -2791,7 +2716,6 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Clam Shell Hat": 561,
   "Shrimp Onesie": 562,
   "Brasil Jersey": 563,
-
   "Rainbow Wings": 564,
   "Butterfly Aura": 565,
   "Slime Wall Background": 566,
@@ -2814,7 +2738,7 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Crystal Shoes": 583,
   "Marble Pants": 584,
   "Spooky Coat": 585,
-  "Surfer Hair": 586,
+  "Surfer Hair": 586
 };
 
 const SFL_COLLECTIBLE_ID_TO_NAME = Object.entries(SFL_COLLECTIBLE_KNOWN_IDS).reduce((acc, [name, id]) => {
@@ -2852,7 +2776,7 @@ function sflPickMarketplaceReport(reports, dateStr) {
 }
 
 async function fetchMarketplaceActivityReport() {
-  const dateStr = sflFormatMarketplaceDate(new Date());
+  const dateStr = sflFormatMarketplaceDate(new Date);
   try {
     const res = await fetch(sflMarketplaceApiBase(), {
       cache: "no-store"
@@ -2870,7 +2794,7 @@ async function fetchMarketplaceActivityReport() {
     throw new Error("No marketplace report available");
   } catch (e) {
     for (let i = 1; i <= SFL_MARKETPLACE_LOOKBACK_DAYS; i++) {
-      const d = new Date();
+      const d = new Date;
       d.setUTCDate(d.getUTCDate() - i);
       const pastDateStr = sflFormatMarketplaceDate(d);
       try {
@@ -2965,7 +2889,7 @@ export let livePricesUpdatedAt = parseInt(localStorage.getItem("hl_live_prices_u
 
 export let liveNftPrices = safeLSJSON(localStorage.getItem("hl_live_nft_prices"), {});
 
-export const _priceIndexCache = new WeakMap();
+export const _priceIndexCache = new WeakMap;
 
 function findPriceInPool(pool, name) {
   if (!name) return null;
@@ -3280,7 +3204,7 @@ function gunterObsidianUnitFlowerCost(mode) {
 }
 
 function gunterUpgradeNodeFlowerCost(nodeName, visited) {
-  visited = visited || new Set();
+  visited = visited || new Set;
   if (visited.has(nodeName)) return 0;
   visited.add(nodeName);
   const node = GUNTER_UPGRADE_NODES.find(n => n.name === nodeName);
@@ -3334,7 +3258,13 @@ export function esComputeAscensionUpgradeCostGeneric(ascLevel) {
     },
     coins: floorItem(ES_ASCENSION_UPGRADE_BASE_COINS),
     seconds: 0,
-    bumpkinLevel: ascLevel === 1 ? { ascension: 0, level: 150 } : { ascension: ascLevel - 1, level: 50 }
+    bumpkinLevel: ascLevel === 1 ? {
+      ascension: 0,
+      level: 150
+    } : {
+      ascension: ascLevel - 1,
+      level: 50
+    }
   };
 }
 
@@ -3344,19 +3274,19 @@ export function esGetIslandUpgradeCost(toIsland) {
 
 export function esResourceFlowerCost(name, qty) {
   if (!qty || qty <= 0) return 0;
-  const cpf = (typeof coinPerFlower === "number" && coinPerFlower > 0) ? coinPerFlower : 1;
+  const cpf = typeof coinPerFlower === "number" && coinPerFlower > 0 ? coinPerFlower : 1;
   if (name === "Oil") {
-    const coins = typeof getItemCostByName === "function" ? (getItemCostByName("Oil") || 0) : 0;
-    return (coins / cpf) * qty;
+    const coins = typeof getItemCostByName === "function" ? getItemCostByName("Oil") || 0 : 0;
+    return coins / cpf * qty;
   }
   if (name === "Gem" || name === "Coins") return 0;
   if (esState.costMode === "buy") {
-    const price = typeof farmPanelGetMarketPriceFlower === "function" ? (farmPanelGetMarketPriceFlower(name) || 0) : 0;
+    const price = typeof farmPanelGetMarketPriceFlower === "function" ? farmPanelGetMarketPriceFlower(name) || 0 : 0;
     return price * qty;
   }
-  const coinsEach = typeof getItemCostByName === "function" ? (getItemCostByName(name) || 0) : 0;
-  if (coinsEach > 0) return (coinsEach / cpf) * qty;
-  const marketPrice = typeof farmPanelGetMarketPriceFlower === "function" ? (farmPanelGetMarketPriceFlower(name) || 0) : 0;
+  const coinsEach = typeof getItemCostByName === "function" ? getItemCostByName(name) || 0 : 0;
+  if (coinsEach > 0) return coinsEach / cpf * qty;
+  const marketPrice = typeof farmPanelGetMarketPriceFlower === "function" ? farmPanelGetMarketPriceFlower(name) || 0 : 0;
   return marketPrice * qty;
 }
 
@@ -3949,8 +3879,8 @@ export function refreshSflThemeClass() {
 
 function syncSflSearchPlaceholders() {
   const on = document.body.classList.contains("sfl-theme");
-  const ids = ["marketSearchInput", "librarySearchInput", "boostSearchInput", "pickerSearchInput", "tradeItemSearchInput"];
-  ids.forEach((id) => {
+  const ids = [ "marketSearchInput", "librarySearchInput", "boostSearchInput", "pickerSearchInput", "tradeItemSearchInput" ];
+  ids.forEach(id => {
     const el = $(id);
     if (!el) return;
     const ph = el.getAttribute("placeholder") || "";
@@ -3984,18 +3914,34 @@ export function setSflTheme(on) {
 
 export const SFL_EXCHANGE_API = SFL_PROXY_BASE + "/api/v1.1/exchange";
 
-export function __set_marketItems(v) { return marketItems = v; }
+export function __set_marketItems(v) {
+  return marketItems = v;
+}
 
-export function __set_marketActiveTab(v) { return marketActiveTab = v; }
+export function __set_marketActiveTab(v) {
+  return marketActiveTab = v;
+}
 
-export function __set_animalFlowerCost(v) { return animalFlowerCost = v; }
+export function __set_animalFlowerCost(v) {
+  return animalFlowerCost = v;
+}
 
-export function __set_bountyFlowerCost(v) { return bountyFlowerCost = v; }
+export function __set_bountyFlowerCost(v) {
+  return bountyFlowerCost = v;
+}
 
-export function __set_choresFlowerCost(v) { return choresFlowerCost = v; }
+export function __set_choresFlowerCost(v) {
+  return choresFlowerCost = v;
+}
 
-export function __set_npcFlowerCost(v) { return npcFlowerCost = v; }
+export function __set_npcFlowerCost(v) {
+  return npcFlowerCost = v;
+}
 
-export function __set_budFloorPrice(v) { return budFloorPrice = v; }
+export function __set_budFloorPrice(v) {
+  return budFloorPrice = v;
+}
 
-export function __set_petFloorPrice(v) { return petFloorPrice = v; }
+export function __set_petFloorPrice(v) {
+  return petFloorPrice = v;
+}
