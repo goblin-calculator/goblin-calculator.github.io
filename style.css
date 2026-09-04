@@ -597,6 +597,7 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
     overflow:hidden;
     animation:none !important;
   }
+  #auctionTrackerPanel.main-tab-modal.open{ z-index:1710; }
   .main-tab-modal .library-toggle{ position:relative; padding-right:160px; flex-shrink:0; }
   .main-tab-modal-close{ display:none; }
   .main-tab-modal.open .main-tab-modal-close{
@@ -1275,6 +1276,7 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   .fp-inprogress-list[data-fp-filter="beehive"] .card[data-fp-category="beehive"],
   .fp-inprogress-list[data-fp-filter="fruits"] .card[data-fp-category="fruits"],
   .fp-inprogress-list[data-fp-filter="animals"] .card[data-fp-category="animals"],
+  .fp-inprogress-list[data-fp-filter="cooking"] .card[data-fp-category="cooking"],
   .fp-inprogress-list[data-fp-filter="all"] .card[data-fp-category]{ display:block; }
   .fp-inprogress-list .card:not([data-fp-category]){ display:block; }
 
@@ -2441,11 +2443,11 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   
   #tradeShopOverlay{
     position:fixed; inset:0; background:rgba(12,16,15,.6);
-    display:none; align-items:flex-end; justify-content:center; z-index:1210;
+    display:none; align-items:flex-end; justify-content:center; z-index:1710;
   }
   #tradeShopOverlay.show{ display:flex; animation:top10FadeIn .2s ease both; }
   .trade-shop-sync-fab{
-    position:fixed; bottom:18px; right:18px; z-index:1220;
+    position:fixed; bottom:18px; right:18px; z-index:1720;
     padding:7px 9.8px;
     background:var(--sun); color:var(--soil-dark); border:2px solid var(--soil-dark);
     box-shadow:3px 3px 0 rgba(0,0,0,.4); border-radius:999px;
@@ -3373,13 +3375,13 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
     position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
     background:var(--soil-dark); color:var(--wheat); padding:10px 20px; border-radius:999px;
     font-size:15.6px; font-weight:600; opacity:0; pointer-events:none;
-    transition:opacity .3s ease, transform .3s ease; z-index:1400;
+    transition:opacity .3s ease, transform .3s ease; z-index:1800;
   }
     .toast.show{ opacity:1; transform:translateX(-50%) translateY(-6px); }
 
   .sync-modal{
     position:fixed; left:50%; top:14%; transform:translateX(-50%) translateY(-10px) scale(.92);
-    z-index:1260; max-width:min(320px, 86vw);
+    z-index:1800; max-width:min(320px, 86vw);
     opacity:0; pointer-events:none;
     transition:opacity .28s ease, transform .28s cubic-bezier(.22,.68,0,1.01);
   }
@@ -4521,14 +4523,14 @@ body.app-dark .app-dark-fab{ background:var(--moss); }
 body.app-dark .dig-treasure-fab-label{ color:#c7c4bc; text-shadow:none; }
 
 .dig-panel-overlay{
-  position:fixed; inset:0; z-index:1158;
+  position:fixed; inset:0; z-index:1708;
   background:transparent;
   display:none;
 }
 .dig-panel-overlay.show{ display:block; }
 
 .dig-side-panel{
-  position:fixed; top:0; right:0; z-index:1160;
+  position:fixed; top:0; right:0; z-index:1710;
   width:100%; height:100%; height:100dvh;
   transform:translateX(100%);
   transition:transform .4s cubic-bezier(.22,1,.36,1);
@@ -4748,14 +4750,14 @@ body.app-dark .dig-treasure-fab-label{ color:#c7c4bc; text-shadow:none; }
 body.app-dark .potion-room-fab-label{ color:#c7c4bc; text-shadow:none; }
 
 .potion-panel-overlay{
-  position:fixed; inset:0; z-index:1158;
+  position:fixed; inset:0; z-index:1708;
   background:transparent;
   display:none;
 }
 .potion-panel-overlay.show{ display:block; }
 
 .potion-side-panel{
-  position:fixed; top:0; right:0; z-index:1160;
+  position:fixed; top:0; right:0; z-index:1710;
   width:100%; height:100%; height:100dvh;
   transform:translateX(100%);
   transition:transform .4s cubic-bezier(.22,1,.36,1);
@@ -9140,6 +9142,17 @@ body.sfl-theme .bl-nav-tab.active{
 }
 .at-mini-sync:active{ transform:translate(2px,2px); box-shadow:0 0 0 rgba(0,0,0,.4); }
 .at-mini-sync.is-syncing{ animation:digMiniSyncSpin .7s linear infinite; }
+
+.global-mini-sync{
+  position:fixed; right:22px; bottom:78px; z-index:1700;
+  width:38px; height:38px;
+  background:var(--sun-deep); border:2px solid var(--soil-dark); border-radius:50%;
+  box-shadow:2px 2px 0 rgba(0,0,0,.4); cursor:pointer;
+  font-size:19.2px; display:flex; align-items:center; justify-content:center;
+  color:var(--wheat);
+}
+.global-mini-sync:active{ transform:translate(2px,2px); box-shadow:0 0 0 rgba(0,0,0,.4); }
+.global-mini-sync.is-syncing{ animation:digMiniSyncSpin .7s linear infinite; }
 
 body.sfl-theme #auctionTrackerPanel{
   background-color:var(--sfl-outer) !important;

@@ -1,8 +1,8 @@
-const CACHE_VERSION = "vd062baf71d";
+const CACHE_VERSION = "v55f70fe469";
 
 const CACHE_NAME = `goblin-calc-${CACHE_VERSION}`;
 
-const PRECACHE_URLS = [ "./", "./index.html", "./style.css", "./app.d062baf71d.bundle.js", "./presence.js", "./manifest.json", "./icons/goblin-logo.png" ];
+const PRECACHE_URLS = [ "./", "./index.html", "./style.css", "./app.55f70fe469.bundle.js", "./presence.js", "./manifest.json", "./icons/goblin-logo.png" ];
 
 const NAVIGATE_NETWORK_TIMEOUT_MS = 3e3;
 
@@ -15,7 +15,9 @@ function delay(ms) {
 }
 
 async function fetchForCache(url) {
-  const response = await fetch(url, { cache: "reload" });
+  const response = await fetch(url, {
+    cache: "reload"
+  });
   if (!response || !response.ok) throw new Error(`bad-status:${response && response.status}`);
   return response;
 }
@@ -105,7 +107,7 @@ async function networkFirstForNavigation(request, cache) {
     if (networkResponse && networkResponse.ok) cache.put(request, networkResponse.clone());
     return networkResponse;
   } catch (err) {
-    const cached = (await cache.match(request)) || (await cache.match("./index.html"));
+    const cached = await cache.match(request) || await cache.match("./index.html");
     if (cached) return cached;
     throw err;
   }
