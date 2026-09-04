@@ -1,20 +1,24 @@
-import { __deferredInitialRenderCallbacks, __set___deferredInitialRenderDone, __set_currentSeason, currentSeason, getRealSeason, previewSeason, runDeferredInitialRender, setPreviewSeason } from './calculator.js';
-import { initMainViewRouting, renderSeasonToggle } from './ui.js';
-import './prices.js';
-import './storage.js';
-import './inprogress.js';
+import { __deferredInitialRenderCallbacks, __set___deferredInitialRenderDone, __set_currentSeason, currentSeason, getRealSeason, previewSeason, runDeferredInitialRender, setPreviewSeason } from "./calculator.js";
+
+import { initMainViewRouting, renderSeasonToggle } from "./ui.js";
+
+import "./prices.js";
+
+import "./storage.js";
+
+import "./inprogress.js";
 
 (function restoreRedirectedPath() {
   try {
-    const redirect = sessionStorage.getItem('gc_redirect_path');
+    const redirect = sessionStorage.getItem("gc_redirect_path");
     if (redirect) {
-      sessionStorage.removeItem('gc_redirect_path');
+      sessionStorage.removeItem("gc_redirect_path");
       if (redirect !== window.location.pathname + window.location.search + window.location.hash) {
-        window.history.replaceState(null, '', redirect);
+        window.history.replaceState(null, "", redirect);
       }
     }
   } catch (e) {
-    console.error('Redirect restore failed:', e);
+    console.error("Redirect restore failed:", e);
   }
 })();
 
