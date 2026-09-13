@@ -12,17 +12,15 @@ const firebaseConfig = {
 (function initPresence() {
   const countEl = document.getElementById("liveUsersCount");
   const badgeEl = document.getElementById("liveUsersBadge");
-  const CONNECT_TIMEOUT_MS = 10000;
-  const HEARTBEAT_INTERVAL_MS = 20000;
-  const RECONCILE_INTERVAL_MS = 20000;
-  const STALE_AFTER_MS = 45000;
-  const DISPLAY_REFRESH_MS = 5000;
-  const HIDDEN_GRACE_MS = 30000;
-
+  const CONNECT_TIMEOUT_MS = 1e4;
+  const HEARTBEAT_INTERVAL_MS = 2e4;
+  const RECONCILE_INTERVAL_MS = 2e4;
+  const STALE_AFTER_MS = 45e3;
+  const DISPLAY_REFRESH_MS = 5e3;
+  const HIDDEN_GRACE_MS = 3e4;
   function hideBadge() {
     if (badgeEl) badgeEl.style.display = "none";
   }
-
   if (!firebaseConfig.apiKey || firebaseConfig.apiKey.startsWith("PASTE_")) {
     hideBadge();
     console.warn("[presence] Firebase config not set yet — live user count is disabled. " + "See the setup guide to add your config to presence.js.");
@@ -35,27 +33,22 @@ const firebaseConfig = {
     hideBadge();
     return;
   }
-
   const db = firebase.database();
   const presenceRef = db.ref("presence");
   const myPresenceRef = presenceRef.push();
   const connectedRef = db.ref(".info/connected");
-
   let gotConnection = false;
   let heartbeatTimer = null;
   let displayTimer = null;
   let hiddenRemovalTimer = null;
   let presenceIsSet = false;
   let latestSnapshot = {};
-
   const connectTimeoutTimer = setTimeout(() => {
     if (!gotConnection) hideBadge();
   }, CONNECT_TIMEOUT_MS);
-
   function isFresh(data, now) {
     return !!data && typeof data.connectedAt === "number" && now - data.connectedAt <= STALE_AFTER_MS;
   }
-
   function updateDisplayFromCache() {
     if (!countEl) return;
     const now = Date.now();
@@ -69,7 +62,6 @@ const firebaseConfig = {
     });
     countEl.textContent = `${count} Online`;
   }
-
   function reconcileStalePresence() {
     if (!gotConnection) return;
     presenceRef.once("value").then(snap => {
@@ -81,32 +73,31 @@ const firebaseConfig = {
       });
     }).catch(() => {});
   }
-
   function writePresence() {
-    myPresenceRef.set({ connectedAt: firebase.database.ServerValue.TIMESTAMP });
+    myPresenceRef.set({
+      connectedAt: firebase.database.ServerValue.TIMESTAMP
+    });
     presenceIsSet = true;
   }
-
   function removePresence() {
     if (!presenceIsSet) return;
     myPresenceRef.remove();
     presenceIsSet = false;
   }
-
   function startHeartbeat() {
     if (heartbeatTimer) return;
     heartbeatTimer = setInterval(() => {
       if (gotConnection && presenceIsSet) {
-        myPresenceRef.update({ connectedAt: firebase.database.ServerValue.TIMESTAMP });
+        myPresenceRef.update({
+          connectedAt: firebase.database.ServerValue.TIMESTAMP
+        });
       }
     }, HEARTBEAT_INTERVAL_MS);
   }
-
   function startDisplayLoop() {
     if (displayTimer) return;
     displayTimer = setInterval(updateDisplayFromCache, DISPLAY_REFRESH_MS);
   }
-
   connectedRef.on("value", snap => {
     if (snap.val() === true) {
       gotConnection = true;
@@ -122,7 +113,6 @@ const firebaseConfig = {
       presenceIsSet = false;
     }
   });
-
   presenceRef.on("value", snap => {
     const next = {};
     snap.forEach(child => {
@@ -134,9 +124,7 @@ const firebaseConfig = {
     console.error("[presence] read failed:", err);
     hideBadge();
   });
-
   setInterval(reconcileStalePresence, RECONCILE_INTERVAL_MS);
-
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "hidden") {
       if (hiddenRemovalTimer) clearTimeout(hiddenRemovalTimer);
@@ -151,7 +139,6 @@ const firebaseConfig = {
       if (gotConnection && !presenceIsSet) writePresence();
     }
   });
-
   window.addEventListener("pagehide", removePresence);
   window.addEventListener("beforeunload", removePresence);
 })();
