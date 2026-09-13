@@ -1,4 +1,4 @@
-import { ANIMAL_DATA, BASE_COMPOSTERS, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_RECIPES, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_TRAP_TOOL_ID, ES_ASCENSION_UPGRADE_BASE_COINS, ES_ASCENSION_UPGRADE_BASE_ITEMS, ES_ISLAND_UPGRADE_COST, ES_SWAMP_EXPANSIONS_PER_ASCENSION, FARM_LEVELS, FEED_RECIPE, FISH_CATCH_DATA, FISH_MARKET_CRAB_STICK_P2P_REF, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_MARKET_META_DEFAULTS, FISH_MARKET_SEASON_RECIPES, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, GUNTER_FLOWER_COST_MODE_LS_KEY, GUNTER_UPGRADE_NODES, LIMITED_TIME_BOOSTS, PET_COST_TRACK_RESOURCES, PET_FOOD_LISTS, PET_NOT_TRADABLE, PET_RESOURCE_DEFAULT_MARKET, PET_TRADABLE_RESOURCES, PICKLED_VEG_DATA, PRICE_SOURCE_LABELS, RESOURCE_DATA, RESTOCK_GEM_COST, SCULPTURE_LEVELS, SHRINE_RECIPES, SPICE_RECIPES, __boostedCropStatsMemo, __boostedFruitStatsMemo, __boostedGreenhouseStatsMemo, __boostedLavaPitStatsMemo, __boostedResourceStatsMemo, __cookingFoodExpMemo, __cookingFoodTimeMemo, __fishAgedFiguresMemo, __fishBasicFiguresMemo, __fishCatchXPMemo, __petCardMemo, __profileTradableRowsCacheG, __set___crabFiguresMemo, __set___profileTradableRowsCacheByTab, __set___profileTradableRowsCacheG, __set___seaweedFiguresMemo, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalTypeFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCrustaceanFigures, computeFertilizerFigures, computeHiveEconomics, computeLavaPitFigures, computeResourceFigures, computeSaltFarmFigures, computeSeaweedFigures, cookingGuaranteedCatchOn, crustaceanTrapIsFree, currentSeason, esBigFloorDiv, esBigIntPow, esState, escapeHtml, findTool, fishCatchYieldMult, fishingBoostsActiveByScope, fishingRodIsFree, flowerPerGem, flowerSeedOverrides, fmt, fmtFlowerPrice, gemsToFlower, getActiveBoostsForCrop, getActiveBoostsForFruit, getActiveBoostsForGreenhouse, getAgingMaxXPLocal, getAnimalCount, getBoostCoverageFraction, getBoostedMedicineRecipe, getBoostedToolRecipe, getGenericPlotOrNodeCount, getGlobalCureModifiers, getKaleMixKaleQty, getMaterialMode, getMedicineIngredientMode, getPoolIndex, getSharedPoolDivisor, getShrineAffectedItemCount, getSpiceLickDurationHarvests, getVarietyIngredient, gunterSelectedUpgrade, gunterUpgradeCounts, hasLimitedBoostSyncData, isAppDarkModeOn, isBoostActive, isBuildingBoostActive, isDigPanelNativeModeActive, isFertilizerTierEnabled, isPotionPanelNativeModeActive, isPetFoodChecked, normalizeItemName, normalizeSearch, petBoostActiveWithField, petComputeCardCached, petsData, previewSeason, restockGemMode, restockSharedExcluded, safeParse, saltFarmLevel, saltSculptureLevel, selectedHoneyFlower, setAppDarkMode, setPreviewSeason, shrineIdFromBoostName, spiceMaterialMode, toast, toolRecipes, updateCalcSummary, updateLiveSyncStatus, vegMaterialMode } from "./calculator.js";
+import { ANIMAL_DATA, BASE_COMPOSTERS, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_RECIPES, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_TRAP_TOOL_ID, ES_ASCENSION_UPGRADE_BASE_COINS, ES_ASCENSION_UPGRADE_BASE_ITEMS, ES_ISLAND_UPGRADE_COST, ES_SWAMP_EXPANSIONS_PER_ASCENSION, FARM_LEVELS, FEED_RECIPE, FISH_CATCH_DATA, FISH_MARKET_CRAB_STICK_P2P_REF, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_MARKET_META_DEFAULTS, FISH_MARKET_SEASON_RECIPES, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, GUNTER_FLOWER_COST_MODE_LS_KEY, GUNTER_UPGRADE_NODES, LIMITED_TIME_BOOSTS, PET_COST_TRACK_RESOURCES, PET_FOOD_LISTS, PET_NOT_TRADABLE, PET_RESOURCE_DEFAULT_MARKET, PET_TRADABLE_RESOURCES, PICKLED_VEG_DATA, PRICE_SOURCE_LABELS, RESOURCE_DATA, RESTOCK_GEM_COST, SCULPTURE_LEVELS, SHRINE_RECIPES, SPICE_RECIPES, __boostedCropStatsMemo, __boostedFruitStatsMemo, __boostedGreenhouseStatsMemo, __boostedLavaPitStatsMemo, __boostedResourceStatsMemo, __cookingFoodExpMemo, __cookingFoodTimeMemo, __fishAgedFiguresMemo, __fishBasicFiguresMemo, __fishCatchXPMemo, __petCardMemo, __profileTradableRowsCacheG, __set___crabFiguresMemo, __set___profileTradableRowsCacheByTab, __set___profileTradableRowsCacheG, __set___seaweedFiguresMemo, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalTypeFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCrustaceanFigures, computeFertilizerFigures, computeHiveEconomics, computeLavaPitFigures, computeResourceFigures, computeSaltFarmFigures, computeSeaweedFigures, cookingGuaranteedCatchOn, crustaceanTrapIsFree, currentSeason, esBigFloorDiv, esBigIntPow, esState, escapeHtml, findTool, fishCatchYieldMult, fishingBoostsActiveByScope, fishingRodIsFree, flowerPerGem, flowerSeedOverrides, fmt, fmtFlowerPrice, gemsToFlower, getActiveBoostsForCrop, getActiveBoostsForFruit, getActiveBoostsForGreenhouse, getActiveFermentationSpiceExpectedMult, getActiveSaltBoosts, getAgingMaxXPLocal, getAnimalCount, getBoostCoverageFraction, getBoostedMedicineRecipe, getBoostedToolRecipe, getGenericPlotOrNodeCount, getGlobalCureModifiers, getKaleMixKaleQty, getMaterialMode, getMedicineIngredientMode, getPoolIndex, getSharedPoolDivisor, getShrineAffectedItemCount, getSpiceLickDurationHarvests, getVarietyIngredient, gunterSelectedUpgrade, gunterUpgradeCounts, hasLimitedBoostSyncData, isAppDarkModeOn, isBoostActive, isBuildingBoostActive, isDigPanelNativeModeActive, isFertilizerTierEnabled, isPotionPanelNativeModeActive, isPetFoodChecked, normalizeItemName, normalizeSearch, petBoostActiveWithField, petComputeCardCached, petsData, previewSeason, restockGemMode, restockSharedExcluded, safeParse, saltFarmLevel, saltSculptureLevel, selectedHoneyFlower, setAppDarkMode, setPreviewSeason, shrineIdFromBoostName, spiceMaterialMode, toast, toolRecipes, updateCalcSummary, updateLiveSyncStatus, vegMaterialMode } from "./calculator.js";
 
 import { farmPanelGetBoostedYieldStats, farmPanelGetMarketPriceFlower, farmPanelGrowTimeSec } from "./inprogress.js";
 
@@ -31,17 +31,76 @@ export function getArtistCoinCostMult() {
   return b && b.coinCostMultAll || 1;
 }
 
-export function computeRestockCost24h(baseStock, kind, count, cyclesPerDay, cyclesPerStockUnit, maxRestocksPerDay, itemName) {
-  if (!baseStock || !count || !cyclesPerDay) return 0;
+export function computeRestockCost24hDetailed(baseStock, kind, count, cyclesPerDay, cyclesPerStockUnit, maxRestocksPerDay, itemName) {
+  const empty = {
+    flowerCost: 0,
+    boostedStock: 0,
+    itemsNeededPerDay: 0,
+    restocksPerDay: 0,
+    gemCostPerRestock: 0,
+    gemsPerDay: 0,
+    stockKind: kind,
+    name: itemName
+  };
+  if (!baseStock || !count || !cyclesPerDay) return empty;
   const boostedStock = computeBoostedStock(baseStock, kind, itemName);
   const stockConsumingCyclesPerDay = cyclesPerDay / (cyclesPerStockUnit || 1);
+  const itemsNeededPerDay = count * stockConsumingCyclesPerDay;
   const cyclesPerRestock = boostedStock / count;
-  if (cyclesPerRestock <= 0) return 0;
+  if (cyclesPerRestock <= 0) return Object.assign({}, empty, { boostedStock: boostedStock, itemsNeededPerDay: itemsNeededPerDay });
   let restocksPerDay = stockConsumingCyclesPerDay / cyclesPerRestock;
   if (maxRestocksPerDay != null) restocksPerDay = Math.min(restocksPerDay, maxRestocksPerDay);
   const gemCost = typeof getRestockGemCost === "function" ? getRestockGemCost(kind, itemName) : kind === "tool" ? RESTOCK_GEM_COST.tools : RESTOCK_GEM_COST.seeds;
   const gemsPerDay = restocksPerDay * gemCost;
-  return typeof gemsToFlower === "function" ? gemsToFlower(gemsPerDay) : 0;
+  const flowerCost = typeof gemsToFlower === "function" ? gemsToFlower(gemsPerDay) : 0;
+  return {
+    flowerCost: flowerCost,
+    boostedStock: boostedStock,
+    itemsNeededPerDay: itemsNeededPerDay,
+    restocksPerDay: restocksPerDay,
+    gemCostPerRestock: gemCost,
+    gemsPerDay: gemsPerDay,
+    stockKind: kind,
+    name: itemName
+  };
+}
+
+export function computeRestockCost24hDetailedIndividual(baseStock, kind, count, cyclesPerDay, cyclesPerStockUnit, maxRestocksPerDay, itemName) {
+  const empty = {
+    flowerCost: 0,
+    boostedStock: 0,
+    itemsNeededPerDay: 0,
+    restocksPerDay: 0,
+    gemCostPerRestock: 0,
+    gemsPerDay: 0,
+    stockKind: kind,
+    name: itemName
+  };
+  if (!baseStock || !count || !cyclesPerDay) return empty;
+  const boostedStock = computeBoostedStock(baseStock, kind, itemName);
+  const stockConsumingCyclesPerDay = cyclesPerDay / (cyclesPerStockUnit || 1);
+  const itemsNeededPerDay = count * stockConsumingCyclesPerDay;
+  const cyclesPerRestock = boostedStock / count;
+  if (cyclesPerRestock <= 0) return Object.assign({}, empty, { boostedStock: boostedStock, itemsNeededPerDay: itemsNeededPerDay });
+  let restocksPerDay = stockConsumingCyclesPerDay / cyclesPerRestock;
+  if (maxRestocksPerDay != null) restocksPerDay = Math.min(restocksPerDay, maxRestocksPerDay);
+  const gemCost = kind === "tool" ? (typeof getRestockGemCost === "function" ? getRestockGemCost(kind, itemName) : RESTOCK_GEM_COST.tools) : (typeof getRestockGemCostIndividual === "function" ? getRestockGemCostIndividual(kind) : RESTOCK_GEM_COST.seeds);
+  const gemsPerDay = restocksPerDay * gemCost;
+  const flowerCost = typeof gemsToFlower === "function" ? gemsToFlower(gemsPerDay) : 0;
+  return {
+    flowerCost: flowerCost,
+    boostedStock: boostedStock,
+    itemsNeededPerDay: itemsNeededPerDay,
+    restocksPerDay: restocksPerDay,
+    gemCostPerRestock: gemCost,
+    gemsPerDay: gemsPerDay,
+    stockKind: kind,
+    name: itemName
+  };
+}
+
+export function computeRestockCost24h(baseStock, kind, count, cyclesPerDay, cyclesPerStockUnit, maxRestocksPerDay, itemName) {
+  return computeRestockCost24hDetailed(baseStock, kind, count, cyclesPerDay, cyclesPerStockUnit, maxRestocksPerDay, itemName).flowerCost;
 }
 
 export function getFlowerSeedTypeCost(seedKey) {
@@ -392,7 +451,10 @@ export function getActiveShrineDailyCost(...activeBoostArrays) {
           id: id,
           name: b.name,
           dailyCost: dailyCost,
-          shareCount: shareCount
+          shareCount: shareCount,
+          totalCost: cost.totalCost,
+          durationDays: cost.durationDays,
+          dailyCostPreShare: rawDailyCost
         });
       }
     });
@@ -421,7 +483,10 @@ export function getActiveShrineDailyCostStable(...activeBoostArrays) {
           id: id,
           name: b.name,
           dailyCost: dailyCost,
-          shareCount: shareCount
+          shareCount: shareCount,
+          totalCost: cost.totalCost,
+          durationDays: cost.durationDays,
+          dailyCostPreShare: cost.dailyCost
         });
       }
     });
@@ -663,7 +728,7 @@ export function removeToolMarketEntry(toolId) {
   saveMarketState();
 }
 
-const SFL_COLLECTIBLE_KNOWN_IDS = {
+export const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Sunflower Seed": 101,
   "Potato Seed": 102,
   "Pumpkin Seed": 103,
@@ -2157,7 +2222,7 @@ const SFL_COLLECTIBLE_KNOWN_IDS = {
   "Letter Z Tile": 3080
 };
 
-const SFL_WEARABLE_KNOWN_IDS = {
+export const SFL_WEARABLE_KNOWN_IDS = {
   "Beige Farmer Potion": 1,
   "Dark Brown Farmer Potion": 2,
   "Light Brown Farmer Potion": 3,
@@ -2741,12 +2806,12 @@ const SFL_WEARABLE_KNOWN_IDS = {
   "Surfer Hair": 586
 };
 
-const SFL_COLLECTIBLE_ID_TO_NAME = Object.entries(SFL_COLLECTIBLE_KNOWN_IDS).reduce((acc, [name, id]) => {
+export const SFL_COLLECTIBLE_ID_TO_NAME = Object.entries(SFL_COLLECTIBLE_KNOWN_IDS).reduce((acc, [name, id]) => {
   acc[id] = name;
   return acc;
 }, {});
 
-const SFL_WEARABLE_ID_TO_NAME = Object.entries(SFL_WEARABLE_KNOWN_IDS).reduce((acc, [name, id]) => {
+export const SFL_WEARABLE_ID_TO_NAME = Object.entries(SFL_WEARABLE_KNOWN_IDS).reduce((acc, [name, id]) => {
   acc[id] = name;
   return acc;
 }, {});
@@ -2818,6 +2883,8 @@ async function fetchMarketplaceActivityReport() {
 }
 
 function sflItemFloorPrice(item) {
+  const floor = item && item.floor;
+  if (typeof floor === "number" && isFinite(floor) && floor > 0) return floor;
   const latest = item && item.latestSale;
   if (typeof latest === "number" && isFinite(latest) && latest > 0) return latest;
   const low = item && item.low;
@@ -2864,7 +2931,123 @@ function setMarketplaceFlowerUsdPrice(v) {
   localStorage.setItem("hl_flower_usd_price", String(v));
 }
 
-async function fetchLivePricesFromMarketplaceApi() {
+const SFL_SNAPSHOT_WORKER_BASE = "https://sfl-market-cache.bossweki.workers.dev";
+
+const SFL_SNAPSHOT_WORKER_TTL_MS = 6e4;
+
+const SFL_SNAPSHOT_WORKER_MAX_ATTEMPTS = 3;
+
+const SFL_SNAPSHOT_WORKER_RETRY_DELAYS_MS = [400, 800];
+
+const SFL_SNAPSHOT_WORKER_TIMEOUT_MS = 7000;
+
+let __sflSnapshotWorkerCache = null;
+
+let __sflSnapshotWorkerTs = 0;
+
+let __sflSnapshotWorkerPromise = null;
+
+let __sflSnapshotWorkerStale = null;
+
+let __sflSnapshotWorkerStaleTs = 0;
+
+function sflSnapshotSleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function fetchSnapshotWorkerOnce() {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), SFL_SNAPSHOT_WORKER_TIMEOUT_MS);
+  try {
+    const res = await fetch(SFL_SNAPSHOT_WORKER_BASE + "/snapshot", {
+      cache: "no-store",
+      signal: controller.signal
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    if (!json || !json.ok || !Array.isArray(json.items) || !json.items.length) return null;
+    return json.items;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function fetchSnapshotWorkerItems(forceFresh) {
+  const now = Date.now();
+  if (!forceFresh && __sflSnapshotWorkerCache && now - __sflSnapshotWorkerTs < SFL_SNAPSHOT_WORKER_TTL_MS) {
+    return __sflSnapshotWorkerCache;
+  }
+  if (__sflSnapshotWorkerPromise) return __sflSnapshotWorkerPromise;
+  __sflSnapshotWorkerPromise = (async () => {
+    let items = null;
+    for (let attempt = 0; attempt < SFL_SNAPSHOT_WORKER_MAX_ATTEMPTS; attempt++) {
+      try {
+        items = await fetchSnapshotWorkerOnce();
+      } catch (e) {
+        items = null;
+      }
+      if (items) break;
+      if (attempt < SFL_SNAPSHOT_WORKER_MAX_ATTEMPTS - 1) {
+        const delay = SFL_SNAPSHOT_WORKER_RETRY_DELAYS_MS[attempt] || SFL_SNAPSHOT_WORKER_RETRY_DELAYS_MS[SFL_SNAPSHOT_WORKER_RETRY_DELAYS_MS.length - 1];
+        await sflSnapshotSleep(delay);
+      }
+    }
+    if (items) {
+      __sflSnapshotWorkerCache = items;
+      __sflSnapshotWorkerTs = Date.now();
+      __sflSnapshotWorkerStale = items;
+      __sflSnapshotWorkerStaleTs = Date.now();
+      return items;
+    }
+    if (__sflSnapshotWorkerStale) {
+      console.warn("[live-prices] snapshot worker fetch failed; reusing last known-good snapshot from " + Math.round((Date.now() - __sflSnapshotWorkerStaleTs) / 1000) + "s ago.");
+      return __sflSnapshotWorkerStale;
+    }
+    return null;
+  })().finally(() => {
+    __sflSnapshotWorkerPromise = null;
+  });
+  return __sflSnapshotWorkerPromise;
+}
+
+function buildPricePoolsFromWorkerSnapshot(items) {
+  const collectiblesPool = {};
+  const wearablesPool = {};
+  (items || []).forEach(it => {
+    if (!it || !(it.price > 0)) return;
+    const id = String(it.id);
+    if (it.collection === "collectibles") {
+      const name = SFL_COLLECTIBLE_ID_TO_NAME[id];
+      if (name) collectiblesPool[name] = it.price;
+    } else if (it.collection === "wearables") {
+      const name = SFL_WEARABLE_ID_TO_NAME[id];
+      if (name) wearablesPool[name] = it.price;
+    }
+  });
+  return {
+    collectiblesPool: collectiblesPool,
+    wearablesPool: wearablesPool
+  };
+}
+
+function refreshMarketplaceFlowerUsdPriceInBackground() {
+  fetchMarketplaceActivityReport().then(report => setMarketplaceFlowerUsdPrice(report.flowerPrice)).catch(() => {});
+}
+
+async function fetchLivePricesFromMarketplaceApi(forceFresh) {
+  const workerItems = await fetchSnapshotWorkerItems(forceFresh);
+  if (workerItems && workerItems.length) {
+    refreshMarketplaceFlowerUsdPriceInBackground();
+    const pools = buildPricePoolsFromWorkerSnapshot(workerItems);
+    const p2p = pools.collectiblesPool;
+    const nft = Object.assign({}, pools.collectiblesPool, pools.wearablesPool);
+    return {
+      p2p: p2p,
+      nft: nft,
+      updatedAt: Date.now(),
+      source: "ws"
+    };
+  }
   const report = await fetchMarketplaceActivityReport();
   setMarketplaceFlowerUsdPrice(report.flowerPrice);
   const pools = buildPricePoolsFromMarketplaceItems(report.items);
@@ -2873,7 +3056,8 @@ async function fetchLivePricesFromMarketplaceApi() {
   return {
     p2p: p2p,
     nft: nft,
-    updatedAt: Date.now()
+    updatedAt: Date.now(),
+    source: "lap"
   };
 }
 
@@ -3046,9 +3230,9 @@ document.addEventListener("click", e => {
   toast(`${source.toUpperCase()} = ${label}`);
 }, true);
 
-export async function fetchLivePrices() {
-  const result = await fetchLivePricesFromMarketplaceApi();
-  setLivePriceSource("lap");
+export async function fetchLivePrices(forceFresh) {
+  const result = await fetchLivePricesFromMarketplaceApi(forceFresh);
+  setLivePriceSource(result.source || "lap");
   return result;
 }
 
@@ -3452,14 +3636,20 @@ export function pickledVegCost(veg) {
   const cropMode = vegMaterialMode(veg);
   const cropCostFlower = coinsToFlower(getMaterialUnitCostCoins(veg, cropMode));
   const saltCostFlower = pickledVegSaltCostFlower();
-  const cost = cropCostFlower * rec.qty + saltCostFlower * rec.salt;
+  const recipeCost = cropCostFlower * rec.qty + saltCostFlower * rec.salt;
+  const astrolabeMult = typeof getActiveFermentationSpiceExpectedMult === "function" ? getActiveFermentationSpiceExpectedMult() : 1;
+  const output = astrolabeMult;
+  const cost = recipeCost / output;
   return {
     veg: veg,
     cost: cost,
+    recipeCost: recipeCost,
+    output: output,
     cropCostFlower: cropCostFlower,
     saltCostFlower: saltCostFlower,
     cropMode: cropMode,
-    rec: rec
+    rec: rec,
+    activeBoosts: typeof getActiveSaltBoosts === "function" ? getActiveSaltBoosts([ "fermentationSpiceGlobal" ]) : []
   };
 }
 
