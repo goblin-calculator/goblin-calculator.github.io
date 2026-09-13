@@ -1,6 +1,6 @@
 import { __set_farmPanelInProgressCategoryFilter, __set_farmPanelSyncInFlight, farmPanelAOEExtent, farmPanelCheckTurtleAOEBonus, farmPanelComputeEconomics, farmPanelComputeExactCrimstoneYield, farmPanelComputeExactCropYield, farmPanelComputeExactFlowerYield, farmPanelComputeExactFruitYield, farmPanelComputeExactGreenhouseYield, farmPanelCropTierLabel, farmPanelDebugFindShapes, farmPanelDetectNodeTier, farmPanelField, farmPanelGameState, farmPanelGetCollectiblePosition, farmPanelGetCropGrowDurationMsFromSync, farmPanelGetLastInfo, farmPanelGetMarketId, farmPanelGnomeAOEBonus, farmPanelGnomeComboPresent, farmPanelGrowTimeSec, farmPanelIsWithinTurtleAOE, farmPanelLoadCachedGameState, farmPanelMarkScrollActivity, farmPanelMergeAuthoritativeResourceData, farmPanelSaveGameState, farmPanelSaveLastInfo, farmPanelSyncInFlight } from "./inprogress.js";
 
-import { SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, fetchLivePrices, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketplaceFlowerUsdPrice, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from "./prices.js";
+import { SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeRestockCost24hDetailed, computeRestockCost24hDetailedIndividual, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, fetchLivePrices, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getActiveShrineDailyCost, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketplaceFlowerUsdPrice, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from "./prices.js";
 
 import { loadBaseHoneyIfNeeded, profileBumpkinCachePersist, safeLSJSON, saveAnimalAffectionTools, saveAnimalBuds, saveAnimalCounts, saveAnimalSicknessEstimate, saveAoeSyncOverrides, saveAscensionState, saveBeeSwarmState, saveBoostState, saveBoosts, saveBudFloorPrice, saveCmOilTank, saveCmQueue, saveCookingCounts, saveCropBuds, saveCrustaceanChumSelection, saveFishBuds, saveFlowerVarietyOverrides, saveFruitBuds, saveFruitCounts, saveGlobalPlotCount, saveGlobalPlotCountTouched, saveGreenhouseBuds, saveGreenhouseCounts, saveHiveCount, saveManualCycleOverrides, saveMarketState, saveNodeCounts, saveNodeCountsTouched, savePetFloorPrice, savePetResourceCostOverride, savePetsData, saveResourceBuds, saveSaltFarmLevel, saveSaltUi, saveSculptureLevel, saveSelectedHoneyFlower, saveSelectedSwarmCrop, saveSkillState, saveSpiceUsage, saveState, saveSyncedSkillLevels, saveToolRecipes, saveTradeState, saveWeatherDestructionSync } from "./storage.js";
 
@@ -2002,6 +2002,16 @@ export const BASE_STOCK_GREENHOUSE = {
   Olive: 10
 };
 
+export const BASE_STOCK_FLOWERS = {
+  Sunpetal: 16,
+  Bloom: 8,
+  Lily: 4,
+  Edelweiss: 4,
+  Gladiolus: 4,
+  Lavender: 4,
+  Clover: 4
+};
+
 export const BASE_GREENHOUSE = {
   Grape: {
     seedCost: 160,
@@ -2293,9 +2303,9 @@ export function isBuildingBoostActive(id) {
 }
 
 export function computeBoostedStock(baseStock, kind, itemName) {
-  let mult = 1;
-  if (kind === "seed" && isBuildingBoostActive("warehouse_stock")) mult *= 1.2;
-  if (kind === "tool" && isBuildingBoostActive("toolshed_stock")) mult *= 1.5;
+  let stock = baseStock;
+  if (kind === "seed" && isBuildingBoostActive("warehouse_stock")) stock = Math.ceil(stock * 1.2);
+  if (kind === "tool" && isBuildingBoostActive("toolshed_stock")) stock = Math.ceil(stock * 1.5);
   let flatAdd = 0;
   if (kind === "tool" && itemName && typeof BOOSTS !== "undefined") {
     BOOSTS.forEach(b => {
@@ -2311,7 +2321,7 @@ export function computeBoostedStock(baseStock, kind, itemName) {
       }
     });
   }
-  return baseStock * mult + flatAdd;
+  return stock + flatAdd;
 }
 
 export const SYNODIC_MONTH_DAYS = 29.530588853;
@@ -4072,6 +4082,52 @@ export function computeHiveStats(windowSec) {
   };
 }
 
+export function computeFlowerVarietyRestockInfo(varietyName) {
+  const v = FLOWER_VARIETIES[varietyName];
+  if (!v) return null;
+  const seedKey = v.seed;
+  const baseStock = BASE_STOCK_FLOWERS[seedKey];
+  if (!baseStock) return null;
+  const boosted = computeBoostedFlowerVarietyStats(varietyName);
+  const replantsPerDay = boosted.timeVal > 0 ? 86400 / boosted.timeVal : 0;
+  if (!replantsPerDay) return null;
+  return computeRestockCost24hDetailed(baseStock, "seed", 1, replantsPerDay, 1, null, seedKey);
+}
+
+export function computeHoneyRestockBreakdown(totalYield) {
+  const econ = computeHiveEconomics();
+  if (!econ.hiveStats.honeyPerHiveDay || !totalYield) return null;
+  const v = FLOWER_VARIETIES[selectedHoneyFlower];
+  if (!v) return null;
+  const seedKey = v.seed;
+  const baseStock = BASE_STOCK_FLOWERS[seedKey];
+  if (!baseStock) return null;
+  const seedsPerHoney = econ.replantsPerDay / econ.hiveStats.honeyPerHiveDay;
+  const itemsNeeded = seedsPerHoney * totalYield;
+  const boostedStock = computeBoostedStock(baseStock, "seed", seedKey);
+  if (!boostedStock) return null;
+  const restocksNeeded = itemsNeeded / boostedStock;
+  const gemCostPerRestock = typeof getRestockGemCost === "function" ? getRestockGemCost("seed", seedKey) : RESTOCK_GEM_COST.seeds;
+  const gemsTotal = restocksNeeded * gemCostPerRestock;
+  const flowerCost = typeof gemsToFlower === "function" ? gemsToFlower(gemsTotal) : 0;
+  const totalCostPerUnit = econ.costPerHiveDay / econ.hiveStats.honeyPerHiveDay;
+  const restockCostPerUnit = flowerCost / totalYield;
+  const baseCostPerUnit = totalCostPerUnit - restockCostPerUnit;
+  return {
+    baseCostPerUnit: baseCostPerUnit,
+    restockInfo: {
+      name: seedKey,
+      stockKind: "seed",
+      itemsNeeded: itemsNeeded,
+      boostedStock: boostedStock,
+      restocksNeeded: restocksNeeded,
+      gemCostPerRestock: gemCostPerRestock,
+      gemsTotal: gemsTotal,
+      flowerCost: flowerCost
+    }
+  };
+}
+
 export function computeHiveEconomics(visited) {
   const hives = getHiveCount();
   const hiveStats = computeHiveStats();
@@ -4080,7 +4136,10 @@ export function computeHiveEconomics(visited) {
   const flowerCostFlower = coinsToFlower(flowerCostCoins);
   const replantsPerDay = 86400 / flowerStats.timeVal;
   const costPerFlower = flowerCostFlower / flowerStats.expectedYield;
-  const costPerHiveDay = replantsPerDay * costPerFlower;
+  const flowerRestockInfo = computeFlowerVarietyRestockInfo(selectedHoneyFlower);
+  const flowerRestockCost = flowerRestockInfo ? flowerRestockInfo.flowerCost : 0;
+  const flowerRestockSeedName = FLOWER_VARIETIES[selectedHoneyFlower] ? FLOWER_VARIETIES[selectedHoneyFlower].seed : null;
+  const costPerHiveDay = replantsPerDay * costPerFlower + flowerRestockCost;
   const honeyMarket = marketItems.find(x => (x.name || "").toLowerCase() === "honey");
   const honeySellFlower = honeyMarket ? honeyMarket.flowerPrice || 0 : 0;
   const netHoneySell = honeySellFlower * (1 - feePercent / 100);
@@ -4122,6 +4181,9 @@ export function computeHiveEconomics(visited) {
     flowerCostFlower: flowerCostFlower,
     costPerFlower: costPerFlower,
     replantsPerDay: replantsPerDay,
+    flowerRestockCost: flowerRestockCost,
+    flowerRestockInfo: flowerRestockInfo,
+    flowerRestockSeedName: flowerRestockSeedName,
     costPerHiveDay: costPerHiveDay,
     honeySellFlower: honeySellFlower,
     netHoneySell: netHoneySell,
@@ -5444,6 +5506,8 @@ const SKILL_FRUITPATCH = [ {
   name: "Crime Fruit",
   skillTier: 2,
   notModeled: true,
+  scope: "fruitList",
+  fruits: [ "Tomato", "Lemon" ],
   note: "+10 Tomato and Lemon seed stock"
 }, {
   id: "skill_generous_orchard",
@@ -6237,8 +6301,8 @@ const SKILL_COMPOST = [ {
   scope: "composter",
   target: "Turbo Composter",
   fertPotencyMult: 2,
-  appliesFertilizer: "Fruitful Blend",
-  note: "×2 Fruitful Blend's yield effect when applied (+0.1 → +0.2)"
+  appliesFertilizer: [ "Fruitful Blend", "Turbofruit Mix" ],
+  note: "×2 Fruitful Blend's yield effect when applied (+0.1 → +0.2) — also applies to Turbofruit Mix, since it shares Fruitful Blend's base yield bonus"
 }, {
   id: "skill_swift_decomposer",
   name: "Swift Decomposer",
@@ -9424,8 +9488,8 @@ const COMPOSTER_BOOSTS = [ {
   scope: "composter",
   target: "Compost Bin",
   fertPotencyMult: 2,
-  appliesFertilizer: "Sprout Mix",
-  note: "×2 Sprout Mix's yield effect when applied (+0.2 → +0.4)"
+  appliesFertilizer: [ "Sprout Mix", "Sproutroot Surprise" ],
+  note: "×2 Sprout Mix's yield effect when applied (+0.2 → +0.4) — also applies to Sproutroot Surprise, since it shares Sprout Mix's base yield bonus"
 }, {
   id: "turd_topper",
   name: "Turd Topper",
@@ -10184,9 +10248,9 @@ export function getActiveBoostsForCrop(cropName) {
 function getFertilizerPotencyMult(fertName) {
   let mult = 1;
   BOOSTS.forEach(b => {
-    if (b.category === "composter" && b.fertPotencyMult && b.appliesFertilizer === fertName && isBoostActive(b.id)) {
-      mult *= b.fertPotencyMult;
-    }
+    if (b.category !== "composter" || !b.fertPotencyMult || !isBoostActive(b.id)) return;
+    const applies = Array.isArray(b.appliesFertilizer) ? b.appliesFertilizer : [ b.appliesFertilizer ];
+    if (applies.includes(fertName)) mult *= b.fertPotencyMult;
   });
   return mult;
 }
@@ -10223,6 +10287,22 @@ export function getEffectiveYieldAdd(b, tier, cropName) {
     add *= 2;
   }
   return add;
+}
+
+export function boostAffectsYieldOrTime(b, itemName) {
+  if (!b) return false;
+  const itemTier = (BASE_CROPS[itemName] || {}).tier;
+  if (getEffectiveYieldAdd(b, itemTier, itemName)) return true;
+  if (b.yieldAddAll) return true;
+  if (b.yieldMult) return true;
+  if (b.yieldMultAll) return true;
+  if (b.harvestAdd) return true;
+  if (b.flowerExtraChance) return true;
+  if (b.flowerExtraFlat) return true;
+  if (b.timeMult) return true;
+  if (b.timeMultAll) return true;
+  if (b.flowerTimeMult) return true;
+  return false;
 }
 
 function computeBoostedCropStatsUncached(cropName, baseYield, baseTimeSec, plotCountOverride, windowSec, includeBeeSwarm) {
@@ -11447,7 +11527,9 @@ const RESTOCK_GREENHOUSE_LIST = Object.keys(BASE_GREENHOUSE);
 
 const RESTOCK_TOOLS_LIST = Object.keys(BASE_STOCK_TOOLS);
 
-const RESTOCK_SEED_POOL = [].concat(Object.keys(BASE_CROPS), RESTOCK_FRUIT_LIST, RESTOCK_GREENHOUSE_LIST);
+const RESTOCK_FLOWER_LIST = Object.keys(FLOWER_SEEDS);
+
+const RESTOCK_SEED_POOL = [].concat(Object.keys(BASE_CROPS), RESTOCK_FRUIT_LIST, RESTOCK_GREENHOUSE_LIST, RESTOCK_FLOWER_LIST);
 
 export const RCM_GREENHOUSE_ICON_HTML = '<img src="data:image/webp;base64,UklGRr4AAABXRUJQVlA4TLEAAAAvDoADEF+gppEU6M4Cb0muwr8FLGBOUWwb1FNAgG8Ae1uxdZBBATEURZLU3C9nMIJ/DwiCz/wHALbPLkICGcjYTA7JpnHY6+77f+A2kmTV2Trze99mUgQy5akUASXA4DFm8ELYJzKle2F+iCGi/wSTNNV2DL74wgNgPKM/IKVS/zmmalS5lb0hlXfZU8kaJN1D9s46G+xk79ug193J9FK5kuGkpvQHNVuvzPPadZBOJgIA" alt="Greenhouse" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:middle;">';
 
@@ -11477,6 +11559,11 @@ export const RESTOCK_PANEL_CATEGORIES = [ {
   iconItem: "Tomato",
   items: RESTOCK_FRUIT_LIST
 }, {
+  key: "Flowers",
+  label: "Flowers",
+  iconItem: "Sunpetal Seed",
+  items: RESTOCK_FLOWER_LIST
+}, {
   key: "Tools",
   label: "Tools",
   iconItem: "Axe",
@@ -11504,6 +11591,84 @@ export function getSharedPoolDivisor(kind) {
   if (restockCostMode !== "shared") return 1;
   const c = getRestockSharedPoolCount(kind);
   return c > 0 ? c : 1;
+}
+
+export function getSharedPoolBreakdown(kind) {
+  if (kind === "tool") {
+    const list = RESTOCK_TOOLS_LIST;
+    const total = list.length;
+    let excluded = 0;
+    for (let i = 0; i < list.length; i++) {
+      if (restockSharedExcluded.has(list[i])) excluded++;
+    }
+    const shareCount = total - excluded;
+    return {
+      total: total,
+      excluded: excluded,
+      shareCount: shareCount > 0 ? shareCount : 1,
+      categories: [ {
+        label: "tool",
+        total: total,
+        excluded: excluded
+      } ]
+    };
+  }
+  const countCat = list => {
+    let excl = 0;
+    for (let i = 0; i < list.length; i++) {
+      if (restockSharedExcluded.has(list[i])) excl++;
+    }
+    return {
+      total: list.length,
+      excluded: excl
+    };
+  };
+  const cropCat = countCat(Object.keys(BASE_CROPS));
+  const fruitCat = countCat(RESTOCK_FRUIT_LIST);
+  const greenhouseCat = countCat(RESTOCK_GREENHOUSE_LIST);
+  const flowerCat = countCat(RESTOCK_FLOWER_LIST);
+  const total = cropCat.total + fruitCat.total + greenhouseCat.total + flowerCat.total;
+  const excluded = cropCat.excluded + fruitCat.excluded + greenhouseCat.excluded + flowerCat.excluded;
+  const categories = [ {
+    label: "crop",
+    total: cropCat.total,
+    excluded: cropCat.excluded
+  }, {
+    label: "fruit",
+    total: fruitCat.total,
+    excluded: fruitCat.excluded
+  }, {
+    label: "greenhouse",
+    total: greenhouseCat.total,
+    excluded: greenhouseCat.excluded
+  }, {
+    label: "flower",
+    total: flowerCat.total,
+    excluded: flowerCat.excluded
+  } ];
+  if (restockCostMode !== "shared") {
+    return {
+      total: total,
+      excluded: 0,
+      shareCount: 1,
+      categories: categories
+    };
+  }
+  const shareCount = total - excluded;
+  return {
+    total: total,
+    excluded: excluded,
+    shareCount: shareCount > 0 ? shareCount : 1,
+    categories: categories
+  };
+}
+
+export function getSeedPoolCategoryForName(name) {
+  if (BASE_CROPS[name]) return "crop";
+  if (RESTOCK_FRUIT_LIST.includes(name)) return "fruit";
+  if (RESTOCK_GREENHOUSE_LIST.includes(name)) return "greenhouse";
+  if (RESTOCK_FLOWER_LIST.includes(name)) return "flower";
+  return null;
 }
 
 export function getRestockExclusionNote(name) {
@@ -11555,11 +11720,22 @@ export function updateRcmUnsavedNote() {
   note.textContent = rcmSetsEqual(rcmPendingExcluded, restockSharedExcluded) ? "" : "⚠ Unsaved changes — click Save to apply";
 }
 
-const rcmSwitchInput = $("rcmSwitchInput");
+const rcmSharedSwitchInput = $("rcmSharedSwitchInput");
 
-if (rcmSwitchInput) {
-  rcmSwitchInput.onchange = () => {
-    setRestockCostMode(rcmSwitchInput.checked ? "shared" : "individual");
+if (rcmSharedSwitchInput) {
+  rcmSharedSwitchInput.onchange = () => {
+    setRestockCostMode(rcmSharedSwitchInput.checked ? "shared" : "individual");
+    rcmPendingExcluded = new Set(restockSharedExcluded);
+    updateRcmToggleUI();
+    rcmRecalcEverything();
+  };
+}
+
+const rcmIndividualSwitchInput = $("rcmIndividualSwitchInput");
+
+if (rcmIndividualSwitchInput) {
+  rcmIndividualSwitchInput.onchange = () => {
+    setRestockCostMode(rcmIndividualSwitchInput.checked ? "individual" : "shared");
     rcmPendingExcluded = new Set(restockSharedExcluded);
     updateRcmToggleUI();
     rcmRecalcEverything();
@@ -11694,7 +11870,7 @@ function getActiveFermentationSpiceDoubleChancePct() {
   return Math.min(100, BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "fermentationSpiceGlobal").reduce((sum, b) => sum + (b.doubleChancePct || 0), 0));
 }
 
-function getActiveFermentationSpiceExpectedMult() {
+export function getActiveFermentationSpiceExpectedMult() {
   return 1 + getActiveFermentationSpiceDoubleChancePct() / 100;
 }
 
@@ -11704,6 +11880,11 @@ function getActiveAgedFishXpMult() {
 
 function getActiveSpiceRackOutputAdd() {
   return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "spiceRackGlobal").reduce((sum, b) => sum + (b.spiceOutputAdd || 0), 0);
+}
+
+export function getActiveSaltBoosts(scopes) {
+  const scopeList = Array.isArray(scopes) ? scopes : [ scopes ];
+  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && scopeList.includes(b.scope));
 }
 
 export function getSpiceLickDurationHarvests() {
@@ -11814,8 +11995,11 @@ export function compute24hProjection(yieldPerCycle, cycleTimeSec, costPerUnit, s
   const revenue24h = netSellPerUnit * unitsPerDay;
   let cost24h = (costPerUnit || 0) * unitsPerDay;
   let restockCost24h = 0;
+  let restockDetails = null;
   if (restockInfo && restockInfo.baseStock) {
-    restockCost24h = computeRestockCost24h(restockInfo.baseStock, restockInfo.kind || "seed", count, cyclesPerDay, restockInfo.cyclesPerStockUnit, restockInfo.maxRestocksPerDay, restockInfo.itemName);
+    const det = computeRestockCost24hDetailed(restockInfo.baseStock, restockInfo.kind || "seed", count, cyclesPerDay, restockInfo.cyclesPerStockUnit, restockInfo.maxRestocksPerDay, restockInfo.itemName);
+    restockCost24h = det.flowerCost;
+    restockDetails = det;
     cost24h += restockCost24h;
   }
   const profit24h = revenue24h - cost24h;
@@ -11827,7 +12011,8 @@ export function compute24hProjection(yieldPerCycle, cycleTimeSec, costPerUnit, s
     cost24h: cost24h,
     profit24h: profit24h,
     count: count,
-    restockCost24h: restockCost24h
+    restockCost24h: restockCost24h,
+    restockDetails: restockDetails
   };
 }
 
@@ -11842,6 +12027,7 @@ export function computeResourceProjection24h(fig, sellFlower, manualCyclesPerDay
   let restockCost24h = 0;
   let restocksPerDay = 0;
   let boostedToolStock = 0;
+  let restockDetails = null;
   const baseToolStock = BASE_STOCK_TOOLS[fig.tool];
   const toolUsesPerDay = (fig.toolUsageTotal || 0) * cyclesPerDay;
   if (baseToolStock && toolUsesPerDay > 0) {
@@ -11849,7 +12035,18 @@ export function computeResourceProjection24h(fig, sellFlower, manualCyclesPerDay
     if (boostedToolStock > 0) {
       restocksPerDay = toolUsesPerDay / boostedToolStock;
       const gemCost = typeof getRestockGemCost === "function" ? getRestockGemCost("tool", fig.tool) : RESTOCK_GEM_COST.tools;
-      restockCost24h = typeof gemsToFlower === "function" ? gemsToFlower(restocksPerDay * gemCost) : 0;
+      const gemsPerDay = restocksPerDay * gemCost;
+      restockCost24h = typeof gemsToFlower === "function" ? gemsToFlower(gemsPerDay) : 0;
+      restockDetails = {
+        flowerCost: restockCost24h,
+        boostedStock: boostedToolStock,
+        itemsNeededPerDay: toolUsesPerDay,
+        restocksPerDay: restocksPerDay,
+        gemCostPerRestock: gemCost,
+        gemsPerDay: gemsPerDay,
+        stockKind: "tool",
+        name: fig.tool
+      };
       cost24h += restockCost24h;
     }
   }
@@ -11864,7 +12061,8 @@ export function computeResourceProjection24h(fig, sellFlower, manualCyclesPerDay
     count: fig.nodeCount,
     restockCost24h: restockCost24h,
     restocksPerDay: restocksPerDay,
-    boostedToolStock: boostedToolStock
+    boostedToolStock: boostedToolStock,
+    restockDetails: restockDetails
   };
 }
 
@@ -11913,10 +12111,14 @@ export function render24hTotalsGrid(cost24h, grossRevenue24h, netRevenue24h, pro
     yieldLabel: opts.yieldLabel,
     gross: grossRevenue24h,
     baseCost: baseCost24h,
+    unitCost: opts.unitCost,
+    costSectionLabel: opts.costSectionLabel,
     restockCost: restockCost24h,
     restockNote: opts.restockNote,
+    restockDetails: opts.restockDetails,
     shrineCost: shrineCost24h,
     shrineNames: shrineNames,
+    shrineDetails: opts.shrineDetails,
     sellFee: sellFee24h,
     unitLabel: opts.unitLabel,
     unitCount: opts.unitCount,
@@ -11959,6 +12161,9 @@ export function render24hBadge(profit24h, cost24h, cyclesPerDay, cyclesLabel, re
     const econItemName = stockCtx.restockItemName || stockCtx.itemName;
     const econ = !stockCtx.toolsPerCycle && typeof farmPanelComputeEconomics === "function" ? farmPanelComputeEconomics(econItemName, 1, stockUnits) : null;
     let stockCost, oneRestockCost, stockGross, stockRevenue, stockSellFee;
+    const stockRestockKind = stockCtx.restockKind || "seed";
+    const stockRestockName = stockCtx.restockItemName || stockCtx.itemName;
+    const stockGemCostPerRestock = stockQty > 0 && typeof getRestockGemCost === "function" ? getRestockGemCost(stockRestockKind, stockRestockName) : 0;
     if (econ) {
       stockCost = econ.seedCost;
       oneRestockCost = econ.restockCost;
@@ -11971,12 +12176,19 @@ export function render24hBadge(profit24h, cost24h, cyclesPerDay, cyclesLabel, re
       const grossPerUnit = feePercent < 100 ? unitNetSell / (1 - feePercent / 100) : unitNetSell;
       stockGross = stockUnits * grossPerUnit;
       stockSellFee = stockGross - stockRevenue;
-      oneRestockCost = stockQty > 0 && typeof getRestockGemCost === "function" && typeof gemsToFlower === "function" ? gemsToFlower(getRestockGemCost(stockCtx.restockKind || "seed", stockCtx.restockItemName || stockCtx.itemName)) : 0;
+      oneRestockCost = stockQty > 0 && typeof gemsToFlower === "function" ? gemsToFlower(stockGemCostPerRestock) : 0;
     }
     const noStock = stockQty <= 0;
     const stockNet = stockGross - stockCost - oneRestockCost - stockSellFee;
     const isStockProfit = stockNet >= 0;
     const stockRestockNote = typeof getRestockExclusionNote === "function" ? getRestockExclusionNote(stockCtx.restockItemName || stockCtx.itemName) : "";
+    const stockRestockDetails = stockQty > 0 ? {
+      stockKind: stockRestockKind,
+      name: stockRestockName,
+      restocksNeeded: 1,
+      gemCostPerRestock: stockGemCostPerRestock,
+      gemsTotal: stockGemCostPerRestock
+    } : null;
     return `<div class="card-24h-box ${isStockProfit ? "is-profit" : "is-loss"}">\n    <div class="card-24h-box-label">📦 ${fmt(stockQty)} ${stockCtx.itemName} <span class="card-24h-sub">from 1 restock</span></div>\n    ${cyclesInfoHtml}\n    ${noStock ? `<div class="card-24h-line" style="opacity:.7;">No restock stock configured for ${stockCtx.itemName} — it shows 0.</div>` : ""}\n    ${renderTotalsBreakdown({
       title: "Stock Total",
       totalYield: stockUnits,
@@ -11984,6 +12196,7 @@ export function render24hBadge(profit24h, cost24h, cyclesPerDay, cyclesLabel, re
       gross: stockGross,
       baseCost: stockCost,
       restockCost: oneRestockCost,
+      restockDetails: stockRestockDetails,
       restockNote: stockRestockNote ? stockRestockNote : "(1 cycle)",
       shrineCost: 0,
       sellFee: stockSellFee
@@ -12095,6 +12308,9 @@ export function computeAnimalTypeFigures(type, visited) {
   const totalCostCoinsPerAnimal = feedCostCoins + extraCoinsPerLevel;
   const costPerUnit = totalYieldUnits > 0 ? totalCostCoinsPerAnimal / totalYieldUnits : 0;
   const cycleTimeSec = Math.max(1, ANIMAL_BASE_CYCLE_SEC * timeMultTotal);
+  const animalShrineInfo = getActiveShrineDailyCost(active);
+  const cyclesPerDayForShrine = ANIMAL_BASE_CYCLE_SEC / cycleTimeSec;
+  const shrineCostFlowerPerCyclePerAnimal = animalShrineInfo.total > 0 && qty > 0 ? animalShrineInfo.total / cyclesPerDayForShrine / qty : 0;
   return {
     type: type,
     level: level,
@@ -12119,13 +12335,16 @@ export function computeAnimalTypeFigures(type, visited) {
     sickHeads: sickHeads,
     feedKeyUsed: feedKeyUsed,
     feedNameUsed: feedNameUsed,
-    feedIconUsed: feedIconUsed
+    feedIconUsed: feedIconUsed,
+    shrineCostFlowerPerCyclePerAnimal: shrineCostFlowerPerCyclePerAnimal,
+    shrineDailyCostTotal: animalShrineInfo.total,
+    shrineNames: animalShrineInfo.shrines.map(x => x.name)
   };
 }
 
 function computeAnimalProfit(fig) {
   const qty = fig.qty;
-  const totalCostFlower = coinsToFlower(fig.totalCostCoinsPerAnimal) * qty;
+  const totalCostFlower = coinsToFlower(fig.totalCostCoinsPerAnimal) * qty + (fig.shrineCostFlowerPerCyclePerAnimal || 0) * qty;
   let totalRevenueFlower = 0;
   let totalRevenueGrossFlower = 0;
   fig.products.forEach((pname, idx) => {
@@ -12430,7 +12649,8 @@ export function updateLiveSyncStatus() {
 
 export const PRICE_SOURCE_LABELS = {
   lap: "Land API Prices",
-  sw: "Sfl.world Prices"
+  sw: "Sfl.world Prices",
+  ws: "Worker Snapshot"
 };
 
 async function performLiveSync() {
@@ -12442,7 +12662,7 @@ async function performLiveSync() {
     btn.textContent = "🔄 Syncing...";
   });
   try {
-    const {p2p: p2p, nft: nft, updatedAt: updatedAt} = await fetchLivePrices();
+    const {p2p: p2p, nft: nft, updatedAt: updatedAt} = await fetchLivePrices(true);
     setLivePrices(p2p, updatedAt, nft);
     const result = applyLivePricesToMarket(true);
     return {
@@ -23022,6 +23242,11 @@ $("moreMenuExpansionSimBtn").onclick = () => {
   openExpansionSim();
 };
 
+$("moreMenuSflBubblesBtn").onclick = () => {
+  closeMoreMenu();
+  toggleMainView("sflbubbles");
+};
+
 $("moreMenuBumpkinLevelBtn").onclick = () => {
   closeMoreMenu();
   toggleMainView("bumpkinlevel");
@@ -23958,6 +24183,7 @@ export function updateCalcSelectedDisplay() {
     $("calcSelectedEmpty").classList.remove("hidden");
     $("calcSelectedWrap").classList.add("hidden");
   }
+  renderCalcAnimalInfoBox();
   renderCalcIngredients();
 }
 
@@ -23989,6 +24215,15 @@ export function computeQtyRestockGems(marketId, qty) {
     const boosted = computeBoostedGreenhouseStats(name, d.baseYield || 1, d.timeSec);
     unitsPerRestockItem = boosted.yieldVal;
     baseStock = BASE_STOCK_GREENHOUSE[name];
+    stockKind = "seed";
+  } else if (id.startsWith("flower_")) {
+    const varietyName = id.slice(7);
+    const v = FLOWER_VARIETIES[varietyName];
+    if (!v) return null;
+    const boosted = computeBoostedFlowerVarietyStats(varietyName);
+    unitsPerRestockItem = boosted.expectedYield;
+    name = v.seed;
+    baseStock = BASE_STOCK_FLOWERS[name];
     stockKind = "seed";
   } else if (id.startsWith("resource_")) {
     name = id.slice(9);
@@ -24032,75 +24267,334 @@ export function getGenericPlotOrNodeCount(name) {
   return 0;
 }
 
+function findAnimalTypeForProductName(name) {
+  return Object.keys(ANIMAL_DATA).find(t => ANIMAL_DATA[t].products.some(p => p.toLowerCase() === (name || "").toLowerCase()));
+}
+
+function computeCalcAnimalCostSplit(animalType, qty) {
+  const fig = computeAnimalTypeFigures(animalType);
+  if (!(fig.totalYieldUnits > 0) || !(qty > 0)) return {
+    feedCost: 0,
+    consumableCost: 0
+  };
+  const extraCoinsPerLevel = (fig.medicineFlowerPerLevel + fig.consumablesFlowerPerLevel) * coinPerFlower;
+  const feedCoinsPerUnit = fig.feedCostCoins / fig.totalYieldUnits;
+  const consumableCoinsPerUnit = extraCoinsPerLevel / fig.totalYieldUnits;
+  return {
+    feedCost: coinsToFlower(feedCoinsPerUnit * qty),
+    consumableCost: coinsToFlower(consumableCoinsPerUnit * qty)
+  };
+}
+
+function computeCalcAnimalShrineCost(animalType, qty) {
+  const fig = computeAnimalTypeFigures(animalType);
+  const headCount = fig.qty;
+  if (!(fig.totalYieldUnits > 0) || !(headCount > 0) || !(qty > 0) || !(fig.shrineDailyCostTotal > 0)) return {
+    cost: 0,
+    names: fig.shrineNames || []
+  };
+  const cyclesPerDay = ANIMAL_BASE_CYCLE_SEC / fig.cycleTimeSec;
+  const unitsPerDay = fig.totalYieldUnits * headCount * cyclesPerDay;
+  if (!(unitsPerDay > 0)) return {
+    cost: 0,
+    names: fig.shrineNames
+  };
+  return {
+    cost: fig.shrineDailyCostTotal * (qty / unitsPerDay),
+    names: fig.shrineNames
+  };
+}
+
 function computeCalcFigures() {
-  let cost = 0, gross = 0, restockInfo = null, shrineCost = 0, shrineNames = [];
+  let baseCost = 0, gross = 0, restockCost = 0, restockCount = 0, restockGems = 0, shrineCost = 0, shrineNames = [], consumableCost = 0, isAnimal = false, marketPrice = 0;
   if (calcMode === "bought") {
     const qty = parseFloat($("calcBSQty").value) || 0;
     const buyPrice = parseFloat($("calcBSBuyPrice").value) || 0;
     const sellPrice = parseFloat($("calcBSSellPrice").value) || 0;
-    cost = buyPrice * qty;
+    baseCost = buyPrice * qty;
     gross = sellPrice * qty;
+    marketPrice = sellPrice;
   } else {
     const qty = parseFloat($("calcHarvestQty").value) || 0;
     const m = harvestSelectedLibId ? marketItems.find(x => String(x.id) === String(harvestSelectedLibId)) : null;
     if (m) {
       const econ = farmPanelComputeEconomics(m.name, 1, qty);
-      cost = econ.totalCost;
       gross = econ.grossRevenue;
-      restockInfo = econ.restockInfo;
-      const shrine = computeCalcShrineCost(m.name, qty);
-      shrineCost = shrine.cost;
-      shrineNames = shrine.names;
-      cost += shrineCost;
+      marketPrice = econ.price;
+      restockCost = econ.restockCost;
+      restockCount = econ.restockInfo ? econ.restockInfo.restocksNeeded : 0;
+      restockGems = econ.restockInfo ? econ.restockInfo.gemsTotal : 0;
+      const animalType = m.isAutoAnimal ? findAnimalTypeForProductName(m.name) : null;
+      if (animalType) {
+        isAnimal = true;
+        const split = computeCalcAnimalCostSplit(animalType, qty);
+        baseCost = split.feedCost;
+        consumableCost = split.consumableCost;
+        const animalShrine = computeCalcAnimalShrineCost(animalType, qty);
+        shrineCost = animalShrine.cost;
+        shrineNames = animalShrine.names;
+      } else {
+        baseCost = econ.seedCost;
+        const shrine = computeCalcShrineCost(m.name, qty);
+        shrineCost = shrine.cost;
+        shrineNames = shrine.names;
+      }
     }
   }
-  const netRevenue = gross * (1 - feePercent / 100);
-  const profit = netRevenue - cost;
-  const roi = cost > 0 ? profit / cost * 100 : profit > 0 ? Infinity : 0;
+  const tradeTax = gross * (feePercent / 100);
+  const netRevenue = gross - tradeTax;
+  const totalCost = baseCost + restockCost + shrineCost + consumableCost;
+  const net = netRevenue - totalCost;
+  const roi = totalCost > 0 ? net / totalCost * 100 : net > 0 ? Infinity : 0;
   return {
-    cost: cost,
+    cost: baseCost,
+    gross: gross,
+    marketPrice: marketPrice,
+    tradeTax: tradeTax,
     netRevenue: netRevenue,
-    profit: profit,
-    roi: roi,
-    restockInfo: restockInfo,
+    restockCost: restockCost,
+    restockCount: restockCount,
+    restockGems: restockGems,
     shrineCost: shrineCost,
-    shrineNames: shrineNames
+    shrineNames: shrineNames,
+    consumableCost: consumableCost,
+    isAnimal: isAnimal,
+    net: net,
+    roi: roi
   };
+}
+
+function computeCalcNodeInfo(name) {
+  if (!name) return null;
+  if (BASE_CROPS[name]) {
+    const d = BASE_CROPS[name];
+    const boosted = computeBoostedCropStats(name, d.baseYield || 1, d.timeSec);
+    const count = getPlotCount(name);
+    return {
+      count: count,
+      unitLabel: count === 1 ? "Plot" : "Plots",
+      icon: getIcon(name),
+      cycleYield: count * boosted.yieldVal
+    };
+  }
+  if (BASE_FRUITS[name]) {
+    const d = BASE_FRUITS[name];
+    const boosted = computeBoostedFruitStats(name, d.yieldPerHarvest || 1, d.timeSec, d.minHarvest || 1);
+    const count = getFruitCount(name);
+    const perUnitYield = boosted.minHarvestVal * boosted.yieldVal;
+    return {
+      count: count,
+      unitLabel: count === 1 ? "Tree" : "Trees",
+      icon: getIcon(name),
+      cycleYield: count * perUnitYield
+    };
+  }
+  if (BASE_GREENHOUSE[name]) {
+    const d = BASE_GREENHOUSE[name];
+    const boosted = computeBoostedGreenhouseStats(name, d.baseYield || 1, d.timeSec);
+    const count = getGreenhouseCount(name);
+    return {
+      count: count,
+      unitLabel: count === 1 ? "Plot" : "Plots",
+      icon: getIcon(name),
+      cycleYield: count * boosted.yieldVal
+    };
+  }
+  if (FLOWER_VARIETIES[name]) {
+    const boosted = computeBoostedFlowerVarietyStats(name);
+    const count = getPlotCount(name);
+    return {
+      count: count,
+      unitLabel: count === 1 ? "Plot" : "Plots",
+      icon: getIcon(name),
+      cycleYield: count * boosted.expectedYield
+    };
+  }
+  if (RESOURCE_DATA[name]) {
+    const d = RESOURCE_DATA[name];
+    const boosted = computeBoostedResourceStats(name, d.yieldPer, d.timeSec);
+    if (isTieredResource(name)) {
+      const tierDefs = RESOURCE_NODE_TIERS[name];
+      const t = getNodeTierCounts(name);
+      const tierRows = tierDefs.map(tier => {
+        const qty = parseFloat(t[tier.key]) || 0;
+        const perNodeYield = boosted.perTierYield && boosted.perTierYield[tier.key] != null ? boosted.perTierYield[tier.key] : boosted.yieldVal;
+        const nodeYield = tier.mult * perNodeYield + tier.yieldAdd;
+        return {
+          label: tier.displayLabel || tier.label,
+          icon: getIcon(tier.displayLabel || tier.label),
+          count: qty,
+          cycleYield: qty * nodeYield
+        };
+      }).filter(row => row.count > 0);
+      const totalCount = tierDefs.reduce((sum, tier) => sum + (parseFloat(t[tier.key]) || 0), 0);
+      const totalYield = getResourceTieredYieldTotal(name, boosted.yieldVal, boosted.perTierYield);
+      return {
+        count: totalCount,
+        unitLabel: totalCount === 1 ? "Node" : "Nodes",
+        icon: getIcon(name),
+        cycleYield: totalYield,
+        tiers: tierRows
+      };
+    }
+    const count = getNodeCount(name);
+    return {
+      count: count,
+      unitLabel: count === 1 ? "Node" : "Nodes",
+      icon: getIcon(name),
+      cycleYield: count * boosted.yieldVal
+    };
+  }
+  const animalType = findAnimalTypeForProductName(name);
+  if (animalType) {
+    const cfg = ANIMAL_DATA[animalType];
+    const idx = cfg.products.findIndex(p => p.toLowerCase() === name.toLowerCase());
+    const counts = getAnimalCount(animalType);
+    const count = Math.max(0, parseFloat(counts.qty) || 0);
+    const fig = computeAnimalTypeFigures(animalType);
+    const perUnitYield = idx >= 0 ? fig.yields[idx] || 0 : 0;
+    return {
+      count: count,
+      unitLabel: count === 1 ? "Animal" : "Animals",
+      icon: getIcon(cfg.label),
+      cycleYield: count * perUnitYield
+    };
+  }
+  return null;
+}
+
+export function updateCalcNodePanel() {
+  if (!$("calcNodeCount")) return;
+  const m = calcMode === "harvest" && harvestSelectedLibId ? marketItems.find(x => String(x.id) === String(harvestSelectedLibId)) : null;
+  const info = m ? computeCalcNodeInfo(m.name) : null;
+  const qty = calcMode === "harvest" ? parseFloat($("calcHarvestQty").value) || 0 : 0;
+  const tierListEl = $("calcNodeTierList");
+  const singleRowEl = $("calcNodeCountRow");
+  if (info && info.tiers) {
+    if (singleRowEl) singleRowEl.style.display = "none";
+    if (tierListEl) {
+      tierListEl.style.display = "";
+      tierListEl.innerHTML = info.tiers.length ? info.tiers.map(row => `<div class="calc-node-row"><span class="calc-node-icon">${row.icon}</span><span class="calc-node-count">${escapeHtml(row.label)} ${fmt(row.count)}</span></div>`).join("") : `<div class="calc-node-row"><span class="calc-node-count">No nodes set</span></div>`;
+    }
+    $("calcCycleYield").textContent = fmt(info.cycleYield);
+    $("calcCycleCount").textContent = info.cycleYield > 0 ? fmt(qty / info.cycleYield) : "0";
+    return;
+  }
+  if (tierListEl) {
+    tierListEl.style.display = "none";
+    tierListEl.innerHTML = "";
+  }
+  if (singleRowEl) singleRowEl.style.display = "";
+  if (info) {
+    $("calcNodeIcon").innerHTML = info.icon;
+    $("calcNodeCount").textContent = `${fmt(info.count)} ${info.unitLabel}`;
+    $("calcCycleYield").textContent = fmt(info.cycleYield);
+    $("calcCycleCount").textContent = info.cycleYield > 0 ? fmt(qty / info.cycleYield) : "0";
+  } else {
+    $("calcNodeIcon").innerHTML = "";
+    $("calcNodeCount").textContent = "—";
+    $("calcCycleYield").textContent = "0";
+    $("calcCycleCount").textContent = "0";
+  }
+}
+
+export function updateCalcRcmToggleUI() {
+  const sharedInput = $("calcSharedSwitchInput");
+  const individualInput = $("calcIndividualSwitchInput");
+  if (!sharedInput || !individualInput) return;
+  const isShared = restockCostMode === "shared";
+  sharedInput.checked = isShared;
+  individualInput.checked = !isShared;
+}
+
+const calcSharedSwitchInput = $("calcSharedSwitchInput");
+
+if (calcSharedSwitchInput) {
+  calcSharedSwitchInput.onchange = () => {
+    setRestockCostMode(calcSharedSwitchInput.checked ? "shared" : "individual");
+    rcmPendingExcluded = new Set(restockSharedExcluded);
+    updateRcmToggleUI();
+    updateCalcRcmToggleUI();
+    rcmRecalcEverything();
+    updateCalcSummary();
+  };
+}
+
+const calcIndividualSwitchInput = $("calcIndividualSwitchInput");
+
+if (calcIndividualSwitchInput) {
+  calcIndividualSwitchInput.onchange = () => {
+    setRestockCostMode(calcIndividualSwitchInput.checked ? "individual" : "shared");
+    rcmPendingExcluded = new Set(restockSharedExcluded);
+    updateRcmToggleUI();
+    updateCalcRcmToggleUI();
+    rcmRecalcEverything();
+    updateCalcSummary();
+  };
+}
+
+setTimeout(updateCalcRcmToggleUI, 0);
+
+function calcReadoutCellHtml(label, id, wide, labelId) {
+  return `<div class="calc-readout-cell${wide ? " wide" : ""}"><span class="crlabel"${labelId ? ` id="${labelId}"` : ""}>${label}</span><span class="crvalue${wide ? " big" : ""}" id="${id}">0</span></div>`;
+}
+
+function buildCalcReadoutHtml(isAnimal) {
+  if (isAnimal) {
+    return calcReadoutCellHtml("MARKET PRICE", "calcMarketPrice") + calcReadoutCellHtml("GROSS", "calcGross") + calcReadoutCellHtml("COST", "calcCost") + calcReadoutCellHtml("RESTOCK", "calcRestock", false, "calcRestockLabel") + calcReadoutCellHtml("SHRINE", "calcShrine") + calcReadoutCellHtml("TRADE TAX", "calcTradeTax", false, "calcTradeTaxLabel") + calcReadoutCellHtml("CONSUMABLE COST", "calcConsumable") + calcReadoutCellHtml("ROI", "calcRoi") + calcReadoutCellHtml("NET", "calcNet");
+  }
+  return calcReadoutCellHtml("MARKET PRICE", "calcMarketPrice") + calcReadoutCellHtml("GROSS", "calcGross") + calcReadoutCellHtml("COST", "calcCost") + calcReadoutCellHtml("RESTOCK", "calcRestock", false, "calcRestockLabel") + calcReadoutCellHtml("SHRINE", "calcShrine") + calcReadoutCellHtml("TRADE TAX", "calcTradeTax", false, "calcTradeTaxLabel") + calcReadoutCellHtml("ROI", "calcRoi") + calcReadoutCellHtml("NET", "calcNet", true);
 }
 
 export function updateCalcSummary() {
   invalidateCostCache();
   const fig = computeCalcFigures();
-  $("calcCost").textContent = fmt(fig.cost);
-  $("calcRevenue").textContent = fmt(fig.netRevenue);
-  $("calcProfit").textContent = (fig.profit >= 0 ? "+" : "") + fmt(fig.profit);
-  $("calcProfit").style.color = fig.profit >= 0 ? "#8fffb0" : "#ff8a8a";
-  $("calcRoi").textContent = isFinite(fig.roi) ? fig.roi.toFixed(1) + "%" : "∞";
-  const noteEl = $("calcRestockNote");
-  if (noteEl) {
-    const ri = fig.restockInfo;
-    const lines = [];
-    if (ri && ri.flowerCost > 0) {
-      const noun = ri.stockKind === "tool" ? "tool" : "seed";
-      let txt = `${GEM_ICON} ~${fmt(ri.restocksNeeded)} ${noun} restock${ri.restocksNeeded === 1 ? "" : "s"} needed for this qty · ${fmt(ri.gemsTotal)} ${GEM_ICON} Gems ≈ ${fmt(ri.flowerCost)} ${FLOWER_ICON} (already added to COST above)`;
-      if (ri.moonOnly) {
-        const minDays = Math.ceil(ri.restocksNeeded) * SYNODIC_MONTH_DAYS;
-        const moonStock = fullMoonSeedStockQty(ri.name);
-        txt += `<br>🌕 Moon-fruit: Betty sells ${fmt(moonStock)} seed${moonStock === 1 ? "" : "s"} per real Full Moon${moonStock > 1 ? " (Moon Hair equipped)" : ""} — even with unlimited Gems this qty needs ~${fmt(minDays)} days minimum.`;
-      }
-      lines.push(txt);
-    }
-    if (fig.shrineCost > 0) {
-      lines.push(`⛩️ Shrine cost ≈ ${fmt(fig.shrineCost)} ${FLOWER_ICON}${fig.shrineNames && fig.shrineNames.length ? ` (${fig.shrineNames.join(", ")})` : ""} (already added to COST above)`);
-    }
-    if (lines.length) {
-      noteEl.innerHTML = lines.join("<br>");
-      noteEl.classList.remove("hidden");
-    } else {
-      noteEl.innerHTML = "";
-      noteEl.classList.add("hidden");
-    }
+  const readout = $("calcReadout");
+  const layoutKey = fig.isAnimal ? "animal" : "standard";
+  if (readout.dataset.layout !== layoutKey) {
+    readout.innerHTML = buildCalcReadoutHtml(fig.isAnimal);
+    readout.dataset.layout = layoutKey;
   }
+  $("calcMarketPrice").innerHTML = `${fmt(fig.marketPrice)}${FLOWER_ICON}`;
+  $("calcCost").innerHTML = `${fmt(fig.cost)}${FLOWER_ICON}`;
+  $("calcGross").innerHTML = `${fmt(fig.gross)}${FLOWER_ICON}`;
+  $("calcRestock").innerHTML = `${fmt(fig.restockCost)}${FLOWER_ICON}`;
+  $("calcRestockLabel").innerHTML = fig.restockCount > 0 ? `RESTOCK (${fmt(Math.ceil(fig.restockCount))}x)(${fmtAnimal(fig.restockGems)}${GEM_ICON})` : "RESTOCK";
+  $("calcShrine").innerHTML = `${fmt(fig.shrineCost)}${FLOWER_ICON}`;
+  $("calcTradeTax").innerHTML = `${fmt(fig.tradeTax)}${FLOWER_ICON}`;
+  $("calcTradeTaxLabel").textContent = `TRADE TAX (${fmt(feePercent)}%)`;
+  if (fig.isAnimal) $("calcConsumable").innerHTML = `${fmt(fig.consumableCost)}${FLOWER_ICON}`;
+  $("calcRoi").textContent = isFinite(fig.roi) ? fig.roi.toFixed(1) + "%" : "∞";
+  $("calcNet").innerHTML = `${fig.net >= 0 ? "+" : ""}${fmt(fig.net)}${FLOWER_ICON}`;
+  $("calcNet").style.color = fig.net >= 0 ? "#8fffb0" : "#ff8a8a";
+  updateCalcNodePanel();
+}
+
+export function renderCalcAnimalInfoBox() {
+  const wrap = $("calcAnimalInfoWrap");
+  if (!wrap) return;
+  const m = calcMode === "harvest" && harvestSelectedLibId ? marketItems.find(x => String(x.id) === String(harvestSelectedLibId)) : null;
+  const animalType = m && m.isAutoAnimal ? findAnimalTypeForProductName(m.name) : null;
+  if (!animalType) {
+    wrap.classList.add("hidden");
+    wrap.innerHTML = "";
+    return;
+  }
+  const cfg = ANIMAL_DATA[animalType];
+  const c = getAnimalCount(animalType);
+  wrap.classList.remove("hidden");
+  wrap.innerHTML = `\n    <span class="calc-animal-icon">${getIcon(cfg.label)}</span>\n    <span class="calc-animal-name">${escapeHtml(cfg.label)}</span>\n    <div class="calc-animal-fields">\n      <div class="calc-animal-field">\n        <label>Level</label>\n        <input type="number" id="calcAnimalLevelInput" min="1" max="15" step="1" inputmode="numeric" value="${c.level || 1}">\n      </div>\n      <div class="calc-animal-field">\n        <label>Heads</label>\n        <input type="number" id="calcAnimalHeadsInput" min="0" step="1" inputmode="numeric" value="${c.qty || 0}">\n      </div>\n    </div>`;
+  $("calcAnimalLevelInput").addEventListener("input", () => {
+    const v = Math.min(15, Math.max(1, parseInt($("calcAnimalLevelInput").value) || 1));
+    setAnimalCount(animalType, "level", v);
+    renderCalcIngredients();
+    updateCalcSummary();
+  });
+  $("calcAnimalHeadsInput").addEventListener("input", () => {
+    setAnimalCount(animalType, "qty", parseFloat($("calcAnimalHeadsInput").value) || 0);
+    renderCalcIngredients();
+    updateCalcSummary();
+  });
 }
 
 function applyCalcModeVisibility() {
@@ -24108,6 +24602,7 @@ function applyCalcModeVisibility() {
   $("calcModeBoughtBtn").classList.toggle("active", calcMode === "bought");
   $("calcHarvestQtyField").classList.toggle("hidden", calcMode !== "harvest");
   $("calcBuySellFields").classList.toggle("hidden", calcMode !== "bought");
+  renderCalcAnimalInfoBox();
   renderCalcIngredients();
 }
 
@@ -24251,6 +24746,12 @@ $("libraryPanel").classList.remove("open");
   });
 })();
 
+let __allProfitItemsCache = [];
+
+export function getAllProfitItems() {
+  return __allProfitItemsCache;
+}
+
 export function gatherTop10ProfitItems() {
   const marketByLowerName = new Map;
   (marketItems || []).forEach(x => {
@@ -24272,13 +24773,16 @@ export function gatherTop10ProfitItems() {
     };
     const unitProj = compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, 1, restockInfo);
     const holdingProj = count > 0 ? compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, count, restockInfo) : null;
+    const holdingRestockIndividual = count > 0 ? computeRestockCost24hDetailedIndividual(restockInfo.baseStock, restockInfo.kind, count, unitProj.cyclesPerDay, restockInfo.cyclesPerStockUnit, restockInfo.maxRestocksPerDay, restockInfo.itemName) : null;
     items.push({
       name: name,
       category: "Crop",
       icon: getIcon(name),
+      boosts: boosted.activeBoosts || [],
       countLabel: "Plot",
       count: count,
       cyclesPerDay: unitProj.cyclesPerDay,
+      cycleTimeSec: boosted.timeVal,
       unitCost24h: unitProj.cost24h,
       unitRevenue24h: unitProj.revenue24h,
       unitProfit24h: unitProj.profit24h,
@@ -24287,6 +24791,7 @@ export function gatherTop10ProfitItems() {
       holdingCost24h: holdingProj ? holdingProj.cost24h : 0,
       holdingRevenue24h: holdingProj ? holdingProj.revenue24h : 0,
       holdingRestockCost24h: holdingProj ? holdingProj.restockCost24h || 0 : 0,
+      holdingRestockCost24hIndividual: holdingRestockIndividual ? holdingRestockIndividual.flowerCost || 0 : 0,
       holdingProfit24h: holdingProj ? holdingProj.profit24h : 0
     });
   });
@@ -24306,13 +24811,16 @@ export function gatherTop10ProfitItems() {
     };
     const unitProj = compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, 1, restockInfo);
     const holdingProj = count > 0 ? compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, count, restockInfo) : null;
+    const holdingRestockIndividual = count > 0 ? computeRestockCost24hDetailedIndividual(restockInfo.baseStock, restockInfo.kind, count, unitProj.cyclesPerDay, restockInfo.cyclesPerStockUnit, restockInfo.maxRestocksPerDay, restockInfo.itemName) : null;
     items.push({
       name: name,
       category: "Fruit",
       icon: getIcon(name),
+      boosts: getBuildDetailActiveEntries("fruits", name),
       countLabel: "Tree",
       count: count,
       cyclesPerDay: unitProj.cyclesPerDay,
+      cycleTimeSec: boosted.timeVal,
       unitCost24h: unitProj.cost24h,
       unitRevenue24h: unitProj.revenue24h,
       unitProfit24h: unitProj.profit24h,
@@ -24321,6 +24829,7 @@ export function gatherTop10ProfitItems() {
       holdingCost24h: holdingProj ? holdingProj.cost24h : 0,
       holdingRevenue24h: holdingProj ? holdingProj.revenue24h : 0,
       holdingRestockCost24h: holdingProj ? holdingProj.restockCost24h || 0 : 0,
+      holdingRestockCost24hIndividual: holdingRestockIndividual ? holdingRestockIndividual.flowerCost || 0 : 0,
       holdingProfit24h: holdingProj ? holdingProj.profit24h : 0
     });
   });
@@ -24338,13 +24847,16 @@ export function gatherTop10ProfitItems() {
     };
     const unitProj = compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, 1, restockInfo);
     const holdingProj = count > 0 ? compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, count, restockInfo) : null;
+    const holdingRestockIndividual = count > 0 ? computeRestockCost24hDetailedIndividual(restockInfo.baseStock, restockInfo.kind, count, unitProj.cyclesPerDay, restockInfo.cyclesPerStockUnit, restockInfo.maxRestocksPerDay, restockInfo.itemName) : null;
     items.push({
       name: name,
       category: "Greenhouse",
       icon: getIcon(name),
+      boosts: getBuildDetailActiveEntries("greenhouse", name),
       countLabel: "Plot",
       count: count,
       cyclesPerDay: unitProj.cyclesPerDay,
+      cycleTimeSec: boosted.timeVal,
       unitCost24h: unitProj.cost24h,
       unitRevenue24h: unitProj.revenue24h,
       unitProfit24h: unitProj.profit24h,
@@ -24353,6 +24865,7 @@ export function gatherTop10ProfitItems() {
       holdingCost24h: holdingProj ? holdingProj.cost24h : 0,
       holdingRevenue24h: holdingProj ? holdingProj.revenue24h : 0,
       holdingRestockCost24h: holdingProj ? holdingProj.restockCost24h || 0 : 0,
+      holdingRestockCost24hIndividual: holdingRestockIndividual ? holdingRestockIndividual.flowerCost || 0 : 0,
       holdingProfit24h: holdingProj ? holdingProj.profit24h : 0
     });
   });
@@ -24375,9 +24888,11 @@ export function gatherTop10ProfitItems() {
       name: name,
       category: "Resource",
       icon: getIcon(name),
+      boosts: getBuildDetailActiveEntries("resources", name),
       countLabel: "Node",
       count: count,
       cyclesPerDay: unitProj.cyclesPerDay,
+      cycleTimeSec: fig.timeSec,
       unitCost24h: unitProj.cost24h,
       unitRevenue24h: unitProj.revenue24h,
       unitProfit24h: unitProj.profit24h,
@@ -24425,6 +24940,7 @@ export function gatherTop10ProfitItems() {
       name: fig.label,
       category: "Animal",
       icon: getIcon(fig.label) || `<span style="font-size:16.8px;">${fig.emoji}</span>`,
+      boosts: getBuildDetailActiveEntries("animals", type),
       countLabel: "Head",
       count: qty,
       cyclesPerDay: cyclesPerDay,
@@ -24528,6 +25044,7 @@ export function gatherTop10ProfitItems() {
     });
   });
   items.sort((a, b) => (b.unitProfit24h ?? -Infinity) - (a.unitProfit24h ?? -Infinity));
+  __allProfitItemsCache = items;
   return items.slice(0, 10);
 }
 
@@ -25027,7 +25544,8 @@ export function computeSaltFarmFigures() {
   const timeSec = SALT_BASE_TIME_SEC * eff.chargeTimeMult * getActiveSaltRechargeMult();
   const chargesPerDayPerNode = 86400 / timeSec;
   const rakeCoinCostBase = getToolCostCoins("default_salt_rake");
-  const rakeCoinCost = hasFreeSaltRakeCost() ? 0 : rakeCoinCostBase * eff.rakeCostMult;
+  const freeRakeCost = hasFreeSaltRakeCost();
+  const rakeCoinCost = freeRakeCost ? 0 : rakeCoinCostBase * eff.rakeCostMult;
   const saltYieldBonus = getActiveSaltYieldBonus();
   const yieldPerCharge = SALT_BASE_YIELD + saltYieldBonus;
   const costPerUnitCoins = rakeCoinCost / yieldPerCharge;
@@ -25038,6 +25556,29 @@ export function computeSaltFarmFigures() {
   const profitPerUnit = netSell - costPerUnitFlower;
   const saltPerDay = nodeCount * chargesPerDayPerNode * yieldPerCharge;
   const storedChargeCap = eff.storedChargeCap;
+  const rakeUsesPerDay = freeRakeCost ? 0 : nodeCount * chargesPerDayPerNode;
+  const baseRakeStock = BASE_STOCK_TOOLS["Salt Rake"];
+  let restockCost24h = 0, restocksPerDay = 0, boostedRakeStock = 0, restockDetails = null;
+  if (baseRakeStock && rakeUsesPerDay > 0) {
+    boostedRakeStock = computeBoostedStock(baseRakeStock, "tool", "Salt Rake");
+    if (boostedRakeStock > 0) {
+      restocksPerDay = rakeUsesPerDay / boostedRakeStock;
+      const gemCostPerRestock = typeof getRestockGemCost === "function" ? getRestockGemCost("tool", "Salt Rake") : RESTOCK_GEM_COST.tools;
+      const gemsPerDay = restocksPerDay * gemCostPerRestock;
+      restockCost24h = typeof gemsToFlower === "function" ? gemsToFlower(gemsPerDay) : 0;
+      restockDetails = {
+        flowerCost: restockCost24h,
+        boostedStock: boostedRakeStock,
+        itemsNeededPerDay: rakeUsesPerDay,
+        restocksPerDay: restocksPerDay,
+        gemCostPerRestock: gemCostPerRestock,
+        gemsPerDay: gemsPerDay,
+        stockKind: "tool",
+        name: "Salt Rake"
+      };
+    }
+  }
+  const activeBoosts = getActiveSaltBoosts("saltGlobal");
   return {
     nodeCount: nodeCount,
     chargesPerDayPerNode: chargesPerDayPerNode,
@@ -25052,9 +25593,14 @@ export function computeSaltFarmFigures() {
     sellFlower: sellFlower,
     netSell: netSell,
     profitPerUnit: profitPerUnit,
+    restockCost24h: restockCost24h,
+    restocksPerDay: restocksPerDay,
+    boostedRakeStock: boostedRakeStock,
+    restockDetails: restockDetails,
+    activeBoosts: activeBoosts,
     dailyCost: saltPerDay * costPerUnitFlower,
     dailyRevenue: saltPerDay * netSell,
-    dailyProfit: saltPerDay * profitPerUnit,
+    dailyProfit: saltPerDay * profitPerUnit - restockCost24h,
     eff: eff
   };
 }
@@ -25168,7 +25714,8 @@ export function computeBaitFigures(baitName) {
     fishOptions: fishOptions,
     vegOptionsList: vegOptionsList,
     outputAgedBoosted: outputAgedBoosted,
-    outputPrimeBoosted: outputPrimeBoosted
+    outputPrimeBoosted: outputPrimeBoosted,
+    activeBoosts: getActiveSaltBoosts([ "agingGlobal", "fermentationSpiceGlobal" ])
   };
 }
 
@@ -25197,16 +25744,19 @@ export function computeFertilizerFigures(fertName) {
     if (rec.fruitfulBlendQty) cost += coinsToFlower(computeComposterFigures("Turbo Composter").costPerUnitCoins) * rec.fruitfulBlendQty;
     cost += refinedSaltUnitCostFlower() * rec.refinedSalt;
   }
-  const unitCost = cost / rec.output;
+  const astrolabeMult = typeof getActiveFermentationSpiceExpectedMult === "function" ? getActiveFermentationSpiceExpectedMult() : 1;
+  const output = rec.output * astrolabeMult;
+  const unitCost = cost / output;
   const applied = isBoostActive("apply_" + fertName.toLowerCase().replace(/\s+/g, "_"));
   return {
     cost: cost,
     unitCost: unitCost,
     note: note,
-    output: rec.output,
+    output: output,
     effect: rec.effect,
     applied: applied,
-    vegOptionsList: vegOptionsList
+    vegOptionsList: vegOptionsList,
+    activeBoosts: getActiveSaltBoosts([ "fermentationSpiceGlobal" ])
   };
 }
 
@@ -25229,7 +25779,8 @@ export function computeSpiceFigures(name) {
         cost: saltCost,
         hasToggle: true,
         mode: spiceMaterialMode("Salt")
-      } ]
+      } ],
+      activeBoosts: getActiveSaltBoosts([ "fermentationSpiceGlobal", "spiceRackGlobal" ])
     };
   }
   if (name === "Salt Lick") {
@@ -25247,7 +25798,8 @@ export function computeSpiceFigures(name) {
         unitCostFlower: rsUnit,
         cost: rsCost,
         hasToggle: false
-      } ]
+      } ],
+      activeBoosts: getActiveSaltBoosts([ "fermentationSpiceGlobal", "spiceRackGlobal" ])
     };
   }
   if (name === "Honey Treat") {
@@ -25275,14 +25827,16 @@ export function computeSpiceFigures(name) {
         cost: honeyCost,
         hasToggle: true,
         mode: spiceMaterialMode("Honey")
-      } ]
+      } ],
+      activeBoosts: getActiveSaltBoosts([ "fermentationSpiceGlobal", "spiceRackGlobal" ])
     };
   }
   return {
     cost: 0,
     unitCost: 0,
     output: 1,
-    ingredients: []
+    ingredients: [],
+    activeBoosts: []
   };
 }
 
@@ -30301,7 +30855,8 @@ let profileSyncSnapshot = safeLSJSON(localStorage.getItem("hl_profile_snapshot")
 export let profileState = {
   view: "overview",
   buildTab: "crops",
-  tradableTab: "resources"
+  tradableTab: "resources",
+  buildFilter: "all"
 };
 
 function profileFindNumericRateInObj(obj, keyRegex, depth) {
@@ -30356,7 +30911,7 @@ function flowerToUsdRate() {
   return profileFindNumericRateInObj(liveExchangeRates, /sfl|flower/i, 0);
 }
 
-function flowerToUsd(flowerAmount) {
+export function flowerToUsd(flowerAmount) {
   const rate = flowerToUsdRate();
   if (rate == null || !isFinite(flowerAmount)) return null;
   return flowerAmount * rate;
@@ -31305,6 +31860,204 @@ export function profileGetMainTabMeta() {
   }));
 }
 
+export const PROFILE_BUILD_FILTERS = {
+  crops: {
+    mode: "text",
+    options: [ {
+      id: "all",
+      label: "All"
+    }, {
+      id: "Basic",
+      label: "Basic"
+    }, {
+      id: "Medium",
+      label: "Medium"
+    }, {
+      id: "Advanced",
+      label: "Advance"
+    } ]
+  },
+  resources: {
+    mode: "icon",
+    options: [ {
+      id: "all",
+      label: "All"
+    }, {
+      id: "Wood",
+      icon: "Wood"
+    }, {
+      id: "Stone",
+      icon: "Stone"
+    }, {
+      id: "Iron",
+      icon: "Iron"
+    }, {
+      id: "Gold",
+      icon: "Gold"
+    }, {
+      id: "Crimstone",
+      icon: "Crimstone"
+    }, {
+      id: "Obsidian",
+      icon: "Obsidian"
+    }, {
+      id: "Oil",
+      icon: "Oil"
+    } ]
+  },
+  fruits: {
+    mode: "icon",
+    options: [ {
+      id: "all",
+      label: "All"
+    }, {
+      id: "Tomato",
+      icon: "Tomato"
+    }, {
+      id: "Lemon",
+      icon: "Lemon"
+    }, {
+      id: "Blueberry",
+      icon: "Blueberry"
+    }, {
+      id: "Orange",
+      icon: "Orange"
+    }, {
+      id: "Banana",
+      icon: "Banana"
+    }, {
+      id: "Apple",
+      icon: "Apple"
+    }, {
+      id: "Celestine",
+      icon: "Celestine"
+    }, {
+      id: "Lunara",
+      icon: "Lunara"
+    }, {
+      id: "Duskberry",
+      icon: "Duskberry"
+    } ]
+  },
+  animals: {
+    mode: "icon",
+    options: [ {
+      id: "all",
+      label: "All"
+    }, {
+      id: "chicken",
+      icon: "Chicken"
+    }, {
+      id: "sheep",
+      icon: "Sheep"
+    }, {
+      id: "cow",
+      icon: "Cow"
+    } ]
+  },
+  greenhouse: {
+    mode: "icon",
+    options: [ {
+      id: "all",
+      label: "All"
+    }, {
+      id: "Grape",
+      icon: "Grape"
+    }, {
+      id: "Olive",
+      icon: "Olive"
+    }, {
+      id: "Rice",
+      icon: "Rice"
+    } ]
+  }
+};
+
+function profileBuildResolveModifiesId(entry) {
+  if (!entry || !entry.modifiesId) return null;
+  return BOOSTS.find(b => b.id === entry.modifiesId) || null;
+}
+
+function profileBuildTierMatches(entry, tier) {
+  if (!entry) return false;
+  if (entry.scope === "tier") return entry.target === tier;
+  if (entry.scope === "tierEffects" && entry.tierEffects) return Object.prototype.hasOwnProperty.call(entry.tierEffects, tier) && !!entry.tierEffects[tier];
+  if (entry.scope === "crop" && entry.target) {
+    const data = BASE_CROPS[entry.target];
+    return data ? data.tier === tier : true;
+  }
+  const base = profileBuildResolveModifiesId(entry);
+  if (base) return profileBuildTierMatches(base, tier);
+  return true;
+}
+
+const PROFILE_TOOL_RESOURCE_MAP = {
+  Axe: [ "Wood" ],
+  Pickaxe: [ "Stone", "Iron", "Gold" ],
+  "Stone Pickaxe": [ "Stone" ],
+  "Iron Pickaxe": [ "Iron" ],
+  "Gold Pickaxe": [ "Gold" ]
+};
+
+function profileBuildResourceMatches(entry, resource) {
+  if (!entry) return false;
+  if (entry.scope === "resource") return entry.target === resource;
+  if (entry.scope === "resourceList" && Array.isArray(entry.resources)) return entry.resources.includes(resource);
+  if (entry.scope === "resourceEffects" && entry.resourceEffects) return Object.prototype.hasOwnProperty.call(entry.resourceEffects, resource) && !!entry.resourceEffects[resource];
+  if (entry.scope === "lavaPit") return resource === "Obsidian";
+  if (entry.scope === "tool" && entry.target) {
+    const mapped = PROFILE_TOOL_RESOURCE_MAP[entry.target];
+    return mapped ? mapped.includes(resource) : false;
+  }
+  if (!entry.scope && entry.skillCategory === "trees") return resource === "Wood";
+  if (resource === "Obsidian") return false;
+  if (!entry.scope && entry.skillCategory === "mining") return resource !== "Wood";
+  const base = profileBuildResolveModifiesId(entry);
+  if (base) return profileBuildResourceMatches(base, resource);
+  return true;
+}
+
+function profileBuildFruitMatches(entry, fruit) {
+  if (!entry) return false;
+  if (entry.scope === "fruit") return entry.target === fruit;
+  if (entry.scope === "fruitList" && Array.isArray(entry.fruits)) return entry.fruits.includes(fruit);
+  const base = profileBuildResolveModifiesId(entry);
+  if (base) return profileBuildFruitMatches(base, fruit);
+  return true;
+}
+
+function profileBuildAnimalMatches(entry, animalType) {
+  if (!entry) return false;
+  if (entry.scope === "animalType") return entry.target === animalType;
+  if (entry.scope === "animalTypeList" && Array.isArray(entry.animalTypes)) return entry.animalTypes.includes(animalType);
+  const base = profileBuildResolveModifiesId(entry);
+  if (base) return profileBuildAnimalMatches(base, animalType);
+  return true;
+}
+
+function profileBuildGreenhouseMatches(entry, cropName) {
+  if (!entry) return false;
+  if (entry.scope === "greenhouse") return entry.target === cropName;
+  const base = profileBuildResolveModifiesId(entry);
+  if (base) return profileBuildGreenhouseMatches(base, cropName);
+  return true;
+}
+
+export function profileBuildFilterMatches(entry, tabId, filterId) {
+  if (!entry || !filterId || filterId === "all") return true;
+  if (tabId === "crops") return profileBuildTierMatches(entry, filterId);
+  if (tabId === "resources") return profileBuildResourceMatches(entry, filterId);
+  if (tabId === "fruits") return profileBuildFruitMatches(entry, filterId);
+  if (tabId === "animals") return profileBuildAnimalMatches(entry, filterId);
+  if (tabId === "greenhouse") return profileBuildGreenhouseMatches(entry, filterId);
+  return true;
+}
+
+export function getBuildDetailActiveEntries(tabId, filterId) {
+  if (!tabId || !filterId) return [];
+  return BOOSTS.filter(b => isBoostActive(b.id) && !b.hideInPanel && b.category === tabId && profileBuildFilterMatches(b, tabId, filterId));
+}
+
 function profileEffectLabel(entry) {
   if (!entry) return "Active";
   if (typeof entry.timeMult === "number") {
@@ -31355,6 +32108,15 @@ function profileAllSkillEntries() {
   return all;
 }
 
+function profileGroupEntriesById(list) {
+  const map = new Map;
+  list.forEach(e => {
+    if (!map.has(e.id)) map.set(e.id, []);
+    map.get(e.id).push(e);
+  });
+  return map;
+}
+
 function profileDedupeBuildBoostRows(list) {
   const groups = [];
   const groupByKey = new Map;
@@ -31378,7 +32140,7 @@ function profileDedupeBuildBoostRows(list) {
   });
 }
 
-function profileRenderSkillTierGroups(activeSkills) {
+export function profileRenderSkillTierGroups(activeSkills) {
   const byTier = {};
   activeSkills.forEach(s => {
     const tier = s.skillTier || 1;
@@ -31391,18 +32153,21 @@ function profileRenderSkillTierGroups(activeSkills) {
   }).join("");
 }
 
-export function profileRenderBuildColumns(tabId) {
+export function profileRenderBuildColumns(tabId, filterId) {
+  const activeFilter = filterId || "all";
   const snapshot = profileSyncSnapshot || {
     boosts: [],
     skills: []
   };
   const boostIds = new Set(snapshot.boosts || []);
   const skillIds = new Set(snapshot.skills || []);
-  const activeBoostsRaw = BOOSTS.filter(b => b.category === tabId && boostIds.has(b.id) && !b.hideInPanel);
+  const boostVariantsById = profileGroupEntriesById(BOOSTS);
+  const activeBoostsRaw = BOOSTS.filter(b => b.category === tabId && boostIds.has(b.id) && !b.hideInPanel && (boostVariantsById.get(b.id) || [ b ]).some(variant => profileBuildFilterMatches(variant, tabId, activeFilter)));
   const activeBoosts = profileDedupeBuildBoostRows(activeBoostsRaw);
   const skillCats = PROFILE_TAB_TO_SKILL_CATS[tabId] || [];
   const allSkills = profileAllSkillEntries();
-  const activeSkills = allSkills.filter(s => skillIds.has(s.id) && skillCats.some(cat => (SKILL_TREES[cat] || []).some(x => x.id === s.id)));
+  const skillVariantsById = profileGroupEntriesById(SKILL_BOOSTS);
+  const activeSkills = allSkills.filter(s => skillIds.has(s.id) && skillCats.some(cat => (SKILL_TREES[cat] || []).some(x => x.id === s.id)) && (skillVariantsById.get(s.id) || [ s ]).some(variant => profileBuildFilterMatches(variant, tabId, activeFilter)));
   const boostHtml = activeBoosts.length ? activeBoosts.map(b => `<div class="profile-build-item">${getIcon(b.name)}<div class="profile-build-item-text"><span class="profile-build-item-name">${escapeHtml(b.name)}</span><br><span class="profile-build-item-eff">${escapeHtml(b.mergedLabel || profileEffectLabel(b))}</span></div></div>`).join("") : `<div class="profile-build-empty">No active boosts synced for this category.</div>`;
   const skillHtml = activeSkills.length ? profileRenderSkillTierGroups(activeSkills) : `<div class="profile-build-empty">No active skills synced for this category.</div>`;
   return `<div class="profile-build-cols">\n    <div class="profile-build-col"><div class="profile-build-col-title">⚡ Boost</div>${boostHtml}</div>\n    <div class="profile-build-col"><div class="profile-build-col-title">🎓 Skills</div>${skillHtml}</div>\n  </div>`;
