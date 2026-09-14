@@ -4233,7 +4233,7 @@ export function computeResourceFigures(name, visited) {
   const totalToolCost = materialsCost + toolCost;
   const costPerUnit = totalToolCost / boosted.yieldVal;
   const nodeCount = getNodeCount(name);
-  const toolUsageTotal = getResourceToolUsageTotal(name);
+  const toolUsageTotal = boosted.noToolNeeded ? 0 : getResourceToolUsageTotal(name);
   const totalYieldPerCycle = getResourceTieredYieldTotal(name, boosted.yieldVal, boosted.perTierYield);
   return {
     costPerUnit: costPerUnit,
