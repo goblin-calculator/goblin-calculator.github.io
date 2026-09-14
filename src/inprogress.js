@@ -3683,6 +3683,14 @@ export function farmPanelComputeInProgress(json) {
         const woodTotalYield = fruitWoodPerTree * treesAtFinalHarvest;
         if (woodTotalYield > 0) {
           const woodEcon = farmPanelComputeEconomics("Wood", treesAtFinalHarvest, woodTotalYield);
+          if (boostedFruit.noWoodCost) {
+            woodEcon.costPerUnit = 0;
+            woodEcon.seedCost = 0;
+            woodEcon.restockInfo = null;
+            woodEcon.restockCost = 0;
+            woodEcon.totalCost = 0;
+            woodEcon.profit = woodEcon.netRevenue;
+          }
           fruitWood = {
             treesAtFinalHarvest: treesAtFinalHarvest,
             perTreeQty: fruitWoodPerTree,
