@@ -9903,6 +9903,14 @@ body.sfl-theme #sflBubblesPanel .sfl-bubble-usd{ color:#ffffff !important; }
   .sfl-bub-main{ flex-direction:row; align-items:flex-start; }
   .sfl-bub-stage-wrap{ flex:1 1 58%; }
   .sfl-bub-detail{ flex:1 1 42%; display:block !important; }
+  #sflBubMain.list-mode .sfl-bub-list-wrap{ flex:1 1 58% !important; width:auto !important; }
+  #sflBubMain.list-mode .sfl-bub-detail,
+  #sflBubMain.list-mode .sfl-bub-detail.show{
+    display:block !important; position:static !important;
+    top:auto !important; right:auto !important; bottom:auto !important; left:auto !important;
+    flex:1 1 42% !important; height:480px !important; max-height:480px !important;
+    z-index:auto !important; overflow-y:auto !important;
+  }
 }
 
 body.sfl-theme #sflBubblesPanel{ background:var(--sfl-outer) !important; }
