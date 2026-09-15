@@ -1,6 +1,6 @@
 import { __set_farmPanelInProgressCategoryFilter, __set_farmPanelSyncInFlight, farmPanelAOEExtent, farmPanelCheckTurtleAOEBonus, farmPanelComputeEconomics, farmPanelComputeExactCrimstoneYield, farmPanelComputeExactCropYield, farmPanelComputeExactFlowerYield, farmPanelComputeExactFruitYield, farmPanelComputeExactGreenhouseYield, farmPanelCropTierLabel, farmPanelDebugFindShapes, farmPanelDetectNodeTier, farmPanelField, farmPanelGameState, farmPanelGetCollectiblePosition, farmPanelGetCropGrowDurationMsFromSync, farmPanelGetLastInfo, farmPanelGetMarketId, farmPanelGnomeAOEBonus, farmPanelGnomeComboPresent, farmPanelGrowTimeSec, farmPanelIsWithinTurtleAOE, farmPanelLoadCachedGameState, farmPanelMarkScrollActivity, farmPanelMergeAuthoritativeResourceData, farmPanelSaveGameState, farmPanelSaveLastInfo, farmPanelSyncInFlight } from "./inprogress.js";
 
-import { SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeRestockCost24hDetailed, computeRestockCost24hDetailedIndividual, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, fetchLivePrices, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getActiveShrineDailyCost, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketplaceFlowerUsdPrice, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from "./prices.js";
+import { SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeRestockCost24hDetailed, computeRestockCost24hDetailedIndividual, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, ensureCosmeticPricesLoaded, fetchLivePrices, findCosmeticPriceForName, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getActiveShrineDailyCost, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketplaceFlowerUsdPrice, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from "./prices.js";
 
 import { loadBaseHoneyIfNeeded, profileBumpkinCachePersist, safeLSJSON, saveAnimalAffectionTools, saveAnimalBuds, saveAnimalCounts, saveAnimalSicknessEstimate, saveAoeSyncOverrides, saveAscensionState, saveBeeSwarmState, saveBoostState, saveBoosts, saveBudFloorPrice, saveCmOilTank, saveCmQueue, saveCookingCounts, saveCropBuds, saveCrustaceanChumSelection, saveFishBuds, saveFlowerVarietyOverrides, saveFruitBuds, saveFruitCounts, saveGlobalPlotCount, saveGlobalPlotCountTouched, saveGreenhouseBuds, saveGreenhouseCounts, saveHiveCount, saveManualCycleOverrides, saveMarketState, saveNodeCounts, saveNodeCountsTouched, savePetFloorPrice, savePetResourceCostOverride, savePetsData, saveResourceBuds, saveSaltFarmLevel, saveSaltUi, saveSculptureLevel, saveSelectedHoneyFlower, saveSelectedSwarmCrop, saveSkillState, saveSpiceUsage, saveState, saveSyncedSkillLevels, saveToolRecipes, saveTradeState, saveWeatherDestructionSync } from "./storage.js";
 
@@ -32406,6 +32406,7 @@ function profileTradableCollectibleRows(g, wantBoostOnes) {
   });
   const boostNames = profileCollectibleBoostNameSet();
   const rows = [];
+  if (!wantBoostOnes) ensureCosmeticPricesLoaded();
   Object.entries(collectibles).forEach(([name, arr]) => {
     if (!Array.isArray(arr)) return;
     const seenKeys = new Set;
@@ -32422,14 +32423,21 @@ function profileTradableCollectibleRows(g, wantBoostOnes) {
     const hasBoost = boostNames.has(name);
     if (wantBoostOnes && !hasBoost) return;
     if (!wantBoostOnes && hasBoost) return;
-    const price = findLiveNftPriceForName(name);
-    if (wantBoostOnes && price == null) return;
-    if (!wantBoostOnes && price == null) return;
+    let price = findLiveNftPriceForName(name);
+    let source = livePriceSource;
+    if (price == null && !wantBoostOnes) {
+      const cosmeticPrice = findCosmeticPriceForName(name);
+      if (cosmeticPrice != null) {
+        price = cosmeticPrice;
+        source = "lap";
+      }
+    }
+    if (price == null) return;
     rows.push({
       name: name,
       qty: count,
       value: price * count,
-      source: livePriceSource
+      source: source
     });
   });
   return rows.sort((a, b) => (b.value || 0) - (a.value || 0));
@@ -32439,19 +32447,28 @@ function profileTradableWearableRows(g, mode) {
   const wardrobe = profileAsObj(g && g.wardrobe) || {};
   const boostNames = profileWearableBoostNameSet();
   const rows = [];
+  if (mode === "nonboost") ensureCosmeticPricesLoaded();
   Object.entries(wardrobe).forEach(([name, count]) => {
     const n = Number(count);
     if (!isFinite(n) || n <= 0) return;
     const hasBoost = boostNames.has(name);
     if (mode === "boost" && !hasBoost) return;
     if (mode === "nonboost" && hasBoost) return;
-    const price = findLiveNftPriceForName(name);
+    let price = findLiveNftPriceForName(name);
+    let source = price != null ? livePriceSource : null;
+    if (price == null && mode === "nonboost") {
+      const cosmeticPrice = findCosmeticPriceForName(name);
+      if (cosmeticPrice != null) {
+        price = cosmeticPrice;
+        source = "lap";
+      }
+    }
     if (mode !== "all" && price == null) return;
     rows.push({
       name: name,
       qty: n,
       value: price != null ? price * n : null,
-      source: price != null ? livePriceSource : null
+      source: source
     });
   });
   return rows.sort((a, b) => (b.value || 0) - (a.value || 0));
