@@ -259,13 +259,17 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   body.app-dark .live-sync-status b{ color:#c7c4bc; }
   body.app-dark .live-paste-toggle{ color:#a7a5a0; }
   body.app-dark .live-paste-wrap textarea{ border-color:#3c3f47; background:#1c1e24; color:#c7c4bc; }
-  .dig-side-panel, .dig-panel-overlay, .dig-treasure-fab,
-  .potion-side-panel, .potion-panel-overlay, .potion-room-fab-inline{
+  .dig-side-panel, .dig-panel-overlay, .dig-treasure-fab{
     --desert:var(--desert-s); --desert-dark:var(--desert-dark-s); --desert-light:var(--desert-light-s);
     --moss:var(--moss-s); --parchment:var(--parchment-s); --sun:var(--sun-s); --sun-deep:var(--sun-deep-s);
     --wheat:var(--wheat-s); --wheat-dim:var(--wheat-dim-s); --line:var(--line-s);
     --soil:#3d2410; --soil-dark:#231509; --ink-soft:#6b4a35; --surface:#fff;
     --ink:#2b1a0f; --profit:#3d7a42; --loss:#9c3320; --coin:#c9a227; --flower:#8a5fb0; --fruit:#a83a3a;
+  }
+  .potion-side-panel, .potion-panel-overlay, .potion-room-fab-inline{
+    --desert:var(--desert-s); --desert-dark:var(--desert-dark-s); --desert-light:var(--desert-light-s);
+    --moss:var(--moss-s); --parchment:var(--parchment-s); --sun:var(--sun-s); --sun-deep:var(--sun-deep-s);
+    --wheat:var(--wheat-s); --wheat-dim:var(--wheat-dim-s); --line:var(--line-s);
   }
   body.app-dark header h1{ color:#c7c4bc; }
   body.app-dark header .tagline{ color:#a7a5a0; }
@@ -4984,7 +4988,7 @@ body.app-dark .potion-room-fab-label{ color:#c7c4bc; text-shadow:none; }
   cursor:pointer; display:flex; align-items:center; justify-content:center;
 }
 .potion-panel-dark-toggle:active{ transform:translate(2px,2px); box-shadow:0 0 0 rgba(0,0,0,.4); }
-.potion-side-panel.potion-dark .potion-panel-dark-toggle{ background:var(--moss); }
+.potion-side-panel.potion-dark .potion-panel-dark-toggle, body.app-dark .potion-side-panel .potion-panel-dark-toggle{ background:var(--moss); }
 
 .potion-panel-debug-btn{
   position:absolute; top:12px; right:82px; z-index:2;
@@ -4995,7 +4999,7 @@ body.app-dark .potion-room-fab-label{ color:#c7c4bc; text-shadow:none; }
   cursor:pointer; display:flex; align-items:center; justify-content:center;
 }
 .potion-panel-debug-btn:active{ transform:translate(2px,2px); box-shadow:0 0 0 rgba(0,0,0,.4); }
-.potion-side-panel.potion-dark .potion-panel-debug-btn{ background:var(--moss); }
+.potion-side-panel.potion-dark .potion-panel-debug-btn, body.app-dark .potion-side-panel .potion-panel-debug-btn{ background:var(--moss); }
 
 
 .potion-panel-inner{
@@ -5003,27 +5007,28 @@ body.app-dark .potion-room-fab-label{ color:#c7c4bc; text-shadow:none; }
 }
 .potion-panel-header{ margin-top:6px; padding-right:40px; flex-shrink:0; }
 .potion-panel-title{
-  font-family:var(--pixel-font); font-size:15.6px; color:var(--soil);
-  letter-spacing:.5px; text-shadow:1px 1px 0 rgba(255,255,255,.5);
+  font-family:var(--pixel-font); font-size:15.6px; color:var(--wheat);
+  letter-spacing:.5px; text-shadow:1px 1px 0 rgba(0,0,0,.5);
   display:flex; align-items:center; gap:6px;
 }
 .potion-panel-title-icon{
   width:18px; height:18px; object-fit:contain; image-rendering:pixelated; flex-shrink:0;
 }
 .potion-panel-status{
-  font-family:'JetBrains Mono',monospace; font-size:12.6px; color:var(--ink-soft);
+  font-family:'JetBrains Mono',monospace; font-size:12.6px; color:var(--wheat-dim);
   margin-top:5px; line-height:1.5;
 }
 
 .potion-panel-groups-box{ display:flex; flex-direction:column; gap:12px; flex-shrink:0; }
 .potion-panel-solution-box{ flex-shrink:0; }
+.potion-panel-solution-box .potion-section-label{ color:var(--wheat); }
 .potion-legend{
   display:flex; flex-direction:column; gap:5px; flex-shrink:0;
 }
 .potion-legend-line{ display:flex; align-items:center; gap:6px; }
 .potion-legend-icon{ width:14px; height:14px; flex-shrink:0; object-fit:contain; image-rendering:pixelated; }
 .potion-legend-text{
-  font-family:'JetBrains Mono',monospace; font-size:10.2px; color:var(--ink-soft); line-height:1.4;
+  font-family:'JetBrains Mono',monospace; font-size:10.2px; color:var(--wheat-dim); line-height:1.4;
 }
 @media (min-width:700px){
   .potion-legend{ flex-direction:row; flex-wrap:wrap; gap:6px 18px; }
@@ -5064,10 +5069,10 @@ body.app-dark .potion-room-fab-label{ color:#c7c4bc; text-shadow:none; }
 }
 
 .potion-panel-attempts-box{
-  flex:0 0 auto; border:2px solid var(--soil-dark); background:#fff; padding:8px;
+  flex:0 0 auto; border:2px solid var(--soil-dark); background:var(--parchment); padding:8px;
 }
 .potion-panel-solve-box{
-  flex:0 0 auto; border:2px solid var(--soil-dark); background:#fff; padding:8px;
+  flex:0 0 auto; border:2px solid var(--soil-dark); background:var(--parchment); padding:8px;
 }
 .potion-panel-attempts{ display:flex; flex-direction:column; gap:6px; }
 .potion-attempt-row{ display:flex; align-items:center; gap:6px; }
@@ -5076,7 +5081,7 @@ body.app-dark .potion-room-fab-label{ color:#c7c4bc; text-shadow:none; }
 }
 .potion-bottle{
   position:relative; width:32px; height:32px; flex-shrink:0;
-  border:1.5px solid var(--line); background:#f6f0e2;
+  border:1.5px solid var(--line); background:var(--parchment);
   display:flex; align-items:center; justify-content:center;
 }
 .potion-bottle-icon{ width:70%; height:70%; object-fit:contain; image-rendering:pixelated; }
@@ -5098,7 +5103,7 @@ body.app-dark .potion-room-fab-label{ color:#c7c4bc; text-shadow:none; }
 }
 .potion-picker-bottle{
   position:relative; cursor:pointer; width:36px; height:36px;
-  border:2px solid var(--line); background:#f6f0e2;
+  border:2px solid var(--line); background:var(--parchment);
   display:flex; align-items:center; justify-content:center;
 }
 .potion-picker-bottle.is-correct{ border-color:#2fae4e; box-shadow:0 0 6px #2fae4e; }
@@ -5134,7 +5139,7 @@ body.app-dark .potion-room-fab-label{ color:#c7c4bc; text-shadow:none; }
 }
 .potion-solution-row{
   display:flex; align-items:center; flex-wrap:wrap; row-gap:4px; gap:4px;
-  background:#f6f0e2; border:1.5px solid var(--line); padding:4px 6px;
+  background:var(--parchment); border:1.5px solid var(--line); padding:4px 6px;
 }
 .potion-solution-row.is-top-pick{
   background:#e7f7ea; border-color:#2fae4e; box-shadow:0 0 0 1px #2fae4e inset;
@@ -5153,11 +5158,11 @@ body.app-dark .potion-room-fab-label{ color:#c7c4bc; text-shadow:none; }
   padding:2px 4px; white-space:normal; text-align:right;
 }
 .potion-panel-note{
-  flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:10.2px; color:var(--ink-soft); line-height:1.5;
+  flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:10.2px; color:var(--wheat-dim); line-height:1.5;
 }
 
 .potion-panel-trainer-box{
-  flex:0 0 auto; border:2px solid var(--soil-dark); background:#fff; padding:8px;
+  flex:0 0 auto; border:2px solid var(--soil-dark); background:var(--parchment); padding:8px;
 }
 .potion-trainer-note{
   font-family:'JetBrains Mono',monospace; font-size:9px; line-height:1.5; color:var(--ink-soft); margin-bottom:8px;
@@ -5185,9 +5190,9 @@ body.app-dark .potion-room-fab-label{ color:#c7c4bc; text-shadow:none; }
 .potion-trainer-status{
   font-family:'JetBrains Mono',monospace; font-size:9px; line-height:1.5; color:var(--ink-soft); margin-top:6px; min-height:12px;
 }
-.potion-side-panel.potion-dark .potion-panel-trainer-box{ background:#121317; border-color:#3c3f47; }
-.potion-side-panel.potion-dark .potion-trainer-btn{ background:#33353d; border-color:#3c3f47; color:#e9e7e2; }
-.potion-side-panel.potion-dark .potion-trainer-textarea{ background:#22242c; border-color:#3c3f47; color:#a7a5a0; }
+.potion-side-panel.potion-dark .potion-panel-trainer-box, body.app-dark .potion-side-panel .potion-panel-trainer-box{ background:#121317; border-color:#3c3f47; }
+.potion-side-panel.potion-dark .potion-trainer-btn, body.app-dark .potion-side-panel .potion-trainer-btn{ background:#33353d; border-color:#3c3f47; color:#e9e7e2; }
+.potion-side-panel.potion-dark .potion-trainer-textarea, body.app-dark .potion-side-panel .potion-trainer-textarea{ background:#22242c; border-color:#3c3f47; color:#a7a5a0; }
 .potion-panel-legend{
   display:flex; flex-wrap:wrap; gap:8px; flex-shrink:0; margin-top:8px;
 }
@@ -5203,7 +5208,8 @@ body.app-dark .potion-room-fab-label{ color:#c7c4bc; text-shadow:none; }
 .potion-panel-mini-sync:active{ transform:translate(2px,2px); box-shadow:0 0 0 rgba(0,0,0,.4); }
 .potion-panel-mini-sync.is-syncing{ animation:digMiniSyncSpin .7s linear infinite; }
 
-.potion-side-panel.potion-dark{
+.potion-side-panel.potion-dark,
+body.app-dark .potion-side-panel{
   --parchment:#1c1e24;
   --soil-dark:#e9e7e2;
   --soil:#d3d1ca;
@@ -5216,15 +5222,17 @@ body.app-dark .potion-room-fab-label{ color:#c7c4bc; text-shadow:none; }
   --desert-light:#33353d;
   --sun:#3c3f47;
   --sun-deep:#282a31;
+  --moss:#1c2530;
+  --moss-deep:#1c2530;
 }
-.potion-side-panel.potion-dark .potion-panel-attempts-box{ background:#121317; border-color:#3c3f47; }
-.potion-side-panel.potion-dark .potion-panel-mini-sync{ background:#33353d; border-color:#3c3f47; color:#e9e7e2; }
-.potion-side-panel.potion-dark .potion-bottle{ background:#22242c; border-color:#3c3f47; }
-.potion-side-panel.potion-dark .potion-picker-bottle{ background:#22242c; border-color:#3c3f47; }
-.potion-side-panel.potion-dark .potion-solution-row{ background:#22242c; border-color:#3c3f47; }
-.potion-side-panel.potion-dark .potion-solution-row.is-top-pick{ background:#173824; border-color:#2fae4e; }
-.potion-side-panel.potion-dark .potion-solution-row-pct{ color:#a7a5a0; }
-.potion-side-panel.potion-dark .potion-panel-title{ text-shadow:1px 1px 0 rgba(0,0,0,.5); }
+.potion-side-panel.potion-dark .potion-panel-attempts-box, body.app-dark .potion-side-panel .potion-panel-attempts-box{ background:#121317; border-color:#3c3f47; }
+.potion-side-panel.potion-dark .potion-panel-mini-sync, body.app-dark .potion-side-panel .potion-panel-mini-sync{ background:#33353d; border-color:#3c3f47; color:#e9e7e2; }
+.potion-side-panel.potion-dark .potion-bottle, body.app-dark .potion-side-panel .potion-bottle{ background:#22242c; border-color:#3c3f47; }
+.potion-side-panel.potion-dark .potion-picker-bottle, body.app-dark .potion-side-panel .potion-picker-bottle{ background:#22242c; border-color:#3c3f47; }
+.potion-side-panel.potion-dark .potion-solution-row, body.app-dark .potion-side-panel .potion-solution-row{ background:#22242c; border-color:#3c3f47; }
+.potion-side-panel.potion-dark .potion-solution-row.is-top-pick, body.app-dark .potion-side-panel .potion-solution-row.is-top-pick{ background:#173824; border-color:#2fae4e; }
+.potion-side-panel.potion-dark .potion-solution-row-pct, body.app-dark .potion-side-panel .potion-solution-row-pct{ color:#a7a5a0; }
+.potion-side-panel.potion-dark .potion-panel-title, body.app-dark .potion-side-panel .potion-panel-title{ text-shadow:1px 1px 0 rgba(0,0,0,.5); }
 
 @media (max-width:420px){
   .potion-panel-title{ font-size:13.2px; }
@@ -9851,6 +9859,45 @@ body.sfl-theme .potion-side-panel.potion-dark .potion-panel-note{
 .sfl-bub-product-row:last-child{ border-bottom:none; }
 .sfl-bub-product-row span:last-child{ display:flex; align-items:center; gap:4px; font-weight:700; }
 .sfl-bub-product-row.sfl-bub-product-total span:last-child{ color:#1f7a34; }
+
+body.app-dark #sflBubblesPanel .sfl-bub-tab:not(.active),
+body.app-dark #sflBubblesPanel .sfl-bub-filter:not(.active),
+body.app-dark #sflBubblesPanel .sfl-bub-range-btn:not(.active),
+body.app-dark #sflBubblesPanel .sfl-bub-sync-btn,
+body.app-dark #sflBubblesPanel .sfl-bub-sort-btn:not(.active){ color:var(--ink); }
+body.app-dark #sflBubblesPanel .sfl-bub-list-rank,
+body.app-dark #sflBubblesPanel .sfl-bub-list-price-usd,
+body.app-dark #sflBubblesPanel .sfl-bub-list-empty,
+body.app-dark #sflBubblesPanel .sfl-bub-detail-empty,
+body.app-dark #sflBubblesPanel .sfl-bub-detail-loading,
+body.app-dark #sflBubblesPanel .sfl-bub-detail-note-text,
+body.app-dark #sflBubblesPanel .sfl-bub-detail-note-explain,
+body.app-dark #sflBubblesPanel .sfl-bub-boost-group-title,
+body.app-dark #sflBubblesPanel .sfl-bub-report-text,
+body.app-dark #sflBubblesPanel .sfl-bub-boost-none{ color:var(--ink-soft); }
+body.app-dark #sflBubblesPanel .sfl-bub-list-name,
+body.app-dark #sflBubblesPanel .sfl-bub-list-price-flower,
+body.app-dark #sflBubblesPanel .sfl-bub-detail-name,
+body.app-dark #sflBubblesPanel .sfl-bub-detail-row,
+body.app-dark #sflBubblesPanel .sfl-bub-detail-note-label,
+body.app-dark #sflBubblesPanel .sfl-bub-boosts-title,
+body.app-dark #sflBubblesPanel .sfl-bub-node-name,
+body.app-dark #sflBubblesPanel .sfl-bub-node-count,
+body.app-dark #sflBubblesPanel .sfl-bub-report-label,
+body.app-dark #sflBubblesPanel .sfl-bub-boost-chip,
+body.app-dark #sflBubblesPanel .sfl-bub-product-name,
+body.app-dark #sflBubblesPanel .sfl-bub-product-row{ color:var(--ink); }
+body.app-dark #sflBubblesPanel .sfl-bub-list-pct.up,
+body.app-dark #sflBubblesPanel .sfl-bub-detail-pct.up,
+body.app-dark #sflBubblesPanel .sfl-bub-detail-note-pct.up,
+body.app-dark #sflBubblesPanel .sfl-bub-product-row.sfl-bub-product-total span:last-child{ color:var(--profit); }
+body.app-dark #sflBubblesPanel .sfl-bub-detail-row.up span:last-child{ color:var(--profit) !important; }
+body.app-dark #sflBubblesPanel .sfl-bub-list-pct.down,
+body.app-dark #sflBubblesPanel .sfl-bub-detail-pct.down,
+body.app-dark #sflBubblesPanel .sfl-bub-detail-note-pct.down{ color:var(--loss); }
+body.app-dark #sflBubblesPanel .sfl-bub-detail-row.down span:last-child{ color:var(--loss) !important; }
+body.app-dark #sflBubblesPanel .sfl-bub-skill-block{ --pf-ink:var(--ink); --pf-ink-soft:var(--ink-soft); --pf-line:var(--line); }
+body.app-dark #sflBubblesPanel .sfl-bub-product-card{ background:rgba(255,255,255,.06); border-color:var(--line); }
 
 .sfl-bubble{
   position:absolute; top:0; left:0; border-radius:50%; display:flex; flex-direction:column;
