@@ -2942,6 +2942,78 @@ export function findCosmeticPriceForName(name) {
   return findPriceInPool(cosmeticNftPrices, name);
 }
 
+const SFL_COSMETICS_WORKER_BASE = "https://sfl-cosmetics-cache.bossweki.workers.dev";
+
+const SFL_COSMETICS_WORKER_TIMEOUT_MS = 7000;
+
+const SFL_COSMETICS_WORKER_MAX_ATTEMPTS = 3;
+
+const SFL_COSMETICS_WORKER_RETRY_DELAYS_MS = [400, 800];
+
+let __sflCosmeticsWorkerStale = null;
+
+function sflCosmeticsSleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function fetchCosmeticsSnapshotWorkerOnce() {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), SFL_COSMETICS_WORKER_TIMEOUT_MS);
+  try {
+    const res = await fetch(SFL_COSMETICS_WORKER_BASE + "/snapshot", {
+      cache: "no-store",
+      signal: controller.signal
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    if (!json || !json.ok || !Array.isArray(json.items) || !json.items.length) return null;
+    return json.items;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function fetchCosmeticsSnapshotWorkerItems() {
+  let items = null;
+  for (let attempt = 0; attempt < SFL_COSMETICS_WORKER_MAX_ATTEMPTS; attempt++) {
+    try {
+      items = await fetchCosmeticsSnapshotWorkerOnce();
+    } catch (e) {
+      items = null;
+    }
+    if (items) break;
+    if (attempt < SFL_COSMETICS_WORKER_MAX_ATTEMPTS - 1) {
+      const delay = SFL_COSMETICS_WORKER_RETRY_DELAYS_MS[attempt] || SFL_COSMETICS_WORKER_RETRY_DELAYS_MS[SFL_COSMETICS_WORKER_RETRY_DELAYS_MS.length - 1];
+      await sflCosmeticsSleep(delay);
+    }
+  }
+  if (items) {
+    __sflCosmeticsWorkerStale = items;
+    return items;
+  }
+  return __sflCosmeticsWorkerStale;
+}
+
+function buildPricePoolsFromCosmeticsSnapshot(items) {
+  const collectiblesPool = {};
+  const wearablesPool = {};
+  (items || []).forEach(it => {
+    if (!it || !(it.price > 0)) return;
+    const id = String(it.id);
+    if (it.collection === "collectibles") {
+      const name = SFL_COLLECTIBLE_ID_TO_NAME[id];
+      if (name) collectiblesPool[name] = it.price;
+    } else if (it.collection === "wearables") {
+      const name = SFL_WEARABLE_ID_TO_NAME[id];
+      if (name) wearablesPool[name] = it.price;
+    }
+  });
+  return {
+    collectiblesPool: collectiblesPool,
+    wearablesPool: wearablesPool
+  };
+}
+
 export function ensureCosmeticPricesLoaded(forceFresh) {
   if (!forceFresh && cosmeticPricesUpdatedAt && Object.keys(cosmeticNftPrices).length && Date.now() - cosmeticPricesUpdatedAt < COSMETIC_PRICES_TTL_MS) {
     return Promise.resolve(cosmeticNftPrices);
@@ -2949,14 +3021,20 @@ export function ensureCosmeticPricesLoaded(forceFresh) {
   if (__cosmeticPricesPromise) return __cosmeticPricesPromise;
   __cosmeticPricesPromise = (async () => {
     try {
-      const report = await fetchMarketplaceActivityReport();
-      const pools = buildPricePoolsFromMarketplaceItems(report.items);
-      setCosmeticNftPrices(Object.assign({}, pools.collectiblesPool, pools.wearablesPool));
+      const workerItems = await fetchCosmeticsSnapshotWorkerItems();
+      if (workerItems && workerItems.length) {
+        const pools = buildPricePoolsFromCosmeticsSnapshot(workerItems);
+        setCosmeticNftPrices(Object.assign({}, pools.collectiblesPool, pools.wearablesPool));
+      } else {
+        const report = await fetchMarketplaceActivityReport();
+        const pools = buildPricePoolsFromMarketplaceItems(report.items);
+        setCosmeticNftPrices(Object.assign({}, pools.collectiblesPool, pools.wearablesPool));
+      }
       __set___profileTradableRowsCacheG(null);
       __set___profileTradableRowsCacheByTab({});
       if (profileState.view === "tradable" && profileState.tradableTab === "cosmetics") renderProfileTradable();
     } catch (e) {
-      console.warn("Cosmetics price fetch (Marketplace Activity API) failed:", e);
+      console.warn("Cosmetics price fetch failed:", e);
     }
     return cosmeticNftPrices;
   })().finally(() => {

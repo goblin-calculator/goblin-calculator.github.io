@@ -4,7 +4,7 @@ import { SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL
 
 import { loadBaseHoneyIfNeeded, profileBumpkinCachePersist, safeLSJSON, saveAnimalAffectionTools, saveAnimalBuds, saveAnimalCounts, saveAnimalSicknessEstimate, saveAoeSyncOverrides, saveAscensionState, saveBeeSwarmState, saveBoostState, saveBoosts, saveBudFloorPrice, saveCmOilTank, saveCmQueue, saveCookingCounts, saveCropBuds, saveCrustaceanChumSelection, saveFishBuds, saveFlowerVarietyOverrides, saveFruitBuds, saveFruitCounts, saveGlobalPlotCount, saveGlobalPlotCountTouched, saveGreenhouseBuds, saveGreenhouseCounts, saveHiveCount, saveManualCycleOverrides, saveMarketState, saveNodeCounts, saveNodeCountsTouched, savePetFloorPrice, savePetResourceCostOverride, savePetsData, saveResourceBuds, saveSaltFarmLevel, saveSaltUi, saveSculptureLevel, saveSelectedHoneyFlower, saveSelectedSwarmCrop, saveSkillState, saveSpiceUsage, saveState, saveSyncedSkillLevels, saveToolRecipes, saveTradeState, saveWeatherDestructionSync } from "./storage.js";
 
-import { $, bountyToggle, closeBettyShop, closeBoostPanel, closeBudPicker, closeChapterFishMutants, closeDeleteTradeConfirm, closeDigPanel, closeDisclaimer, closeExpansionSim, closeFarmPanel, closeGunterShop, closeMoreMenu, closeNewTradeModal, closePetTraitPicker, closePixelPicker, closeProfile, closeRcmInfoModal, closeSellTradeModal, closeSettingsModal, closeTicketCalc, closeTradeItemPicker, closeTradeShop, esIslandIcon, esRenderMissingToggle, esRenderModeToggle, getBoostIcon, getIcon, getMutantFishIcon, getTreasureIcon, hideDailyProfitCard, hideSyncProgressModal, hideTop10Card, npcDeliverToggle, openBettyShop, openBoostPanel, openChapterFishMutants, openDigPanel, openDisclaimer, openExpansionSim, openFarmPanel, openGunterShop, openMoreMenu, openNewTradeModal, openProfile, openRcmInfoModal, openSettingsModal, openTicketCalc, openTradeItemPicker, openPotionPanel, closePotionPanel, renderPotionRoomPanel, openTradeShop, refreshAnimalAffectionToolToggleUI, renderAnimalsList, renderAscensionBar, renderBaseCoinSummaryLists, renderBettyShop, renderBoostPanel, renderBudDropdown, renderCalcIngredients, renderCmOilTank, renderCmQtyControls, renderCmSelectedDetail, renderCmSummary, renderComposterList, renderCookingFoodList, renderCookingPanel, renderCropMachineCalc, renderCropMachineMachine, renderCropMachinePanel, renderCropsList, renderDigTreasurePanel, renderFarmPanelInfo, renderFarmPanelTabContent, renderFishBudList, renderFishingPanel, renderFishingTierList, renderFruitsList, renderGreenhouseList, renderGunterShop, renderHoneyList, renderLibraryLists, renderPetFoodTabs, renderPetsPanel, renderPickerList, renderPlotNodeInputs, renderProfileTradable, renderProfileView, renderResourceList, renderSaltList, renderSeasonToggle, renderSkillPanel, renderTicketCalc, renderTotalsBreakdown, renderTradeShop, resetLibModalFields, setBountyToggle, setFarmPanelTab, showDailyProfitCard, showSyncCompleteModal, showSyncProgressModal, showSyncTimingPanel, showTop10Card, toggleMainView, updateRcmToggleUI } from "./ui.js";
+import { $, bountyToggle, closeBettyShop, closeBoostPanel, closeBudPicker, closeChapterFishMutants, closeDeleteTradeConfirm, closeDigPanel, closeDisclaimer, closeDprofitCostConfig, openDprofitCostConfig, closeExpansionSim, closeFarmPanel, closeGunterShop, closeMoreMenu, closeNewTradeModal, closePetTraitPicker, closePixelPicker, closeProfile, closeRcmInfoModal, closeSellTradeModal, closeSettingsModal, closeTicketCalc, closeTradeItemPicker, closeTradeShop, esIslandIcon, esRenderMissingToggle, esRenderModeToggle, getBoostIcon, getIcon, getMutantFishIcon, getTreasureIcon, hideDailyProfitCard, hideSyncProgressModal, hideTop10Card, npcDeliverToggle, openBettyShop, openBoostPanel, openChapterFishMutants, openDigPanel, openDisclaimer, openExpansionSim, openFarmPanel, openGunterShop, openMoreMenu, openNewTradeModal, openProfile, openRcmInfoModal, openSettingsModal, openTicketCalc, openTradeItemPicker, openPotionPanel, closePotionPanel, renderPotionRoomPanel, openTradeShop, refreshAnimalAffectionToolToggleUI, renderAnimalsList, renderAscensionBar, renderBaseCoinSummaryLists, renderBettyShop, renderBoostPanel, renderBudDropdown, renderCalcIngredients, renderCmOilTank, renderCmQtyControls, renderCmSelectedDetail, renderCmSummary, renderComposterList, renderCookingFoodList, renderCookingPanel, renderCropMachineCalc, renderCropMachineMachine, renderCropMachinePanel, renderCropsList, renderDailyProfitCard, renderDigTreasurePanel, renderFarmPanelInfo, renderFarmPanelTabContent, renderFishBudList, renderFishingPanel, renderFishingTierList, renderFruitsList, renderGreenhouseList, renderGunterShop, renderHoneyList, renderLibraryLists, renderPetFoodTabs, renderPetsPanel, renderPickerList, renderPlotNodeInputs, renderProfileTradable, renderProfileView, renderResourceList, renderSaltList, renderSeasonToggle, renderSkillPanel, renderTicketCalc, renderTotalsBreakdown, renderTradeShop, resetLibModalFields, setBountyToggle, setFarmPanelTab, showDailyProfitCard, showSyncCompleteModal, showSyncProgressModal, showSyncTimingPanel, showTop10Card, toggleMainView, updateRcmToggleUI } from "./ui.js";
 
 export const __getIconCache = new Map;
 
@@ -2984,7 +2984,7 @@ const TOOL_DEFAULTS = [ {
   producesQty: 1
 } ];
 
-const LAVA_PIT_RECIPES = {
+export const LAVA_PIT_RECIPES = {
   Spring: {
     time: 259200,
     materials: [ {
@@ -11712,6 +11712,7 @@ function rcmRecalcEverything() {
   if (typeof renderResourceList === "function") renderResourceList();
   renderCropMachinePanel();
   if (typeof renderFarmPanelTabContent === "function") renderFarmPanelTabContent();
+  if (typeof renderDailyProfitCard === "function") renderDailyProfitCard();
 }
 
 export function updateRcmUnsavedNote() {
@@ -13471,7 +13472,13 @@ function applyFarmPlotsNodesOnly(json, hasFullData) {
     const level = saltFarmObj && (typeof saltFarmObj.level === "number" ? saltFarmObj.level : typeof saltFarmObj.level === "string" && saltFarmObj.level.trim() && !isNaN(Number(saltFarmObj.level)) ? Number(saltFarmObj.level) : null);
     if (level != null && typeof setSaltFarmLevel === "function") {
       setSaltFarmLevel(level);
-      if (typeof farmLevelMaxNodes === "function") setNodeCount("Salt", farmLevelMaxNodes());
+      const saltNodesObj = saltFarmObj && typeof saltFarmObj.nodes === "object" ? saltFarmObj.nodes : null;
+      const physicalSaltNodeCount = saltNodesObj ? Object.keys(saltNodesObj).length : null;
+      if (physicalSaltNodeCount != null) {
+        setNodeCount("Salt", physicalSaltNodeCount);
+      } else if (typeof farmLevelMaxNodes === "function") {
+        setNodeCount("Salt", farmLevelMaxNodes());
+      }
     }
   }
   {
@@ -24752,6 +24759,21 @@ export function getAllProfitItems() {
   return __allProfitItemsCache;
 }
 
+function top10ApplyIndividualRestock(proj, restockInfo, count) {
+  if (!proj) return proj;
+  if (!restockInfo || !restockInfo.baseStock) return proj;
+  const det = computeRestockCost24hDetailedIndividual(restockInfo.baseStock, restockInfo.kind || "seed", count, proj.cyclesPerDay, restockInfo.cyclesPerStockUnit, restockInfo.maxRestocksPerDay, restockInfo.itemName);
+  const restockCost24h = det.flowerCost || 0;
+  const cost24h = proj.cost24h - (proj.restockCost24h || 0) + restockCost24h;
+  const profit24h = proj.revenue24h - cost24h;
+  return Object.assign({}, proj, {
+    cost24h: cost24h,
+    restockCost24h: restockCost24h,
+    profit24h: profit24h,
+    restockDetails: det
+  });
+}
+
 export function gatherTop10ProfitItems() {
   const marketByLowerName = new Map;
   (marketItems || []).forEach(x => {
@@ -24773,7 +24795,8 @@ export function gatherTop10ProfitItems() {
     };
     const unitProj = compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, 1, restockInfo);
     const holdingProj = count > 0 ? compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, count, restockInfo) : null;
-    const holdingRestockIndividual = count > 0 ? computeRestockCost24hDetailedIndividual(restockInfo.baseStock, restockInfo.kind, count, unitProj.cyclesPerDay, restockInfo.cyclesPerStockUnit, restockInfo.maxRestocksPerDay, restockInfo.itemName) : null;
+    const unitProjIndividual = top10ApplyIndividualRestock(unitProj, restockInfo, 1);
+    const holdingProjIndividual = holdingProj ? top10ApplyIndividualRestock(holdingProj, restockInfo, count) : null;
     items.push({
       name: name,
       category: "Crop",
@@ -24787,12 +24810,17 @@ export function gatherTop10ProfitItems() {
       unitRevenue24h: unitProj.revenue24h,
       unitProfit24h: unitProj.profit24h,
       unitRestockCost24h: unitProj.restockCost24h || 0,
+      unitCost24hIndividual: unitProjIndividual.cost24h,
+      unitProfit24hIndividual: unitProjIndividual.profit24h,
+      unitRestockCost24hIndividual: unitProjIndividual.restockCost24h || 0,
       holdingUnitsPerDay: holdingProj ? holdingProj.unitsPerDay : 0,
       holdingCost24h: holdingProj ? holdingProj.cost24h : 0,
       holdingRevenue24h: holdingProj ? holdingProj.revenue24h : 0,
       holdingRestockCost24h: holdingProj ? holdingProj.restockCost24h || 0 : 0,
-      holdingRestockCost24hIndividual: holdingRestockIndividual ? holdingRestockIndividual.flowerCost || 0 : 0,
-      holdingProfit24h: holdingProj ? holdingProj.profit24h : 0
+      holdingProfit24h: holdingProj ? holdingProj.profit24h : 0,
+      holdingCost24hIndividual: holdingProjIndividual ? holdingProjIndividual.cost24h : 0,
+      holdingRestockCost24hIndividual: holdingProjIndividual ? holdingProjIndividual.restockCost24h || 0 : 0,
+      holdingProfit24hIndividual: holdingProjIndividual ? holdingProjIndividual.profit24h : 0
     });
   });
   Object.keys(BASE_FRUITS).forEach(name => {
@@ -24811,7 +24839,8 @@ export function gatherTop10ProfitItems() {
     };
     const unitProj = compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, 1, restockInfo);
     const holdingProj = count > 0 ? compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, count, restockInfo) : null;
-    const holdingRestockIndividual = count > 0 ? computeRestockCost24hDetailedIndividual(restockInfo.baseStock, restockInfo.kind, count, unitProj.cyclesPerDay, restockInfo.cyclesPerStockUnit, restockInfo.maxRestocksPerDay, restockInfo.itemName) : null;
+    const unitProjIndividual = top10ApplyIndividualRestock(unitProj, restockInfo, 1);
+    const holdingProjIndividual = holdingProj ? top10ApplyIndividualRestock(holdingProj, restockInfo, count) : null;
     items.push({
       name: name,
       category: "Fruit",
@@ -24825,12 +24854,17 @@ export function gatherTop10ProfitItems() {
       unitRevenue24h: unitProj.revenue24h,
       unitProfit24h: unitProj.profit24h,
       unitRestockCost24h: unitProj.restockCost24h || 0,
+      unitCost24hIndividual: unitProjIndividual.cost24h,
+      unitProfit24hIndividual: unitProjIndividual.profit24h,
+      unitRestockCost24hIndividual: unitProjIndividual.restockCost24h || 0,
       holdingUnitsPerDay: holdingProj ? holdingProj.unitsPerDay : 0,
       holdingCost24h: holdingProj ? holdingProj.cost24h : 0,
       holdingRevenue24h: holdingProj ? holdingProj.revenue24h : 0,
       holdingRestockCost24h: holdingProj ? holdingProj.restockCost24h || 0 : 0,
-      holdingRestockCost24hIndividual: holdingRestockIndividual ? holdingRestockIndividual.flowerCost || 0 : 0,
-      holdingProfit24h: holdingProj ? holdingProj.profit24h : 0
+      holdingProfit24h: holdingProj ? holdingProj.profit24h : 0,
+      holdingCost24hIndividual: holdingProjIndividual ? holdingProjIndividual.cost24h : 0,
+      holdingRestockCost24hIndividual: holdingProjIndividual ? holdingProjIndividual.restockCost24h || 0 : 0,
+      holdingProfit24hIndividual: holdingProjIndividual ? holdingProjIndividual.profit24h : 0
     });
   });
   Object.keys(BASE_GREENHOUSE).forEach(name => {
@@ -24847,7 +24881,8 @@ export function gatherTop10ProfitItems() {
     };
     const unitProj = compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, 1, restockInfo);
     const holdingProj = count > 0 ? compute24hProjection(boosted.yieldVal, boosted.timeVal, costFlower, sellFlower, count, restockInfo) : null;
-    const holdingRestockIndividual = count > 0 ? computeRestockCost24hDetailedIndividual(restockInfo.baseStock, restockInfo.kind, count, unitProj.cyclesPerDay, restockInfo.cyclesPerStockUnit, restockInfo.maxRestocksPerDay, restockInfo.itemName) : null;
+    const unitProjIndividual = top10ApplyIndividualRestock(unitProj, restockInfo, 1);
+    const holdingProjIndividual = holdingProj ? top10ApplyIndividualRestock(holdingProj, restockInfo, count) : null;
     items.push({
       name: name,
       category: "Greenhouse",
@@ -24861,12 +24896,17 @@ export function gatherTop10ProfitItems() {
       unitRevenue24h: unitProj.revenue24h,
       unitProfit24h: unitProj.profit24h,
       unitRestockCost24h: unitProj.restockCost24h || 0,
+      unitCost24hIndividual: unitProjIndividual.cost24h,
+      unitProfit24hIndividual: unitProjIndividual.profit24h,
+      unitRestockCost24hIndividual: unitProjIndividual.restockCost24h || 0,
       holdingUnitsPerDay: holdingProj ? holdingProj.unitsPerDay : 0,
       holdingCost24h: holdingProj ? holdingProj.cost24h : 0,
       holdingRevenue24h: holdingProj ? holdingProj.revenue24h : 0,
       holdingRestockCost24h: holdingProj ? holdingProj.restockCost24h || 0 : 0,
-      holdingRestockCost24hIndividual: holdingRestockIndividual ? holdingRestockIndividual.flowerCost || 0 : 0,
-      holdingProfit24h: holdingProj ? holdingProj.profit24h : 0
+      holdingProfit24h: holdingProj ? holdingProj.profit24h : 0,
+      holdingCost24hIndividual: holdingProjIndividual ? holdingProjIndividual.cost24h : 0,
+      holdingRestockCost24hIndividual: holdingProjIndividual ? holdingProjIndividual.restockCost24h || 0 : 0,
+      holdingProfit24hIndividual: holdingProjIndividual ? holdingProjIndividual.profit24h : 0
     });
   });
   Object.keys(RESOURCE_DATA).forEach(name => {
@@ -25043,7 +25083,7 @@ export function gatherTop10ProfitItems() {
       costUnknown: costFlower == null
     });
   });
-  items.sort((a, b) => (b.unitProfit24h ?? -Infinity) - (a.unitProfit24h ?? -Infinity));
+  items.sort((a, b) => ((b.unitProfit24hIndividual ?? b.unitProfit24h) ?? -Infinity) - ((a.unitProfit24hIndividual ?? a.unitProfit24h) ?? -Infinity));
   __allProfitItemsCache = items;
   return items.slice(0, 10);
 }
@@ -25066,25 +25106,152 @@ export const dailyProfitExpandedNames = new Set;
 const dailyProfitCycleOverrides = new Map;
 
 function dailyProfitDefaultCycles(card) {
+  const periodMult = dailyProfitPeriodMode === "7d" ? 7 : 1;
+  if (card.name === "Salt" && dailyProfitCalcMode === "live") {
+    const perCharge = card.avgYieldPerCycle;
+    if (typeof perCharge === "number" && perCharge > 0) {
+      const liveCharges = (card.totalYield || 0) / perCharge;
+      return Math.max(1, Math.round(liveCharges * periodMult));
+    }
+  }
   const v = card.cyclesPerDay;
-  return typeof v === "number" && isFinite(v) && v > 0 ? v : 1;
+  const base = typeof v === "number" && isFinite(v) && v > 0 ? v : 1;
+  return Math.max(1, Math.round(base * periodMult));
 }
 
 export function dailyProfitGetCycleCount(card) {
-  const key = card.name.toLowerCase();
+  const key = (card && card.name ? card.name : "").toLowerCase();
   return dailyProfitCycleOverrides.has(key) ? dailyProfitCycleOverrides.get(key) : dailyProfitDefaultCycles(card);
 }
 
+let dailyProfitCalcMode = "average";
+
+export function getDailyProfitCalcMode() {
+  return dailyProfitCalcMode;
+}
+
+export function setDailyProfitCalcMode(mode) {
+  dailyProfitCalcMode = mode === "live" ? "live" : "average";
+  dailyProfitCycleOverrides.clear();
+}
+
+let dailyProfitPeriodMode = "24h";
+
+export function getDailyProfitPeriodMode() {
+  return dailyProfitPeriodMode;
+}
+
+export function setDailyProfitPeriodMode(mode) {
+  dailyProfitPeriodMode = mode === "7d" ? "7d" : "24h";
+  dailyProfitCycleOverrides.clear();
+}
+
+let dailyProfitTotalsMode = "all";
+
+export function getDailyProfitTotalsMode() {
+  return dailyProfitTotalsMode;
+}
+
+export function setDailyProfitTotalsMode(mode) {
+  dailyProfitTotalsMode = mode === "profitOnly" ? "profitOnly" : "all";
+}
+
+const dailyProfitSwaps = new Map;
+
+export function getDailyProfitSwap(key) {
+  return dailyProfitSwaps.get(key) || null;
+}
+
+export function setDailyProfitSwap(key, name) {
+  if (name) dailyProfitSwaps.set(key, name); else dailyProfitSwaps.delete(key);
+}
+
+export function dailyProfitSwapCategory(name) {
+  if (BASE_CROPS[name]) return "crop";
+  if (BASE_FRUITS[name]) return "fruit";
+  return null;
+}
+
+export function buildDailyProfitSwapStats(name, count) {
+  const category = dailyProfitSwapCategory(name);
+  if (!category) return null;
+  const m = (marketItems || []).find(x => (x.name || "").toLowerCase() === name.toLowerCase());
+  const sellFlower = m ? m.flowerPrice || 0 : 0;
+  let boosted, costFlower;
+  if (category === "crop") {
+    const d = BASE_CROPS[name];
+    costFlower = coinsToFlower(getCropCostCoins(name));
+    boosted = computeBoostedCropStats(name, d.baseYield || 1, d.timeSec);
+  } else {
+    const d = BASE_FRUITS[name];
+    costFlower = coinsToFlower(getFruitCostCoins(name));
+    boosted = computeBoostedFruitStats(name, d.yieldPerHarvest || 1, d.timeSec, d.minHarvest || 1);
+  }
+  const cyclesPerDay = boosted.timeVal ? 86400 / boosted.timeVal : null;
+  return {
+    category: category,
+    price: sellFlower,
+    costPerUnit: costFlower,
+    avgYieldPerCycle: boosted.yieldVal * count,
+    cyclesPerDay: cyclesPerDay
+  };
+}
+
+export function computeDailyProfitAveragePanelYieldPerCycle(rawName, count) {
+  if (!rawName || !count) return null;
+  if (rawName === "Salt") {
+    const fig = computeSaltFarmFigures();
+    return fig.yieldPerCharge * fig.nodeCount;
+  }
+  if (BASE_CROPS[rawName]) {
+    const d = BASE_CROPS[rawName];
+    return computeBoostedCropStats(rawName, d.baseYield || 1, d.timeSec).yieldVal * count;
+  }
+  if (BASE_FRUITS[rawName]) {
+    const d = BASE_FRUITS[rawName];
+    return computeBoostedFruitStats(rawName, d.yieldPerHarvest || 1, d.timeSec, d.minHarvest || 1).yieldVal * count;
+  }
+  if (BASE_GREENHOUSE[rawName]) {
+    const d = BASE_GREENHOUSE[rawName];
+    return computeBoostedGreenhouseStats(rawName, d.baseYield || 1, d.timeSec).yieldVal * count;
+  }
+  if (FLOWER_VARIETIES[rawName]) {
+    return computeBoostedFlowerVarietyStats(rawName).expectedYield * count;
+  }
+  if (RESOURCE_DATA[rawName] && !isTieredResource(rawName)) {
+    const d = RESOURCE_DATA[rawName];
+    return computeBoostedResourceStats(rawName, d.yieldPer, d.timeSec).yieldVal * count;
+  }
+  return null;
+}
+
 export function computeDailyProfitProjection(card, cycleCount) {
-  const marketId = farmPanelGetMarketId(card.name);
-  const yieldPerCycle = card.totalYield || 0;
+  const effectiveName = card.displayName || card.name;
+  const marketId = farmPanelGetMarketId(effectiveName);
+  const useAverage = !!card.displayName || dailyProfitCalcMode !== "live";
+  let yieldPerCycle;
+  if (effectiveName === "Salt" && !card.displayName) {
+    const panelAvg = computeDailyProfitAveragePanelYieldPerCycle(card.name, card.displayNodeCount != null ? card.displayNodeCount : card.count);
+    yieldPerCycle = panelAvg != null ? panelAvg : typeof card.avgYieldPerCycle === "number" ? card.avgYieldPerCycle : (card.totalYield || 0);
+  } else if (useAverage) {
+    const panelAvg = card.displayName ? null : computeDailyProfitAveragePanelYieldPerCycle(card.name, card.displayNodeCount != null ? card.displayNodeCount : card.count);
+    yieldPerCycle = panelAvg != null ? panelAvg : typeof card.avgYieldPerCycle === "number" ? card.avgYieldPerCycle : (card.totalYield || 0);
+  } else {
+    yieldPerCycle = card.totalYield || 0;
+  }
   const totalYield24h = yieldPerCycle * cycleCount;
   const grossPerCycle = (card.price || 0) * yieldPerCycle;
   const gross24h = (card.price || 0) * totalYield24h;
   const coinCostPerCycle = (card.costPerUnit || 0) * yieldPerCycle;
   const coinCost24h = (card.costPerUnit || 0) * totalYield24h;
-  const restockInfo24h = marketId && totalYield24h > 0 ? computeQtyRestockGems(marketId, totalYield24h) : null;
-  const restockCost24h = restockInfo24h ? restockInfo24h.flowerCost || 0 : 0;
+  let restockCost24h;
+  if (effectiveName === "Salt") {
+    const saltFig = computeSaltFarmFigures();
+    restockCost24h = saltFig.saltPerDay > 0 ? (saltFig.restockCost24h || 0) * (totalYield24h / saltFig.saltPerDay) : 0;
+  } else {
+    const restockInfo24h = marketId && totalYield24h > 0 ? computeQtyRestockGems(marketId, totalYield24h) : null;
+    restockCost24h = restockInfo24h ? restockInfo24h.flowerCost || 0 : 0;
+  }
   const shrineCost24h = (card.shrineCostPerCycle || 0) * cycleCount;
   const feeAmount24h = gross24h * ((feePercent || 0) / 100);
   const totalDeductions24h = coinCost24h + restockCost24h + shrineCost24h + feeAmount24h;
@@ -25106,25 +25273,31 @@ export function computeDailyProfitProjection(card, cycleCount) {
 
 export function fmtCycleInputValue(n) {
   if (!isFinite(n)) return "0";
-  const r = Math.round(n * 100) / 100;
-  return String(r);
+  return String(Math.round(n));
 }
 
 function computeDailyProfitSummaryTotals() {
-  let totalGross = 0, totalProfit = 0, totalDeductions = 0;
+  const profitOnly = dailyProfitTotalsMode === "profitOnly";
+  let totalGross = 0, totalProfit = 0, totalDeductions = 0, totalLoss = 0, totalSellFee = 0;
   dailyProfitCardsCache.forEach(card => {
     const cycleCount = dailyProfitGetCycleCount(card);
     const proj = computeDailyProfitProjection(card, cycleCount);
+    if (profitOnly && proj.netProfit24h < 0) return;
+    totalGross += proj.gross24h;
+    totalDeductions += proj.totalDeductions24h;
+    totalSellFee += proj.feeAmount24h;
     if (proj.netProfit24h >= 0) {
-      totalGross += proj.gross24h;
       totalProfit += proj.netProfit24h;
-      totalDeductions += proj.totalDeductions24h;
+    } else {
+      totalLoss += proj.netProfit24h;
     }
   });
   return {
     totalGross: totalGross,
     totalProfit: totalProfit,
-    totalDeductions: totalDeductions
+    totalDeductions: totalDeductions,
+    totalLoss: totalLoss,
+    totalSellFee: totalSellFee
   };
 }
 
@@ -25135,9 +25308,15 @@ export function updateDailyProfitSummary() {
     wrap.innerHTML = "";
     return;
   }
-  const {totalGross: totalGross, totalProfit: totalProfit, totalDeductions: totalDeductions} = computeDailyProfitSummaryTotals();
-  wrap.innerHTML = `\n    <div class="dprofit-summary-row"><span class="dprofit-summary-label">Total Daily Gross</span><span class="dprofit-summary-value">${fmt(totalGross)} ${FLOWER_ICON}</span></div>\n    <div class="dprofit-summary-row"><span class="dprofit-summary-label">Total Deductions</span><span class="dprofit-summary-value is-loss">-${fmt(totalDeductions)} ${FLOWER_ICON}</span></div>\n    <div class="dprofit-summary-row"><span class="dprofit-summary-label">Total Daily Profit</span><span class="dprofit-summary-value is-profit">+${fmt(totalProfit)} ${FLOWER_ICON}</span></div>`;
+  const profitOnly = dailyProfitTotalsMode === "profitOnly";
+  const {totalGross: totalGross, totalProfit: totalProfit, totalDeductions: totalDeductions, totalLoss: totalLoss, totalSellFee: totalSellFee} = computeDailyProfitSummaryTotals();
+  const periodWord = dailyProfitPeriodMode === "7d" ? "Weekly" : "Daily";
+  const totalFlowerEarned = totalGross - totalSellFee;
+  const displayedDeductions = totalDeductions - totalSellFee;
+  const lossRowHtml = profitOnly ? "" : `\n    <div class="dprofit-summary-row"><span class="dprofit-summary-label">Total ${periodWord} Loss</span><span class="dprofit-summary-value is-loss">${fmtAnimal(totalLoss)} ${FLOWER_ICON}</span></div>`;
+  wrap.innerHTML = `\n    <div class="dprofit-summary-row"><span class="dprofit-summary-label">Total ${periodWord} Gross</span><span class="dprofit-summary-value">${fmtAnimal(totalGross)} ${FLOWER_ICON}</span></div>\n    <div class="dprofit-summary-row"><span class="dprofit-summary-label">Total Sell Fee (Tax)</span><span class="dprofit-summary-value is-loss">-${fmtAnimal(totalSellFee)} ${FLOWER_ICON}</span></div>\n    <div class="dprofit-summary-row"><span class="dprofit-summary-label">Total Deductions</span><span class="dprofit-summary-value is-loss">-${fmtAnimal(displayedDeductions)} ${FLOWER_ICON}</span></div>${lossRowHtml}\n    <div class="dprofit-summary-row"><span class="dprofit-summary-label">Total ${periodWord} Profit</span><span class="dprofit-summary-value is-profit">+${fmtAnimal(totalProfit)} ${FLOWER_ICON}</span></div>\n    <div class="dprofit-summary-row dprofit-summary-flower-row"><span class="dprofit-summary-label">Total ${periodWord} FLOWER Earned <span class="dprofit-summary-formula">(${fmtAnimal(totalGross)} - ${fmtAnimal(totalSellFee)})</span></span><span class="dprofit-summary-value is-profit">${fmtAnimal(totalFlowerEarned)} ${FLOWER_ICON}</span></div>`;
 }
+
 
 function updateDailyProfitCardDom(key, cycleCount) {
   const cardEl = $("dailyProfitBody")?.querySelector(`.dprofit-node-card[data-node="${CSS.escape(key)}"]`);
@@ -25201,15 +25380,19 @@ export function attachDailyProfitCardEvents(container) {
   });
 }
 
-$("dailyProfitCloseBtn").onclick = hideDailyProfitCard;
-
 $("openDailyProfitHeaderBtn").onclick = () => {
   closeMoreMenu();
-  showDailyProfitCard();
+  toggleMainView("dailyprofit");
 };
 
-$("dailyProfitOverlay").addEventListener("click", e => {
-  if (e.target.id === "dailyProfitOverlay") hideDailyProfitCard();
+$("dprofitConfigureCostBtn").onclick = () => {
+  openDprofitCostConfig();
+};
+
+$("dprofitCostConfigCloseBtn").onclick = closeDprofitCostConfig;
+
+$("dprofitCostConfigOverlay").addEventListener("click", e => {
+  if (e.target.id === "dprofitCostConfigOverlay") closeDprofitCostConfig();
 });
 
 export let pixelPickerOnSelect = null;
@@ -25542,7 +25725,7 @@ export function computeSaltFarmFigures() {
   const eff = sculptureEffects();
   const nodeCount = Math.min(farmLevelMaxNodes(), getNodeCount("Salt"));
   const timeSec = SALT_BASE_TIME_SEC * eff.chargeTimeMult * getActiveSaltRechargeMult();
-  const chargesPerDayPerNode = 86400 / timeSec;
+  const chargesPerDayPerNode = Math.round(86400 / timeSec);
   const rakeCoinCostBase = getToolCostCoins("default_salt_rake");
   const freeRakeCost = hasFreeSaltRakeCost();
   const rakeCoinCost = freeRakeCost ? 0 : rakeCoinCostBase * eff.rakeCostMult;
@@ -25597,6 +25780,7 @@ export function computeSaltFarmFigures() {
     restocksPerDay: restocksPerDay,
     boostedRakeStock: boostedRakeStock,
     restockDetails: restockDetails,
+    rakeUsesPerDay: rakeUsesPerDay,
     activeBoosts: activeBoosts,
     dailyCost: saltPerDay * costPerUnitFlower,
     dailyRevenue: saltPerDay * netSell,
@@ -32332,7 +32516,11 @@ function profileTradableTreasureRows(g) {
 function profileTradableResourceRows(g) {
   const inv = profileAsObj(g && g.inventory) || {};
   const rows = [];
-  const skipNames = new Set(Object.keys(SELLABLE_TREASURES).concat([ "Basic Land", "Gem", "Love Charm" ]));
+  const skipNames = new Set(Object.keys(SELLABLE_TREASURES).concat([ "Basic Land", "Gem", "Love Charm" ]).concat(COLLECTIBLE_BOOST_NAMES));
+  const mainCollectibles = profileAsObj(farmPanelField(g, "collectibles")) || {};
+  const homeCollectibles = farmSyncGetInteriorCollectiblesMerged(g) || {};
+  Object.keys(mainCollectibles).forEach(name => skipNames.add(name));
+  Object.keys(homeCollectibles).forEach(name => skipNames.add(name));
   Object.entries(inv).forEach(([name, amt]) => {
     if (skipNames.has(name)) return;
     const qty = typeof amt === "string" ? parseFloat(amt) : Number(amt);
@@ -32376,12 +32564,18 @@ const COLLECTIBLE_BOOST_NAMES = [ "Alba", "Alien Chicken", "Ancient Tree", "Anem
 
 const WEARABLE_BOOST_NAMES = [ "Alchemist Apron", "Ancient Rod", "Ancient Shovel", "Angel Wings", "Angler Waders", "Architect Ruler", "Autumn's Embrace", "Banana Amulet", "Banana Onesie", "Beast Shoes", "Bee Suit", "Beekeeper Hat", "Beetroot Amulet", "Bionic Drill", "Black Sheep Onesie", "Blossom Ward", "Broccoli Hat", "Bubble Aura", "Bucket O' Worms", "Bumpkin Armor", "Bumpkin Crown", "Bumpkin Helmet", "Bumpkin Medallion", "Bumpkin Pants", "Bumpkin Quiver", "Bumpkin Sabatons", "Bumpkin Shield", "Bumpkin Sword", "Camel Onesie", "Carrot Amulet", "Cattlegrim", "Chef Apron", "Chicken Suit", "Corn Onesie", "Corn Silk Hair", "Cowbell Necklace", "Crab Hat", "Crab Trap", "Crimstone Amulet", "Crimstone Armor", "Crimstone Hammer", "Crimstone Spikes Hair", "Deep Sea Helm", "Deep Sea Salt Cave Background", "Dev Wrench", "Devil Wings", "Dream Scarf", "Eggplant Onesie", "Flower Crown", "Frozen Heart", "Fruit Picker Apron", "Goblin Armor", "Goblin Axe", "Goblin Crown", "Goblin Helmet", "Goblin Medallion", "Goblin Pants", "Goblin Quiver", "Goblin Sabatons", "Goblin Shield", "Golden Spatula", "Grape Pants", "Green Amulet", "Honeycomb Shield", "Hornet Mask", "Infernal Bullwhip", "Infernal Drill", "Infernal Pitchfork", "Ladybug Suit", "Lava Swimwear", "Lemon Shield", "Luminous Anglerfish Topper", "Luna's Crescent", "Luna's Hat", "Master Chef's Cleaver", "Medic Apron", "Merino Jumper", "Milk Apron", "Moon Hair", "Mushroom Hat", "Nightshade Armor", "Nightshade Crown", "Nightshade Helmet", "Nightshade Medallion", "Nightshade Pants", "Nightshade Quiver", "Nightshade Sabatons", "Nightshade Shield", "Nightshade Sword", "Non La Hat", "Obsidian Necklace", "Oil Can", "Oil Gallon", "Oil Overalls", "Olive Royalty Shirt", "Olive Shield", "Oracle Syringe", "Pan", "Parsnip", "Paw Aura", "Paw Shield", "Pickaxe Shark", "Pirate Potion", "Pistol Shrimp", "Red Pepper Onesie", "Rice Shirt", "Salt Bottle Onesie", "Saw Fish", "Shrimp Onesie", "Sickle", "Sol & Luna", "Solflare Aegis", "Squirrel Onesie", "Sunflorian Armor", "Sunflorian Crown", "Sunflorian Helmet", "Sunflorian Medallion", "Sunflorian Pants", "Sunflorian Quiver", "Sunflorian Sabatons", "Sunflorian Shield", "Sunflorian Sword", "Sunflower Amulet", "Sunflower Rod", "Sunflower Shield", "Surfer Hair", "Tofu Mask", "Training Whistle", "Trident", "Turd Topper", "Victoria's Apron", "Walrus Onesie", "White Sheep Onesie" ];
 
+const MARKETPLACE_WEARABLE_NAMES = [ "2026 Tiara", "404 Chic Boots", "404 Chic Skirt", "404 Chic Top", "Abyssal Angler Hat", "Acorn Hat", "Admin Fools Tools", "Adventurer's Suit", "Adventurer's Torch", "Aether Specs", "Alchemist Apron", "Amber Amulet", "Amberfall Suit", "Ancient Goblin Sword", "Ancient Rod", "Ancient Shovel", "Ancient War Hammer", "Angel Wings", "Angler Waders", "Angry Mouth", "Ankh Shirt", "Antique Dress", "Architect Ruler", "Artist Scarf", "Ascension Staff", "Ascension Wings", "Ash Ponytail", "Auction Megaphone", "Auctioneer Slacks", "Autumn's Embrace", "Baby Teeth", "Banana Amulet", "Banana Onesie", "Basic Hair", "Bat Wings", "Beach Sarong", "Beach Trunks", "Bear Onesie", "Beast Shoes", "Bee Smoker", "Bee Suit", "Bee Wings", "Beehive Staff", "Beekeeper Hat", "Beekeeper Suit", "Beetroot Amulet", "Beige Farmer Potion", "Bidder's Brocade", "Big Smile", "Big Wink Eyes", "Bionic Drill", "Birthday Hat", "Black Farmer Boots", "Black Sheep Onesie", "Blacksmith Hair", "Bloomwarden Suit", "Blossom Dumbo", "Blossom Ward", "Blue Blossom Shirt", "Blue Farmer Shirt", "Blue Jelly Shoes", "Blue Monarch Dress", "Blue Monarch Shirt", "Blue Rose Dress", "Blue Slime Shirt", "Blue Suspenders", "Boater Hat", "Brasil Jersey", "Broccoli Hat", "Brown Boots", "Brown Long Hair", "Brown Rancher Hair", "Brown Suspenders", "Brush Back Hair", "Bubble Aura", "Bucket O' Worms", "Bumpkin Armor", "Bumpkin Art Competition Merch", "Bumpkin Boots", "Bumpkin Crown", "Bumpkin Eyes", "Bumpkin Helmet", "Bumpkin Medallion", "Bumpkin Pants", "Bumpkin Puppet", "Bumpkin Quiver", "Bumpkin Sabatons", "Bumpkin Shield", "Bumpkin Smile", "Bumpkin Sword", "Bunny Mask", "Bunny Onesie", "Bunny Pants", "Butterfly Aura", "Butterfly Wings", "Buzz Cut", "Camel Onesie", "Candy Cane", "Candy Halbred", "Cap n Bells", "Cardboard Wings", "Carrot Amulet", "Carrot Pitchfork", "Cemetery Background", "Chef Apron", "Chef Hat", "Chef Shirt", "Chemist Potion", "Chic Gala Blouse", "Chicken Hat", "Chicken Suit", "China Town Background", "Christmas Background", "Clam Shell Hat", "Clown Shirt", "Club Polo", "Coconut Mask", "Coin Aura", "Coin Head", "Comfy Xmas Pants", "Comfy Xmas Sweater", "Companion Cap", "Cookie Shield", "Cool Glasses", "Corn Onesie", "Corn Silk Hair", "Cowbell Necklace", "Cowboy Boots", "Cowboy Hat", "Cowboy Shirt", "Cowboy Trouser", "Cowgirl Skirt", "Cozy Hoodie", "Cozy Reindeer Onesie", "Crab Claw", "Crab Hat", "Crab Trap", "Crimson Skirt", "Crimstone Amulet", "Crimstone Armor", "Crimstone Boots", "Crimstone Hammer", "Crimstone Pants", "Crimstone Spikes Hair", "Crow Wings", "Crumple Crown", "Crystal Shoes", "Cupid Dress", "Cupid Hair", "Cupid Sandals", "Daisy Tee", "Dark Brown Farmer Potion", "Dark Enchantment Gown", "Dawn Breaker Background", "Dawn Breaker Tee", "Dawn Lamp", "Deep Sea Helm", "Deep Sea Salt Cave Background", "Desert Background", "Desert Camel Background", "Desert Merchant Shoes", "Desert Merchant Suit", "Desert Merchant Turban", "Dev Wrench", "Developer Hoodie", "Devil Wings", "Diamond Patterned Vest", "Diamond Snow Aura", "Dino Onesie", "Double Harvest Cap", "Dream Scarf", "Earn Alliance Sombrero", "Easter Apron", "Eggplant Onesie", "Elf Hat", "Elf Potion", "Elf Shoes", "Elf Suit", "Embersteel Suit", "Explorer Hair", "Explorer Hat", "Explorer Shirt", "Explorer Shorts", "Fairy Sandals", "Fancy Pants", "Fancy Top", "Fanged Smile", "Farm Background", "Farmer Hat", "Farmer Overalls", "Farmer Pants", "Farmer Pitchfork", "Faulty Barrier Background", "Feather Hat", "Festival of Colors Background", "Fire Hair", "Fire Shirt", "Fish Hook Hat", "Fish Hook Vest", "Fish Hook Waders", "Fish Pro Vest", "Fish Trap", "Fishing Hat", "Fishing Pants", "Fishing Spear", "Flip Flops", "Flower Bouquet", "Flower Crown", "Flower Mask", "Forest Background", "Fossil Armor", "Fossil Head", "Fossil Pants", "Fox Hat", "Frank Onesie", "Fresh Catch Vest", "Frizzy Bob Cut", "Frog Onesie", "Frost Sword", "Frozen Heart", "Fruit Bowl", "Fruit Picker Apron", "Fruit Picker Shirt", "Full Bloom Shirt", "Fun Eyes", "Gam3s Cap", "Garbage Bin Hat", "Gardening Overalls", "Gift Giver", "Giggle Eyes", "Gingerbread Onesie", "Glacial Plume", "Glacierguard Suit", "Glitch Aura", "Gloomy Dumbo", "Goblin Armor", "Goblin Axe", "Goblin Crown", "Goblin Helmet", "Goblin Medallion", "Goblin Pants", "Goblin Potion", "Goblin Puppet", "Goblin Quiver", "Goblin Retreat Background", "Goblin Sabatons", "Goblin Shield", "Gold Teeth", "Golden Seedling", "Golden Spatula", "Golden Wings", "Goth Hair", "Gothic Twilight", "Grape Pants", "Grave Diggers Shovel", "Green Amulet", "Green Monarch Dress", "Green Monarch Shirt", "Green Slime Hair", "Grey Merch Hoodie", "Greyed Glory", "Grumpy Cat", "Grumpy Eyes", "Halloween Deathscythe", "Handheld Bunny", "Harry's Hat", "Hawaiian Shirt", "Hoary Chin", "Holiday Feast Background", "Honeycomb Shield", "Hornet Mask", "Imp Costume", "Infected Potion", "Infernal Bullwhip", "Infernal Bumpkin Potion", "Infernal Drill", "Infernal Goblin Potion", "Infernal Horns", "Infernal Pitchfork", "Infernal Rod", "Infernal Smile", "Jack O'Sweets", "Jail Background", "Kingdom Background", "Knight Gambit", "Koi Fish Hat", "Ladybug Suit", "Lava Swimwear", "Leather Shoes", "Lemon Shield", "Lifeguard Hat", "Lifeguard Pants", "Lifeguard Shirt", "Light Brown Farmer Potion", "Light Brown Worried Farmer Potion", "Lion Dance Mask", "Locust King Onesie", "Locust Onesie", "Love Bear Onesie", "Love Charm Shirt", "Love Heart Onesie", "Love Puff Aura", "Love Quiver", "Love's Topper", "Lucky Red Hat", "Lucky Red Suit", "Lumberjack Overalls", "Luminous Anglerfish Topper", "Luna's Crescent", "Luna's Hat", "Luscious Hair", "Luvvy Head", "Maiden Skirt", "Maiden Top", "Maple Dumbo", "Marble Pants", "Master Chef's Cleaver", "Medic Apron", "Merch Bucket Hat", "Merch Coffee Mug", "Merch Hoodie", "Merch Tee", "Merino Jumper", "Mermaid Potion", "Milk Apron", "Moon Hair", "Moonseeker Hand Puppet", "Moonseeker Potion", "Mountain View Background", "Mushroom Hat", "Mushroom Lamp", "Mushroom Lights Background", "Mushroom Pants", "Mushroom Shield", "Mushroom Shoes", "Mushroom Sweater", "Neon Noiz Jacket", "Neon Noiz Pants", "Neon Noiz Shoes", "Neutral Mouth", "New Years Crown", "New Years Tiara", "Nightshade Armor", "Nightshade Crown", "Nightshade Helmet", "Nightshade Medallion", "Nightshade Pants", "Nightshade Quiver", "Nightshade Sabatons", "Nightshade Shield", "Nightshade Sword", "Non La Hat", "Normal Fish Hat", "Northern Lights Background", "Obsidian Necklace", "Oil Can", "Oil Gallon", "Oil Overalls", "Oil Protection Hat", "Old Shoes", "Olive Royalty Shirt", "Olive Shield", "Onion Leek", "Oracle Syringe", "Orange Monarch Dress", "Orange Monarch Shirt", "Ox Costume", "Paint Splattered Hair", "Paint Splattered Overalls", "Paint Splattered Shirt", "Paint Spray Can", "Painter's Cap", "Pale Potion", "Parlour Hair", "Parsnip Horns", "Paw Aura", "Paw Shield", "Peasant Skirt", "Peg Leg", "Pet Specialist Hat", "Pet Specialist Pants", "Pet Specialist Shirt", "Pharaoh Headdress", "Pickaxe Shark", "Pineapple Shirt", "Pink Ponytail", "Pirate General Coat", "Pirate Hat", "Pirate Leather Polo", "Pirate Pants", "Pirate Potion", "Pirate Scimitar", "Pistol Shrimp", "Pixel Perfect Hoodie", "Polkastarter Shirt", "Potato Suit", "Project Dignity Hoodie", "Propeller Hat", "Pumpkin Hat", "Pumpkin Head", "Pumpkin Plaza Background", "Pumpkin Shirt", "Queen Bee Crown", "Queen's Crown", "Raccoon Onesie", "Radiant Dumbo", "Rainbow Wings", "Rancher Hair", "Rash Vest", "Recycle Shirt", "Red Farmer Shirt", "Red Jelly Pants", "Red Long Hair", "Red Pepper Onesie", "Reel Fishing Vest", "Reindeer Antlers", "Reindeer Mask", "Reindeer Suit", "Relaxed Eyes", "Research Uniform", "Rice Shirt", "Rock Hammer", "Rocket Onesie", "Rose Dress", "Royal Braids", "Royal Dress", "Royal Robe", "Royal Scepter", "SFL Office Background", "SFL T-Shirt", "Sad Slime Hat", "Sad Slime Pants", "Sad Slime Slippers", "Sakura Shirt", "Salt Bottle Onesie", "Santa Beard", "Santa Hat", "Santa Suit", "Saw Fish", "Scarab Wings", "Scared Eyes", "Seashore Background", "Seaside Tank Top", "Seedling Hat", "Sequence Hat", "Sequence Shirt", "Shark Onesie", "Shepherd Staff", "Short Shorts", "Shrimp Onesie", "Silver Streaks", "Skinning Knife", "Skull Hat", "Skull Shirt", "Sky Island Background", "Sleeping Otter", "Slime Aura", "Slime Hat", "Slime Splattered Shirt", "Slime Wall Background", "Slime Wings", "Snowman Mask", "Snowman Onesie", "Sol & Luna", "Solflare Aegis", "Soybean Onesie", "Spa Hat", "Spa Robe", "Spa Slippers", "Space Background", "Speed Boots", "Spooky Coat", "Squid Hat", "Squirrel Monkey Potion", "Squirrel Onesie", "St Patricks Hat", "Stockeye Salmon Onesie", "Straw Hat", "Streamer Hat", "Streamer Helmet", "Stretched Jeans", "Striped Blue Shirt", "Striped Red Shirt", "Striped Yellow Shirt", "Summer Top", "Sun Scarab Amulet", "Sun Spots", "Sunburst Potion", "Sunflorian Armor", "Sunflorian Crown", "Sunflorian Helmet", "Sunflorian Medallion", "Sunflorian Pants", "Sunflorian Quiver", "Sunflorian Sabatons", "Sunflorian Shield", "Sunflorian Sword", "Sunflower Amulet", "Sunflower Rod", "Sunflower Shield", "Surfer Hair", "Surprised Eyes", "Swamp Armor", "Swamp Lily Hat", "Swamp Pants", "Sweet Devil Dress", "Sweet Devil Horns", "Sweet Devil Wings", "Tackle Box", "Tangerine Hair", "Tattered Jacket", "Tattered Slacks", "Teal Mohawk", "Tiger Onesie", "Tiki Armor", "Tiki Mask", "Tiki Pants", "Tofu Mask", "Tomato Apron", "Training Whistle", "Traveller's Backpack", "Traveller's Pants", "Traveller's Shirt", "Trial Tee", "Trick and Treat", "Tropical Sarong", "Turd Topper", "Two-toned Layered", "Ugly Christmas Sweater", "Underworld Stimpack", "Unicorn Hat", "Unicorn Horn", "Valentine's Field Background", "Valoria Wreath", "Victoria's Apron", "Victorian Hat", "Walrus Onesie", "Warrior Helmet", "Warrior Pants", "Warrior Shirt", "Water Gourd", "Water Gun", "Wavy Pants", "Weather Hat", "Whale Hat", "White Long Hair", "White Sheep Onesie", "White Turtle Neck", "Wink Eyes", "Winter Jacket", "Wise Beard", "Wise Book", "Wise Hair", "Wise Robes", "Wise Slacks", "Wise Staff", "Wisp Aura", "Witch's Broom", "Witches' Eve Tee", "Witching Wardrobe", "Wooly Dress", "Xmas Top Hat", "Yellow Boots", "Yellow Farmer Shirt", "Yellow Slime Puppet" ];
+
 function profileCollectibleBoostNameSet() {
   return new Set(COLLECTIBLE_BOOST_NAMES);
 }
 
 function profileWearableBoostNameSet() {
   return new Set(WEARABLE_BOOST_NAMES);
+}
+
+function profileMarketplaceWearableNameSet() {
+  return new Set(MARKETPLACE_WEARABLE_NAMES);
 }
 
 function profileCollectibleInstanceKey(inst) {
@@ -32446,6 +32640,7 @@ function profileTradableCollectibleRows(g, wantBoostOnes) {
 function profileTradableWearableRows(g, mode) {
   const wardrobe = profileAsObj(g && g.wardrobe) || {};
   const boostNames = profileWearableBoostNameSet();
+  const marketplaceNames = profileMarketplaceWearableNameSet();
   const rows = [];
   if (mode === "nonboost") ensureCosmeticPricesLoaded();
   Object.entries(wardrobe).forEach(([name, count]) => {
@@ -32454,6 +32649,7 @@ function profileTradableWearableRows(g, mode) {
     const hasBoost = boostNames.has(name);
     if (mode === "boost" && !hasBoost) return;
     if (mode === "nonboost" && hasBoost) return;
+    if (mode === "nonboost" && !marketplaceNames.has(name)) return;
     let price = findLiveNftPriceForName(name);
     let source = price != null ? livePriceSource : null;
     if (price == null && mode === "nonboost") {
