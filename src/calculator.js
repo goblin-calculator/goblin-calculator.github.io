@@ -10470,15 +10470,16 @@ export function describeAoeTierAllocation(resourceName, perTier) {
 export function skillRankUsageHtml(s, rank) {
   const tier = s.skillTier || 1;
   const cost = ASCENSION_UPGRADE_COST[tier] || ASCENSION_UPGRADE_COST[1];
+  const baseSkillPoints = tier;
   const steps = Math.max(0, rank - 1);
   const stepShards = steps > 0 ? cost.shards : 0;
-  const stepPoints = steps > 0 ? cost.points : 0;
+  const stepPoints = steps > 0 ? cost.points : baseSkillPoints;
   const shardsUsed = cost.shards * steps;
-  const pointsUsed = cost.points * steps;
+  const pointsUsed = cost.points * steps + baseSkillPoints;
   const rankList = [];
   for (let r = 2; r <= rank; r++) rankList.push(r);
   const stepCaption = `USED FOR RANK ${rank}`;
-  const totalCaption = rankList.length ? `USED FOR RANK ${rankList.join(" & ")}` : "";
+  const totalCaption = rankList.length ? `USED FOR RANK 1 & ${rankList.join(" & ")}` : `USED FOR RANK ${rank}`;
   return `<div class="skill-rank-usage" data-skill-id="${s.id}">\n    <div class="skill-rank-usage-group-wrap">\n      <div class="skill-rank-usage-label-row">\n        <img class="skill-rank-usage-mini-icon" src="${IMAGE_ICONS["Ascension Shard"]}" alt="Ascension Shard">\n        <span class="skill-rank-usage-mini-badge">SP</span>\n        <span class="skill-rank-usage-caption">${stepCaption}</span>\n      </div>\n      <div class="skill-rank-usage-group">\n        <div class="skill-rank-usage-row"><img class="skill-rank-usage-icon" src="${IMAGE_ICONS["Ascension Shard"]}" alt="Ascension Shard"><span class="skill-rank-usage-val">${fmt(stepShards)}</span></div>\n        <div class="skill-rank-usage-row"><span class="skill-rank-usage-label">SP</span><span class="skill-rank-usage-val">${fmt(stepPoints)}</span></div>\n      </div>\n    </div>\n    <div class="skill-rank-usage-group-wrap skill-rank-usage-total">\n      <div class="skill-rank-usage-label-row">\n        <span class="skill-rank-usage-caption skill-rank-usage-caption-total">TOTAL</span>\n        <img class="skill-rank-usage-mini-icon" src="${IMAGE_ICONS["Ascension Shard"]}" alt="Ascension Shard">\n        <span class="skill-rank-usage-mini-badge">SP</span>\n        <span class="skill-rank-usage-caption">${totalCaption}</span>\n      </div>\n      <div class="skill-rank-usage-group">\n        <div class="skill-rank-usage-row"><img class="skill-rank-usage-icon" src="${IMAGE_ICONS["Ascension Shard"]}" alt="Ascension Shard"><span class="skill-rank-usage-val">${fmt(shardsUsed)}</span></div>\n        <div class="skill-rank-usage-row"><span class="skill-rank-usage-label">SP</span><span class="skill-rank-usage-val">${fmt(pointsUsed)}</span></div>\n      </div>\n    </div>\n  </div>`;
 }
 
