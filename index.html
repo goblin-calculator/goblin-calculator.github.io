@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://images.bumpkins.io https://testnet-images.bumpkins.io https://animations.sunflower-land.com; connect-src 'self' https://sfl-proxy.bossweki.workers.dev https://sfl-community-proxy.bossweki.workers.dev https://sfl-market-cache.bossweki.workers.dev https://*.firebaseio.com wss://*.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://images.bumpkins.io https://testnet-images.bumpkins.io https://animations.sunflower-land.com; connect-src 'self' https://sfl-proxy.bossweki.workers.dev https://sfl-community-proxy.bossweki.workers.dev https://sfl-market-cache.bossweki.workers.dev https://sfl-cosmetics-cache.bossweki.workers.dev https://*.firebaseio.com wss://*.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Goblin Calculator</title>
 <meta name="description" content="Goblin Calculator — an unofficial profit/loss calculator for Sunflower Land. Know your real profit before you list it." />
@@ -213,7 +213,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V4.4</span>
+  <span class="app-version-badge">V4.5</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -1616,7 +1616,7 @@
       </button>
       <button id="openDailyProfitHeaderBtn" type="button" class="more-menu-item" aria-label="Daily Profit">
         <span class="more-menu-item-icon"><img src="data:image/png;base64,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" alt="" /></span>
-        <span class="more-menu-item-label">Daily Profit</span>
+        <span class="more-menu-item-label">Daily Profit Calculator</span>
         <span class="more-menu-item-chev">›</span>
       </button>
       <button id="openTop10HeaderBtn" type="button" class="more-menu-item" aria-label="Top 10 Most Profitable">
@@ -1894,18 +1894,89 @@
   </div>
 </div>
 
-<div id="dailyProfitOverlay">
-  <div class="dprofit-card">
-    <div class="dprofit-titlebar">
-      <div class="dprofit-title-wrap">
-        <div class="dprofit-title-text">DAILY PROFIT</div>
-        <div class="dprofit-title-sub" id="dailyProfitSub">What your farm is actually growing right now</div>
+<div class="library-panel main-tab-modal tab-hidden" id="dailyProfitPanel">
+  <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" id="dailyProfitCloseBtn" data-view="dailyprofit">✕</button><span>💰 Daily Profit</span></div>
+  <div class="library-body" id="dailyProfitLibraryBody">
+    <div class="library-sub">What your farm is actually growing right now</div>
+    <div class="dprofit-panel-box">
+      <div class="dprofit-summary" id="dailyProfitSummary"></div>
+      <div class="calc-restock-mode" id="dprofitCalcModeToggleGroup">
+        <div class="calc-restock-mode-title">How do you want to compute?</div>
+        <div class="dprofit-period-row dprofit-calc-mode-row">
+          <label class="dprofit-period-option" id="dprofitAverageSwitchWrap">
+            <input type="checkbox" id="dprofitAverageSwitchInput" checked>
+            <span class="dprofit-period-box"></span>
+            <span class="dprofit-period-label">Average</span>
+          </label>
+          <label class="dprofit-period-option" id="dprofitLiveSwitchWrap">
+            <input type="checkbox" id="dprofitLiveSwitchInput">
+            <span class="dprofit-period-box"></span>
+            <span class="dprofit-period-label">Live Procs</span>
+          </label>
+        </div>
+        <div class="dprofit-period-row">
+          <label class="dprofit-period-option" id="dprofitPeriod24hWrap">
+            <input type="checkbox" id="dprofitPeriod24hInput" checked>
+            <span class="dprofit-period-box"></span>
+            <span class="dprofit-period-label">24hr</span>
+          </label>
+          <label class="dprofit-period-option" id="dprofitPeriod7dWrap">
+            <input type="checkbox" id="dprofitPeriod7dInput">
+            <span class="dprofit-period-box"></span>
+            <span class="dprofit-period-label">7 Days</span>
+          </label>
+        </div>
+        <div class="dprofit-cost-mode-row">
+          <div class="dprofit-cost-mode-title">How do you want to compute Cost/Totals?</div>
+          <div class="dprofit-cost-mode-controls">
+            <button type="button" class="dprofit-configure-cost-btn" id="dprofitConfigureCostBtn">⚙️ Configure Cost</button>
+            <label class="dprofit-period-option" id="dprofitAllTotalsWrap">
+              <input type="checkbox" id="dprofitAllTotalsInput" checked>
+              <span class="dprofit-period-box"></span>
+              <span class="dprofit-period-label">All Totals</span>
+            </label>
+            <label class="dprofit-period-option" id="dprofitProfitOnlyWrap">
+              <input type="checkbox" id="dprofitProfitOnlyInput">
+              <span class="dprofit-period-box"></span>
+              <span class="dprofit-period-label">Profit Only</span>
+            </label>
+          </div>
+        </div>
       </div>
-      <button type="button" class="dprofit-close" id="dailyProfitCloseBtn">✕</button>
+      <div class="dprofit-body retro-scroll" id="dailyProfitBody"></div>
     </div>
-    <div class="dprofit-divider"></div>
-    <div class="dprofit-summary" id="dailyProfitSummary"></div>
-    <div class="dprofit-body retro-scroll" id="dailyProfitBody"></div>
+    <div class="dprofit-panel-box dprofit-info-box">
+      <div class="dprofit-info-label">DAILY PROFIT Calculator</div>
+      <div class="dprofit-info-desc">This tool estimates the coin your farm earns over a 24-hour period, based only on what is currently growing, cooking, or producing on your synced farm. For every active node it takes the base yield, applies your active boosts and procs, multiplies by the current market sell price, then subtracts seed or resource cost, restock cost, shrine upkeep, and the marketplace sell fee. What's left is your real net profit per item, and a combined total across your whole farm.</div>
+      <div class="dprofit-info-guide-title">How To Use</div>
+      <div class="dprofit-info-guide">
+        <ol>
+          <li>Each card below shows a node type you currently have growing or producing, with its default cycle count already filled in from your synced data.</li>
+          <li>Edit the <b>Cycles / 24h</b> number on any card to match how many times you actually harvest and replant, or restock and collect, that node per day.</li>
+          <li>The card's profit figures update instantly, so your total reflects your real play pattern rather than a theoretical maximum.</li>
+          <li>Use the totals at the top of the list to see your combined daily gross, deductions, and net profit across every synced node.</li>
+        </ol>
+      </div>
+      <div class="dprofit-info-guide-title">How it Work?</div>
+      <div class="dprofit-info-terms">
+        <div class="dprofit-info-term"><div class="dprofit-info-term-label">Total Daily Gross</div><div class="dprofit-info-term-desc">The total sum of all gross from every currently growing and producing node listed above.</div></div>
+        <div class="dprofit-info-term"><div class="dprofit-info-term-label">Total Sell Fee (Tax)</div><div class="dprofit-info-term-desc">The sum of the total sell fee from all items listed above.</div></div>
+        <div class="dprofit-info-term"><div class="dprofit-info-term-label">Total Deductions</div><div class="dprofit-info-term-desc">The sum of all total deductions from all items listed above.</div></div>
+        <div class="dprofit-info-term"><div class="dprofit-info-term-label">Total Daily Loss</div><div class="dprofit-info-term-desc">The sum of all loss-making nodes listed above.</div></div>
+        <div class="dprofit-info-term"><div class="dprofit-info-term-label">Total Daily Profit</div><div class="dprofit-info-term-desc">The sum of all profit-making nodes listed above.</div></div>
+        <div class="dprofit-info-term"><div class="dprofit-info-term-label">Total Daily FLOWER Earned</div><div class="dprofit-info-term-desc">Total Daily Gross minus the Total Sell Fee (Tax) from all items listed above.</div></div>
+      </div>
+      <div class="dprofit-info-guide-title">How do you want to compute?</div>
+      <div class="dprofit-info-terms">
+        <div class="dprofit-info-term"><div class="dprofit-info-term-label">Average</div><div class="dprofit-info-term-desc">Computations above are based on the average yield and cost.</div></div>
+        <div class="dprofit-info-term"><div class="dprofit-info-term-label">Live Procs</div><div class="dprofit-info-term-desc">Computations use your real proc yield from the In Progress panel, based on what your farm is currently growing.</div></div>
+        <div class="dprofit-info-term"><div class="dprofit-info-term-label">24hr</div><div class="dprofit-info-term-desc">The computation range is 24 hours.</div></div>
+        <div class="dprofit-info-term"><div class="dprofit-info-term-label">7 Days</div><div class="dprofit-info-term-desc">The computation range is 7 days.</div></div>
+        <div class="dprofit-info-term"><div class="dprofit-info-term-label">Configure Cost</div><div class="dprofit-info-term-desc">Sets how the cost of tools is computed — either by buying materials or self-producing them.</div></div>
+        <div class="dprofit-info-term"><div class="dprofit-info-term-label">All Totals</div><div class="dprofit-info-term-desc">The totals at the top include every node, profit-making and loss-making alike — this is the default.</div></div>
+        <div class="dprofit-info-term"><div class="dprofit-info-term-label">Profit Only</div><div class="dprofit-info-term-desc">The totals at the top only include profit-making nodes; loss-making nodes are excluded, so the Total Loss row is hidden.</div></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1916,6 +1987,16 @@
       <button type="button" class="pixel-picker-close" id="pixelPickerCloseBtn">✕</button>
     </div>
     <div class="pixel-picker-body retro-scroll" id="pixelPickerBody"></div>
+  </div>
+</div>
+
+<div id="dprofitCostConfigOverlay">
+  <div class="pixel-picker-card dprofit-cost-config-card">
+    <div class="pixel-picker-titlebar">
+      <div class="pixel-picker-title-text">⚙️ CONFIGURE COST</div>
+      <button type="button" class="pixel-picker-close" id="dprofitCostConfigCloseBtn">✕</button>
+    </div>
+    <div class="pixel-picker-body retro-scroll" id="dprofitCostConfigBody"></div>
   </div>
 </div>
 
@@ -1955,7 +2036,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="presence.js"></script>
-<script src="app.7634856ee2.bundle.js"></script>
+<script src="app.bcc5aea112.bundle.js"></script>
 <script>
 (function(){
   function ready(fn){

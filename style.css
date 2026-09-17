@@ -1915,6 +1915,83 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   .calc-restock-mode-switch input:checked + .calc-restock-mode-state{ color:var(--profit); border-color:var(--profit); }
   .calc-restock-mode-switch input:checked + .calc-restock-mode-state::before{ content:"ON"; }
 
+  .dprofit-period-row{ display:flex; gap:8px; margin-top:8px; padding-top:8px; border-top:1px dashed var(--line); }
+  .dprofit-calc-mode-row{ margin-top:0; padding-top:0; border-top:none; }
+  .dprofit-period-option{ flex:1; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; border:2px solid var(--soil); border-radius:4px; padding:7px 8px; background:var(--parchment); }
+  .dprofit-period-option input{ position:absolute; opacity:0; width:0; height:0; pointer-events:none; }
+  .dprofit-period-box{ width:21px; height:21px; flex-shrink:0; border:2.5px solid var(--loss); border-radius:3px; background:var(--parchment); position:relative; }
+  .dprofit-period-box::after{
+    content:"✔"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:13px; line-height:1; font-weight:900; color:transparent; font-family:'Inter',sans-serif;
+  }
+  .dprofit-period-label{ font-weight:700; font-size:11.4px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.3px; }
+  .dprofit-period-option input:checked ~ .dprofit-period-box{ border-color:var(--profit); background:var(--profit); }
+  .dprofit-period-option input:checked ~ .dprofit-period-box::after{ color:#fff; }
+  .dprofit-period-option input:checked ~ .dprofit-period-label{ color:var(--ink); }
+
+  .dprofit-cost-mode-row{ margin-top:10px; padding-top:9px; border-top:1px dashed var(--line); }
+  .dprofit-cost-mode-title{ font-weight:700; font-size:11.4px; color:var(--ink); text-transform:uppercase; letter-spacing:.3px; margin-bottom:7px; }
+  .dprofit-cost-mode-controls{ display:flex; flex-wrap:wrap; gap:8px; align-items:stretch; }
+  .dprofit-cost-mode-controls .dprofit-period-option{ flex:1 1 100px; }
+  .dprofit-configure-cost-btn{
+    flex:1 1 100%; display:flex; align-items:center; justify-content:center; gap:6px;
+    border:2px solid var(--soil-dark); background:var(--wheat); color:var(--soil-dark);
+    font-weight:700; font-size:12px; padding:9px 8px; cursor:pointer;
+    box-shadow:3px 3px 0 var(--soil-dark); font-family:'Inter',sans-serif;
+  }
+  .dprofit-configure-cost-btn:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 var(--soil-dark); }
+
+  @media (min-width:760px){
+    .dprofit-configure-cost-btn{ flex:1 1 130px; }
+  }
+
+  #dprofitCostConfigOverlay{
+    position:fixed; inset:0; background:rgba(18,14,9,.6);
+    display:none; align-items:center; justify-content:center; z-index:1300;
+    padding:16px;
+  }
+  #dprofitCostConfigOverlay.show{ display:flex; animation:top10FadeIn .16s ease both; }
+  .dprofit-cost-config-card{ width:100%; max-width:420px; max-height:85vh; }
+  .dprofit-cost-config-intro{ font-size:10.8px; color:var(--ink-soft); padding:2px 2px 9px; line-height:1.45; }
+  .dprofit-cost-config-head-row,
+  .dprofit-cost-config-row{
+    display:grid; grid-template-columns:1.35fr 1.35fr .72fr .6fr;
+    gap:4px; align-items:center;
+  }
+  .dprofit-cost-config-head-row{
+    padding:0 9px 6px; margin-bottom:2px;
+    font-family:var(--pixel-font); font-size:7.8px; color:var(--soil-dark);
+    text-transform:uppercase; letter-spacing:.2px; white-space:nowrap;
+  }
+  .dprofit-cost-config-head-row span{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:center; }
+  .dprofit-cost-config-head-row span:first-child{ text-align:left; }
+  .dprofit-cost-config-row{
+    border:2px solid var(--soil-dark); padding:8px 9px; margin-bottom:6px;
+    background:var(--surface); box-shadow:3px 3px 0 rgba(0,0,0,.22);
+  }
+  .dprofit-cost-config-row:last-child{ margin-bottom:0; }
+  .dprofit-cost-config-tool{ display:flex; align-items:center; gap:6px; min-width:0; }
+  .dprofit-cost-config-tool-icon{ font-size:16.8px; flex-shrink:0; }
+  .dprofit-cost-config-tool-name{ font-weight:800; font-size:10.8px; color:var(--soil-dark); line-height:1.25; min-width:0; }
+  .dprofit-cost-config-tool-count{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:9px; color:var(--ink-soft); }
+  .dprofit-cost-config-materials{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+  .dprofit-cost-config-mat-line{ font-size:9.6px; font-weight:600; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .dprofit-cost-config-mat-total{ font-size:8.1px; color:var(--ink-soft); }
+  .dprofit-cost-config-check-cell{ display:flex; align-items:center; justify-content:center; }
+  .dprofit-cost-config-checkbox{
+    width:19px; height:19px; flex-shrink:0; border:2.25px solid var(--soil); border-radius:3px;
+    background:var(--parchment); position:relative; cursor:pointer;
+  }
+  .dprofit-cost-config-checkbox input{ position:absolute; opacity:0; width:100%; height:100%; margin:0; cursor:pointer; }
+  .dprofit-cost-config-checkbox::after{
+    content:"✔"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:12px; line-height:1; font-weight:900; color:transparent;
+  }
+  .dprofit-cost-config-checkbox.is-checked{ border-color:var(--profit); background:var(--profit); }
+  .dprofit-cost-config-checkbox.is-checked::after{ color:#fff; }
+  .dprofit-cost-config-note{ font-size:9px; color:var(--ink-soft); margin-top:9px; line-height:1.4; }
+  .dprofit-cost-config-empty{ text-align:center; font-size:11.4px; color:var(--ink-soft); padding:14px 6px; }
+
   .calc-btn-grid{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
   .calc-btn{ border:2px solid var(--soil-dark); background:var(--wheat); color:var(--soil-dark); font-weight:700; font-size:12.6px; padding:11px 6px; cursor:pointer; box-shadow:3px 3px 0 var(--soil-dark); font-family:'Inter',sans-serif; }
   .calc-btn:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 var(--soil-dark); }
@@ -2888,57 +2965,56 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
     animation-delay:.45s;
   }
 
-  #dailyProfitOverlay{
-    position:fixed; inset:0; background:rgba(18,14,9,.6);
-    display:none; align-items:center; justify-content:center; z-index:1200;
-    padding:16px;
-  }
-  #dailyProfitOverlay.show{ display:flex; animation:top10FadeIn .2s ease both; }
-
-  .dprofit-card{
-    width:100%; max-width:400px; max-height:88vh;
-    background:var(--desert-light);
+  .dprofit-panel-box{
     border:3px solid var(--soil-dark);
-    box-shadow:6px 6px 0 rgba(0,0,0,.4);
-    display:flex; flex-direction:column;
+    background:var(--wheat-dim);
+    border-radius:8px;
+    box-shadow:3px 3px 0 rgba(0,0,0,.4), inset 0 0 0 2px rgba(255,255,255,.15);
     overflow:hidden;
-    animation:top10Bounce .62s cubic-bezier(.22,1,.36,1) both;
-    transform-origin:center bottom;
     image-rendering:pixelated;
+    margin-bottom:12px;
+  }
+  .dprofit-info-box{ padding:14px 14px 16px; }
+  .dprofit-info-label{
+    font-family:var(--pixel-font); font-size:13.2px; color:var(--soil-dark);
+    letter-spacing:.4px; margin-bottom:9px; line-height:1.5;
+  }
+  .dprofit-info-desc{
+    font-family:'JetBrains Mono',monospace; font-size:11.1px; line-height:1.65;
+    color:var(--ink); background:var(--surface); border:1.5px solid var(--line);
+    border-radius:4px; padding:10px 11px; margin-bottom:13px;
+  }
+  .dprofit-info-guide-title{
+    font-family:var(--pixel-font); font-size:10.8px; color:var(--soil-dark);
+    letter-spacing:.3px; margin-bottom:7px;
+  }
+  .dprofit-info-guide{ font-size:11.4px; color:var(--ink-soft); line-height:1.6; }
+  .dprofit-info-guide ol{ margin:0; padding-left:18px; }
+  .dprofit-info-guide li{ margin-bottom:6px; }
+  .dprofit-info-guide b{ color:var(--ink); }
+
+  .dprofit-info-terms{ margin-bottom:13px; }
+  .dprofit-info-term{ margin-bottom:9px; }
+  .dprofit-info-term:last-child{ margin-bottom:0; }
+  .dprofit-info-term-label{
+    font-family:var(--pixel-font); font-size:9.6px; color:var(--ink);
+    letter-spacing:.3px; margin-bottom:3px; line-height:1.4;
+  }
+  .dprofit-info-term-desc{
+    font-family:'JetBrains Mono',monospace; font-size:10.8px; line-height:1.55;
+    color:var(--ink-soft);
   }
 
-  .dprofit-titlebar{
-    position:relative;
-    background:repeating-linear-gradient(45deg, rgba(0,0,0,.08) 0 4px, transparent 4px 8px), linear-gradient(160deg,#8fc45a 0%,#6ea83f 45%,#4c8c2e 100%);
-    border-bottom:3px solid var(--soil-dark);
-    padding:12px 10px 11px 14px;
-    display:flex; align-items:flex-start; justify-content:space-between; gap:8px;
-    flex-shrink:0;
+  #dailyProfitPanel .dprofit-body{
+    flex:none; max-height:none;
   }
-  .dprofit-title-wrap{ min-width:0; }
-  .dprofit-title-text{
-    font-family:var(--pixel-font); font-size:15.6px; line-height:1.7;
-    color:#fffbe8; text-shadow:2px 2px 0 rgba(0,0,0,.4); letter-spacing:.5px;
-    margin:0;
-  }
-  .dprofit-title-sub{
-    font-family:'Inter',sans-serif; font-size:10.8px; font-weight:600;
-    color:#eafce0; margin-top:5px; line-height:1.4; opacity:.92;
-  }
-  .dprofit-close{
-    flex-shrink:0; width:28px; height:28px; margin-top:1px;
-    background:var(--sun); border:2px solid var(--soil-dark);
-    box-shadow:2px 2px 0 rgba(0,0,0,.4);
-    font-family:var(--pixel-font); font-size:12px; color:var(--soil-dark);
-    cursor:pointer; display:flex; align-items:center; justify-content:center;
-  }
-  .dprofit-close:active{ transform:translate(2px,2px); box-shadow:none; }
 
-  .dprofit-divider{
-    height:6px; flex-shrink:0;
-    background-image:repeating-linear-gradient(90deg,
-      var(--soil-dark) 0 6px, #4c8c2e 6px 12px);
-    border-bottom:2px solid var(--soil-dark);
+  @media (min-width:760px){
+    #dailyProfitLibraryBody{ display:flex; flex-wrap:wrap; align-items:flex-start; gap:12px; }
+    #dailyProfitLibraryBody .library-sub{ flex:1 1 100%; }
+    #dailyProfitLibraryBody .dprofit-panel-box{ margin-bottom:0; }
+    #dailyProfitLibraryBody .dprofit-panel-box:not(.dprofit-info-box){ flex:1 1 55%; min-width:320px; }
+    #dailyProfitLibraryBody .dprofit-info-box{ flex:1 1 40%; min-width:280px; }
   }
 
   .dprofit-summary{
@@ -2960,6 +3036,11 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   }
   .dprofit-summary-value.is-profit{ color:#baffb0; }
   .dprofit-summary-value.is-loss{ color:#ffb3ab; }
+  .dprofit-summary-flower-row{ margin-top:4px; padding-top:7px; border-top:1px dashed rgba(255,255,255,.25); }
+  .dprofit-summary-formula{
+    display:block; font-family:'JetBrains Mono',monospace; font-size:8.4px; letter-spacing:0;
+    text-shadow:none; color:var(--wheat); opacity:.75; margin-top:2px;
+  }
 
   .dprofit-body{
     overflow-y:auto; padding:10px 10px 12px; flex:1; min-height:0;
@@ -2973,6 +3054,7 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   }
 
   .dprofit-node-card{
+    position:relative;
     border:2px solid var(--soil-dark);
     background:var(--surface);
     box-shadow:3px 3px 0 rgba(0,0,0,.25);
@@ -2981,6 +3063,18 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   .dprofit-node-card:last-child{ margin-bottom:0; }
   .dprofit-node-card.is-profit{ border-left:5px solid var(--profit); }
   .dprofit-node-card.is-loss{ border-left:5px solid var(--loss); }
+
+  .dprofit-swap-badge{
+    position:absolute; top:-9px; left:-9px; z-index:2;
+    width:22px; height:22px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11.4px; line-height:1; padding:0;
+    background:var(--sun-deep); color:var(--soil-dark);
+    border:2px solid var(--soil-dark);
+    box-shadow:2px 2px 0 rgba(0,0,0,.3);
+    cursor:pointer;
+  }
+  .dprofit-swap-badge:active{ transform:translate(1px,1px); box-shadow:1px 1px 0 rgba(0,0,0,.3); }
 
   .dprofit-node-toggle{
     display:flex; align-items:center; gap:8px;
@@ -7040,11 +7134,15 @@ body.sfl-theme .tc-estimate-panel .tc-field label,
 body.sfl-theme .tc-estimate-panel .tc-field-note,
 body.sfl-theme .tc-estimate-disclaimer,
 body.sfl-theme .toast,
-body.sfl-theme .dprofit-summary-label,
 body.sfl-theme .top10-name,
 body.sfl-theme .top10-cat,
 body.sfl-theme .top10-fig-line{
   background-color:var(--sfl-search) !important;
+  color:var(--sfl-text) !important;
+  text-shadow:none !important;
+}
+body.sfl-theme .dprofit-summary-label{
+  background-color:var(--sfl-outer) !important;
   color:var(--sfl-text) !important;
   text-shadow:none !important;
 }
@@ -7882,7 +7980,10 @@ body.sfl-theme #dailyProfitOverlay{
   background:var(--sfl-outer) !important;
 }
 body.sfl-theme .dprofit-summary{
-  background-color:var(--sfl-label-bg) !important;
+  background-color:var(--sfl-outer) !important;
+}
+body.sfl-theme #dailyProfitPanel .dprofit-summary-row{
+  background-color:var(--sfl-outer) !important;
 }
 body.sfl-theme .dprofit-node-toggle{
   background-color:var(--sfl-inner) !important;
@@ -8231,6 +8332,7 @@ body.sfl-theme .top10-net-value{
   border-radius:0 !important;
   padding:1px 6px !important;
   display:inline-block !important;
+  text-shadow:none !important;
 }
 body.sfl-theme .more-menu-card{
   background-color:var(--sfl-inner) !important;
@@ -9984,6 +10086,48 @@ body.sfl-theme #sflBubblesPanel .sfl-bub-list-wrap{
   border-radius:0 !important;
   box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
   image-rendering:pixelated !important;
+}
+body.sfl-theme #dailyProfitPanel .dprofit-panel-box{
+  background:var(--sfl-inner) !important;
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
+}
+body.sfl-theme #dailyProfitPanel .dprofit-panel-box,
+body.sfl-theme #dailyProfitPanel .dprofit-info-box,
+body.sfl-theme #dailyProfitPanel #dprofitCalcModeToggleGroup,
+body.sfl-theme #dailyProfitPanel .dprofit-period-option,
+body.sfl-theme #dailyProfitPanel .dprofit-cost-mode-row,
+body.sfl-theme #dailyProfitPanel .dprofit-sfl-frame,
+body.sfl-theme #dprofitCostConfigOverlay .dprofit-cost-config-card,
+body.sfl-theme #dprofitCostConfigOverlay .dprofit-cost-config-row{
+  background:var(--sfl-inner) !important;
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
+}
+body.sfl-theme #dailyProfitPanel .dprofit-period-box,
+body.sfl-theme #dprofitCostConfigOverlay .dprofit-cost-config-checkbox{
+  background:var(--sfl-inner) !important;
+}
+body.sfl-theme #dailyProfitPanel .dprofit-period-option input:checked ~ .dprofit-period-box,
+body.sfl-theme #dprofitCostConfigOverlay .dprofit-cost-config-checkbox.is-checked{
+  background:var(--sfl-profit) !important;
+}
+body.sfl-theme #dailyProfitPanel .dprofit-configure-cost-btn{
+  background-color:var(--sfl-outer) !important;
+  border-color:var(--sfl-outer-border) !important;
+  color:var(--sfl-text) !important;
 }
 body.sfl-theme #sflBubblesPanel .sfl-bub-stage-wrap{
   background:#0a0a0a !important;
