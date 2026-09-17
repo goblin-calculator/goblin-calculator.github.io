@@ -1,8 +1,8 @@
-const CACHE_VERSION = "vbcc5aea112";
+const CACHE_VERSION = "v515e944c43";
 
 const CACHE_NAME = `goblin-calc-${CACHE_VERSION}`;
 
-const PRECACHE_URLS = [ "./", "./index.html", "./style.css", "./app.bcc5aea112.bundle.js", "./presence.js", "./manifest.json", "./icons/goblin-logo.png" ];
+const PRECACHE_URLS = [ "./", "./index.html", "./style.css", "./app.515e944c43.bundle.js", "./presence.js", "./manifest.json", "./icons/goblin-logo.png" ];
 
 const NAVIGATE_NETWORK_TIMEOUT_MS = 3e3;
 
