@@ -1,4 +1,4 @@
-import { ALWAYS_ON_BOOST_IDS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_LOVE_ITEM_XP, ASCENSION_RANK_DATA, BAIT_RECIPES, BASE_COMPOSTERS, BASE_CROPS, BASE_CROP_MACHINE, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_CROPS, BASE_STOCK_FRUITS, BASE_STOCK_FLOWERS, BASE_STOCK_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, BOOST_LABELS, BOOST_TIERS, BOUNTY_WEEKLY_BONUS, BUD_ANIMAL_STEMS, BUD_ANIMAL_TYPES, BUD_AURAS, BUD_CROP_STEMS, BUD_CROP_TYPES, BUD_FIELD_LABELS, BUD_FISH_TYPES, BUD_FRUIT_STEMS, BUD_FRUIT_TYPES, BUD_GREENHOUSE_STEMS, BUD_GREENHOUSE_TYPES, BUD_RESOURCE_STEMS, BUD_RESOURCE_TYPES, CHEER_ICON_SRC, CM_MODULE_SKILL_IDS, CM_MODULE_SKILL_NAMES, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_FOOD_EMOJI, COOKING_FOOD_IMAGES, COOKING_RECIPES, CROP_MACHINE_PACK_MAX, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_NAMES, ES_ISLAND_ICONS, FACTION_BANNER_ICONS, FACTION_DISPLAY_NAMES, FACTION_PET_BOOST_TIERS, FACTION_PET_HAPPY_ICONS, FARM_LEVEL_NODES, FEED_LABELS, FISHING_ROD_ICON, FISH_CATCH_DATA, FISH_CATCH_NAMES, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_TIER_LABEL, FLOWER_ICON, FLOWER_SEEDS, FLOWER_SEED_ICONS, FLOWER_VARIETIES, GEM_ICON, ICONS, IMAGE_ICONS, IMAGE_ICON_FALLBACK, LIMITED_TIME_BOOSTS, LOVE_CHARM_ICON_SRC, MANUAL_CYCLE_REFRESH_FNS, MARK_ICON_SRC, MUTANT_FALLBACK_ICON, NPC_ICONS, OBSIDIAN_WEEKLY_PURCHASE_CAP, OBSIDIAN_WEEKLY_SELL_CAP, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PET_AURA_TRAITS, PET_BASE_XP_ENERGY, PET_BIB_TRAITS, PET_CATEGORIES, PET_CATEGORY_ICON, PET_COMMON_TYPES, PET_FOOD_LISTS, PET_LEVEL_PERKS, PET_NAMES_BY_TYPE, PET_NFT_TYPES, PET_RESOURCE_ENERGY, PET_RESOURCE_ICON, PET_TRADABLE_RESOURCES, PET_TYPE_EMOJI, PICKLED_VEG_DATA, PRE_ASCENSION_MAX_LEVEL, PROFILE_BUILD_FILTERS, PROFILE_TRADABLE_TABS, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, RESTOCK_PANEL_CATEGORIES, SALT_BASE_YIELD, SALT_FERTILIZER_DATA, SCULPTURE_EFFECTS_LIST, SCULPTURE_LEVELS, SEASON_ACCENT, SEASON_EMOJI, SEASON_ORDER, SKILL_BOOSTS, SKILL_TREES, SPICE_ANIMAL_TYPES, SPICE_RECIPES, SYNC_PROGRESS_STAGES, SYNODIC_MONTH_DAYS, TICKET_NPC_DISPLAY_NAMES, __getIconCache, __getTreasureIconCache, __lastSyncTiming, __markSub, __postinc_craftMaterialIdSeq, __preinc_digPanelRenderToken, __set___lastSyncTiming, __set___syncTimingPanelOpen, __set_bettySortMode, __set_boostDraftSelectedBoosts, __set_budPickerContext, __set_budPickerKind, __set_cmOilTank, __set_cmQty, __set_cmSelectedCrop, __set_coinPerFlower, __set_craftMaterialRows, __set_dailyProfitCardsCache, __set_editingLibId, __set_finderIngredient, __set_finderSeed, __set_fpBoostPanelOpen, __set_harvestSelectedLibId, __set_limitedTimeBoostRefreshTimer, __set_obsidianInputsHidden, __set_pendingDeleteId, __set_pendingDeleteType, __set_petAddAuraValue, __set_petAddBibValue, __set_petAddIsNFT, __set_petAddName, __set_petAddOpen, __set_petAddStep, __set_petAddType, __set_petOpenId, __set_petTraitPickerKind, __set_petsData, __set_pixelPickerOnSelect, __set_rcmActiveTab, __set_selectedBoosts, __set_skillDraftSelectedSkills, __set_syncProgressTimer, __set_tradePendingDeleteId, __set_tradePendingDeleteType, __set_tradePickedItemName, __set_tradeSellingId, __set_tradeSortMode, __syncTimingPanelOpen, allocateAoeAcrossTiers, animalAffectionTools, animalBuds, animalSicknessEstimate, animalWeekly, applyLibTypeVisibility, applyLibrarySearchFilter, applyPickerSearchFilter, applyTradeItemSearchFilter, ascensionDescribeRank, ascensionLevelBadgeText, attachDailyProfitCardEvents, attachFarmPanelCategoryFilterBar, attachProfileTradableEditHandlers, beeSwarmActiveCount, beeSwarmAffectedPlots, bettyActiveTab, bettyGatherItems, bettyGreenThumbOn, bettyHighestRate, bettySortItems, bettySortMode, boostCategory, boostDraftSelectedBoosts, bountyWeekly, budAnimalSummaryText, budContextFields, budContextPrefix, budContextState, budContextUpdateDuplicateState, budFarmCropSummaryText, budFieldCap, budFruitSummaryText, budPickerContext, budPickerKind, budResourceSummaryText, budSummaryText, calcMode, calendarDebuffProtection, choresWeekly, cmCalcMode, cmClampQty, cmModuleTagHtml, cmOilTank, cmQty, cmQueue, cmSelectedCrop, coinPerFlower, coinsToFlower, compute24hProjection, computeAgedFishFigures, computeAll, computeAnimalBaseCoinFigures, computeAnimalFeedFigures, computeAnimalTypeFigures, computeAnimalWeeklyFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedResourceStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCropMachineBatch, computeCrustaceanFigures, computeDailyProfitProjection, computeFertilizerFigures, computeFlowerVarietyRestockInfo, computeHiveEconomics, computeLavaPitFigures, computeMachineRestockGems, computeObsidianWeeklyProfit, computeResourceFigures, computeResourceProjection24h, computeSaltFarmFigures, computeSeaweedFigures, computeShrineAffectedProfitability, computeSpiceFigures, ASCENSION_LEVELS_PER_BAND, ASCENSION_LEVEL_UPS, COOK_LEVEL_XP, ascensionBandBaseline, ascensionBandXp, ascensionLevelXp, cookGetLevelInfo, cookingActiveBuilding, cookingComputeFoodExp, cookingComputeFoodTime, cookingComputeTotals, cookingExpandedFoods, cookingFindRecipeForFood, cookingFishCategory, cookingGuaranteedCatchOn, craftMaterialRows, cropBuds, cropTierFilter, crustaceanExpanded, crustaceanTrapTabActive, currentSeason, dailyProfitExpandedNames, dailyProfitGetCycleCount, deleteActiveTrade, deleteHistoryTrade, describeAoeTierAllocation, digCellClass, digPanelRenderToken, digSolveBoard, draftSetAscensionRank, editingLibId, ensureExchangeRates, esRenderAll, esState, esSyncAutoBoostsFromFarm, escapeHtml, expandedAnimalCards, expandedAnimalFeedByLevel, expandedAnimalFeedConsumption, expandedComposters, expandedCropMachine, expandedCrops, expandedFlowers, expandedFruits, expandedGreenhouse, expandedResources, factionPetGetActiveTier, factionPetGetEffectiveStreak, factionPetManualMode, factionPetSetManualStreak, factionPetShouldApplyBoost, factionPetUpdateBoostUI, farmLevelMaxNodes, farmSyncExtractGameState, farmSyncGetApiUsername, farmSyncGetLimitedTimeBoostStatus, feePercent, fertilizerTierScope, findTool, findVarietiesBySeedIngredient, finderIngredient, finderSeed, fishBudSummaryText, flowerPerGem, fishBuds, fishCatchComputeXP, fishCatchYieldMult, fishInventoryNameForCategory, fishStageForCategory, fishingExpandedTierFish, fishingTierActive, fmt, fmtAnimal, fmtCycleInputValue, fmtInt, formatDuration, formatTrade12h, fpBoostPanelOpen, fruitBuds, fullMoonSeedStockQty, gatherTop10ProfitItems, gemFlowerSpent, gemsReceived, getActiveAnimalBoosts, getActiveBoostsForResource, getActiveSaltBoosts, getAllMaterialCandidates, getAnimalCount, getAscensionLevelInfo, getBeeSwarmPerSwarmYield, getBeeSwarmStatsForCrop, getBoostAoeInfo, getBoostedMedicineRecipe, getBoostedToolRecipe, getCookingCount, getCropMachineOilCap, getCropMachineQueueSlots, getCropSeasons, getDoubleNomBonusFood, getDoubleNomIngredientMultiplier, getDraftAscensionRank, getDraftAscensionTotals, getDraftSkillPointsUsed, getEffectiveDailyReward, getEffectiveYieldAdd, getFruitCount, getFruitSeasons, getGreenhouseCount, getHiveCount, getIconSmall, getLimitedBoostRemainingSec, getManualCycleOverride, getManualCycleRawValue, getMaterialMode, getMedicineIngredientMode, getMissingPlotNodeFields, getNodeCount, getNodeIconHtml, getNodeLabel, getNodeTierCounts, getPlotCount, getResourceForTool, getRestockExclusionNote, getSeedPoolCategoryForName, getSharedPoolBreakdown, getSharedPoolDivisor, getSicknessEstimate, getSpiceEffectForAnimalType, getSpiceLickDurationHarvests, getVarietyIngredient, globalPlotCount, greenhouseBuds, gunterActiveTab, gunterGridEntranceShown, gunterMutantSyncAutoBoosts, gunterRenderBottom, gunterRenderMid, gunterRenderSunstoneInput, gunterRenderTop, harvestSelectedLibId, renderChapterFishMutants, hasPlotsNodesData, ingredientKindLabel, isBoostActive, isBoostDraftActive, isBoostDraftDirty, isCalendarSeasonalBoost, isCropInSeason, isCropMachineUnlocked, isFertilizerTierEnabled, isFlowerVarietySeasonLocked, isFruitInSeason, isFullMoonToday, isPetFoodChecked, isSeasonLocked, isSkillActive, isSkillDraftActive, isSkillDraftDirty, isSkillDraftTierUnlocked, isTieredResource, limitedTimeBoostRefreshTimer, megastoreTickets, normalizeSearch, npcSkipDays, obsidianInputsHidden, petAddAuraValue, petAddBibValue, petAddIsNFT, petAddName, petAddOpen, petAddStep, petAddType, petAuraInfoText, petBibInfoText, petCalcCacheReset, petComputeCardCached, petComputeResourceTotals, petFoodChecks, petOpenId, petPerkActive, petPerkApplies, petResetAddFlow, petTraitPickerKind, petsData, petsFoodTab, pickerTarget, pixelPickerOnSelect, POTION_ICONS, POTION_NAMES, potionActiveGuessSlot, potionSetActiveGuessSlot, potionSolveState, potionStatusBadgeIcon, potionStatusLabel, previewSeason, profileBackNav, profileBumpkinCache, profileBumpkinFrameHtml, profileBumpkinIdHtml, profileBumpkinImageOnError, profileBumpkinNoteText, profileClearTradableCache, profileComputeFarmValue, profileComputeWithdrawTax, profileFactionHtml, profileFactionIconHtml, profileFmtUsd, profileGetDisplayName, profileGetExpansionInfo, profileGetFarmAgeText, profileGetG, profileGetInventoryAmount, profileGetMainTabMeta, profileGetReputation, profileGoBottomNav, profileRenderBuildColumns, profileState, profileTradableContentHtml, profileTradableRowsForTab, profileTradableRowsSubtotal, profileTradableTotalFlower, profileVipHtml, rcmActiveTab, rcmPendingExcluded, readFarmSyncedId, readFarmVipEnabled, refreshAfterSkillChange, refreshAfterSpiceChange, removeAnimalBud, removeBud, removeCropBud, removeFishBud, removeFruitBud, removeResourceBud, render24hBadge, render24hTotalsGrid, resolveAscensionLevelInfo, resourceBuds, safeParse, saltFarmLevel, saltSculptureLevel, saltUiSet, scheduleCascade, sculptureEffects, seasonDays, seedIconHtmlFor, seedIngredientOptionsList, selectedBoosts, selectedHoneyFlower, selectedSwarmCrop, setAnimalCount, setCookingActiveBuilding, setCookingCount, setCookingFishCategory, setCookingGuaranteedCatchOn, setCrustaceanSelectedChum, setCrustaceanTrapTab, setFactionPetManualMode, setFishingTier, setFruitCount, setGreenhouseCount, setManualCycleOverride, setMaterialMode, setMedicineIngredientMode, setNodeCount, setNodeTierQty, setPetsFoodTab, setPlotCount, setPreviewSeason, setSaltFarmLevel, setSculptureLevel, setSelectedHoneyFlower, setSelectedSwarmCrop, setSpiceMaterialMode, setVarietyIngredient, setVegMaterialMode, simulateStockCycles, skillAoeNoteForRank, skillCategory, skillDraftSelectedSkills, skillRankUsageHtml, skillSyncedBoostText, skillSyncedLevel, slug, spiceUsage, stepperHtml, syncProgressTimer, ticketBoosts, tierUnlockHintText, toast, toolRecipes, tradeActive, tradeActiveTab, tradeCardKey, tradeExpandedIds, tradeGatherActiveSorted, tradeHistory, tradeLifetime, tradePickItem, tradeSortMode, undeliveredLastSeason, updateBoostSaveBarState, updateCalcRcmToggleUI, updateCalcSelectedDisplay, updateCalcSummary, updateDailyProfitSummary, updateLibCraftTotal, updateNewTradeLiveTotal, updateRcmUnsavedNote, updateSellTradeLiveTotal, updateSettingsSummary, updateSkillSaveBarState, varietyIngredientOptions, vegMaterialMode, wireEvents, withPreservedCardScrolls, withPreservedManualCycleFocus, withPreservedResourceScroll, withPreservedScroll } from "./calculator.js";
+import { ALWAYS_ON_BOOST_IDS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_LOVE_ITEM_XP, ASCENSION_RANK_DATA, BAIT_RECIPES, BASE_COMPOSTERS, BASE_CROPS, BASE_CROP_MACHINE, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_CROPS, BASE_STOCK_FRUITS, BASE_STOCK_FLOWERS, BASE_STOCK_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, BOOST_LABELS, BOOST_TIERS, BOUNTY_WEEKLY_BONUS, BUD_ANIMAL_STEMS, BUD_ANIMAL_TYPES, BUD_AURAS, BUD_CROP_STEMS, BUD_CROP_TYPES, BUD_FIELD_LABELS, BUD_FISH_TYPES, BUD_FRUIT_STEMS, BUD_FRUIT_TYPES, BUD_GREENHOUSE_STEMS, BUD_GREENHOUSE_TYPES, BUD_RESOURCE_STEMS, BUD_RESOURCE_TYPES, CHEER_ICON_SRC, CM_MODULE_SKILL_IDS, CM_MODULE_SKILL_NAMES, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_FOOD_EMOJI, COOKING_FOOD_IMAGES, COOKING_RECIPES, CROP_MACHINE_PACK_MAX, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_NAMES, ES_ISLAND_ICONS, FACTION_BANNER_ICONS, FACTION_DISPLAY_NAMES, FACTION_PET_BOOST_TIERS, FACTION_PET_HAPPY_ICONS, FARM_LEVEL_NODES, FEED_LABELS, FISHING_ROD_ICON, FISH_CATCH_DATA, FISH_CATCH_NAMES, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_TIER_LABEL, FLOWER_ICON, FLOWER_SEEDS, FLOWER_SEED_ICONS, FLOWER_VARIETIES, GEM_ICON, ICONS, IMAGE_ICONS, IMAGE_ICON_FALLBACK, LIMITED_TIME_BOOSTS, LOVE_CHARM_ICON_SRC, MANUAL_CYCLE_REFRESH_FNS, MARK_ICON_SRC, MUTANT_FALLBACK_ICON, NPC_ICONS, OBSIDIAN_WEEKLY_PURCHASE_CAP, OBSIDIAN_WEEKLY_SELL_CAP, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PET_AURA_TRAITS, PET_BASE_XP_ENERGY, PET_BIB_TRAITS, PET_CATEGORIES, PET_CATEGORY_ICON, PET_COMMON_TYPES, PET_FOOD_LISTS, PET_LEVEL_PERKS, PET_NAMES_BY_TYPE, PET_NFT_TYPES, PET_RESOURCE_ENERGY, PET_RESOURCE_ICON, PET_TRADABLE_RESOURCES, PET_TYPE_EMOJI, PICKLED_VEG_DATA, PRE_ASCENSION_MAX_LEVEL, PROFILE_BUILD_FILTERS, PROFILE_TRADABLE_TABS, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, RESTOCK_PANEL_CATEGORIES, SALT_BASE_TIME_SEC, SALT_BASE_YIELD, SALT_FERTILIZER_DATA, SCULPTURE_EFFECTS_LIST, SCULPTURE_LEVELS, SEASON_ACCENT, SEASON_EMOJI, SEASON_ORDER, SKILL_BOOSTS, SKILL_TREES, SPICE_ANIMAL_TYPES, SPICE_RECIPES, SYNC_PROGRESS_STAGES, SYNODIC_MONTH_DAYS, TICKET_NPC_DISPLAY_NAMES, __getIconCache, __getTreasureIconCache, __lastSyncTiming, __markSub, __postinc_craftMaterialIdSeq, __preinc_digPanelRenderToken, __set___lastSyncTiming, __set___syncTimingPanelOpen, __set_bettySortMode, __set_boostDraftSelectedBoosts, __set_budPickerContext, __set_budPickerKind, __set_cmOilTank, __set_cmQty, __set_cmSelectedCrop, __set_coinPerFlower, __set_craftMaterialRows, __set_dailyProfitCardsCache, __set_editingLibId, __set_finderIngredient, __set_finderSeed, __set_fpBoostPanelOpen, __set_harvestSelectedLibId, __set_limitedTimeBoostRefreshTimer, __set_obsidianInputsHidden, __set_pendingDeleteId, __set_pendingDeleteType, __set_petAddAuraValue, __set_petAddBibValue, __set_petAddIsNFT, __set_petAddName, __set_petAddOpen, __set_petAddStep, __set_petAddType, __set_petOpenId, __set_petTraitPickerKind, __set_petsData, __set_pixelPickerOnSelect, __set_rcmActiveTab, __set_selectedBoosts, __set_skillDraftSelectedSkills, __set_syncProgressTimer, __set_tradePendingDeleteId, __set_tradePendingDeleteType, __set_tradePickedItemName, __set_tradeSellingId, __set_tradeSortMode, __syncTimingPanelOpen, allocateAoeAcrossTiers, animalAffectionTools, animalBuds, animalSicknessEstimate, animalWeekly, applyLibTypeVisibility, applyLibrarySearchFilter, applyPickerSearchFilter, applyTradeItemSearchFilter, ascensionDescribeRank, ascensionLevelBadgeText, attachDailyProfitCardEvents, attachFarmPanelCategoryFilterBar, attachProfileTradableEditHandlers, beeSwarmActiveCount, beeSwarmAffectedPlots, bettyActiveTab, bettyGatherItems, bettyGreenThumbOn, bettyHighestRate, bettySortItems, bettySortMode, boostCategory, boostDraftSelectedBoosts, bountyWeekly, budAnimalSummaryText, budContextFields, budContextPrefix, budContextState, budContextUpdateDuplicateState, budFarmCropSummaryText, budFieldCap, budFruitSummaryText, budPickerContext, budPickerKind, budResourceSummaryText, budSummaryText, calcMode, calendarDebuffProtection, choresWeekly, cmCalcMode, cmClampQty, cmModuleTagHtml, cmOilTank, cmQty, cmQueue, cmSelectedCrop, coinPerFlower, coinsToFlower, compute24hProjection, computeAgedFishFigures, computeAll, computeAnimalBaseCoinFigures, computeAnimalFeedFigures, computeAnimalTypeFigures, computeAnimalWeeklyFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedResourceStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCropMachineBatch, computeCrustaceanFigures, computeDailyProfitProjection, buildDailyProfitSwapStats, getDailyProfitCalcMode, setDailyProfitCalcMode, getDailyProfitPeriodMode, setDailyProfitPeriodMode, getDailyProfitTotalsMode, setDailyProfitTotalsMode, getDailyProfitSwap, setDailyProfitSwap, computeFertilizerFigures, computeFlowerVarietyRestockInfo, computeHiveEconomics, computeLavaPitFigures, computeMachineRestockGems, computeObsidianWeeklyProfit, computeResourceFigures, computeResourceProjection24h, computeSaltFarmFigures, computeSeaweedFigures, computeShrineAffectedProfitability, computeSpiceFigures, ASCENSION_LEVELS_PER_BAND, ASCENSION_LEVEL_UPS, COOK_LEVEL_XP, ascensionBandBaseline, ascensionBandXp, ascensionLevelXp, cookGetLevelInfo, cookingActiveBuilding, cookingComputeFoodExp, cookingComputeFoodTime, cookingComputeTotals, cookingExpandedFoods, cookingFindRecipeForFood, cookingFishCategory, cookingGuaranteedCatchOn, craftMaterialRows, cropBuds, cropTierFilter, crustaceanExpanded, crustaceanTrapTabActive, currentSeason, dailyProfitExpandedNames, dailyProfitGetCycleCount, deleteActiveTrade, deleteHistoryTrade, describeAoeTierAllocation, digCellClass, digPanelRenderToken, digSolveBoard, draftSetAscensionRank, editingLibId, ensureExchangeRates, esRenderAll, esState, esSyncAutoBoostsFromFarm, escapeHtml, expandedAnimalCards, expandedAnimalFeedByLevel, expandedAnimalFeedConsumption, expandedComposters, expandedCropMachine, expandedCrops, expandedFlowers, expandedFruits, expandedGreenhouse, expandedResources, factionPetGetActiveTier, factionPetGetEffectiveStreak, factionPetManualMode, factionPetSetManualStreak, factionPetShouldApplyBoost, factionPetUpdateBoostUI, farmLevelMaxNodes, farmSyncExtractGameState, farmSyncGetApiUsername, farmSyncGetLimitedTimeBoostStatus, feePercent, fertilizerTierScope, findTool, findVarietiesBySeedIngredient, finderIngredient, finderSeed, fishBudSummaryText, flowerPerGem, fishBuds, fishCatchComputeXP, fishCatchYieldMult, fishInventoryNameForCategory, fishStageForCategory, fishingExpandedTierFish, fishingTierActive, fmt, fmtAnimal, fmtCycleInputValue, fmtInt, formatDuration, formatTrade12h, fpBoostPanelOpen, fruitBuds, fullMoonSeedStockQty, gatherTop10ProfitItems, gemFlowerSpent, gemsReceived, getActiveAnimalBoosts, getActiveBoostsForResource, getActiveSaltBoosts, getAllMaterialCandidates, getAnimalCount, getAscensionLevelInfo, getBeeSwarmPerSwarmYield, getBeeSwarmStatsForCrop, getBoostAoeInfo, getBoostedMedicineRecipe, getBoostedToolRecipe, getCookingCount, getCropMachineOilCap, getCropMachineQueueSlots, getCropSeasons, getDoubleNomBonusFood, getDoubleNomIngredientMultiplier, getDraftAscensionRank, getDraftAscensionTotals, getDraftSkillPointsUsed, getEffectiveDailyReward, getEffectiveYieldAdd, getFruitCount, getFruitSeasons, getGreenhouseCount, getHiveCount, getIconSmall, getLimitedBoostRemainingSec, getManualCycleOverride, getManualCycleRawValue, getMaterialMode, getMedicineIngredientMode, getMissingPlotNodeFields, getNodeCount, getNodeIconHtml, getNodeLabel, getNodeTierCounts, getPlotCount, getResourceForTool, getRestockExclusionNote, getSeedPoolCategoryForName, getSharedPoolBreakdown, getSharedPoolDivisor, getSicknessEstimate, getSpiceEffectForAnimalType, getSpiceLickDurationHarvests, getVarietyIngredient, globalPlotCount, greenhouseBuds, gunterActiveTab, gunterGridEntranceShown, gunterMutantSyncAutoBoosts, gunterRenderBottom, gunterRenderMid, gunterRenderSunstoneInput, gunterRenderTop, harvestSelectedLibId, renderChapterFishMutants, hasPlotsNodesData, ingredientKindLabel, isBoostActive, isBoostDraftActive, isBoostDraftDirty, isCalendarSeasonalBoost, isCropInSeason, isCropMachineUnlocked, isFertilizerTierEnabled, isFlowerVarietySeasonLocked, isFruitInSeason, isFullMoonToday, isPetFoodChecked, isSeasonLocked, isSkillActive, isSkillDraftActive, isSkillDraftDirty, isSkillDraftTierUnlocked, isTieredResource, limitedTimeBoostRefreshTimer, megastoreTickets, normalizeSearch, npcSkipDays, obsidianInputsHidden, petAddAuraValue, petAddBibValue, petAddIsNFT, petAddName, petAddOpen, petAddStep, petAddType, petAuraInfoText, petBibInfoText, petCalcCacheReset, petComputeCardCached, petComputeResourceTotals, petFoodChecks, petOpenId, petPerkActive, petPerkApplies, petResetAddFlow, petTraitPickerKind, petsData, petsFoodTab, pickerTarget, pixelPickerOnSelect, POTION_ICONS, POTION_NAMES, potionActiveGuessSlot, potionSetActiveGuessSlot, potionSolveState, potionStatusBadgeIcon, potionStatusLabel, previewSeason, profileBackNav, profileBumpkinCache, profileBumpkinFrameHtml, profileBumpkinIdHtml, profileBumpkinImageOnError, profileBumpkinNoteText, profileClearTradableCache, profileComputeFarmValue, profileComputeWithdrawTax, profileFactionHtml, profileFactionIconHtml, profileFmtUsd, profileGetDisplayName, profileGetExpansionInfo, profileGetFarmAgeText, profileGetG, profileGetInventoryAmount, profileGetMainTabMeta, profileGetReputation, profileGoBottomNav, profileRenderBuildColumns, profileState, profileTradableContentHtml, profileTradableRowsForTab, profileTradableRowsSubtotal, profileTradableTotalFlower, profileVipHtml, rcmActiveTab, rcmPendingExcluded, readFarmSyncedId, readFarmVipEnabled, refreshAfterSkillChange, refreshAfterSpiceChange, removeAnimalBud, removeBud, removeCropBud, removeFishBud, removeFruitBud, removeResourceBud, render24hBadge, render24hTotalsGrid, resolveAscensionLevelInfo, resourceBuds, safeParse, saltFarmLevel, saltSculptureLevel, saltUiSet, scheduleCascade, sculptureEffects, seasonDays, seedIconHtmlFor, seedIngredientOptionsList, selectedBoosts, selectedHoneyFlower, selectedSwarmCrop, setAnimalCount, setCookingActiveBuilding, setCookingCount, setCookingFishCategory, setCookingGuaranteedCatchOn, setCrustaceanSelectedChum, setCrustaceanTrapTab, setFactionPetManualMode, setFishingTier, setFruitCount, setGreenhouseCount, setManualCycleOverride, setMaterialMode, setMedicineIngredientMode, setNodeCount, setNodeTierQty, setPetsFoodTab, setPlotCount, setPreviewSeason, setSaltFarmLevel, setSculptureLevel, setSelectedHoneyFlower, setSelectedSwarmCrop, setSpiceMaterialMode, setVarietyIngredient, setVegMaterialMode, simulateStockCycles, skillAoeNoteForRank, skillCategory, skillDraftSelectedSkills, skillRankUsageHtml, skillSyncedBoostText, skillSyncedLevel, slug, spiceUsage, stepperHtml, syncProgressTimer, ticketBoosts, tierUnlockHintText, toast, toolRecipes, tradeActive, tradeActiveTab, tradeCardKey, tradeExpandedIds, tradeGatherActiveSorted, tradeHistory, tradeLifetime, tradePickItem, tradeSortMode, undeliveredLastSeason, updateBoostSaveBarState, updateCalcRcmToggleUI, updateCalcSelectedDisplay, updateCalcSummary, updateDailyProfitSummary, updateLibCraftTotal, updateNewTradeLiveTotal, updateRcmUnsavedNote, updateSellTradeLiveTotal, updateSettingsSummary, updateSkillSaveBarState, varietyIngredientOptions, vegMaterialMode, wireEvents, withPreservedCardScrolls, withPreservedManualCycleFocus, withPreservedResourceScroll, withPreservedScroll } from "./calculator.js";
 
 import { __set_farmPanelActiveTab, __set_farmPanelRenderAtMs, __set_farmPanelTabContentDirty, farmPanelActiveTab, farmPanelComputeInProgress, farmPanelComputeStocks, farmPanelDetectActiveMutants, farmPanelDetectMoneyTreeBonus, farmPanelExpandedNames, farmPanelGameState, farmPanelGetLastInfo, farmPanelInProgressCategoryFilter, farmPanelRenderCategoryFilterBar, farmPanelRenderInProgressRow, farmPanelRenderMoneyTreeBonusCard, farmPanelRenderMutantAlertCard, farmPanelRenderStockRow, farmPanelTabContentDirty } from "./inprogress.js";
 
@@ -4705,7 +4705,8 @@ export const MAIN_VIEW_PANEL_MAP = {
   library: "libraryPanel",
   bumpkinlevel: "bumpkinLevelPanel",
   auctiontracker: "auctionTrackerPanel",
-  sflbubbles: "sflBubblesPanel"
+  sflbubbles: "sflBubblesPanel",
+  dailyprofit: "dailyProfitPanel"
 };
 
 export const MODAL_ROUTE_MAP = {
@@ -4754,7 +4755,8 @@ export const MODAL_ROUTE_MAP = {
 const VIEW_URL_SLUGS = {
   resources: "mining",
   auctiontracker: "auction",
-  sflbubbles: "sfl_bubbles"
+  sflbubbles: "sfl_bubbles",
+  dailyprofit: "daily_profit"
 };
 
 function viewToSlug(view) {
@@ -4822,6 +4824,7 @@ function renderMainViewContent(view) {
   if (view === "bumpkinlevel") renderBumpkinLevelPanel();
   if (view === "auctiontracker") renderAuctionTrackerPanel();
   if (view === "sflbubbles" && typeof renderSflBubblesPanel === "function") renderSflBubblesPanel();
+  if (view === "dailyprofit") renderDailyProfitCard();
 }
 
 function setRouteUrl(slug, history_ = "push") {
@@ -4961,17 +4964,23 @@ function renderTop10Row(item, index) {
   const rank = index + 1;
   const rankClass = rank <= 3 ? `rank-${rank}` : "rank-rest";
   const costUnknown = !!item.costUnknown;
-  const isProfit = !costUnknown && item.unitProfit24h >= 0;
+  const unitCost24h = item.unitCost24hIndividual != null ? item.unitCost24hIndividual : item.unitCost24h;
+  const unitProfit24h = item.unitProfit24hIndividual != null ? item.unitProfit24hIndividual : item.unitProfit24h;
+  const unitRestockCost24h = item.unitRestockCost24hIndividual != null ? item.unitRestockCost24hIndividual : (item.unitRestockCost24h || 0);
+  const holdingCost24h = item.holdingCost24hIndividual != null ? item.holdingCost24hIndividual : item.holdingCost24h;
+  const holdingRestockCost24h = item.holdingRestockCost24hIndividual != null ? item.holdingRestockCost24hIndividual : (item.holdingRestockCost24h || 0);
+  const holdingProfit24h = item.holdingProfit24hIndividual != null ? item.holdingProfit24hIndividual : item.holdingProfit24h;
+  const isProfit = !costUnknown && unitProfit24h >= 0;
   const ordinal = rank === 1 ? "1st" : rank === 2 ? "2nd" : rank === 3 ? "3rd" : `${rank}th`;
   const unitLabel = item.countLabel.toLowerCase();
   const periodPhrase = item.rateNote ? item.rateNote : `/ ${unitLabel} / 24h`;
-  const hasHoldingTotals = item.count > 0 && item.holdingCost24h !== undefined;
-  const ownedLine = item.count > 0 ? `${fmt(item.count)} ${item.countLabel}${item.count === 1 ? "" : "s"} owned · ${fmt(item.holdingUnitsPerDay)} units/24h` : item.rateNote ? item.rateNote : `Not tracked yet — showing per-${unitLabel} rate`;
-  const holdingRestockNote = item.holdingRestockCost24h > 0 ? ` <span class="top10-restock-note">(incl. ${fmt(item.holdingRestockCost24h)} ${FLOWER_ICON} restock)</span>` : "";
-  const grossLine = hasHoldingTotals ? `<div class="top10-gross-line" style="margin-top:2px;">Total 24h: Cost ${fmt(item.holdingCost24h)} ${FLOWER_ICON}${holdingRestockNote} &nbsp;→&nbsp; Rev ${fmt(item.holdingRevenue24h)} ${FLOWER_ICON} &nbsp;→&nbsp; <strong class="top10-net-value ${item.holdingProfit24h >= 0 ? "is-profit" : "is-loss"}">Net ${item.holdingProfit24h >= 0 ? "+" : ""}${fmt(item.holdingProfit24h)} ${FLOWER_ICON}</strong></div>` : "";
-  const restockNote = item.unitRestockCost24h > 0 ? ` <span class="top10-restock-note">(incl. ${fmt(item.unitRestockCost24h)} ${FLOWER_ICON} restock)</span>` : "";
-  const costLine = costUnknown ? `Cost unknown &nbsp;·&nbsp; Rev ${fmt(item.unitRevenue24h)} ${FLOWER_ICON} FLOWER <span style="opacity:.65;">${periodPhrase}</span>` : `Cost ${fmt(item.unitCost24h)} ${FLOWER_ICON} FLOWER${restockNote} &nbsp;·&nbsp; Rev ${fmt(item.unitRevenue24h)} ${FLOWER_ICON} FLOWER <span style="opacity:.65;">${periodPhrase}</span>`;
-  const profitLine = costUnknown ? `<span style="opacity:.75;">Can't rank profit — no known cost basis for this item</span>` : `${isProfit ? "+" : ""}${fmt(item.unitProfit24h)} ${FLOWER_ICON} FLOWER ${item.rateNote ? "" : `per ${unitLabel} / 24h`}`;
+  const hasHoldingTotals = item.count > 0 && holdingCost24h !== undefined;
+  const ownedLine = item.count > 0 ? `${fmt(item.count)} ${item.countLabel}${item.count === 1 ? "" : "s"} owned · ${fmt(item.holdingUnitsPerDay)} units/24h` : item.rateNote ? item.rateNote : `0 owned — showing per-${unitLabel} rate`;
+  const holdingRestockNote = holdingRestockCost24h > 0 ? ` <span class="top10-restock-note">(incl. ${fmt(holdingRestockCost24h)} ${FLOWER_ICON} restock)</span>` : "";
+  const grossLine = hasHoldingTotals ? `<div class="top10-gross-line" style="margin-top:2px;">Total 24h: Cost ${fmt(holdingCost24h)} ${FLOWER_ICON}${holdingRestockNote} &nbsp;→&nbsp; Rev ${fmt(item.holdingRevenue24h)} ${FLOWER_ICON} &nbsp;→&nbsp; <strong class="top10-net-value ${holdingProfit24h >= 0 ? "is-profit" : "is-loss"}">Net ${holdingProfit24h >= 0 ? "+" : ""}${fmt(holdingProfit24h)} ${FLOWER_ICON}</strong></div>` : "";
+  const restockNote = unitRestockCost24h > 0 ? ` <span class="top10-restock-note">(incl. ${fmt(unitRestockCost24h)} ${FLOWER_ICON} restock)</span>` : "";
+  const costLine = costUnknown ? `Cost unknown &nbsp;·&nbsp; Rev ${fmt(item.unitRevenue24h)} ${FLOWER_ICON} FLOWER <span style="opacity:.65;">${periodPhrase}</span>` : `Cost ${fmt(unitCost24h)} ${FLOWER_ICON} FLOWER${restockNote} &nbsp;·&nbsp; Rev ${fmt(item.unitRevenue24h)} ${FLOWER_ICON} FLOWER <span style="opacity:.65;">${periodPhrase}</span>`;
+  const profitLine = costUnknown ? `<span style="opacity:.75;">Can't rank profit — no known cost basis for this item</span>` : `${isProfit ? "+" : ""}${fmt(unitProfit24h)} ${FLOWER_ICON} FLOWER ${item.rateNote ? "" : `per ${unitLabel} / 24h`}`;
   const metaLine = item.cyclesPerDay != null ? `${ownedLine} · ${fmt(item.cyclesPerDay)} cycles/day` : ownedLine;
   return `\n  <div class="top10-row ${rankClass}">\n    <div class="top10-rank-badge">${ordinal}</div>\n    <div class="top10-main">\n      <div class="top10-name-line">\n        <span class="top10-icon">${item.icon}</span>\n        <span class="top10-name">${escapeHtml(item.name)}</span>\n        <span class="top10-cat">${item.category}</span>\n      </div>\n      <div class="top10-fig-line">${costLine}</div>\n      <div class="top10-profit-line ${costUnknown ? "" : isProfit ? "is-profit" : "is-loss"}">${profitLine}</div>\n      <div class="top10-meta-line">${metaLine}</div>\n      ${grossLine}\n    </div>\n  </div>`;
 }
@@ -5004,28 +5013,168 @@ export function hideTop10Card() {
   $("top10Overlay").classList.remove("show");
 }
 
+function dailyProfitSwapBadgeHtml(card, key) {
+  const swapCategory = dailyProfitSwapCategoryFor(card.name);
+  if (!swapCategory) return "";
+  return `<button type="button" class="dprofit-swap-badge" data-node="${escapeHtml(key)}" title="Swap this ${swapCategory}">🔁</button>`;
+}
+
+function dailyProfitSwapCategoryFor(name) {
+  if (BASE_CROPS[name]) return "crop";
+  if (BASE_FRUITS[name]) return "fruit";
+  return null;
+}
+
+function dailyProfitBuildDisplayCard(card) {
+  const key = card.name.toLowerCase();
+  const swapName = getDailyProfitSwap(key);
+  if (!swapName) return card;
+  const stats = buildDailyProfitSwapStats(swapName, card.displayNodeCount || card.count);
+  if (!stats) return card;
+  return Object.assign({}, card, {
+    displayName: swapName,
+    price: stats.price,
+    costPerUnit: stats.costPerUnit,
+    avgYieldPerCycle: stats.avgYieldPerCycle,
+    cyclesPerDay: stats.cyclesPerDay,
+    shrineCostPerCycle: 0,
+    shrineNames: []
+  });
+}
+
+function dailyProfitPeriodShort() {
+  return getDailyProfitPeriodMode() === "7d" ? "7d" : "24h";
+}
+
 function renderDailyProfitCardHtml(card) {
   const key = card.name.toLowerCase();
   const cycleCount = dailyProfitGetCycleCount(card);
   const proj = computeDailyProfitProjection(card, cycleCount);
   const isProfit = proj.netProfit24h >= 0;
   const expandedCls = dailyProfitExpandedNames.has(key) ? " expanded" : "";
-  const nodeIcon = getNodeIconHtml(card.name);
-  const nodeLabel = getNodeLabel(card.name);
+  const displayName = card.displayName || card.name;
+  const nodeIcon = getNodeIconHtml(displayName);
+  const nodeLabel = getNodeLabel(displayName);
+  const swapNote = card.displayName ? ` · swapped from ${escapeHtml(card.name)}` : "";
+  const periodShort = dailyProfitPeriodShort();
   const shrineRow = proj.shrineCost24h > 0 ? `<div class="dprofit-stat dprofit-stat-sub"><span class="label">Shrine Cost${card.shrineNames && card.shrineNames.length ? ` (${card.shrineNames.map(escapeHtml).join(", ")})` : ""}</span><span class="value" data-role="shrine">-${fmt(proj.shrineCost24h)} ${FLOWER_ICON}</span></div>` : "";
-  return `\n  <div class="dprofit-node-card${isProfit ? " is-profit" : " is-loss"}${expandedCls}" data-node="${escapeHtml(key)}">\n    <div class="dprofit-node-toggle">\n      <span class="dprofit-node-icon">${nodeIcon}</span>\n      <div class="dprofit-node-name-wrap">\n        <div class="dprofit-node-name">${escapeHtml(nodeLabel)}</div>\n        <div class="dprofit-node-sub">${card.displayNodeCount} node${card.displayNodeCount === 1 ? "" : "s"}</div>\n      </div>\n      <div class="dprofit-node-profit-wrap">\n        <div class="dprofit-node-24h ${isProfit ? "is-profit" : "is-loss"}" data-role="profit-value">${isProfit ? "+" : ""}${fmt(proj.netProfit24h)} ${FLOWER_ICON}</div>\n        <span class="dprofit-chev">▾</span>\n      </div>\n    </div>\n    <div class="dprofit-cycle-row">\n      <label>Cycles / 24h</label>\n      <input type="number" class="dprofit-cycle-input" inputmode="decimal" min="0" step="0.1" value="${fmtCycleInputValue(cycleCount)}" data-node="${escapeHtml(key)}">\n    </div>\n    <div class="dprofit-node-details">\n      <div class="dprofit-detail-grid">\n        <div class="dprofit-stat"><span class="label">Market Sell Price</span><span class="value">${fmt(card.price || 0)} ${FLOWER_ICON}</span></div>\n        <div class="dprofit-stat"><span class="label">Total Nodes</span><span class="value">${card.displayNodeCount}</span></div>\n        <div class="dprofit-stat"><span class="label">Yield / Cycle (Total)</span><span class="value" data-role="yield-cycle">${fmt(proj.yieldPerCycle)}</span></div>\n        <div class="dprofit-stat"><span class="label">24hr Total Yield</span><span class="value" data-role="yield-24h">${fmt(proj.totalYield24h)}</span></div>\n        <div class="dprofit-stat"><span class="label">Gross (1 Cycle)</span><span class="value" data-role="gross-cycle">${fmt(proj.grossPerCycle)} ${FLOWER_ICON}</span></div>\n        <div class="dprofit-stat"><span class="label">Gross (24hr)</span><span class="value" data-role="gross-24h">${fmt(proj.gross24h)} ${FLOWER_ICON}</span></div>\n      </div>\n      <div class="dprofit-deductions-title">Deductions</div>\n      <div class="dprofit-detail-grid">\n        <div class="dprofit-stat dprofit-stat-sub"><span class="label">Coin Cost / Cycle</span><span class="value" data-role="coin-cycle">-${fmt(proj.coinCostPerCycle)} ${FLOWER_ICON}</span></div>\n        <div class="dprofit-stat dprofit-stat-sub"><span class="label">Coin Cost (24hr)</span><span class="value" data-role="coin-24h">-${fmt(proj.coinCost24h)} ${FLOWER_ICON}</span></div>\n        <div class="dprofit-stat dprofit-stat-sub"><span class="label">Restock Cost</span><span class="value" data-role="restock">${proj.restockCost24h > 0 ? `-${fmt(proj.restockCost24h)}` : "0"} ${FLOWER_ICON}</span></div>\n        ${shrineRow}\n        <div class="dprofit-stat dprofit-stat-sub"><span class="label">Total Sell Fee${feePercent > 0 ? ` (${feePercent}%)` : ""}</span><span class="value" data-role="sellfee">${proj.feeAmount24h > 0 ? `-${fmt(proj.feeAmount24h)}` : "0"} ${FLOWER_ICON}</span></div>\n      </div>\n      <div class="dprofit-deductions-total-row">\n        <span class="label">Total Deductions</span>\n        <span class="value" data-role="total-deductions">-${fmt(proj.totalDeductions24h)} ${FLOWER_ICON}</span>\n      </div>\n      <div class="dprofit-net-row">\n        <span class="label">Total Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}" data-role="net-value">${isProfit ? "+" : ""}${fmt(proj.netProfit24h)} ${FLOWER_ICON}</span>\n      </div>\n    </div>\n  </div>`;
+  return `\n  <div class="dprofit-node-card${isProfit ? " is-profit" : " is-loss"}${expandedCls}" data-node="${escapeHtml(key)}">\n    ${dailyProfitSwapBadgeHtml(card, key)}\n    <div class="dprofit-node-toggle">\n      <span class="dprofit-node-icon">${nodeIcon}</span>\n      <div class="dprofit-node-name-wrap">\n        <div class="dprofit-node-name">${escapeHtml(nodeLabel)}</div>\n        <div class="dprofit-node-sub">${card.displayNodeCount} node${card.displayNodeCount === 1 ? "" : "s"}${swapNote}</div>\n      </div>\n      <div class="dprofit-node-profit-wrap">\n        <div class="dprofit-node-24h ${isProfit ? "is-profit" : "is-loss"}" data-role="profit-value">${isProfit ? "+" : ""}${fmt(proj.netProfit24h)} ${FLOWER_ICON}</div>\n        <span class="dprofit-chev">▾</span>\n      </div>\n    </div>\n    <div class="dprofit-cycle-row">\n      <label>Cycles / ${periodShort}</label>\n      <input type="number" class="dprofit-cycle-input" inputmode="numeric" min="0" step="1" value="${fmtCycleInputValue(cycleCount)}" data-node="${escapeHtml(key)}">\n    </div>\n    <div class="dprofit-node-details">\n      <div class="dprofit-detail-grid">\n        <div class="dprofit-stat"><span class="label">Market Sell Price</span><span class="value">${fmt(card.price || 0)} ${FLOWER_ICON}</span></div>\n        <div class="dprofit-stat"><span class="label">Total Nodes</span><span class="value">${card.displayNodeCount}</span></div>\n        <div class="dprofit-stat"><span class="label">Yield / Cycle (Total)</span><span class="value" data-role="yield-cycle">${fmt(proj.yieldPerCycle)}</span></div>\n        <div class="dprofit-stat"><span class="label">${periodShort} Total Yield</span><span class="value" data-role="yield-24h">${fmt(proj.totalYield24h)}</span></div>\n        <div class="dprofit-stat"><span class="label">Gross (1 Cycle)</span><span class="value" data-role="gross-cycle">${fmt(proj.grossPerCycle)} ${FLOWER_ICON}</span></div>\n        <div class="dprofit-stat"><span class="label">Gross (${periodShort})</span><span class="value" data-role="gross-24h">${fmt(proj.gross24h)} ${FLOWER_ICON}</span></div>\n      </div>\n      <div class="dprofit-deductions-title">Deductions</div>\n      <div class="dprofit-detail-grid">\n        <div class="dprofit-stat dprofit-stat-sub"><span class="label">Coin Cost / Cycle</span><span class="value" data-role="coin-cycle">-${fmt(proj.coinCostPerCycle)} ${FLOWER_ICON}</span></div>\n        <div class="dprofit-stat dprofit-stat-sub"><span class="label">Coin Cost (${periodShort})</span><span class="value" data-role="coin-24h">-${fmt(proj.coinCost24h)} ${FLOWER_ICON}</span></div>\n        <div class="dprofit-stat dprofit-stat-sub"><span class="label">Restock Cost</span><span class="value" data-role="restock">${proj.restockCost24h > 0 ? `-${fmt(proj.restockCost24h)}` : "0"} ${FLOWER_ICON}</span></div>\n        ${shrineRow}\n        <div class="dprofit-stat dprofit-stat-sub"><span class="label">Total Sell Fee${feePercent > 0 ? ` (${feePercent}%)` : ""}</span><span class="value" data-role="sellfee">${proj.feeAmount24h > 0 ? `-${fmt(proj.feeAmount24h)}` : "0"} ${FLOWER_ICON}</span></div>\n      </div>\n      <div class="dprofit-deductions-total-row">\n        <span class="label">Total Deductions</span>\n        <span class="value" data-role="total-deductions">-${fmt(proj.totalDeductions24h)} ${FLOWER_ICON}</span>\n      </div>\n      <div class="dprofit-net-row">\n        <span class="label">Total Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}" data-role="net-value">${isProfit ? "+" : ""}${fmt(proj.netProfit24h)} ${FLOWER_ICON}</span>\n      </div>\n    </div>\n  </div>`;
 }
 
-function renderDailyProfitCard() {
+let dailyProfitRawCardsByKey = new Map;
+
+function updateDailyProfitCalcModeToggleUI() {
+  const avgInput = $("dprofitAverageSwitchInput");
+  const liveInput = $("dprofitLiveSwitchInput");
+  const period24hInput = $("dprofitPeriod24hInput");
+  const period7dInput = $("dprofitPeriod7dInput");
+  const allTotalsInput = $("dprofitAllTotalsInput");
+  const profitOnlyInput = $("dprofitProfitOnlyInput");
+  if (avgInput && liveInput) {
+    const isAverage = getDailyProfitCalcMode() !== "live";
+    avgInput.checked = isAverage;
+    liveInput.checked = !isAverage;
+  }
+  if (period24hInput && period7dInput) {
+    const is7d = getDailyProfitPeriodMode() === "7d";
+    period24hInput.checked = !is7d;
+    period7dInput.checked = is7d;
+  }
+  if (allTotalsInput && profitOnlyInput) {
+    const isProfitOnly = getDailyProfitTotalsMode() === "profitOnly";
+    allTotalsInput.checked = !isProfitOnly;
+    profitOnlyInput.checked = isProfitOnly;
+  }
+}
+
+function attachDailyProfitCalcModeToggle() {
+  const avgInput = $("dprofitAverageSwitchInput");
+  const liveInput = $("dprofitLiveSwitchInput");
+  const period24hInput = $("dprofitPeriod24hInput");
+  const period7dInput = $("dprofitPeriod7dInput");
+  const allTotalsInput = $("dprofitAllTotalsInput");
+  const profitOnlyInput = $("dprofitProfitOnlyInput");
+  if (avgInput) {
+    avgInput.onchange = () => {
+      setDailyProfitCalcMode(avgInput.checked ? "average" : "live");
+      updateDailyProfitCalcModeToggleUI();
+      renderDailyProfitCard();
+    };
+  }
+  if (liveInput) {
+    liveInput.onchange = () => {
+      setDailyProfitCalcMode(liveInput.checked ? "live" : "average");
+      updateDailyProfitCalcModeToggleUI();
+      renderDailyProfitCard();
+    };
+  }
+  if (period24hInput) {
+    period24hInput.onchange = () => {
+      setDailyProfitPeriodMode(period24hInput.checked ? "24h" : "7d");
+      updateDailyProfitCalcModeToggleUI();
+      renderDailyProfitCard();
+    };
+  }
+  if (period7dInput) {
+    period7dInput.onchange = () => {
+      setDailyProfitPeriodMode(period7dInput.checked ? "7d" : "24h");
+      updateDailyProfitCalcModeToggleUI();
+      renderDailyProfitCard();
+    };
+  }
+  if (allTotalsInput) {
+    allTotalsInput.onchange = () => {
+      setDailyProfitTotalsMode(allTotalsInput.checked ? "all" : "profitOnly");
+      updateDailyProfitCalcModeToggleUI();
+      updateDailyProfitSummary();
+    };
+  }
+  if (profitOnlyInput) {
+    profitOnlyInput.onchange = () => {
+      setDailyProfitTotalsMode(profitOnlyInput.checked ? "profitOnly" : "all");
+      updateDailyProfitCalcModeToggleUI();
+      updateDailyProfitSummary();
+    };
+  }
+}
+
+function openDailyProfitSwapPicker(key) {
+  const original = dailyProfitRawCardsByKey.get(key);
+  if (!original) return;
+  const category = dailyProfitSwapCategoryFor(original.name);
+  if (!category) return;
+  const pool = category === "crop" ? BASE_CROPS : BASE_FRUITS;
+  const currentSwap = getDailyProfitSwap(key) || "";
+  const options = [ {
+    value: "",
+    name: `↺ Actual (${escapeHtml(original.name)})`,
+    meta: "Use the real in-progress node"
+  } ].concat(Object.keys(pool).sort().map(n => ({
+    value: n,
+    name: `${getIcon(n)} ${escapeHtml(n)}`
+  })));
+  openPixelPicker(category === "crop" ? "🌾 CHOOSE CROP" : "🍎 CHOOSE FRUIT", options, currentSwap, val => {
+    setDailyProfitSwap(key, val || null);
+    renderDailyProfitCard();
+  });
+}
+
+export function renderDailyProfitCard() {
   const body = $("dailyProfitBody");
   if (!body) return;
+  attachDailyProfitCalcModeToggle();
+  updateDailyProfitCalcModeToggleUI();
   if (!farmPanelGameState) {
     __set_dailyProfitCardsCache([]);
+    dailyProfitRawCardsByKey = new Map;
     body.innerHTML = `<div class="dprofit-empty">🌱 Sync a Farm ID first to see your Daily Profit.</div>`;
     updateDailyProfitSummary();
     return;
   }
-  const cards = farmPanelComputeInProgress(farmPanelGameState);
+  const tradableMarketNames = new Set((marketItems || []).map(m => (m && m.name ? m.name : "").toLowerCase()).filter(Boolean));
+  const rawCards = farmPanelComputeInProgress(farmPanelGameState).filter(c => c && typeof c.name === "string" && c.name && tradableMarketNames.has(c.name.toLowerCase()));
+  dailyProfitRawCardsByKey = new Map(rawCards.map(c => [ c.name.toLowerCase(), c ]));
+  const cards = rawCards.map(dailyProfitBuildDisplayCard);
   __set_dailyProfitCardsCache(cards);
   if (!cards.length) {
     body.innerHTML = `<div class="dprofit-empty">⏳ Nothing currently growing in this farm.</div>`;
@@ -5039,20 +5188,141 @@ function renderDailyProfitCard() {
   });
   body.innerHTML = sorted.map(renderDailyProfitCardHtml).join("");
   attachDailyProfitCardEvents(body);
+  body.querySelectorAll(".dprofit-swap-badge").forEach(badge => {
+    badge.addEventListener("click", e => {
+      e.stopPropagation();
+      openDailyProfitSwapPicker(badge.dataset.node);
+    });
+    badge.addEventListener("pointerdown", e => e.stopPropagation());
+  });
   updateDailyProfitSummary();
 }
 
 export function showDailyProfitCard() {
-  const body = $("dailyProfitBody");
-  if (body) body.innerHTML = `<div class="dprofit-empty">⏳ Counting today's coin…</div>`;
-  const summary = $("dailyProfitSummary");
-  if (summary) summary.innerHTML = "";
-  $("dailyProfitOverlay").classList.add("show");
-  requestAnimationFrame(() => requestAnimationFrame(renderDailyProfitCard));
+  openMainViewPanel("dailyprofit");
 }
 
 export function hideDailyProfitCard() {
-  $("dailyProfitOverlay").classList.remove("show");
+  closeMainViewPanel("dailyprofit");
+}
+
+function dailyProfitToolConfigTiles() {
+  const tiles = new Map;
+  let saltCard = null;
+  dailyProfitRawCardsByKey.forEach(card => {
+    const name = card.name;
+    if (name === "Obsidian") {
+      const season = previewSeason;
+      const fig = computeLavaPitFigures(season);
+      if (!fig || !fig.breakdown || !fig.breakdown.length) return;
+      const key = "Obsidian_" + season;
+      if (tiles.has(key)) return;
+      tiles.set(key, {
+        resourceKey: key,
+        toolLabel: "Lava Pit",
+        seasonNote: season,
+        breakdown: fig.breakdown,
+        toolCount: Math.max(0, Math.round(dailyProfitGetCycleCount(card) * 1)),
+        nodeCount: 1
+      });
+      return;
+    }
+    if (name === "Salt") {
+      saltCard = card;
+      return;
+    }
+    const data = RESOURCE_DATA[name];
+    if (!data || !data.materials || !data.materials.length) return;
+    if (tiles.has(name)) return;
+    const fig = computeResourceFigures(name);
+    if (!fig || !fig.breakdown || !fig.breakdown.length) return;
+    tiles.set(name, {
+      resourceKey: name,
+      toolLabel: data.tool,
+      breakdown: fig.breakdown,
+      toolCount: Math.max(0, Math.round(dailyProfitGetCycleCount(card) * (fig.nodeCount || 0))),
+      nodeCount: fig.nodeCount || 0
+    });
+  });
+  const saltFig = computeSaltFarmFigures();
+  const rakeUsesPerDay = saltFig.rakeUsesPerDay || 0;
+  if (rakeUsesPerDay > 0) {
+    const rakeTool = findTool("default_salt_rake");
+    const rakeMaterials = rakeTool && rakeTool.materials ? rakeTool.materials : [];
+    if (rakeMaterials.length) {
+      const periodMult = getDailyProfitPeriodMode() === "7d" ? 7 : 1;
+      const rakeModeKey = "ToolLib_" + rakeTool.id;
+      const breakdown = rakeMaterials.map(mat => {
+        const mode = getMaterialMode(rakeModeKey, mat.name);
+        const unitCost = getMaterialUnitCostCoins(mat.name, mode);
+        return {
+          name: mat.name,
+          qty: mat.qty,
+          unitCost: unitCost,
+          lineCost: unitCost * mat.qty,
+          mode: mode
+        };
+      });
+      const nodeCount = saltFig.nodeCount || 0;
+      const chargesPerNodePerPeriod = saltCard ? dailyProfitGetCycleCount(saltCard) : Math.round((saltFig.chargesPerDayPerNode || 0) * periodMult);
+      tiles.set("Salt", {
+        resourceKey: "Salt",
+        materialModeKey: rakeModeKey,
+        toolLabel: "Salt Rake",
+        breakdown: breakdown,
+        toolCount: Math.max(0, Math.round(chargesPerNodePerPeriod * nodeCount)),
+        nodeCount: nodeCount
+      });
+    }
+  }
+  return Array.from(tiles.values());
+}
+
+function dailyProfitCostConfigRowHtml(tile) {
+  const toolCount = Math.max(0, Math.round(tile.toolCount || 0));
+  const isSelfProduce = tile.breakdown.every(m => m.mode !== "buy");
+  const matLines = tile.breakdown.map(m => `<div class="dprofit-cost-config-mat-line">${getIcon(m.name)} ${fmt(m.qty)}× ${escapeHtml(m.name)}</div>`).join("");
+  const totalNote = tile.breakdown.map(m => `${fmt((m.qty || 0) * toolCount)} ${escapeHtml(m.name)}`).join(", ");
+  return `\n  <div class="dprofit-cost-config-row" data-res="${escapeHtml(tile.resourceKey)}">\n    <div class="dprofit-cost-config-tool">\n      <span class="dprofit-cost-config-tool-icon">${getIcon(tile.toolLabel)}</span>\n      <div>\n        <div class="dprofit-cost-config-tool-name">${escapeHtml(tile.toolLabel)}${tile.seasonNote ? ` <span style="font-weight:600;opacity:.7;">(${escapeHtml(tile.seasonNote)})</span>` : ""}</div>\n        <div class="dprofit-cost-config-tool-count">×${toolCount} needed</div>\n      </div>\n    </div>\n    <div class="dprofit-cost-config-materials">\n      ${matLines}\n      ${toolCount > 0 ? `<div class="dprofit-cost-config-mat-total">Total: ${totalNote}</div>` : ""}\n    </div>\n    <div class="dprofit-cost-config-check-cell">\n      <label class="dprofit-cost-config-checkbox${isSelfProduce ? " is-checked" : ""}">\n        <input type="checkbox" class="dprofit-cost-config-input" data-res="${escapeHtml(tile.resourceKey)}" data-mode="collect" ${isSelfProduce ? "checked" : ""}>\n      </label>\n    </div>\n    <div class="dprofit-cost-config-check-cell">\n      <label class="dprofit-cost-config-checkbox${!isSelfProduce ? " is-checked" : ""}">\n        <input type="checkbox" class="dprofit-cost-config-input" data-res="${escapeHtml(tile.resourceKey)}" data-mode="buy" ${!isSelfProduce ? "checked" : ""}>\n      </label>\n    </div>\n  </div>`;
+}
+
+function attachDprofitCostConfigEvents(body) {
+  body.querySelectorAll(".dprofit-cost-config-input").forEach(input => {
+    input.onchange = () => {
+      const resourceKey = input.dataset.res;
+      const mode = input.dataset.mode === "buy" ? "buy" : "collect";
+      const tile = dailyProfitToolConfigTiles().find(t => t.resourceKey === resourceKey);
+      if (tile) tile.breakdown.forEach(m => setMaterialMode(tile.materialModeKey || resourceKey, m.name, mode));
+      invalidateCostCache();
+      renderDprofitCostConfigBody();
+      renderDailyProfitCard();
+    };
+  });
+}
+
+function renderDprofitCostConfigBody() {
+  const body = $("dprofitCostConfigBody");
+  if (!body) return;
+  const tiles = dailyProfitToolConfigTiles();
+  if (!tiles.length) {
+    body.innerHTML = `<div class="dprofit-cost-config-empty">⛏️ Nothing currently growing needs crafted tool materials.</div>`;
+    return;
+  }
+  body.innerHTML = `\n    <div class="dprofit-cost-config-intro">Choose how each tool's crafting materials should be priced. <b>Self Produce</b> values materials at what they actually cost you to gather (their own coin/material cost). <b>Buy</b> values them at the live 🛒 Marketplace price instead.</div>\n    <div class="dprofit-cost-config-head-row"><span>Tool</span><span>Materials</span><span>Self Produce</span><span>Buy</span></div>\n    ${tiles.map(dailyProfitCostConfigRowHtml).join("")}\n    <div class="dprofit-cost-config-note">🌋 Obsidian's materials change with the season and its once-every-7-days sell cap is already handled automatically by the Mining panel — this modal only lets you choose how its materials are priced.</div>\n    <div class="dprofit-cost-config-note">🧂 Salt Rake usage is based on charges harvested/day (Nodes × Charges/day/node from the 🧂 Salt panel) — this modal only lets you choose how its crafting materials are priced.</div>`;
+  attachDprofitCostConfigEvents(body);
+}
+
+export function openDprofitCostConfig() {
+  renderDprofitCostConfigBody();
+  const overlay = $("dprofitCostConfigOverlay");
+  overlay.classList.remove("show");
+  void overlay.offsetWidth;
+  overlay.classList.add("show");
+}
+
+export function closeDprofitCostConfig() {
+  const overlay = $("dprofitCostConfigOverlay");
+  if (overlay) overlay.classList.remove("show");
 }
 
 function openPixelPicker(title, options, selectedValue, onSelect) {
@@ -5080,7 +5350,7 @@ export function closePixelPicker() {
 function renderSaltFarmCard() {
   const fig = computeSaltFarmFigures();
   const isProfit = fig.dailyProfit >= 0;
-  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}" data-search="salt farm">\n    <div class="card-toggle" style="cursor:default;">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon("Salt")}</span>\n        <div>\n          <div class="card-name">Salt Farm</div>\n          <div class="card-type">${fmt(fig.costPerUnitFlower)} ${FLOWER_ICON} FLOWER cost / Salt · sell ${fmt(fig.sellFlower)} ${FLOWER_ICON} FLOWER</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        ${fig.activeBoosts && fig.activeBoosts.length ? `<span class="boost-badge">⚡${fig.activeBoosts.length}</span>` : ""}\n      </div>\n    </div>\n    <div class="card-details" style="display:block;max-height:none;padding-top:0;">\n      <div style="display:grid;grid-template-columns:1fr 130px;gap:6px 8px;align-items:center;margin:6px 0 8px;">\n        <label style="font-size:11.4px;color:var(--ink-soft);">${getIcon("Salt")} Farm level (1–${FARM_LEVEL_NODES.length})</label>\n        ${stepperHtml("farmLevelInput", saltFarmLevel, 1, FARM_LEVEL_NODES.length)}\n      </div>\n      <div style="display:grid;grid-template-columns:1fr 130px;gap:6px 8px;align-items:center;margin:0 0 8px;">\n        <label style="font-size:11.4px;color:var(--ink-soft);">${getIcon("Salt")} Salt Nodes owned (max ${farmLevelMaxNodes()} at this level)</label>\n        ${stepperHtml("saltNodeInput", fig.nodeCount, 0, farmLevelMaxNodes())}\n      </div>\n      <div class="card-grid">\n        <div class="stat"><span class="label">Charges/day/node</span><span class="value">${fmt(fig.chargesPerDayPerNode)}</span></div>\n        <div class="stat"><span class="label">Max stored charges/node</span><span class="value">${fig.storedChargeCap} (${fig.storedChargeCap} harvests banked)</span></div>\n        <div class="stat"><span class="label">Yield/charge</span><span class="value">${fmt(fig.yieldPerCharge)}${fig.saltYieldBonus ? ` (10 + ${fmt(fig.saltYieldBonus)} boost)` : ""}</span></div>\n        <div class="stat"><span class="label">Salt/day</span><span class="value">${fmt(fig.saltPerDay)}</span></div>\n        <div class="stat"><span class="label">Cost/Salt</span><span class="value">${fmt(fig.costPerUnitFlower)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Sell (market)</span><span class="value">${fmt(fig.sellFlower)} ${FLOWER_ICON} FLOWER</span></div>\n      </div>\n      ${render24hTotalsGrid(fig.dailyCost + fig.restockCost24h, fig.saltPerDay * fig.sellFlower, fig.dailyRevenue, fig.dailyProfit, {
+  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}" data-search="salt farm">\n    <div class="card-toggle" style="cursor:default;">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon("Salt")}</span>\n        <div>\n          <div class="card-name">Salt Farm</div>\n          <div class="card-type">${fmt(fig.costPerUnitFlower)} ${FLOWER_ICON} FLOWER cost / Salt · sell ${fmt(fig.sellFlower)} ${FLOWER_ICON} FLOWER</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        ${fig.activeBoosts && fig.activeBoosts.length ? `<span class="boost-badge">⚡${fig.activeBoosts.length}</span>` : ""}\n      </div>\n    </div>\n    <div class="card-details" style="display:block;max-height:none;padding-top:0;">\n      <div style="display:grid;grid-template-columns:1fr 130px;gap:6px 8px;align-items:center;margin:6px 0 8px;">\n        <label style="font-size:11.4px;color:var(--ink-soft);">${getIcon("Salt")} Farm level (1–${FARM_LEVEL_NODES.length})</label>\n        ${stepperHtml("farmLevelInput", saltFarmLevel, 1, FARM_LEVEL_NODES.length)}\n      </div>\n      <div style="display:grid;grid-template-columns:1fr 130px;gap:6px 8px;align-items:center;margin:0 0 8px;">\n        <label style="font-size:11.4px;color:var(--ink-soft);">${getIcon("Salt")} Salt Nodes owned (max ${farmLevelMaxNodes()} at this level)</label>\n        ${stepperHtml("saltNodeInput", fig.nodeCount, 0, farmLevelMaxNodes())}\n      </div>\n      <div class="card-grid">\n        <div class="stat"><span class="label">Charges/day/node</span><span class="value">${fmtInt(fig.chargesPerDayPerNode)}</span></div>\n        <div class="stat"><span class="label">Time/charge</span><span class="value">${formatDuration(fig.timeSec)}${Math.round(fig.timeSec) !== Math.round(SALT_BASE_TIME_SEC) ? ` <span style="color:var(--ink-soft);font-weight:600;">(${formatDuration(SALT_BASE_TIME_SEC)} base)</span>` : ""}</span></div>\n        <div class="stat"><span class="label">Max stored charges/node</span><span class="value">${fig.storedChargeCap} (${fig.storedChargeCap} harvests banked)</span></div>\n        <div class="stat"><span class="label">Yield/charge</span><span class="value">${fmt(fig.yieldPerCharge)}${fig.saltYieldBonus ? ` (10 + ${fmt(fig.saltYieldBonus)} boost)` : ""}</span></div>\n        <div class="stat"><span class="label">Salt/day</span><span class="value">${fmt(fig.saltPerDay)}</span></div>\n        <div class="stat"><span class="label">Cost/Salt</span><span class="value">${fmt(fig.costPerUnitFlower)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Sell (market)</span><span class="value">${fmt(fig.sellFlower)} ${FLOWER_ICON} FLOWER</span></div>\n      </div>\n      ${render24hTotalsGrid(fig.dailyCost + fig.restockCost24h, fig.saltPerDay * fig.sellFlower, fig.dailyRevenue, fig.dailyProfit, {
     title: `24HRS PROFIT/LOSS — ${fmt(fig.nodeCount)} node${fig.nodeCount === 1 ? "" : "s"}`,
     totalYield: fig.saltPerDay,
     yieldLabel: "Salt",
