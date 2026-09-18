@@ -27670,157 +27670,205 @@ const FISH_TIER_BAIT = {
 export const FISH_CATCH_DATA = {
   Anchovy: {
     tier: "basic",
-    likes: [ "Carrot", "Egg" ]
+    likes: [ "Carrot", "Egg" ],
+    seasons: [ "Spring", "Summer", "Autumn", "Winter" ]
   },
   Butterflyfish: {
     tier: "basic",
-    likes: [ "Sunflower" ]
+    likes: [ "Sunflower" ],
+    seasons: [ "Summer", "Autumn" ]
   },
   Blowfish: {
     tier: "basic",
-    likes: [ "Yam" ]
+    likes: [ "Yam" ],
+    seasons: [ "Winter" ]
   },
   Clownfish: {
     tier: "basic",
-    likes: [ "Cabbage" ]
+    likes: [ "Cabbage" ],
+    seasons: [ "Summer", "Winter" ]
   },
   "Sea Bass": {
     tier: "basic",
-    likes: [ "Anchovy" ]
+    likes: [ "Anchovy" ],
+    seasons: [ "Spring", "Autumn" ]
   },
   "Sea Horse": {
     tier: "basic",
-    likes: [ "Seaweed" ]
+    likes: [ "Seaweed" ],
+    seasons: [ "Spring", "Summer" ]
   },
   "Horse Mackerel": {
     tier: "basic",
-    likes: [ "Blueberry" ]
+    likes: [ "Blueberry" ],
+    seasons: [ "Summer", "Winter" ]
   },
   Halibut: {
     tier: "basic",
-    likes: [ "Anchovy" ]
+    likes: [ "Anchovy" ],
+    seasons: [ "Spring", "Autumn" ]
   },
   Squid: {
     tier: "basic",
-    likes: [ "Eggplant", "Onion" ]
+    likes: [ "Eggplant", "Onion" ],
+    seasons: [ "Spring", "Winter" ]
   },
   Porgy: {
     tier: "basic",
-    likes: [ "Yam" ]
+    likes: [ "Yam" ],
+    seasons: [ "Spring" ]
   },
   Muskellunge: {
     tier: "basic",
-    likes: [ "Turnip" ]
+    likes: [ "Turnip" ],
+    seasons: [ "Autumn" ]
   },
   "Red Snapper": {
     tier: "advanced",
-    likes: [ "Apple", "Honey" ]
+    likes: [ "Apple", "Honey" ],
+    seasons: [ "Spring", "Summer", "Autumn", "Winter" ]
   },
   "Moray Eel": {
     tier: "advanced",
-    likes: [ "Gold" ]
+    likes: [ "Gold" ],
+    seasons: [ "Summer", "Autumn" ]
   },
   "Olive Flounder": {
     tier: "advanced",
-    likes: [ "Rhubarb" ]
+    likes: [ "Rhubarb" ],
+    seasons: [ "Spring", "Autumn" ]
   },
   Napoleanfish: {
     tier: "advanced",
-    likes: [ "Carrot" ]
+    likes: [ "Carrot" ],
+    seasons: [ "Summer", "Autumn" ]
   },
   Surgeonfish: {
     tier: "advanced",
-    likes: [ "Orange" ]
+    likes: [ "Orange" ],
+    seasons: [ "Summer", "Autumn" ]
   },
   Angelfish: {
     tier: "advanced",
-    likes: [ "Banana" ]
+    likes: [ "Banana" ],
+    seasons: [ "Summer", "Winter" ]
   },
   "Zebra Turkeyfish": {
     tier: "advanced",
-    likes: [ "Beetroot", "Rhubarb" ]
+    likes: [ "Beetroot", "Rhubarb" ],
+    seasons: [ "Spring", "Summer" ]
   },
   Ray: {
     tier: "advanced",
-    likes: [ "Squid" ]
+    likes: [ "Squid" ],
+    seasons: [ "Spring", "Summer" ]
   },
   "Hammerhead shark": {
     tier: "advanced",
-    likes: [ "Iron" ]
+    likes: [ "Iron" ],
+    seasons: [ "Summer", "Autumn" ]
   },
   "Barred Knifejaw": {
     tier: "advanced",
-    likes: [ "Anchovy" ]
+    likes: [ "Anchovy" ],
+    seasons: [ "Spring", "Summer" ]
   },
   Walleye: {
     tier: "advanced",
-    likes: [ "Broccoli" ]
+    likes: [ "Broccoli" ],
+    seasons: [ "Winter" ]
   },
   "Rock Blackfish": {
     tier: "advanced",
-    likes: [ "Onion" ]
+    likes: [ "Onion" ],
+    seasons: [ "Autumn" ]
   },
   Tilapia: {
     tier: "advanced",
-    likes: [ "Zucchini" ]
+    likes: [ "Zucchini" ],
+    seasons: [ "Summer" ]
   },
   Tuna: {
     tier: "expert",
-    likes: [ "Orange", "Wild Mushroom" ]
+    likes: [ "Orange", "Wild Mushroom" ],
+    seasons: [ "Spring", "Summer", "Autumn", "Winter" ]
   },
   "Mahi Mahi": {
     tier: "expert",
-    likes: [ "Corn" ]
+    likes: [ "Corn" ],
+    seasons: [ "Summer", "Autumn" ]
   },
   "Blue Marlin": {
     tier: "expert",
-    likes: [ "Wheat" ]
+    likes: [ "Wheat" ],
+    seasons: [ "Summer", "Winter" ]
   },
   Oarfish: {
     tier: "expert",
-    likes: [ "Kale" ]
+    likes: [ "Kale" ],
+    seasons: [ "Spring", "Winter" ]
   },
   "Football fish": {
     tier: "expert",
-    likes: [ "Sunflower" ]
+    likes: [ "Sunflower" ],
+    seasons: [ "Winter" ]
   },
   Sunfish: {
     tier: "expert",
-    likes: [ "Anchovy" ]
+    likes: [ "Anchovy" ],
+    seasons: [ "Summer", "Autumn" ]
   },
   Coelacanth: {
     tier: "expert",
-    likes: [ "Cabbage" ]
+    likes: [ "Cabbage" ],
+    seasons: [ "Spring", "Winter" ]
   },
   Parrotfish: {
     tier: "expert",
-    likes: [ "Seaweed" ]
+    likes: [ "Seaweed" ],
+    seasons: [ "Spring", "Summer" ]
   },
   "Whale Shark": {
     tier: "expert",
-    likes: [ "Fat Chicken" ]
+    likes: [ "Fat Chicken" ],
+    seasons: [ "Summer", "Winter" ]
   },
   "Saw Shark": {
     tier: "expert",
-    likes: [ "Speed Chicken" ]
+    likes: [ "Speed Chicken" ],
+    seasons: [ "Spring", "Summer" ]
   },
   "White Shark": {
     tier: "expert",
-    likes: [ "Rich Chicken" ]
+    likes: [ "Rich Chicken" ],
+    seasons: [ "Summer", "Winter" ]
   },
   Cobia: {
     tier: "expert",
-    likes: [ "Broccoli" ]
+    likes: [ "Broccoli" ],
+    seasons: [ "Summer" ]
   },
   Trout: {
     tier: "expert",
-    likes: [ "Pepper" ]
+    likes: [ "Pepper" ],
+    seasons: [ "Winter" ]
   },
   Weakfish: {
     tier: "expert",
-    likes: [ "Artichoke" ]
+    likes: [ "Artichoke" ],
+    seasons: [ "Spring" ]
   }
 };
+
+export function getFishSeasons(name) {
+  const d = FISH_CATCH_DATA[name];
+  return d && Array.isArray(d.seasons) && d.seasons.length ? d.seasons : SEASON_ORDER.slice();
+}
+
+export function isFishInSeason(name, season) {
+  season = season || previewSeason;
+  return getFishSeasons(name).includes(season);
+}
 
 export const FISH_TIER_LABEL = {
   basic: "Basic Fish",
