@@ -1297,6 +1297,11 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   .fp-quest-credit{ display:block; margin-top:10px; font-family:'JetBrains Mono',monospace; font-size:10px; line-height:1.4; color:#c9821a; text-decoration:underline; word-break:break-word; }
   .fp-quest-guide-trigger{ display:inline-block; margin-top:8px; font-family:'JetBrains Mono',monospace; font-size:10.8px; font-weight:700; line-height:1.4; color:#c9821a; text-decoration:underline; cursor:pointer; word-break:break-word; }
   .fp-quest-guide-trigger:active{ opacity:.7; }
+  .card[data-fp-category="pete"] .card-toggle{ min-height:55.13px; align-items:center; }
+  .card[data-fp-category="pete"] .harvest-badge{ font-size:8.8px; padding:3px 5px; }
+  .fp-pete-empty{ display:none; padding:28px 8px; text-align:center; }
+  .fp-inprogress-list[data-fp-filter="pete"] .fp-pete-empty{ display:block; }
+  .fp-pete-empty .fp-quest-guide-trigger{ margin-top:0; font-size:12px; }
 
   #peteGuideOverlay{
     position:fixed; inset:0; background:rgba(18,14,9,.6);
