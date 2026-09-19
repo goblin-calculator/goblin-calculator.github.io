@@ -2206,7 +2206,8 @@ export function renderFarmPanelTabContent() {
         filterBarWrap.style.display = rows.length ? "" : "none";
       }
       const cardsHtml = rows.length ? rows.map(farmPanelRenderInProgressRow).join("") : hasAlerts ? "" : `<div class="farm-panel-empty">Nothing currently growing, recharging, or ready to harvest right now.</div>`;
-      wrap.innerHTML = cachedNoteHtml + mutantHtml + moneyTreeHtml + `<div class="fp-inprogress-list" data-fp-filter="${farmPanelInProgressCategoryFilter}">${cardsHtml}</div>`;
+      const peteEmptyHtml = rows.some(r => r.isPeteQuestCard) ? "" : `<div class="fp-pete-empty"><span class="fp-quest-guide-trigger" data-pete-guide-trigger>How to set up the Telegram Quest Bot</span></div>`;
+      wrap.innerHTML = cachedNoteHtml + mutantHtml + moneyTreeHtml + `<div class="fp-inprogress-list" data-fp-filter="${farmPanelInProgressCategoryFilter}">${cardsHtml}${peteEmptyHtml}</div>`;
       if (filterBarWrap) attachFarmPanelCategoryFilterBar(filterBarWrap, wrap);
       __set_farmPanelRenderAtMs(Date.now());
     } else {
@@ -4378,16 +4379,13 @@ function blComputeLevelTabRows(experience, ascensionLevel) {
   const rows = [];
   for (let i = 1; i <= PRE_ASCENSION_MAX_LEVEL; i++) {
     const startXp = COOK_LEVEL_XP[i - 1];
-    const cap = i < PRE_ASCENSION_MAX_LEVEL ? COOK_LEVEL_XP[i] - COOK_LEVEL_XP[i - 1] : COOK_LEVEL_XP[PRE_ASCENSION_MAX_LEVEL - 1] - COOK_LEVEL_XP[PRE_ASCENSION_MAX_LEVEL - 2];
+    const cap = i > 1 ? COOK_LEVEL_XP[i - 1] - COOK_LEVEL_XP[i - 2] : 0;
     let state = "future";
     let running = 0;
-    if (ascensionLevel > 0) {
+    if (ascensionLevel > 0 || i <= info.level) {
       state = "passed";
       running = cap;
-    } else if (i < info.level) {
-      state = "passed";
-      running = cap;
-    } else if (i === info.level) {
+    } else if (i === info.level + 1) {
       state = "current";
       running = Math.min(info.progress, cap);
     }
@@ -4408,7 +4406,8 @@ function blComputeAscensionTabRows(ascension, experience, ascensionLevel) {
   const ascInfo = ascensionLevel === ascension ? getAscensionLevelInfo(experience, ascensionLevel) : null;
   let cum = ascensionBandBaseline(ascension);
   for (let n = 1; n <= ASCENSION_LEVELS_PER_BAND; n++) {
-    const cap = n < ASCENSION_LEVELS_PER_BAND ? ascensionLevelXp(ascension, n) : ascensionLevelXp(ascension, ASCENSION_LEVEL_UPS);
+    const cap = n > 1 ? ascensionLevelXp(ascension, n - 1) : 0;
+    cum += cap;
     const totalExp = cum;
     let state = "future";
     let running = 0;
@@ -4416,10 +4415,10 @@ function blComputeAscensionTabRows(ascension, experience, ascensionLevel) {
       state = "passed";
       running = cap;
     } else if (ascensionLevel === ascension && ascInfo) {
-      if (n < ascInfo.level) {
+      if (n <= ascInfo.level) {
         state = "passed";
         running = cap;
-      } else if (n === ascInfo.level) {
+      } else if (n === ascInfo.level + 1) {
         state = "current";
         running = Math.min(ascInfo.currentExperienceProgress, cap);
       }
@@ -4432,16 +4431,15 @@ function blComputeAscensionTabRows(ascension, experience, ascensionLevel) {
       totalExp: totalExp,
       state: state
     });
-    if (n < ASCENSION_LEVELS_PER_BAND) cum += cap;
   }
   return rows;
 }
 
 function blRenderTableHtml(rows) {
   const lastRow = rows[rows.length - 1];
-  const totalExpCumulative = lastRow.totalExp + lastRow.cap;
+  const totalExpCumulative = lastRow.totalExp;
   const totalSkillCumulative = lastRow.cumSkill;
-  const rowsHtml = rows.map(r => `\n      <div class="bl-level-row ${r.state === "passed" || r.state === "current" ? "is-done" : ""}">\n        <span class="bl-col-level">${fmtInt(r.level)}</span>\n        <span class="bl-col-exp">${fmtInt(r.running)}/${fmtInt(r.cap)}</span>\n        <span class="bl-col-skill">+1(${fmtInt(r.cumSkill)})</span>\n        <span class="bl-col-total">${fmtInt(r.totalExp)} EXP</span>\n      </div>`).join("");
+  const rowsHtml = rows.map(r => `\n      <div class="bl-level-row ${r.state === "passed" ? "is-done" : ""}">\n        <span class="bl-col-level">${fmtInt(r.level)}</span>\n        <span class="bl-col-exp">${fmtInt(r.running)}/${fmtInt(r.cap)}</span>\n        <span class="bl-col-skill">+1(${fmtInt(r.cumSkill)})</span>\n        <span class="bl-col-total">${fmtInt(r.totalExp)} EXP</span>\n      </div>`).join("");
   return `\n    <div class="bl-cols-head">\n      <span>Level</span><span>Exp</span><span>Skill Points</span><span>Total Exp</span>\n    </div>\n    <div class="bl-list-wrap">${rowsHtml}</div>\n    <div class="bl-cols-total">\n      <span>TOTAL</span><span>${fmtInt(totalExpCumulative)} EXP</span><span>+${fmtInt(totalSkillCumulative)}</span><span></span>\n    </div>`;
 }
 
