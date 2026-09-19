@@ -4,7 +4,7 @@ import { SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL
 
 import { loadBaseHoneyIfNeeded, profileBumpkinCachePersist, safeLSJSON, saveAnimalAffectionTools, saveAnimalBuds, saveAnimalCounts, saveAnimalSicknessEstimate, saveAoeSyncOverrides, saveAscensionState, saveBeeSwarmState, saveBoostState, saveBoosts, saveBudFloorPrice, saveCmOilTank, saveCmQueue, saveCookingCounts, saveCropBuds, saveCrustaceanChumSelection, saveFishBuds, saveFlowerVarietyOverrides, saveFruitBuds, saveFruitCounts, saveGlobalPlotCount, saveGlobalPlotCountTouched, saveGreenhouseBuds, saveGreenhouseCounts, saveHiveCount, saveManualCycleOverrides, saveMarketState, saveNodeCounts, saveNodeCountsTouched, savePetFloorPrice, savePetResourceCostOverride, savePetsData, saveResourceBuds, saveSaltFarmLevel, saveSaltUi, saveSculptureLevel, saveSelectedHoneyFlower, saveSelectedSwarmCrop, saveSkillState, saveSpiceUsage, saveState, saveSyncedSkillLevels, saveToolRecipes, saveTradeState, saveWeatherDestructionSync } from "./storage.js";
 
-import { $, bountyToggle, closeBettyShop, closeBoostPanel, closeBudPicker, closeChapterFishMutants, closeDeleteTradeConfirm, closeDigPanel, closeDisclaimer, closeDprofitCostConfig, openDprofitCostConfig, closeExpansionSim, closeFarmPanel, closeGunterShop, closeMoreMenu, closeNewTradeModal, closePetTraitPicker, closePixelPicker, closeProfile, closeRcmInfoModal, closeSellTradeModal, closeSettingsModal, closeTicketCalc, closeTradeItemPicker, closeTradeShop, esIslandIcon, esRenderMissingToggle, esRenderModeToggle, getBoostIcon, getIcon, getMutantFishIcon, getTreasureIcon, hideDailyProfitCard, hideSyncProgressModal, hideTop10Card, npcDeliverToggle, openBettyShop, openBoostPanel, openChapterFishMutants, openDigPanel, openDisclaimer, openExpansionSim, openFarmPanel, openGunterShop, openMoreMenu, openNewTradeModal, openProfile, openRcmInfoModal, openSettingsModal, openTicketCalc, openTradeItemPicker, openPotionPanel, closePotionPanel, renderPotionRoomPanel, openTradeShop, refreshAnimalAffectionToolToggleUI, renderAnimalsList, renderAscensionBar, renderBaseCoinSummaryLists, renderBettyShop, renderBoostPanel, renderBudDropdown, renderCalcIngredients, renderCmOilTank, renderCmQtyControls, renderCmSelectedDetail, renderCmSummary, renderComposterList, renderCookingFoodList, renderCookingPanel, renderCropMachineCalc, renderCropMachineMachine, renderCropMachinePanel, renderCropsList, renderDailyProfitCard, renderDigTreasurePanel, renderFarmPanelInfo, renderFarmPanelTabContent, renderFishBudList, renderFishingPanel, renderFishingTierList, renderFruitsList, renderGreenhouseList, renderGunterShop, renderHoneyList, renderLibraryLists, renderPetFoodTabs, renderPetsPanel, renderPickerList, renderPlotNodeInputs, renderProfileTradable, renderProfileView, renderResourceList, renderSaltList, renderSeasonToggle, renderSkillPanel, renderTicketCalc, renderTotalsBreakdown, renderTradeShop, resetLibModalFields, setBountyToggle, setFarmPanelTab, showDailyProfitCard, showSyncCompleteModal, showSyncProgressModal, showSyncTimingPanel, showTop10Card, toggleMainView, updateRcmToggleUI } from "./ui.js";
+import { $, bountyToggle, closeBettyShop, closeBoostPanel, closeBudPicker, closeChapterFishMutants, closeDeleteTradeConfirm, closeDigPanel, closeDisclaimer, closeDprofitCostConfig, openDprofitCostConfig, closeExpansionSim, closeFarmPanel, closeGunterShop, closeMoreMenu, closeNewTradeModal, closePetTraitPicker, closePixelPicker, closeProfile, closeRcmInfoModal, closeSellTradeModal, closeSettingsModal, closeTicketCalc, closeTradeItemPicker, closeTradeShop, esIslandIcon, esRenderMissingToggle, esRenderModeToggle, getBoostIcon, getIcon, getMutantFishIcon, getTreasureIcon, hideDailyProfitCard, hideSyncProgressModal, hideTop10Card, npcDeliverToggle, openBettyShop, openBoostPanel, openChapterFishMutants, openDigPanel, openDisclaimer, openExpansionSim, openFarmPanel, openGunterShop, openMoreMenu, openNewTradeModal, openProfile, openRcmInfoModal, openSettingsModal, openTicketCalc, openTradeItemPicker, openPotionPanel, closePotionPanel, renderPotionRoomPanel, openTradeShop, refreshAnimalAffectionToolToggleUI, renderAnimalsList, renderAscensionBar, renderBaseCoinSummaryLists, renderBettyShop, renderBoostPanel, renderBudDropdown, renderCalcIngredients, renderCmOilTank, renderCmQtyControls, renderCmSelectedDetail, renderCmSummary, renderComposterList, renderCookingFoodList, renderCookingPanel, renderCropMachineCalc, renderCropMachineMachine, renderCropMachinePanel, renderCropsList, renderDailyProfitCard, renderDigTreasurePanel, renderFarmPanelInfo, renderFarmPanelTabContent, renderFishBudList, renderFishingPanel, renderFishingTierList, renderFruitsList, renderGreenhouseList, renderGunterShop, renderHoneyList, renderLibraryLists, renderPetFoodTabs, renderPetsPanel, renderPickerList, renderPlotNodeInputs, renderProfileTradable, renderProfileView, renderResourceList, renderSaltList, renderSeasonToggle, renderSkillPanel, renderTicketCalc, renderTotalsBreakdown, renderTradeShop, resetLibModalFields, setBountyToggle, setFarmPanelTab, showDailyProfitCard, showSyncCompleteModal, showSyncProgressModal, showSyncTimingPanel, showTop10Card, syncBoostPanelClosedRoute, syncBoostPanelRoute, syncBoostSkillTreeRoute, syncInProgressFilterRoute, toggleMainView, updateRcmToggleUI } from "./ui.js";
 
 export const __getIconCache = new Map;
 
@@ -709,6 +709,10 @@ export const IMAGE_ICONS = {
   "Gourmet Hourglass": "data:image/webp;base64,UklGRsAAAABXRUJQVlA4TLMAAAAvCgAFEFdgpgESIjEaUJgg/pbwNQA11AQAweghxWwuhhBOHaaSSFaoZ18L5NdShf4FGDSK+Q8A9H+6zK6m2BrvdHGMTZRoCk5s21abq/6fQqLZp+iDPp9cWTNa7gDYcecZmENE/4UECc3mDgwGA4KW7/s9hCljPgkZY0FJMbjv+ykZMsZmGCrGVsDfe1NgaEwA/N0nxfDR1NeZhrZGeDI2CQlPbJc53+/lf5H/0+I/FosFBQA=",
   "Desert Gnome": "data:image/webp;base64,UklGRq4AAABXRUJQVlA4TKEAAAAvCMACEIegJpKthlzl6OP3lIhHzDdAtqEokqTmwuskUGeDnH4Ixg8aUJDURLLV/E+UkGOVxNChGQH4oKaDINumYqM/2IMA+P+/ak0yWRDvmqtaCYai+gD70bo1KOaXxpxwcXiOnhYDg7aRHM3/9frPn+4diExE/ydAEEFnHDaCaHc7Hn1y9Lv4WDYoUkIJBWjPX39aVGwbWhQxO9lRvHfgAgA=",
   Pan: "data:image/png;base64,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"
+};
+
+export const BOOST_ICON_OVERRIDES = {
+  Parsnip: "data:image/webp;base64,UklGRsoAAABXRUJQVlA4TL4AAAAvI0ANED+gpm0jqODKX99BuPnmg6ImAAFGEt3U97oHmYDFXv1baOMXQQPP/AeAse/mWjiUeAl5cNva2ps8yalOE7CCxQCI557091TPrSu//eUEHwwQ0f8JwNHJjiHNtqs126M+Abxl2wAm22OJKMAe6XOybUy2VCKSZtseJWx+ApJEdjWD4Uqyq2sy/0K/UQdLKZHs6rq+5P+J/IG0Qn4Bt60cv8AgiAWkNJDsI+QIh0UWIcfB0+OcfS+lIQ8E"
 };
 
 export const COIN_ICON = '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQBAMAAADUulMJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAVUExURQAAAAAAAK9IMf6uNP7nYfd2Iv///8kLUD8AAAACdFJOUwAzyUOsLgAAAAFiS0dEBmFmuH0AAAAHdElNRQfoBAMBCyeWyjz2AAAAW0lEQVQI103N0RGAIAwD0OgE4ASSygIWFrBMgPvvYuuP9if3LncpAKwk4mTYHmzazkhTvT6T3k/XOLUTYmrkxKHa5OfaRpdewFsnmVDJWjKwuZOvLWR5v+UcfADJng8ZS5A75AAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyNC0wNC0wM1QwMToxMTozOCswMDowMN4naB0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjQtMDQtMDNUMDE6MTE6MzgrMDA6MDCvetChAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDI0LTA0LTAzVDAxOjExOjM5KzAwOjAwXhj6ygAAAABJRU5ErkJggg==" alt="Coins" style="width:14px;height:14px;vertical-align:-2px;image-rendering:pixelated;">';
@@ -4655,6 +4659,12 @@ const CORE_CROP_BOOSTS = [ {
   name: "Beetroot Amulet",
   scope: "crop",
   target: "Beetroot",
+  yieldMult: 1.2
+}, {
+  id: "parsnip_amulet",
+  name: "Parsnip",
+  scope: "crop",
+  target: "Parsnip",
   yieldMult: 1.2
 }, {
   id: "golden_cauliflower",
@@ -12849,7 +12859,7 @@ function farmSyncGetBumpkinExperience(json, g) {
   return Number.isFinite(n) && n >= 0 ? n : 0;
 }
 
-function applyFarmSkillsOnly(json, fallbackJson) {
+export function applyFarmSkillsOnly(json, fallbackJson) {
   let g = farmSyncExtractGameState(json);
   const gFallback = fallbackJson ? farmSyncExtractGameState(fallbackJson) : null;
   if (gFallback) {
@@ -13278,7 +13288,7 @@ function applyFarmGreenThumbLegacyOnly(json) {
   };
 }
 
-function applyFarmBoostsOnly(json) {
+export function applyFarmBoostsOnly(json) {
   const g = farmSyncExtractGameState(json);
   farmSyncRefreshLimitedBoostActiveState(g);
   const placedNames = farmSyncCollectEquippedAndPlacedNames(g);
@@ -14697,6 +14707,7 @@ export function attachFarmPanelCategoryFilterBar(barWrap, wrap) {
       const list = wrap.querySelector(".fp-inprogress-list");
       const target = list || wrap;
       target.setAttribute("data-fp-filter", cat);
+      syncInProgressFilterRoute(cat);
     };
   });
 }
@@ -15048,14 +15059,15 @@ $("farmPanelDebugCrowCooldownBtn").onclick = () => {
       if (!cropName) return;
       const cropDef = BASE_CROPS[cropName];
       if (!cropDef || cropDef.tier !== def.tier) return;
-      if (typeof plot.x !== "number" || typeof plot.y !== "number") return;
+      const plotCoords = farmSyncGetCoords(plot);
+      if (!plotCoords) return;
       const dims = {
         width: 1,
         height: 1
       };
       const rankSkillId = boostId === "laurie_chuckle_crow" ? "skill_lauries_gains" : boostId === "scary_mike" ? "skill_horror_mike" : "skill_chonky_scarecrow";
       const e = farmPanelAOEExtent(rankSkillId);
-      const px = plot.x, py = plot.y;
+      const px = plotCoords.x, py = plotCoords.y;
       const within = px >= pos.x - e.xLeft && px <= pos.x + e.xRight && py <= pos.y - dims.height && py >= pos.y - dims.height - (e.depth - 1);
       if (!within) return;
       const dx = px - pos.x, dy = py - pos.y;
@@ -15412,7 +15424,7 @@ $("farmPanelDebugCropsBtn").onclick = () => {
         perNode: perNode
       };
     })(),
-    Crops: buildPlantedSection(farmPanelField(g, "crops"), "crop", "crop", [ "green_amulet", "golden_cauliflower", "easter_bunny", "victoria_sisters", "beetroot_amulet", "sunflower_amulet", "scarecrow", "kuebiko", "coder", "peeled_potato", "potent_potato", "stellar_sunflower", "radical_radish", "skill_chonky_scarecrow", "scary_mike", "skill_horror_mike", "sir_goldensnout", "laurie_chuckle_crow", "skill_lauries_gains", "queen_cornelia", "skill_acre_farm", "skill_hectare_farm", "bountiful_harvest", "sunshower", "summer_guardian", "autumn_guardian", "winter_guardian", "spring_guardian", "insect_plague" ]),
+    Crops: buildPlantedSection(farmPanelField(g, "crops"), "crop", "crop", [ "green_amulet", "golden_cauliflower", "easter_bunny", "victoria_sisters", "beetroot_amulet", "sunflower_amulet", "parsnip_amulet", "scarecrow", "kuebiko", "coder", "peeled_potato", "potent_potato", "stellar_sunflower", "radical_radish", "skill_chonky_scarecrow", "scary_mike", "skill_horror_mike", "sir_goldensnout", "laurie_chuckle_crow", "skill_lauries_gains", "queen_cornelia", "skill_acre_farm", "skill_hectare_farm", "bountiful_harvest", "sunshower", "summer_guardian", "autumn_guardian", "winter_guardian", "spring_guardian", "insect_plague" ]),
     "Fruit Patches": buildPlantedSection(farmPanelField(g, "fruitPatches"), "fruit", "fruit", [ "skill_generous_orchard", "lady_bug", "black_bearry", "macaw", "skill_loyal_macaw", "camel_onesie", "fruit_picker_apron", "skill_fruitful_fumble", "banana_amulet", "banana_chicken", "lemon_shark", "lemon_shield", "reveling_lemon", "tomato_bombard", "bountiful_harvest", "summer_guardian", "autumn_guardian", "winter_guardian", "spring_guardian", "moon_hair", "faction_quiver", "skill_zesty_vibes" ]),
     "Flower Beds": buildPlantedSection((farmPanelField(g, "flowers") || {}).flowerBeds, "flower", "flower", [ "humming_bird", "butterfly", "desert_rose", "chicory", "salt_crystal_flower", "moth_shrine", "skill_petalled_perk", "legendary_shrine_flower" ]),
     Greenhouse: (() => {
@@ -15911,7 +15923,7 @@ const CROW_AOE_DEFS = {
   }
 };
 
-function farmSyncGetCoords(obj) {
+export function farmSyncGetCoords(obj) {
   if (!obj || typeof obj !== "object") return null;
   const c = obj.coordinates && typeof obj.coordinates === "object" ? obj.coordinates : obj;
   const x = typeof c.x === "number" ? c.x : typeof c.x === "string" && c.x.trim() !== "" ? parseFloat(c.x) : NaN;
@@ -16069,7 +16081,7 @@ async function performFarmPanelSync(farmId) {
     }
     const budFertSpiceCrowMatched = !!(budResult.matched || fertResult.matched || spiceResult.matched || crowAoeResult.changed);
     const anythingChanged = JSON.stringify(selectedBoosts) !== prevSelectedBoostsSig || JSON.stringify(selectedSkills) !== prevSelectedSkillsSig || feePercent !== prevFeePercent || plotsResult.touched || !!budResult.matched || !!fertResult.matched || !!spiceResult.matched || !!crowAoeResult.changed;
-    farmPanelSaveGameState(mergedFreshState);
+    farmPanelSaveGameState(mergedFreshState, true);
     if (typeof invalidateCostCache === "function") invalidateCostCache();
     if (typeof syncCookingCountsFromInventory === "function") syncCookingCountsFromInventory(farmPanelGameState);
     __mark("  state prep");
@@ -16173,6 +16185,7 @@ async function performFarmPanelSync(farmId) {
   } finally {
     __set_farmPanelSyncInFlight(false);
     btn.textContent = originalLabel;
+    if (__syncErrorMsg && typeof renderFarmPanelTabContent === "function") renderFarmPanelTabContent();
     __mark("sync end (total)");
     showSyncTimingPanel(farmId, __marks, __syncErrorMsg);
     __syncMark = null;
@@ -16345,12 +16358,21 @@ $("librarySearchInput").addEventListener("input", applyLibrarySearchFilter);
 
 export let boostCategory = "crops";
 
-$("openBoostPanelBtn").onclick = openBoostPanel;
+$("openBoostPanelBtn").onclick = () => {
+  openBoostPanel();
+  syncBoostPanelRoute(null);
+};
 
-$("closeBoostPanel").onclick = closeBoostPanel;
+$("closeBoostPanel").onclick = () => {
+  closeBoostPanel();
+  syncBoostPanelClosedRoute();
+};
 
 $("boostPanelOverlay").addEventListener("click", e => {
-  if (e.target.id === "boostPanelOverlay") closeBoostPanel();
+  if (e.target.id === "boostPanelOverlay") {
+    closeBoostPanel();
+    syncBoostPanelClosedRoute();
+  }
 });
 
 $("boostSearchInput").addEventListener("input", renderBoostPanel);
@@ -16359,12 +16381,34 @@ $("plotsToggle").onclick = () => {
   $("plotsPanel").classList.toggle("open");
 };
 
+export function setSkillTreeSectionOpen(open, opts = {}) {
+  const wrap = $("skillTreeWrap");
+  const arrow = $("skillTreeArrow");
+  if (!wrap) return;
+  const nowCollapsed = !open;
+  wrap.classList.toggle("collapsed", nowCollapsed);
+  if (arrow) {
+    arrow.textContent = nowCollapsed ? "▸" : "▾";
+    arrow.classList.toggle("is-collapsed", nowCollapsed);
+  }
+  if (open && opts.scrollIntoView) {
+    wrap.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+}
+
 (function initCollapsibleSections() {
+  const skillHeader = $("skillTreeToggleHeader"), skillWrap = $("skillTreeWrap");
+  if (skillHeader && skillWrap) {
+    skillHeader.onclick = () => {
+      const willOpen = skillWrap.classList.contains("collapsed");
+      setSkillTreeSectionOpen(willOpen);
+      syncBoostSkillTreeRoute(willOpen);
+    };
+  }
   const sections = [ {
-    headerId: "skillTreeToggleHeader",
-    wrapId: "skillTreeWrap",
-    arrowId: "skillTreeArrow"
-  }, {
     headerId: "allBoostToggleHeader",
     wrapId: "allBoostSettingsWrap",
     arrowId: "allBoostArrow"

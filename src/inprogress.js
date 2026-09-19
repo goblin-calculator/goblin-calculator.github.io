@@ -1,6 +1,8 @@
-import { ALL_ANIMAL_PRODUCTS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_PRODUCT_LOOKUP, ASCENSION_RANK_DATA, BAIT_RECIPES, BAIT_RECIPE_NAME_MATCH, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, CALENDAR_SEASONAL_BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_CAKE_DISHES, COOKING_FOOD_IMAGES, COOKING_RECIPES, CRIMSTONE_KNOWN_IDS, CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE, CROP_AOE_RANKS, CROP_HARVEST_SEC, CROP_KNOWN_IDS, CROP_PRNG_EXCLUDE, FARM_LEVEL_NODES, FARM_PANEL_SCROLL_IDLE_MS, FEED_LABELS, FERMENTATION_BAIT_FAMILIES, FERMENTATION_SPICE_KNOWN_IDS, FERMENTATION_STATIC_RECIPES, FISH_AGING_KNOWN_IDS, FISH_SALT_DATA, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, FOOD_KNOWN_IDS, FRUIT_KNOWN_IDS, FRUIT_PRNG_EXCLUDE, GAMESTATE_SECTION_KEYS, GEM_ICON, GOLD_KNOWN_IDS, IMAGE_ICONS, IRON_KNOWN_IDS, MUTANT_TYPE_EMOJI, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PATCH_FRUIT_ONLY_GLOBAL_BOOSTS_EXCLUDED_FROM_GREENHOUSE, RCM_GREENHOUSE_ICON_HTML, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, SALT_BASE_CHARGE_CAP, SALT_BASE_TIME_SEC, SALT_BASE_YIELD, SPICE_RECIPES, SPICE_STATIC_RECIPES, STONE_KNOWN_IDS, SYNODIC_MONTH_DAYS, TREE_KNOWN_IDS, __farmPanelSaveGameStateHandle, __gameStateSectionLenSigs, __set___farmPanelSaveGameStateHandle, __set___gameStateSectionLenSigs, allResourceBudBoostEntries, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalFeedFigures, computeAnimalFeedsToNextLevel, computeAnimalTypeFigures, computeAnimalYieldsForLevel, computeBaitFigures, computeBoostedCropStats, computeBoostedStock, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedLavaPitStats, computeBoostedResourceStats, computeComposterFigures, computeDestroyedCropPlotIds, computeHiveStats, computeHoneyRestockBreakdown, computeQtyRestockGems, computeSpiceFigures, currentSeason, escapeHtml, farmIdPromptStartSync, farmSyncExtractBudTraits, farmSyncExtractGameState, farmSyncExtractPetTraits, farmSyncFindBagByNameHeuristic, farmSyncGetAnimalRecords, farmSyncGetPetRecords, farmSyncPickActivePlacedInstances, feePercent, fmt, fmtAnimal, fullMoonSeedStockQty, getActiveAnimalBoosts, getActiveBoostsForHive, getActiveFeedInfo, getActiveSaltRechargeMult, getActiveSaltYieldBonus, getActiveSeasonGuardianName, getAnimalLevelFromXp, getAscensionRank, getCropPlotSunshowerSpeedMultiplier, getCurrentChapterMutantSet, getCurrentChapterName, getEffectiveYieldAdd, getNodeIconHtml, getNodeLabel, getSpiceLickDurationHarvests, isBoostActive, isCropInSeason, isOvernightGroundCrop, isSkillActive, onDeferredInitialRenderDone, parseYieldBoostAmount, resourceBuds, saltSculptureLevel, sculptureEffects, sflPrngChance, syncCookingCountsFromInventory } from "./calculator.js";
+import { ICONS, NPC_ICONS, ALL_ANIMAL_PRODUCTS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_PRODUCT_LOOKUP, ASCENSION_RANK_DATA, BAIT_RECIPES, BAIT_RECIPE_NAME_MATCH, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, CALENDAR_SEASONAL_BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_CAKE_DISHES, COOKING_FOOD_IMAGES, COOKING_RECIPES, CRIMSTONE_KNOWN_IDS, CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE, CROP_AOE_RANKS, CROP_HARVEST_SEC, CROP_KNOWN_IDS, CROP_PRNG_EXCLUDE, FARM_LEVEL_NODES, FARM_PANEL_SCROLL_IDLE_MS, FEED_LABELS, FERMENTATION_BAIT_FAMILIES, FERMENTATION_SPICE_KNOWN_IDS, FERMENTATION_STATIC_RECIPES, FISH_AGING_KNOWN_IDS, FISH_SALT_DATA, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, FOOD_KNOWN_IDS, FRUIT_KNOWN_IDS, FRUIT_PRNG_EXCLUDE, GAMESTATE_SECTION_KEYS, GEM_ICON, GOLD_KNOWN_IDS, IMAGE_ICONS, IRON_KNOWN_IDS, MUTANT_TYPE_EMOJI, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PATCH_FRUIT_ONLY_GLOBAL_BOOSTS_EXCLUDED_FROM_GREENHOUSE, RCM_GREENHOUSE_ICON_HTML, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, SALT_BASE_CHARGE_CAP, SALT_BASE_TIME_SEC, SALT_BASE_YIELD, SPICE_RECIPES, SPICE_STATIC_RECIPES, STONE_KNOWN_IDS, SYNODIC_MONTH_DAYS, TREE_KNOWN_IDS, __farmPanelSaveGameStateHandle, __gameStateSectionLenSigs, __set___farmPanelSaveGameStateHandle, __set___gameStateSectionLenSigs, allResourceBudBoostEntries, applyFarmBoostsOnly, applyFarmSkillsOnly, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalFeedFigures, computeAnimalFeedsToNextLevel, computeAnimalTypeFigures, computeAnimalYieldsForLevel, computeBaitFigures, computeBoostedCropStats, computeBoostedStock, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedLavaPitStats, computeBoostedResourceStats, computeComposterFigures, computeDestroyedCropPlotIds, computeHiveStats, computeHoneyRestockBreakdown, computeQtyRestockGems, computeSpiceFigures, currentSeason, escapeHtml, farmIdPromptStartSync, farmSyncExtractBudTraits, farmSyncExtractGameState, farmSyncExtractPetTraits, farmSyncFindBagByNameHeuristic, farmSyncGetAnimalRecords, farmSyncGetCoords, farmSyncGetPetRecords, farmSyncPickActivePlacedInstances, feePercent, fmt, fmtAnimal, fullMoonSeedStockQty, getActiveAnimalBoosts, getActiveBoostsForHive, getActiveFeedInfo, getActiveSaltRechargeMult, getActiveSaltYieldBonus, getActiveSeasonGuardianName, getAnimalLevelFromXp, getAscensionRank, getCropPlotSunshowerSpeedMultiplier, getCurrentChapterMutantSet, getCurrentChapterName, getEffectiveYieldAdd, getNodeIconHtml, getNodeLabel, getSpiceLickDurationHarvests, isBoostActive, isCropInSeason, isOvernightGroundCrop, isSkillActive, onDeferredInitialRenderDone, parseYieldBoostAmount, resourceBuds, saltSculptureLevel, sculptureEffects, sflPrngChance, syncCookingCountsFromInventory } from "./calculator.js";
 
 import { SFL_COMMUNITY_PROXY_BASE, SFL_NFT_PRICE_API, SFL_PROXY_BASE, computeRestockCost24h, cookingCostMode, cookingIngredientUnitCostCoins, fishSaltCostFlower, getActiveShrineDailyCostStable, getItemCostByName, getRestockGemCost, getSpiceCostPerUseFlower, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, marketItems, pickledVegCost, refinedSaltUnitCostFlower, saltCostFlowerForSpiceRack } from "./prices.js";
+
+import { getPumpkinPeteQuest } from "./pete_quests.js";
 
 import { $, cookFoodIcon, getBoostIcon, getIcon, renderAnimalCardProductDetailRow, renderAnimalYieldGroupsList, renderBeehiveListHtml, renderCardProductDetailRow, renderCostNetInfoTrigger, renderCrimstoneInstantMineBoostHtml, renderCrimstoneNodeYieldList, renderFarmPanelTabContent, renderFruitHarvestsLeftHtml, renderGoldInstantMineBoostHtml, renderNodeTierYieldList, renderOilNodeYieldList, renderPlantYieldNodeList, renderSaltNodeYieldList, renderTotalsBreakdown, renderTurnaroundBoostHtml } from "./ui.js";
 
@@ -78,6 +80,8 @@ export function farmPanelSaveLastInfo(id, level, vipStatus, factionInfo, experie
 }
 
 export let farmPanelGameState = null;
+
+export let farmPanelStateIsCached = false;
 
 let farmPanelHoneySnapshotMs = Date.now();
 
@@ -1145,7 +1149,8 @@ export function farmPanelAOEExtent(rankSkillId) {
 }
 
 export function farmPanelGnomeAOEBonus(g, plot, cooldownSec, atTime) {
-  if (!plot || typeof plot.x !== "number" || typeof plot.y !== "number") return false;
+  const plotCoords = farmSyncGetCoords(plot);
+  if (!plotCoords) return false;
   const gnomePos = farmPanelGetCollectiblePosition(g, "Gnome");
   const cobaltPos = farmPanelGetCollectiblePosition(g, "Cobalt");
   const clementinePos = farmPanelGetCollectiblePosition(g, "Clementine");
@@ -1153,7 +1158,7 @@ export function farmPanelGnomeAOEBonus(g, plot, cooldownSec, atTime) {
   const isCobaltLeftOfGnome = cobaltPos.y === gnomePos.y && cobaltPos.x + 1 === gnomePos.x;
   const isClementineRightOfGnome = clementinePos.y === gnomePos.y && clementinePos.x - 1 === gnomePos.x;
   if (!isCobaltLeftOfGnome || !isClementineRightOfGnome) return false;
-  const isPlotDirectlyAboveGnome = plot.x === gnomePos.x && plot.y === gnomePos.y - 1;
+  const isPlotDirectlyAboveGnome = plotCoords.x === gnomePos.x && plotCoords.y === gnomePos.y - 1;
   if (!isPlotDirectlyAboveGnome) return false;
   const aoeState = farmPanelField(g, "aoe") || {};
   const lastUsed = aoeState["Gnome"] && aoeState["Gnome"][0] && typeof aoeState["Gnome"][0][1] === "number" ? aoeState["Gnome"][0][1] : 0;
@@ -1163,11 +1168,12 @@ export function farmPanelGnomeAOEBonus(g, plot, cooldownSec, atTime) {
 }
 
 function farmPanelCropAOEBonus(g, collectibleName, plot, dims, rankSkillId, cooldownSec, atTime) {
-  if (!plot || typeof plot.x !== "number" || typeof plot.y !== "number") return false;
+  const plotCoords = farmSyncGetCoords(plot);
+  if (!plotCoords) return false;
   const pos = farmPanelGetCollectiblePosition(g, collectibleName);
   if (!pos) return false;
   const {width: width, height: height} = dims;
-  const px = plot.x, py = plot.y;
+  const px = plotCoords.x, py = plotCoords.y;
   let within = false;
   if (collectibleName === "Basic Scarecrow" || collectibleName === "Scary Mike" || collectibleName === "Laurie the Chuckle Crow") {
     const e = farmPanelAOEExtent(rankSkillId);
@@ -2915,10 +2921,16 @@ function cookingSlotIngredientCostFlower(building, name, doubleNomLevel) {
 }
 
 function cookingIsWearableEquipped(g, wearableName) {
+  const checkEquipped = equipped => !!equipped && typeof equipped === "object" && Object.values(equipped).some(v => typeof v === "string" && v.trim() === wearableName);
   const bumpkin = g && g.bumpkin;
-  const equipped = bumpkin && bumpkin.equipped;
-  if (!equipped || typeof equipped !== "object") return false;
-  return Object.values(equipped).some(v => typeof v === "string" && v.trim() === wearableName);
+  if (checkEquipped(bumpkin && bumpkin.equipped)) return true;
+  const farmHands = g && g.farmHands && g.farmHands.bumpkins;
+  if (farmHands && typeof farmHands === "object") {
+    for (const fh of Object.values(farmHands)) {
+      if (checkEquipped(fh && fh.equipped)) return true;
+    }
+  }
+  return false;
 }
 
 function farmPanelBuildCookingBuildingCard(building, instances, farmActivity) {
@@ -3526,6 +3538,12 @@ function farmPanelComputeCookingCards(json) {
 }
 
 export function farmPanelComputeInProgress(json) {
+  try {
+    applyFarmSkillsOnly(json, json);
+  } catch (e) {}
+  try {
+    applyFarmBoostsOnly(json);
+  } catch (e) {}
   const raw = farmPanelComputeInProgressRaw(json);
   const animalRows = raw.filter(row => ALL_ANIMAL_PRODUCTS.includes(row.name));
   const otherRows = raw.filter(row => !ALL_ANIMAL_PRODUCTS.includes(row.name));
@@ -3714,7 +3732,8 @@ export function farmPanelComputeInProgress(json) {
     let moneyTreeBonus = null;
     if (g.name === "Wood") {
       const mtData = farmPanelDetectMoneyTreeBonus(json);
-      const mtCoins = (mtData.totalCoins || 0) + (mtData.predictedCoins || 0);
+      const mtBatchCoins = (mtData.batchPredictions || []).reduce((sum, b) => sum + (b.coins || 0), 0);
+      const mtCoins = (mtData.totalCoins || 0) + (mtBatchCoins > 0 ? mtBatchCoins : mtData.predictedCoins || 0);
       if (mtCoins > 0) {
         moneyTreeBonus = {
           coins: mtCoins
@@ -3799,7 +3818,104 @@ export function farmPanelComputeInProgress(json) {
   const cookingCards = farmPanelComputeCookingCards(json);
   const allCards = cards.concat(animalCards).concat(cookingCards);
   allCards.sort((a, b) => b.profit - a.profit);
+  const peteQuestCard = farmPanelComputePeteQuestCard(json);
+  if (peteQuestCard) allCards.push(peteQuestCard);
   return allCards;
+}
+
+const PETE_QUEST_LINK = "https://github.com/01101010110/Pumpkin-Pete-Quests/blob/main/Quests.md";
+
+const PETE_REWARD_ALIASES = {
+  coin: "Coins",
+  coins: "Coins",
+  gem: "Gem",
+  gems: "Gem",
+  axes: "Axe",
+  pickaxes: "Pickaxe",
+  rods: "Rod",
+  "love charms": "Love Charm",
+  "wild mushrooms": "Wild Mushroom",
+  mushrooms: "Wild Mushroom",
+  mushroom: "Wild Mushroom",
+  "kale seeds": "Kale Seed"
+};
+
+function farmPanelPeteIconHtml() {
+  const src = NPC_ICONS && NPC_ICONS["pumpkin' pete"];
+  if (!src) return "🎃";
+  return `<img src="${src}" alt="Pumpkin Pete" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:middle;">`;
+}
+
+function peteTitleCase(text) {
+  return String(text || "").trim().replace(/\S+/g, w => w.charAt(0).toUpperCase() + w.slice(1));
+}
+
+function peteNormalizeItemName(raw) {
+  const lower = String(raw || "").trim().toLowerCase();
+  if (PETE_REWARD_ALIASES[lower]) return PETE_REWARD_ALIASES[lower];
+  const titled = peteTitleCase(lower);
+  const hasIcon = n => !!(IMAGE_ICONS[n] || ICONS[n]);
+  if (hasIcon(titled)) return titled;
+  if (lower.endsWith("es") && hasIcon(peteTitleCase(lower.slice(0, -2)))) return peteTitleCase(lower.slice(0, -2));
+  if (lower.endsWith("s") && hasIcon(peteTitleCase(lower.slice(0, -1)))) return peteTitleCase(lower.slice(0, -1));
+  return titled;
+}
+
+function peteRewardIconHtml(name) {
+  if (name === "Coins") return COIN_ICON;
+  const hasIcon = n => !!(IMAGE_ICONS[n] || ICONS[n]);
+  if (hasIcon(name)) return getIcon(name);
+  if (/ Seed$/.test(name)) {
+    const base = name.replace(/ Seed$/, "");
+    if (hasIcon(base)) return getIcon(base);
+  }
+  if (/mushroom/i.test(name)) return '<span style="font-size:16px;line-height:1;">🍄</span>';
+  return "";
+}
+
+function peteParseReward(text) {
+  const raw = String(text || "").trim();
+  return raw.split(/\s+and\s+/i).map(p => p.trim()).filter(Boolean).map(part => {
+    const m = part.match(/^(\d+(?:\.\d+)?)\s+(.+)$/);
+    if (!m) return {
+      label: peteTitleCase(part),
+      icon: ""
+    };
+    const itemName = peteNormalizeItemName(m[2]);
+    return {
+      label: `${m[1]} ${peteTitleCase(m[2])}`,
+      icon: peteRewardIconHtml(itemName)
+    };
+  });
+}
+
+function farmPanelComputePeteQuestCard(json) {
+  try {
+    const g = farmSyncExtractGameState(json);
+    const telegram = farmPanelField(g, "telegram");
+    const quest = telegram && typeof telegram === "object" ? telegram.quest : null;
+    if (!quest || typeof quest.name !== "string" || !quest.name.trim()) return null;
+    const startAt = Number(quest.startAt);
+    const readyAtMs = Number.isFinite(startAt) && startAt > 0 ? startAt : 0;
+    const remainingSec = readyAtMs > Date.now() ? (readyAtMs - Date.now()) / 1e3 : 0;
+    const questKey = quest.name.trim();
+    const info = getPumpkinPeteQuest(questKey);
+    return {
+      isPeteQuestCard: true,
+      name: "Pumpkin Pete Quest",
+      profit: 0,
+      questKey: questKey,
+      title: info ? info.title : peteTitleCase(questKey.replace(/[-_]+/g, " ")),
+      description: info ? info.description : "",
+      choices: info && Array.isArray(info.choices) ? info.choices : [],
+      isKnown: !!info,
+      readyAtMs: readyAtMs,
+      remainingSec: remainingSec,
+      isReady: remainingSec <= 0
+    };
+  } catch (e) {
+    return null;
+  }
 }
 
 function farmPanelStockCategoryNames() {
@@ -3945,6 +4061,7 @@ function farmPanelRenderNodeYieldBoostList(row, summary, produceIcon) {
 }
 
 function farmPanelCardCategory(row) {
+  if (row.isPeteQuestCard) return "pete";
   if (row.isAnimalMerged) return "animals";
   if (row.isHoneyCard) return "beehive";
   const name = row.name;
@@ -3988,6 +4105,10 @@ export function farmPanelRenderCategoryFilterBar() {
     id: "cooking",
     label: "Cooking",
     icon: COOKING_PANEL_TAB_ICON_HTML
+  }, {
+    id: "pete",
+    label: "Pumpkin Pete Quest",
+    icon: farmPanelPeteIconHtml()
   } ];
   const btns = cats.map(c => `<button type="button" class="fp-filter-btn${farmPanelInProgressCategoryFilter === c.id ? " active" : ""}${c.id === "all" ? " has-label" : ""}" data-fp-filter-btn="${c.id}" title="${c.label}">${c.icon}${c.id === "all" ? `<span>${c.label}</span>` : ""}</button>`).join("");
   return `<div class="fp-filter-bar">${btns}</div>`;
@@ -4104,6 +4225,44 @@ function farmPanelRenderCookingBoostList(row) {
   return `<div class="section-badge is-boost-label">⚡ Applied Boost</div>${sectionsHtml}`;
 }
 
+function farmPanelRenderPeteQuestCard(row) {
+  const searchKey = "pumpkin-pete-quest";
+  const expandedCls = farmPanelExpandedNames.has(searchKey) ? " expanded" : "";
+  const badgeHtml = row.isReady ? `<span class="harvest-badge is-ready">✅ Quest Ready</span>` : `<span class="harvest-badge is-growing">⏳ <span class="fp-quest-countdown" data-ready-at="${row.readyAtMs}">${farmPanelFormatCountdown(row.remainingSec)}</span></span>`;
+  const petIcon = NPC_ICONS && NPC_ICONS["pumpkin' pete"] ? `<img src="${NPC_ICONS["pumpkin' pete"]}" alt="Pumpkin Pete" style="width:20px;height:20px;image-rendering:pixelated;vertical-align:middle;">` : "🎃";
+  const descHtml = row.description ? `<div class="fp-quest-desc">${escapeHtml(row.description)}</div>` : `<div class="fp-quest-desc">Quest details for "${escapeHtml(row.questKey)}" are not in the list yet.</div>`;
+  const choiceRows = row.choices.map(c => {
+    const parts = peteParseReward(c.reward);
+    const rewardHtml = parts.map(p => `<span class="fp-quest-reward-part">${escapeHtml(p.label)}${p.icon ? ` ${p.icon}` : ""}</span>`).join('<span class="fp-quest-reward-sep">+</span>');
+    return `<div class="fp-quest-choice"><span class="fp-quest-choice-text">${escapeHtml(c.text)}</span><span class="fp-quest-reward">${rewardHtml}</span></div>`;
+  }).join("");
+  const choicesHtml = row.choices.length ? `<div class="lib-section-title" style="margin-top:10px;">CHOICES &amp; REWARDS</div>${choiceRows}` : "";
+  return `
+  <div class="card animal-merged-card${row.isReady ? " is-profit" : ""}${expandedCls}" data-search="${searchKey}" data-fp-category="pete">
+    <div class="card-toggle">
+      <div class="card-name-row">
+        <span class="card-icon">${petIcon}</span>
+        <div>
+          <div class="card-name">Pumpkin Pete Quest</div>
+          <div class="card-type-row">
+            ${badgeHtml}
+          </div>
+        </div>
+      </div>
+      <div class="card-collapsed-profit">
+        <span class="chev">▾</span>
+      </div>
+    </div>
+    <div class="card-details">
+      <div class="fp-quest-title">${escapeHtml(row.title)}</div>
+      ${descHtml}
+      ${choicesHtml}
+      <div class="fp-quest-guide-trigger" data-pete-guide-trigger>How to set up the Telegram Quest Bot</div>
+      <a class="fp-quest-credit" href="${PETE_QUEST_LINK}" target="_blank" rel="noopener noreferrer">Special thanks to Digits for compiling quest info</a>
+    </div>
+  </div>`;
+}
+
 function farmPanelRenderCookingCard(row) {
   const building = row.cookingBuilding;
   const isProfit = row.profit >= 0;
@@ -4143,6 +4302,7 @@ export function farmPanelRenderInProgressRow(row) {
   if (row.isAnimalMerged) return farmPanelRenderAnimalMergedCard(row);
   if (row.isHoneyCard) return farmPanelRenderHoneyCard(row);
   if (row.isCookingCard) return farmPanelRenderCookingCard(row);
+  if (row.isPeteQuestCard) return farmPanelRenderPeteQuestCard(row);
   const baseStatus = row.readyCount > 0 ? row.readyCount === row.count ? "✅ All ready" : `✅ ${row.readyCount} ready · ⏳ ${row.count - row.readyCount} growing` : "⏳ Growing";
   const showCountdown = row.soonestSec != null && row.readyCount < row.count;
   const noEtaGrowing = !showCountdown && row.readyCount < row.count && row.noEtaCount > 0;
@@ -4271,11 +4431,20 @@ function farmPanelTickCountdowns() {
   if (farmPanelUserScrolling) return;
   const wrap = $("farmPanelTabContent");
   if (!wrap) return;
-  const els = wrap.querySelectorAll(".farm-countdown[data-base]");
+  const els = wrap.querySelectorAll(".farm-countdown[data-base], .fp-quest-countdown[data-ready-at]");
   if (!els.length) return;
   const elapsedSec = (Date.now() - farmPanelRenderAtMs) / 1e3;
   let anyFinished = false;
   els.forEach(el => {
+    if (el.hasAttribute("data-ready-at")) {
+      const questRemaining = (parseFloat(el.getAttribute("data-ready-at")) - Date.now()) / 1e3;
+      if (questRemaining <= 0) {
+        anyFinished = true;
+        return;
+      }
+      el.textContent = farmPanelFormatCountdown(questRemaining);
+      return;
+    }
     const base = parseFloat(el.getAttribute("data-base"));
     const remaining = base - elapsedSec;
     if (remaining <= 0) {
@@ -4288,6 +4457,10 @@ function farmPanelTickCountdowns() {
 }
 
 setInterval(farmPanelTickCountdowns, 1e3);
+
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) renderFarmPanelTabContent();
+});
 
 export function farmPanelDebugFindShapes(obj, substrs, path, depth, out) {
   if (!obj || typeof obj !== "object" || depth > 3) return;
@@ -4717,14 +4890,9 @@ function farmPanelSectionStorageKey(name) {
   return "hl_fpgs__" + name;
 }
 
-function farmPanelSectionLenSig(v) {
-  if (Array.isArray(v)) return "a" + v.length;
-  if (v && typeof v === "object") return "o" + Object.keys(v).length;
-  return "p" + typeof v + String(v);
-}
-
-export function farmPanelSaveGameState(json) {
+export function farmPanelSaveGameState(json, isFullSync) {
   farmPanelGameState = json || null;
+  if (isFullSync) farmPanelStateIsCached = false;
   farmPanelHoneySnapshotMs = Date.now();
   const toStore = farmPanelGameState;
   if (__farmPanelSaveGameStateHandle !== null) {
@@ -4748,6 +4916,7 @@ function farmPanelWriteGameStateSharded(toStore) {
     }
     const g = farmSyncExtractGameState(toStore);
     let containerKey = null;
+    const hasGame = !!(g && typeof g === "object");
     if (g !== toStore) {
       [ "game", "farm", "gameState", "state" ].some(k => {
         if (toStore[k] === g) {
@@ -4757,18 +4926,28 @@ function farmPanelWriteGameStateSharded(toStore) {
         return false;
       });
     }
-    const hasGame = !!(g && typeof g === "object");
     const rootRest = {};
     Object.keys(toStore).forEach(k => {
-      if (k !== containerKey) rootRest[k] = toStore[k];
+      const keep = containerKey !== null ? k !== containerKey : !hasGame;
+      if (keep) rootRest[k] = toStore[k];
     });
     const writeSection = (name, value) => {
-      const lenSig = farmPanelSectionLenSig(value);
-      if (__gameStateSectionLenSigs[name] === lenSig) return;
-      __gameStateSectionLenSigs[name] = lenSig;
+      let serialized;
       try {
-        localStorage.setItem(farmPanelSectionStorageKey(name), JSON.stringify(value));
-      } catch (e) {}
+        serialized = JSON.stringify(value);
+      } catch (e) {
+        return;
+      }
+      if (__gameStateSectionLenSigs[name] === serialized) return;
+      try {
+        localStorage.setItem(farmPanelSectionStorageKey(name), serialized);
+        __gameStateSectionLenSigs[name] = serialized;
+      } catch (e) {
+        delete __gameStateSectionLenSigs[name];
+        try {
+          localStorage.removeItem(farmPanelSectionStorageKey(name));
+        } catch (e2) {}
+      }
     };
     writeSection("__rootRest", rootRest);
     if (hasGame) {
@@ -4795,6 +4974,7 @@ function farmPanelWriteGameStateSharded(toStore) {
 }
 
 export function farmPanelLoadCachedGameState() {
+  if (farmPanelGameState && !farmPanelStateIsCached) return;
   farmPanelHoneySnapshotMs = Date.now();
   try {
     const metaRaw = localStorage.getItem("hl_fpgs_meta");
@@ -4804,20 +4984,22 @@ export function farmPanelLoadCachedGameState() {
       return;
     }
     const meta = JSON.parse(metaRaw);
-    const rootRest = JSON.parse(localStorage.getItem(farmPanelSectionStorageKey("__rootRest")) || "{}");
+    const rootRestRaw = localStorage.getItem(farmPanelSectionStorageKey("__rootRest")) || "{}";
+    const rootRest = JSON.parse(rootRestRaw);
     __set___gameStateSectionLenSigs({
-      __rootRest: farmPanelSectionLenSig(rootRest)
+      __rootRest: rootRestRaw
     });
     let g = null;
     if (meta.hasGame) {
-      g = JSON.parse(localStorage.getItem(farmPanelSectionStorageKey("__gameRest")) || "{}");
-      __gameStateSectionLenSigs.__gameRest = farmPanelSectionLenSig(g);
+      const gameRestRaw = localStorage.getItem(farmPanelSectionStorageKey("__gameRest")) || "{}";
+      g = JSON.parse(gameRestRaw);
+      __gameStateSectionLenSigs.__gameRest = gameRestRaw;
       GAMESTATE_SECTION_KEYS.forEach(k => {
         const raw = localStorage.getItem(farmPanelSectionStorageKey(k));
         if (raw !== null) {
           try {
             g[k] = JSON.parse(raw);
-            __gameStateSectionLenSigs[k] = farmPanelSectionLenSig(g[k]);
+            __gameStateSectionLenSigs[k] = raw;
           } catch (e) {}
         }
       });
@@ -4833,6 +5015,8 @@ export function farmPanelLoadCachedGameState() {
     }
   } catch (e) {
     farmPanelGameState = null;
+  } finally {
+    farmPanelStateIsCached = !!farmPanelGameState;
   }
 }
 
