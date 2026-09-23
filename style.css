@@ -9722,6 +9722,12 @@ body.sfl-theme .bl-nav-tab.active{
 .wb-boost-badge{
   font-size:10px; font-weight:700; text-align:center; color:var(--leaf-deep,#2e7d32);
 }
+.wb-exp-badge{
+  font-size:10px; font-weight:700; text-align:center; color:#7a4fb5;
+}
+.wb-boost-note{
+  padding:6px 8px; background:rgba(0,0,0,.06); border-radius:6px;
+}
 .wb-ing-row{ display:flex; flex-wrap:wrap; gap:4px; justify-content:center; margin-top:2px; }
 .wb-ing-none{ font-size:10px; opacity:.5; font-style:italic; }
 .wb-ing-chip{
