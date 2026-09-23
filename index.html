@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://images.bumpkins.io https://testnet-images.bumpkins.io https://animations.sunflower-land.com; connect-src 'self' https://sfl-proxy.bossweki.workers.dev https://sfl-community-proxy.bossweki.workers.dev https://sfl-market-cache.bossweki.workers.dev https://sfl-cosmetics-cache.bossweki.workers.dev https://*.firebaseio.com wss://*.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://images.bumpkins.io https://testnet-images.bumpkins.io https://animations.sunflower-land.com; connect-src 'self' https://sfl-proxy.bossweki.workers.dev https://sfl-community-proxy.bossweki.workers.dev https://sfl-market-cache.bossweki.workers.dev https://sfl-cosmetics-cache.bossweki.workers.dev https://sfl-faction-pet-cache.bossweki.workers.dev https://*.firebaseio.com wss://*.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Goblin Calculator</title>
 <meta name="description" content="Goblin Calculator — an unofficial profit/loss calculator for Sunflower Land. Know your real profit before you list it." />
@@ -588,8 +588,18 @@
     <div class="library-body" id="bumpkinLevelBody"></div>
   </div>
 
+  <div class="library-panel main-tab-modal tab-hidden" id="factionPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="faction">✕</button><span>📦 Faction Delivery</span></div>
+    <div class="library-body" id="factionBody"></div>
+  </div>
+
+  <div class="library-panel main-tab-modal tab-hidden" id="craftingBoxPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="craftingbox">✕</button><span>🧰 Crafting Box</span></div>
+    <div class="library-body" id="craftingBoxBody"></div>
+  </div>
+
   <div class="library-panel main-tab-modal tab-hidden" id="auctionTrackerPanel">
-    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="auctiontracker">✕</button><span><img src="data:image/webp;base64,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" alt="" style="width:14px;height:14px;vertical-align:-2px;image-rendering:pixelated;"> Auction Tracker</span></div>
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="auctiontracker">✕</button><span><img src="data:image/webp;base64,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" alt="" style="width:14px;height:14px;vertical-align:-2px;image-rendering:pixelated;"> Auction Leader Board</span></div>
     <div class="library-body" id="auctionTrackerBody"></div>
     <button type="button" class="at-mini-sync" id="auctionTrackerMiniSyncBtn" aria-label="Sync latest rankings" title="Sync latest rankings">🔄</button>
   </div>
@@ -688,7 +698,7 @@
       <div class="lib-item-row" style="margin-bottom:8px;flex-wrap:wrap;gap:6px;">
         <div class="lib-item-main" style="flex-basis:100%;margin-bottom:2px;">
           <div class="lib-item-name">Affection Tools (love actions while sleeping)</div>
-          <div class="lib-item-meta">Toggle the tools you own — off by default, auto-detected on farm sync. Reduces feeds needed by the average XP they add per cycle.</div>
+          <div class="lib-item-meta">Toggle the tools you own — off by default, auto-detected on farm sync. Reduces feeds needed by the average XP they add per cycle. Set the count per animal inside each animal card.</div>
         </div>
         <div class="affection-tool-toggle" id="affectionToolRow_pettingHand" data-tool="pettingHand" style="display:flex;align-items:center;gap:5px;cursor:pointer;border:1px solid var(--line);border-radius:6px;padding:4px 6px;flex:1;min-width:100px;">
           <img src="" alt="Petting Hand" id="affectionToolIcon_pettingHand" style="width:16px;height:16px;image-rendering:pixelated;">
@@ -1293,7 +1303,7 @@
         </div>
       </div>
       <div class="skill-tree-wrap collapsed" id="skillTreeWrap">
-        <div class="lib-section-title section-collapse-header" id="skillTreeToggleHeader">🎓 Skill Tree <span class="collapse-arrow is-collapsed" id="skillTreeArrow">▸</span></div>
+        <div class="lib-section-title section-collapse-header" id="skillTreeToggleHeader"><span class="skill-tree-header-left">🎓 Skill Tree <button type="button" class="skill-tree-copy-btn" id="skillTreeCopyBtn">📋 Copy</button></span> <span class="collapse-arrow is-collapsed" id="skillTreeArrow">▸</span></div>
         <div class="type-toggle" id="skillCategoryToggle"></div>
         <div id="skillListWrap"></div>
       </div>
@@ -1576,7 +1586,7 @@
       </button>
       <button type="button" class="more-menu-item" id="moreMenuAuctionTrackerBtn">
         <span class="more-menu-item-icon"><img src="data:image/webp;base64,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" alt="" /></span>
-        <span class="more-menu-item-label">Auction Tracker</span>
+        <span class="more-menu-item-label">Auction Leader Board</span>
         <span class="more-menu-item-chev">›</span>
       </button>
       <button type="button" class="more-menu-item" id="moreMenuExpansionSimBtn">
@@ -1589,9 +1599,19 @@
         <span class="more-menu-item-label">SFL Bubbles Chart</span>
         <span class="more-menu-item-chev">›</span>
       </button>
+      <button type="button" class="more-menu-item" id="moreMenuFactionDeliveryBtn">
+        <span class="more-menu-item-icon"><img src="data:image/webp;base64,UklGRpAAAABXRUJQVlA4TIQAAAAvD4AFEC+goG0UOHd+XjCAFwiybWPDmMAucQVt2zC9Qzb+OIZimv8AwO3l2XHV/4BBJElOdh3sEQTwKHiWF0AwQOFfTQYFEf2fAAAROMa6BgCt9kpgsu0GGg8L5VNOZ00+q6+6s0pn1HDoqe5QUW2y00aVSCl2quwR5YT6BXIN5BoQARE=" alt="" style="width:16px;height:23px;image-rendering:pixelated;vertical-align:-6px;"></span>
+        <span class="more-menu-item-label">Faction Delivery</span>
+        <span class="more-menu-item-chev">›</span>
+      </button>
       <button type="button" class="more-menu-item" id="moreMenuBumpkinLevelBtn">
         <span class="more-menu-item-icon"><img src="data:image/webp;base64,UklGRo4FAABXRUJQVlA4TIIFAAAvY8AYAKfhtrZt09rPTNnFy1//FSByZOMbuw22kW0rwd0tdBqgZCqCjJwCvuPy2Ea2reR8QjIyh9wjmqFQ6qASd73zHwT9zi9eggu8BRd4Ci7wFnLBDT7CU/ABH/ABLwgCAH4AAEB6NN6PZOhV7Yv3//t9Mu6/RDJO93I/bo/15LsJdThYnaGUB73o2D2cHCY4wsi2GalaqkXEEmiu71LZyCgOWy9rJoy95okU08fg3db2tm22bXN674kAN4ZIBPL0edJmeInrv3IHGmld/9q2R/R/An78p8Gf+fP1s7LuNCdOJE48jl410hnq9VPSL0lIwujs9PrZQmemz9Sfq1+SkERC56S3jfrzVN2ER6XML0lIIqGz0Wdb9OdnAlN+fiZb08OZmbJlAOeJEs7OUlB9JibOxvcNJ6DXssG37Gn+bjXzHdD8fdfTArKZXgXSGRHshBLNe2NH5DTvjYmUEv9AwT9QwmmGlGb43vLbpku21bfC01z6renXzY0MzFzY3k7wtfRU8LXtl+1LmJNmAr6Un1JfHu0iKcVFstfUQDrNfHnMi6QUqcl+2dPnXS6SUqWf608zn5t/2uciqeZTw9PMp+Yfd7rYko9NO4nmH3Y6seQ/NO+O+vCIA2ucIBdotUxAq/ebjxBWJiATA/F9/cQiBO8bv9t4tGElTkDqIRDhXa2x7x7jmGIlXkyQI8IQq7Ct3m56p3EYYQgrY7xgYpEechB5y5B8uyj1dv/jnSIjccwkH+JawgBEJtjozZZlcYgXPNjEQDQDEJkSyTeNX284QmS4Ewm4sA+xwQQsUictr1u/2jA3E2BmiBfwoDgHmBkiDEQ7wZJ61fxl+zuNxAE0RxiZlYjjPBApW9Kdji/3f0duDMAc1vQcYJiH+BJqjhu8aH6nCAnN/P3XHArnvzXfaXgBcSh4QXcUzZ83v9MYATOGvwRroRTupOfWsEjPoTuK5s9a341kULBrcTDPkgYkqTvqWfOnrVNDBEazhtKVwMjT6u6opzuHOAKJAKyENf8YnjQeIQJPikpXCCNPqrujaH7fdkzGQRECsEJY8wlGVXdH3e87gxjOyp8CJEUYiaCBAKw2ZMKa4O7PvcQuaKWJaDXEAkIirI8B4BLAXJKdgCXyZwglBLumA+O9uQS4B+iOgvvLe4m0JOwlapzQn8tg16YBJOlfl4XdUZdbHqyXRZKQUpd+u+zBo+4oDhbZkoNFEhLIImUOklmbeUkIZbujDhKSkIQkgSQ2WQrCGsxpTpqwP2RQnsxBUif9VlhD91vq5pMkut9SWIO6Q94bUpIwwghJKAlOPgGySyu4KPEpUDIDcl6VOLwr9ji7TDi7javVURR7V16RXTThfEIydj5dwNxJCmtQkd/Cs4kmvAuwQljDCpzm5AqENcC+2i6SJmUalyWr9mi0F8+OfAWGnYCv8fvxe/GPDIdZz0upN+mqADRJF7T2FWnfIKQLvKtMeXDgyXk2SQbIBThIADm3B+/a+xYBcDYATTyZWu88u4CVYF06APs7VHpJApROpJ314AKwEkClHtQdxaEhqBxUX+JKQ1byZGx31EGiamvQLTkHeOcd+CLra/ZKGWBcGb10a3NsxR7o5c8DVIDSvWRctZIHb2SooY0EBoGKb6GXHPiEL7mFQ63xBmQBYQpTogSkPnkt3ciidCsd/aFIDbIpSHAL9LpuaKSr7EHyCaWSJBpX3AJ9OyAj6UbSjpLIXt0CvaSbNroFCnSDuSpJe0EFSAKhJDdcCbiWhEFIQpKQJLiSQHKHK+lG6CD5EpBQbULCIIuTBDkq3EHgZZEEsjVIEoYcrcDjAI9Lexw0IockIUno3xKSisjgnceR8A7vUh4kSKlFMlVsqp13rZX2qBq0e9c+s0s=" alt="" /></span>
         <span class="more-menu-item-label">Bumpkin Level</span>
+        <span class="more-menu-item-chev">›</span>
+      </button>
+      <button type="button" class="more-menu-item" id="moreMenuCraftingBoxBtn">
+        <span class="more-menu-item-icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANBAMAAACAxflPAAAABGdBTUEAALGPC/xhBQAAABVQTFRFAAAAwMvcvkovi5u0WmmIcz45GBQlmbZdhwAAAAF0Uk5TAEDm2GYAAABDSURBVAjXY2BgYEhgAAM2MTYwK8UwKQzMdxYD00ABsDibi7MYiE4KSTEGCrCphrG5gbihCQwQLlgxiAsCqWFQUyFcADzlCyeFMcRDAAAAAElFTkSuQmCC" alt="" style="width:13px;height:13px;image-rendering:pixelated;vertical-align:-2px;"></span>
+        <span class="more-menu-item-label">Crafting Box</span>
         <span class="more-menu-item-chev">›</span>
       </button>
       <button id="openGunterShopBtn" type="button" class="more-menu-item" aria-label="GUNTER SHOP">
@@ -2078,7 +2098,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="presence.js"></script>
-<script src="app.4a1a1e1f1c.bundle.js"></script>
+<script src="app.141e476a64.bundle.js"></script>
 <script>
 (function(){
   function ready(fn){
