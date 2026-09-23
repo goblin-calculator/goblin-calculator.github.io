@@ -1,4 +1,4 @@
-import { ICONS, NPC_ICONS, ALL_ANIMAL_PRODUCTS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_PRODUCT_LOOKUP, ASCENSION_RANK_DATA, BAIT_RECIPES, BAIT_RECIPE_NAME_MATCH, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, CALENDAR_SEASONAL_BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_CAKE_DISHES, COOKING_FOOD_IMAGES, COOKING_RECIPES, CRIMSTONE_KNOWN_IDS, CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE, CROP_AOE_RANKS, CROP_HARVEST_SEC, CROP_KNOWN_IDS, CROP_PRNG_EXCLUDE, FARM_LEVEL_NODES, FARM_PANEL_SCROLL_IDLE_MS, FEED_LABELS, FERMENTATION_BAIT_FAMILIES, FERMENTATION_SPICE_KNOWN_IDS, FERMENTATION_STATIC_RECIPES, FISH_AGING_KNOWN_IDS, FISH_SALT_DATA, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, FOOD_KNOWN_IDS, FRUIT_KNOWN_IDS, FRUIT_PRNG_EXCLUDE, GAMESTATE_SECTION_KEYS, GEM_ICON, GOLD_KNOWN_IDS, IMAGE_ICONS, IRON_KNOWN_IDS, MUTANT_TYPE_EMOJI, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PATCH_FRUIT_ONLY_GLOBAL_BOOSTS_EXCLUDED_FROM_GREENHOUSE, RCM_GREENHOUSE_ICON_HTML, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, SALT_BASE_CHARGE_CAP, SALT_BASE_TIME_SEC, SALT_BASE_YIELD, SPICE_RECIPES, SPICE_STATIC_RECIPES, STONE_KNOWN_IDS, SYNODIC_MONTH_DAYS, TREE_KNOWN_IDS, __farmPanelSaveGameStateHandle, __gameStateSectionLenSigs, __set___farmPanelSaveGameStateHandle, __set___gameStateSectionLenSigs, allResourceBudBoostEntries, applyFarmBoostsOnly, applyFarmSkillsOnly, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalFeedFigures, computeAnimalFeedsToNextLevel, computeAnimalTypeFigures, computeAnimalYieldsForLevel, computeBaitFigures, computeBoostedCropStats, computeBoostedStock, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedLavaPitStats, computeBoostedResourceStats, computeComposterFigures, computeDestroyedCropPlotIds, computeHiveStats, computeHoneyRestockBreakdown, computeQtyRestockGems, computeSpiceFigures, currentSeason, escapeHtml, farmIdPromptStartSync, farmSyncExtractBudTraits, farmSyncExtractGameState, farmSyncExtractPetTraits, farmSyncFindBagByNameHeuristic, farmSyncGetAnimalRecords, farmSyncGetCoords, farmSyncGetPetRecords, farmSyncPickActivePlacedInstances, feePercent, fmt, fmtAnimal, fullMoonSeedStockQty, getActiveAnimalBoosts, getActiveBoostsForHive, getActiveFeedInfo, getActiveSaltRechargeMult, getActiveSaltYieldBonus, getActiveSeasonGuardianName, getAnimalLevelFromXp, getAscensionRank, getCropPlotSunshowerSpeedMultiplier, getCurrentChapterMutantSet, getCurrentChapterName, getEffectiveYieldAdd, getNodeIconHtml, getNodeLabel, getSpiceLickDurationHarvests, isBoostActive, isCropInSeason, isOvernightGroundCrop, isSkillActive, onDeferredInitialRenderDone, parseYieldBoostAmount, resourceBuds, saltSculptureLevel, sculptureEffects, sflPrngChance, syncCookingCountsFromInventory } from "./calculator.js";
+import { ICONS, NPC_ICONS, ALL_ANIMAL_PRODUCTS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_PRODUCT_LOOKUP, ASCENSION_RANK_DATA, BAIT_RECIPES, BAIT_RECIPE_NAME_MATCH, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, CALENDAR_SEASONAL_BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_CAKE_DISHES, COOKING_FOOD_IMAGES, COOKING_RECIPES, CRIMSTONE_KNOWN_IDS, CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE, CROP_AOE_RANKS, CROP_HARVEST_SEC, CROP_KNOWN_IDS, CROP_PRNG_EXCLUDE, FARM_LEVEL_NODES, FARM_PANEL_SCROLL_IDLE_MS, FEED_LABELS, FERMENTATION_BAIT_FAMILIES, FERMENTATION_SPICE_KNOWN_IDS, FERMENTATION_STATIC_RECIPES, FISH_AGING_KNOWN_IDS, FISH_SALT_DATA, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, FOOD_KNOWN_IDS, FRUIT_KNOWN_IDS, FRUIT_PRNG_EXCLUDE, GAMESTATE_SECTION_KEYS, GEM_ICON, GOLD_KNOWN_IDS, IMAGE_ICONS, IRON_KNOWN_IDS, MUTANT_TYPE_EMOJI, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PATCH_FRUIT_ONLY_GLOBAL_BOOSTS_EXCLUDED_FROM_GREENHOUSE, RCM_GREENHOUSE_ICON_HTML, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, SALT_BASE_CHARGE_CAP, SALT_BASE_TIME_SEC, SALT_BASE_YIELD, SPICE_RECIPES, SPICE_STATIC_RECIPES, STONE_KNOWN_IDS, SYNODIC_MONTH_DAYS, TREE_KNOWN_IDS, __farmPanelSaveGameStateHandle, __gameStateSectionLenSigs, __set___farmPanelSaveGameStateHandle, __set___gameStateSectionLenSigs, allResourceBudBoostEntries, applyFarmBoostsOnly, applyFarmSkillsOnly, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalFeedFigures, computeAnimalRealProgress, computeAnimalTypeFigures, computeAnimalYieldsForLevel, computeBaitFigures, computeBoostedCropStats, computeBoostedStock, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedLavaPitStats, computeBoostedResourceStats, computeComposterFigures, computeDestroyedCropPlotIds, computeHiveStats, computeHoneyRestockBreakdown, computeQtyRestockGems, computeSpiceFigures, currentSeason, escapeHtml, farmIdPromptStartSync, farmSyncExtractBudTraits, farmSyncExtractGameState, farmSyncExtractPetTraits, farmSyncFindBagByNameHeuristic, farmSyncGetAnimalRecords, farmSyncGetCoords, farmSyncGetPetRecords, farmSyncPickActivePlacedInstances, feePercent, fmt, fmtAnimal, fmtAnimalCost, fullMoonSeedStockQty, getActiveAnimalBoosts, getActiveBoostsForHive, getActiveFeedInfo, getActiveSaltRechargeMult, getActiveSaltYieldBonus, getActiveSeasonGuardianName, getAnimalLevelFromXp, getAscensionRank, getCropPlotSunshowerSpeedMultiplier, getCurrentChapterMutantSet, getCurrentChapterName, getEffectiveYieldAdd, getNodeIconHtml, getNodeLabel, getSpiceLickDurationHarvests, isBoostActive, isCropInSeason, isOvernightGroundCrop, isSkillActive, onDeferredInitialRenderDone, parseYieldBoostAmount, resourceBuds, saltSculptureLevel, sculptureEffects, sflPrngChance, syncCookingCountsFromInventory } from "./calculator.js";
 
 import { SFL_COMMUNITY_PROXY_BASE, SFL_NFT_PRICE_API, SFL_PROXY_BASE, computeRestockCost24h, cookingCostMode, cookingIngredientUnitCostCoins, fishSaltCostFlower, getActiveShrineDailyCostStable, getItemCostByName, getRestockGemCost, getSpiceCostPerUseFlower, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, marketItems, pickledVegCost, refinedSaltUnitCostFlower, saltCostFlowerForSpiceRack } from "./prices.js";
 
@@ -2372,15 +2372,23 @@ function farmPanelComputeInProgressRaw(json) {
         const sick = animal.sick === true || stateStr === "sick" || typeof animal.sickenedAt === "number";
         const xpRaw = animal.experience ?? animal.exp ?? animal.xp;
         const xp = typeof xpRaw === "number" ? xpRaw : typeof xpRaw === "string" && xpRaw.trim() && !isNaN(Number(xpRaw)) ? Number(xpRaw) : null;
-        const level = getAnimalLevelFromXp(type, xp) || 1;
+        const lovedAt = toTs(animal.lovedAt);
+        const readyAtMs = awakeAt != null ? awakeAt : asleepAt != null ? asleepAt + cycleSec * 1e3 : null;
+        const progress = computeAnimalRealProgress(type, {
+          xp: xp,
+          state: stateStr,
+          item: animal.item,
+          asleepAt: asleepAt,
+          lovedAt: lovedAt
+        }, now, readyAtMs);
+        const level = progress.level;
         const realFeedBuffName = animal.feedBuff && typeof animal.feedBuff === "object" && animal.feedBuff.name && (typeof animal.feedBuff.harvestsRemaining !== "number" || animal.feedBuff.harvestsRemaining > 0) ? animal.feedBuff.name : null;
-        const claimLevel = level < 15 ? level + 1 : 15;
-        const fig = computeAnimalYieldsForLevel(type, claimLevel, realFeedBuffName);
-        const feedFig = computeAnimalFeedFigures(type, level);
-        const feedInfo = getActiveFeedInfo(feedFig.favouriteFoodKey);
+        const fig = computeAnimalYieldsForLevel(type, progress.claimLevel, realFeedBuffName);
+        const feedInfo = getActiveFeedInfo(progress.costFeedKey);
         let animalFeedMultTotal = baseFeedMultTotal;
         if (realFeedBuffName === "Honey Treat") animalFeedMultTotal *= .75;
-        const animalFeedQty = freeFeed ? 0 : Math.max(0, feedFig.noOfFeeds * requiredQtyPerFeed * animalFeedMultTotal);
+        const animalFeedQty = freeFeed ? 0 : Math.max(0, progress.costFeeds * requiredQtyPerFeed * animalFeedMultTotal);
+        const remainingFeedQty = freeFeed ? 0 : Math.max(0, progress.noOfFeeds * requiredQtyPerFeed * animalFeedMultTotal);
         const animalFeedCostFlower = animalFeedQty * feedInfo.cost / (coinPerFlower || 1);
         const animalConsumableCostFlower = realFeedBuffName === "Salt Lick" ? getSpiceCostPerUseFlower("saltLick") / getSpiceLickDurationHarvests() : realFeedBuffName === "Honey Treat" ? getSpiceCostPerUseFlower("honeyTreat") / getSpiceLickDurationHarvests() : 0;
         let ready, remainingSec;
@@ -2427,24 +2435,24 @@ function farmPanelComputeInProgressRaw(json) {
           });
         });
         if (!farmPanelAnimalYieldGroupsByType[type]) farmPanelAnimalYieldGroupsByType[type] = [];
-        const feedLabelUsed = FEED_LABELS[feedFig.feedKeyUsed] || feedFig.feedKeyUsed;
-        const feedsToNext = computeAnimalFeedsToNextLevel(type, level, xp);
-        const feedToNextLabel = FEED_LABELS[feedsToNext.feedKeyUsed] || feedsToNext.feedKeyUsed;
-        const feedQtyToNext = freeFeed ? 0 : Math.max(0, feedsToNext.noOfFeeds * requiredQtyPerFeed * baseFeedMultTotal);
+        const feedLabelUsed = FEED_LABELS[progress.costFeedKey] || progress.costFeedKey;
+        const remainingFeedLabel = FEED_LABELS[progress.feedKeyUsed] || progress.feedKeyUsed;
+        const feedQtyToNext = remainingFeedQty;
         farmPanelAnimalYieldGroupsByType[type].push({
           animalId: animalId,
           level: level,
           xp: typeof xp === "number" ? xp : 0,
+          isReadyState: progress.isReadyState,
           products: fig.products,
           yields: fig.yields,
           feedQty: animalFeedQty,
           feedName: feedLabelUsed,
-          nextThreshold: feedsToNext.nextThreshold,
-          nextLevelLabel: feedsToNext.nextLevelLabel,
-          isMaxCycle: feedsToNext.isMaxCycle,
-          feedsToNextCount: feedsToNext.noOfFeeds,
+          nextThreshold: progress.nextThreshold,
+          nextLevelLabel: progress.nextLevelLabel,
+          isMaxCycle: progress.isMaxCycle,
+          feedsToNextCount: progress.noOfFeeds,
           feedQtyToNext: feedQtyToNext,
-          feedToNextName: feedToNextLabel
+          feedToNextName: remainingFeedLabel
         });
       });
     });
@@ -2517,7 +2525,7 @@ function farmPanelComputeAnimalYieldGroups(type, meta) {
   if (!list.length) return [];
   const byKey = new Map;
   list.forEach(a => {
-    const key = String(a.level);
+    const key = String(a.level) + (a.isReadyState ? "r" : "");
     if (!byKey.has(key)) {
       byKey.set(key, {
         level: a.level,
@@ -2590,7 +2598,7 @@ function farmPanelRenderSpiceBuffCard(key, tracking, yieldData, meta) {
     yieldLineHtml = `<div class="spice-buff-stat"><span class="label">Feeds saved</span><span class="value">${fmtAnimal(feedsSaved)}</span></div>`;
     valueFlower = typeof yieldData === "number" ? yieldData : 0;
   }
-  const html = `\n      <div class="spice-buff-card ${isSaltLick ? "is-salt-lick" : "is-honey-treat"}">\n        <div class="spice-buff-head">${icon}<b>${label}</b> <span class="spice-buff-heads">${headsAffected} head${headsAffected === 1 ? "" : "s"}</span></div>\n        <div class="spice-buff-stat"><span class="label">Duration left</span><span class="value">${farmPanelFormatSpiceDuration(durationLeftSec)}</span></div>\n        ${yieldLineHtml}\n        <div class="spice-buff-stat"><span class="label">Total ${label} cost</span><span class="value">${fmtAnimal(totalCost)} ${FLOWER_ICON}</span></div>\n        <div class="spice-buff-stat"><span class="label">Cost per cycle</span><span class="value">${fmtAnimal(costPerCycle)} ${FLOWER_ICON}</span></div>\n        <div class="spice-buff-stat"><span class="label">Value in ${FLOWER_ICON} ${isSaltLick ? "added yield" : "saved"}</span><span class="value">${fmtAnimal(valueFlower)} ${FLOWER_ICON}</span></div>\n      </div>`;
+  const html = `\n      <div class="spice-buff-card ${isSaltLick ? "is-salt-lick" : "is-honey-treat"}">\n        <div class="spice-buff-head">${icon}<b>${label}</b> <span class="spice-buff-heads">${headsAffected} head${headsAffected === 1 ? "" : "s"}</span></div>\n        <div class="spice-buff-stat"><span class="label">Duration left</span><span class="value">${farmPanelFormatSpiceDuration(durationLeftSec)}</span></div>\n        ${yieldLineHtml}\n        <div class="spice-buff-stat"><span class="label">Total ${label} cost</span><span class="value">${fmtAnimalCost(totalCost)} ${FLOWER_ICON}</span></div>\n        <div class="spice-buff-stat"><span class="label">Cost per cycle</span><span class="value">${fmtAnimalCost(costPerCycle)} ${FLOWER_ICON}</span></div>\n        <div class="spice-buff-stat"><span class="label">Value in ${FLOWER_ICON} ${isSaltLick ? "added yield" : "saved"}</span><span class="value">${fmtAnimal(valueFlower)} ${FLOWER_ICON}</span></div>\n      </div>`;
   return {
     category: isSaltLick ? "yield" : "cost",
     html: html
@@ -4154,7 +4162,7 @@ function farmPanelRenderAnimalMergedCard(card) {
     yieldLabel: card.typeLabel,
     costSectionLabel: "Cost (Feeds & Consumables)"
   });
-  return `\n  <div class="card animal-merged-card${isProfit ? " is-profit" : " is-loss"}${expandedCls}" data-search="${card.searchKey}" data-fp-category="animals">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${animalIcon}</span>\n        <div>\n          <div class="card-name">${escapeHtml(card.typeLabel)}</div>\n          <div class="card-type-row">\n            <span class="card-type">${card.count} animal${card.count === 1 ? "" : "s"}</span>\n            ${badgeHtml}\n          </div>\n          <div class="animal-fold-row">${productChipsHtml}${netChipHtml}</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    <div class="card-details">\n      <div class="stat"><span class="label">Status</span><span class="value">${statusLine}</span></div>\n      <div class="animal-detail-grid">\n        ${productDetailRows}\n        <div class="animal-detail-stat"><span class="label">Market Price/Unit</span><span class="value">${fmtAnimal(card.avgPricePerUnit)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Gross</span><span class="value">${fmtAnimal(card.gross)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Cost/Unit</span><span class="value">${fmtAnimal(card.avgCostPerUnit)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Sell Fee</span><span class="value">${card.sellFee > 0 ? `-${fmtAnimal(card.sellFee)}` : "0"} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Shrine Cost${card.shrineNames && card.shrineNames.length ? ` (${card.shrineNames.map(escapeHtml).join(", ")})` : ""}</span><span class="value" style="${card.shrineCost > 0 ? "color:#b45309;" : ""}">${card.shrineCost > 0 ? `-${fmtAnimal(card.shrineCost)}` : "0"} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Cost (Feeds &amp; Consumables)</span><span class="value">${card.cost > 0 ? `-${fmtAnimal(card.cost)}` : "0"} ${FLOWER_ICON}</span></div>\n      </div>\n      <div class="animal-net-row2">\n        <span class="label">Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmtAnimal(card.net)} ${FLOWER_ICON}</span>\n      </div>\n      ${animalCostNetTriggerHtml}\n      ${animalYieldGroupsHtml}\n      ${yieldBoostListHtml}\n    </div>\n  </div>`;
+  return `\n  <div class="card animal-merged-card${isProfit ? " is-profit" : " is-loss"}${expandedCls}" data-search="${card.searchKey}" data-fp-category="animals">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${animalIcon}</span>\n        <div>\n          <div class="card-name">${escapeHtml(card.typeLabel)}</div>\n          <div class="card-type-row">\n            <span class="card-type">${card.count} animal${card.count === 1 ? "" : "s"}</span>\n            ${badgeHtml}\n          </div>\n          <div class="animal-fold-row">${productChipsHtml}${netChipHtml}</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    <div class="card-details">\n      <div class="stat"><span class="label">Status</span><span class="value">${statusLine}</span></div>\n      <div class="animal-detail-grid">\n        ${productDetailRows}\n        <div class="animal-detail-stat"><span class="label">Market Price/Unit</span><span class="value">${fmtAnimalCost(card.avgPricePerUnit)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Gross</span><span class="value">${fmtAnimal(card.gross)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Cost/Unit</span><span class="value">${fmtAnimalCost(card.avgCostPerUnit)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Sell Fee</span><span class="value">${card.sellFee > 0 ? `-${fmtAnimalCost(card.sellFee)}` : "0"} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Shrine Cost${card.shrineNames && card.shrineNames.length ? ` (${card.shrineNames.map(escapeHtml).join(", ")})` : ""}</span><span class="value" style="${card.shrineCost > 0 ? "color:#b45309;" : ""}">${card.shrineCost > 0 ? `-${fmtAnimalCost(card.shrineCost)}` : "0"} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Cost (Feeds &amp; Consumables)</span><span class="value">${card.cost > 0 ? `-${fmtAnimalCost(card.cost)}` : "0"} ${FLOWER_ICON}</span></div>\n      </div>\n      <div class="animal-net-row2">\n        <span class="label">Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmtAnimal(card.net)} ${FLOWER_ICON}</span>\n      </div>\n      ${animalCostNetTriggerHtml}\n      ${animalYieldGroupsHtml}\n      ${yieldBoostListHtml}\n    </div>\n  </div>`;
 }
 
 function farmPanelRenderHoneyCard(row) {

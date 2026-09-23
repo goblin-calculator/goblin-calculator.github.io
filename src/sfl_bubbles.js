@@ -1220,6 +1220,18 @@ function sflbWireControlsOnce() {
   });
 }
 
+export function sflbRefreshMyBuildIfOpen() {
+  if (sflbState.tab !== "mybuild") return;
+  const panelEl = $("sflBubblesPanel");
+  if (!panelEl || !panelEl.classList.contains("open")) return;
+  const reselect = sflbState.selectedKey;
+  sflbRenderCurrentTab(false).then(() => {
+    if (!reselect) return;
+    const match = (sflbState.buildCatalog || []).find(b => (b.key || b.name) === reselect);
+    if (match) sflbOpenDetail(match);
+  });
+}
+
 export function renderSflBubblesPanel() {
   sflbWireControlsOnce();
   sflbApplyFilterVisibility();
