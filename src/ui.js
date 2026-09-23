@@ -1,4 +1,4 @@
-import { ALWAYS_ON_BOOST_IDS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_LOVE_ITEM_XP, ASCENSION_RANK_DATA, BAIT_RECIPES, BASE_COMPOSTERS, BASE_CROPS, BASE_CROP_MACHINE, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_CROPS, BASE_STOCK_FRUITS, BASE_STOCK_FLOWERS, BASE_STOCK_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, BOOST_ICON_OVERRIDES, BOOST_LABELS, BOOST_TIERS, BOUNTY_WEEKLY_BONUS, BUD_ANIMAL_STEMS, BUD_ANIMAL_TYPES, BUD_AURAS, BUD_CROP_STEMS, BUD_CROP_TYPES, BUD_FIELD_LABELS, BUD_FISH_TYPES, BUD_FRUIT_STEMS, BUD_FRUIT_TYPES, BUD_GREENHOUSE_STEMS, BUD_GREENHOUSE_TYPES, BUD_RESOURCE_STEMS, BUD_RESOURCE_TYPES, CHEER_ICON_SRC, CM_MODULE_SKILL_IDS, CM_MODULE_SKILL_NAMES, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_FOOD_EMOJI, COOKING_FOOD_IMAGES, COOKING_RECIPES, CROP_MACHINE_PACK_MAX, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_NAMES, ES_ISLAND_ICONS, FACTION_BANNER_ICONS, FACTION_DISPLAY_NAMES, FACTION_PET_BOOST_TIERS, FACTION_PET_HAPPY_ICONS, FARM_LEVEL_NODES, FEED_LABELS, FISHING_ROD_ICON, FISH_CATCH_DATA, FISH_CATCH_NAMES, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_TIER_LABEL, FLOWER_ICON, FLOWER_SEEDS, FLOWER_SEED_ICONS, FLOWER_VARIETIES, GEM_ICON, ICONS, IMAGE_ICONS, IMAGE_ICON_FALLBACK, LIMITED_TIME_BOOSTS, LOVE_CHARM_ICON_SRC, MANUAL_CYCLE_REFRESH_FNS, MARK_ICON_SRC, MUTANT_FALLBACK_ICON, NPC_ICONS, OBSIDIAN_WEEKLY_PURCHASE_CAP, OBSIDIAN_WEEKLY_SELL_CAP, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PET_AURA_TRAITS, PET_BASE_XP_ENERGY, PET_BIB_TRAITS, PET_CATEGORIES, PET_CATEGORY_ICON, PET_COMMON_TYPES, PET_FOOD_LISTS, PET_LEVEL_PERKS, PET_NAMES_BY_TYPE, PET_NFT_TYPES, PET_RESOURCE_ENERGY, PET_RESOURCE_ICON, PET_TRADABLE_RESOURCES, PET_TYPE_EMOJI, PICKLED_VEG_DATA, PRE_ASCENSION_MAX_LEVEL, PROFILE_BUILD_FILTERS, PROFILE_TRADABLE_TABS, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, RESTOCK_PANEL_CATEGORIES, SALT_BASE_TIME_SEC, SALT_BASE_YIELD, SALT_FERTILIZER_DATA, SCULPTURE_EFFECTS_LIST, SCULPTURE_LEVELS, SEASON_ACCENT, SEASON_EMOJI, SEASON_ORDER, SKILL_BOOSTS, SKILL_TREES, SPICE_ANIMAL_TYPES, SPICE_RECIPES, SYNC_PROGRESS_STAGES, SYNODIC_MONTH_DAYS, TICKET_NPC_DISPLAY_NAMES, __getIconCache, __getTreasureIconCache, __lastSyncTiming, __markSub, __postinc_craftMaterialIdSeq, __preinc_digPanelRenderToken, __set___lastSyncTiming, __set___syncTimingPanelOpen, __set_bettySortMode, __set_boostDraftSelectedBoosts, __set_budPickerContext, __set_budPickerKind, __set_cmOilTank, __set_cmQty, __set_cmSelectedCrop, __set_coinPerFlower, __set_craftMaterialRows, __set_dailyProfitCardsCache, __set_editingLibId, __set_finderIngredient, __set_finderSeed, __set_fpBoostPanelOpen, __set_harvestSelectedLibId, __set_limitedTimeBoostRefreshTimer, __set_obsidianInputsHidden, __set_pendingDeleteId, __set_pendingDeleteType, __set_petAddAuraValue, __set_petAddBibValue, __set_petAddIsNFT, __set_petAddName, __set_petAddOpen, __set_petAddStep, __set_petAddType, __set_petOpenId, __set_petTraitPickerKind, __set_petsData, __set_pixelPickerOnSelect, __set_rcmActiveTab, __set_selectedBoosts, __set_skillDraftSelectedSkills, __set_syncProgressTimer, __set_tradePendingDeleteId, __set_tradePendingDeleteType, __set_tradePickedItemName, __set_tradeSellingId, __set_tradeSortMode, __syncTimingPanelOpen, allocateAoeAcrossTiers, animalAffectionTools, animalBuds, animalSicknessEstimate, animalWeekly, applyLibTypeVisibility, applyLibrarySearchFilter, applyPickerSearchFilter, applyTradeItemSearchFilter, ascensionDescribeRank, ascensionLevelBadgeText, attachDailyProfitCardEvents, attachFarmPanelCategoryFilterBar, attachProfileTradableEditHandlers, beeSwarmActiveCount, beeSwarmAffectedPlots, bettyActiveTab, bettyGatherItems, bettyGreenThumbOn, bettyHighestRate, bettySortItems, bettySortMode, boostCategory, boostDraftSelectedBoosts, bountyWeekly, budAnimalSummaryText, budContextFields, budContextPrefix, budContextState, budContextUpdateDuplicateState, budFarmCropSummaryText, budFieldCap, budFruitSummaryText, budPickerContext, budPickerKind, budResourceSummaryText, budSummaryText, calcMode, calendarDebuffProtection, choresWeekly, cmCalcMode, cmClampQty, cmModuleTagHtml, cmOilTank, cmQty, cmQueue, cmSelectedCrop, coinPerFlower, coinsToFlower, compute24hProjection, computeAgedFishFigures, computeAll, computeAnimalBaseCoinFigures, computeAnimalFeedFigures, computeAnimalTypeFigures, computeAnimalWeeklyFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedResourceStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCropMachineBatch, computeCrustaceanFigures, computeDailyProfitProjection, buildDailyProfitSwapStats, getDailyProfitCalcMode, setDailyProfitCalcMode, getDailyProfitPeriodMode, setDailyProfitPeriodMode, getDailyProfitTotalsMode, setDailyProfitTotalsMode, getDailyProfitSwap, setDailyProfitSwap, computeFertilizerFigures, computeFlowerVarietyRestockInfo, computeHiveEconomics, computeLavaPitFigures, computeMachineRestockGems, computeObsidianWeeklyProfit, computeResourceFigures, computeResourceProjection24h, computeSaltFarmFigures, computeSeaweedFigures, computeShrineAffectedProfitability, computeSpiceFigures, ASCENSION_LEVELS_PER_BAND, ASCENSION_LEVEL_UPS, COOK_LEVEL_XP, ascensionBandBaseline, ascensionBandXp, ascensionLevelXp, cookGetLevelInfo, cookingActiveBuilding, cookingComputeFoodExp, cookingComputeFoodTime, cookingComputeTotals, cookingExpandedFoods, cookingFindRecipeForFood, cookingFishCategory, cookingGuaranteedCatchOn, craftMaterialRows, cropBuds, cropTierFilter, crustaceanExpanded, crustaceanTrapTabActive, currentSeason, dailyProfitExpandedNames, dailyProfitGetCycleCount, deleteActiveTrade, deleteHistoryTrade, describeAoeTierAllocation, digCellClass, digPanelRenderToken, digSolveBoard, draftSetAscensionRank, editingLibId, ensureExchangeRates, esRenderAll, esState, esSyncAutoBoostsFromFarm, escapeHtml, expandedAnimalCards, expandedAnimalFeedByLevel, expandedAnimalFeedConsumption, expandedComposters, expandedCropMachine, expandedCrops, expandedFlowers, expandedFruits, expandedGreenhouse, expandedResources, factionPetGetActiveTier, factionPetGetEffectiveStreak, factionPetManualMode, factionPetSetManualStreak, factionPetShouldApplyBoost, factionPetUpdateBoostUI, farmLevelMaxNodes, farmSyncExtractGameState, farmSyncGetApiUsername, farmSyncGetLimitedTimeBoostStatus, feePercent, fertilizerTierScope, findTool, findVarietiesBySeedIngredient, finderIngredient, finderSeed, fishBudSummaryText, flowerPerGem, fishBuds, fishCatchComputeXP, fishCatchYieldMult, fishInventoryNameForCategory, fishStageForCategory, fishingExpandedTierFish, fishingTierActive, fmt, computeAnimalAffectionSummary, fmtAnimal, fmtAnimalCost, fmtXp, fmtCycleInputValue, fmtInt, formatDuration, formatTrade12h, fpBoostPanelOpen, fruitBuds, fullMoonSeedStockQty, gatherTop10ProfitItems, gemFlowerSpent, gemsReceived, getActiveAnimalBoosts, getActiveBoostsForResource, getActiveSaltBoosts, getAllMaterialCandidates, getAnimalCount, getAscensionLevelInfo, getBeeSwarmPerSwarmYield, getBeeSwarmStatsForCrop, getBoostAoeInfo, getBoostedMedicineRecipe, getBoostedToolRecipe, getCookingCount, getCropMachineOilCap, getCropMachineQueueSlots, getCropSeasons, getDoubleNomBonusFood, getDoubleNomIngredientMultiplier, getDraftAscensionRank, getDraftAscensionTotals, getDraftSkillPointsUsed, getEffectiveDailyReward, getEffectiveYieldAdd, getFruitCount, getFishSeasons, getFruitSeasons, getGreenhouseCount, getHiveCount, getIconSmall, getLimitedBoostRemainingSec, getManualCycleOverride, getManualCycleRawValue, getMaterialMode, getMedicineIngredientMode, getMissingPlotNodeFields, getNodeCount, getNodeIconHtml, getNodeLabel, getNodeTierCounts, getPlotCount, getResourceForTool, getRestockExclusionNote, getSeedPoolCategoryForName, getSharedPoolBreakdown, getSharedPoolDivisor, getSicknessEstimate, getSpiceEffectForAnimalType, getSpiceLickDurationHarvests, getVarietyIngredient, globalPlotCount, greenhouseBuds, gunterActiveTab, gunterGridEntranceShown, gunterMutantSyncAutoBoosts, gunterRenderBottom, gunterRenderMid, gunterRenderSunstoneInput, gunterRenderTop, harvestSelectedLibId, renderChapterFishMutants, hasPlotsNodesData, ingredientKindLabel, isBoostActive, isBoostDraftActive, isBoostDraftDirty, isCalendarSeasonalBoost, isCropInSeason, isCropMachineUnlocked, isFertilizerTierEnabled, isFlowerVarietySeasonLocked, isFruitInSeason, isFullMoonToday, isPetFoodChecked, isSeasonLocked, isSkillActive, isSkillDraftActive, isSkillDraftDirty, isSkillDraftTierUnlocked, isTieredResource, limitedTimeBoostRefreshTimer, megastoreTickets, normalizeSearch, npcSkipDays, obsidianInputsHidden, petAddAuraValue, petAddBibValue, petAddIsNFT, petAddName, petAddOpen, petAddStep, petAddType, petAuraInfoText, petBibInfoText, petCalcCacheReset, petComputeCardCached, petComputeResourceTotals, petFoodChecks, petOpenId, petPerkActive, petPerkApplies, petResetAddFlow, petTraitPickerKind, petsData, petsFoodTab, pickerTarget, pixelPickerOnSelect, POTION_ICONS, POTION_NAMES, potionActiveGuessSlot, potionSetActiveGuessSlot, potionSolveState, potionStatusBadgeIcon, potionStatusLabel, previewSeason, profileBackNav, profileBumpkinCache, profileBumpkinFrameHtml, profileBumpkinIdHtml, profileBumpkinImageOnError, profileBumpkinNoteText, profileClearTradableCache, profileComputeFarmValue, profileComputeWithdrawTax, profileFactionHtml, profileFactionIconHtml, profileFmtUsd, profileGetDisplayName, profileGetExpansionInfo, profileGetFarmAgeText, profileGetG, profileGetInventoryAmount, profileGetMainTabMeta, profileGetReputation, profileGoBottomNav, profileRenderBuildColumns, profileState, profileTradableContentHtml, profileTradableRowsForTab, profileTradableRowsSubtotal, profileTradableTotalFlower, profileVipHtml, rcmActiveTab, rcmPendingExcluded, readFarmSyncedId, readFarmVipEnabled, refreshAfterSkillChange, refreshAfterSpiceChange, removeAnimalBud, removeBud, removeCropBud, removeFishBud, removeFruitBud, removeResourceBud, render24hBadge, render24hTotalsGrid, resolveAscensionLevelInfo, resourceBuds, safeParse, saltFarmLevel, saltSculptureLevel, saltUiSet, scheduleCascade, sculptureEffects, seasonDays, seedIconHtmlFor, seedIngredientOptionsList, selectedBoosts, selectedHoneyFlower, selectedSwarmCrop, setAnimalCount, setCookingActiveBuilding, setCookingCount, setCookingFishCategory, setCookingGuaranteedCatchOn, setCrustaceanSelectedChum, setCrustaceanTrapTab, setFactionPetManualMode, setFishingTier, setFruitCount, setGreenhouseCount, setManualCycleOverride, setMaterialMode, setMedicineIngredientMode, setNodeCount, setNodeTierQty, setPetsFoodTab, setPlotCount, setPreviewSeason, setSaltFarmLevel, setSculptureLevel, setSelectedHoneyFlower, setSelectedSwarmCrop, setSkillTreeSectionOpen, setSpiceMaterialMode, setVarietyIngredient, setVegMaterialMode, simulateStockCycles, skillAoeNoteForRank, skillCategory, skillDraftSelectedSkills, skillRankUsageHtml, skillSyncedBoostText, skillSyncedLevel, slug, spiceUsage, stepperHtml, syncProgressTimer, ticketBoosts, tierUnlockHintText, toast, toolRecipes, tradeActive, tradeActiveTab, tradeCardKey, tradeExpandedIds, tradeGatherActiveSorted, tradeHistory, tradeLifetime, tradePickItem, tradeSortMode, undeliveredLastSeason, updateBoostSaveBarState, updateCalcRcmToggleUI, updateCalcSelectedDisplay, updateCalcSummary, updateDailyProfitSummary, updateLibCraftTotal, updateNewTradeLiveTotal, updateRcmUnsavedNote, updateSellTradeLiveTotal, updateSettingsSummary, updateSkillSaveBarState, varietyIngredientOptions, vegMaterialMode, wireEvents, withPreservedCardScrolls, withPreservedManualCycleFocus, withPreservedResourceScroll, withPreservedScroll } from "./calculator.js";
+import { ALWAYS_ON_BOOST_IDS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_LOVE_ITEM_XP, ASCENSION_RANK_DATA, BAIT_RECIPES, BASE_COMPOSTERS, BASE_CROPS, BASE_CROP_MACHINE, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_CROPS, BASE_STOCK_FRUITS, BASE_STOCK_FLOWERS, BASE_STOCK_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, BOOST_ICON_OVERRIDES, BOOST_LABELS, BOOST_TIERS, BOUNTY_WEEKLY_BONUS, BUD_ANIMAL_STEMS, BUD_ANIMAL_TYPES, BUD_AURAS, BUD_CROP_STEMS, BUD_CROP_TYPES, BUD_FIELD_LABELS, BUD_FISH_TYPES, BUD_FRUIT_STEMS, BUD_FRUIT_TYPES, BUD_GREENHOUSE_STEMS, BUD_GREENHOUSE_TYPES, BUD_RESOURCE_STEMS, BUD_RESOURCE_TYPES, CHEER_ICON_SRC, CM_MODULE_SKILL_IDS, CM_MODULE_SKILL_NAMES, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_FOOD_EMOJI, COOKING_FOOD_IMAGES, COOKING_RECIPES, CROP_MACHINE_PACK_MAX, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_NAMES, ES_ISLAND_ICONS, FACTION_BANNER_ICONS, FACTION_DISPLAY_NAMES, FACTION_PET_BOOST_TIERS, FACTION_PET_HAPPY_ICONS, FARM_LEVEL_NODES, FEED_LABELS, FISHING_ROD_ICON, FISH_CATCH_DATA, FISH_CATCH_NAMES, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_TIER_LABEL, FLOWER_ICON, FLOWER_SEEDS, FLOWER_SEED_ICONS, FLOWER_VARIETIES, GEM_ICON, ICONS, IMAGE_ICONS, IMAGE_ICON_FALLBACK, LIMITED_TIME_BOOSTS, LOVE_CHARM_ICON_SRC, MANUAL_CYCLE_REFRESH_FNS, MARK_ICON_SRC, MUTANT_FALLBACK_ICON, NPC_ICONS, OBSIDIAN_WEEKLY_PURCHASE_CAP, OBSIDIAN_WEEKLY_SELL_CAP, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PET_AURA_TRAITS, PET_BASE_XP_ENERGY, PET_BIB_TRAITS, PET_CATEGORIES, PET_CATEGORY_ICON, PET_COMMON_TYPES, PET_FOOD_LISTS, PET_LEVEL_PERKS, PET_NAMES_BY_TYPE, PET_NFT_TYPES, PET_RESOURCE_ENERGY, PET_RESOURCE_ICON, PET_TRADABLE_RESOURCES, PET_TYPE_EMOJI, PICKLED_VEG_DATA, PRE_ASCENSION_MAX_LEVEL, PROFILE_BUILD_FILTERS, PROFILE_TRADABLE_TABS, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, RESTOCK_PANEL_CATEGORIES, SALT_BASE_TIME_SEC, SALT_BASE_YIELD, SALT_FERTILIZER_DATA, SCULPTURE_EFFECTS_LIST, SCULPTURE_LEVELS, SEASON_ACCENT, SEASON_EMOJI, SEASON_ORDER, SKILL_BOOSTS, SKILL_TREES, SPICE_ANIMAL_TYPES, SPICE_RECIPES, SYNC_PROGRESS_STAGES, SYNODIC_MONTH_DAYS, TICKET_NPC_DISPLAY_NAMES, __getIconCache, __getTreasureIconCache, __lastSyncTiming, __markSub, __postinc_craftMaterialIdSeq, __preinc_digPanelRenderToken, __set___lastSyncTiming, __set___syncTimingPanelOpen, __set_bettySortMode, __set_boostDraftSelectedBoosts, __set_budPickerContext, __set_budPickerKind, __set_cmOilTank, __set_cmQty, __set_cmSelectedCrop, __set_coinPerFlower, __set_craftMaterialRows, __set_dailyProfitCardsCache, __set_editingLibId, __set_finderIngredient, __set_finderSeed, __set_fpBoostPanelOpen, __set_harvestSelectedLibId, __set_limitedTimeBoostRefreshTimer, __set_obsidianInputsHidden, __set_pendingDeleteId, __set_pendingDeleteType, __set_petAddAuraValue, __set_petAddBibValue, __set_petAddIsNFT, __set_petAddName, __set_petAddOpen, __set_petAddStep, __set_petAddType, __set_petOpenId, __set_petTraitPickerKind, __set_petsData, __set_pixelPickerOnSelect, __set_rcmActiveTab, __set_selectedBoosts, __set_skillDraftSelectedSkills, __set_syncProgressTimer, __set_tradePendingDeleteId, __set_tradePendingDeleteType, __set_tradePickedItemName, __set_tradeSellingId, __set_tradeSortMode, __syncTimingPanelOpen, allocateAoeAcrossTiers, animalAffectionTools, animalBuds, animalSicknessEstimate, animalWeekly, applyLibTypeVisibility, applyLibrarySearchFilter, applyPickerSearchFilter, applyTradeItemSearchFilter, ascensionDescribeRank, ascensionLevelBadgeText, attachDailyProfitCardEvents, attachFarmPanelCategoryFilterBar, attachProfileTradableEditHandlers, beeSwarmActiveCount, beeSwarmAffectedPlots, bettyActiveTab, bettyGatherItems, bettyGreenThumbOn, bettyHighestRate, bettySortItems, bettySortMode, boostCategory, boostDraftSelectedBoosts, bountyWeekly, budAnimalSummaryText, budContextFields, budContextPrefix, budContextState, budContextUpdateDuplicateState, budFarmCropSummaryText, budFieldCap, budFruitSummaryText, budPickerContext, budPickerKind, budResourceSummaryText, budSummaryText, calcMode, calendarDebuffProtection, choresWeekly, cmCalcMode, cmClampQty, cmModuleTagHtml, cmOilTank, cmQty, cmQueue, cmSelectedCrop, coinPerFlower, coinsToFlower, compute24hProjection, computeAgedFishFigures, computeAll, computeAnimalBaseCoinFigures, computeAnimalFeedFigures, computeAnimalTypeFigures, computeAnimalWeeklyFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedResourceStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCropMachineBatch, computeCrustaceanFigures, computeDailyProfitProjection, buildDailyProfitSwapStats, getDailyProfitCalcMode, setDailyProfitCalcMode, getDailyProfitPeriodMode, setDailyProfitPeriodMode, getDailyProfitTotalsMode, setDailyProfitTotalsMode, getDailyProfitSwap, setDailyProfitSwap, computeFertilizerFigures, computeFlowerVarietyRestockInfo, computeHiveEconomics, computeLavaPitFigures, computeMachineRestockGems, computeObsidianWeeklyProfit, computeResourceFigures, computeResourceProjection24h, computeSaltFarmFigures, computeSeaweedFigures, computeShrineAffectedProfitability, computeSpiceFigures, ASCENSION_LEVELS_PER_BAND, ASCENSION_LEVEL_UPS, COOK_LEVEL_XP, ascensionBandBaseline, ascensionBandXp, ascensionLevelXp, cookGetLevelInfo, cookingActiveBuilding, cookingComputeFoodExp, cookingComputeFoodTime, cookingComputeTotals, cookingExpandedFoods, cookingFindRecipeForFood, cookingFishCategory, cookingGuaranteedCatchOn, craftMaterialRows, cropBuds, cropTierFilter, crustaceanExpanded, crustaceanTrapTabActive, currentSeason, dailyProfitExpandedNames, dailyProfitGetCycleCount, deleteActiveTrade, deleteHistoryTrade, describeAoeTierAllocation, digCellClass, digClearManualMark, digCycleManualMark, DIG_MANUAL_MARK_OVERRIDE_STATUSES, digGetFarmId, digGetManualMark, digPanelRenderToken, digSolveBoard, draftSetAscensionRank, editingLibId, ensureExchangeRates, esRenderAll, esState, esSyncAutoBoostsFromFarm, escapeHtml, expandedAnimalCards, expandedAnimalFeedByLevel, expandedAnimalFeedConsumption, expandedComposters, expandedCropMachine, expandedCrops, expandedFlowers, expandedFruits, expandedGreenhouse, expandedResources, factionPetGetActiveTier, factionPetGetEffectiveStreak, factionPetManualMode, factionPetSetManualStreak, factionPetShouldApplyBoost, factionPetUpdateBoostUI, farmLevelMaxNodes, farmSyncExtractGameState, farmSyncGetApiUsername, farmSyncGetLimitedTimeBoostStatus, feePercent, fertilizerTierScope, findTool, findVarietiesBySeedIngredient, finderIngredient, finderSeed, fishBudSummaryText, flowerPerGem, fishBuds, fishCatchComputeXP, fishCatchYieldMult, fishInventoryNameForCategory, fishStageForCategory, fishingExpandedTierFish, fishingTierActive, fmt, computeAnimalAffectionSummary, fmtAnimal, fmtAnimalCost, fmtXp, fmtCycleInputValue, fmtInt, formatDuration, formatTrade12h, fpBoostPanelOpen, fruitBuds, fullMoonSeedStockQty, gatherTop10ProfitItems, gemFlowerSpent, gemsReceived, getActiveAnimalBoosts, getActiveBoostsForResource, getActiveSaltBoosts, getAllMaterialCandidates, getAnimalCount, getAscensionLevelInfo, getBeeSwarmPerSwarmYield, getBeeSwarmStatsForCrop, getBoostAoeInfo, getBoostedMedicineRecipe, getBoostedToolRecipe, getCookingCount, getCropMachineOilCap, getCropMachineQueueSlots, getCropSeasons, getDoubleNomBonusFood, getDoubleNomIngredientMultiplier, getDraftAscensionRank, getDraftAscensionTotals, getDraftSkillPointsUsed, getEffectiveDailyReward, getEffectiveYieldAdd, getFruitCount, getFishSeasons, getFruitSeasons, getGreenhouseCount, getHiveCount, getIconSmall, getLimitedBoostRemainingSec, getManualCycleOverride, getManualCycleRawValue, getMaterialMode, getMedicineIngredientMode, getMissingPlotNodeFields, getNodeCount, getNodeIconHtml, getNodeLabel, getNodeTierCounts, getPlotCount, getResourceForTool, getRestockExclusionNote, getSeedPoolCategoryForName, getSharedPoolBreakdown, getSharedPoolDivisor, getSicknessEstimate, getSpiceEffectForAnimalType, getSpiceLickDurationHarvests, getVarietyIngredient, globalPlotCount, greenhouseBuds, gunterActiveTab, gunterGridEntranceShown, gunterMutantSyncAutoBoosts, gunterRenderBottom, gunterRenderMid, gunterRenderSunstoneInput, gunterRenderTop, harvestSelectedLibId, renderChapterFishMutants, hasPlotsNodesData, ingredientKindLabel, isBoostActive, isBoostDraftActive, isBoostDraftDirty, isCalendarSeasonalBoost, isCropInSeason, isCropMachineUnlocked, isFertilizerTierEnabled, isFlowerVarietySeasonLocked, isFruitInSeason, isFullMoonToday, isPetFoodChecked, isSeasonLocked, isSkillActive, isSkillDraftActive, isSkillDraftDirty, isSkillDraftTierUnlocked, isTieredResource, limitedTimeBoostRefreshTimer, megastoreTickets, normalizeSearch, npcSkipDays, obsidianInputsHidden, petAddAuraValue, petAddBibValue, petAddIsNFT, petAddName, petAddOpen, petAddStep, petAddType, petAuraInfoText, petBibInfoText, petCalcCacheReset, petComputeCardCached, petComputeResourceTotals, petFoodChecks, petOpenId, petPerkActive, petPerkApplies, petResetAddFlow, petTraitPickerKind, petsData, petsFoodTab, pickerTarget, pixelPickerOnSelect, POTION_ICONS, POTION_NAMES, potionActiveGuessSlot, potionSetActiveGuessSlot, potionSolveState, potionStatusBadgeIcon, potionStatusLabel, previewSeason, profileBackNav, profileBumpkinCache, profileBumpkinFrameHtml, profileBumpkinIdHtml, profileBumpkinImageOnError, profileBumpkinNoteText, profileClearTradableCache, profileComputeFarmValue, profileComputeWithdrawTax, profileFactionHtml, profileFactionIconHtml, profileFmtUsd, profileGetDisplayName, profileGetExpansionInfo, profileGetFarmAgeText, profileGetG, profileGetInventoryAmount, profileGetMainTabMeta, profileGetReputation, profileGoBottomNav, profileRenderBuildColumns, profileState, profileTradableContentHtml, profileTradableRowsForTab, profileTradableRowsSubtotal, profileTradableTotalFlower, profileVipHtml, rcmActiveTab, rcmPendingExcluded, readFarmSyncedId, readFarmVipEnabled, refreshAfterSkillChange, refreshAfterSpiceChange, removeAnimalBud, removeBud, removeCropBud, removeFishBud, removeFruitBud, removeResourceBud, render24hBadge, render24hTotalsGrid, resolveAscensionLevelInfo, resourceBuds, safeParse, saltFarmLevel, saltSculptureLevel, saltUiSet, scheduleCascade, sculptureEffects, seasonDays, seedIconHtmlFor, seedIngredientOptionsList, selectedBoosts, selectedHoneyFlower, selectedSwarmCrop, setAnimalCount, setCookingActiveBuilding, setCookingCount, setCookingFishCategory, setCookingGuaranteedCatchOn, setCrustaceanSelectedChum, setCrustaceanTrapTab, setFactionPetManualMode, setFishingTier, setFruitCount, setGreenhouseCount, setManualCycleOverride, setMaterialMode, setMedicineIngredientMode, setNodeCount, setNodeTierQty, setPetsFoodTab, setPlotCount, setPreviewSeason, setSaltFarmLevel, setSculptureLevel, setSelectedHoneyFlower, setSelectedSwarmCrop, setSkillTreeSectionOpen, setSpiceMaterialMode, setVarietyIngredient, setVegMaterialMode, simulateStockCycles, skillAoeNoteForRank, skillCategory, skillDraftSelectedSkills, skillRankUsageHtml, skillSyncedBoostText, skillSyncedLevel, slug, spiceUsage, stepperHtml, syncProgressTimer, ticketBoosts, tierUnlockHintText, toast, toolRecipes, tradeActive, tradeActiveTab, tradeCardKey, tradeExpandedIds, tradeGatherActiveSorted, tradeHistory, tradeLifetime, tradePickItem, tradeSortMode, undeliveredLastSeason, updateBoostSaveBarState, updateCalcRcmToggleUI, updateCalcSelectedDisplay, updateCalcSummary, updateDailyProfitSummary, updateLibCraftTotal, updateNewTradeLiveTotal, updateRcmUnsavedNote, updateSellTradeLiveTotal, updateSettingsSummary, updateSkillSaveBarState, varietyIngredientOptions, vegMaterialMode, wireEvents, withPreservedCardScrolls, withPreservedManualCycleFocus, withPreservedResourceScroll, withPreservedScroll } from "./calculator.js";
 
 import { __set_farmPanelActiveTab, __set_farmPanelInProgressCategoryFilter, __set_farmPanelRenderAtMs, __set_farmPanelTabContentDirty, farmPanelActiveTab, farmPanelComputeInProgress, farmPanelComputeStocks, farmPanelDetectActiveMutants, farmPanelDetectMoneyTreeBonus, farmPanelExpandedNames, farmPanelGameState, farmPanelGetLastInfo, farmPanelInProgressCategoryFilter, farmPanelRenderCategoryFilterBar, farmPanelRenderInProgressRow, farmPanelRenderMoneyTreeBonusCard, farmPanelRenderMutantAlertCard, farmPanelRenderStockRow, farmPanelStateIsCached, farmPanelSyncInFlight, farmPanelTabContentDirty } from "./inprogress.js";
 
@@ -4911,27 +4911,53 @@ const SKILL_TREE_SUB_SLUG = "skilltree";
 
 const BOOST_SKILL_TREE_PATH = `${BOOST_ROUTE_SLUG}/${SKILL_TREE_SUB_SLUG}`;
 
+const BOOST_CATEGORY_IDS = [ "crops", "resources", "fruits", "greenhouse", "cropmachine", "honey", "animals", "tools", "composter", "cooking", "fishing", "pets", "spicerack", "salt", "limitedtime" ];
+
+const BOOST_CATEGORY_ROUTE_SLUGS = {
+  tools: "stocks"
+};
+
+const DEFAULT_BOOST_CATEGORY = "crops";
+
+function boostCategoryToRouteSlug(cat) {
+  return BOOST_CATEGORY_ROUTE_SLUGS[cat] || cat;
+}
+
+function boostCategoryFromRouteSlug(slug) {
+  const entry = Object.keys(BOOST_CATEGORY_ROUTE_SLUGS).find(k => BOOST_CATEGORY_ROUTE_SLUGS[k] === slug);
+  return entry || slug;
+}
+
+function boostRoutePathForCategory(cat) {
+  const c = BOOST_CATEGORY_IDS.indexOf(cat) !== -1 ? cat : DEFAULT_BOOST_CATEGORY;
+  return c === DEFAULT_BOOST_CATEGORY ? `/${BOOST_ROUTE_SLUG}` : `/${BOOST_ROUTE_SLUG}/${boostCategoryToRouteSlug(c)}`;
+}
+
 function setBoostRouteUrl(sub, history_ = "push") {
   if (history_ === "none" || typeof window === "undefined" || !window.history) return;
-  const path = sub === SKILL_TREE_SUB_SLUG ? `/${BOOST_SKILL_TREE_PATH}` : `/${BOOST_ROUTE_SLUG}`;
+  const path = sub === SKILL_TREE_SUB_SLUG ? `/${BOOST_SKILL_TREE_PATH}` : boostRoutePathForCategory(boostCategory);
   if (window.location.pathname === path) return;
   const url = path + window.location.search + window.location.hash;
+  const state = {
+    view: BOOST_ROUTE_SLUG,
+    sub: sub === SKILL_TREE_SUB_SLUG ? SKILL_TREE_SUB_SLUG : null,
+    cat: sub === SKILL_TREE_SUB_SLUG ? null : boostCategory
+  };
   if (history_ === "replace") {
-    window.history.replaceState({
-      view: BOOST_ROUTE_SLUG,
-      sub: sub === SKILL_TREE_SUB_SLUG ? SKILL_TREE_SUB_SLUG : null
-    }, "", url);
+    window.history.replaceState(state, "", url);
   } else {
-    window.history.pushState({
-      view: BOOST_ROUTE_SLUG,
-      sub: sub === SKILL_TREE_SUB_SLUG ? SKILL_TREE_SUB_SLUG : null
-    }, "", url);
+    window.history.pushState(state, "", url);
   }
 }
 
 function currentPathIsBoostRoute() {
   const raw = slugFromLocation();
-  return raw === BOOST_ROUTE_SLUG || raw === BOOST_SKILL_TREE_PATH;
+  if (raw === BOOST_ROUTE_SLUG || raw === BOOST_SKILL_TREE_PATH) return true;
+  if (raw.indexOf(BOOST_ROUTE_SLUG + "/") === 0) {
+    const routeSlug = raw.slice(BOOST_ROUTE_SLUG.length + 1);
+    return BOOST_CATEGORY_IDS.indexOf(boostCategoryFromRouteSlug(routeSlug)) !== -1;
+  }
+  return false;
 }
 
 export function syncBoostPanelRoute(sub) {
@@ -4954,12 +4980,15 @@ function closeBoostPanelIfOpen() {
   if (overlay && overlay.classList.contains("show")) closeBoostPanel();
 }
 
-function openBoostFromRoute(sub, historyMode) {
+function openBoostFromRoute(sub, cat, historyMode) {
   openBoostPanel();
   if (sub === SKILL_TREE_SUB_SLUG) {
     setSkillTreeSectionOpen(true, {
       scrollIntoView: true
     });
+  } else if (cat && cat !== boostCategory) {
+    const btn = document.querySelector(`#boostCategoryToggle button[data-cat="${cat}"]`);
+    if (btn) btn.click();
   }
   setBoostRouteUrl(sub === SKILL_TREE_SUB_SLUG ? SKILL_TREE_SUB_SLUG : null, historyMode);
 }
@@ -5117,12 +5146,13 @@ export function applyRouteFromLocation(historyMode = "none") {
     closeAllModalRoutes();
     closeBoostPanelIfOpen();
     openInProgressFromRoute(filter, historyMode);
-  } else if (rawSlug === BOOST_ROUTE_SLUG || rawSlug === BOOST_SKILL_TREE_PATH) {
+  } else if (rawSlug === BOOST_ROUTE_SLUG || currentPathIsBoostRoute()) {
     const sub = rawSlug === BOOST_SKILL_TREE_PATH ? SKILL_TREE_SUB_SLUG : null;
+    const cat = sub ? null : rawSlug === BOOST_ROUTE_SLUG ? DEFAULT_BOOST_CATEGORY : boostCategoryFromRouteSlug(rawSlug.slice(BOOST_ROUTE_SLUG.length + 1));
     closeAllMainViewPanels();
     closeAllModalRoutes();
     closeFarmPanel();
-    openBoostFromRoute(sub, historyMode);
+    openBoostFromRoute(sub, cat, historyMode);
   } else {
     const slug = slugToView(rawSlug);
     if (slug && MAIN_VIEW_PANEL_MAP[slug]) {
@@ -6730,46 +6760,90 @@ function renderPatternChip(shape, confirmed) {
   return `<div class="${cls}" style="grid-template-columns:repeat(${w}, 18px);grid-template-rows:repeat(${h}, 18px);">${cellsHtml}${badge}</div>`;
 }
 
-function renderDigCellHtml(cell) {
-  const cls = digCellClass(cell);
+function renderDigCellHtml(cell, farmId) {
+  let manualStatus = null;
+  if (!cell.dug) {
+    manualStatus = digGetManualMark(farmId, cell.x, cell.y);
+    if (manualStatus && DIG_MANUAL_MARK_OVERRIDE_STATUSES.indexOf(cell.status) !== -1) {
+      digClearManualMark(farmId, cell.x, cell.y);
+      manualStatus = null;
+    }
+  }
+  const displayStatus = manualStatus || cell.status;
+  const clsCell = manualStatus ? Object.assign({}, cell, { status: displayStatus }) : cell;
+  const cls = digCellClass(clsCell) + (manualStatus ? " dig-cell-manual" : "");
   let icon = "";
-  let label = cell.dug ? cell.item : cell.status;
+  let label = cell.dug ? cell.item : displayStatus;
   if (cell.dug) {
     icon = getIcon(cell.item);
-  } else if (cell.status === "guaranteed") {
+  } else if (manualStatus === "guaranteed") {
+    label = "Marked by you — guaranteed treasure";
+  } else if (manualStatus === "possible") {
+    label = "Marked by you — possible treasure";
+  } else if (manualStatus === "empty") {
+    label = "Marked by you — no treasure";
+  } else if (displayStatus === "guaranteed") {
     if (cell.predicted) {
       icon = getIcon(cell.predicted.item);
       label = cell.predicted.formation ? `Dig here → ${cell.predicted.item} — completes ${cell.predicted.formation}` : `Dig here → ${cell.predicted.item}`;
     } else {
       label = "Dig here — guaranteed treasure";
     }
-  } else if (cell.status === "crab") {
+  } else if (displayStatus === "crab") {
     icon = getIcon("Crab");
     label = "Provably no treasure, borders one — will reveal a Crab";
-  } else if (cell.status === "sand") {
+  } else if (displayStatus === "sand") {
     icon = getIcon("Sand");
     label = "Provably no treasure nearby — will reveal Sand";
-  } else if (cell.status === "empty") {
+  } else if (displayStatus === "empty") {
     label = "No treasure here — a Sand clue borders this tile";
-  } else if (cell.status === "possible") {
+  } else if (displayStatus === "possible") {
     label = "Possible treasure — a Crab clue borders this tile";
   } else {
     label = "No clue nearby yet";
   }
-  return `<div class="dig-cell ${cls}" title="${escapeHtml(String(label))}">${icon}</div>`;
+  const dataAttrs = cell.dug ? "" : ` data-dig-x="${cell.x}" data-dig-y="${cell.y}"`;
+  return `<div class="dig-cell ${cls}" title="${escapeHtml(String(label))}"${dataAttrs}>${icon}</div>`;
 }
 
-function renderDigGridHtml(solved) {
+function renderDigGridHtml(solved, farmId) {
   const cols = "ABCDEFGHIJ";
   let html = `<div class="dig-grid-label"></div>`;
   for (let x = 0; x < 10; x++) html += `<div class="dig-grid-label">${cols[x]}</div>`;
   for (let y = 0; y < 10; y++) {
     html += `<div class="dig-grid-label">${y + 1}</div>`;
     for (let x = 0; x < 10; x++) {
-      html += renderDigCellHtml(solved.cells[y][x]);
+      html += renderDigCellHtml(solved.cells[y][x], farmId);
     }
   }
   return html;
+}
+
+function wireDigGridManualTaps(gridEl, farmId) {
+  gridEl.querySelectorAll(".dig-cell[data-dig-x]").forEach(cellEl => {
+    cellEl.onclick = () => {
+      const x = parseInt(cellEl.dataset.digX, 10);
+      const y = parseInt(cellEl.dataset.digY, 10);
+      digCycleManualMark(farmId, x, y);
+      refreshDigPanelGridAndStatus(farmId);
+    };
+  });
+}
+
+function refreshDigPanelGridAndStatus(farmId) {
+  const gridEl = $("digPanelGrid");
+  const statusEl = $("digPanelStatus");
+  if (!gridEl || !statusEl) return;
+  const solved = digSolveBoard();
+  gridEl.innerHTML = renderDigGridHtml(solved, farmId);
+  wireDigGridManualTaps(gridEl, farmId);
+  const flatCells = [].concat.apply([], solved.cells);
+  const guaranteedCount = flatCells.filter(c => !c.dug && c.status === "guaranteed").length;
+  const possibleCount = flatCells.filter(c => !c.dug && c.status === "possible").length;
+  const emptyCount = flatCells.filter(c => !c.dug && c.status === "empty").length;
+  const crabPredictedCount = flatCells.filter(c => !c.dug && c.status === "crab").length;
+  const sandPredictedCount = flatCells.filter(c => !c.dug && c.status === "sand").length;
+  statusEl.textContent = solved.dugCount ? `${solved.dugCount} tile(s) dug so far · ${solved.confirmedCount} pattern(s) confirmed · ${guaranteedCount} guaranteed spot(s) · ${possibleCount} possible spot(s) · ${emptyCount} safe-empty · ${crabPredictedCount} predicted crab(s) · ${sandPredictedCount} predicted sand` : "No dig data synced yet — dig a few tiles in-game, then sync.";
 }
 
 export function renderDigTreasurePanel() {
@@ -6787,14 +6861,7 @@ export function renderDigTreasurePanel() {
     const farmLabel = lastInfo && lastInfo.id ? `Farm #${lastInfo.id}` : "No farm synced";
     chapterEl.innerHTML = `${escapeHtml(farmLabel)} · ${escapeHtml(solved.chapterName)}<br>Chapter artefact: ${getIcon(solved.artefactName)} ${escapeHtml(solved.artefactName)}`;
     patternsEl.innerHTML = solved.instances.length ? solved.instances.map((inst, i) => renderPatternChip(inst.shape, !!solved.completedByIndex[i])).join("") : `<div class="dig-panel-status">No active pattern data yet — sync your farm.</div>`;
-    gridEl.innerHTML = renderDigGridHtml(solved);
-    const flatCells = [].concat.apply([], solved.cells);
-    const guaranteedCount = flatCells.filter(c => !c.dug && c.status === "guaranteed").length;
-    const possibleCount = flatCells.filter(c => !c.dug && c.status === "possible").length;
-    const emptyCount = flatCells.filter(c => !c.dug && c.status === "empty").length;
-    const crabPredictedCount = flatCells.filter(c => !c.dug && c.status === "crab").length;
-    const sandPredictedCount = flatCells.filter(c => !c.dug && c.status === "sand").length;
-    statusEl.textContent = solved.dugCount ? `${solved.dugCount} tile(s) dug so far · ${solved.confirmedCount} pattern(s) confirmed · ${guaranteedCount} guaranteed spot(s) · ${possibleCount} possible spot(s) · ${emptyCount} safe-empty · ${crabPredictedCount} predicted crab(s) · ${sandPredictedCount} predicted sand` : "No dig data synced yet — dig a few tiles in-game, then sync.";
+    refreshDigPanelGridAndStatus(digGetFarmId());
   }, 0);
 }
 

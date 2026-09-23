@@ -13266,10 +13266,7 @@ async function fetchFarmSnapshotRaw(farmId) {
   return await res.json();
 }
 
-async function fetchCommunityFarmData(farmId) {
-  if (SFL_COMMUNITY_PROXY_BASE.includes("REPLACE-ME")) {
-    throw new Error("Proxy not deployed yet — see sfl-community-proxy-worker.js");
-  }
+async function fetchCommunityFarmDataOnce(farmId) {
   const res = await fetchWithTimeout(SFL_COMMUNITY_API_BASE + encodeURIComponent(farmId), {
     cache: "no-store"
   });
@@ -13282,6 +13279,23 @@ async function fetchCommunityFarmData(farmId) {
     throw new Error(msg);
   }
   return json;
+}
+
+async function fetchCommunityFarmData(farmId) {
+  if (SFL_COMMUNITY_PROXY_BASE.includes("REPLACE-ME")) {
+    throw new Error("Proxy not deployed yet — see sfl-community-proxy-worker.js");
+  }
+  const maxAttempts = 3;
+  let lastErr = null;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await fetchCommunityFarmDataOnce(farmId);
+    } catch (e) {
+      lastErr = e;
+      if (attempt < maxAttempts) await new Promise(r => setTimeout(r, 700 * attempt));
+    }
+  }
+  throw lastErr;
 }
 
 export function farmSyncExtractGameState(json) {
@@ -16914,6 +16928,7 @@ $("boostCategoryToggle").querySelectorAll("button").forEach(btn => {
     boostCategory = btn.dataset.cat;
     $("boostCategoryToggle").querySelectorAll("button").forEach(b => b.classList.toggle("active", b === btn));
     renderBoostPanel();
+    syncBoostPanelRoute(null);
   };
 });
 
@@ -23451,13 +23466,60 @@ function esMaterialRowHtml(name, qty, showOwned) {
   const flowerCost = esResourceFlowerCost(name, qty);
   const costLabel = name === "Oil" ? "Coin cost" : esState.costMode === "buy" ? "Buy" : "Collect";
   const valueText = showOwned ? fmt(esGetOwnedQty(name)) + "/" + fmt(qty) : fmt(qty);
-  return '<div class="es-cost-row"><div class="es-cost-row-name">' + esGetIconHtml(name) + "<span>" + escapeHtml(name) + '</span></div><div class="es-cost-row-val">' + valueText + (flowerCost > 0 && !showOwned ? '<small class="es-cost-row-sub">' + costLabel + " · " + fmt(flowerCost) + " " + FLOWER_ICON + "</small>" : "") + "</div></div>";
+  const cycleInfo = !showOwned && esState.costMode === "collect" ? esResourceCycleInfo(name, qty) : null;
+  const cycleBadge = cycleInfo && cycleInfo.cycles ? '<span class="es-cost-row-cycle">×' + cycleInfo.cycles + " Cycles</span>" : "";
+  const cycleTimeHtml = cycleInfo && cycleInfo.timeSec ? '<small class="es-cost-row-sub es-cost-row-cycle-time">⏱ ' + esFormatSeconds(cycleInfo.timeSec) + "</small>" : "";
+  return '<div class="es-cost-row"><div class="es-cost-row-name">' + esGetIconHtml(name) + "<span>" + escapeHtml(name) + '</span></div><div class="es-cost-row-val">' + valueText + cycleBadge + (flowerCost > 0 && !showOwned ? '<small class="es-cost-row-sub">' + costLabel + " · " + fmt(flowerCost) + " " + FLOWER_ICON + "</small>" : "") + cycleTimeHtml + "</div></div>";
+}
+
+function esResourceCycleInfo(name, missingQty) {
+  if (!(missingQty > 0)) return null;
+  if (name === "Obsidian") {
+    if (typeof computeLavaPitFigures !== "function" || typeof getNodeCount !== "function") return null;
+    const fig = computeLavaPitFigures();
+    if (!fig) return null;
+    const nodeCount = getNodeCount("Lava Pit");
+    const perCycle = nodeCount * fig.yieldVal;
+    if (!(perCycle > 0)) return {
+      cycles: null,
+      timeSec: null
+    };
+    const cycles = Math.ceil(missingQty / perCycle);
+    return {
+      cycles: cycles,
+      timeSec: cycles * fig.timeSec
+    };
+  }
+  if (typeof RESOURCE_DATA === "undefined" || !RESOURCE_DATA[name]) return null;
+  if (typeof computeResourceFigures !== "function") return null;
+  const fig = computeResourceFigures(name);
+  if (!fig) return null;
+  const perCycle = fig.totalYieldPerCycle;
+  if (!(perCycle > 0)) return {
+    cycles: null,
+    timeSec: null
+  };
+  const cycles = Math.ceil(missingQty / perCycle);
+  return {
+    cycles: cycles,
+    timeSec: cycles * fig.timeSec
+  };
+}
+
+function esMissingMaterialRowHtml(name, qty) {
+  const flowerCost = esResourceFlowerCost(name, qty);
+  const costLabel = name === "Oil" ? "Coin cost" : esState.costMode === "buy" ? "Buy" : "Collect";
+  const cycleInfo = esState.costMode === "collect" ? esResourceCycleInfo(name, qty) : null;
+  const cycleBadge = cycleInfo && cycleInfo.cycles ? '<span class="es-cost-row-cycle">×' + cycleInfo.cycles + " Cycles</span>" : "";
+  const cycleTimeHtml = cycleInfo && cycleInfo.timeSec ? '<small class="es-cost-row-sub es-cost-row-cycle-time">⏱ ' + esFormatSeconds(cycleInfo.timeSec) + "</small>" : "";
+  const costHtml = flowerCost > 0 ? '<small class="es-cost-row-sub">' + costLabel + " · " + fmt(flowerCost) + " " + FLOWER_ICON + "</small>" : "";
+  return '<div class="es-cost-row"><div class="es-cost-row-name">' + esGetIconHtml(name) + "<span>" + escapeHtml(name) + '</span></div><div class="es-cost-row-val">' + fmt(qty) + cycleBadge + cycleTimeHtml + costHtml + "</div></div>";
 }
 
 function esMissingSectionHtml(resources, coins) {
   if (!esState.applyMissing) return "";
   const missing = esMissingRowsData(resources, coins);
-  const rowsHtml = missing.rows.map(r => esMaterialRowHtml(r.name, r.qty, false)).join("");
+  const rowsHtml = missing.rows.map(r => esMissingMaterialRowHtml(r.name, r.qty)).join("");
   const coinRowHtml = missing.coinsMissing > 0 ? '<div class="es-cost-row"><div class="es-cost-row-name">' + esGetIconHtml("Coins") + '<span>Coins</span></div><div class="es-cost-row-val">' + fmt(missing.coinsMissing) + "</div></div>" : "";
   const body = rowsHtml || coinRowHtml ? rowsHtml + coinRowHtml : '<div class="es-selected-req-empty">Nothing missing — you have it all!</div>';
   return '<div class="es-missing-section"><div class="es-missing-title">What\'s Missing!</div>' + body + "</div>";
@@ -23671,10 +23733,13 @@ function esSyncFromFarm() {
     toast("⚠️ Couldn't match your island to the simulator.");
     return;
   }
+  const expandingNow = !!(g && g.expansionConstruction && typeof g.expansionConstruction === "object");
   let level = ascensionLevel > 0 ? Math.max(31, basicLand) : basicLand;
+  if (expandingNow) level += 1;
   level = Math.max(ES_ISLAND_MIN[matchedIsland], Math.min(ES_ISLAND_MAX[matchedIsland], level));
   esState.start.island = matchedIsland;
   esState.start.level = level;
+  esState.start.inProgress = expandingNow;
   esState.target.island = matchedIsland;
   esState.target.level = Math.min(level + 1, ES_ISLAND_MAX[matchedIsland]);
   if (matchedIsland === "marbleX") {
@@ -23683,7 +23748,7 @@ function esSyncFromFarm() {
   }
   esSyncAutoBoostsFromFarm();
   esRenderAll();
-  toast("✅ Synced to " + ES_ISLAND_LABEL[matchedIsland] + " #" + level);
+  toast("✅ Synced to " + ES_ISLAND_LABEL[matchedIsland] + " #" + level + (expandingNow ? " (currently expanding)" : ""));
 }
 
 export function esRenderAll() {
@@ -31044,9 +31109,68 @@ export function digCellClass(cell) {
   return "is-none";
 }
 
+const DIG_MANUAL_MARK_STORAGE_KEY = "hl_dig_manual_marks";
+export const DIG_MANUAL_MARK_CYCLE = [ "empty", "possible", "guaranteed" ];
+export const DIG_MANUAL_MARK_OVERRIDE_STATUSES = [ "guaranteed", "crab", "sand", "empty" ];
+
+function digReadManualMarkStore() {
+  try {
+    const raw = localStorage.getItem(DIG_MANUAL_MARK_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function digWriteManualMarkStore(store) {
+  try {
+    localStorage.setItem(DIG_MANUAL_MARK_STORAGE_KEY, JSON.stringify(store));
+  } catch (e) {}
+}
+
+function digManualMarkCellKey(x, y) {
+  return x + "," + y;
+}
+
+export function digGetManualMark(farmId, x, y) {
+  const store = digReadManualMarkStore();
+  const farmMarks = store[farmId || "default"];
+  if (!farmMarks) return null;
+  const val = farmMarks[digManualMarkCellKey(x, y)];
+  return DIG_MANUAL_MARK_CYCLE.indexOf(val) !== -1 ? val : null;
+}
+
+export function digSetManualMark(farmId, x, y, status) {
+  const store = digReadManualMarkStore();
+  const farmKey = farmId || "default";
+  const key = digManualMarkCellKey(x, y);
+  if (status && DIG_MANUAL_MARK_CYCLE.indexOf(status) !== -1) {
+    if (!store[farmKey]) store[farmKey] = {};
+    store[farmKey][key] = status;
+  } else if (store[farmKey]) {
+    delete store[farmKey][key];
+    if (!Object.keys(store[farmKey]).length) delete store[farmKey];
+  }
+  digWriteManualMarkStore(store);
+}
+
+export function digClearManualMark(farmId, x, y) {
+  digSetManualMark(farmId, x, y, null);
+}
+
+export function digCycleManualMark(farmId, x, y) {
+  const current = digGetManualMark(farmId, x, y);
+  const idx = current ? DIG_MANUAL_MARK_CYCLE.indexOf(current) : -1;
+  const nextIdx = idx + 1;
+  const next = nextIdx < DIG_MANUAL_MARK_CYCLE.length ? DIG_MANUAL_MARK_CYCLE[nextIdx] : null;
+  digSetManualMark(farmId, x, y, next);
+  return next;
+}
+
 export let digPanelRenderToken = 0;
 
-function digGetFarmId() {
+export function digGetFarmId() {
   const inputEl = $("farmPanelIdInput");
   const inputVal = inputEl && inputEl.value ? inputEl.value.trim() : "";
   if (inputVal) return inputVal;
