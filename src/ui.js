@@ -12,6 +12,8 @@ import { renderFactionDeliveryPanel } from "./faction.js";
 
 import { renderCraftingBoxPanel } from "./crafting_box.js";
 
+import { renderWorkbenchPanel } from "./workbench.js";
+
 import { PETE_GUIDE_IMAGES } from "./pete_guide_images.js";
 
 function getCancelIcon() {
@@ -4813,6 +4815,7 @@ export const MAIN_VIEW_PANEL_MAP = {
   bumpkinlevel: "bumpkinLevelPanel",
   faction: "factionPanel",
   craftingbox: "craftingBoxPanel",
+  workbench: "workbenchPanel",
   auctiontracker: "auctionTrackerPanel",
   sflbubbles: "sflBubblesPanel",
   dailyprofit: "dailyProfitPanel"
@@ -4866,7 +4869,8 @@ const VIEW_URL_SLUGS = {
   auctiontracker: "auction",
   sflbubbles: "sfl_bubbles",
   dailyprofit: "daily_profit",
-  craftingbox: "crafting_box"
+  craftingbox: "crafting_box",
+  workbench: "workbench"
 };
 
 const IN_PROGRESS_ROUTE_PREFIX = "in_progress";
@@ -5058,6 +5062,7 @@ function renderMainViewContent(view) {
   if (view === "bumpkinlevel") renderBumpkinLevelPanel();
   if (view === "faction" && typeof renderFactionDeliveryPanel === "function") renderFactionDeliveryPanel();
   if (view === "craftingbox" && typeof renderCraftingBoxPanel === "function") renderCraftingBoxPanel();
+  if (view === "workbench" && typeof renderWorkbenchPanel === "function") renderWorkbenchPanel();
   if (view === "auctiontracker") renderAuctionTrackerPanel();
   if (view === "sflbubbles" && typeof renderSflBubblesPanel === "function") renderSflBubblesPanel();
   if (view === "dailyprofit") renderDailyProfitCard();
