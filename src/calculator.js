@@ -17396,13 +17396,13 @@ const TICKET_REWARDS_APP = {
   bert: 2,
   miranda: 2,
   finley: 2,
-  raven: 3,
-  finn: 4,
-  timmy: 4,
-  cornwell: 4,
+  raven: 4,
+  finn: 5,
+  timmy: 5,
+  cornwell: 3,
   jester: 4,
   tywin: 10,
-  pharaoh: 5
+  pharaoh: 6
 };
 
 export const TICKET_NPC_DISPLAY_NAMES = {
