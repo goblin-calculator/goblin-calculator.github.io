@@ -12740,10 +12740,10 @@ export function getActiveAnimalBoosts(type) {
 
 export const ANIMAL_BASE_CYCLE_SEC = 86400;
 
-export function computeAnimalTypeFigures(type, visited) {
+export function computeAnimalTypeFigures(type, visited, levelOverride) {
   const cfg = ANIMAL_DATA[type];
   const counts = getAnimalCount(type);
-  const level = Math.min(15, Math.max(1, parseInt(counts.level) || 1));
+  const level = levelOverride != null ? Math.min(15, Math.max(1, parseInt(levelOverride) || 1)) : Math.min(15, Math.max(1, parseInt(counts.level) || 1));
   const qty = Math.max(0, parseFloat(counts.qty) || 0);
   const lvlData = cfg.levels[level - 1];
   const active = getActiveAnimalBoosts(type);
@@ -12861,41 +12861,70 @@ function computeAnimalProfit(fig) {
 }
 
 export function computeAnimalWeeklyFigures(type, manualCyclesPerWeek) {
-  const figWith = computeAnimalTypeFigures(type);
-  const usingSpice = !!figWith.spiceActiveKey;
-  const savedSalt = spiceUsage.saltLick[type], savedHoney = spiceUsage.honeyTreat[type];
-  spiceUsage.saltLick[type] = false;
-  spiceUsage.honeyTreat[type] = false;
-  const figBase = computeAnimalTypeFigures(type);
-  spiceUsage.saltLick[type] = savedSalt;
-  spiceUsage.honeyTreat[type] = savedHoney;
-  const withP = computeAnimalProfit(figWith);
-  const baseP = computeAnimalProfit(figBase);
-  const autoCyclesPerDay = ANIMAL_BASE_CYCLE_SEC / figWith.cycleTimeSec;
+  const counts = getAnimalCount(type);
+  const startLevel = Math.min(15, Math.max(1, parseInt(counts.level) || 1));
+  const figWithStart = computeAnimalTypeFigures(type, undefined, startLevel);
+  const usingSpice = !!figWithStart.spiceActiveKey;
+  const autoCyclesPerDay = ANIMAL_BASE_CYCLE_SEC / figWithStart.cycleTimeSec;
   const autoCyclesPerWeek = autoCyclesPerDay * 7;
   const cyclesPerWeek = Math.round(manualCyclesPerWeek != null && manualCyclesPerWeek >= 0 ? manualCyclesPerWeek : autoCyclesPerWeek);
   const boostedCycles = usingSpice ? Math.min(getSpiceLickDurationHarvests(), cyclesPerWeek) : 0;
   const unboostedCycles = Math.max(0, cyclesPerWeek - boostedCycles);
-  const profitWeekWithSpice = boostedCycles * withP.profitFlower + unboostedCycles * baseP.profitFlower;
-  const costWeekWithSpice = boostedCycles * withP.totalCostFlower + unboostedCycles * baseP.totalCostFlower;
-  const netRevenueWeekWithSpice = boostedCycles * withP.totalRevenueFlower + unboostedCycles * baseP.totalRevenueFlower;
-  const grossRevenueWeekWithSpice = boostedCycles * withP.totalRevenueGrossFlower + unboostedCycles * baseP.totalRevenueGrossFlower;
-  const profitWeekNoSpice = cyclesPerWeek * baseP.profitFlower;
-  const feedQtyPerCycleWith = figWith.effectiveFeedQty * figWith.qty;
-  const feedQtyPerCycleBase = figBase.effectiveFeedQty * figBase.qty;
-  const feedCostFlowerPerCycleWith = coinsToFlower(figWith.feedCostCoins) * figWith.qty;
-  const feedCostFlowerPerCycleBase = coinsToFlower(figBase.feedCostCoins) * figBase.qty;
-  const feedQtyWeek = boostedCycles * feedQtyPerCycleWith + unboostedCycles * feedQtyPerCycleBase;
-  const feedCostFlowerWeek = boostedCycles * feedCostFlowerPerCycleWith + unboostedCycles * feedCostFlowerPerCycleBase;
-  const totalYieldUnitsWeek = boostedCycles * figWith.totalYieldUnits * figWith.qty + unboostedCycles * figBase.totalYieldUnits * figBase.qty;
-  const medicineCostFlowerPerCycleWith = figWith.medicineFlowerPerLevel * figWith.qty;
-  const medicineCostFlowerPerCycleBase = figBase.medicineFlowerPerLevel * figBase.qty;
-  const medicineCostFlowerWeek = boostedCycles * medicineCostFlowerPerCycleWith + unboostedCycles * medicineCostFlowerPerCycleBase;
-  const consumablesCostFlowerPerCycleWith = figWith.consumablesFlowerPerLevel * figWith.qty;
-  const consumablesCostFlowerWeek = boostedCycles * consumablesCostFlowerPerCycleWith;
+  const scales = getAffectionScales(type);
+  const simCycles = runAnimalCycleSim(type, scales);
+  let simIdx = simCycles.findIndex(c => c.startLevel === startLevel);
+  if (simIdx === -1) simIdx = simCycles.length - 1;
+  const figCacheWith = {};
+  const figCacheBase = {};
+  const savedSalt = spiceUsage.saltLick[type], savedHoney = spiceUsage.honeyTreat[type];
+  function figAtLevel(level, withSpice) {
+    const cache = withSpice ? figCacheWith : figCacheBase;
+    if (cache[level]) return cache[level];
+    if (!withSpice) {
+      spiceUsage.saltLick[type] = false;
+      spiceUsage.honeyTreat[type] = false;
+    }
+    const fig = computeAnimalTypeFigures(type, undefined, level);
+    if (!withSpice) {
+      spiceUsage.saltLick[type] = savedSalt;
+      spiceUsage.honeyTreat[type] = savedHoney;
+    }
+    cache[level] = fig;
+    return fig;
+  }
+  let profitWeekWithSpice = 0, costWeekWithSpice = 0, netRevenueWeekWithSpice = 0, grossRevenueWeekWithSpice = 0;
+  let profitWeekNoSpice = 0, feedQtyWeek = 0, feedCostFlowerWeek = 0, totalYieldUnitsWeek = 0;
+  let medicineCostFlowerWeek = 0, consumablesCostFlowerWeek = 0;
+  const yieldsWeek = figWithStart.yields.map(() => 0);
+  let lastFigWith = figWithStart;
+  let idx = simIdx;
+  for (let n = 0; n < cyclesPerWeek; n++) {
+    const cyc = simCycles[Math.min(idx, simCycles.length - 1)];
+    const level = Math.min(15, Math.max(1, cyc.claimLevel || startLevel));
+    const isBoosted = n < boostedCycles;
+    const figWith = figAtLevel(level, true);
+    const figBase = figAtLevel(level, false);
+    const withP = computeAnimalProfit(figWith);
+    const baseP = computeAnimalProfit(figBase);
+    const activeFig = isBoosted ? figWith : figBase;
+    const activeP = isBoosted ? withP : baseP;
+    profitWeekWithSpice += activeP.profitFlower;
+    costWeekWithSpice += activeP.totalCostFlower;
+    netRevenueWeekWithSpice += activeP.totalRevenueFlower;
+    grossRevenueWeekWithSpice += activeP.totalRevenueGrossFlower;
+    profitWeekNoSpice += baseP.profitFlower;
+    feedQtyWeek += activeFig.effectiveFeedQty * activeFig.qty;
+    feedCostFlowerWeek += coinsToFlower(activeFig.feedCostCoins) * activeFig.qty;
+    totalYieldUnitsWeek += activeFig.totalYieldUnits * activeFig.qty;
+    activeFig.yields.forEach((y, i) => yieldsWeek[i] += y * activeFig.qty);
+    medicineCostFlowerWeek += activeFig.medicineFlowerPerLevel * activeFig.qty;
+    if (isBoosted) consumablesCostFlowerWeek += figWith.consumablesFlowerPerLevel * figWith.qty;
+    lastFigWith = figWith;
+    if (!cyc.isMax && idx < simCycles.length - 1) idx++;
+  }
   return {
     usingSpice: usingSpice,
-    spiceActiveKey: figWith.spiceActiveKey,
+    spiceActiveKey: figWithStart.spiceActiveKey,
     cyclesPerWeek: cyclesPerWeek,
     autoCyclesPerWeek: autoCyclesPerWeek,
     boostedCycles: boostedCycles,
@@ -12909,13 +12938,14 @@ export function computeAnimalWeeklyFigures(type, manualCyclesPerWeek) {
     feedQtyWeek: feedQtyWeek,
     feedCostFlowerWeek: feedCostFlowerWeek,
     totalYieldUnitsWeek: totalYieldUnitsWeek,
+    yieldsWeek: yieldsWeek,
     medicineCostFlowerWeek: medicineCostFlowerWeek,
     consumablesCostFlowerWeek: consumablesCostFlowerWeek,
-    costPerCureFlower: figWith.costPerCureFlower,
-    sickHeads: figWith.sickHeads,
-    spiceCostPerUseFlower: figWith.consumablesFlowerPerLevel * getSpiceLickDurationHarvests(),
-    feedKey: figWith.feedKeyUsed,
-    feedLabel: figWith.feedNameUsed
+    costPerCureFlower: lastFigWith.costPerCureFlower,
+    sickHeads: lastFigWith.sickHeads,
+    spiceCostPerUseFlower: figWithStart.consumablesFlowerPerLevel * getSpiceLickDurationHarvests(),
+    feedKey: figWithStart.feedKeyUsed,
+    feedLabel: figWithStart.feedNameUsed
   };
 }
 

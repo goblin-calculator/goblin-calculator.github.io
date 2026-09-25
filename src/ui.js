@@ -1668,15 +1668,15 @@ function attachAnimalFeedConsumptionToggles(wrap) {
   });
 }
 
-function renderAnimalMaterialCycleBreakdown(materials, feedQtyPerCycle, feedQty24h, productRows, cyclesPerDay, feedQty7d, cyclesPerWeek) {
-  const buildBlock = (feedQty, yieldMult, isExtendedCycle, yieldSectionLabel) => {
+function renderAnimalMaterialCycleBreakdown(materials, feedQtyPerCycle, feedQty24h, productRows, cyclesPerDay, feedQty7d, cyclesPerWeek, yieldsWeek) {
+  const buildBlock = (feedQty, yieldMult, isExtendedCycle, yieldSectionLabel, yieldOverride) => {
     const matRows = materials.map(row => renderMaterialCycleRow(row.name, row.qty * feedQty, getFlowerMarketPrice(row.name), false)).join("");
     const matTotal = materials.reduce((sum, row) => sum + row.qty * feedQty * getFlowerMarketPrice(row.name), 0);
-    const yieldRows = productRows.map(r => renderMaterialCycleRow(r.pname, r.totalUnits * yieldMult, getFlowerMarketPrice(r.pname), true, isExtendedCycle)).join("");
-    const yieldTotal = productRows.reduce((sum, r) => sum + r.totalUnits * yieldMult * getFlowerMarketPrice(r.pname), 0);
+    const yieldRows = productRows.map((r, idx) => renderMaterialCycleRow(r.pname, yieldOverride ? yieldOverride[idx] : r.totalUnits * yieldMult, getFlowerMarketPrice(r.pname), true, isExtendedCycle)).join("");
+    const yieldTotal = productRows.reduce((sum, r, idx) => sum + (yieldOverride ? yieldOverride[idx] : r.totalUnits * yieldMult) * getFlowerMarketPrice(r.pname), 0);
     return matRows + renderMaterialSubtotalRow(matTotal, "Total Value") + `<div class="lib-section-title">🧺 ${yieldSectionLabel}</div>` + yieldRows + renderMaterialSubtotalRow(yieldTotal, "Total Yield Value");
   };
-  return `\n      <div class="lib-cycle-container">\n      <div class="lib-section-title lib-material-badge">📦 Material Used for 1 Cycle</div>\n      ${buildBlock(feedQtyPerCycle, 1, false, "Yield for 1 Cycle")}\n      </div>\n      <div class="lib-cycle-container">\n      <div class="lib-section-title lib-material-badge">📦 Material Used for ${fmt(cyclesPerDay)} Cycle${cyclesPerDay === 1 ? "" : "s"} (24H)</div>\n      ${buildBlock(feedQty24h, cyclesPerDay, true, `Yield for ${fmt(cyclesPerDay)} Cycle${cyclesPerDay === 1 ? "" : "s"} (24H)`)}\n      </div>\n      <div class="lib-cycle-container">\n      <div class="lib-section-title lib-material-badge">📦 Material Used for 7 Days</div>\n      ${buildBlock(feedQty7d, cyclesPerWeek, true, "Yield for 7 Days")}\n      </div>`;
+  return `\n      <div class="lib-cycle-container">\n      <div class="lib-section-title lib-material-badge">📦 Material Used for 1 Cycle</div>\n      ${buildBlock(feedQtyPerCycle, 1, false, "Yield for 1 Cycle")}\n      </div>\n      <div class="lib-cycle-container">\n      <div class="lib-section-title lib-material-badge">📦 Material Used for ${fmt(cyclesPerDay)} Cycle${cyclesPerDay === 1 ? "" : "s"} (24H)</div>\n      ${buildBlock(feedQty24h, cyclesPerDay, true, `Yield for ${fmt(cyclesPerDay)} Cycle${cyclesPerDay === 1 ? "" : "s"} (24H)`)}\n      </div>\n      <div class="lib-cycle-container">\n      <div class="lib-section-title lib-material-badge">📦 Material Used for 7 Days</div>\n      ${buildBlock(feedQty7d, cyclesPerWeek, true, "Yield for 7 Days", yieldsWeek)}\n      </div>`;
 }
 
 const ANIMAL_LOVE_TOOL_NAMES = {
@@ -1763,7 +1763,7 @@ function renderAnimalCard(type) {
   const feedCostFlowerPerCycleAllHeads = coinsToFlower(fig.feedCostCoins) * qty;
   const feedQty24h = feedQtyPerCycleAllHeads * cyclesPerDay;
   const feedCostFlower24h = feedCostFlowerPerCycleAllHeads * cyclesPerDay;
-  const weeklyYieldTotalLabel = productRows.map(r => `${fmt(r.totalUnits * weekly.cyclesPerWeek)} ${r.pname}`).join(" · ");
+  const weeklyYieldTotalLabel = fig.products.map((pname, idx) => `${fmt(weekly.yieldsWeek[idx])} ${pname}`).join(" · ");
   const cycleYieldLabel = productRows.map(r => `${fmt(r.totalUnits)} ${r.pname}`).join(" · ");
   const oneHeadYieldLabel = fig.products.map((pname, idx) => `${fmt(fig.yields[idx])} ${pname}`).join(" · ");
   const ingredientRows = fig.feedInfo.breakdown.map(row => {
@@ -1835,7 +1835,7 @@ function renderAnimalCard(type) {
     }
     return renderTotalsBreakdown({
       title: `7 Days Total <span style="font-weight:500;opacity:.7;">(${fmt(qty)} heads)</span>`,
-      totalYield: productRows.length === 1 ? productRows[0].totalUnits * weekly.cyclesPerWeek : null,
+      totalYield: productRows.length === 1 ? weekly.yieldsWeek[0] : null,
       yieldLabel: weeklyYieldTotalLabel,
       gross: weekly.grossRevenueWeekWithSpice,
       baseCost: weekly.costWeekWithSpice - shrineCostFlowerPerCycleAllHeads * weekly.cyclesPerWeek,
@@ -1856,7 +1856,7 @@ function renderAnimalCard(type) {
       feedCostFlower: weekly.feedCostFlowerWeek,
       otherCostItems: otherCostItemsWeek
     });
-  })()}\n      ${spiceLabel ? `<div class="stat" style="margin-top:4px;"><span class="label">vs no ${spiceLabel} (7d)</span><span class="value ${weekly.deltaWeek >= 0 ? "is-profit" : "is-loss"}">${weekly.deltaWeek >= 0 ? "+" : ""}${fmt(weekly.deltaWeek)} ${FLOWER_ICON} FLOWER</span></div>` : ""}\n      ${spiceLabel ? `<div class="field-hint" style="margin-top:6px;background:#fdf1c8;border:1.5px solid var(--sun-deep);">🧂 ${spiceLabel} only lasts <b>${getSpiceLickDurationHarvests()} harvests</b> per item — this week's ${fmt(weekly.boostedCycles)} of ${fmt(weekly.cyclesPerWeek)} cycles get the boost, the rest run at base rate. That's why 7-Day Profit isn't just 24h × 7.</div>` : ""}\n      ${renderBoostAppliedList(fig.activeBoosts)}\n      <div class="profit-banner">\n        <span class="plabel">Net Profit — per cycle</span>\n        <span><span class="pvalue ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(profitFlower)} ${FLOWER_ICON} FLOWER</span>\n        <span class="proi">(${roi.toFixed(1)}% ROI)</span></span>\n      </div>\n      <div class="recipe-materials-wrap">\n      <div class="lib-section-title">${getIcon(feedName)} ${feedXpChipHtml} Feed ingredients (${feedName})</div>\n      ${ingredientRows}\n      ${renderAnimalMaterialCycleBreakdown(fig.feedInfo.breakdown, feedQtyPerCycleAllHeads, feedQty24h, productRows, cyclesPerDay, weekly.feedQtyWeek, weekly.cyclesPerWeek)}\n      </div>\n      ${renderAnimalFeedConsumptionBlock(type, {
+  })()}\n      ${spiceLabel ? `<div class="stat" style="margin-top:4px;"><span class="label">vs no ${spiceLabel} (7d)</span><span class="value ${weekly.deltaWeek >= 0 ? "is-profit" : "is-loss"}">${weekly.deltaWeek >= 0 ? "+" : ""}${fmt(weekly.deltaWeek)} ${FLOWER_ICON} FLOWER</span></div>` : ""}\n      ${spiceLabel ? `<div class="field-hint" style="margin-top:6px;background:#fdf1c8;border:1.5px solid var(--sun-deep);">🧂 ${spiceLabel} only lasts <b>${getSpiceLickDurationHarvests()} harvests</b> per item — this week's ${fmt(weekly.boostedCycles)} of ${fmt(weekly.cyclesPerWeek)} cycles get the boost, the rest run at base rate. That's why 7-Day Profit isn't just 24h × 7.</div>` : ""}\n      ${renderBoostAppliedList(fig.activeBoosts)}\n      <div class="profit-banner">\n        <span class="plabel">Net Profit — per cycle</span>\n        <span><span class="pvalue ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(profitFlower)} ${FLOWER_ICON} FLOWER</span>\n        <span class="proi">(${roi.toFixed(1)}% ROI)</span></span>\n      </div>\n      <div class="recipe-materials-wrap">\n      <div class="lib-section-title">${getIcon(feedName)} ${feedXpChipHtml} Feed ingredients (${feedName})</div>\n      ${ingredientRows}\n      ${renderAnimalMaterialCycleBreakdown(fig.feedInfo.breakdown, feedQtyPerCycleAllHeads, feedQty24h, productRows, cyclesPerDay, weekly.feedQtyWeek, weekly.cyclesPerWeek, weekly.yieldsWeek)}\n      </div>\n      ${renderAnimalFeedConsumptionBlock(type, {
     feedName: feedName,
     feedIcon: feedIcon,
     headsCount: qty,
