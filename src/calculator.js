@@ -58,7 +58,6 @@ const AUTUMN_GUARDIAN_ICON = "data:image/webp;base64,UklGRpABAABXRUJQVlA4TIQBAAA
 const SPRING_GUARDIAN_ICON = "data:image/webp;base64,UklGRrYBAABXRUJQVlA4TKoBAAAvIoALEJ+gJpKt5pODgT94wARy8YKDnDpqWnQojSQp2rtDUedI4PUoUiYNQkGi0a/SSLaa/1WmBWpPZSGRDD7PCASSFBedMQAAAOXdvhi26cL/OqrfHPSlKzrjiHZ688NKXHboTVqBL5FwxGpikBjbVtg4BJFgELLZ7/6bFR9LOFvAfRH9d+C2bSTJEjD37jvCxQz/3NJsA8RiXbFrY7EUWdKS1OMW+yZsBSluuk+XpaEL67pzlKKRzEEyYro8OI9EPxWgM/9HrqPLfhw/1pWcl6FTPymmKxUHEn0e/o/oDrMsIObpisoxXZY+h0SvODLubxj6NEgS1MwjVMjF2T8K3VVyBURpqua9yGpTqRkK9cmhZk6ihIt26Ekt1FBHbW99kqne9jYkQBvHUuiWJhWT9dA0DlsYHNLeQN0SQ6WzFtB+SA3v7qjHUKOjOjQFkmCWOZDE1VQOp0mlhZtTHjLKt6nKr+MJeuVW71LC6clZKIH7hy8Af7xwOHqUsLYmPfSGsLy//LvNGybeWv/T0gJvheVJ4tfs6z/xiz/2Z94XjgC+Efw3uOjLjwA=";
 
 export const IMAGE_ICONS = {
-  // --- Workbench buildings (added) ---
   "Fairy Circle": "data:image/webp;base64,UklGRuoAAABXRUJQVlA4TN0AAAAvIgAHEDdAJmCxFCTwKyW+PmQCFiuhiAxSK+GTR1EbKdDugge+pyr8G8CBQCAJbPvFAkDasvx9vmvCfOAokiS5mZEIbEsGcPsvC4FBmMDJH8NEd+tAENF/Bm7bNlLbm0aG84ugdWadW8d/RzrH+3wnneNyfgClc0zzCExzrzQ8XweQTiLCrjNFHBynf0etOSogRVQ4YKuIjtJGq4gKBQwsr9yLJWeK05IzQ2LZmcSyM4llZ5KdOVMEdqZJI6IDIqQR0SGDbjpfukdwI6JLHq+bL3TiZoUuNTfcau5rAAA=",
   "Wild Mushroom": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAAAXNSR0IArs4c6QAAAN1JREFUGJWFjjFOwzAUhj9XlZmqDokULoDSybAEZWFDndi4AUMF9A4MSBwBAksOgjhAlCyQiaoXaKQwVEx4MUP0XMPSf/ptf+99VgQpZ5kLz1efjZI+DqH53Rna5ADYtqK8xwk88lA09RCANjnzaOotI4Fki0S6wOPaWS5eFsPDY4ul3X1yadAmp758GNS2rf5oQ71sVtfpsQM4VdqrAF6/tgDUzg4ggMDhgAAAz6sPpQ7joxuANJ48ZckB5ycJAG/vHU33w6r/vgXw4L4ogH3wpl8XKrz4P7Dp14X0X7MSUmuc1gdpAAAAAElFTkSuQmCC",
   "Crop Machine": "data:image/webp;base64,UklGRvgCAABXRUJQVlA4TOwCAAAvT0ARENegKJKk5sg5h+9ZQDZ6MIEDvthgEwBgkvnr2kDho6uWogcBHFTVtg29yTz8amCpIYbGvjSggAwWgmybio3+YA8A4P//I9YIRM6ZKS6kAFoIY4XHWmBZM4rwCOSjsJW4BkcAmzePbg2NKcu5pt0XL213P3C8cB0MEmzbjdsmtiMFHigzphWy3v9KSRAE6aFzix/Rfwhu20iSpO0aVM+VOZzsfOHtt5uuqb+7bm3o/Cp6NT+8jowTXR38JIo71KFgJdH71PFmBFS3ewAUC423n/NoNXyIVoDbQ+QWkqQeTFcrO5y9rHhszNj5zEYywbv2954WR9dvK8rOyJuJX2kAixkQN4Fdhk1caBMEUymuZVngKhw5PxHXvBMv4yWYXWK+oJtk0uQyM8msAmuDYHnHSMVoZsk0uVRR2SLEi1kMBT+Zpcsto8wlLR2LcDrdqpsgLXQkoJB0uRy1SdIndabjDGTSDBBWN27T5At5JxETBiF2LbTIK2eda7W5XGT8VUD63p9SrBZLJ5Zzduhz3kBapFxm7Fa0gq+gjC6XZ/0igRS5CSAhuQA0uew7LYEKZLrnFi3au8nf+5PQh7CQOLfum0sz47lszq2RqPtQ59zqQd+HeufMqNNiH1pGzK0MXQ1m0OdS7EPdc4tzddzmXND0oWE4kE5tH/IiyrlVNqtKEvqu2IeWQbk0wNCeaMIi96HuXNYbqxVKyCj70JBcGup3gkEAUFD2oQG5XCYTZksD4fQJSPWBEbk8TZKQFe4m1tKdS4Ze0/yZPd//dRNGawNI0SxNxh+pX1hnLhnhhkIAxtCby8ImMDZhEN253B8ZRzA+D/uj6Keqju5c7g+Md2Mc9nZ4F1XVMeB3D4PAeIzfPXMKCQT2SHeguTBgKMDwINAMEMAeaQjdOcJKmIk502PQytmIOrpz6Zs5G18HNYfT/VUgdza7Sx34QON2rtEW7lBHc8QX6veKYG58He3N/ZcHPL1rur27Lw8A",
@@ -2553,63 +2552,63 @@ export const BASE_CROP_MACHINE = {
     seedQty: 800,
     timeSec: 4800,
     oilQty: 1.33,
-    yieldQty: 1200
+    yieldQty: 800
   },
   Potato: {
     module: "Base",
     seedQty: 400,
     timeSec: 12e3,
     oilQty: 3.33,
-    yieldQty: 600
+    yieldQty: 400
   },
   Pumpkin: {
     module: "Base",
     seedQty: 300,
     timeSec: 54e3,
     oilQty: 15,
-    yieldQty: 450
+    yieldQty: 300
   },
   Rhubarb: {
     module: "I",
     seedQty: 400,
     timeSec: 24e3,
     oilQty: 6.67,
-    yieldQty: 600
+    yieldQty: 400
   },
   Zucchini: {
     module: "I",
     seedQty: 400,
     timeSec: 72e3,
     oilQty: 20,
-    yieldQty: 600
+    yieldQty: 400
   },
   Carrot: {
     module: "II",
     seedQty: 200,
     timeSec: 72e3,
     oilQty: 20,
-    yieldQty: 300
+    yieldQty: 200
   },
   Cabbage: {
     module: "II",
     seedQty: 180,
     timeSec: 129600,
     oilQty: 36,
-    yieldQty: 270
+    yieldQty: 180
   },
   Yam: {
     module: "III",
     seedQty: 180,
     timeSec: 64800,
     oilQty: 18,
-    yieldQty: 270
+    yieldQty: 180
   },
   Broccoli: {
     module: "III",
     seedQty: 180,
     timeSec: 129600,
     oilQty: 36,
-    yieldQty: 270
+    yieldQty: 180
   }
 };
 

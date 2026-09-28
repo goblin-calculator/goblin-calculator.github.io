@@ -4997,6 +4997,18 @@ function openBoostFromRoute(sub, cat, historyMode) {
   setBoostRouteUrl(sub === SKILL_TREE_SUB_SLUG ? SKILL_TREE_SUB_SLUG : null, historyMode);
 }
 
+const FACTION_SUB_SLUGS = [ "faction/leaderboard", "faction/marks" ];
+
+export function syncFactionSubRoute(sub) {
+  if (routeSyncSuspended || typeof window === "undefined" || !window.history) return;
+  const path = sub ? `/faction/${sub}` : "/faction";
+  if (window.location.pathname === path) return;
+  window.history.pushState({
+    view: "faction",
+    sub: sub || null
+  }, "", path + window.location.search + window.location.hash);
+}
+
 function viewToSlug(view) {
   return VIEW_URL_SLUGS[view] || view;
 }
@@ -5099,7 +5111,8 @@ function openMainViewPanel(view, {historyMode: historyMode = "push"} = {}) {
   const backdrop = $("mainTabModalBackdrop");
   if (backdrop) backdrop.classList.add("show");
   renderMainViewContent(view);
-  setRouteUrl(viewToSlug(view), historyMode);
+  const currentSlug = slugFromLocation();
+  setRouteUrl(view === "faction" && FACTION_SUB_SLUGS.indexOf(currentSlug) !== -1 ? currentSlug : viewToSlug(view), historyMode);
 }
 
 function closeMainViewPanel(view, {historyMode: historyMode = "push"} = {}) {
@@ -5159,7 +5172,7 @@ export function applyRouteFromLocation(historyMode = "none") {
     closeFarmPanel();
     openBoostFromRoute(sub, cat, historyMode);
   } else {
-    const slug = slugToView(rawSlug);
+    const slug = FACTION_SUB_SLUGS.indexOf(rawSlug) !== -1 ? "faction" : slugToView(rawSlug);
     if (slug && MAIN_VIEW_PANEL_MAP[slug]) {
       closeAllModalRoutes();
       closeFarmPanel();
