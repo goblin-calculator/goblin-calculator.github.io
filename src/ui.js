@@ -3852,10 +3852,10 @@ function renderBettySwindlerNote() {
   const active = typeof isBoostActive === "function" && isBoostActive("skill_coin_swindler");
   if (active) {
     el.classList.add("is-active");
-    el.innerHTML = `✅ <b>Coin Swindler</b> is active from your Skill Tree — its +10% is already stacked into the rates below.`;
+    el.innerHTML = `✅ <b>Coin Swindler</b> is active from your Skill Tree — its +10% is already stacked into the Crop rates below (it doesn't affect Fruits or Greenhouse crops).`;
   } else {
     el.classList.remove("is-active");
-    el.innerHTML = `💡 Turn on <b>Coin Swindler</b> (+10% coins) in the 🎓 Skill Tree to earn even more coins here.`;
+    el.innerHTML = `💡 Turn on <b>Coin Swindler</b> (+10% coins on Crops only) in the 🎓 Skill Tree to earn even more coins here.`;
   }
 }
 
@@ -3864,10 +3864,9 @@ export function renderBettyShop() {
   const listEl = $("bettyList");
   const rateEl = $("bettyHighestRateValue");
   const swindlerOn = typeof isBoostActive === "function" && isBoostActive("skill_coin_swindler");
-  const swindlerMult = swindlerOn ? 1.1 : 1;
   const itemsWithSwindler = items.map(it => ({
     ...it,
-    boostedRate: it.boostedRate * swindlerMult
+    boostedRate: it.boostedRate * (swindlerOn && it.category === "Crop" ? 1.1 : 1)
   }));
   const highest = bettyHighestRate(itemsWithSwindler);
   rateEl.innerHTML = highest ? `${fmt(highest.boostedRate)}<small>${escapeHtml(highest.name)} · coins / FLOWER</small>` : `—<small>coins / FLOWER</small>`;
