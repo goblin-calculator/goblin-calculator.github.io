@@ -8,7 +8,7 @@ import { cookingCostMode, cookingIngredientUnitCostCoins } from "./prices.js";
 
 import { safeLSJSON } from "./storage.js";
 
-import { $, cookFoodIcon, getIcon } from "./ui.js";
+import { $, cookFoodIcon, getIcon, syncFactionSubRoute } from "./ui.js";
 
 const SFL_FACTION_PET_WORKER_BASE = "https://sfl-faction-pet-cache.bossweki.workers.dev";
 
@@ -53,9 +53,7 @@ function ensureFactionPetCommunityLoaded(forceFresh) {
         const panel = $("factionPanel");
         if (panel && panel.classList.contains("open")) factionDeliveryRefreshGrid();
       }
-    } catch (e) {
-      /* best effort — falls back to "No sync data yet" */
-    }
+    } catch (e) {}
     return factionPetCommunityCache;
   })().finally(() => {
     factionPetCommunityPromise = null;
@@ -401,7 +399,7 @@ function factionDeliveryPetSectionHtml(factionKey, record) {
   if (nextWeekGoalXP) metaParts.push(`Next week goal (est.): ${fmtInt(nextWeekGoalXP)} XP`);
   if (hasCommunityData) metaParts.push(`via community · ${factionDeliveryRelativeTime(community.updatedAt)}`);
   const metaHtml = metaParts.length ? `<div class="fp-bar-meta">${metaParts.map(escapeHtml).join(" · ")}</div>` : "";
-  return `<div class="fd-pet-row">\n    <div class="fp-icon-frame fd-pet-icon">${iconHtml}</div>\n    <div class="fd-pet-bar-wrap">\n      <div class="fp-bar-track"><div class="fp-bar-fill" style="width:${pct}%;"></div></div>\n      <div class="fp-bar-caption"><span>${caption}</span><span>${pct.toFixed(0)}%</span></div>\n      ${metaHtml}\n    </div>\n  </div>`;
+  return `<div class="fd-pet-row">\n    <div class="fp-icon-frame fd-pet-icon">${iconHtml}</div>\n    <div class="fd-pet-bar-wrap">\n      <div class="fp-bar-track"><div class="fp-bar-fill" style="width:${pct}%;"></div></div>\n      <div class="fp-bar-caption"><span>${caption}</span><span>${Number(pct.toFixed(2))}%</span></div>\n      ${metaHtml}\n    </div>\n  </div>`;
 }
 
 function factionDeliveryCopyText(displayName, kitchenItems, petItems) {
@@ -520,6 +518,254 @@ function factionDeliveryRelativeTime(ts) {
   return `${Math.floor(diffHr / 24)}d ago`;
 }
 
+const FACTION_LEADERBOARD_WORKER_BASE = "https://sfl-kingdom-leaderboard-cache.bossweki.workers.dev";
+
+const FACTION_LEADERBOARD_API_BASE = FACTION_LEADERBOARD_WORKER_BASE + "/kingdom/";
+
+const FACTION_LEADERBOARD_LIMIT = 100;
+
+const FACTION_LEADERBOARD_TIMEOUT_MS = 12000;
+
+const FACTION_LEADERBOARD_TTL_MS = 3 * 60 * 1000;
+
+const FACTION_LEADERBOARD_LEVEL_XP = [0, 2, 22, 205, 555, 1155, 2155, 3405, 5405, 7905, 10905, 14405, 18405, 22905, 27905, 33655, 40155, 47405, 55405, 64155, 73905, 84655, 96405, 109155, 122905, 137405, 152905, 169405, 186905, 205405, 225405, 246905, 269905, 294405, 320405, 348405, 378405, 410405, 444405, 480405, 518905, 559905, 603405, 649405, 697905, 749405, 803905, 861405, 921905, 985405, 1053905, 1127405, 1205905, 1289405, 1377905, 1476405, 1584905, 1703405, 1831905, 1970405, 2128905, 2287405, 2485905, 2704405, 2942905, 3221405, 3539905, 3898405, 4296905, 4735405, 5233905, 5743905, 6263905, 6793905, 7333905, 7883905, 8443905, 9013905, 9593905, 10183905, 10783905, 11393905, 12013905, 12643905, 13283905, 13933905, 14593905, 15263905, 15943905, 16633905, 17333905, 18043905, 18763905, 19493905, 20233905, 20983905, 21743905, 22513905, 23293905, 24083905, 24893905, 25723905, 26573905, 27443905, 28333905, 29243905, 30173905, 31123905, 32093905, 33083905, 34093905, 35123905, 36173905, 37243905, 38333905, 39443905, 40573905, 41723905, 42893905, 44083905, 45293905, 46523905, 47773905, 49043905, 50333905, 51653905, 53003905, 54383905, 55793905, 57233905, 58708905, 60218905, 61763905, 63343905, 64958905, 66613905, 68308905, 70043905, 71818905, 73633905, 75493905, 77398905, 79348905, 81343905, 83383905, 85473905, 87613905, 89803905, 92043905, 94333905];
+
+function factionLeaderboardLevelFromXp(xp) {
+  if (xp == null || isNaN(xp)) return null;
+  let level = 1;
+  for (let i = 0; i < FACTION_LEADERBOARD_LEVEL_XP.length; i++) {
+    if (xp >= FACTION_LEADERBOARD_LEVEL_XP[i]) level = i + 1; else break;
+  }
+  return level;
+}
+
+let factionLeaderboardActiveFaction = null;
+
+let factionLeaderboardData = null;
+
+let factionLeaderboardLoading = false;
+
+let factionLeaderboardError = null;
+
+let factionLeaderboardFetchedForFarmId = null;
+
+let factionLeaderboardFetchedAt = 0;
+
+function factionLeaderboardOwnFarmId() {
+  return (readFarmSyncedId() || "").trim();
+}
+
+function factionLeaderboardSingularLabel(factionKey) {
+  const name = FACTION_DISPLAY_NAMES[factionKey] || factionKey;
+  return name.replace(/s$/, "");
+}
+
+async function factionLeaderboardFetchData(farmId, force) {
+  if (!farmId) {
+    factionLeaderboardError = "Sync your farm (or set a Farm ID) to load the leaderboard.";
+    factionLeaderboardData = null;
+    factionLeaderboardFetchedForFarmId = null;
+    factionLeaderboardRenderBody();
+    return;
+  }
+  if (!force && factionLeaderboardData && factionLeaderboardFetchedForFarmId === farmId && Date.now() - factionLeaderboardFetchedAt < FACTION_LEADERBOARD_TTL_MS) return;
+  factionLeaderboardLoading = true;
+  factionLeaderboardError = null;
+  factionLeaderboardRenderBody();
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FACTION_LEADERBOARD_TIMEOUT_MS);
+  try {
+    const url = FACTION_LEADERBOARD_API_BASE + encodeURIComponent(farmId) + "?limit=" + FACTION_LEADERBOARD_LIMIT;
+    const res = await fetch(url, {
+      cache: "no-store",
+      signal: controller.signal
+    });
+    if (!res.ok) throw new Error("Request failed (" + res.status + ")");
+    const json = await res.json();
+    if (!json || !json.marks) throw new Error("Unexpected response from leaderboard API");
+    factionLeaderboardData = json;
+    factionLeaderboardFetchedForFarmId = farmId;
+    factionLeaderboardFetchedAt = Date.now();
+  } catch (e) {
+    factionLeaderboardError = "Couldn't load the leaderboard" + (e && e.message ? " — " + e.message : "") + ".";
+  } finally {
+    clearTimeout(timer);
+    factionLeaderboardLoading = false;
+    factionLeaderboardRenderBody();
+  }
+}
+
+function factionLeaderboardOwnUsername() {
+  const name = farmPanelGameState && typeof farmPanelGameState.username === "string" ? farmPanelGameState.username : "";
+  return name.trim().toLowerCase();
+}
+
+function factionLeaderboardIsOwnRow(row, farmId, username) {
+  if (!row) return false;
+  if (farmId && row.farmId != null && String(row.farmId) === String(farmId)) return true;
+  if (username && typeof row.id === "string" && row.id.trim().toLowerCase() === username) return true;
+  return false;
+}
+
+function factionLeaderboardRowMetaHtml(row) {
+  const level = factionLeaderboardLevelFromXp(row.experience);
+  const parts = [];
+  if (level != null) parts.push(`Lv. ${fmtInt(level)}`);
+  if (row.experience != null) parts.push(`${fmtInt(Math.floor(row.experience))} EXP`);
+  if (row.ascensionLevel != null) parts.push(`Asc. ${fmtInt(row.ascensionLevel)}`);
+  const metaText = parts.join(" · ");
+  if (!metaText) return "";
+  return `<div class="fd-lb-row-meta">${escapeHtml(metaText)}</div>`;
+}
+
+function factionLeaderboardRowHtml(row, index, isYou, useIndexRank) {
+  const rank = row.rank != null ? row.rank : useIndexRank ? index + 1 : null;
+  const name = row.id || "—";
+  const markHtml = `<img src="${MARK_ICON_SRC}" alt="Mark" style="width:12px;height:12px;image-rendering:pixelated;vertical-align:-2px;">`;
+  const metaHtml = factionLeaderboardRowMetaHtml(row);
+  return `<div class="fd-lb-row${isYou ? " is-you" : ""}">\n    <div class="fd-lb-row-top">\n      <span class="fd-lb-row-rank">${rank != null ? "#" + fmtInt(rank) : "—"}</span>\n      <span class="fd-lb-row-name">${escapeHtml(name)}${isYou ? ` <span class="fd-badge">★ You</span>` : ""}</span>\n      <span class="fd-lb-row-count">${markHtml} ${fmtInt(row.count)}</span>\n    </div>\n    ${metaHtml}\n  </div>`;
+}
+
+function factionLeaderboardBodyHtml() {
+  const farmId = factionLeaderboardOwnFarmId();
+  const username = factionLeaderboardOwnUsername();
+  const ownFaction = factionDeliveryGetOwnFaction();
+  const faction = factionLeaderboardActiveFaction || ownFaction || FACTION_ORDER[0];
+  const label = `${factionLeaderboardSingularLabel(faction)} Leader Board`;
+  const tabsHtml = FACTION_ORDER.map(f => {
+    const bannerHtml = FACTION_BANNER_ICONS[f] ? `<img src="${FACTION_BANNER_ICONS[f]}" alt="" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:-2px;">` : "";
+    return `<button type="button" class="fd-lb-tab${f === faction ? " active" : ""}" data-lb-faction="${f}">${bannerHtml} ${escapeHtml(factionLeaderboardSingularLabel(f))}</button>`;
+  }).join("");
+  let ownRankHtml = "";
+  let listHtml = "";
+  let updatedHtml = "";
+  if (factionLeaderboardLoading && !factionLeaderboardData) {
+    listHtml = `<div class="fd-empty-note">Loading leaderboard…</div>`;
+  } else if (factionLeaderboardError) {
+    listHtml = `<div class="fd-empty-note">${escapeHtml(factionLeaderboardError)}</div>`;
+  } else if (!factionLeaderboardData) {
+    listHtml = `<div class="fd-empty-note">No data yet.</div>`;
+  } else {
+    const marks = factionLeaderboardData.marks || {};
+    const rows = (marks.topTens && marks.topTens[faction]) || [];
+    if (faction === ownFaction) {
+      const windowRows = Array.isArray(marks.marksRankingData) ? marks.marksRankingData.filter(Boolean) : [];
+      const ownInTop = rows.find(r => factionLeaderboardIsOwnRow(r, farmId, username));
+      const shown = windowRows.length ? windowRows : ownInTop ? [ownInTop] : [];
+      const shownHtml = shown.length ? shown.map((r, i) => factionLeaderboardRowHtml(r, i, factionLeaderboardIsOwnRow(r, farmId, username), false)).join("") : `<div class="fd-empty-note">No ranking found for your farm this week yet.</div>`;
+      ownRankHtml = `<div class="fd-lb-own-rank">Your Ranking · Farm #${escapeHtml(farmId || "—")}</div><div class="fd-lb-list fd-lb-own-list">${shownHtml}</div>`;
+    }
+    listHtml = rows.length ? rows.map((r, i) => factionLeaderboardRowHtml(r, i, factionLeaderboardIsOwnRow(r, farmId, username), true)).join("") : `<div class="fd-empty-note">No ranking data yet for ${escapeHtml(factionLeaderboardSingularLabel(faction))}.</div>`;
+    if (factionLeaderboardData.lastUpdated) updatedHtml = `<div class="fd-synced-note">Last updated ${escapeHtml(factionDeliveryRelativeTime(factionLeaderboardData.lastUpdated))}</div>`;
+  }
+  return `<div class="fd-lb-tabs" id="factionLbTabs">${tabsHtml}</div>\n  ${ownRankHtml}\n  <div class="fd-container">\n    <div class="fd-container-head">\n      <span class="fd-container-title">🏆 ${escapeHtml(label)}</span>\n    </div>\n    <div class="fd-lb-list">${listHtml}</div>\n    ${updatedHtml}\n  </div>`;
+}
+
+function factionLeaderboardRenderBody() {
+  const el = $("factionLbBody");
+  if (!el) return;
+  el.innerHTML = factionLeaderboardBodyHtml();
+  el.querySelectorAll(".fd-lb-tab").forEach(btn => {
+    btn.onclick = () => {
+      const f = btn.dataset.lbFaction;
+      if (!f || factionLeaderboardActiveFaction === f) return;
+      factionLeaderboardActiveFaction = f;
+      factionLeaderboardRenderBody();
+    };
+  });
+}
+
+function factionLeaderboardViewHtml() {
+  return `<div class="fd-lb-statement">Weekly Marks standings for each faction from Sunflower Land's official leaderboard (the game only publishes each faction's top 10, plus a few ranks around your own farm).</div>
+  <div class="fd-lb-label">Faction Leader Boards</div>
+  <div id="factionLbBody"></div>`;
+}
+
+function factionMarksCalcViewHtml() {
+  return `<div class="fd-lb-label">Marks Calculator</div>
+  <div class="fd-container fd-mc-body" id="factionMarksCalcBody"><div class="fd-empty-note">Bro is still cooking comeback again soon...</div></div>`;
+}
+
+const FACTION_SUB_PANELS = {
+  leaderboard: {
+    viewId: "factionLeaderboardView",
+    btnId: "factionLeaderboardBtn",
+    label: () => "🏆 Leader Board"
+  },
+  marks: {
+    viewId: "factionMarksCalcView",
+    btnId: "factionMarksCalcBtn",
+    label: () => `<img src="${MARK_ICON_SRC}" alt="" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:-2px;"> Marks Calculator`
+  }
+};
+
+const FACTION_SUB_KEYS = Object.keys(FACTION_SUB_PANELS);
+
+const factionSubOpen = {
+  leaderboard: false,
+  marks: false
+};
+
+let factionSubLast = null;
+
+function factionSubIsDesktop() {
+  return typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(min-width:900px)").matches;
+}
+
+function factionSubApplyView() {
+  const openKeys = FACTION_SUB_KEYS.filter(k => factionSubOpen[k]);
+  const anyOpen = openKeys.length > 0;
+  const deliveryView = $("factionDeliveryView");
+  const wrap = $("factionSubPanels");
+  if (deliveryView) deliveryView.style.display = anyOpen ? "none" : "";
+  if (wrap) wrap.style.display = anyOpen ? "" : "none";
+  FACTION_SUB_KEYS.forEach(k => {
+    const cfg = FACTION_SUB_PANELS[k];
+    const view = $(cfg.viewId);
+    const btn = $(cfg.btnId);
+    if (view) view.style.display = factionSubOpen[k] ? "" : "none";
+    if (btn) {
+      btn.classList.toggle("active", factionSubOpen[k]);
+      btn.innerHTML = !factionSubOpen[k] ? cfg.label() : openKeys.length > 1 ? "✕ Close" : "📦 Back to Deliveries";
+    }
+  });
+}
+
+function factionSubSetOpen(key, open, syncRoute) {
+  if (!FACTION_SUB_PANELS[key]) return;
+  if (factionSubIsDesktop()) {
+    FACTION_SUB_KEYS.forEach(k => {
+      factionSubOpen[k] = open;
+    });
+  } else {
+    if (open) {
+      FACTION_SUB_KEYS.forEach(k => {
+        if (k !== key) factionSubOpen[k] = false;
+      });
+    }
+    factionSubOpen[key] = open;
+  }
+  if (open) {
+    factionSubLast = key;
+  } else if (factionSubLast === key || !FACTION_SUB_KEYS.some(k => factionSubOpen[k])) {
+    factionSubLast = FACTION_SUB_KEYS.find(k => factionSubOpen[k]) || null;
+  }
+  factionSubApplyView();
+  if (open && factionSubOpen.leaderboard) {
+    if (!factionLeaderboardActiveFaction) factionLeaderboardActiveFaction = factionDeliveryGetOwnFaction() || FACTION_ORDER[0];
+    factionLeaderboardRenderBody();
+    factionLeaderboardFetchData(factionLeaderboardOwnFarmId(), false);
+  }
+  if (syncRoute) syncFactionSubRoute(factionSubLast);
+}
+
+function factionSubKeyFromLocation() {
+  if (typeof window === "undefined") return null;
+  const slug = window.location.pathname.replace(/^\/+|\/+$/g, "").toLowerCase();
+  const key = slug.indexOf("faction/") === 0 ? slug.slice("faction/".length) : null;
+  return key && FACTION_SUB_PANELS[key] ? key : null;
+}
+
 let factionDeliveryWeekMode = "this";
 
 function factionDeliveryTargetWeek() {
@@ -561,8 +807,35 @@ export function renderFactionDeliveryPanel() {
   const body = $("factionBody");
   if (!body) return;
   factionDeliveryWeekMode = "this";
+  FACTION_SUB_KEYS.forEach(k => {
+    factionSubOpen[k] = false;
+  });
+  factionSubLast = null;
   ensureFactionPetCommunityLoaded();
-  body.innerHTML = `\n    <div class="fd-title">Factions Deliveries</div>\n    <div class="fd-note">Your connected farm sets the routine week and shows your faction's real requests. The other three factions follow the same routine for this week and next week.</div>\n    <div class="pet-food-tab-toggle fd-week-filter" id="factionWeekFilter">\n      <button type="button" data-week="this" class="active">This Week</button>\n      <button type="button" data-week="next">Next Week</button>\n    </div>\n    <div class="fd-week-info" id="factionWeekInfo"></div>\n    <div class="fd-grid" id="factionDeliveryGrid"></div>\n  `;
+  body.innerHTML = `
+    <div class="fd-title">Factions Deliveries</div>
+    <div class="fd-note">Your connected farm sets the routine week and shows your faction's real requests. The other three factions follow the same routine for this week and next week.</div>
+    <div class="fd-lb-toggle-row">
+      <button type="button" class="fd-lb-btn" id="factionLeaderboardBtn">${FACTION_SUB_PANELS.leaderboard.label()}</button>
+      <button type="button" class="fd-lb-btn" id="factionMarksCalcBtn">${FACTION_SUB_PANELS.marks.label()}</button>
+    </div>
+    <div id="factionDeliveryView">
+      <div class="pet-food-tab-toggle fd-week-filter" id="factionWeekFilter">
+        <button type="button" data-week="this" class="active">This Week</button>
+        <button type="button" data-week="next">Next Week</button>
+      </div>
+      <div class="fd-week-info" id="factionWeekInfo"></div>
+      <div class="fd-grid" id="factionDeliveryGrid"></div>
+    </div>
+    <div id="factionSubPanels" class="fd-sub-stack" style="display:none;">
+      <div id="factionLeaderboardView" class="fd-lb-view fd-sub-view" style="display:none;">
+        ${factionLeaderboardViewHtml()}
+      </div>
+      <div id="factionMarksCalcView" class="fd-lb-view fd-sub-view" style="display:none;">
+        ${factionMarksCalcViewHtml()}
+      </div>
+    </div>
+  `;
   const filter = $("factionWeekFilter");
   if (filter) {
     filter.querySelectorAll("button").forEach(btn => {
@@ -583,5 +856,11 @@ export function renderFactionDeliveryPanel() {
       factionDeliveryDoCopy(text, btn);
     };
   }
+  FACTION_SUB_KEYS.forEach(k => {
+    const btn = $(FACTION_SUB_PANELS[k].btnId);
+    if (btn) btn.onclick = () => factionSubSetOpen(k, !factionSubOpen[k], true);
+  });
   factionDeliveryRefreshGrid();
+  const routeKey = factionSubKeyFromLocation();
+  if (routeKey) factionSubSetOpen(routeKey, true, false);
 }
