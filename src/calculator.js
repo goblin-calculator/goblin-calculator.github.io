@@ -17271,11 +17271,12 @@ export function bettyGatherItems() {
     const baseCoin = BETTY_BASE_COIN_SELL[name] || 0;
     const marketPrice = bettyMarketPrice(name);
     const baseRate = baseCoin > 0 && marketPrice > 0 ? baseCoin / marketPrice : 0;
-    const boostMult = bettyGreenThumbOn ? 1.05 : 1;
+    const category = bettyItemCategory(name);
+    const boostMult = bettyGreenThumbOn && category === "Crop" ? 1.05 : 1;
     const qty = marketPrice > 0 ? 1 / marketPrice : 0;
     return {
       name: name,
-      category: bettyItemCategory(name),
+      category: category,
       baseCoin: baseCoin,
       marketPrice: marketPrice,
       qty: qty,
