@@ -9073,9 +9073,9 @@ body.sfl-theme .mutant-alert-card::after{ background:rgba(255,255,255,.05) !impo
 body.sfl-theme .money-tree-alert-card{ background:var(--sfl-outer) !important; }
 body.sfl-theme .money-tree-alert-card::after{ background:rgba(255,255,255,.05) !important; }
 body.app-dark .bud-row{ background:#c3ecd0 !important; }
-body.app-dark .all-boost-settings-wrap{ background:#e7e2f6 !important; }
+body.app-dark .all-boost-settings-wrap{ background-color:var(--wheat) !important; }
 body.app-dark .ascension-bar{ background:#1a1330 !important; }
-body.app-dark .skill-tree-wrap{ background:#e4f0e2 !important; }
+body.app-dark .skill-tree-wrap{ background-color:var(--wheat) !important; }
 body.app-dark .farm-panel-card{ background:var(--parchment) !important; }
 body.app-dark .farm-panel-card::before{ background-image:var(--sun-deep) !important; }
 body.app-dark .farm-panel-divider-solid{ background-image:var(--sun-deep) !important; }
@@ -10895,3 +10895,991 @@ body.sfl-theme .animal-love-col {
   .lb-columns{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-items:start; }
   .lb-board{ display:flex; }
 }
+body.sfl-theme #moreMenuSflBubblesBtn .more-menu-item-icon img{ image-rendering:auto !important; }
+body.sfl-theme #moreMenuLeaderboardBtn .more-menu-item-icon img{ height:auto !important; width:18px !important; }
+body:not(.sfl-theme){--px-card-corner-width:3px;--px-panel-corner-width:4px;--px-border-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATElEQVR42mNkgAJlUc7/DFjA3dffGRkYGBgYYYq2LWnEpo7BK6YeolhZlPP/zZ1dWE1jYGBguLmz67+yKOd/JgYiwVBQSHTwMBIb4AC0mR7F3EyfbwAAAABJRU5ErkJggg==);}
+body[data-season="spring"]:not(.sfl-theme){--px-border-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATUlEQVR42mNkgAJlUc7/DFjA3dffGRkYGBgYYYrWnNuCTR1DiJEPRLGyKOf/84/3YjWNgYGB4fzjvf+VRTn/MzEQCYaCQqKDh5HYAAcAi3Yfa0Ljj9UAAAAASUVORK5CYII=);}
+body[data-season="summer"]:not(.sfl-theme){--px-border-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATElEQVR42mNkgAJlUc7/DFjA3dffGRkYGBgYYYrO7m3Epo7B2LkeolhZlPP/h0tdWE1jYGBg+HCp67+yKOd/JgYiwVBQSHTwMBIb4AAxVh8lu0wz0QAAAABJRU5ErkJggg==);}
+body[data-season="winter"]:not(.sfl-theme){--px-border-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATUlEQVR42mNkgAJlUc7/DFjA3dffGRkYGBgYYYqWHLuPTR1DjJUiRLGyKOf/47dfYDWNgYGB4fjtF/+VRTn/MzEQCYaCQqKDh5HYAAcA0RgfoYAi/FIAAAAASUVORK5CYII=);}
+body.app-dark:not(.sfl-theme){--px-border-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATElEQVR42mNkgILZM/r/M2ABqRmFjAwMDAyMMEULl+/Apo4hPtIDonj2jP7/NvbuWE1jYGBgsLF3/z97Rv9/JgYiwVBQSHTwMBIb4ADBEB8T0W7XlwAAAABJRU5ErkJggg==);}
+body:not(.sfl-theme) .cfm-titlebar{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .cook-projected-box{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+  clip-path:none !important;
+}
+body:not(.sfl-theme) .farm-id-prompt-wrapper{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .farm-panel-tab-content{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .profile-top{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .profile-tabgrid{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .profile-build-cols{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .boost-applied-row,
+body:not(.sfl-theme) .animal-detail-stat.is-yield-row,
+body:not(.sfl-theme) .animal-net-row2{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .ascension-bar{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .skill-tree-wrap{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .skill-tier-block{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .all-boost-settings-wrap{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #boostListWrap{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #boostListWrap .lib-item-row,
+body:not(.sfl-theme) #boostListWrap .aoe-tier-wrap{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #animalsPanel .lib-item-row{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #profileTradableTabSubtotal{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .mutant-group-card{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+  clip-path:none !important;
+}
+body:not(.sfl-theme) .mutant-group-header{
+  border-style:solid !important;
+  border-width:0 0 var(--px-card-corner-width) 0 !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .mutant-map-table-header{
+  border-style:solid !important;
+  border-width:0 0 var(--px-card-corner-width) 0 !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .mutant-map-table-row{
+  border-style:solid !important;
+  border-width:0 0 var(--px-card-corner-width) 0 !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .mutant-group-progress{
+  border-style:solid !important;
+  border-width:0 0 var(--px-card-corner-width) 0 !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .mutant-group-card .mutant-map-table-cell.is-fish-cell,
+body:not(.sfl-theme) .mutant-group-card .mutant-map-table-header .mutant-map-table-cell,
+body:not(.sfl-theme) .mutant-group-card .mutant-map-pill{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+  clip-path:none !important;
+}
+body:not(.sfl-theme) .mutant-map-boost-list{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .trade-card-stat .label{
+  border-radius:0 !important;
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #mainCategoryToggle{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #installBanner{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .recipe-materials-wrap{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .recipe-materials-wrap .lib-item-row-yield{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .lib-cycle-container{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .lib-cycle-container .lib-item-row-yield{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #marketPanel .lib-item-row,
+body:not(.sfl-theme) #libraryPanel .lib-item-row{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .library-panel,
+body:not(.sfl-theme) .settings-panel,
+body:not(.sfl-theme) .modal-sheet,
+body:not(.sfl-theme) .farm-side-panel,
+body:not(.sfl-theme) .dig-side-panel,
+body:not(.sfl-theme) .expansion-sim-card,
+body:not(.sfl-theme) .cfm-card,
+body:not(.sfl-theme) .rcm-panel,
+body:not(.sfl-theme) .tc-estimate-panel,
+body:not(.sfl-theme) .fp-boost-panel,
+body:not(.sfl-theme) .disclaimer-sheet,
+body:not(.sfl-theme) .trade-pixel-sheet,
+body:not(.sfl-theme) .bud-picker-sheet,
+body:not(.sfl-theme) .calc-grid-frame,
+body:not(.sfl-theme) .calc-shell{
+  border-style:solid !important;
+  border-width:var(--px-panel-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .card,
+body:not(.sfl-theme) .farm-panel-card,
+body:not(.sfl-theme) .betty-shop-card,
+body:not(.sfl-theme) .trade-shop-card,
+body:not(.sfl-theme) .trade-card,
+body:not(.sfl-theme) .trade-history-card,
+body:not(.sfl-theme) .top10-card,
+body:not(.sfl-theme) .dig-panel-card,
+body:not(.sfl-theme) .es-ascension-card,
+body:not(.sfl-theme) .es-bumpkin-card,
+body:not(.sfl-theme) .es-shards-card,
+body:not(.sfl-theme) .es-total-resources-card,
+body:not(.sfl-theme) .dprofit-card,
+body:not(.sfl-theme) .dprofit-node-card,
+body:not(.sfl-theme) .pixel-picker-card,
+body:not(.sfl-theme) .profile-modal-card,
+body:not(.sfl-theme) .profile-stat-card,
+body:not(.sfl-theme) .profile-bumpkin-id-card,
+body:not(.sfl-theme) .profile-farmvalue-card,
+body:not(.sfl-theme) .profile-treasure-boost-card,
+body:not(.sfl-theme) .pet-card,
+body:not(.sfl-theme) .pet-total-card,
+body:not(.sfl-theme) .pet-profit-card,
+body:not(.sfl-theme) .pet-profit-card-static,
+body:not(.sfl-theme) .gunter-shop-card,
+body:not(.sfl-theme) .gunter-node-box,
+body:not(.sfl-theme) .cook-food-card,
+body:not(.sfl-theme) .fp-card,
+body:not(.sfl-theme) .mutant-alert-card,
+body:not(.sfl-theme) .money-tree-alert-card,
+body:not(.sfl-theme) .more-menu-card,
+body:not(.sfl-theme) .ob-season-card,
+body:not(.sfl-theme) .ob-stat-box,
+body:not(.sfl-theme) .ob-summary-box,
+body:not(.sfl-theme) .tc-boost-card,
+body:not(.sfl-theme) .totals-breakdown-box,
+body:not(.sfl-theme) .deductions-box,
+body:not(.sfl-theme) .farm-id-prompt-box,
+body:not(.sfl-theme) .farm-panel-header,
+body:not(.sfl-theme) #cookFoodList,
+body:not(.sfl-theme) .card-24h-box,
+body:not(.sfl-theme) #budSection,
+body:not(.sfl-theme) #animalBudSection,
+body:not(.sfl-theme) #fruitBudSection,
+body:not(.sfl-theme) #cropBudSection,
+body:not(.sfl-theme) #resourceBudSection,
+body:not(.sfl-theme) .betty-shop-icon-wrap,
+body:not(.sfl-theme) .betty-rate-banner,
+body:not(.sfl-theme) .pet-add-form,
+body:not(.sfl-theme) .dig-panel-header,
+body:not(.sfl-theme) .dig-panel-legend,
+body:not(.sfl-theme) .dig-panel-status,
+body:not(.sfl-theme) .dig-panel-grid-wrap,
+body:not(.sfl-theme) .gunter-shop-icon-wrap,
+body:not(.sfl-theme) .expansion-sim-icon-wrap,
+body:not(.sfl-theme) .es-section,
+body:not(.sfl-theme) .es-grid-wrap,
+body:not(.sfl-theme) .es-nodes-summary,
+body:not(.sfl-theme) .es-cost-summary,
+body:not(.sfl-theme) .settings-moved-hint,
+body:not(.sfl-theme) .pete-guide-card,
+body:not(.sfl-theme) .pete-guide-step,
+body:not(.sfl-theme) .pete-guide-img-frame{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .fp-quest-choice{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .app-version-badge,
+body:not(.sfl-theme) .live-users-badge,
+body:not(.sfl-theme) .mark,
+body:not(.sfl-theme) .seed-picker-menu,
+body:not(.sfl-theme) .lib-item-price,
+body:not(.sfl-theme) .live-sync-row,
+body:not(.sfl-theme) .card-yield-note,
+body:not(.sfl-theme) .mutant-alert-icon,
+body:not(.sfl-theme) .money-tree-alert-icon,
+body:not(.sfl-theme) .aoe-tier-wrap,
+body:not(.sfl-theme) .skill-save-note,
+body:not(.sfl-theme) .skill-rank-picker,
+body:not(.sfl-theme) .skill-rank-boost,
+body:not(.sfl-theme) .skill-rank-usage,
+body:not(.sfl-theme) .skill-rank-usage-row,
+body:not(.sfl-theme) .skill-node-name,
+body:not(.sfl-theme) .skill-node-note,
+body:not(.sfl-theme) .skill-level-badge,
+body:not(.sfl-theme) .skill-node-points,
+body:not(.sfl-theme) .skill-sync-boost,
+body:not(.sfl-theme) .calc-screen,
+body:not(.sfl-theme) .calc-selected,
+body:not(.sfl-theme) .calc-readout-cell,
+body:not(.sfl-theme) .calc-ingredients,
+body:not(.sfl-theme) .farm-stat-row,
+body:not(.sfl-theme) .betty-boost-row,
+body:not(.sfl-theme) .betty-swindler-note,
+body:not(.sfl-theme) .betty-row,
+body:not(.sfl-theme) .betty-row-rank,
+body:not(.sfl-theme) .betty-row-tag,
+body:not(.sfl-theme) .betty-row-qty,
+body:not(.sfl-theme) .trade-delete-confirm-item,
+body:not(.sfl-theme) .trade-selected-item,
+body:not(.sfl-theme) .trade-live-total,
+body:not(.sfl-theme) .top10-rank-badge,
+body:not(.sfl-theme) .dprofit-cycle-input,
+body:not(.sfl-theme) .pixel-picker-option-badge,
+body:not(.sfl-theme) .tier-tag,
+body:not(.sfl-theme) .module-tag,
+body:not(.sfl-theme) .cm-module-chip,
+body:not(.sfl-theme) .cm-oil-bar-wrap,
+body:not(.sfl-theme) .cm-summary-cell,
+body:not(.sfl-theme) .market-source-note,
+body:not(.sfl-theme) .footer-donate-row,
+body:not(.sfl-theme) .fp-title-bar,
+body:not(.sfl-theme) .fp-icon-frame,
+body:not(.sfl-theme) .fp-status-msg,
+body:not(.sfl-theme) .fp-boost-badge,
+body:not(.sfl-theme) .cook-level-badge,
+body:not(.sfl-theme) .cook-ascension-badge,
+body:not(.sfl-theme) .cook-total-row,
+body:not(.sfl-theme) .boost-chip,
+body:not(.sfl-theme) .pet-info-badge,
+body:not(.sfl-theme) .pet-total-yield-badge,
+body:not(.sfl-theme) .fishing-section-title,
+body:not(.sfl-theme) .crustacean-chum-option,
+body:not(.sfl-theme) .pet-house-title,
+body:not(.sfl-theme) .pet-house-wrap,
+body:not(.sfl-theme) .pet-house-chip,
+body:not(.sfl-theme) .pet-trait,
+body:not(.sfl-theme) .pet-card-stats,
+body:not(.sfl-theme) .pet-fetch-breakdown,
+body:not(.sfl-theme) .pet-food-item,
+body:not(.sfl-theme) .tc-field-tag,
+body:not(.sfl-theme) .tc-npc-icon,
+body:not(.sfl-theme) .rcm-item-row,
+body:not(.sfl-theme) .dig-pattern-chip,
+body:not(.sfl-theme) .dig-pattern-chip-badge,
+body:not(.sfl-theme) .es-boosts-bar,
+body:not(.sfl-theme) .es-custom-asc-label,
+body:not(.sfl-theme) .es-custom-asc-input,
+body:not(.sfl-theme) .es-mode-row,
+body:not(.sfl-theme) .es-range-stepper,
+body:not(.sfl-theme) .es-tile-badge,
+body:not(.sfl-theme) .es-flower-total-row,
+body:not(.sfl-theme) .es-flower-total-value,
+body:not(.sfl-theme) .es-cost-total-value,
+body:not(.sfl-theme) .es-shards-item,
+body:not(.sfl-theme) .es-shards-ratio,
+body:not(.sfl-theme) .es-ascension-item,
+body:not(.sfl-theme) .mutant-map-fish-row,
+body:not(.sfl-theme) .mutant-map-boost-row,
+body:not(.sfl-theme) .profile-nav-title,
+body:not(.sfl-theme) .profile-bumpkin-frame,
+body:not(.sfl-theme) .profile-stat-row,
+body:not(.sfl-theme) .profile-stat-value,
+body:not(.sfl-theme) .profile-balance-title,
+body:not(.sfl-theme) .profile-balance-chip,
+body:not(.sfl-theme) .profile-build-col-title,
+body:not(.sfl-theme) .profile-build-item,
+body:not(.sfl-theme) .profile-xp-current,
+body:not(.sfl-theme) .profile-xp-max,
+body:not(.sfl-theme) .profile-tradable-total,
+body:not(.sfl-theme) .profile-resource-cat-title,
+body:not(.sfl-theme) .profile-tradable-row{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .footer-block,
+body:not(.sfl-theme) .calc-field input,
+body:not(.sfl-theme) .farm-panel-sync-row input[type=text],
+body:not(.sfl-theme) .farm-id-prompt-input,
+body:not(.sfl-theme) .setting-row input[type=number]{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .betty-shop-titlebar,
+body:not(.sfl-theme) .trade-shop-titlebar,
+body:not(.sfl-theme) .top10-titlebar,
+body:not(.sfl-theme) .dprofit-titlebar,
+body:not(.sfl-theme) .pixel-picker-titlebar,
+body:not(.sfl-theme) .more-menu-titlebar,
+body:not(.sfl-theme) .gunter-shop-titlebar,
+body:not(.sfl-theme) .expansion-sim-titlebar,
+body:not(.sfl-theme) .profile-modal-titlebar,
+body:not(.sfl-theme) .sync-modal-titlebar{
+  border-style:solid !important;
+  border-width:0 0 var(--px-card-corner-width) 0 !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .sync-modal-box{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+  clip-path:none !important;
+}
+body:not(.sfl-theme) .sync-modal-msg{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #fishingPanel #guaranteedCatchList .cook-ingredient-row{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #honeyPanel #honeySummaryCard .lib-item-row{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #cropMachinePanel .cm-group-box,
+body:not(.sfl-theme) #cropMachinePanel .cm-seed-btn,
+body:not(.sfl-theme) #cropMachinePanel .cm-pack-slot,
+body:not(.sfl-theme) #cropMachinePanel .cm-oil-readout,
+body:not(.sfl-theme) #cropMachinePanel .cm-oil-row button,
+body:not(.sfl-theme) #cropMachinePanel .cm-qty-row button,
+body:not(.sfl-theme) #cropMachinePanel .lib-item-row{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #gunterShopOverlay .gunter-node-box{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .cook-buildings-frame{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .cook-list-frame{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .cook-list-title{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .cook-top-frame{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .rate-market-group{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .trade-card-stat{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .trade-card-icon{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .trade-card-grid{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .bl-summary-box,
+body:not(.sfl-theme) .bl-levels-box{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #workbenchPanel .wb-perk-row{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #workbenchPanel .cb-column,
+body:not(.sfl-theme) #leaderboardPanel .cb-column{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #workbenchPanel .cb-item,
+body:not(.sfl-theme) #leaderboardPanel .cb-item{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .at-summary-box,
+body:not(.sfl-theme) .at-rank-card,
+body:not(.sfl-theme) .at-row,
+body:not(.sfl-theme) .at-list-wrap,
+body:not(.sfl-theme) .at-chapter-wrap,
+body:not(.sfl-theme) .at-display-wrap{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .cost-net-section{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .cost-net-info-titlebar,
+body:not(.sfl-theme) .cost-net-modal-intro,
+body:not(.sfl-theme) .pete-guide-titlebar,
+body:not(.sfl-theme) .pete-guide-intro{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .fd-container{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .fd-item-row{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .fd-lb-row{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .cb-column{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .cb-item{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .potion-side-panel .potion-panel-groups-box,
+body:not(.sfl-theme) .potion-side-panel .potion-panel-solution-box,
+body:not(.sfl-theme) .potion-side-panel .potion-panel-attempts-box,
+body:not(.sfl-theme) .potion-side-panel .potion-panel-solve-box,
+body:not(.sfl-theme) .potion-side-panel .potion-panel-trainer-box{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .potion-side-panel .potion-panel-solutions-label,
+body:not(.sfl-theme) .potion-side-panel .potion-solution-row{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-tab,
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-filter,
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-range-btn,
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-sort-btn,
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-sync-btn,
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-detail,
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-detail-grid,
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-boosts-list,
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-boosts-block,
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-detail-chart,
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-detail-note,
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-report,
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-list-wrap{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #dailyProfitPanel .dprofit-panel-box{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #dailyProfitPanel .dprofit-panel-box,
+body:not(.sfl-theme) #dailyProfitPanel .dprofit-info-box,
+body:not(.sfl-theme) #dailyProfitPanel #dprofitCalcModeToggleGroup,
+body:not(.sfl-theme) #dailyProfitPanel .dprofit-period-option,
+body:not(.sfl-theme) #dailyProfitPanel .dprofit-cost-mode-row,
+body:not(.sfl-theme) #dailyProfitPanel .dprofit-sfl-frame,
+body:not(.sfl-theme) #dprofitCostConfigOverlay .dprofit-cost-config-card,
+body:not(.sfl-theme) #dprofitCostConfigOverlay .dprofit-cost-config-row{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #sflBubblesPanel .sfl-bub-stage-wrap{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) .animal-love{
+  border-style: solid !important;
+  border-width: var(--px-card-corner-width) !important;
+  border-image: var(--px-border-image) 20% stretch !important;
+  border-radius: 0 !important;
+  image-rendering: pixelated !important;
+}
+body.sfl-theme{
+  --px-border-image:var(--sfl-panel-corner-image);
+  --px-card-corner-width:var(--sfl-card-corner-width);
+  --px-panel-corner-width:var(--sfl-panel-corner-width);
+}
+.px-frame,
+body:not(.sfl-theme) .more-menu-item{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width,3px) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+.px-frame-panel{
+  border-width:var(--px-panel-corner-width,4px) !important;
+}
+.sync-icon-img{ width:24px; height:24px; display:block; image-rendering:pixelated; pointer-events:none; flex-shrink:0; }
+:where(body:not(.sfl-theme)) :where(button,.btn,[role="button"],input[type="button"],input[type="submit"],input[type="reset"],a.btn,label.btn,.px-btn):where(:not(.px-no-frame):not(.library-toggle):not(.modal-close):not(.settings-toggle):not(.live-paste-toggle):not(.trade-pixel-close):not(.cm-pack-remove):not(.ingredient-remove):not(.fd-copy-icon):not(.trade-delete-btn):not(.calc-clear-btn):not(.add-ingredient):not(.boost-btn-stack):not(.more-menu-btn-wrap):not(.panel-boost-nodes-btn):not(.more-menu-close)){
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width,3px) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body.app-dark #skillCategoryToggle button.active,
+body.app-dark #boostCategoryToggle button.active,
+body.app-dark #skillCategoryToggle button.active.is-greenhouse,
+body.app-dark #boostCategoryToggle button.active.is-greenhouse{
+  background:var(--sun-deep) !important;
+  background-color:var(--sun-deep) !important;
+  color:#d8dce2 !important;
+}
+body.app-dark .skill-node-btn.owned{
+  background:var(--sun-deep) !important;
+  background-color:var(--sun-deep) !important;
+  color:#d8dce2 !important;
+}
+body.app-dark .skill-node-btn.owned .skill-node-name{
+  background:rgba(255,255,255,.14) !important;
+  color:#d8dce2 !important;
+}
+body.app-dark .skill-node-btn.owned .skill-node-note,
+body.app-dark .skill-node-btn.owned .skill-sync-boost,
+body.app-dark .skill-node-btn.owned + .skill-rank-picker{
+  background:var(--sun) !important;
+  background-color:var(--sun) !important;
+  color:#d8dce2 !important;
+}
+body:not(.sfl-theme) .skill-tree-wrap,
+body:not(.sfl-theme) .all-boost-settings-wrap{
+  background-image:none !important;
+}
+body.app-dark .skill-node-btn.owned .skill-node-points,
+body.app-dark .skill-node-btn.owned .skill-node-points.tier-1{
+  background:var(--sun) !important;
+  background-color:var(--sun) !important;
+  color:#d8dce2 !important;
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay{
+  --gs-bg-1:var(--betty-wood-2);
+  --gs-bg-2:var(--betty-wood-1);
+  --gs-bg-3:var(--betty-wood-3);
+  --gs-lava:var(--betty-gold-2);
+  --gs-lava-deep:var(--betty-gold-3);
+  --gs-glow:var(--betty-glow);
+  --gs-ink:#fff3e0;
+  --gs-ink-soft:var(--wheat-dim);
+  --gs-line:var(--betty-gold-3);
+  --gs-panel:var(--betty-wood-1);
+  --gs-panel-2:var(--betty-wood-3);
+  --gs-divider:var(--betty-gold-1);
+  --gs-divider-deep:var(--betty-gold-3);
+  --cfm-active:var(--betty-gold-3);
+  --cfm-pct:var(--betty-gold-1);
+  --cfm-boosted:var(--betty-gold-1);
+}
+body.app-dark:not(.sfl-theme) #chapterFishMutantsOverlay{
+  --gs-bg-1:var(--surface);
+  --gs-bg-2:var(--wheat-dim);
+  --gs-bg-3:var(--desert);
+  --gs-lava:var(--sun-deep);
+  --gs-lava-deep:var(--sun);
+  --gs-glow:transparent;
+  --gs-ink:var(--ink);
+  --gs-ink-soft:var(--ink-soft);
+  --gs-line:var(--line);
+  --gs-panel:var(--wheat);
+  --gs-panel-2:var(--parchment);
+  --gs-divider:var(--sun-deep);
+  --gs-divider-deep:var(--sun);
+  --cfm-active:var(--sun-deep);
+  --cfm-pct:var(--coin);
+  --cfm-boosted:var(--profit);
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .cfm-titlebar{
+  background:linear-gradient(180deg,var(--gs-lava) 0%,var(--gs-lava-deep) 100%) !important;
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .cfm-title-text{
+  color:var(--gs-ink) !important;
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .cfm-nav-btn{
+  color:var(--gs-ink-soft) !important;
+  background-color:var(--gs-panel) !important;
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .cfm-nav-btn.active{
+  background-color:var(--cfm-active) !important;
+  color:var(--gs-ink) !important;
+  text-shadow:none !important;
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .mutant-map-chapter-title,
+body:not(.sfl-theme) #chapterFishMutantsOverlay .mutant-map-list-title,
+body:not(.sfl-theme) #chapterFishMutantsOverlay .mutant-map-boost-list-title{
+  background:linear-gradient(180deg,var(--gs-lava),var(--gs-lava-deep)) !important;
+  color:var(--gs-ink) !important;
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .mutant-group-card{
+  background:var(--gs-panel) !important;
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .mutant-group-header{
+  background:var(--gs-lava-deep) !important;
+  border-bottom-color:var(--gs-line) !important;
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .mutant-group-progress,
+body:not(.sfl-theme) #chapterFishMutantsOverlay .mutant-map-table-header{
+  border-bottom-color:var(--gs-line) !important;
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .mutant-map-pill:not(.is-guaranteed){
+  border-color:var(--gs-line) !important;
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .mutant-map-boost-row.is-checked{
+  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.03)),var(--gs-panel-2) !important;
+  border-color:var(--gs-divider) !important;
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .mutant-map-boost-check{
+  accent-color:var(--gs-divider);
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .mutant-map-table-cell.is-pct-cell{
+  color:var(--cfm-pct);
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .mutant-map-table-cell.is-pct-cell.is-boosted{
+  color:var(--cfm-boosted);
+}
+body:not(.sfl-theme) #chapterFishMutantsOverlay .cfm-card{
+  background:
+    radial-gradient(circle at 15% 0%, var(--gs-glow) 0%, transparent 55%),
+    linear-gradient(165deg, var(--gs-bg-1) 0%, var(--gs-bg-2) 42%, var(--gs-bg-3) 100%) !important;
+}
+body:not(.sfl-theme) #gunterShopOverlay .gunter-mid-stat,
+body:not(.sfl-theme) #gunterShopOverlay .gunter-mid-icon,
+body:not(.sfl-theme) #gunterShopOverlay .gunter-shop-icon-wrap,
+body:not(.sfl-theme) #gunterShopOverlay .gunter-sunstone-input-wrap,
+body:not(.sfl-theme) #gunterShopOverlay .gunter-sunstone-input-wrap input,
+body:not(.sfl-theme) #gunterShopOverlay .gunter-flowercost-wrap,
+body:not(.sfl-theme) #gunterShopOverlay .gunter-node-box,
+body:not(.sfl-theme) #gunterShopOverlay .gunter-tab-btn,
+body:not(.sfl-theme) #gunterShopOverlay .gunter-step-btn,
+body:not(.sfl-theme) #gunterShopOverlay .gunter-fc-mode-btn{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width,3px) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+:where(body:not(.sfl-theme)) :where(input:not([type]),input[type="text"],input[type="number"],input[type="search"],input[type="email"],input[type="password"],input[type="tel"],input[type="url"],input[type="date"],input[type="time"],input[type="datetime-local"],textarea,select,[class$="-box"],[class*="-box "],.px-box):where(:not(.px-no-frame)){
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width,3px) !important;
+  border-image:var(--px-border-image) 20% stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
+body.app-dark:not(.sfl-theme) .betty-rate-banner{
+  background:var(--wheat) !important;
+  background-image:none !important;
+}
+body.app-dark:not(.sfl-theme) .betty-rate-banner-label{ color:var(--ink) !important; }
+body.app-dark:not(.sfl-theme) .betty-rate-banner-value{ color:var(--coin) !important; }
+body.app-dark:not(.sfl-theme) .betty-rate-banner-value small{ color:var(--ink-soft) !important; }
+body.app-dark:not(.sfl-theme) .betty-boost-label{ color:var(--ink) !important; text-shadow:none !important; }
+body.app-dark:not(.sfl-theme) .betty-boost-row{ background:var(--wheat) !important; }
+body.app-dark:not(.sfl-theme) .betty-boost-row-name{ color:var(--ink) !important; }
+body.app-dark:not(.sfl-theme) .betty-boost-row-desc{ color:var(--ink-soft) !important; }
+body.app-dark:not(.sfl-theme) .betty-toggle{ background:var(--sun) !important; }
+body.app-dark:not(.sfl-theme) .betty-toggle.on{ background:var(--profit) !important; }
+body.app-dark:not(.sfl-theme) .betty-swindler-note{
+  color:var(--ink-soft) !important;
+  background:var(--wheat) !important;
+}
+body.app-dark:not(.sfl-theme) .betty-swindler-note b{ color:var(--ink) !important; }
+body.app-dark:not(.sfl-theme) .betty-divider{ border-top-color:var(--line) !important; }
+body.app-dark:not(.sfl-theme) .betty-tab-btn{
+  background:var(--wheat) !important;
+  color:var(--ink-soft) !important;
+}
+body.app-dark:not(.sfl-theme) .betty-tab-btn.active{
+  background:var(--sun-deep) !important;
+  color:#d8dce2 !important;
+}
+body.app-dark:not(.sfl-theme) .betty-sort-label{ color:var(--ink-soft) !important; }
+body.app-dark:not(.sfl-theme) .betty-sort-btn{
+  background:var(--wheat) !important;
+  color:var(--ink-soft) !important;
+}
+body.app-dark:not(.sfl-theme) .betty-sort-btn.active{
+  background:var(--sun-deep) !important;
+  color:#d8dce2 !important;
+}
+body.app-dark:not(.sfl-theme) .betty-row-qty{
+  background:var(--sun) !important;
+  color:var(--ink) !important;
+}
+body.app-dark:not(.sfl-theme) .betty-empty,
+body.app-dark:not(.sfl-theme) .betty-footer-note{ color:var(--ink-soft) !important; }
