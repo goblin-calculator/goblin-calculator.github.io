@@ -14,6 +14,8 @@ import { renderCraftingBoxPanel } from "./crafting_box.js";
 
 import { renderWorkbenchPanel } from "./workbench.js";
 
+import { renderLeaderboardPanel } from "./leaderboard.js";
+
 import { PETE_GUIDE_IMAGES } from "./pete_guide_images.js";
 
 function getCancelIcon() {
@@ -4815,6 +4817,7 @@ export const MAIN_VIEW_PANEL_MAP = {
   faction: "factionPanel",
   craftingbox: "craftingBoxPanel",
   workbench: "workbenchPanel",
+  leaderboard: "leaderboardPanel",
   auctiontracker: "auctionTrackerPanel",
   sflbubbles: "sflBubblesPanel",
   dailyprofit: "dailyProfitPanel"
@@ -5074,6 +5077,7 @@ function renderMainViewContent(view) {
   if (view === "faction" && typeof renderFactionDeliveryPanel === "function") renderFactionDeliveryPanel();
   if (view === "craftingbox" && typeof renderCraftingBoxPanel === "function") renderCraftingBoxPanel();
   if (view === "workbench" && typeof renderWorkbenchPanel === "function") renderWorkbenchPanel();
+  if (view === "leaderboard" && typeof renderLeaderboardPanel === "function") renderLeaderboardPanel();
   if (view === "auctiontracker") renderAuctionTrackerPanel();
   if (view === "sflbubbles" && typeof renderSflBubblesPanel === "function") renderSflBubblesPanel();
   if (view === "dailyprofit") renderDailyProfitCard();
