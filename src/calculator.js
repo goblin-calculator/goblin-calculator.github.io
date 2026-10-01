@@ -2454,7 +2454,7 @@ export const BASE_COMPOSTERS = {
   }
 };
 
-const SEASON_COMPOST_REQUIREMENTS = {
+export const SEASON_COMPOST_REQUIREMENTS = {
   Spring: {
     "Compost Bin": [ {
       item: "Rhubarb",
