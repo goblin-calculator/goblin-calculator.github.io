@@ -1,4 +1,4 @@
-import { FACTION_BANNER_ICONS, FACTION_DISPLAY_NAMES, FACTION_PET_HAPPY_ICONS, FACTION_WEEK_START_MS, FLOWER_ICON, MARK_ICON_SRC, coinsToFlower, cookingFindRecipeForFood, escapeHtml, factionGetWeekKey, farmSyncAsObj, farmSyncGetFaction, farmSyncGetFactionPetInfo, fmtInt, readFarmSyncedId, toast } from "./calculator.js";
+import { FACTION_BANNER_ICONS, FACTION_DISPLAY_NAMES, FACTION_PET_HAPPY_ICONS, FACTION_WEEK_START_MS, FLOWER_ICON, MARK_ICON_SRC, coinsToFlower, cookingFindRecipeForFood, escapeHtml, factionGetWeekKey, farmSyncAsObj, farmSyncGetFaction, farmSyncGetFactionPetInfo, fmtInt, fmtXp, readFarmSyncedId, toast } from "./calculator.js";
 
 import { farmPanelGameState } from "./inprogress.js";
 
@@ -623,7 +623,7 @@ function factionLeaderboardRowHtml(row, index, isYou, useIndexRank) {
   const name = row.id || "—";
   const markHtml = `<img src="${MARK_ICON_SRC}" alt="Mark" style="width:12px;height:12px;image-rendering:pixelated;vertical-align:-2px;">`;
   const metaHtml = factionLeaderboardRowMetaHtml(row);
-  return `<div class="fd-lb-row${isYou ? " is-you" : ""}">\n    <div class="fd-lb-row-top">\n      <span class="fd-lb-row-rank">${rank != null ? "#" + fmtInt(rank) : "—"}</span>\n      <span class="fd-lb-row-name">${escapeHtml(name)}${isYou ? ` <span class="fd-badge">★ You</span>` : ""}</span>\n      <span class="fd-lb-row-count">${markHtml} ${fmtInt(row.count)}</span>\n    </div>\n    ${metaHtml}\n  </div>`;
+  return `<div class="fd-lb-row${isYou ? " is-you" : ""}">\n    <div class="fd-lb-row-top">\n      <span class="fd-lb-row-rank">${rank != null ? "#" + fmtInt(rank) : "—"}</span>\n      <span class="fd-lb-row-name">${escapeHtml(name)}${isYou ? ` <span class="fd-badge">★ You</span>` : ""}</span>\n      <span class="fd-lb-row-count">${markHtml} ${fmtXp(row.count)}</span>\n    </div>\n    ${metaHtml}\n  </div>`;
 }
 
 function factionLeaderboardBodyHtml() {
