@@ -1234,6 +1234,8 @@ body.app-dark .gunter-mid-stat.is-total-stat .gunter-mid-stat-value{ color:#d8dc
   .salt-node-possible-hint b{ font-weight:800; }
   .salt-hint-icon img{ width:11px !important; height:11px !important; vertical-align:-1px; }
   .salt-hint-strong{ font-size:10.8px; font-weight:900; color:var(--soil-dark); opacity:1; }
+  .salt-section-label{ font-size:9.6px; font-weight:900; text-transform:uppercase; letter-spacing:.4px; color:var(--soil-dark); margin-top:7px; }
+  .salt-hint-sea-blessed{ display:block; font-size:9px; font-weight:800; color:var(--profit); opacity:1; margin-top:1px; }
 
   .spice-buff-card{
     width:100%; box-sizing:border-box; margin:4px 0;
