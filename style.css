@@ -11885,3 +11885,22 @@ body.app-dark:not(.sfl-theme) .betty-row-qty{
 }
 body.app-dark:not(.sfl-theme) .betty-empty,
 body.app-dark:not(.sfl-theme) .betty-footer-note{ color:var(--ink-soft) !important; }
+
+body.sfl-theme #composterPanel .composter-season-card .lib-item-row{
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
+}
+body:not(.sfl-theme) #composterPanel .composter-season-card .lib-item-row{
+  border-style:solid !important;
+  border-width:var(--px-card-corner-width) !important;
+  border-image:var(--px-border-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  image-rendering:pixelated !important;
+}
