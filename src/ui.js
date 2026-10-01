@@ -2111,11 +2111,18 @@ export function renderSaltNodeYieldList(saltNodeGroups, produceIcon, price) {
   if (!saltNodeGroups || !saltNodeGroups.length) return "";
   const saltRockIcon = getIcon("Salt Rock");
   const rows = saltNodeGroups.map(node => {
-    const chargeTag = `<span class="tier-tag">${node.storedCharges}/${node.maxCharges} charges</span>`;
-    const nextChargeQty = node.qty + node.yieldPerCharge;
+    const seaBlessedTag = node.seaBlessedRestored > 0 ? `<span class="tier-tag">+${node.seaBlessedRestored} Sea Blessed</span>` : "";
+    const chargeTag = `<span class="tier-tag">${node.storedCharges}/${node.maxCharges} charges</span>${seaBlessedTag}`;
+    const nextChargeQty = node.qty + node.yieldPerCharge + (node.seaBlessedWindowRestored || 0) * node.yieldPerCharge;
     const nextChargeFlowerValue = nextChargeQty * (price || 0);
     const possibleHtml = node.storedCharges < node.maxCharges ? `<div class="salt-node-possible-hint"><b>Harvest Well become</b> <b class="salt-hint-strong">+${fmt(nextChargeQty)}</b> <span class="salt-hint-icon">${produceIcon}</span>Salt <b class="salt-hint-strong">(${fmt(nextChargeFlowerValue)} ${FLOWER_ICON})</b> when the next charge is ready</div>` : "";
-    return `<div class="boost-applied-row is-yield oil-node-row"><div class="oil-node-header">${saltRockIcon}<b>Salt Rock ${node.index}</b></div><div class="oil-node-detail">${chargeTag}<span class="boost-total-value">+${fmt(node.qty)}</span>${produceIcon}</div>${possibleHtml}</div>`;
+    const procTag = node.seaBlessedProcs && node.seaBlessedProcs.length ? `<span class="tier-tag">⚡ ${node.seaBlessedProcs.length} proc${node.seaBlessedProcs.length === 1 ? "" : "s"}</span>` : "";
+    const targetText = targets => targets.length ? targets.map(t => "Rock " + t).join(", ") : "none";
+    const procLines = (node.seaBlessedProcs || []).map(pr => `<div class="turnaround-boost-note">⚡ Harvest #${pr.harvestNumber} procs → +1 charge on ${targetText(pr.targets)}</div>`);
+    const futureLines = (node.seaBlessedFuture || []).map(pr => `<div class="turnaround-boost-note">⏳ Harvest #${pr.harvestNumber} in ${pr.inSec > 0 ? formatDuration(pr.inSec) : "now"} procs → +1 charge on ${targetText(pr.targets)}</div>`);
+    const harvestLine = node.seaBlessedHarvests > 0 ? `<div class="turnaround-boost-note">${node.seaBlessedHarvests} harvest${node.seaBlessedHarvests === 1 ? "" : "s"} from this node${node.seaBlessedRestored > 0 ? `, ${node.seaBlessedRestored} of them restored by Sea Blessed` : ""}</div>` : "";
+    const chainHtml = procLines.length || futureLines.length || node.seaBlessedRestored > 0 ? `<div class="turnaround-boost-wrap">${harvestLine}${procLines.join("")}${futureLines.join("")}</div>` : "";
+    return `<div class="boost-applied-row is-yield oil-node-row"><div class="oil-node-header">${saltRockIcon}<b>Salt Rock ${node.index}</b></div><div class="oil-node-detail">${chargeTag}${procTag}<span class="boost-total-value">+${fmt(node.qty)}</span>${produceIcon}</div>${possibleHtml}${chainHtml}</div>`;
   }).join("");
   return `<div class="lib-section-title" style="margin-top:10px;">Nodes Yield</div>${rows}`;
 }
@@ -2182,6 +2189,27 @@ export function renderFruitHarvestsLeftHtml(harvestsLeftCounts, fruitName, woodP
     return `<div class="boost-applied-row is-yield">${treeIcon} <b>${c} tree${c === 1 ? "" : "s"}</b> with ${n} harvest${n === 1 ? "" : "s"} left${isFinal ? woodNote : ""}</div>`;
   }).join("");
   return `<div class="lib-section-title" style="margin-top:10px;">Harvests Left</div>${rows}`;
+}
+
+export function renderSeaBlessedBoostHtml(row) {
+  const chain = row.seaBlessedChain;
+  if (!chain) return "";
+  const future = Array.isArray(chain.futureProcs) ? chain.futureProcs : [];
+  if (!(chain.procCount > 0) && !future.length) return "";
+  const title = `Sea Blessed (${chain.chance}%) rolls once per Salt harvest on the farm-wide Salt Harvested counter, starting at ${chain.startCounter}. Each proc restores 1 charge to up to 4 Salt Nodes below max, so restored charges can proc again. Which harvest procs is fixed by the counter; how many nodes a proc refills assumes you empty the nodes in order (Salt Rock 1 first) and harvest each charge the moment it is ready.`;
+  let nowHtml = "";
+  if (chain.procCount > 0) {
+    const chips = [ `<span class="turnaround-boost-chip">${chain.procCount} ⚡ Proc${chain.procCount === 1 ? "" : "s"}</span>`, `<span class="turnaround-boost-chip">${chain.restoredTotal} ${getIcon("Salt Rock")} Charge${chain.restoredTotal === 1 ? "" : "s"} Restored</span>` ];
+    const note = chain.bonusSalt > 0 ? `<div class="turnaround-boost-note">(+${fmt(chain.bonusSalt)} Salt over ${chain.harvests} harvests, already in totals)</div>` : "";
+    nowHtml = `<div class="turnaround-boost-row">${chips.join("")}</div>${note}`;
+  }
+  let futureHtml = "";
+  if (future.length) {
+    const rows = future.map(p => `<div class="turnaround-boost-row"><span class="turnaround-boost-chip">⚡ Harvest #${p.harvestNumber}</span><span class="turnaround-boost-chip">${p.inSec > 0 ? "in " + formatDuration(p.inSec) : "now"}</span></div>`).join("");
+    const restoredList = future.map(p => p.restored).join(", ");
+    futureHtml = `<div class="turnaround-boost-label" style="margin-top:5px;">Upcoming Procs</div>${rows}<div class="turnaround-boost-note">(restores ${restoredList} charge${future.length === 1 && future[0].restored === 1 ? "" : "s"}, not in totals)</div>`;
+  }
+  return `<div class="turnaround-boost-wrap"><div class="turnaround-boost-label" title="${escapeHtml(title)}">⚡ Sea Blessed Boost</div>${nowHtml}${futureHtml}</div>`;
 }
 
 export function renderTurnaroundBoostHtml(row) {
@@ -5543,7 +5571,8 @@ function dailyProfitToolConfigTiles() {
         };
       });
       const nodeCount = saltFig.nodeCount || 0;
-      const chargesPerNodePerPeriod = saltCard ? dailyProfitGetCycleCount(saltCard) : Math.round((saltFig.chargesPerDayPerNode || 0) * periodMult);
+      const seaBlessedRakeMult = getDailyProfitCalcMode() === "live" || !saltFig.seaBlessed ? 1 : saltFig.seaBlessed.harvestMult;
+      const chargesPerNodePerPeriod = (saltCard ? dailyProfitGetCycleCount(saltCard) : Math.round((saltFig.chargesPerDayPerNode || 0) * periodMult)) * seaBlessedRakeMult;
       tiles.set("Salt", {
         resourceKey: "Salt",
         materialModeKey: rakeModeKey,
@@ -5626,17 +5655,34 @@ export function closePixelPicker() {
   __set_pixelPickerOnSelect(null);
 }
 
+function renderSeaBlessedAverageHtml(fig) {
+  const sb = fig.seaBlessed;
+  if (!sb || !sb.ranks || !sb.ranks.length) return "";
+  const f2 = n => n.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  const fx = n => n.toFixed(4);
+  const statusLine = sb.active ? `Active: Rank ${sb.rank}/${sb.maxRank} · ${fmt(sb.chancePct)}% chance · ${fmtInt(sb.targets)} node${sb.targets === 1 ? "" : "s"} restored per proc` : `Skill not selected — Salt/day above excludes it. Ranks below show what each would add.`;
+  const rows = sb.ranks.map(r => {
+    const isCurrent = sb.active && r.rank === sb.rank;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:10.8px;padding:3px 0;border-bottom:1px dashed var(--line, rgba(0,0,0,.12));${isCurrent ? "font-weight:700;color:var(--profit);" : ""}"><span>Rank ${r.rank} · ${fmt(r.chancePct)}%${isCurrent ? " ✓" : ""}</span><span style="font-family:'JetBrains Mono',monospace;text-align:right;">×${fx(r.harvestMult)} harvests · +${f2(r.bonusSaltPerDay)} ${getIcon("Salt")}/day</span></div>`;
+  }).join("");
+  const title = "Sea Blessed rolls once on every Salt harvest. A proc gives +1 charge to up to 4 Salt Nodes below max, and each restored charge is harvested too, so it rolls again. Average harvests per natural charge = 1 / (1 − nodes restored × chance).";
+  return `\n      <div class="lib-section-title" style="margin-top:10px;" title="${escapeHtml(title)}">⚡ Sea Blessed — average per day</div>\n      <div style="font-size:10.2px;color:${sb.active ? "var(--profit)" : "var(--ink-soft)"};font-weight:600;margin-bottom:4px;">${statusLine}</div>\n      <div class="card-grid">\n        <div class="stat"><span class="label">Natural harvests/day</span><span class="value">${f2(sb.naturalHarvestsPerDay)}</span></div>\n        <div class="stat"><span class="label">Avg harvests/day</span><span class="value">${f2(sb.harvestsPerDay)}</span></div>\n        <div class="stat"><span class="label">Bonus harvests/day</span><span class="value">+${f2(sb.bonusHarvestsPerDay)}</span></div>\n        <div class="stat"><span class="label">Bonus Salt/day</span><span class="value">+${f2(sb.bonusSaltPerDay)}</span></div>\n      </div>\n      <div style="margin-top:4px;">${rows}</div>\n      <div style="font-size:9px;color:var(--ink-soft);margin-top:5px;">Every harvest rolls Sea Blessed, including the ones it restores, so procs chain: each charge is worth 1 ÷ (1 − ${fmtInt(sb.targets)} node${sb.targets === 1 ? "" : "s"} × chance) harvests on average. Assumes you harvest each charge as it becomes ready, and every extra harvest uses an extra Salt Rake (already in the rake and restock cost).</div>`;
+}
+
 function renderSaltFarmCard() {
   const fig = computeSaltFarmFigures();
   const isProfit = fig.dailyProfit >= 0;
-  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}" data-search="salt farm">\n    <div class="card-toggle" style="cursor:default;">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon("Salt")}</span>\n        <div>\n          <div class="card-name">Salt Farm</div>\n          <div class="card-type">${fmt(fig.costPerUnitFlower)} ${FLOWER_ICON} FLOWER cost / Salt · sell ${fmt(fig.sellFlower)} ${FLOWER_ICON} FLOWER</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        ${fig.activeBoosts && fig.activeBoosts.length ? `<span class="boost-badge">⚡${fig.activeBoosts.length}</span>` : ""}\n      </div>\n    </div>\n    <div class="card-details" style="display:block;max-height:none;padding-top:0;">\n      <div style="display:grid;grid-template-columns:1fr 130px;gap:6px 8px;align-items:center;margin:6px 0 8px;">\n        <label style="font-size:11.4px;color:var(--ink-soft);">${getIcon("Salt")} Farm level (1–${FARM_LEVEL_NODES.length})</label>\n        ${stepperHtml("farmLevelInput", saltFarmLevel, 1, FARM_LEVEL_NODES.length)}\n      </div>\n      <div style="display:grid;grid-template-columns:1fr 130px;gap:6px 8px;align-items:center;margin:0 0 8px;">\n        <label style="font-size:11.4px;color:var(--ink-soft);">${getIcon("Salt")} Salt Nodes owned (max ${farmLevelMaxNodes()} at this level)</label>\n        ${stepperHtml("saltNodeInput", fig.nodeCount, 0, farmLevelMaxNodes())}\n      </div>\n      <div class="card-grid">\n        <div class="stat"><span class="label">Charges/day/node</span><span class="value">${fmtInt(fig.chargesPerDayPerNode)}</span></div>\n        <div class="stat"><span class="label">Time/charge</span><span class="value">${formatDuration(fig.timeSec)}${Math.round(fig.timeSec) !== Math.round(SALT_BASE_TIME_SEC) ? ` <span style="color:var(--ink-soft);font-weight:600;">(${formatDuration(SALT_BASE_TIME_SEC)} base)</span>` : ""}</span></div>\n        <div class="stat"><span class="label">Max stored charges/node</span><span class="value">${fig.storedChargeCap} (${fig.storedChargeCap} harvests banked)</span></div>\n        <div class="stat"><span class="label">Yield/charge</span><span class="value">${fmt(fig.yieldPerCharge)}${fig.saltYieldBonus ? ` (10 + ${fmt(fig.saltYieldBonus)} boost)` : ""}</span></div>\n        <div class="stat"><span class="label">Salt/day</span><span class="value">${fmt(fig.saltPerDay)}</span></div>\n        <div class="stat"><span class="label">Cost/Salt</span><span class="value">${fmt(fig.costPerUnitFlower)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Sell (market)</span><span class="value">${fmt(fig.sellFlower)} ${FLOWER_ICON} FLOWER</span></div>\n      </div>\n      ${render24hTotalsGrid(fig.dailyCost + fig.restockCost24h, fig.saltPerDay * fig.sellFlower, fig.dailyRevenue, fig.dailyProfit, {
+  return `\n  <div class="card ${isProfit ? "is-profit" : "is-loss"}" data-search="salt farm">\n    <div class="card-toggle" style="cursor:default;">\n      <div class="card-name-row">\n        <span class="card-icon">${getIcon("Salt")}</span>\n        <div>\n          <div class="card-name">Salt Farm</div>\n          <div class="card-type">${fmt(fig.costPerUnitFlower)} ${FLOWER_ICON} FLOWER cost / Salt · sell ${fmt(fig.sellFlower)} ${FLOWER_ICON} FLOWER</div>\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        ${fig.activeBoosts && fig.activeBoosts.length ? `<span class="boost-badge">⚡${fig.activeBoosts.length}</span>` : ""}\n      </div>\n    </div>\n    <div class="card-details" style="display:block;max-height:none;padding-top:0;">\n      <div style="display:grid;grid-template-columns:1fr 130px;gap:6px 8px;align-items:center;margin:6px 0 8px;">\n        <label style="font-size:11.4px;color:var(--ink-soft);">${getIcon("Salt")} Farm level (1–${FARM_LEVEL_NODES.length})</label>\n        ${stepperHtml("farmLevelInput", saltFarmLevel, 1, FARM_LEVEL_NODES.length)}\n      </div>\n      <div style="display:grid;grid-template-columns:1fr 130px;gap:6px 8px;align-items:center;margin:0 0 8px;">\n        <label style="font-size:11.4px;color:var(--ink-soft);">${getIcon("Salt")} Salt Nodes owned (max ${farmLevelMaxNodes()} at this level)</label>\n        ${stepperHtml("saltNodeInput", fig.nodeCount, 0, farmLevelMaxNodes())}\n      </div>\n      <div class="card-grid">\n        <div class="stat"><span class="label">Charges/day/node</span><span class="value">${fmtInt(fig.chargesPerDayPerNode)}</span></div>\n        <div class="stat"><span class="label">Time/charge</span><span class="value">${formatDuration(fig.timeSec)}${Math.round(fig.timeSec) !== Math.round(SALT_BASE_TIME_SEC) ? ` <span style="color:var(--ink-soft);font-weight:600;">(${formatDuration(SALT_BASE_TIME_SEC)} base)</span>` : ""}</span></div>\n        <div class="stat"><span class="label">Max stored charges/node</span><span class="value">${fig.storedChargeCap} (${fig.storedChargeCap} harvests banked)</span></div>\n        <div class="stat"><span class="label">Yield/charge</span><span class="value">${fmt(fig.yieldPerCharge)}${fig.saltYieldBonus ? ` (10 + ${fmt(fig.saltYieldBonus)} boost)` : ""}</span></div>\n        <div class="stat"><span class="label">Salt/day${fig.seaBlessed && fig.seaBlessed.active ? " (avg, Sea Blessed)" : ""}</span><span class="value">${fmt(fig.saltPerDay)}</span></div>\n        <div class="stat"><span class="label">Cost/Salt</span><span class="value">${fmt(fig.costPerUnitFlower)} ${FLOWER_ICON} FLOWER</span></div>\n        <div class="stat"><span class="label">Sell (market)</span><span class="value">${fmt(fig.sellFlower)} ${FLOWER_ICON} FLOWER</span></div>\n      </div>\n      ${render24hTotalsGrid(fig.dailyCost + fig.restockCost24h, fig.saltPerDay * fig.sellFlower, fig.dailyRevenue, fig.dailyProfit, {
     title: `24HRS PROFIT/LOSS — ${fmt(fig.nodeCount)} node${fig.nodeCount === 1 ? "" : "s"}`,
     totalYield: fig.saltPerDay,
     yieldLabel: "Salt",
     restockCost24h: fig.restockCost24h,
     restockDetails: fig.restockDetails,
     restockNote: typeof getRestockExclusionNote === "function" ? getRestockExclusionNote("Salt Rake") : ""
-  })}\n      <div class="profit-banner">\n        <span class="plabel">Profit / day (${fmt(fig.nodeCount)} node${fig.nodeCount === 1 ? "" : "s"})</span>\n        <span class="pvalue ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(fig.dailyProfit)} ${FLOWER_ICON} FLOWER</span>\n      </div>\n      <div style="font-size:9px;color:var(--ink-soft);margin-top:5px;">Salt Rake cost is read live from 🛒 Marketplace Prices → Base Coin Cost → Tools → Salt Rake (${fmt(fig.rakeCoinCost)}${COIN_ICON} per rake, after Sculpture's Salt Rake discount) — edit it there, not here. Each stored charge yields ${SALT_BASE_YIELD} Salt base; boosts in ⚡ Boosts → 🧂 Salt add flat bonus Salt/harvest on top. Edit Salt's sell price in 🛒 Marketplace Prices.</div>\n      ${renderSaltBoostAppliedList(fig.activeBoosts)}\n      ${(() => {
+  })}\n      <div class="profit-banner">\n        <span class="plabel">Profit / day (${fmt(fig.nodeCount)} node${fig.nodeCount === 1 ? "" : "s"})</span>\n        <span class="pvalue ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(fig.dailyProfit)} ${FLOWER_ICON} FLOWER</span>\n      </div>\n      <div style="font-size:9px;color:var(--ink-soft);margin-top:5px;">Salt Rake cost is read live from 🛒 Marketplace Prices → Base Coin Cost → Tools → Salt Rake (${fmt(fig.rakeCoinCost)}${COIN_ICON} per rake, after Sculpture's Salt Rake discount) — edit it there, not here. Each stored charge yields ${SALT_BASE_YIELD} Salt base; boosts in ⚡ Boosts → 🧂 Salt add flat bonus Salt/harvest on top. Edit Salt's sell price in 🛒 Marketplace Prices.</div>\n      ${renderSaltBoostAppliedList(fig.activeBoosts)}${renderSeaBlessedAverageHtml(fig)}\n      ${(() => {
     const next = computeFarmLevelNextCost();
     return next ? `\n      <div class="lib-section-title" style="margin-top:10px;">Cost to reach Farm Level ${saltFarmLevel + 1}</div>\n      <div style="display:flex;flex-direction:column;gap:2px;margin-bottom:6px;">\n        ${next.lines.map(l => `<div style="display:flex;justify-content:space-between;font-size:10.8px;"><span>${escapeHtml(l.label)} ×${fmt(l.qty)}</span><span style="font-family:'JetBrains Mono',monospace;">${fmt(l.flower)} ${FLOWER_ICON} FLOWER</span></div>`).join("")}\n      </div>\n      <div class="profit-banner">\n        <span class="plabel">Total to next level</span>\n        <span class="pvalue is-loss">${fmt(next.total)} ${FLOWER_ICON} FLOWER</span>\n      </div>\n      <div style="font-size:9px;color:var(--ink-soft);margin-top:5px;">One-time upgrade cost — not included in the Salt/day profit above.</div>` : `<div style="font-size:10.8px;color:var(--profit);font-weight:700;margin-top:8px;">🏆 Max Farm level reached (Level ${FARM_LEVEL_NODES.length})</div>`;
   })()}\n    </div>\n  </div>`;

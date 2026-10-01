@@ -1,10 +1,10 @@
-import { ICONS, NPC_ICONS, ALL_ANIMAL_PRODUCTS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_PRODUCT_LOOKUP, ASCENSION_RANK_DATA, BAIT_RECIPES, BAIT_RECIPE_NAME_MATCH, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, CALENDAR_SEASONAL_BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_CAKE_DISHES, COOKING_FOOD_IMAGES, COOKING_RECIPES, CRIMSTONE_KNOWN_IDS, CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE, CROP_AOE_RANKS, CROP_HARVEST_SEC, CROP_KNOWN_IDS, CROP_PRNG_EXCLUDE, FARM_LEVEL_NODES, FARM_PANEL_SCROLL_IDLE_MS, FEED_LABELS, FERMENTATION_BAIT_FAMILIES, FERMENTATION_SPICE_KNOWN_IDS, FERMENTATION_STATIC_RECIPES, FISH_AGING_KNOWN_IDS, FISH_SALT_DATA, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, FOOD_KNOWN_IDS, FRUIT_KNOWN_IDS, FRUIT_PRNG_EXCLUDE, GAMESTATE_SECTION_KEYS, GEM_ICON, GOLD_KNOWN_IDS, IMAGE_ICONS, IRON_KNOWN_IDS, MUTANT_TYPE_EMOJI, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PATCH_FRUIT_ONLY_GLOBAL_BOOSTS_EXCLUDED_FROM_GREENHOUSE, RCM_GREENHOUSE_ICON_HTML, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, SALT_BASE_CHARGE_CAP, SALT_BASE_TIME_SEC, SALT_BASE_YIELD, SPICE_RECIPES, SPICE_STATIC_RECIPES, STONE_KNOWN_IDS, SYNODIC_MONTH_DAYS, TREE_KNOWN_IDS, __farmPanelSaveGameStateHandle, __gameStateSectionLenSigs, __set___farmPanelSaveGameStateHandle, __set___gameStateSectionLenSigs, allResourceBudBoostEntries, applyFarmBoostsOnly, applyFarmSkillsOnly, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalFeedFigures, computeAnimalRealProgress, computeAnimalTypeFigures, computeAnimalYieldsForLevel, computeBaitFigures, computeBoostedCropStats, computeBoostedStock, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedLavaPitStats, computeBoostedResourceStats, computeComposterFigures, computeDestroyedCropPlotIds, computeHiveStats, computeHoneyRestockBreakdown, computeQtyRestockGems, computeSpiceFigures, currentSeason, escapeHtml, farmIdPromptStartSync, farmSyncExtractBudTraits, farmSyncExtractGameState, farmSyncExtractPetTraits, farmSyncFindBagByNameHeuristic, farmSyncGetAnimalRecords, farmSyncGetCoords, farmSyncGetPetRecords, farmSyncPickActivePlacedInstances, feePercent, fmt, fmtAnimal, fmtAnimalCost, fullMoonSeedStockQty, getActiveAnimalBoosts, getActiveBoostsForHive, getActiveFeedInfo, getActiveSaltRechargeMult, getActiveSaltYieldBonus, getActiveSeasonGuardianName, getAnimalLevelFromXp, getAscensionRank, getCropPlotSunshowerSpeedMultiplier, getCurrentChapterMutantSet, getCurrentChapterName, getEffectiveYieldAdd, getNodeIconHtml, getNodeLabel, getSpiceLickDurationHarvests, isBoostActive, isCropInSeason, isOvernightGroundCrop, isSkillActive, onDeferredInitialRenderDone, parseYieldBoostAmount, resourceBuds, saltSculptureLevel, sculptureEffects, sflPrngChance, syncCookingCountsFromInventory } from "./calculator.js";
+import { ICONS, NPC_ICONS, ALL_ANIMAL_PRODUCTS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_PRODUCT_LOOKUP, ASCENSION_RANK_DATA, BAIT_RECIPES, BAIT_RECIPE_NAME_MATCH, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, CALENDAR_SEASONAL_BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_CAKE_DISHES, COOKING_FOOD_IMAGES, COOKING_RECIPES, CRIMSTONE_KNOWN_IDS, CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE, CROP_AOE_RANKS, CROP_HARVEST_SEC, CROP_KNOWN_IDS, CROP_PRNG_EXCLUDE, FARM_LEVEL_NODES, FARM_PANEL_SCROLL_IDLE_MS, FEED_LABELS, FERMENTATION_BAIT_FAMILIES, FERMENTATION_SPICE_KNOWN_IDS, FERMENTATION_STATIC_RECIPES, FISH_AGING_KNOWN_IDS, FISH_SALT_DATA, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, FOOD_KNOWN_IDS, FRUIT_KNOWN_IDS, FRUIT_PRNG_EXCLUDE, GAMESTATE_SECTION_KEYS, GEM_ICON, GOLD_KNOWN_IDS, IMAGE_ICONS, IRON_KNOWN_IDS, MUTANT_TYPE_EMOJI, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PATCH_FRUIT_ONLY_GLOBAL_BOOSTS_EXCLUDED_FROM_GREENHOUSE, RCM_GREENHOUSE_ICON_HTML, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, SALT_BASE_CHARGE_CAP, SALT_BASE_TIME_SEC, SALT_BASE_YIELD, SALT_KNOWN_ID, SPICE_RECIPES, SPICE_STATIC_RECIPES, STONE_KNOWN_IDS, SYNODIC_MONTH_DAYS, TREE_KNOWN_IDS, __farmPanelSaveGameStateHandle, __gameStateSectionLenSigs, __set___farmPanelSaveGameStateHandle, __set___gameStateSectionLenSigs, allResourceBudBoostEntries, applyFarmBoostsOnly, applyFarmSkillsOnly, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalFeedFigures, computeAnimalRealProgress, computeAnimalTypeFigures, computeAnimalYieldsForLevel, computeBaitFigures, computeBoostedCropStats, computeBoostedStock, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedLavaPitStats, computeBoostedResourceStats, computeComposterFigures, computeDestroyedCropPlotIds, computeHiveStats, computeHoneyRestockBreakdown, computeQtyRestockGems, computeSpiceFigures, currentSeason, escapeHtml, farmIdPromptStartSync, farmSyncExtractBudTraits, farmSyncExtractGameState, farmSyncExtractPetTraits, farmSyncFindBagByNameHeuristic, farmSyncGetAnimalRecords, farmSyncGetCoords, farmSyncGetPetRecords, farmSyncPickActivePlacedInstances, feePercent, fmt, fmtAnimal, fmtAnimalCost, fullMoonSeedStockQty, getActiveAnimalBoosts, getActiveBoostsForHive, getActiveFeedInfo, getActiveSaltRechargeMult, getActiveSaltYieldBonus, getActiveSeasonGuardianName, getAnimalLevelFromXp, getAscensionRank, getCropPlotSunshowerSpeedMultiplier, getCurrentChapterMutantSet, getCurrentChapterName, getEffectiveYieldAdd, getNodeIconHtml, getNodeLabel, getSpiceLickDurationHarvests, isBoostActive, isCropInSeason, isOvernightGroundCrop, isSkillActive, onDeferredInitialRenderDone, parseYieldBoostAmount, resourceBuds, saltSculptureLevel, sculptureEffects, sflPrngChance, syncCookingCountsFromInventory } from "./calculator.js";
 
 import { SFL_COMMUNITY_PROXY_BASE, SFL_NFT_PRICE_API, SFL_PROXY_BASE, computeRestockCost24h, cookingCostMode, cookingIngredientUnitCostCoins, fishSaltCostFlower, getActiveShrineDailyCostStable, getItemCostByName, getRestockGemCost, getSpiceCostPerUseFlower, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, marketItems, pickledVegCost, refinedSaltUnitCostFlower, saltCostFlowerForSpiceRack } from "./prices.js";
 
 import { getPumpkinPeteQuest } from "./pete_quests.js";
 
-import { $, cookFoodIcon, getBoostIcon, getIcon, renderAnimalCardProductDetailRow, renderAnimalYieldGroupsList, renderBeehiveListHtml, renderCardProductDetailRow, renderCostNetInfoTrigger, renderCrimstoneInstantMineBoostHtml, renderCrimstoneNodeYieldList, renderFarmPanelTabContent, renderFruitHarvestsLeftHtml, renderGoldInstantMineBoostHtml, renderNodeTierYieldList, renderOilNodeYieldList, renderPlantYieldNodeList, renderSaltNodeYieldList, renderTotalsBreakdown, renderTurnaroundBoostHtml } from "./ui.js";
+import { $, cookFoodIcon, getBoostIcon, getIcon, renderAnimalCardProductDetailRow, renderAnimalYieldGroupsList, renderBeehiveListHtml, renderCardProductDetailRow, renderCostNetInfoTrigger, renderCrimstoneInstantMineBoostHtml, renderCrimstoneNodeYieldList, renderFarmPanelTabContent, renderFruitHarvestsLeftHtml, renderGoldInstantMineBoostHtml, renderNodeTierYieldList, renderOilNodeYieldList, renderPlantYieldNodeList, renderSaltNodeYieldList, renderSeaBlessedBoostHtml, renderTotalsBreakdown, renderTurnaroundBoostHtml } from "./ui.js";
 
 export function farmPanelDetectNodeTier(resourceName, node) {
   const tiers = RESOURCE_NODE_TIERS[resourceName];
@@ -348,6 +348,132 @@ function farmPanelPredictTreeTypeRoll(json, treeType, criticalHitName, chance) {
     chance: chance,
     criticalHitName: criticalHitName
   });
+}
+
+function farmPanelSimulateSeaBlessedChain(g, nodeStates, maxCharges, saltYield, intervalMs, now) {
+  if (!isSkillActive("skill_sea_blessed")) return null;
+  const values = ASCENSION_RANK_DATA.skill_sea_blessed.values;
+  const chance = values[Math.min(Math.max(getAscensionRank("skill_sea_blessed"), 1), values.length) - 1];
+  if (!(chance > 0)) return null;
+  const farmId = Number(farmPanelGetLastInfo().id);
+  if (!Number.isFinite(farmId) || farmId <= 0) return null;
+  const farmActivity = farmPanelField(g, "farmActivity");
+  if (!farmActivity || typeof farmActivity !== "object") return null;
+  const rawCounter = farmActivity["Salt Harvested"];
+  const baseCounter = typeof rawCounter === "number" && Number.isFinite(rawCounter) ? rawCounter : 0;
+  const NODES_PER_PROC = 4;
+  const MAX_HARVESTS = 5000;
+  const HORIZON_MS = 30 * 864e5;
+  const MAX_FUTURE_PROCS = 3;
+  const nodes = nodeStates.map(s => ({
+    stored: s.storedCharges,
+    next: s.nextChargeAt
+  }));
+  const restoredPerNode = nodes.map(() => 0);
+  const windowRestoredPerNode = nodes.map(() => 0);
+  const harvestsPerNode = nodes.map(() => 0);
+  const windowEndMs = nodeStates.reduce((m, s) => s.storedCharges < maxCharges && Number.isFinite(s.nextChargeAt) ? Math.max(m, s.nextChargeAt) : m, now);
+  let windowRestoredTotal = 0;
+  const nodeLabel = i => nodeStates[i] && typeof nodeStates[i].nodeIdx === "number" ? nodeStates[i].nodeIdx + 1 : i + 1;
+  const nowProcs = [];
+  const nowProcCounters = [];
+  const futureProcs = [];
+  let harvests = 0;
+  let nowHarvests = 0;
+  let nowRestored = 0;
+  const harvestReady = (t, isNowPhase) => {
+    while (harvests < MAX_HARVESTS) {
+      const idx = nodes.findIndex(n => n.stored >= 1);
+      if (idx === -1) break;
+      const node = nodes[idx];
+      if (node.stored === maxCharges) node.next = t + intervalMs;
+      node.stored -= 1;
+      if (isNowPhase) harvestsPerNode[idx] += 1;
+      const counter = baseCounter + harvests;
+      harvests++;
+      const hit = sflPrngChance({
+        farmId: farmId,
+        itemId: SALT_KNOWN_ID,
+        counter: counter,
+        chance: chance,
+        criticalHitName: "Sea Blessed"
+      });
+      if (!hit) continue;
+      let remaining = NODES_PER_PROC;
+      let restored = 0;
+      const targets = [];
+      for (let i = 0; i < nodes.length && remaining > 0; i++) {
+        if (nodes[i].stored < maxCharges) {
+          nodes[i].stored += 1;
+          if (nodes[i].stored === maxCharges) nodes[i].next = t + intervalMs;
+          if (isNowPhase) restoredPerNode[i] += 1;
+          else if (t <= windowEndMs) {
+            windowRestoredPerNode[i] += 1;
+            windowRestoredTotal += 1;
+          }
+          restored += 1;
+          targets.push(nodeLabel(i));
+          remaining -= 1;
+        }
+      }
+      if (isNowPhase) {
+        nowProcCounters.push(counter);
+        nowRestored += restored;
+        nowProcs.push({
+          counter: counter,
+          harvestNumber: harvests,
+          nodeIndex: nodeLabel(idx),
+          targets: targets,
+          restored: restored
+        });
+      } else {
+        futureProcs.push({
+          counter: counter,
+          harvestNumber: harvests,
+          nodeIndex: nodeLabel(idx),
+          targets: targets,
+          inSec: Math.max(0, (t - now) / 1e3),
+          restored: restored,
+          inWindow: t <= windowEndMs
+        });
+      }
+    }
+  };
+  harvestReady(now, true);
+  nowHarvests = harvests;
+  while (harvests < MAX_HARVESTS) {
+    let tNext = Infinity;
+    nodes.forEach(n => {
+      if (n.stored < maxCharges && n.next < tNext) tNext = n.next;
+    });
+    if (!(tNext <= now + HORIZON_MS)) break;
+    if (tNext > windowEndMs && futureProcs.length >= MAX_FUTURE_PROCS) break;
+    nodes.forEach(n => {
+      while (n.stored < maxCharges && n.next <= tNext) {
+        n.stored += 1;
+        n.next += intervalMs;
+      }
+    });
+    harvestReady(tNext, false);
+  }
+  return {
+    chance: chance,
+    startCounter: baseCounter,
+    harvests: nowHarvests,
+    procCount: nowProcCounters.length,
+    procCounters: nowProcCounters,
+    restoredTotal: nowRestored,
+    restoredPerNode: restoredPerNode,
+    harvestsPerNode: harvestsPerNode,
+    nowProcs: nowProcs,
+    nodeLabels: nodes.map((n, i) => nodeLabel(i)),
+    bonusSalt: nowRestored * saltYield,
+    futureProcs: futureProcs,
+    windowEndMs: windowEndMs,
+    windowRestoredTotal: windowRestoredTotal,
+    windowRestoredPerNode: windowRestoredPerNode,
+    windowBonusSalt: windowRestoredTotal * saltYield
+  };
 }
 
 function farmPanelBuildSequentialWoodRolls(json, treeType, count) {
@@ -2243,11 +2369,13 @@ function farmPanelComputeInProgressRaw(json) {
     const saltNodes = saltFarmObj && typeof saltFarmObj.nodes === "object" ? saltFarmObj.nodes : null;
     if (saltNodes && Object.keys(saltNodes).length) {
       const rechargeMult = typeof getActiveSaltRechargeMult === "function" ? getActiveSaltRechargeMult() : 1;
-      const intervalMs = SALT_BASE_TIME_SEC * 1e3 * rechargeMult;
+      const sculptureChargeMult = typeof sculptureEffects === "function" ? sculptureEffects().chargeTimeMult : 1;
+      const intervalMs = SALT_BASE_TIME_SEC * 1e3 * sculptureChargeMult * rechargeMult;
       const sculptLvl = typeof saltSculptureLevel === "number" ? saltSculptureLevel : 0;
       const maxCharges = SALT_BASE_CHARGE_CAP + (sculptLvl >= 3 ? 1 : 0) + (sculptLvl >= 6 ? 1 : 0);
       const physicalNodeCount = Object.keys(saltNodes).length;
       const saltNodeKeysSorted = Object.keys(saltNodes).sort();
+      const saltNodeStates = [];
       saltNodeKeysSorted.forEach((nodeKey, nodeIdx) => {
         const node = saltNodes[nodeKey];
         const salt = node && node.salt;
@@ -2262,11 +2390,27 @@ function farmPanelComputeInProgressRaw(json) {
           const missedIntervals = Math.ceil((now - nextChargeAt) / intervalMs);
           nextChargeAt += missedIntervals * intervalMs;
         }
+        saltNodeStates.push({
+          nodeIdx: nodeIdx,
+          storedCharges: storedCharges,
+          nextChargeAt: nextChargeAt
+        });
+      });
+      const seaBlessedChain = farmPanelSimulateSeaBlessedChain(g, saltNodeStates, maxCharges, saltYield, intervalMs, now);
+      saltNodeStates.forEach((state, stateIdx) => {
+        const storedCharges = state.storedCharges;
+        const seaBlessedRestored = seaBlessedChain ? seaBlessedChain.restoredPerNode[stateIdx] : 0;
         const saltNodeMeta = {
-          saltNodeIndex: nodeIdx + 1,
+          saltNodeIndex: state.nodeIdx + 1,
           saltNodeStoredCharges: storedCharges,
           saltNodeMaxCharges: maxCharges,
-          saltYieldPerCharge: saltYield
+          saltYieldPerCharge: saltYield,
+          saltNodeSeaBlessedRestored: seaBlessedRestored,
+          saltNodeSeaBlessedHarvests: seaBlessedChain ? seaBlessedChain.harvestsPerNode[stateIdx] : 0,
+          saltNodeSeaBlessedProcs: seaBlessedChain ? seaBlessedChain.nowProcs.filter(pr => pr.nodeIndex === state.nodeIdx + 1) : [],
+          saltNodeSeaBlessedFuture: seaBlessedChain ? seaBlessedChain.futureProcs.filter(pr => pr.nodeIndex === state.nodeIdx + 1) : [],
+          saltNodeSeaBlessedWindowRestored: seaBlessedChain ? seaBlessedChain.windowRestoredPerNode[stateIdx] : 0,
+          seaBlessedChain: seaBlessedChain
         };
         for (let i = 0; i < storedCharges; i++) {
           rows.push({
@@ -2279,7 +2423,7 @@ function farmPanelComputeInProgressRaw(json) {
           });
         }
         if (storedCharges < maxCharges) {
-          const remainingSec = Math.max(0, (nextChargeAt - now) / 1e3);
+          const remainingSec = Math.max(0, (state.nextChargeAt - now) / 1e3);
           rows.push({
             name: "Salt",
             qty: 0,
@@ -2290,6 +2434,19 @@ function farmPanelComputeInProgressRaw(json) {
           });
         }
       });
+      if (seaBlessedChain && seaBlessedChain.restoredTotal > 0) {
+        for (let i = 0; i < seaBlessedChain.restoredTotal; i++) {
+          rows.push({
+            name: "Salt",
+            qty: saltYield,
+            ready: true,
+            remainingSec: 0,
+            physicalNodes: physicalNodeCount,
+            seaBlessedBonus: true,
+            seaBlessedChain: seaBlessedChain
+          });
+        }
+      }
     } else if (saltLevel != null && typeof FARM_LEVEL_NODES !== "undefined" && FARM_LEVEL_NODES.length) {
       const clampedLevel = Math.max(1, Math.min(FARM_LEVEL_NODES.length, saltLevel));
       const slots = FARM_LEVEL_NODES[clampedLevel - 1] || 0;
@@ -3588,6 +3745,7 @@ export function farmPanelComputeInProgress(json) {
       }
     });
     const turnaroundBonusYieldEstimate = g.nodes.reduce((sum, n) => sum + (typeof n.turnaroundBonusEstimate === "number" ? n.turnaroundBonusEstimate : 0), 0);
+    const seaBlessedChainInfo = g.name === "Salt" ? g.nodes.map(n => n.seaBlessedChain).find(Boolean) || null : null;
     const goldInstantMineTypesPredicted = [ ...new Set(g.nodes.filter(n => n.goldInstantMinePredicted === true).map(n => n.goldRockName)) ];
     const goldInstantMineBonusYieldEstimate = g.nodes.reduce((sum, n) => sum + (typeof n.goldInstantMineBonusEstimate === "number" ? n.goldInstantMineBonusEstimate : 0), 0);
     const crimstoneInstantMinePredicted = g.nodes.some(n => n.crimstoneInstantMinePredicted === true);
@@ -3615,8 +3773,13 @@ export function farmPanelComputeInProgress(json) {
           index: n.saltNodeIndex,
           storedCharges: n.saltNodeStoredCharges || 0,
           maxCharges: n.saltNodeMaxCharges || 0,
-          qty: (n.saltNodeStoredCharges || 0) * (n.saltYieldPerCharge || 0),
-          yieldPerCharge: n.saltYieldPerCharge || 0
+          qty: ((n.saltNodeStoredCharges || 0) + (n.saltNodeSeaBlessedRestored || 0)) * (n.saltYieldPerCharge || 0),
+          yieldPerCharge: n.saltYieldPerCharge || 0,
+          seaBlessedRestored: n.saltNodeSeaBlessedRestored || 0,
+          seaBlessedHarvests: n.saltNodeSeaBlessedHarvests || 0,
+          seaBlessedProcs: n.saltNodeSeaBlessedProcs || [],
+          seaBlessedFuture: n.saltNodeSeaBlessedFuture || [],
+          seaBlessedWindowRestored: n.saltNodeSeaBlessedWindowRestored || 0
         });
       });
       if (seen.size) saltNodeGroups = Array.from(seen.values()).sort((a, b) => a.index - b.index);
@@ -3784,6 +3947,7 @@ export function farmPanelComputeInProgress(json) {
       turnaroundTypesPredicted: turnaroundTypesPredicted,
       turnaroundCountsByType: turnaroundCountsByType,
       turnaroundBonusYieldEstimate: turnaroundBonusYieldEstimate,
+      seaBlessedChain: seaBlessedChainInfo,
       moneyTreeBonus: moneyTreeBonus,
       isHoneyCard: isHoneyCard,
       honeyHiveDetails: honeyHiveDetails,
@@ -4377,15 +4541,25 @@ export function farmPanelRenderInProgressRow(row) {
   const tierYieldListHtml = row.name === "Oil" ? renderOilNodeYieldList(row.oilNodeGroups, produceIcon) : row.name === "Salt" ? renderSaltNodeYieldList(row.saltNodeGroups, produceIcon, row.price) : row.name === "Crimstone" ? renderCrimstoneNodeYieldList(row.crimstoneNodeGroups) : row.plantYieldLabel ? renderPlantYieldNodeList(row.plantYieldLabel, row.name, row.plantYieldGroups, produceIcon, nodeIcon) : renderNodeTierYieldList(row.tierYields, produceIcon);
   const harvestsLeftHtml = renderFruitHarvestsLeftHtml(row.harvestsLeftCounts, row.name, row.fruitWoodPerTree);
   const turnaroundBoostHtml = renderTurnaroundBoostHtml(row);
+  const seaBlessedBoostHtml = renderSeaBlessedBoostHtml(row);
   const goldInstantMineBoostHtml = renderGoldInstantMineBoostHtml(row);
   const crimstoneInstantMineBoostHtml = renderCrimstoneInstantMineBoostHtml(row);
-  let saltNextChargeHeaderHtml = "";
+  let saltReadyLabelHtml = "";
+  let saltProjectedHtml = "";
   if (row.name === "Salt" && row.saltNodeGroups && row.saltNodeGroups.length) {
+    saltReadyLabelHtml = `<div class="salt-section-label">Ready to Harvest</div>`;
     const anySaltRecovering = row.saltNodeGroups.some(n => n.storedCharges < n.maxCharges);
     if (anySaltRecovering) {
-      const saltCombinedQty = row.saltNodeGroups.reduce((sum, n) => sum + n.qty + (n.storedCharges < n.maxCharges ? n.yieldPerCharge : 0), 0);
-      const saltCombinedFlowerValue = saltCombinedQty * row.price;
-      saltNextChargeHeaderHtml = `<div class="salt-node-possible-hint"><b>Harvest Well become</b> <b class="salt-hint-strong">+${fmt(saltCombinedQty)}</b> <span class="salt-hint-icon">${produceIcon}</span>Salt <b class="salt-hint-strong">(${fmt(saltCombinedFlowerValue)} ${FLOWER_ICON})</b> when the next charge is ready</div>`;
+      const saltChainBonusQty = row.saltNodeGroups.reduce((sum, n) => sum + (n.seaBlessedWindowRestored || 0) * n.yieldPerCharge, 0);
+      const saltProjectedQty = row.saltNodeGroups.reduce((sum, n) => sum + n.qty + (n.storedCharges < n.maxCharges ? n.yieldPerCharge : 0), 0) + saltChainBonusQty;
+      const saltProjectedHarvests = row.saltNodeGroups.reduce((sum, n) => sum + n.storedCharges + (n.seaBlessedRestored || 0) + (n.storedCharges < n.maxCharges ? 1 : 0) + (n.seaBlessedWindowRestored || 0), 0);
+      const projectedEcon = farmPanelComputeEconomics("Salt", saltProjectedHarvests, saltProjectedQty);
+      const projectedProfit = projectedEcon.profit - shrineCost;
+      const projectedIsProfit = projectedProfit >= 0;
+      const projectedChipHtml = `\n      <span class="animal-produce-chip">\n        <span class="produce-icon">${produceIcon}</span>\n        <span class="produce-name">${escapeHtml(row.name)}</span>\n        <span class="produce-yield">${fmt(saltProjectedQty)}</span>\n        <span class="produce-value">(${fmt(projectedEcon.grossRevenue)} ${FLOWER_ICON})</span>\n      </span>`;
+      const projectedNetHtml = `\n      <span class="animal-net-chip">\n        <span class="label">Net</span>\n        <span class="value ${projectedIsProfit ? "is-profit" : "is-loss"}">${projectedIsProfit ? "+" : ""}${fmt(projectedProfit)} ${FLOWER_ICON}</span>\n      </span>`;
+      const projectedChainNote = saltChainBonusQty > 0 ? `<div class="salt-hint-sea-blessed">⚡ incl. +${fmt(saltChainBonusQty)} Salt from Sea Blessed chain</div>` : "";
+      saltProjectedHtml = `<div class="salt-section-label">Projected Harvest</div>\n          <div class="animal-fold-row">${projectedChipHtml}</div>\n          <div class="animal-fold-row">${projectedNetHtml}</div>\n          ${projectedChainNote}`;
     }
   }
   const resourceCostNetTriggerHtml = renderCostNetInfoTrigger({
@@ -4402,7 +4576,7 @@ export function farmPanelRenderInProgressRow(row) {
     totalYield: row.totalYield,
     yieldLabel: row.name
   });
-  return `\n  <div class="card animal-merged-card${isProfit ? " is-profit" : " is-loss"}${expandedCls}" data-search="${row.name.toLowerCase()}" data-fp-category="${farmPanelCardCategory(row)}">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${nodeIcon}</span>\n        <div>\n          <div class="card-name">${escapeHtml(nodeLabel)}</div>\n          <div class="card-type-row">\n            <span class="card-type">${row.displayNodeCount} node${row.displayNodeCount === 1 ? "" : "s"}${tierNote}</span>\n            ${badgeHtml}\n          </div>\n          <div class="animal-fold-row">${productChipHtml}${woodChipHtml}${netChipHtml}${moneyTreeBadgeHtml}</div>\n          ${saltNextChargeHeaderHtml}${turnaroundBoostHtml}${goldInstantMineBoostHtml}${crimstoneInstantMineBoostHtml}\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    <div class="card-details">\n      <div class="stat"><span class="label">Status</span><span class="value">${statusLine}</span></div>\n      <div class="animal-detail-grid">\n        ${productDetailRow}${woodDetailRowHtml}\n        <div class="animal-detail-stat"><span class="label">Market Price/Unit</span><span class="value">${fmt(row.price)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Gross</span><span class="value">${fmt(row.grossRevenue)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Cost/Unit</span><span class="value">${fmt(row.costPerUnit)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Sell Fee</span><span class="value">${row.feeAmount > 0 ? `-${fmt(row.feeAmount)}` : "0"} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Shrine Cost${shrineNames.length ? ` (${shrineNames.map(escapeHtml).join(", ")})` : ""}</span><span class="value" style="${shrineCost > 0 ? "color:#b45309;" : ""}">${shrineCost > 0 ? `-${fmt(shrineCost)}` : "0"} ${FLOWER_ICON}</span></div>${restockRowHtml}\n        <div class="animal-detail-stat"><span class="label">Cost</span><span class="value">${baseCost > 0 ? `-${fmt(baseCost)}` : "0"} ${FLOWER_ICON}</span></div>\n      </div>\n      <div class="animal-net-row2">\n        <span class="label">Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(row.profit)} ${FLOWER_ICON}</span>\n      </div>\n      ${resourceCostNetTriggerHtml}\n      ${harvestsLeftHtml}\n      ${tierYieldListHtml}\n      ${boostListHtml}\n      ${farmPanelRestockNoteHtml(row.restockInfo)}\n    </div>\n  </div>`;
+  return `\n  <div class="card animal-merged-card${isProfit ? " is-profit" : " is-loss"}${expandedCls}" data-search="${row.name.toLowerCase()}" data-fp-category="${farmPanelCardCategory(row)}">\n    <div class="card-toggle">\n      <div class="card-name-row">\n        <span class="card-icon">${nodeIcon}</span>\n        <div>\n          <div class="card-name">${escapeHtml(nodeLabel)}</div>\n          <div class="card-type-row">\n            <span class="card-type">${row.displayNodeCount} node${row.displayNodeCount === 1 ? "" : "s"}${tierNote}</span>\n            ${badgeHtml}\n          </div>\n          ${saltReadyLabelHtml}<div class="animal-fold-row">${productChipHtml}${woodChipHtml}${netChipHtml}${moneyTreeBadgeHtml}</div>\n          ${saltProjectedHtml}${seaBlessedBoostHtml}${turnaroundBoostHtml}${goldInstantMineBoostHtml}${crimstoneInstantMineBoostHtml}\n        </div>\n      </div>\n      <div class="card-collapsed-profit">\n        <span class="chev">▾</span>\n      </div>\n    </div>\n    <div class="card-details">\n      <div class="stat"><span class="label">Status</span><span class="value">${statusLine}</span></div>\n      <div class="animal-detail-grid">\n        ${productDetailRow}${woodDetailRowHtml}\n        <div class="animal-detail-stat"><span class="label">Market Price/Unit</span><span class="value">${fmt(row.price)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Gross</span><span class="value">${fmt(row.grossRevenue)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Cost/Unit</span><span class="value">${fmt(row.costPerUnit)} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Sell Fee</span><span class="value">${row.feeAmount > 0 ? `-${fmt(row.feeAmount)}` : "0"} ${FLOWER_ICON}</span></div>\n        <div class="animal-detail-stat"><span class="label">Shrine Cost${shrineNames.length ? ` (${shrineNames.map(escapeHtml).join(", ")})` : ""}</span><span class="value" style="${shrineCost > 0 ? "color:#b45309;" : ""}">${shrineCost > 0 ? `-${fmt(shrineCost)}` : "0"} ${FLOWER_ICON}</span></div>${restockRowHtml}\n        <div class="animal-detail-stat"><span class="label">Cost</span><span class="value">${baseCost > 0 ? `-${fmt(baseCost)}` : "0"} ${FLOWER_ICON}</span></div>\n      </div>\n      <div class="animal-net-row2">\n        <span class="label">Net</span>\n        <span class="value ${isProfit ? "is-profit" : "is-loss"}">${isProfit ? "+" : ""}${fmt(row.profit)} ${FLOWER_ICON}</span>\n      </div>\n      ${resourceCostNetTriggerHtml}\n      ${harvestsLeftHtml}\n      ${tierYieldListHtml}\n      ${boostListHtml}\n      ${farmPanelRestockNoteHtml(row.restockInfo)}\n    </div>\n  </div>`;
 }
 
 export function farmPanelRenderStockRow(row) {

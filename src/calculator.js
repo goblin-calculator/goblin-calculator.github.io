@@ -6763,7 +6763,6 @@ const SKILL_AGING = [ {
   id: "skill_sea_blessed",
   name: "Sea Blessed",
   skillTier: 2,
-  notModeled: true,
   note: "5% chance to restore 1 charge to 4 Salt Nodes on harvest"
 }, {
   id: "skill_ager",
@@ -7620,7 +7619,7 @@ export const ASCENSION_RANK_DATA = {
     field: null,
     values: [ 5, 6.5, 8 ],
     unit: "%",
-    note: "Chance to restore 1 charge to 4 Salt Nodes on harvest"
+    note: "Chance to restore 1 charge to 4 Salt Nodes on harvest (wired into the Salt average: chained procs, all 3 ranks)"
   },
   skill_seedy_business: {
     field: null,
@@ -14766,6 +14765,8 @@ export function sflPrngChance({farmId: farmId, itemId: itemId, counter: counter,
     criticalHitName: criticalHitName
   }) * 100 < chance;
 }
+
+export const SALT_KNOWN_ID = 665;
 
 export const TREE_KNOWN_IDS = {
   Tree: 618,
@@ -25691,7 +25692,8 @@ export function gatherTop10ProfitItems() {
   {
     const saltFig = computeSaltFarmFigures();
     const cyclesPerDay = saltFig.chargesPerDayPerNode;
-    const unitProfit24h = saltFig.profitPerUnit * saltFig.yieldPerCharge * cyclesPerDay;
+    const saltHarvestMult = saltFig.seaBlessed.harvestMult;
+    const unitProfit24h = saltFig.profitPerUnit * saltFig.yieldPerCharge * cyclesPerDay * saltHarvestMult;
     items.push({
       name: "Salt",
       category: "Salt",
@@ -25699,8 +25701,8 @@ export function gatherTop10ProfitItems() {
       countLabel: "Node",
       count: saltFig.nodeCount,
       cyclesPerDay: cyclesPerDay,
-      unitCost24h: saltFig.costPerUnitFlower * saltFig.yieldPerCharge * cyclesPerDay,
-      unitRevenue24h: saltFig.netSell * saltFig.yieldPerCharge * cyclesPerDay,
+      unitCost24h: saltFig.costPerUnitFlower * saltFig.yieldPerCharge * cyclesPerDay * saltHarvestMult,
+      unitRevenue24h: saltFig.netSell * saltFig.yieldPerCharge * cyclesPerDay * saltHarvestMult,
       unitProfit24h: unitProfit24h,
       holdingUnitsPerDay: saltFig.saltPerDay,
       holdingCost24h: saltFig.costPerUnitFlower * saltFig.saltPerDay,
@@ -25896,7 +25898,8 @@ export function computeDailyProfitAveragePanelYieldPerCycle(rawName, count) {
   if (!rawName || !count) return null;
   if (rawName === "Salt") {
     const fig = computeSaltFarmFigures();
-    return fig.yieldPerCharge * fig.nodeCount;
+    const seaBlessedMult = dailyProfitCalcMode === "live" ? 1 : fig.seaBlessed.harvestMult;
+    return fig.yieldPerCharge * fig.nodeCount * seaBlessedMult;
   }
   if (BASE_CROPS[rawName]) {
     const d = BASE_CROPS[rawName];
@@ -26416,6 +26419,44 @@ export function setSaltFarmLevel(lvl) {
   if (getNodeCount("Salt") > farmLevelMaxNodes()) setNodeCount("Salt", farmLevelMaxNodes());
 }
 
+export const SEA_BLESSED_NODES_PER_PROC = 4;
+
+export function getSeaBlessedRankChances() {
+  const data = ASCENSION_RANK_DATA.skill_sea_blessed;
+  return data && Array.isArray(data.values) ? data.values.slice() : [];
+}
+
+export function computeSeaBlessedAverage(nodeCount, chancePct) {
+  const nodes = Math.max(0, Math.floor(nodeCount || 0));
+  const chance = Math.max(0, Math.min(100, chancePct || 0));
+  const targets = Math.min(SEA_BLESSED_NODES_PER_PROC, nodes);
+  const offspring = Math.min(.999, targets * chance / 100);
+  const harvestMult = 1 / (1 - offspring);
+  return {
+    chancePct: chance,
+    targets: targets,
+    offspring: offspring,
+    harvestMult: harvestMult,
+    bonusPerHarvest: harvestMult - 1
+  };
+}
+
+export function computeSeaBlessedRankTable(nodeCount, naturalHarvestsPerDay, yieldPerCharge) {
+  return getSeaBlessedRankChances().map((chance, i) => {
+    const avg = computeSeaBlessedAverage(nodeCount, chance);
+    const bonusHarvestsPerDay = naturalHarvestsPerDay * avg.bonusPerHarvest;
+    return {
+      rank: i + 1,
+      chancePct: chance,
+      targets: avg.targets,
+      offspring: avg.offspring,
+      harvestMult: avg.harvestMult,
+      bonusHarvestsPerDay: bonusHarvestsPerDay,
+      bonusSaltPerDay: bonusHarvestsPerDay * yieldPerCharge
+    };
+  });
+}
+
 export function computeSaltFarmFigures() {
   const eff = sculptureEffects();
   const nodeCount = Math.min(farmLevelMaxNodes(), getNodeCount("Salt"));
@@ -26432,9 +26473,27 @@ export function computeSaltFarmFigures() {
   const sellFlower = m ? m.flowerPrice || 0 : 0;
   const netSell = sellFlower * (1 - feePercent / 100);
   const profitPerUnit = netSell - costPerUnitFlower;
-  const saltPerDay = nodeCount * chargesPerDayPerNode * yieldPerCharge;
+  const naturalHarvestsPerDay = nodeCount * chargesPerDayPerNode;
+  const seaBlessedRanks = getSeaBlessedRankChances();
+  const seaBlessedActive = isSkillActive("skill_sea_blessed") && seaBlessedRanks.length > 0;
+  const seaBlessedRank = seaBlessedActive ? Math.min(Math.max(getAscensionRank("skill_sea_blessed"), 1), seaBlessedRanks.length) : 0;
+  const seaBlessedAvg = computeSeaBlessedAverage(nodeCount, seaBlessedActive ? seaBlessedRanks[seaBlessedRank - 1] : 0);
+  const harvestsPerDay = naturalHarvestsPerDay * seaBlessedAvg.harvestMult;
+  const seaBlessedBonusHarvestsPerDay = harvestsPerDay - naturalHarvestsPerDay;
+  const seaBlessed = Object.assign({}, seaBlessedAvg, {
+    active: seaBlessedActive,
+    rank: seaBlessedRank,
+    maxRank: seaBlessedRanks.length,
+    naturalHarvestsPerDay: naturalHarvestsPerDay,
+    harvestsPerDay: harvestsPerDay,
+    harvestsPerDayPerNode: nodeCount > 0 ? harvestsPerDay / nodeCount : 0,
+    bonusHarvestsPerDay: seaBlessedBonusHarvestsPerDay,
+    bonusSaltPerDay: seaBlessedBonusHarvestsPerDay * yieldPerCharge,
+    ranks: computeSeaBlessedRankTable(nodeCount, naturalHarvestsPerDay, yieldPerCharge)
+  });
+  const saltPerDay = harvestsPerDay * yieldPerCharge;
   const storedChargeCap = eff.storedChargeCap;
-  const rakeUsesPerDay = freeRakeCost ? 0 : nodeCount * chargesPerDayPerNode;
+  const rakeUsesPerDay = freeRakeCost ? 0 : harvestsPerDay;
   const baseRakeStock = BASE_STOCK_TOOLS["Salt Rake"];
   let restockCost24h = 0, restocksPerDay = 0, boostedRakeStock = 0, restockDetails = null;
   if (baseRakeStock && rakeUsesPerDay > 0) {
@@ -26456,7 +26515,14 @@ export function computeSaltFarmFigures() {
       };
     }
   }
-  const activeBoosts = getActiveSaltBoosts("saltGlobal");
+  const activeBoosts = getActiveSaltBoosts("saltGlobal").slice();
+  if (seaBlessed.active) {
+    activeBoosts.push({
+      id: "skill_sea_blessed",
+      name: "Sea Blessed",
+      note: `Rank ${seaBlessed.rank}/${seaBlessed.maxRank}: ${seaBlessed.chancePct}% chance per harvest to restore 1 charge to ${seaBlessed.targets} node${seaBlessed.targets === 1 ? "" : "s"} → avg ×${seaBlessed.harvestMult.toFixed(4)} harvests (+${seaBlessed.bonusSaltPerDay.toFixed(2)} Salt/day)`
+    });
+  }
   return {
     nodeCount: nodeCount,
     chargesPerDayPerNode: chargesPerDayPerNode,
@@ -26476,6 +26542,9 @@ export function computeSaltFarmFigures() {
     boostedRakeStock: boostedRakeStock,
     restockDetails: restockDetails,
     rakeUsesPerDay: rakeUsesPerDay,
+    harvestsPerDay: harvestsPerDay,
+    naturalHarvestsPerDay: naturalHarvestsPerDay,
+    seaBlessed: seaBlessed,
     activeBoosts: activeBoosts,
     dailyCost: saltPerDay * costPerUnitFlower,
     dailyRevenue: saltPerDay * netSell,
