@@ -3579,7 +3579,7 @@ export function esGetIslandUpgradeCost(toIsland) {
 export function esResourceFlowerCost(name, qty) {
   if (!qty || qty <= 0) return 0;
   const cpf = typeof coinPerFlower === "number" && coinPerFlower > 0 ? coinPerFlower : 1;
-  return esReqUnitCoins(name) / cpf * qty;
+  return esReqUnitCoins(name, qty) / cpf * qty;
 }
 
 const gunterFlowerCostModeRowEl = $("gunterFlowerCostModeRow");
