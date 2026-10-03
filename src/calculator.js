@@ -10,11 +10,12 @@ import { renderWorkbenchPanel } from "./workbench.js";
 
 import { sflbRefreshMyBuildIfOpen } from "./sfl_bubbles.js";
 
-import { SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeRestockCost24hDetailed, computeRestockCost24hDetailedIndividual, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, ensureCosmeticPricesLoaded, fetchLivePrices, findCosmeticPriceForName, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getActiveShrineDailyCost, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketplaceFlowerUsdPrice, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from "./prices.js";
+import { SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeRestockCost24hDetailed, computeRestockCost24hDetailedIndividual, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, ensureCosmeticPricesLoaded, fetchLivePrices, findCosmeticPriceForName, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, isFishingBuyMode, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getActiveShrineDailyCost, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketplaceFlowerUsdPrice, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from "./prices.js";
 
 import { loadBaseHoneyIfNeeded, profileBumpkinCachePersist, safeLSJSON, saveAnimalAffectionCounts, saveAnimalAffectionTools, saveAnimalBuds, saveAnimalCounts, saveAnimalSicknessEstimate, saveAoeSyncOverrides, saveAscensionState, saveBeeSwarmState, saveBoostState, saveBoosts, saveBudFloorPrice, saveCmOilTank, saveCmQueue, saveCookingCounts, saveCropBuds, saveCrustaceanChumSelection, saveFishBuds, saveFlowerVarietyOverrides, saveFruitBuds, saveFruitCounts, saveGlobalPlotCount, saveGlobalPlotCountTouched, saveGreenhouseBuds, saveGreenhouseCounts, saveHiveCount, saveManualCycleOverrides, saveMarketState, saveNodeCounts, saveNodeCountsTouched, savePetFloorPrice, savePetResourceCostOverride, savePetsData, saveResourceBuds, saveSaltFarmLevel, saveSaltUi, saveSculptureLevel, saveSelectedHoneyFlower, saveSelectedSwarmCrop, saveSkillState, saveSpiceUsage, saveState, saveSyncedSkillLevels, saveToolRecipes, saveTradeState, saveWeatherDestructionSync } from "./storage.js";
 
-import { $, bountyToggle, closeBettyShop, closeBoostPanel, closeBudPicker, closeChapterFishMutants, closeDeleteTradeConfirm, closeDigPanel, closeDisclaimer, closeDprofitCostConfig, openDprofitCostConfig, closeExpansionSim, closeFarmPanel, closeGunterShop, closeMoreMenu, closeNewTradeModal, closePetTraitPicker, closePixelPicker, closeProfile, closeRcmInfoModal, closeSellTradeModal, closeSettingsModal, closeTicketCalc, closeTradeItemPicker, closeTradeShop, esIslandIcon, esRenderMissingToggle, esRenderModeToggle, getBoostIcon, getIcon, getMutantFishIcon, getTreasureIcon, hideDailyProfitCard, hideSyncProgressModal, hideTop10Card, npcDeliverToggle, openBettyShop, openBoostPanel, openChapterFishMutants, openDigPanel, openDisclaimer, openExpansionSim, openFarmPanel, openGunterShop, openMoreMenu, openNewTradeModal, openProfile, openRcmInfoModal, openSettingsModal, openTicketCalc, openTradeItemPicker, openPotionPanel, closePotionPanel, renderPotionRoomPanel, openTradeShop, refreshAnimalAffectionToolToggleUI, renderAnimalsList, renderAscensionBar, renderBaseCoinSummaryLists, renderBettyShop, renderBoostPanel, renderBudDropdown, renderCalcIngredients, renderCmOilTank, renderCmQtyControls, renderCmSelectedDetail, renderCmSummary, renderComposterList, renderCookingFoodList, renderCookingPanel, renderCropMachineCalc, renderCropMachineMachine, renderCropMachinePanel, renderCropsList, renderDailyProfitCard, renderDigTreasurePanel, renderFarmPanelInfo, renderFarmPanelTabContent, renderFishBudList, renderFishingPanel, renderFishingTierList, renderFruitsList, renderGreenhouseList, renderGunterShop, renderHoneyList, renderLibraryLists, renderPetFoodTabs, renderPetsPanel, renderPickerList, renderPlotNodeInputs, renderProfileTradable, renderProfileView, renderResourceList, renderSaltList, renderSeasonToggle, renderSkillPanel, renderTicketCalc, renderTotalsBreakdown, renderTradeShop, resetLibModalFields, setBountyToggle, setFarmPanelTab, showDailyProfitCard, showSyncCompleteModal, showSyncProgressModal, showSyncTimingPanel, showTop10Card, syncBoostPanelClosedRoute, syncBoostPanelRoute, syncBoostSkillTreeRoute, syncInProgressFilterRoute, toggleMainView, updateRcmToggleUI } from "./ui.js";
+import { $, bountyToggle, closeBettyShop, closeBoostPanel, closeBudPicker, closeChapterFishMutants, closeDeleteTradeConfirm, closeDigPanel, closeDisclaimer, closeDprofitCostConfig, openDprofitCostConfig, closeExpansionSim, closeFarmPanel, closeGunterShop, closeMoreMenu, closeNewTradeModal, closePetTraitPicker, closePixelPicker, closeProfile, closeRcmInfoModal, closeSellTradeModal, closeSettingsModal, closeTicketCalc, closeTradeItemPicker, closeTradeShop, esIslandIcon, esRenderMissingToggle, getBoostIcon, getIcon, getMutantFishIcon, getTreasureIcon, hideDailyProfitCard, hideSyncProgressModal, hideTop10Card, npcDeliverToggle, openBettyShop, openBoostPanel, openChapterFishMutants, openDigPanel, openDisclaimer, openExpansionSim, openFarmPanel, openGunterShop, openMoreMenu, openNewTradeModal, openProfile, openRcmInfoModal, openSettingsModal, openTicketCalc, openTradeItemPicker, openPotionPanel, closePotionPanel, renderPotionRoomPanel, openTradeShop, refreshAnimalAffectionToolToggleUI, renderAnimalsList, renderAscensionBar, renderBaseCoinSummaryLists, renderBettyShop, renderBoostPanel, renderBudDropdown, renderCalcIngredients, renderCmOilTank, renderCmQtyControls, renderCmSelectedDetail, renderCmSummary, renderComposterList, renderCookingFoodList, renderCookingPanel, renderCropMachineCalc, renderCropMachineMachine, renderCropMachinePanel, renderCropsList, renderDailyProfitCard, renderDigTreasurePanel, renderFarmPanelInfo, renderFarmPanelTabContent, renderFishBudList, renderFishingPanel, renderFishingTierList, renderFruitsList, renderGreenhouseList, renderGunterShop, renderHoneyList, renderLibraryLists, renderPetFoodTabs, renderPetsPanel, renderPickerList, renderPlotNodeInputs, renderProfileTradable, renderProfileView, renderResourceList, renderSaltList, renderSeasonToggle, renderSkillPanel, renderTicketCalc, renderTotalsBreakdown, renderTradeShop, resetLibModalFields, setBountyToggle, setFarmPanelTab, showDailyProfitCard, showSyncCompleteModal, showSyncProgressModal, showSyncTimingPanel, showTop10Card, syncBoostPanelClosedRoute, syncBoostPanelRoute, syncBoostSkillTreeRoute, syncInProgressFilterRoute, toggleMainView, updateRcmToggleUI } from "./ui.js";
+import { renderMapPanel } from "./map.js";
 
 export const __getIconCache = new Map;
 
@@ -16691,6 +16692,7 @@ async function performFarmPanelSync(farmId) {
     renderFarmPanelInfo();
     renderFarmPanelTabContent();
     __mark("info panel + tab content done");
+    if ($("mapPanel") && $("mapPanel").classList.contains("open")) renderMapPanel();
     if (typeof profileCaptureSyncSnapshot === "function") profileCaptureSyncSnapshot(farmId);
     __syncMark = null;
     const nameNote = apiUsername ? ` · 👤 ${apiUsername}` : "";
@@ -23192,7 +23194,9 @@ export let esState = {
     vip: false,
     monument: false
   },
-  costMode: "buy",
+  toolCfgOpen: false,
+  resMode: {},
+  toolMats: {},
   applyMissing: true
 };
 
@@ -23210,6 +23214,280 @@ function esGetOwnedQty(name) {
   const raw = inv[name];
   const q = typeof raw === "string" ? parseFloat(raw) : Number(raw);
   return isNaN(q) ? 0 : q;
+}
+
+function esResMode(resource) {
+  if (resource === "Oil") return "collect";
+  return esState.resMode[resource] === "collect" ? "collect" : "buy";
+}
+
+function esMatMode(owner, matName) {
+  if (owner === "Lava Pit" && matName === "Oil") return "collect";
+  return esState.toolMats[owner + ":" + matName] === "collect" ? "collect" : "buy";
+}
+
+function esActiveResources() {
+  const active = new Set;
+  Object.keys(RESOURCE_DATA).forEach(r => {
+    if (esResMode(r) === "collect") active.add(r);
+  });
+  let changed = true;
+  const consider = (owner, mats) => {
+    mats.forEach(m => {
+      if (RESOURCE_DATA[m.name] && !active.has(m.name) && esMatMode(owner, m.name) === "collect") {
+        active.add(m.name);
+        changed = true;
+      }
+    });
+  };
+  while (changed) {
+    changed = false;
+    consider("Lava Pit", esLavaRecipe().materials);
+    Array.from(active).forEach(r => {
+      const rec = esToolRecipeFor(r);
+      if (rec && !rec.free) consider(rec.tool, rec.materials);
+    });
+  }
+  return active;
+}
+
+function esUnitByMode(mode, matName, visited) {
+  if (mode === "collect") {
+    if (RESOURCE_DATA[matName]) {
+      const seen = visited || new Set;
+      if (seen.has(matName)) return getItemCostByName(matName);
+      const next = new Set(seen);
+      next.add(matName);
+      return esResourceCollectCoins(matName, next);
+    }
+    return getItemCostByName(matName);
+  }
+  return getMaterialUnitCostCoins(matName, "buy");
+}
+
+function esMatUnitCoins(owner, matName, visited) {
+  return esUnitByMode(esMatMode(owner, matName), matName, visited);
+}
+
+function esToolRecipeFor(resource) {
+  const data = RESOURCE_DATA[resource];
+  if (!data) return null;
+  const boosted = computeBoostedResourceStats(resource, data.yieldPer, data.timeSec);
+  const coinMult = (typeof getActiveBoostsForTool === "function" ? getActiveBoostsForTool(data.tool).reduce((m, b) => b.coinCostMult ? m * b.coinCostMult : m, 1) : 1) * getArtistCoinCostMult();
+  const materials = data.materials.map(mat => {
+    const swap = boosted.materialSwaps.find(sw => sw.from.toLowerCase() === mat.name.toLowerCase());
+    return {
+      name: swap ? swap.to : mat.name,
+      qty: swap ? swap.qty : mat.qty
+    };
+  });
+  return {
+    resource: resource,
+    tool: data.tool,
+    coins: (data.toolCoinCost || 0) * boosted.toolCostMult * coinMult,
+    materials: materials,
+    free: !!boosted.noToolNeeded,
+    yieldVal: boosted.yieldVal
+  };
+}
+
+function esResourceCollectCoins(resource, visited) {
+  const rec = esToolRecipeFor(resource);
+  if (!rec || rec.free || !(rec.yieldVal > 0)) return 0;
+  let perUse = rec.coins;
+  rec.materials.forEach(m => {
+    perUse += m.qty * esMatUnitCoins(rec.tool, m.name, visited);
+  });
+  return perUse / rec.yieldVal;
+}
+
+function esLavaRecipe() {
+  const season = previewSeason;
+  const recipe = LAVA_PIT_RECIPES[season];
+  const boosted = computeBoostedLavaPitStats(recipe.time);
+  return {
+    season: season,
+    yieldVal: boosted.yieldVal,
+    materials: recipe.materials.map(m => ({
+      name: m.name,
+      qty: m.qty * boosted.qtyMult
+    }))
+  };
+}
+
+function esObsidianCollectCoins() {
+  const lava = esLavaRecipe();
+  let perCycle = 0;
+  lava.materials.forEach(m => {
+    perCycle += m.qty * esMatUnitCoins("Lava Pit", m.name);
+  });
+  return lava.yieldVal > 0 ? perCycle / lava.yieldVal : 0;
+}
+
+export function esReqUnitCoins(name) {
+  if (name === "Gem" || name === "Coins") return 0;
+  if (name === "Obsidian") return esObsidianCollectCoins();
+  if (RESOURCE_DATA[name]) return esResMode(name) === "collect" ? esResourceCollectCoins(name) : getMaterialUnitCostCoins(name, "buy");
+  return getMaterialUnitCostCoins(name, "buy");
+}
+
+function esCostLabel(name) {
+  if (name === "Obsidian") return "Collect";
+  if (RESOURCE_DATA[name]) return esResMode(name) === "collect" ? "Collect" : "Buy";
+  return "Buy";
+}
+
+function esBuildToolPlan(resources) {
+  const uses = {};
+  const addUses = (resource, qty, depth) => {
+    if (!(qty > 0) || depth > 8) return;
+    const rec = esToolRecipeFor(resource);
+    if (!rec || rec.free || !(rec.yieldVal > 0)) return;
+    const n = Math.ceil(qty / rec.yieldVal - 1e-9);
+    uses[rec.tool] = (uses[rec.tool] || 0) + n;
+    rec.materials.forEach(m => {
+      if (esMatMode(rec.tool, m.name) === "collect" && RESOURCE_DATA[m.name]) addUses(m.name, m.qty * n, depth + 1);
+    });
+  };
+  Object.keys(resources || {}).forEach(k => {
+    const q = resources[k];
+    if (!(q > 0)) return;
+    if (k === "Obsidian") {
+      const lava = esLavaRecipe();
+      const cycles = Math.ceil(q / lava.yieldVal - 1e-9);
+      lava.materials.forEach(m => {
+        if (esMatMode("Lava Pit", m.name) === "collect" && RESOURCE_DATA[m.name]) addUses(m.name, m.qty * cycles, 1);
+      });
+    } else if (RESOURCE_DATA[k] && esResMode(k) === "collect") {
+      addUses(k, q, 0);
+    }
+  });
+  const tools = {};
+  let totalFlower = 0;
+  Object.keys(uses).forEach(tool => {
+    const base = BASE_STOCK_TOOLS[tool];
+    if (!base) return;
+    const stock = computeBoostedStock(base, "tool", tool);
+    if (!(stock > 0)) return;
+    const restocks = Math.ceil(uses[tool] / stock - 1e-9);
+    const gemCost = getRestockGemCost("tool", tool);
+    const flower = restocks * gemsToFlower(gemCost);
+    tools[tool] = {
+      uses: uses[tool],
+      stock: stock,
+      restocks: restocks,
+      flower: flower
+    };
+    totalFlower += flower;
+  });
+  return {
+    tools: tools,
+    totalFlower: totalFlower
+  };
+}
+
+function esMissingResourceMap(resources, coins) {
+  const map = {};
+  esMissingRowsData(resources, coins).rows.forEach(r => {
+    map[r.name] = r.qty;
+  });
+  return map;
+}
+
+function esTotalsPricing() {
+  const result = esCalculateTotals();
+  if (result.crossNote) return null;
+  const boosted = esApplyBoosts(result.raw.resources, result.raw.coins, result.raw.seconds);
+  Object.keys(result.migration.resources).forEach(k => {
+    boosted.resources[k] = (boosted.resources[k] || 0) + result.migration.resources[k];
+  });
+  boosted.coins += result.migration.coins;
+  const basis = esState.applyMissing ? esMissingResourceMap(boosted.resources, boosted.coins) : boosted.resources;
+  return {
+    boosted: boosted,
+    plan: esBuildToolPlan(basis)
+  };
+}
+
+function esRestockSectionHtml(resources, coins, useMissing) {
+  const basis = useMissing ? esMissingResourceMap(resources, coins) : resources;
+  const plan = esBuildToolPlan(basis);
+  const names = Object.keys(plan.tools).filter(t => plan.tools[t].restocks > 0);
+  if (!names.length) return "";
+  const rows = names.map(t => '<div class="es-cost-row"><div class="es-cost-row-name">' + esGetIconHtml(t) + "<span>" + escapeHtml(t) + ' Restock</span></div><div class="es-cost-row-val">' + plan.tools[t].restocks + 'x<small class="es-cost-row-sub">' + fmt(plan.tools[t].flower) + " " + FLOWER_ICON + "</small></div></div>").join("");
+  return '<div class="es-material-cost-subtitle">Tool Restock</div>' + rows;
+}
+
+function esToggleHtml(owner, matName) {
+  if (owner === "Lava Pit" && matName === "Oil") return '<div class="es-toolcfg-free">Always Collect</div>';
+  const mode = esMatMode(owner, matName);
+  const attrs = 'data-es-tcfg-owner="' + escapeHtml(owner) + '" data-es-tcfg-mat="' + escapeHtml(matName) + '"';
+  return '<div class="es-toolcfg-tog"><button type="button" class="es-mode-btn es-toolcfg-tbtn' + (mode === "collect" ? " active" : "") + '" ' + attrs + ' data-es-tcfg-mode="collect">Collect</button><button type="button" class="es-mode-btn es-toolcfg-tbtn' + (mode === "buy" ? " active" : "") + '" ' + attrs + ' data-es-tcfg-mode="buy">Buy</button></div>';
+}
+
+function esResourceToggleHtml(resource) {
+  if (resource === "Oil") return '<div class="es-toolcfg-free">Always Collect</div>';
+  const mode = esResMode(resource);
+  const attrs = 'data-es-res="' + escapeHtml(resource) + '"';
+  return '<div class="es-toolcfg-tog"><button type="button" class="es-mode-btn es-toolcfg-tbtn' + (mode === "collect" ? " active" : "") + '" ' + attrs + ' data-es-res-mode="collect">Collect</button><button type="button" class="es-mode-btn es-toolcfg-tbtn' + (mode === "buy" ? " active" : "") + '" ' + attrs + ' data-es-res-mode="buy">Buy</button></div>';
+}
+
+function esToolMatRowHtml(owner, mat) {
+  return '<div class="es-toolcfg-mat"><div class="es-toolcfg-mat-name">' + esGetIconHtml(mat.name) + '<span class="es-toolcfg-qty">' + fmt(mat.qty) + "</span><span>" + escapeHtml(mat.name) + "</span></div>" + esToggleHtml(owner, mat.name) + "</div>";
+}
+
+function esToolSectionHtml(title, iconName, headExtra, coins, materials, owner) {
+  const coinRow = coins > 0 ? '<div class="es-toolcfg-mat"><div class="es-toolcfg-mat-name">' + esGetIconHtml("Coins") + '<span class="es-toolcfg-qty">' + fmt(coins) + "</span><span>Coins</span></div></div>" : "";
+  const matRows = materials.map(m => esToolMatRowHtml(owner, m)).join("");
+  return '<div class="es-toolcfg-head"><div class="es-toolcfg-name">' + esGetIconHtml(iconName) + "<span>" + escapeHtml(title) + "</span></div>" + headExtra + '</div><div class="es-toolcfg-mats-label">Materials:</div>' + coinRow + matRows;
+}
+
+function esResourceCardHtml(resource, plan, active) {
+  const rec = esToolRecipeFor(resource);
+  let body = "";
+  if (active && rec) {
+    let headExtra = "";
+    if (rec.free) {
+      headExtra = '<div class="es-toolcfg-free">Free tool</div>';
+    } else if (plan && plan.tools[rec.tool] && plan.tools[rec.tool].restocks > 0) {
+      const t = plan.tools[rec.tool];
+      headExtra = '<div class="es-toolcfg-restock"><span class="es-toolcfg-restock-count">' + t.restocks + 'x restock</span><span class="es-toolcfg-restock-cost">' + fmt(t.flower) + " " + FLOWER_ICON + "</span></div>";
+    }
+    body = '<div class="es-toolcfg-tool">' + esToolSectionHtml(rec.tool, rec.tool, headExtra, rec.free ? 0 : rec.coins, rec.materials, rec.tool) + "</div>";
+  }
+  return '<div class="es-toolcfg-block"><div class="es-toolcfg-head es-toolcfg-reshead"><div class="es-toolcfg-name">' + esGetIconHtml(resource) + "<span>" + escapeHtml(resource) + "</span></div>" + esResourceToggleHtml(resource) + "</div>" + body + "</div>";
+}
+
+function esRenderToolCfg() {
+  const btn = $("esToolCfgBtn");
+  const panel = $("esToolCfgPanel");
+  if (!btn || !panel) return;
+  btn.innerHTML = getIcon("Axe") + " Tool Costs" + '<span class="es-toolcfg-chev"></span>';
+  btn.classList.toggle("active", esState.toolCfgOpen);
+  panel.style.display = esState.toolCfgOpen ? "" : "none";
+  if (!esState.toolCfgOpen) {
+    panel.innerHTML = "";
+    return;
+  }
+  const pricing = esTotalsPricing();
+  const plan = pricing ? pricing.plan : null;
+  const active = esActiveResources();
+  const resourceBlocks = Object.keys(RESOURCE_DATA).map(resource => esResourceCardHtml(resource, plan, active.has(resource))).join("");
+  const lava = esLavaRecipe();
+  const lavaBlock = '<div class="es-toolcfg-block">' + esToolSectionHtml("Lava Pit", "Lava Pit", '<div class="es-toolcfg-season">' + escapeHtml(lava.season) + "</div>", 0, lava.materials, "Lava Pit") + "</div>";
+  panel.innerHTML = '<div class="es-toolcfg-title">Resource Sourcing</div>' + resourceBlocks + lavaBlock;
+  panel.querySelectorAll("[data-es-res-mode]").forEach(b => {
+    b.onclick = () => {
+      esState.resMode[b.getAttribute("data-es-res")] = b.getAttribute("data-es-res-mode");
+      esRenderAll();
+    };
+  });
+  panel.querySelectorAll("[data-es-tcfg-mode]").forEach(b => {
+    b.onclick = () => {
+      esState.toolMats[b.getAttribute("data-es-tcfg-owner") + ":" + b.getAttribute("data-es-tcfg-mat")] = b.getAttribute("data-es-tcfg-mode");
+      esRenderAll();
+    };
+  });
 }
 
 function esMissingRowsData(resources, coins) {
@@ -23302,6 +23580,7 @@ function esComputeFlowerSubtotal(resources, coins) {
   Object.keys(resources || {}).forEach(k => {
     if (resources[k] > 0) total += esResourceFlowerCost(k, resources[k]);
   });
+  total += esBuildToolPlan(resources).totalFlower;
   return total;
 }
 
@@ -23312,6 +23591,7 @@ function esComputeMissingFlowerSubtotal(resources, coins) {
   missing.rows.forEach(r => {
     total += esResourceFlowerCost(r.name, r.qty);
   });
+  total += esBuildToolPlan(esMissingResourceMap(resources, coins)).totalFlower;
   return total;
 }
 
@@ -23508,9 +23788,9 @@ function esRenderGrid(which) {
 
 function esMaterialRowHtml(name, qty, showOwned) {
   const flowerCost = esResourceFlowerCost(name, qty);
-  const costLabel = name === "Oil" ? "Coin cost" : esState.costMode === "buy" ? "Buy" : "Collect";
+  const costLabel = esCostLabel(name);
   const valueText = showOwned ? fmt(esGetOwnedQty(name)) + "/" + fmt(qty) : fmt(qty);
-  const cycleInfo = !showOwned && esState.costMode === "collect" ? esResourceCycleInfo(name, qty) : null;
+  const cycleInfo = !showOwned && costLabel === "Collect" ? esResourceCycleInfo(name, qty) : null;
   const cycleBadge = cycleInfo && cycleInfo.cycles ? '<span class="es-cost-row-cycle">×' + cycleInfo.cycles + " Cycles</span>" : "";
   const cycleTimeHtml = cycleInfo && cycleInfo.timeSec ? '<small class="es-cost-row-sub es-cost-row-cycle-time">⏱ ' + esFormatSeconds(cycleInfo.timeSec) + "</small>" : "";
   return '<div class="es-cost-row"><div class="es-cost-row-name">' + esGetIconHtml(name) + "<span>" + escapeHtml(name) + '</span></div><div class="es-cost-row-val">' + valueText + cycleBadge + (flowerCost > 0 && !showOwned ? '<small class="es-cost-row-sub">' + costLabel + " · " + fmt(flowerCost) + " " + FLOWER_ICON + "</small>" : "") + cycleTimeHtml + "</div></div>";
@@ -23552,8 +23832,8 @@ function esResourceCycleInfo(name, missingQty) {
 
 function esMissingMaterialRowHtml(name, qty) {
   const flowerCost = esResourceFlowerCost(name, qty);
-  const costLabel = name === "Oil" ? "Coin cost" : esState.costMode === "buy" ? "Buy" : "Collect";
-  const cycleInfo = esState.costMode === "collect" ? esResourceCycleInfo(name, qty) : null;
+  const costLabel = esCostLabel(name);
+  const cycleInfo = costLabel === "Collect" ? esResourceCycleInfo(name, qty) : null;
   const cycleBadge = cycleInfo && cycleInfo.cycles ? '<span class="es-cost-row-cycle">×' + cycleInfo.cycles + " Cycles</span>" : "";
   const cycleTimeHtml = cycleInfo && cycleInfo.timeSec ? '<small class="es-cost-row-sub es-cost-row-cycle-time">⏱ ' + esFormatSeconds(cycleInfo.timeSec) + "</small>" : "";
   const costHtml = flowerCost > 0 ? '<small class="es-cost-row-sub">' + costLabel + " · " + fmt(flowerCost) + " " + FLOWER_ICON + "</small>" : "";
@@ -23582,7 +23862,7 @@ function esRenderSelectedReq() {
   const resKeys = Object.keys(boosted.resources).filter(k => boosted.resources[k] > 0);
   const rows = resKeys.map(k => esMaterialRowHtml(k, boosted.resources[k], esState.applyMissing)).join("");
   const coinRow = boosted.coins > 0 ? '<div class="es-cost-row"><div class="es-cost-row-name">' + esGetIconHtml("Coins") + '<span>Coins</span></div><div class="es-cost-row-val">' + (esState.applyMissing ? fmt(esGetOwnedQty("Coins")) + "/" + fmt(boosted.coins) : fmt(boosted.coins)) + "</div></div>" : "";
-  el.innerHTML = '<div class="es-selected-req-title">Selected Expansion — ' + escapeHtml(ES_ISLAND_LABEL[s.island]) + " #" + s.level + "</div>" + '<div class="es-material-cost-subtitle">Material Cost</div>' + (resKeys.length || boosted.coins > 0 ? rows + coinRow : '<div class="es-selected-req-empty">No resources required.</div>') + esMissingSectionHtml(boosted.resources, boosted.coins) + '<div class="es-cost-total-row"><div class="es-cost-total-label">Build Time</div><div class="es-cost-total-value">' + esFormatSeconds(boosted.seconds) + "</div></div>" + esSubtotalRowHtml(boosted.resources, boosted.coins, esState.applyMissing);
+  el.innerHTML = '<div class="es-selected-req-title">Selected Expansion — ' + escapeHtml(ES_ISLAND_LABEL[s.island]) + " #" + s.level + "</div>" + '<div class="es-material-cost-subtitle">Material Cost</div>' + (resKeys.length || boosted.coins > 0 ? rows + coinRow : '<div class="es-selected-req-empty">No resources required.</div>') + esMissingSectionHtml(boosted.resources, boosted.coins) + esRestockSectionHtml(boosted.resources, boosted.coins, esState.applyMissing) + '<div class="es-cost-total-row"><div class="es-cost-total-label">Build Time</div><div class="es-cost-total-value">' + esFormatSeconds(boosted.seconds) + "</div></div>" + esSubtotalRowHtml(boosted.resources, boosted.coins, esState.applyMissing);
 }
 
 function esRenderNodesSummary() {
@@ -23747,7 +24027,7 @@ function esRenderTotals() {
   const rows = resKeys.map(k => esMaterialRowHtml(k, boosted.resources[k], esState.applyMissing)).join("");
   const coinRow = boosted.coins > 0 ? '<div class="es-cost-row"><div class="es-cost-row-name">' + esGetIconHtml("Coins") + '<span>Coins</span></div><div class="es-cost-row-val">' + (esState.applyMissing ? fmt(esGetOwnedQty("Coins")) + "/" + fmt(boosted.coins) : fmt(boosted.coins)) + "</div></div>" : "";
   const flowerTotal = esState.applyMissing ? esComputeMissingFlowerSubtotal(boosted.resources, boosted.coins) : esComputeFlowerSubtotal(boosted.resources, boosted.coins);
-  el.innerHTML = '<div class="es-totals-title">Total Materials — Start → Target</div>' + '<div class="es-material-cost-subtitle">Material Cost</div>' + (resKeys.length || boosted.coins > 0 ? rows + coinRow : '<div class="es-selected-req-empty">No resources required.</div>') + esMissingSectionHtml(boosted.resources, boosted.coins) + '<div class="es-cost-total-row"><div class="es-cost-total-label">Total Build Time</div><div class="es-cost-total-value">' + esFormatSeconds(boosted.seconds) + "</div></div>" + esSubtotalRowHtml(boosted.resources, boosted.coins, esState.applyMissing);
+  el.innerHTML = '<div class="es-totals-title">Total Materials — Start → Target</div>' + '<div class="es-material-cost-subtitle">Material Cost</div>' + (resKeys.length || boosted.coins > 0 ? rows + coinRow : '<div class="es-selected-req-empty">No resources required.</div>') + esMissingSectionHtml(boosted.resources, boosted.coins) + esRestockSectionHtml(boosted.resources, boosted.coins, esState.applyMissing) + '<div class="es-cost-total-row"><div class="es-cost-total-label">Total Build Time</div><div class="es-cost-total-value">' + esFormatSeconds(boosted.seconds) + "</div></div>" + esSubtotalRowHtml(boosted.resources, boosted.coins, esState.applyMissing);
   if (flowerEl) flowerEl.innerHTML = fmt(flowerTotal) + " " + FLOWER_ICON;
 }
 
@@ -23799,7 +24079,7 @@ export function esRenderAll() {
   esClampSection("start");
   esClampSection("target");
   esRenderBoosts();
-  esRenderModeToggle();
+  esRenderToolCfg();
   esRenderMissingToggle();
   esRenderIslandTabs("start");
   esRenderIslandTabs("target");
@@ -23842,14 +24122,9 @@ $("esTargetPlus").onclick = () => {
   esRenderAll();
 };
 
-$("esModeCollectBtn").onclick = () => {
-  esState.costMode = "collect";
-  esRenderAll();
-};
-
-$("esModeBuyBtn").onclick = () => {
-  esState.costMode = "buy";
-  esRenderAll();
+$("esToolCfgBtn").onclick = () => {
+  esState.toolCfgOpen = !esState.toolCfgOpen;
+  esRenderToolCfg();
 };
 
 $("esMissingToggleBtn").onclick = () => {
@@ -23909,6 +24184,11 @@ $("moreMenuCraftingBoxBtn").onclick = () => {
 $("moreMenuLeaderboardBtn").onclick = () => {
   closeMoreMenu();
   toggleMainView("leaderboard");
+};
+
+$("moreMenuMapBtn").onclick = () => {
+  closeMoreMenu();
+  toggleMainView("map");
 };
 
 $("moreMenuWorkbenchBtn").onclick = () => {
@@ -28424,200 +28704,234 @@ const FISH_XP_DATA = {
   }
 };
 
-const FISH_TIER_BAIT = {
-  basic: "Earthworm",
-  advanced: "Grub",
-  expert: "Red Wiggler"
-};
+const FISH_RARE_CHUM = [ "Rich Chicken", "Speed Chicken", "Fat Chicken" ];
 
 export const FISH_CATCH_DATA = {
   Anchovy: {
     tier: "basic",
+    baits: [ "Earthworm" ],
     likes: [ "Carrot", "Egg" ],
     seasons: [ "Spring", "Summer", "Autumn", "Winter" ]
   },
   Butterflyfish: {
     tier: "basic",
+    baits: [ "Earthworm" ],
     likes: [ "Sunflower" ],
     seasons: [ "Summer", "Autumn" ]
   },
   Blowfish: {
     tier: "basic",
+    baits: [ "Earthworm" ],
     likes: [ "Yam" ],
     seasons: [ "Winter" ]
   },
   Clownfish: {
     tier: "basic",
+    baits: [ "Earthworm" ],
     likes: [ "Cabbage" ],
     seasons: [ "Summer", "Winter" ]
   },
   "Sea Bass": {
     tier: "basic",
+    baits: [ "Earthworm" ],
     likes: [ "Anchovy" ],
     seasons: [ "Spring", "Autumn" ]
   },
   "Sea Horse": {
     tier: "basic",
+    baits: [ "Earthworm" ],
     likes: [ "Seaweed" ],
     seasons: [ "Spring", "Summer" ]
   },
   "Horse Mackerel": {
     tier: "basic",
+    baits: [ "Earthworm" ],
     likes: [ "Blueberry" ],
     seasons: [ "Summer", "Winter" ]
   },
   Halibut: {
     tier: "basic",
+    baits: [ "Earthworm" ],
     likes: [ "Anchovy" ],
     seasons: [ "Spring", "Autumn" ]
   },
   Squid: {
     tier: "basic",
+    baits: [ "Earthworm" ],
     likes: [ "Eggplant", "Onion" ],
     seasons: [ "Spring", "Winter" ]
   },
   Porgy: {
     tier: "basic",
+    baits: [ "Earthworm" ],
     likes: [ "Yam" ],
     seasons: [ "Spring" ]
   },
   Muskellunge: {
     tier: "basic",
+    baits: [ "Earthworm" ],
     likes: [ "Turnip" ],
     seasons: [ "Autumn" ]
   },
   "Red Snapper": {
     tier: "advanced",
+    baits: [ "Grub", "Red Wiggler", "Fishing Lure" ],
     likes: [ "Apple", "Honey" ],
     seasons: [ "Spring", "Summer", "Autumn", "Winter" ]
   },
   "Moray Eel": {
     tier: "advanced",
+    baits: [ "Earthworm", "Grub", "Fishing Lure" ],
     likes: [ "Gold" ],
     seasons: [ "Summer", "Autumn" ]
   },
   "Olive Flounder": {
     tier: "advanced",
+    baits: [ "Earthworm", "Grub", "Fishing Lure" ],
     likes: [ "Rhubarb" ],
     seasons: [ "Spring", "Autumn" ]
   },
   Napoleanfish: {
     tier: "advanced",
+    baits: [ "Grub", "Fishing Lure" ],
     likes: [ "Carrot" ],
     seasons: [ "Summer", "Autumn" ]
   },
   Surgeonfish: {
     tier: "advanced",
+    baits: [ "Grub", "Fishing Lure" ],
     likes: [ "Orange" ],
     seasons: [ "Summer", "Autumn" ]
   },
   Angelfish: {
     tier: "advanced",
+    baits: [ "Grub", "Fishing Lure" ],
     likes: [ "Banana" ],
     seasons: [ "Summer", "Winter" ]
   },
   "Zebra Turkeyfish": {
     tier: "advanced",
+    baits: [ "Grub", "Fishing Lure" ],
     likes: [ "Beetroot", "Rhubarb" ],
     seasons: [ "Spring", "Summer" ]
   },
   Ray: {
     tier: "advanced",
+    baits: [ "Grub", "Fishing Lure" ],
     likes: [ "Squid" ],
     seasons: [ "Spring", "Summer" ]
   },
   "Hammerhead shark": {
     tier: "advanced",
+    baits: [ "Grub", "Fishing Lure" ],
     likes: [ "Iron" ],
     seasons: [ "Summer", "Autumn" ]
   },
   "Barred Knifejaw": {
     tier: "advanced",
+    baits: [ "Grub", "Fishing Lure" ],
     likes: [ "Anchovy" ],
     seasons: [ "Spring", "Summer" ]
   },
   Walleye: {
     tier: "advanced",
+    baits: [ "Grub" ],
     likes: [ "Broccoli" ],
     seasons: [ "Winter" ]
   },
   "Rock Blackfish": {
     tier: "advanced",
+    baits: [ "Grub" ],
     likes: [ "Onion" ],
     seasons: [ "Autumn" ]
   },
   Tilapia: {
     tier: "advanced",
+    baits: [ "Grub" ],
     likes: [ "Zucchini" ],
     seasons: [ "Summer" ]
   },
   Tuna: {
     tier: "expert",
+    baits: [ "Grub", "Red Wiggler", "Fishing Lure" ],
     likes: [ "Orange", "Wild Mushroom" ],
     seasons: [ "Spring", "Summer", "Autumn", "Winter" ]
   },
   "Mahi Mahi": {
     tier: "expert",
+    baits: [ "Grub", "Red Wiggler", "Fishing Lure" ],
     likes: [ "Corn" ],
     seasons: [ "Summer", "Autumn" ]
   },
   "Blue Marlin": {
     tier: "expert",
+    baits: [ "Grub", "Red Wiggler", "Fishing Lure" ],
     likes: [ "Wheat" ],
     seasons: [ "Summer", "Winter" ]
   },
   Oarfish: {
     tier: "expert",
+    baits: [ "Red Wiggler", "Fishing Lure" ],
     likes: [ "Kale" ],
     seasons: [ "Spring", "Winter" ]
   },
   "Football fish": {
     tier: "expert",
+    baits: [ "Red Wiggler", "Fishing Lure" ],
     likes: [ "Sunflower" ],
     seasons: [ "Winter" ]
   },
   Sunfish: {
     tier: "expert",
+    baits: [ "Red Wiggler", "Fishing Lure" ],
     likes: [ "Anchovy" ],
     seasons: [ "Summer", "Autumn" ]
   },
   Coelacanth: {
     tier: "expert",
+    baits: [ "Red Wiggler", "Fishing Lure" ],
     likes: [ "Cabbage" ],
     seasons: [ "Spring", "Winter" ]
   },
   Parrotfish: {
     tier: "expert",
+    baits: [ "Red Wiggler", "Fishing Lure" ],
     likes: [ "Seaweed" ],
     seasons: [ "Spring", "Summer" ]
   },
   "Whale Shark": {
     tier: "expert",
-    likes: [ "Fat Chicken" ],
+    baits: [ "Red Wiggler", "Fishing Lure" ],
+    likes: [ "Crab", "Fat Chicken" ],
     seasons: [ "Summer", "Winter" ]
   },
   "Saw Shark": {
     tier: "expert",
-    likes: [ "Speed Chicken" ],
+    baits: [ "Red Wiggler", "Fishing Lure" ],
+    likes: [ "Red Snapper", "Speed Chicken" ],
     seasons: [ "Spring", "Summer" ]
   },
   "White Shark": {
     tier: "expert",
-    likes: [ "Rich Chicken" ],
+    baits: [ "Red Wiggler", "Fishing Lure" ],
+    likes: [ "Tuna", "Rich Chicken" ],
     seasons: [ "Summer", "Winter" ]
   },
   Cobia: {
     tier: "expert",
+    baits: [ "Red Wiggler" ],
     likes: [ "Broccoli" ],
     seasons: [ "Summer" ]
   },
   Trout: {
     tier: "expert",
+    baits: [ "Red Wiggler" ],
     likes: [ "Pepper" ],
     seasons: [ "Winter" ]
   },
   Weakfish: {
     tier: "expert",
+    baits: [ "Red Wiggler" ],
     likes: [ "Artichoke" ],
     seasons: [ "Spring" ]
   }
@@ -28677,36 +28991,155 @@ export function fishCatchYieldMult(tier) {
   return mult;
 }
 
-function fishCheapestBait(fishName, mode) {
-  const d = FISH_CATCH_DATA[fishName];
-  if (!d) return null;
-  const name = FISH_TIER_BAIT[d.tier];
+const FISH_SETUP_OVERRIDES = {
+  Surgeonfish: [ { bait: "Grub", chum: null }, { bait: "Fishing Lure", chum: "Orange" } ]
+};
+
+const FISH_FERMENTATION_BAIT_BY_WORM = {
+  Earthworm: "Capsule Bait",
+  Grub: "Umbrella Bait",
+  "Red Wiggler": "Crimson Baitfish"
+};
+
+const FISH_WORM_BY_FERMENTATION_BAIT = {
+  "Capsule Bait": "Earthworm",
+  "Umbrella Bait": "Grub",
+  "Crimson Baitfish": "Red Wiggler"
+};
+
+const FISH_LURE_GEM_COST = 10;
+
+let __fishFermentBaitCostBusy = false;
+
+function fishBaitMechanicName(baitName) {
+  return FISH_WORM_BY_FERMENTATION_BAIT[baitName] || baitName;
+}
+
+function fishAllBaitNames(baits) {
+  const names = [];
+  (baits || []).forEach(name => {
+    names.push(name);
+    if (FISH_FERMENTATION_BAIT_BY_WORM[name]) names.push(FISH_FERMENTATION_BAIT_BY_WORM[name]);
+  });
+  return names;
+}
+
+function fishBaitUnitCostCoins(baitName, mode) {
+  if (baitName === "Fishing Lure") return gemsToFlower(FISH_LURE_GEM_COST) * coinPerFlower;
+  if (FISH_WORM_BY_FERMENTATION_BAIT[baitName]) {
+    if (__fishFermentBaitCostBusy) return null;
+    if (isFishingBuyMode() || mode === "buy") {
+      const marketEntry = marketItems.find(x => (x.name || "").toLowerCase() === baitName.toLowerCase());
+      const marketCoins = marketEntry ? (marketEntry.flowerPrice || 0) * coinPerFlower : 0;
+      if (marketCoins > 0) return marketCoins;
+    }
+    const unitKey = "baitunit|" + baitName;
+    if (__fishBasicFiguresMemo.has(unitKey)) return __fishBasicFiguresMemo.get(unitKey);
+    __fishFermentBaitCostBusy = true;
+    let unitCost;
+    try {
+      unitCost = computeBaitFigures(baitName).unitCostExpected * coinPerFlower;
+    } finally {
+      __fishFermentBaitCostBusy = false;
+    }
+    __fishBasicFiguresMemo.set(unitKey, unitCost);
+    return unitCost;
+  }
+  return getMaterialUnitCostCoins(baitName, mode || "collect");
+}
+
+function fishBuildChum(chumName, mode, visited) {
+  const qty = CHUM_AMOUNTS_DATA[chumName] || 1;
+  const unit = mode === "buy" ? getMaterialUnitCostCoins(chumName, "buy", visited) : fishChumUnitCostCoins(chumName, visited);
   return {
-    name: name,
-    cost: getMaterialUnitCostCoins(name, mode || "collect")
+    name: chumName,
+    qty: qty,
+    unit: unit,
+    cost: unit * qty
   };
 }
 
-function fishCheapestChum(fishName, mode, visited) {
+function fishBestSetup(fishName, mode, visited) {
   const d = FISH_CATCH_DATA[fishName];
   if (!d || !d.likes || !d.likes.length) return null;
-  let best = null;
-  d.likes.forEach(chum => {
-    const qty = CHUM_AMOUNTS_DATA[chum] || 1;
-    const unit = mode === "buy" ? getMaterialUnitCostCoins(chum, "buy", visited) : fishChumUnitCostCoins(chum, visited);
-    const cost = unit * qty;
-    if (!best || cost < best.cost) best = {
-      name: chum,
-      qty: qty,
-      unit: unit,
-      cost: cost
-    };
+  const override = FISH_SETUP_OVERRIDES[fishName];
+  const baitCache = {};
+  const getBait = name => {
+    if (!(name in baitCache)) {
+      const cost = fishBaitUnitCostCoins(name, mode);
+      baitCache[name] = cost === null ? null : {
+        name: name,
+        cost: cost
+      };
+    }
+    return baitCache[name];
+  };
+  const chumOptions = d.likes.map(chum => fishBuildChum(chum, mode, visited));
+  const candidates = [];
+  if (override) {
+    override.forEach(o => {
+      const chum = o.chum ? fishBuildChum(o.chum, mode, visited) : null;
+      fishAllBaitNames([ o.bait ]).forEach(baitName => {
+        const bait = getBait(baitName);
+        if (!bait) return;
+        candidates.push({
+          bait: bait,
+          chum: chum,
+          rivals: [],
+          total: bait.cost + (chum ? chum.cost : 0)
+        });
+      });
+    });
+  } else {
+    fishAllBaitNames(d.baits).forEach(baitName => {
+      const bait = getBait(baitName);
+      if (!bait) return;
+      const mechanic = fishBaitMechanicName(baitName);
+      chumOptions.forEach(chum => {
+        if (FISH_RARE_CHUM.includes(chum.name) && mechanic !== "Red Wiggler") return;
+        const rivals = Object.keys(FISH_CATCH_DATA).filter(other => other !== fishName && FISH_CATCH_DATA[other].baits.includes(mechanic) && FISH_CATCH_DATA[other].likes.includes(chum.name) && isFishInSeason(other));
+        candidates.push({
+          bait: bait,
+          chum: chum,
+          rivals: rivals,
+          total: bait.cost + chum.cost
+        });
+      });
+    });
+  }
+  if (!candidates.length) return null;
+  const core = candidates.filter(c => c.bait.name !== "Fishing Lure");
+  const coreExclusive = core.some(c => !c.rivals.length);
+  const pickPool = list => {
+    const exclusive = list.filter(c => !c.rivals.length);
+    return exclusive.length ? exclusive : list;
+  };
+  const pool = coreExclusive ? candidates.filter(c => !c.rivals.length) : candidates;
+  let best = pool[0];
+  pool.forEach(c => {
+    if (c.total < best.total) best = c;
   });
-  return best;
+  const altSetups = [];
+  const seenBaits = new Set([ best.bait.name ]);
+  candidates.forEach(c => {
+    if (seenBaits.has(c.bait.name)) return;
+    seenBaits.add(c.bait.name);
+    const ownPool = pickPool(candidates.filter(x => x.bait.name === c.bait.name));
+    let alt = ownPool[0];
+    ownPool.forEach(x => {
+      if (x.total < alt.total) alt = x;
+    });
+    altSetups.push(alt);
+  });
+  altSetups.sort((a, b) => a.total - b.total);
+  return Object.assign({}, best, {
+    chumOptions: override ? [] : chumOptions,
+    altSetups: altSetups
+  });
 }
 
 export function computeBasicFishFigures(fishName, mode, visited) {
-  const memoKey = (mode || "collect") + "|" + fishName;
+  const memoKey = (__fishFermentBaitCostBusy ? "nested|" : "") + (mode || "collect") + "|" + fishName;
   if (__fishBasicFiguresMemo.has(memoKey)) return __fishBasicFiguresMemo.get(memoKey);
   const guardKey = "fishfigures:" + memoKey;
   if (visited && visited.has(guardKey)) return null;
@@ -28720,8 +29153,12 @@ export function computeBasicFishFigures(fishName, mode, visited) {
 function computeBasicFishFiguresUncached(fishName, mode, visited) {
   const d = FISH_CATCH_DATA[fishName];
   if (!d) return null;
-  const bait = fishCheapestBait(fishName, mode);
-  const chum = fishCheapestChum(fishName, mode, visited);
+  const setup = fishBestSetup(fishName, mode, visited);
+  const bait = setup ? setup.bait : null;
+  const chum = setup ? setup.chum : null;
+  const rivals = setup ? setup.rivals : [];
+  const chumOptions = setup ? setup.chumOptions : [];
+  const altSetups = setup ? setup.altSetups : [];
   const rodCost = fishRodCostCoins();
   const baitCost = bait ? bait.cost : 0;
   const chumCost = chum ? chum.cost : 0;
@@ -28732,6 +29169,9 @@ function computeBasicFishFiguresUncached(fishName, mode, visited) {
     tier: d.tier,
     bait: bait,
     chum: chum,
+    chumOptions: chumOptions,
+    altSetups: altSetups,
+    rivals: rivals,
     rodCost: rodCost,
     baitCost: baitCost,
     chumCost: chumCost,
