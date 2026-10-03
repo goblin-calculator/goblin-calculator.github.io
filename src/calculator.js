@@ -23197,6 +23197,8 @@ export let esState = {
   toolCfgOpen: false,
   resMode: {},
   toolMats: {},
+  obsidianMode: "collect",
+  obsidianBoth: false,
   applyMissing: true
 };
 
@@ -23226,6 +23228,40 @@ function esMatMode(owner, matName) {
   return esState.toolMats[owner + ":" + matName] === "collect" ? "collect" : "buy";
 }
 
+function esObsidianMode() {
+  return esState.obsidianMode === "buy" ? "buy" : "collect";
+}
+
+function esObsidianBoth() {
+  return esObsidianMode() === "buy" && esState.obsidianBoth === true;
+}
+
+function esObsidianUsesLava() {
+  return esObsidianMode() === "collect" || esObsidianBoth();
+}
+
+function esObsidianRates() {
+  const fig = computeLavaPitFigures();
+  const nodeCount = getNodeCount("Lava Pit");
+  const perCycle = fig ? nodeCount * fig.yieldVal : 0;
+  const weeklyProd = fig && fig.timeSec > 0 ? perCycle * (OBSIDIAN_WEEK_SEC / fig.timeSec) : 0;
+  return {
+    fig: fig,
+    perCycle: perCycle,
+    weeklyProd: weeklyProd,
+    weeklyBuy: OBSIDIAN_WEEKLY_PURCHASE_CAP
+  };
+}
+
+function esObsidianCollectShare(qty) {
+  if (esObsidianMode() === "collect") return 1;
+  if (!esObsidianBoth()) return 0;
+  if (qty > 0) return esObsidianSplit(qty).collected / qty;
+  const r = esObsidianRates();
+  const total = r.weeklyProd + r.weeklyBuy;
+  return total > 0 ? r.weeklyProd / total : 0;
+}
+
 function esActiveResources() {
   const active = new Set;
   Object.keys(RESOURCE_DATA).forEach(r => {
@@ -23242,7 +23278,7 @@ function esActiveResources() {
   };
   while (changed) {
     changed = false;
-    consider("Lava Pit", esLavaRecipe().materials);
+    if (esObsidianUsesLava()) consider("Lava Pit", esLavaRecipe().materials);
     Array.from(active).forEach(r => {
       const rec = esToolRecipeFor(r);
       if (rec && !rec.free) consider(rec.tool, rec.materials);
@@ -23324,15 +23360,21 @@ function esObsidianCollectCoins() {
   return lava.yieldVal > 0 ? perCycle / lava.yieldVal : 0;
 }
 
-export function esReqUnitCoins(name) {
+export function esReqUnitCoins(name, qty) {
   if (name === "Gem" || name === "Coins") return 0;
-  if (name === "Obsidian") return esObsidianCollectCoins();
+  if (name === "Obsidian") {
+    const share = esObsidianCollectShare(qty);
+    if (share >= 1) return esObsidianCollectCoins();
+    const buyUnit = getMaterialUnitCostCoins("Obsidian", "buy");
+    if (share <= 0) return buyUnit;
+    return share * esObsidianCollectCoins() + (1 - share) * buyUnit;
+  }
   if (RESOURCE_DATA[name]) return esResMode(name) === "collect" ? esResourceCollectCoins(name) : getMaterialUnitCostCoins(name, "buy");
   return getMaterialUnitCostCoins(name, "buy");
 }
 
 function esCostLabel(name) {
-  if (name === "Obsidian") return "Collect";
+  if (name === "Obsidian") return esObsidianMode() === "collect" ? "Collect" : esObsidianBoth() ? "Buy + Collect" : "Buy";
   if (RESOURCE_DATA[name]) return esResMode(name) === "collect" ? "Collect" : "Buy";
   return "Buy";
 }
@@ -23353,8 +23395,10 @@ function esBuildToolPlan(resources) {
     const q = resources[k];
     if (!(q > 0)) return;
     if (k === "Obsidian") {
+      const collectQty = q * esObsidianCollectShare(q);
+      if (!(collectQty > 0)) return;
       const lava = esLavaRecipe();
-      const cycles = Math.ceil(q / lava.yieldVal - 1e-9);
+      const cycles = Math.ceil(collectQty / lava.yieldVal - 1e-9);
       lava.materials.forEach(m => {
         if (esMatMode("Lava Pit", m.name) === "collect" && RESOURCE_DATA[m.name]) addUses(m.name, m.qty * cycles, 1);
       });
@@ -23436,10 +23480,36 @@ function esToolMatRowHtml(owner, mat) {
   return '<div class="es-toolcfg-mat"><div class="es-toolcfg-mat-name">' + esGetIconHtml(mat.name) + '<span class="es-toolcfg-qty">' + fmt(mat.qty) + "</span><span>" + escapeHtml(mat.name) + "</span></div>" + esToggleHtml(owner, mat.name) + "</div>";
 }
 
-function esToolSectionHtml(title, iconName, headExtra, coins, materials, owner) {
+function esObsidianSourcingHtml() {
+  const mode = esObsidianMode();
+  const both = esObsidianBoth();
+  const tog = (attr, items) => '<div class="es-toolcfg-tog">' + items.map(it => '<button type="button" class="es-mode-btn es-toolcfg-tbtn' + (it.on ? " active" : "") + '" ' + attr + '="' + it.val + '">' + it.label + "</button>").join("") + "</div>";
+  const row1 = '<div class="es-toolcfg-mat"><div class="es-toolcfg-mat-name">' + esGetIconHtml("Obsidian") + "<span>Obsidian</span></div>" + tog("data-es-obs-mode", [ {
+    val: "collect",
+    label: "Collect",
+    on: mode === "collect"
+  }, {
+    val: "buy",
+    label: "Buy",
+    on: mode === "buy"
+  } ]) + "</div>";
+  const row2 = '<div class="es-toolcfg-mat' + (mode === "buy" ? "" : " es-obs-disabled") + '"><div class="es-toolcfg-mat-name"><span>Buy + Collect</span></div>' + tog("data-es-obs-both", [ {
+    val: "off",
+    label: "Off",
+    on: !both
+  }, {
+    val: "on",
+    label: "On",
+    on: both
+  } ]) + "</div>";
+  const note = mode === "buy" ? '<div class="es-obs-note">Marketplace limit: ' + OBSIDIAN_WEEKLY_PURCHASE_CAP + " Obsidian per week" + (both ? ", plus your Lava Pit production." : ".") + "</div>" : "";
+  return '<div class="es-toolcfg-mats-label">Obsidian:</div>' + row1 + row2 + note;
+}
+
+function esToolSectionHtml(title, iconName, headExtra, coins, materials, owner, preMats) {
   const coinRow = coins > 0 ? '<div class="es-toolcfg-mat"><div class="es-toolcfg-mat-name">' + esGetIconHtml("Coins") + '<span class="es-toolcfg-qty">' + fmt(coins) + "</span><span>Coins</span></div></div>" : "";
   const matRows = materials.map(m => esToolMatRowHtml(owner, m)).join("");
-  return '<div class="es-toolcfg-head"><div class="es-toolcfg-name">' + esGetIconHtml(iconName) + "<span>" + escapeHtml(title) + "</span></div>" + headExtra + '</div><div class="es-toolcfg-mats-label">Materials:</div>' + coinRow + matRows;
+  return '<div class="es-toolcfg-head"><div class="es-toolcfg-name">' + esGetIconHtml(iconName) + "<span>" + escapeHtml(title) + "</span></div>" + headExtra + "</div>" + (preMats || "") + '<div class="es-toolcfg-mats-label">Materials:</div>' + coinRow + matRows;
 }
 
 function esResourceCardHtml(resource, plan, active) {
@@ -23474,11 +23544,23 @@ function esRenderToolCfg() {
   const active = esActiveResources();
   const resourceBlocks = Object.keys(RESOURCE_DATA).map(resource => esResourceCardHtml(resource, plan, active.has(resource))).join("");
   const lava = esLavaRecipe();
-  const lavaBlock = '<div class="es-toolcfg-block">' + esToolSectionHtml("Lava Pit", "Lava Pit", '<div class="es-toolcfg-season">' + escapeHtml(lava.season) + "</div>", 0, lava.materials, "Lava Pit") + "</div>";
+  const lavaBlock = '<div class="es-toolcfg-block">' + esToolSectionHtml("Lava Pit", "Lava Pit", '<div class="es-toolcfg-season">' + escapeHtml(lava.season) + "</div>", 0, lava.materials, "Lava Pit", esObsidianSourcingHtml()) + "</div>";
   panel.innerHTML = '<div class="es-toolcfg-title">Resource Sourcing</div>' + resourceBlocks + lavaBlock;
   panel.querySelectorAll("[data-es-res-mode]").forEach(b => {
     b.onclick = () => {
       esState.resMode[b.getAttribute("data-es-res")] = b.getAttribute("data-es-res-mode");
+      esRenderAll();
+    };
+  });
+  panel.querySelectorAll("[data-es-obs-mode]").forEach(b => {
+    b.onclick = () => {
+      esState.obsidianMode = b.getAttribute("data-es-obs-mode") === "buy" ? "buy" : "collect";
+      esRenderAll();
+    };
+  });
+  panel.querySelectorAll("[data-es-obs-both]").forEach(b => {
+    b.onclick = () => {
+      esState.obsidianBoth = b.getAttribute("data-es-obs-both") === "on";
       esRenderAll();
     };
   });
@@ -23790,14 +23872,72 @@ function esMaterialRowHtml(name, qty, showOwned) {
   const flowerCost = esResourceFlowerCost(name, qty);
   const costLabel = esCostLabel(name);
   const valueText = showOwned ? fmt(esGetOwnedQty(name)) + "/" + fmt(qty) : fmt(qty);
-  const cycleInfo = !showOwned && costLabel === "Collect" ? esResourceCycleInfo(name, qty) : null;
+  const cycleInfo = !showOwned && (costLabel === "Collect" || name === "Obsidian") ? esResourceCycleInfo(name, qty) : null;
   const cycleBadge = cycleInfo && cycleInfo.cycles ? '<span class="es-cost-row-cycle">×' + cycleInfo.cycles + " Cycles</span>" : "";
   const cycleTimeHtml = cycleInfo && cycleInfo.timeSec ? '<small class="es-cost-row-sub es-cost-row-cycle-time">⏱ ' + esFormatSeconds(cycleInfo.timeSec) + "</small>" : "";
   return '<div class="es-cost-row"><div class="es-cost-row-name">' + esGetIconHtml(name) + "<span>" + escapeHtml(name) + '</span></div><div class="es-cost-row-val">' + valueText + cycleBadge + (flowerCost > 0 && !showOwned ? '<small class="es-cost-row-sub">' + costLabel + " · " + fmt(flowerCost) + " " + FLOWER_ICON + "</small>" : "") + cycleTimeHtml + "</div></div>";
 }
 
+function esObsidianPlan(qty, perCycle, cycleSec) {
+  if (!(qty > 0)) return {
+    timeSec: 0,
+    bought: 0,
+    collected: 0
+  };
+  const hasLava = perCycle > 0 && cycleSec > 0;
+  let weekIdx = 0;
+  let cycleIdx = 0;
+  let last = {
+    timeSec: 0,
+    bought: OBSIDIAN_WEEKLY_PURCHASE_CAP,
+    collected: 0
+  };
+  for (let i = 0; i < 200000; i++) {
+    const nextWeek = weekIdx * OBSIDIAN_WEEK_SEC;
+    const nextCycle = hasLava ? cycleIdx * cycleSec : Infinity;
+    const t = Math.min(nextWeek, nextCycle);
+    if (nextWeek <= t) weekIdx++;
+    if (hasLava && nextCycle <= t) cycleIdx++;
+    const bought = OBSIDIAN_WEEKLY_PURCHASE_CAP * (Math.floor(t / OBSIDIAN_WEEK_SEC + 1e-9) + 1);
+    const collected = hasLava ? Math.floor(t / cycleSec + 1e-9) * perCycle : 0;
+    last = {
+      timeSec: t,
+      bought: bought,
+      collected: collected
+    };
+    if (bought + collected >= qty - 1e-9) return last;
+  }
+  return last;
+}
+
+function esObsidianSplit(qty) {
+  const r = esObsidianRates();
+  const lavaReady = esObsidianBoth() && r.fig && r.fig.timeSec > 0 && r.perCycle > 0;
+  const perCycle = lavaReady ? r.perCycle : 0;
+  const plan = esObsidianPlan(qty, perCycle, lavaReady ? r.fig.timeSec : 0);
+  let collected = 0;
+  if (lavaReady) {
+    const collectUnit = esObsidianCollectCoins();
+    const buyUnit = getMaterialUnitCostCoins("Obsidian", "buy");
+    collected = collectUnit <= buyUnit ? Math.min(qty, plan.collected) : Math.min(plan.collected, Math.max(0, qty - plan.bought));
+  }
+  return {
+    timeSec: plan.timeSec,
+    collected: collected,
+    bought: qty - collected,
+    cycles: collected > 0 ? Math.ceil(collected / perCycle - 1e-9) : 0
+  };
+}
+
 function esResourceCycleInfo(name, missingQty) {
   if (!(missingQty > 0)) return null;
+  if (name === "Obsidian" && esObsidianMode() === "buy") {
+    const split = esObsidianSplit(missingQty);
+    return {
+      cycles: split.cycles || null,
+      timeSec: split.timeSec
+    };
+  }
   if (name === "Obsidian") {
     if (typeof computeLavaPitFigures !== "function" || typeof getNodeCount !== "function") return null;
     const fig = computeLavaPitFigures();
@@ -23833,7 +23973,7 @@ function esResourceCycleInfo(name, missingQty) {
 function esMissingMaterialRowHtml(name, qty) {
   const flowerCost = esResourceFlowerCost(name, qty);
   const costLabel = esCostLabel(name);
-  const cycleInfo = costLabel === "Collect" ? esResourceCycleInfo(name, qty) : null;
+  const cycleInfo = costLabel === "Collect" || name === "Obsidian" ? esResourceCycleInfo(name, qty) : null;
   const cycleBadge = cycleInfo && cycleInfo.cycles ? '<span class="es-cost-row-cycle">×' + cycleInfo.cycles + " Cycles</span>" : "";
   const cycleTimeHtml = cycleInfo && cycleInfo.timeSec ? '<small class="es-cost-row-sub es-cost-row-cycle-time">⏱ ' + esFormatSeconds(cycleInfo.timeSec) + "</small>" : "";
   const costHtml = flowerCost > 0 ? '<small class="es-cost-row-sub">' + costLabel + " · " + fmt(flowerCost) + " " + FLOWER_ICON + "</small>" : "";
