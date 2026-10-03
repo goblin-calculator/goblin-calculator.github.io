@@ -16,6 +16,8 @@ import { renderWorkbenchPanel } from "./workbench.js";
 
 import { renderLeaderboardPanel } from "./leaderboard.js";
 
+import { renderMapPanel } from "./map.js";
+
 import { PETE_GUIDE_IMAGES } from "./pete_guide_images.js";
 
 function getCancelIcon() {
@@ -4116,16 +4118,6 @@ export function esRenderMissingToggle() {
   btn.textContent = esState.applyMissing ? "ON" : "OFF";
 }
 
-export function esRenderModeToggle() {
-  const collectBtn = $("esModeCollectBtn");
-  const buyBtn = $("esModeBuyBtn");
-  if (!collectBtn || !buyBtn) return;
-  collectBtn.innerHTML = getIcon("Axe") + " Collect";
-  buyBtn.innerHTML = FLOWER_ICON + " Buy";
-  collectBtn.classList.toggle("active", esState.costMode === "collect");
-  buyBtn.classList.toggle("active", esState.costMode === "buy");
-}
-
 export function openExpansionSim() {
   $("expansionSimTitleIcon").src = esIslandIcon(esState.start.island);
   esSyncAutoBoostsFromFarm();
@@ -4878,6 +4870,7 @@ export const MAIN_VIEW_PANEL_MAP = {
   craftingbox: "craftingBoxPanel",
   workbench: "workbenchPanel",
   leaderboard: "leaderboardPanel",
+  map: "mapPanel",
   auctiontracker: "auctionTrackerPanel",
   sflbubbles: "sflBubblesPanel",
   dailyprofit: "dailyProfitPanel"
@@ -4932,7 +4925,8 @@ const VIEW_URL_SLUGS = {
   sflbubbles: "sfl_bubbles",
   dailyprofit: "daily_profit",
   craftingbox: "crafting_box",
-  workbench: "workbench"
+  workbench: "workbench",
+  map: "map"
 };
 
 const IN_PROGRESS_ROUTE_PREFIX = "in_progress";
@@ -5138,6 +5132,7 @@ function renderMainViewContent(view) {
   if (view === "craftingbox" && typeof renderCraftingBoxPanel === "function") renderCraftingBoxPanel();
   if (view === "workbench" && typeof renderWorkbenchPanel === "function") renderWorkbenchPanel();
   if (view === "leaderboard" && typeof renderLeaderboardPanel === "function") renderLeaderboardPanel();
+  if (view === "map" && typeof renderMapPanel === "function") renderMapPanel();
   if (view === "auctiontracker") renderAuctionTrackerPanel();
   if (view === "sflbubbles" && typeof renderSflBubblesPanel === "function") renderSflBubblesPanel();
   if (view === "dailyprofit") renderDailyProfitCard();
@@ -6341,9 +6336,9 @@ function renderFishCatchCard(fishName, cat) {
       extraNote = `<div style="font-size:9px;color:var(--ink-soft);margin-top:2px;">🛒 Buy — cost uses the Marketplace price for ${escapeHtml(fishName)} instead of Rod + Bait + Chum.</div>`;
     } else {
       const bf = computeBasicFishFigures(fishName, cookingCostMode);
-      ingredientRows = `\n        <div class="cook-ingredient-row ing-row-boxed"><span>${getIcon("Rod")}</span><span class="ing-name">Rod ×1</span><span class="ing-cost">${fmt(coinsToFlower(bf.rodCost))}${FLOWER_ICON}/u</span></div>\n        <div class="cook-ingredient-row ing-row-boxed"><span>${getIcon(bf.bait ? bf.bait.name : "")}</span><span class="ing-name">${escapeHtml(bf.bait ? bf.bait.name : "?")} ×1</span><span class="ing-cost">${fmt(coinsToFlower(bf.baitCost))}${FLOWER_ICON}/u</span></div>\n        <div class="cook-ingredient-row ing-row-boxed"><span>${getIcon(bf.chum ? bf.chum.name : "")}</span><span class="ing-name">${escapeHtml(bf.chum ? bf.chum.name : "?")} ×${fmt(bf.chum ? bf.chum.qty : 0)}</span><span class="ing-cost">${fmt(coinsToFlower(bf.chumCost))}${FLOWER_ICON}/u</span></div>\n      `;
-      ingredientTotalRows = `${fishIngTotalRowHtml("Rod", 1, bf.rodCost, effectiveCount)}${fishIngTotalRowHtml(bf.bait ? bf.bait.name : "?", 1, bf.baitCost, effectiveCount)}${fishIngTotalRowHtml(bf.chum ? bf.chum.name : "?", bf.chum ? bf.chum.qty : 0, bf.chumCost, effectiveCount)}`;
-      extraNote = `<div style="font-size:9px;color:var(--ink-soft);margin-top:2px;">Tier: ${escapeHtml(FISH_TIER_LABEL[d.tier])}${fishCatchYieldMult(d.tier) !== 1 ? ` · avg yield ×${fmt(fishCatchYieldMult(d.tier))} (chance skill)` : ``}</div>`;
+      ingredientRows = `\n        <div class="cook-ingredient-row ing-row-boxed"><span>${getIcon("Rod")}</span><span class="ing-name">Rod ×1</span><span class="ing-cost">${fmt(coinsToFlower(bf.rodCost))}${FLOWER_ICON}/u</span></div>\n        <div class="cook-ingredient-row ing-row-boxed"><span>${getIcon(bf.bait ? bf.bait.name : "")}</span><span class="ing-name">${escapeHtml(bf.bait ? bf.bait.name : "?")} ×1</span><span class="ing-cost">${fmt(coinsToFlower(bf.baitCost))}${FLOWER_ICON}/u</span></div>\n        ${bf.chum ? `<div class="cook-ingredient-row ing-row-boxed"><span>${getIcon(bf.chum ? bf.chum.name : "")}</span><span class="ing-name">${escapeHtml(bf.chum ? bf.chum.name : "?")} ×${fmt(bf.chum ? bf.chum.qty : 0)}</span><span class="ing-cost">${fmt(coinsToFlower(bf.chumCost))}${FLOWER_ICON}/u</span></div>` : `<div class="cook-ingredient-row ing-row-boxed"><span class="ing-name">No chum</span></div>`}\n      `;
+      ingredientTotalRows = `${fishIngTotalRowHtml("Rod", 1, bf.rodCost, effectiveCount)}${fishIngTotalRowHtml(bf.bait ? bf.bait.name : "?", 1, bf.baitCost, effectiveCount)}${bf.chum ? fishIngTotalRowHtml(bf.chum.name, bf.chum.qty, bf.chumCost, effectiveCount) : ""}`;
+      extraNote = `<div style="font-size:9px;color:var(--ink-soft);margin-top:2px;">Tier: ${escapeHtml(FISH_TIER_LABEL[d.tier])}${fishCatchYieldMult(d.tier) !== 1 ? ` · avg yield ×${fmt(fishCatchYieldMult(d.tier))} (chance skill)` : ``}</div>${fishRivalNoteHtml(fishName, bf)}`;
     }
   } else {
     const af = computeAgedFishFigures(fishName, cookingCostMode);
@@ -6435,6 +6430,59 @@ function renderFishingTierTabs() {
   });
 }
 
+function fishRivalNoteHtml(fishName, bf) {
+  if (fishName === "Surgeonfish") return "";
+  if (!bf || !bf.rivals || !bf.rivals.length || !bf.bait || !bf.chum) return "";
+  const guaranteed = fishMarketItemForFish(fishName);
+  const tail = guaranteed ? ` Use ${escapeHtml(guaranteed)} to guarantee ${escapeHtml(fishName)}.` : ``;
+  return `<div style="font-size:9px;color:var(--loss);margin-top:3px;">⚠ ${escapeHtml(bf.bait.name)} + ${escapeHtml(bf.chum.name)} is also matched by ${bf.rivals.map(escapeHtml).join(", ")} — the game can land that fish instead.${tail}</div>`;
+}
+
+function fishGuaranteedBaitsForFish(fishName) {
+  return Object.keys(FISH_MARKET_GUARANTEED_CATCH).filter(item => FISH_MARKET_GUARANTEED_CATCH[item].includes(fishName));
+}
+
+function fishAltChumRowsHtml(fishName, bf, yieldMult) {
+  if (fishName !== "Tuna" || !bf || !bf.chum || !bf.chumOptions) return "";
+  const others = bf.chumOptions.filter(o => o.name !== bf.chum.name);
+  if (!others.length) return "";
+  const rows = others.map(o => `<div class="cook-ingredient-row"><span>${getIcon(o.name)}</span><span class="ing-name">${escapeHtml(o.name)} ×${fmt(o.qty)}</span><span class="ing-cost">${fmt(coinsToFlower(o.cost / yieldMult))}${FLOWER_ICON}/u</span></div>`).join("");
+  return `<div style="font-size:9px;color:var(--ink-soft);margin-top:4px;">Or use this chum instead of ${escapeHtml(bf.chum.name)}:</div>${rows}`;
+}
+
+function fishAltSetupRowsHtml(fishName, bf, yieldMult) {
+  if (!bf || !bf.altSetups || !bf.altSetups.length) return "";
+  const mainChumName = bf.chum ? bf.chum.name : null;
+  const baitRow = alt => `<div class="cook-ingredient-row"><span>${getIcon(alt.bait.name)}</span><span class="ing-name">${escapeHtml(alt.bait.name)} ×1</span><span class="ing-cost">${fmt(coinsToFlower(alt.bait.cost / yieldMult))}${FLOWER_ICON}/u</span></div>`;
+  const sameChum = bf.altSetups.filter(alt => (alt.chum ? alt.chum.name : null) === mainChumName);
+  const otherChum = bf.altSetups.filter(alt => (alt.chum ? alt.chum.name : null) !== mainChumName);
+  let html = "";
+  if (sameChum.length) {
+    html += `<div style="font-size:9px;color:var(--ink-soft);margin-top:4px;">Other baits that can catch ${escapeHtml(fishName)}${mainChumName ? ` with ${escapeHtml(mainChumName)}` : ""}:</div>${sameChum.map(baitRow).join("")}`;
+  }
+  otherChum.forEach(alt => {
+    const chumRow = alt.chum ? `<div class="cook-ingredient-row"><span>${getIcon(alt.chum.name)}</span><span class="ing-name">${escapeHtml(alt.chum.name)} ×${fmt(alt.chum.qty)}</span><span class="ing-cost">${fmt(coinsToFlower(alt.chum.cost / yieldMult))}${FLOWER_ICON}/u</span></div>` : `<div class="cook-ingredient-row"><span class="ing-name">No chum</span></div>`;
+    html += `<div style="font-size:9px;color:var(--ink-soft);margin-top:4px;">Or use this setup instead:</div>${baitRow(alt)}${chumRow}`;
+  });
+  return html;
+}
+
+function fishGuaranteedBaitRowsHtml(fishName) {
+  const baits = fishGuaranteedBaitsForFish(fishName);
+  if (!baits.length) return "";
+  const rows = baits.map(item => {
+    const itemCoins = fishMarketItemCostCoins(item, "collect", previewSeason);
+    return `<div class="cook-ingredient-row"><span>${getIcon(item)}</span><span class="ing-name">${escapeHtml(item)} ×1</span><span class="ing-cost">${fmt(coinsToFlower(itemCoins))}${FLOWER_ICON}/u</span></div>`;
+  }).join("");
+  return `<div class="cook-ing-label">🎯 Guaranteed Bait</div>${rows}<div style="font-size:9px;color:var(--ink-soft);margin-top:2px;">Using ${baits.map(escapeHtml).join(" or ")} guarantees a ${escapeHtml(fishName)} catch.</div>`;
+}
+
+function fishGuaranteedBaitBadgeHtml(fishName) {
+  const baits = fishGuaranteedBaitsForFish(fishName);
+  if (!baits.length) return "";
+  return `<span class="fish-guaranteed-badge" title="Guaranteed catch via ${baits.map(escapeHtml).join(", ")}">${baits.map(b => getIcon(b)).join("")}</span>`;
+}
+
 function renderFishingTierCard(fishName) {
   const d = FISH_CATCH_DATA[fishName];
   const bf = computeBasicFishFigures(fishName);
@@ -6442,7 +6490,7 @@ function renderFishingTierCard(fishName) {
   const totalFlower = coinsToFlower(bf.costCoins);
   const isExpanded = fishingExpandedTierFish.has(fishName);
   const yieldMult = bf.yieldMult;
-  return `\n  <div class="cook-food-card${isExpanded ? " expanded" : ""}" data-fish="${escapeHtml(fishName)}">\n    <div class="cook-food-toggle">\n      <span class="cook-food-icon">${getIcon(fishName)}</span>\n      <div class="cook-food-main">\n        <div class="cook-food-name">${escapeHtml(fishName)} ${renderFishSeasonBadges(fishName)}</div>\n        <div class="cook-food-exp">${fmt(totalFlower)} ${FLOWER_ICON}/u${yieldMult !== 1 ? ` · avg yield ×${fmt(yieldMult)}/rod` : ``}</div>\n      </div>\n      <span class="cook-food-chev">▾</span>\n    </div>\n    <div class="cook-food-details">\n      <div class="cook-food-cost-line">${fmt(totalFlower)} ${FLOWER_ICON} FLOWER — cost per fish</div>\n      <div class="cook-ingredient-row"><span>${getIcon("Rod")}</span><span class="ing-name">Rod ×1</span><span class="ing-cost">${bf.rodCost === 0 ? fishRodFreeCostLabel() : `${fmt(coinsToFlower(bf.rodCost / yieldMult))}${FLOWER_ICON}/u`}</span></div>\n      <div class="cook-ingredient-row"><span>${getIcon(bf.bait ? bf.bait.name : "")}</span><span class="ing-name">${escapeHtml(bf.bait ? bf.bait.name : "?")} ×1</span><span class="ing-cost">${fmt(coinsToFlower(bf.baitCost / yieldMult))}${FLOWER_ICON}/u</span></div>\n      <div class="cook-ingredient-row"><span>${getIcon(bf.chum ? bf.chum.name : "")}</span><span class="ing-name">${escapeHtml(bf.chum ? bf.chum.name : "?")} ×${fmt(bf.chum ? bf.chum.qty : 0)}</span><span class="ing-cost">${fmt(coinsToFlower(bf.chumCost / yieldMult))}${FLOWER_ICON}/u</span></div>\n      <div style="font-size:9px;color:var(--ink-soft);margin-top:2px;">Avg yield per rod: ×${fmt(yieldMult)}${yieldMult !== 1 ? ` (Fishy Chance/Roll/Gamble skill &amp; 🎣 Fishing boosts applied)` : ``}</div>\n    </div>\n  </div>`;
+  return `\n  <div class="cook-food-card${isExpanded ? " expanded" : ""}" data-fish="${escapeHtml(fishName)}">\n    <div class="cook-food-toggle">\n      <span class="cook-food-icon">${getIcon(fishName)}</span>\n      <div class="cook-food-main">\n        <div class="cook-food-name">${escapeHtml(fishName)} ${renderFishSeasonBadges(fishName)}${fishGuaranteedBaitBadgeHtml(fishName)}</div>\n        <div class="cook-food-exp">${fmt(totalFlower)} ${FLOWER_ICON}/u${yieldMult !== 1 ? ` · avg yield ×${fmt(yieldMult)}/rod` : ``}</div>\n      </div>\n      <span class="cook-food-chev">▾</span>\n    </div>\n    <div class="cook-food-details">\n      <div class="cook-food-cost-line">${fmt(totalFlower)} ${FLOWER_ICON} FLOWER — cost per fish</div>\n      <div class="cook-ing-label">Baits &amp; Chum</div>\n      <div class="cook-ingredient-row"><span>${getIcon("Rod")}</span><span class="ing-name">Rod ×1</span><span class="ing-cost">${bf.rodCost === 0 ? fishRodFreeCostLabel() : `${fmt(coinsToFlower(bf.rodCost / yieldMult))}${FLOWER_ICON}/u`}</span></div>\n      <div class="cook-ingredient-row"><span>${getIcon(bf.bait ? bf.bait.name : "")}</span><span class="ing-name">${escapeHtml(bf.bait ? bf.bait.name : "?")} ×1</span><span class="ing-cost">${fmt(coinsToFlower(bf.baitCost / yieldMult))}${FLOWER_ICON}/u</span></div>\n      ${bf.chum ? `<div class="cook-ingredient-row"><span>${getIcon(bf.chum.name)}</span><span class="ing-name">${escapeHtml(bf.chum.name)} ×${fmt(bf.chum.qty)}</span><span class="ing-cost">${fmt(coinsToFlower(bf.chumCost / yieldMult))}${FLOWER_ICON}/u</span></div>` : `<div class="cook-ingredient-row"><span class="ing-name">No chum</span></div>`}${fishAltChumRowsHtml(fishName, bf, yieldMult)}${fishAltSetupRowsHtml(fishName, bf, yieldMult)}\n      <div style="font-size:9px;color:var(--ink-soft);margin-top:2px;">Avg yield per rod: ×${fmt(yieldMult)}${yieldMult !== 1 ? ` (Fishy Chance/Roll/Gamble skill &amp; 🎣 Fishing boosts applied)` : ``}</div>${fishRivalNoteHtml(fishName, bf)}${fishGuaranteedBaitRowsHtml(fishName)}\n    </div>\n  </div>`;
 }
 
 function renderCrabTierCard() {

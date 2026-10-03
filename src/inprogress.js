@@ -1938,6 +1938,17 @@ export function farmPanelRenderMoneyTreeBonusCard(data) {
   return `\n  <div class="money-tree-alert-card" data-search="money-tree-bonus">\n    <div class="money-tree-alert-shine"></div>\n    <div class="money-tree-alert-icon">${COIN_ICON}</div>\n    <div class="money-tree-alert-text">\n      <div class="money-tree-alert-title">💰 Money Tree Bonus Pending!</div>\n      <div class="money-tree-alert-name">${parts.join(" — ")}</div>\n    </div>\n  </div>`;
 }
 
+function farmPanelMapPos(id, node, defW, defH) {
+  if (!node || typeof node.x !== "number" || typeof node.y !== "number") return null;
+  return {
+    id: id == null ? null : String(id),
+    x: node.x,
+    y: node.y,
+    w: typeof node.width === "number" ? node.width : defW,
+    h: typeof node.height === "number" ? node.height : defH
+  };
+}
+
 function farmPanelIsNodeReadyNow(resourceName, node, subKey, now) {
   const job = node && node[subKey];
   const ts = job && (job.minedAt || job.choppedAt || job.harvestedAt || job.stoneMinedAt || job.recoveredAt) || node && (node.minedAt || node.choppedAt || node.harvestedAt);
@@ -1955,7 +1966,53 @@ let farmPanelAnimalYieldGroupsByType = {};
 
 let farmPanelAnimalBuffTrackingByType = {};
 
-function farmPanelComputeInProgressRaw(json) {
+function farmPanelAssignMapPositions(entries, out, picks, pickNoOut, procAt, autoNoOut) {
+  const ready = entries.filter(e => !(e.waitSec > 0));
+  const waiting = entries.filter(e => e.waitSec > 0).sort((a, b) => a.waitSec - b.waitSec || a.order - b.order);
+  const picked = [];
+  (Array.isArray(picks) ? picks : []).forEach(id => {
+    const e = ready.find(r => r.id === id);
+    if (e && !picked.includes(e)) picked.push(e);
+  });
+  const rest = ready.filter(e => !picked.includes(e)).sort((a, b) => a.order - b.order);
+  const setAuto = (e, slot) => {
+    out.set(e.key, slot);
+    if (autoNoOut) autoNoOut.set(e.id, slot + 1);
+  };
+  picked.forEach((e, i) => {
+    out.set(e.key, i);
+    if (pickNoOut) pickNoOut.set(e.id, i + 1);
+  });
+  if (typeof procAt === "function") {
+    const slots = rest.map((e, i) => picked.length + i);
+    const procSlots = slots.filter(i => procAt(i));
+    const plainSlots = slots.filter(i => !procAt(i));
+    const byValue = rest.slice().sort((a, b) => b.mult - a.mult || a.order - b.order);
+    const procNodes = byValue.slice(0, procSlots.length);
+    const plainNodes = byValue.slice(procSlots.length).sort((a, b) => a.order - b.order);
+    procSlots.forEach((slot, k) => setAuto(procNodes[k], slot));
+    plainSlots.forEach((slot, k) => setAuto(plainNodes[k], slot));
+  } else {
+    rest.forEach((e, i) => setAuto(e, picked.length + i));
+  }
+  waiting.forEach((e, i) => setAuto(e, ready.length + i));
+}
+
+function farmPanelCollectMapProcs(rolls) {
+  const list = Array.isArray(rolls) ? rolls : rolls ? [ rolls ] : [];
+  const out = [];
+  [ [ "nativeHit", "Native" ], [ "toughTreeCrit", "Tough Tree" ], [ "rockGolemCrit", "Rock Golem" ], [ "turnaroundHit", "Tree Turnaround" ], [ "instantMineHit", "Pickaxe Shark" ], [ "instantHit", "Crimstone Clam" ] ].forEach(([prop, label]) => {
+    const n = list.filter(r => r && r[prop]).length;
+    if (n) out.push(n > 1 ? `${label} x${n}` : label);
+  });
+  return out;
+}
+
+function farmPanelComputeInProgressRaw(json, opts) {
+  const mapMode = !!(opts && opts.mapMode);
+  const mapPicks = opts && Array.isArray(opts.mapPicks) ? opts.mapPicks : [];
+  const mapPickNo = new Map;
+  const mapAutoNo = new Map;
   const g = farmSyncExtractGameState(json);
   const now = Date.now();
   const rows = [];
@@ -1986,6 +2043,31 @@ function farmPanelComputeInProgressRaw(json) {
           sequentialIndexByName[name] = 0;
         }
       });
+    }
+    const mapPlotPositions = new Map;
+    if (mapMode && (kind === "crop" || kind === "fruit")) {
+      const groups = {};
+      Object.entries(bag).forEach(([plotId, plot], order) => {
+        const job = plot && plot[subKey];
+        const name = job && job.name;
+        const plantedAt = job && job.plantedAt;
+        if (!name || !plantedAt) return;
+        if (kind === "crop" && cropWeatherDestruction.activeEvent && cropWeatherDestruction.destroyedIds.has(plotId)) return;
+        const refTime = job.harvestedAt && job.harvestedAt > plantedAt ? job.harvestedAt : plantedAt;
+        const growSec = farmPanelGrowTimeSec(name);
+        let waitSec = growSec != null ? Math.max(0, growSec - (now - refTime) / 1e3) : 0;
+        if (kind === "crop" && waitSec > 0) {
+          const sunshowerMult = getCropPlotSunshowerSpeedMultiplier();
+          if (sunshowerMult > 1) waitSec = waitSec / sunshowerMult;
+        }
+        (groups[name] = groups[name] || []).push({
+          key: plotId,
+          id: `${kind}:${plotId}`,
+          waitSec: waitSec,
+          order: order
+        });
+      });
+      Object.values(groups).forEach(list => farmPanelAssignMapPositions(list, mapPlotPositions, mapPicks, mapPickNo, null, mapAutoNo));
     }
     Object.entries(bag).forEach(([plotId, plot]) => {
       const job = plot && plot[subKey];
@@ -2025,7 +2107,7 @@ function farmPanelComputeInProgressRaw(json) {
         }
       } else if (kind === "crop" || kind === "fruit" || kind === "greenhouse") {
         try {
-          const idx = sequentialIndexByName[name] || 0;
+          const idx = mapMode ? mapPlotPositions.get(plotId) || 0 : sequentialIndexByName[name] || 0;
           const counter = (sequentialCounterBaseByName[name] || 0) + idx;
           sequentialIndexByName[name] = idx + 1;
           let r = null;
@@ -2061,6 +2143,10 @@ function farmPanelComputeInProgressRaw(json) {
         harvestsLeft: harvestsLeft,
         plotIndex: plotIdx,
         seedReward: seedReward,
+        mapKey: kind === "crop" || kind === "fruit" ? `${kind}:${plotId}` : null,
+        mapPickNo: kind === "crop" || kind === "fruit" ? mapPickNo.get(`${kind}:${plotId}`) || null : null,
+        mapAutoNo: kind === "crop" || kind === "fruit" ? mapAutoNo.get(`${kind}:${plotId}`) || null : null,
+        mapPos: kind === "greenhouse" ? null : farmPanelMapPos(plotId, plot, kind === "fruit" ? 2 : kind === "flower" ? 3 : 1, kind === "fruit" ? 2 : 1),
         weatherDestroyed: isWeatherDestroyedPlot,
         weatherDestroyedEvent: isWeatherDestroyedPlot ? cropWeatherDestructionLabel : null
       });
@@ -2114,13 +2200,46 @@ function farmPanelComputeInProgressRaw(json) {
       }
     }
     let crimstoneRollChains = null;
-    let crimstoneSequentialIndex = 0;
     if (resourceName === "Crimstone") {
       crimstoneRollChains = farmPanelBuildSequentialCrimstoneRollChains(json, Object.values(bag).length);
     }
-    Object.values(bag).forEach(node => {
+    const mapNodePositions = new Map;
+    if (mapMode) {
+      const groups = {};
+      Object.entries(bag).forEach(([nodeId, node], order) => {
+        const job = node && node[subKey];
+        const ts = job && (job.minedAt || job.choppedAt || job.harvestedAt || job.stoneMinedAt || job.recoveredAt) || node && (node.minedAt || node.choppedAt || node.harvestedAt);
+        const growSec = farmPanelGrowTimeSec(resourceName);
+        let waitSec = 0;
+        if (!ts) {
+          const amountVal = job && typeof job.amount === "number" ? job.amount : node && typeof node.amount === "number" ? node.amount : null;
+          waitSec = amountVal === 0 ? growSec != null ? growSec : 0 : 0;
+        } else if (growSec != null) {
+          waitSec = Math.max(0, growSec - (now - ts) / 1e3);
+        }
+        const type = resourceName === "Wood" ? farmPanelTreeTypeForNode(node) : resourceName === "Stone" ? farmPanelRockNameForNode(node, STONE_KNOWN_IDS, "Stone Rock") : resourceName === "Iron" ? farmPanelRockNameForNode(node, IRON_KNOWN_IDS, "Iron Rock") : resourceName === "Gold" ? farmPanelRockNameForNode(node, GOLD_KNOWN_IDS, "Gold Rock") : "Crimstone";
+        (groups[type] = groups[type] || []).push({
+          key: node,
+          id: `${bagKey}:${nodeId}`,
+          mult: node && typeof node.multiplier === "number" ? node.multiplier : 1,
+          waitSec: waitSec,
+          order: order
+        });
+      });
+      const rollsByTypeForMap = resourceName === "Wood" ? woodSequentialRollsByType : resourceName === "Stone" ? stoneSequentialRollsByType : resourceName === "Iron" ? ironSequentialRollsByType : resourceName === "Gold" ? goldSequentialRollsByType : resourceName === "Crimstone" ? {
+        Crimstone: crimstoneRollChains
+      } : null;
+      Object.keys(groups).forEach(type => {
+        const typeRolls = rollsByTypeForMap ? rollsByTypeForMap[type] : null;
+        const procAt = typeRolls ? idx => !!(typeRolls[idx] && farmPanelCollectMapProcs(typeRolls[idx]).length) : null;
+        farmPanelAssignMapPositions(groups[type], mapNodePositions, mapPicks, mapPickNo, procAt, mapAutoNo);
+      });
+    }
+    let crimstoneSequentialIndex = 0;
+    Object.entries(bag).forEach(([nodeId, node]) => {
       const job = node && node[subKey];
       const ts = job && (job.minedAt || job.choppedAt || job.harvestedAt || job.stoneMinedAt || job.recoveredAt) || node && (node.minedAt || node.choppedAt || node.harvestedAt);
+      const nodeMapKey = `${bagKey}:${nodeId}`;
       const tierMatch = tiers ? farmPanelDetectNodeTier(resourceName, node) : null;
       const tierLabel = tierMatch && tierMatch.key !== "base" ? tierMatch.label : null;
       const treeType = resourceName === "Wood" ? farmPanelTreeTypeForNode(node) : null;
@@ -2141,11 +2260,13 @@ function farmPanelComputeInProgressRaw(json) {
       let crimstoneChainForNode = null;
       let crimstoneNodeIndexForRow = null;
       let crimstoneRockMinesLeftForRow = null;
+      let mapProcsForRow = null;
       if (storedAmount == null && resourceName === "Crimstone") {
-        const idx = crimstoneSequentialIndex++;
+        const idx = mapMode ? mapNodePositions.get(node) || 0 : crimstoneSequentialIndex++;
         crimstoneNodeIndexForRow = idx + 1;
         const chain = crimstoneRollChains && crimstoneRollChains[idx] ? crimstoneRollChains[idx] : null;
         crimstoneChainForNode = chain;
+        mapProcsForRow = farmPanelCollectMapProcs(chain);
         const rockMinesLeftStart = node && typeof node.minesLeft === "number" ? node.minesLeft : 5;
         crimstoneRockMinesLeftForRow = rockMinesLeftStart;
         if (chain && chain.length > 1) {
@@ -2173,38 +2294,42 @@ function farmPanelComputeInProgressRaw(json) {
           exactBoosts = r.boosts;
         }
       } else if (storedAmount == null && resourceName === "Wood" && treeType) {
-        const idx = sequentialIndexByType[treeType] || 0;
+        const idx = mapMode ? mapNodePositions.get(node) || 0 : sequentialIndexByType[treeType] || 0;
         const rolls = woodSequentialRollsByType[treeType];
         const chain = rolls && rolls[idx] ? rolls[idx] : null;
         if (chain) sequentialIndexByType[treeType] = idx + 1;
         const critRolls = chain && chain.length ? chain[0] : null;
         woodCritRollsForNode = critRolls;
         woodChainForNode = chain;
+        mapProcsForRow = farmPanelCollectMapProcs(chain);
         if (chain && chain.length) {
           exactAmount = chain.reduce((sum, roll) => sum + farmPanelComputeExactWoodYieldForNode(node, treeType, roll), 0);
         } else {
           exactAmount = farmPanelComputeExactWoodYieldForNode(node, treeType, critRolls);
         }
       } else if (storedAmount == null && resourceName === "Stone" && stoneRockName) {
-        const idx = sequentialIndexByType[stoneRockName] || 0;
+        const idx = mapMode ? mapNodePositions.get(node) || 0 : sequentialIndexByType[stoneRockName] || 0;
         const rolls = stoneSequentialRollsByType[stoneRockName];
         const critRolls = rolls && rolls[idx] ? rolls[idx] : null;
         if (critRolls) sequentialIndexByType[stoneRockName] = idx + 1;
+        mapProcsForRow = farmPanelCollectMapProcs(critRolls);
         exactAmount = farmPanelComputeExactStoneYieldForNode(json, node, stoneRockName, critRolls, predictedMineAt);
       } else if (storedAmount == null && resourceName === "Iron" && ironRockName) {
-        const idx = sequentialIndexByType[ironRockName] || 0;
+        const idx = mapMode ? mapNodePositions.get(node) || 0 : sequentialIndexByType[ironRockName] || 0;
         const rolls = ironSequentialRollsByType[ironRockName];
         const critRolls = rolls && rolls[idx] ? rolls[idx] : null;
         if (critRolls) sequentialIndexByType[ironRockName] = idx + 1;
+        mapProcsForRow = farmPanelCollectMapProcs(critRolls);
         exactAmount = farmPanelComputeExactIronYieldForNode(json, node, ironRockName, critRolls, predictedMineAt);
       } else if (storedAmount == null && resourceName === "Gold" && goldRockName) {
-        const idx = sequentialIndexByType[goldRockName] || 0;
+        const idx = mapMode ? mapNodePositions.get(node) || 0 : sequentialIndexByType[goldRockName] || 0;
         const rolls = goldSequentialRollsByType[goldRockName];
         const chain = rolls && rolls[idx] ? rolls[idx] : null;
         if (chain) sequentialIndexByType[goldRockName] = idx + 1;
         const critRolls = chain && chain.length ? chain[0] : null;
         goldCritRollsForNode = critRolls;
         goldChainForNode = chain;
+        mapProcsForRow = farmPanelCollectMapProcs(chain);
         if (chain && chain.length) {
           exactAmount = chain.reduce((sum, roll) => sum + farmPanelComputeExactGoldYieldForNode(json, node, goldRockName, roll, predictedMineAt), 0);
         } else {
@@ -2261,6 +2386,11 @@ function farmPanelComputeInProgressRaw(json) {
           crimstoneInstantMineChainLength: crimstoneInstantMineChainLength,
           crimstoneNodeIndex: crimstoneNodeIndexForRow,
           crimstoneMinesLeft: crimstoneRockMinesLeftForRow,
+          mapProcs: mapProcsForRow,
+          mapKey: nodeMapKey,
+          mapPickNo: mapPickNo.get(nodeMapKey) || null,
+          mapAutoNo: mapAutoNo.get(nodeMapKey) || null,
+          mapPos: farmPanelMapPos(null, node, resourceName === "Wood" || resourceName === "Crimstone" ? 2 : 1, resourceName === "Wood" || resourceName === "Crimstone" ? 2 : 1),
           exactBoosts: exactBoosts
         });
         return;
@@ -2290,6 +2420,11 @@ function farmPanelComputeInProgressRaw(json) {
         crimstoneInstantMineChainLength: crimstoneInstantMineChainLength,
         crimstoneNodeIndex: crimstoneNodeIndexForRow,
         crimstoneMinesLeft: crimstoneRockMinesLeftForRow,
+        mapProcs: mapProcsForRow,
+        mapKey: nodeMapKey,
+        mapPickNo: mapPickNo.get(nodeMapKey) || null,
+        mapAutoNo: mapAutoNo.get(nodeMapKey) || null,
+        mapPos: farmPanelMapPos(null, node, resourceName === "Wood" || resourceName === "Crimstone" ? 2 : 1, resourceName === "Wood" || resourceName === "Crimstone" ? 2 : 1),
         exactBoosts: exactBoosts
       });
     });
@@ -2321,7 +2456,8 @@ function farmPanelComputeInProgressRaw(json) {
           isActualYield: hasBonus != null,
           isDeterministicYield: hasBonus != null,
           exactBoosts: exactOilBoosts,
-          oilMinesUntilBonus: oilMinesUntilBonus
+          oilMinesUntilBonus: oilMinesUntilBonus,
+          mapPos: farmPanelMapPos(null, node, 2, 2)
         });
         return;
       }
@@ -2336,7 +2472,8 @@ function farmPanelComputeInProgressRaw(json) {
         isActualYield: hasBonus != null,
         isDeterministicYield: hasBonus != null,
         exactBoosts: exactOilBoosts,
-        oilMinesUntilBonus: oilMinesUntilBonus
+        oilMinesUntilBonus: oilMinesUntilBonus,
+          mapPos: farmPanelMapPos(null, node, 2, 2)
       });
     });
   }
@@ -2356,7 +2493,27 @@ function farmPanelComputeInProgressRaw(json) {
         name: "Obsidian",
         qty: boostedLava.yieldVal,
         ready: remainingSec <= 0,
-        remainingSec: remainingSec
+        remainingSec: remainingSec,
+        mapPos: farmPanelMapPos(null, pit, 2, 2)
+      });
+    });
+  }
+  const sunstoneRocks = farmPanelField(g, "sunstones");
+  if (sunstoneRocks && typeof sunstoneRocks === "object") {
+    const sunstoneRecoverySec = 3 * 24 * 60 * 60;
+    Object.entries(sunstoneRocks).forEach(([rockId, rock]) => {
+      if (!rock || typeof rock !== "object") return;
+      const minedAt = rock.stone && typeof rock.stone.minedAt === "number" ? rock.stone.minedAt : 0;
+      const remainingSec = minedAt > 0 ? Math.max(0, sunstoneRecoverySec - (now - minedAt) / 1e3) : 0;
+      rows.push({
+        name: "Sunstone",
+        qty: 1,
+        ready: remainingSec <= 0,
+        remainingSec: remainingSec,
+        isActualYield: true,
+        isDeterministicYield: true,
+        sunstoneMinesLeft: typeof rock.minesLeft === "number" ? rock.minesLeft : null,
+        mapPos: farmPanelMapPos(rockId, rock, 2, 2)
       });
     });
   }
@@ -2502,7 +2659,8 @@ function farmPanelComputeInProgressRaw(json) {
         willSwarm: hive.swarm === true,
         isActualYield: true,
         ready: ready,
-        remainingSec: remainingSec
+        remainingSec: remainingSec,
+        mapPos: farmPanelMapPos(hiveId, hive, 1, 1)
       });
     });
   }
@@ -2645,6 +2803,22 @@ function farmPanelComputeInProgressRaw(json) {
     });
   }
   rows.sort((a, b) => (a.remainingSec ?? 0) - (b.remainingSec ?? 0));
+  if (mapMode) {
+    const numberGroups = new Map;
+    rows.forEach(r => {
+      if (!r || !r.mapPos || r.mapAutoNo || r.mapPickNo) return;
+      if (!numberGroups.has(r.name)) numberGroups.set(r.name, []);
+      numberGroups.get(r.name).push(r);
+    });
+    numberGroups.forEach(list => {
+      const isReady = r => !(r.ready === false || r.remainingSec > 0);
+      const readyList = list.filter(isReady);
+      const waitList = list.filter(r => !isReady(r)).sort((a, b) => (a.remainingSec || 0) - (b.remainingSec || 0));
+      readyList.concat(waitList).forEach((r, i) => {
+        r.mapAutoNo = i + 1;
+      });
+    });
+  }
   return rows;
 }
 
@@ -3700,6 +3874,47 @@ function farmPanelComputeCookingCards(json) {
     if (spCard) cards.push(spCard);
   }
   return cards;
+}
+
+export function farmPanelComputeMapNodes(json, picks) {
+  if (!json) return [];
+  try {
+    applyFarmSkillsOnly(json, json);
+  } catch (e) {}
+  try {
+    applyFarmBoostsOnly(json);
+  } catch (e) {}
+  const raw = farmPanelComputeInProgressRaw(json, {
+    mapMode: true,
+    mapPicks: picks
+  });
+  const nodes = [];
+  raw.forEach(row => {
+    if (!row || !row.mapPos) return;
+    let badge = null;
+    if (row.harvestsLeft != null) badge = String(row.harvestsLeft);
+    else if (row.crimstoneMinesLeft != null) badge = String(row.crimstoneMinesLeft);
+    else if (row.oilMinesUntilBonus != null) badge = String(row.oilMinesUntilBonus);
+    else if (row.sunstoneMinesLeft != null) badge = String(row.sunstoneMinesLeft);
+    else if (row.willSwarm === true) badge = "S";
+    const yieldVal = row.qty;
+    nodes.push({
+      name: row.name,
+      x: row.mapPos.x,
+      y: row.mapPos.y,
+      w: row.mapPos.w,
+      h: row.mapPos.h,
+      badge: badge,
+      yieldVal: typeof yieldVal === "number" ? yieldVal : null,
+      procs: Array.isArray(row.mapProcs) ? row.mapProcs : [],
+      mapKey: row.mapKey || null,
+      pickNo: row.mapPickNo || null,
+      autoNo: row.mapAutoNo || null,
+      ready: row.ready,
+      remainingSec: row.remainingSec
+    });
+  });
+  return nodes;
 }
 
 export function farmPanelComputeInProgress(json) {
