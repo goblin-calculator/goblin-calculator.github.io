@@ -12101,3 +12101,6 @@ body.sfl-theme .es-toolcfg-tbtn.active{
 
 .fish-guaranteed-badge{ display:inline-flex; align-items:center; gap:2px; margin-left:4px; vertical-align:middle; }
 .fish-guaranteed-badge img{ width:14px; height:14px; image-rendering:pixelated; }
+
+.es-obs-disabled{ opacity:.45; pointer-events:none; }
+.es-obs-note{ font-size:10.5px; color:var(--es-ink-soft); padding:2px 0 6px; }
