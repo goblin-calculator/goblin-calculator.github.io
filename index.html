@@ -213,7 +213,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V5.9</span>
+  <span class="app-version-badge">V6.0</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -601,6 +601,11 @@
   <div class="library-panel main-tab-modal tab-hidden" id="leaderboardPanel">
     <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="leaderboard">✕</button><span>🏆 Leader Board</span></div>
     <div class="library-body" id="leaderboardBody"></div>
+  </div>
+
+  <div class="library-panel main-tab-modal tab-hidden" id="mapPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="map">✕</button><span><img src="data:image/webp;base64,UklGRq4BAABXRUJQVlA4TKIBAAAvLwALEKegJpKt5n9y6uiwgBNMoQkxmIAyVcmG2ki2ko9EhC6N0xJDBfTAkLqpiWSr+bQ5JxGYwC4iUEJNnVvmPwDA/38tVclNa8MZYM1j72f6q9dJxyQlDhEylhGVFXgnKKKskEPmWeEwpoDYSJIiaY/5cf03dqB7du4MKIjovwO3kRQp1b17MJDje8MykJUc9sh1WFdqk3uM3PIFIBo34sGkgd8f6WHb+pEM6JusCnqQ/KkX4lae7zQuFfb3AGMV9QjjtRa+ZyCpYf1wOJ/uLTIHBDxnHdy9M6FZlKWWhu9Z6E2sU69MH/KWhTj1fdvCD2eZzdLg/HUe9XbPzXMw+oUAy3XSi904PI3CS904PEsHnADfbbsOhWvunYfUeZQ+BVyAa021I681uQegEMGbA4n9kNP5oiOAgysHA0DuIZ0j2NEkxrZ7mOMgWdsx6zvYn84FO67cQ2fu2+tNzaA0l652usBJkHtoz56mtiNGP4e1KEVIIx5rAv/wL+2aSPhD7pH/2q5kY9fMJZl7DPyMb8snERiHHlv+WOQPcpmXDbcQ" alt="" style="width:14px;height:14px;vertical-align:-2px;image-rendering:pixelated;"> Map</span></div>
+    <div class="library-body" id="mapBody"></div>
   </div>
 
   <div class="library-panel main-tab-modal tab-hidden" id="workbenchPanel">
@@ -1629,6 +1634,11 @@
         <span class="more-menu-item-label">Leader Board</span>
         <span class="more-menu-item-chev">›</span>
       </button>
+      <button type="button" class="more-menu-item" id="moreMenuMapBtn">
+        <span class="more-menu-item-icon"><img src="data:image/webp;base64,UklGRq4BAABXRUJQVlA4TKIBAAAvLwALEKegJpKt5n9y6uiwgBNMoQkxmIAyVcmG2ki2ko9EhC6N0xJDBfTAkLqpiWSr+bQ5JxGYwC4iUEJNnVvmPwDA/38tVclNa8MZYM1j72f6q9dJxyQlDhEylhGVFXgnKKKskEPmWeEwpoDYSJIiaY/5cf03dqB7du4MKIjovwO3kRQp1b17MJDje8MykJUc9sh1WFdqk3uM3PIFIBo34sGkgd8f6WHb+pEM6JusCnqQ/KkX4lae7zQuFfb3AGMV9QjjtRa+ZyCpYf1wOJ/uLTIHBDxnHdy9M6FZlKWWhu9Z6E2sU69MH/KWhTj1fdvCD2eZzdLg/HUe9XbPzXMw+oUAy3XSi904PI3CS904PEsHnADfbbsOhWvunYfUeZQ+BVyAa021I681uQegEMGbA4n9kNP5oiOAgysHA0DuIZ0j2NEkxrZ7mOMgWdsx6zvYn84FO67cQ2fu2+tNzaA0l652usBJkHtoz56mtiNGP4e1KEVIIx5rAv/wL+2aSPhD7pH/2q5kY9fMJZl7DPyMb8snERiHHlv+WOQPcpmXDbcQ" alt="" style="width:22px;height:23px;image-rendering:pixelated;"></span>
+        <span class="more-menu-item-label">Map</span>
+        <span class="more-menu-item-chev">›</span>
+      </button>
       <button type="button" class="more-menu-item" id="moreMenuWorkbenchBtn">
         <span class="more-menu-item-icon" id="moreMenuWorkbenchIcon"></span>
         <span class="more-menu-item-label">Workbench Recipe</span>
@@ -1707,10 +1717,10 @@
       <div class="es-mode-row">
         <span class="es-mode-row-label">Material Pricing</span>
         <div class="es-mode-toggle">
-          <button type="button" class="es-mode-btn" id="esModeCollectBtn"></button>
-          <button type="button" class="es-mode-btn" id="esModeBuyBtn"></button>
+          <button type="button" class="es-mode-btn" id="esToolCfgBtn"></button>
         </div>
       </div>
+      <div class="es-toolcfg" id="esToolCfgPanel" style="display:none"></div>
 
       <div class="es-shards-card" id="esShardsCard"></div>
 
@@ -2118,7 +2128,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="presence.js"></script>
-<script src="app.f5fe31ebd9.bundle.js"></script>
+<script src="app.782dd0f4d5.bundle.js"></script>
 <script>
 (function(){
   function ready(fn){
