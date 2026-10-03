@@ -6198,6 +6198,10 @@ body.sfl-theme #esBoostsRow .es-boost-chip.active .es-boost-chip-synced{
 }
 
 .es-cost-summary{ background:var(--es-panel-2); border:2px solid var(--es-line); padding:8px; margin-bottom:10px; }
+@media (min-width:900px){
+  .es-cost-pair{ display:grid; grid-template-columns:1fr 1fr; gap:10px; align-items:start; }
+  .es-cost-pair > .es-cost-summary{ min-width:0; }
+}
 .es-cost-row{
   display:flex; align-items:center; justify-content:space-between; gap:6px;
   font-size:10.8px; color:var(--es-ink); padding:3px 0; border-bottom:1px dashed rgba(255,255,255,.14);
