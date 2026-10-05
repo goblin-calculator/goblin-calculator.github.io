@@ -26336,11 +26336,105 @@ export function computeDailyProfitAveragePanelYieldPerCycle(rawName, count) {
   if (FLOWER_VARIETIES[rawName]) {
     return computeBoostedFlowerVarietyStats(rawName).expectedYield * count;
   }
-  if (RESOURCE_DATA[rawName] && !isTieredResource(rawName)) {
+  if (rawName === "Honey") {
+    const econ = computeHiveEconomics();
+    return econ.hiveStats.honeyPerHiveDay * econ.hives;
+  }
+  if (RESOURCE_DATA[rawName] && isTieredResource(rawName)) {
+    const fig = computeResourceFigures(rawName);
+    return fig ? fig.totalYieldPerCycle : null;
+  }
+  if (RESOURCE_DATA[rawName]) {
     const d = RESOURCE_DATA[rawName];
     return computeBoostedResourceStats(rawName, d.yieldPer, d.timeSec).yieldVal * count;
   }
   return null;
+}
+
+function dailyProfitAveragePanelBoosts(name) {
+  if (BASE_CROPS[name]) {
+    const d = BASE_CROPS[name];
+    return computeBoostedCropStats(name, d.baseYield || 1, d.timeSec).activeBoosts;
+  }
+  if (BASE_FRUITS[name]) {
+    const d = BASE_FRUITS[name];
+    return computeBoostedFruitStats(name, d.yieldPerHarvest || 1, d.timeSec, d.minHarvest || 1).activeBoosts;
+  }
+  if (BASE_GREENHOUSE[name]) {
+    const d = BASE_GREENHOUSE[name];
+    return computeBoostedGreenhouseStats(name, d.baseYield || 1, d.timeSec).activeBoosts;
+  }
+  return null;
+}
+
+export function computeDailyProfitAveragePanelLink(card, cycleCount) {
+  const name = card.name;
+  const periodMult = dailyProfitPeriodMode === "7d" ? 7 : 1;
+  if (name === "Honey") {
+    const econ = computeHiveEconomics();
+    const shrine = getActiveShrineDailyCost(econ.hiveStats.activeBoosts, econ.flowerStats.activeBoosts);
+    return {
+      coinCostPerCycle: (econ.costPerHiveDay - econ.flowerRestockCost) * econ.hives,
+      restockCost24h: econ.flowerRestockCost * econ.hives * cycleCount,
+      shrineCost24h: shrine.total * periodMult,
+      shrineNames: shrine.shrines.map(x => x.name),
+      bonusGrossPerCycle: econ.bonusCropValueGrossPerHiveDay * econ.hives
+    };
+  }
+  if (RESOURCE_DATA[name]) {
+    const fig = computeResourceFigures(name);
+    if (!fig) return null;
+    const proj = computeResourceProjection24h(fig, card.price || 0, cycleCount);
+    const shrine = getActiveShrineDailyCost(fig.activeBoosts);
+    return {
+      coinCostPerCycle: coinsToFlower(fig.totalToolCost || 0) * (fig.toolUsageTotal || 0),
+      restockCost24h: proj.restockCost24h,
+      shrineCost24h: shrine.total * periodMult,
+      shrineNames: shrine.shrines.map(x => x.name)
+    };
+  }
+  const boosts = dailyProfitAveragePanelBoosts(name);
+  if (boosts) {
+    const shrine = getActiveShrineDailyCost(boosts);
+    const count = card.displayNodeCount != null ? card.displayNodeCount : card.count;
+    const restock = dailyProfitAveragePanelRestock(name, count, cycleCount, periodMult);
+    return {
+      restockCost24h: restock,
+      shrineCost24h: shrine.total * periodMult,
+      shrineNames: shrine.shrines.map(x => x.name)
+    };
+  }
+  return null;
+}
+
+function dailyProfitAveragePanelRestock(name, count, cycleCount, periodMult) {
+  let ctx = null;
+  if (BASE_CROPS[name]) {
+    ctx = {
+      baseStock: BASE_STOCK_CROPS[name],
+      kind: "seed",
+      itemName: name
+    };
+  } else if (BASE_FRUITS[name]) {
+    const d = BASE_FRUITS[name];
+    const boosted = computeBoostedFruitStats(name, d.yieldPerHarvest || 1, d.timeSec, d.minHarvest || 1);
+    ctx = {
+      baseStock: BASE_STOCK_FRUITS[name],
+      kind: "seed",
+      itemName: name,
+      cyclesPerStockUnit: boosted.minHarvestVal,
+      maxRestocksPerDay: d.moonOnly ? 1 / SYNODIC_MONTH_DAYS : undefined
+    };
+  } else if (BASE_GREENHOUSE[name]) {
+    ctx = {
+      baseStock: BASE_STOCK_GREENHOUSE[name],
+      kind: "seed",
+      itemName: name
+    };
+  }
+  if (!ctx || !ctx.baseStock) return null;
+  const det = computeRestockCost24hDetailed(ctx.baseStock, ctx.kind, count, cycleCount / periodMult, ctx.cyclesPerStockUnit, ctx.maxRestocksPerDay, ctx.itemName);
+  return det.flowerCost * periodMult;
 }
 
 export function computeDailyProfitProjection(card, cycleCount) {
@@ -26357,20 +26451,23 @@ export function computeDailyProfitProjection(card, cycleCount) {
   } else {
     yieldPerCycle = card.totalYield || 0;
   }
+  const link = useAverage && !card.displayName && effectiveName !== "Salt" ? computeDailyProfitAveragePanelLink(card, cycleCount) : null;
   const totalYield24h = yieldPerCycle * cycleCount;
-  const grossPerCycle = (card.price || 0) * yieldPerCycle;
-  const gross24h = (card.price || 0) * totalYield24h;
-  const coinCostPerCycle = (card.costPerUnit || 0) * yieldPerCycle;
-  const coinCost24h = (card.costPerUnit || 0) * totalYield24h;
+  const grossPerCycle = (card.price || 0) * yieldPerCycle + (link && link.bonusGrossPerCycle || 0);
+  const gross24h = grossPerCycle * cycleCount;
+  const coinCostPerCycle = link && link.coinCostPerCycle != null ? link.coinCostPerCycle : (card.costPerUnit || 0) * yieldPerCycle;
+  const coinCost24h = coinCostPerCycle * cycleCount;
   let restockCost24h;
-  if (effectiveName === "Salt") {
+  if (link && link.restockCost24h != null) {
+    restockCost24h = link.restockCost24h;
+  } else if (effectiveName === "Salt") {
     const saltFig = computeSaltFarmFigures();
     restockCost24h = saltFig.saltPerDay > 0 ? (saltFig.restockCost24h || 0) * (totalYield24h / saltFig.saltPerDay) : 0;
   } else {
     const restockInfo24h = marketId && totalYield24h > 0 ? computeQtyRestockGems(marketId, totalYield24h) : null;
     restockCost24h = restockInfo24h ? restockInfo24h.flowerCost || 0 : 0;
   }
-  const shrineCost24h = (card.shrineCostPerCycle || 0) * cycleCount;
+  const shrineCost24h = link && link.shrineCost24h != null ? link.shrineCost24h : (card.shrineCostPerCycle || 0) * cycleCount;
   const feeAmount24h = gross24h * ((feePercent || 0) / 100);
   const totalDeductions24h = coinCost24h + restockCost24h + shrineCost24h + feeAmount24h;
   const netProfit24h = gross24h - totalDeductions24h;
@@ -26383,6 +26480,7 @@ export function computeDailyProfitProjection(card, cycleCount) {
     coinCost24h: coinCost24h,
     restockCost24h: restockCost24h,
     shrineCost24h: shrineCost24h,
+    shrineNames: link && link.shrineNames ? link.shrineNames : card.shrineNames || [],
     feeAmount24h: feeAmount24h,
     totalDeductions24h: totalDeductions24h,
     netProfit24h: netProfit24h
