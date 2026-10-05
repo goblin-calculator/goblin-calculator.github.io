@@ -4419,6 +4419,38 @@ export function computeBoostedFlowerVarietyStats(varietyName, windowSec) {
   };
 }
 
+export function computeFlowerChainTime(varietyName) {
+  const steps = [];
+  const path = new Set;
+  let total = 0;
+  let baseTotal = 0;
+  let current = varietyName;
+  while (current && FLOWER_VARIETIES[current] && !path.has(current)) {
+    path.add(current);
+    const v = FLOWER_VARIETIES[current];
+    const boosted = computeBoostedFlowerVarietyStats(current);
+    const baseSec = FLOWER_SEEDS[v.seed].timeSec;
+    const ing = getVarietyIngredient(current);
+    steps.push({
+      name: current,
+      seed: v.seed,
+      ingredient: ing.name,
+      qty: ing.qty,
+      timeSec: boosted.timeVal,
+      baseSec: baseSec
+    });
+    total += boosted.timeVal;
+    baseTotal += baseSec;
+    if (!ing.name || !FLOWER_VARIETIES[ing.name]) break;
+    current = ing.name;
+  }
+  return {
+    totalSec: total,
+    baseTotalSec: baseTotal,
+    steps: steps
+  };
+}
+
 export function isFlowerVarietySeasonLocked(name) {
   const season = FLOWER_SEEDS[FLOWER_VARIETIES[name].seed].season;
   return !!(season && season !== previewSeason);
