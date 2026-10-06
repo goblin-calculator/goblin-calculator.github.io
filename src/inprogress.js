@@ -1,4 +1,4 @@
-import { ICONS, NPC_ICONS, ALL_ANIMAL_PRODUCTS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_PRODUCT_LOOKUP, ASCENSION_RANK_DATA, BAIT_RECIPES, BAIT_RECIPE_NAME_MATCH, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, CALENDAR_SEASONAL_BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_CAKE_DISHES, COOKING_FOOD_IMAGES, COOKING_RECIPES, CRIMSTONE_KNOWN_IDS, CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE, CROP_AOE_RANKS, CROP_HARVEST_SEC, CROP_KNOWN_IDS, CROP_PRNG_EXCLUDE, FARM_LEVEL_NODES, FARM_PANEL_SCROLL_IDLE_MS, FEED_LABELS, FERMENTATION_BAIT_FAMILIES, FERMENTATION_SPICE_KNOWN_IDS, FERMENTATION_STATIC_RECIPES, FISH_AGING_KNOWN_IDS, FISH_SALT_DATA, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, FOOD_KNOWN_IDS, FRUIT_KNOWN_IDS, FRUIT_PRNG_EXCLUDE, GAMESTATE_SECTION_KEYS, GEM_ICON, GOLD_KNOWN_IDS, IMAGE_ICONS, IRON_KNOWN_IDS, MUTANT_TYPE_EMOJI, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PATCH_FRUIT_ONLY_GLOBAL_BOOSTS_EXCLUDED_FROM_GREENHOUSE, RCM_GREENHOUSE_ICON_HTML, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, SALT_BASE_CHARGE_CAP, SALT_BASE_TIME_SEC, SALT_BASE_YIELD, SALT_KNOWN_ID, SPICE_RECIPES, SPICE_STATIC_RECIPES, STONE_KNOWN_IDS, SYNODIC_MONTH_DAYS, TREE_KNOWN_IDS, __farmPanelSaveGameStateHandle, __gameStateSectionLenSigs, __set___farmPanelSaveGameStateHandle, __set___gameStateSectionLenSigs, allResourceBudBoostEntries, applyFarmBoostsOnly, applyFarmSkillsOnly, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalFeedFigures, computeAnimalRealProgress, computeAnimalTypeFigures, computeAnimalYieldsForLevel, computeBaitFigures, computeBoostedCropStats, computeBoostedStock, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedLavaPitStats, computeBoostedResourceStats, computeComposterFigures, computeDestroyedCropPlotIds, computeHiveStats, computeHoneyRestockBreakdown, computeQtyRestockGems, computeSpiceFigures, currentSeason, escapeHtml, farmIdPromptStartSync, farmSyncExtractBudTraits, farmSyncExtractGameState, farmSyncExtractPetTraits, farmSyncFindBagByNameHeuristic, farmSyncGetAnimalRecords, farmSyncGetCoords, farmSyncGetPetRecords, farmSyncPickActivePlacedInstances, feePercent, fmt, fmtAnimal, fmtAnimalCost, fullMoonSeedStockQty, getActiveAnimalBoosts, getActiveBoostsForHive, getActiveFeedInfo, getActiveSaltRechargeMult, getActiveSaltYieldBonus, getActiveSeasonGuardianName, getAnimalLevelFromXp, getAscensionRank, getCropPlotSunshowerSpeedMultiplier, getCurrentChapterMutantSet, getCurrentChapterName, getEffectiveYieldAdd, getNodeIconHtml, getNodeLabel, getSpiceLickDurationHarvests, isBoostActive, isCropInSeason, isOvernightGroundCrop, isSkillActive, onDeferredInitialRenderDone, parseYieldBoostAmount, resourceBuds, saltSculptureLevel, sculptureEffects, sflPrngChance, syncCookingCountsFromInventory } from "./calculator.js";
+import { ICONS, NPC_ICONS, ALL_ANIMAL_PRODUCTS, ANIMAL_BASE_CYCLE_SEC, ANIMAL_DATA, ANIMAL_PRODUCT_LOOKUP, ASCENSION_RANK_DATA, BAIT_RECIPES, BAIT_RECIPE_NAME_MATCH, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BASE_STOCK_TOOLS, BEE_SWARM_ICON, BOOSTS, CALENDAR_SEASONAL_BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_BUILDING_ICONS, COOKING_CAKE_DISHES, COOKING_FOOD_IMAGES, COOKING_RECIPES, CRIMSTONE_KNOWN_IDS, CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE, CROP_AOE_RANKS, CROP_HARVEST_SEC, CROP_KNOWN_IDS, CROP_PRNG_EXCLUDE, FARM_LEVEL_NODES, FARM_PANEL_SCROLL_IDLE_MS, FEED_LABELS, FERMENTATION_BAIT_FAMILIES, FERMENTATION_SPICE_KNOWN_IDS, FERMENTATION_STATIC_RECIPES, FISH_AGING_KNOWN_IDS, FISH_SALT_DATA, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, FOOD_KNOWN_IDS, FRUIT_KNOWN_IDS, FRUIT_PRNG_EXCLUDE, GAMESTATE_SECTION_KEYS, GEM_ICON, GOLD_KNOWN_IDS, IMAGE_ICONS, IRON_KNOWN_IDS, MUTANT_TYPE_EMOJI, OIL_BONUS_DROP_AMOUNT, OIL_SINGLE_HARVEST_BASE, PATCH_FRUIT_ONLY_GLOBAL_BOOSTS_EXCLUDED_FROM_GREENHOUSE, RCM_GREENHOUSE_ICON_HTML, REQUIRED_FOOD_QTY_MAP, RESOURCE_DATA, RESOURCE_NODE_TIERS, SALT_BASE_CHARGE_CAP, SALT_BASE_TIME_SEC, SALT_BASE_YIELD, SALT_KNOWN_ID, SPICE_RECIPES, SPICE_STATIC_RECIPES, STONE_KNOWN_IDS, SYNODIC_MONTH_DAYS, TREE_KNOWN_IDS, __farmPanelSaveGameStateHandle, __gameStateSectionLenSigs, __set___farmPanelSaveGameStateHandle, __set___gameStateSectionLenSigs, allResourceBudBoostEntries, applyFarmBoostsOnly, applyFarmSkillsOnly, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalFeedFigures, computeAnimalRealProgress, computeAnimalTypeFigures, computeAnimalYieldsForLevel, computeBaitFigures, computeBoostedCropStats, computeBoostedStock, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedLavaPitStats, computeBoostedResourceStats, computeComposterFigures, computeDestroyedCropPlotIds, computeHiveStats, computeHoneyRestockBreakdown, computeQtyRestockGems, computeSpiceFigures, currentSeason, escapeHtml, farmIdPromptStartSync, farmSyncExtractBudTraits, farmSyncExtractGameState, farmSyncExtractPetTraits, farmSyncFindBagByNameHeuristic, farmSyncGetAnimalRecords, farmSyncGetCoords, farmSyncGetPetRecords, farmSyncPickActivePlacedInstances, feePercent, fmt, fmtAnimal, fmtAnimalCost, fullMoonSeedStockQty, getActiveAnimalBoosts, getActiveBoostsForHive, getActiveFeedInfo, getActiveSaltRechargeMult, getActiveSaltYieldBonus, getActiveSeasonGuardianName, getAnimalLevelFromXp, getAscensionRank, getCropPlotSunshowerSpeedMultiplier, getCurrentChapterMutantSet, getCurrentChapterName, getEffectiveYieldAdd, getNodeIconHtml, getNodeLabel, getPowerHourWindow, getSpiceLickDurationHarvests, isBoostActive, isCropInSeason, isOvernightGroundCrop, isSkillActive, onDeferredInitialRenderDone, parseYieldBoostAmount, resourceBuds, saltSculptureLevel, sculptureEffects, sflPrngChance, syncCookingCountsFromInventory } from "./calculator.js";
 
 import { SFL_COMMUNITY_PROXY_BASE, SFL_NFT_PRICE_API, SFL_PROXY_BASE, computeRestockCost24h, cookingCostMode, cookingIngredientUnitCostCoins, fishSaltCostFlower, getActiveShrineDailyCostStable, getItemCostByName, getRestockGemCost, getSpiceCostPerUseFlower, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, marketItems, pickledVegCost, refinedSaltUnitCostFlower, saltCostFlowerForSpiceRack } from "./prices.js";
 
@@ -1332,6 +1332,38 @@ export function farmPanelGetCropGrowDurationMsFromSync(job, cropName) {
   return baseMs - (typeof job.boostedTime === "number" ? job.boostedTime : 0);
 }
 
+let farmPanelCropYieldExcludedSet = null;
+
+function farmPanelCropYieldExcluded() {
+  if (!farmPanelCropYieldExcludedSet) farmPanelCropYieldExcludedSet = new Set([ ...CROP_PRNG_EXCLUDE, "power_hour", "power_hour_greenhouse" ]);
+  return farmPanelCropYieldExcludedSet;
+}
+
+function farmPanelPowerHourYieldAt(atTime, isGreenhouse) {
+  if (!isBoostActive(isGreenhouse ? "power_hour_greenhouse" : "power_hour")) return false;
+  const win = getPowerHourWindow();
+  if (!win) return true;
+  const nowMs = Date.now();
+  const t = Math.max(typeof atTime === "number" ? atTime : nowMs, nowMs);
+  return t >= win.startedAt && t < win.expiresAt;
+}
+
+function farmPanelCropRemainingSec(job, refTime, now, growSec) {
+  const elapsedSec = (now - refTime) / 1e3;
+  const plain = Math.max(0, growSec - elapsedSec);
+  if (plain <= 0 || !job || typeof job.baseDurationMs !== "number" || !isBoostActive("power_hour")) return plain;
+  const win = getPowerHourWindow();
+  if (!win) return plain;
+  const overlapStart = Math.max(refTime, win.startedAt);
+  const overlapEnd = Math.min(now, win.expiresAt);
+  const accruedExtraSec = Math.max(0, overlapEnd - overlapStart) / 1e3;
+  const workLeft = Math.max(0, growSec - elapsedSec - accruedExtraSec);
+  if (workLeft <= 0) return 0;
+  const windowLeftSec = Math.max(0, (win.expiresAt - Math.max(now, win.startedAt)) / 1e3);
+  if (now < win.startedAt || windowLeftSec <= 0) return workLeft;
+  return workLeft <= 2 * windowLeftSec ? workLeft / 2 : windowLeftSec + (workLeft - 2 * windowLeftSec);
+}
+
 export function farmPanelComputeExactCropYield(json, g, cropName, plot, counter, isGreenhouse, atTime) {
   const lastInfo = farmPanelGetLastInfo();
   const farmId = Number(lastInfo.id);
@@ -1403,7 +1435,7 @@ export function farmPanelComputeExactCropYield(json, g, cropName, plot, counter,
       valueText: "×1.2 yield"
     });
   }
-  const generic = farmPanelSumCatalogBoosts(b => (b.scope === "crop" && b.target === cropName || b.scope === "tier" && b.target === tierLabel || b.scope === "global" && b.category === "crops" && (b.target === null || b.target === undefined)) && !(isGreenhouse && CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE.has(b.id)) && (b.id !== "hoot" || !isGreenhouse || cropName === "Rice"), CROP_PRNG_EXCLUDE);
+  const generic = farmPanelSumCatalogBoosts(b => (b.scope === "crop" && b.target === cropName || b.scope === "tier" && b.target === tierLabel || b.scope === "global" && b.category === "crops" && (b.target === null || b.target === undefined)) && !(isGreenhouse && CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE.has(b.id)) && (b.id !== "hoot" || !isGreenhouse || cropName === "Rice"), farmPanelCropYieldExcluded());
   if (generic.mult !== 1) amount *= generic.mult;
   generic.boosts.forEach(b => {
     const parts = [];
@@ -1532,6 +1564,13 @@ export function farmPanelComputeExactCropYield(json, g, cropName, plot, counter,
     });
   }
   amount += generic.add;
+  if (farmPanelPowerHourYieldAt(atTime, isGreenhouse)) {
+    amount += .2;
+    boosts.push({
+      name: "Power hour",
+      valueText: "+0.2 yield"
+    });
+  }
   const plotFertiliserName = plot && plot.fertiliser && plot.fertiliser.name;
   const cropFertBoostDef = plotFertiliserName ? BOOSTS.find(b => b.fertilizer === plotFertiliserName && b.composterFertilizer) : null;
   const cropFertTimeMult = cropFertBoostDef && typeof cropFertBoostDef.timeMult === "number" ? cropFertBoostDef.timeMult : 1;
@@ -1754,12 +1793,12 @@ export function farmPanelComputeExactFruitYield(json, g, fruitName, counter, isG
   };
 }
 
-export function farmPanelComputeExactGreenhouseYield(json, g, plantName, counter, potFertiliserName) {
+export function farmPanelComputeExactGreenhouseYield(json, g, plantName, counter, potFertiliserName, atTime) {
   const isFruit = plantName === "Grape";
-  const base = isFruit ? farmPanelComputeExactFruitYield(json, g, plantName, counter, true) : farmPanelComputeExactCropYield(json, g, plantName, null, counter, true);
+  const base = isFruit ? farmPanelComputeExactFruitYield(json, g, plantName, counter, true) : farmPanelComputeExactCropYield(json, g, plantName, null, counter, true, atTime);
   let amount = base.amount;
   const boosts = base.boosts.slice();
-  const generic = farmPanelSumCatalogBoosts(b => b.scope === "greenhouse" && b.target === plantName || b.category === "greenhouse" && b.scope === "global", new Set([ "skill_greenhouse_gamble", "apply_greenhouse_goodie" ]));
+  const generic = farmPanelSumCatalogBoosts(b => b.scope === "greenhouse" && b.target === plantName || b.category === "greenhouse" && b.scope === "global", new Set([ "skill_greenhouse_gamble", "apply_greenhouse_goodie", "power_hour_greenhouse" ]));
   amount += generic.add;
   amount *= generic.mult;
   generic.boosts.forEach(b => {
@@ -2055,7 +2094,7 @@ function farmPanelComputeInProgressRaw(json, opts) {
         if (kind === "crop" && cropWeatherDestruction.activeEvent && cropWeatherDestruction.destroyedIds.has(plotId)) return;
         const refTime = job.harvestedAt && job.harvestedAt > plantedAt ? job.harvestedAt : plantedAt;
         const growSec = farmPanelGrowTimeSec(name);
-        let waitSec = growSec != null ? Math.max(0, growSec - (now - refTime) / 1e3) : 0;
+        let waitSec = growSec != null ? kind === "crop" ? farmPanelCropRemainingSec(job, refTime, now, growSec) : Math.max(0, growSec - (now - refTime) / 1e3) : 0;
         if (kind === "crop" && waitSec > 0) {
           const sunshowerMult = getCropPlotSunshowerSpeedMultiplier();
           if (sunshowerMult > 1) waitSec = waitSec / sunshowerMult;
@@ -2078,7 +2117,7 @@ function farmPanelComputeInProgressRaw(json, opts) {
       const refTime = job.harvestedAt && job.harvestedAt > plantedAt ? job.harvestedAt : plantedAt;
       const growSec = farmPanelGrowTimeSec(name);
       const elapsedSec = (now - refTime) / 1e3;
-      let remainingSec = growSec != null ? Math.max(0, growSec - elapsedSec) : null;
+      let remainingSec = growSec != null ? kind === "crop" ? farmPanelCropRemainingSec(job, refTime, now, growSec) : Math.max(0, growSec - elapsedSec) : null;
       if (kind === "crop" && remainingSec != null && remainingSec > 0) {
         const sunshowerMult = getCropPlotSunshowerSpeedMultiplier();
         if (sunshowerMult > 1) remainingSec = remainingSec / sunshowerMult;
@@ -2117,7 +2156,7 @@ function farmPanelComputeInProgressRaw(json, opts) {
           } else if (kind === "fruit") {
             r = farmPanelComputeExactFruitYield(json, g, name, counter, false, plot && plot.fertiliser && plot.fertiliser.name);
           } else if (kind === "greenhouse") {
-            r = farmPanelComputeExactGreenhouseYield(json, g, name, counter, plot && plot.fertiliser && plot.fertiliser.name);
+            r = farmPanelComputeExactGreenhouseYield(json, g, name, counter, plot && plot.fertiliser && plot.fertiliser.name, remainingSec != null ? now + remainingSec * 1e3 : now);
           }
           if (r) {
             exactAmount = r.amount;
@@ -4723,7 +4762,7 @@ export function farmPanelRenderInProgressRow(row) {
     badgeHtml += `<span class="harvest-badge" style="background:rgba(38,212,255,.15);color:#0a7fa8;" title="${titleText}">🎯 ${labelText}</span>`;
   }
   (row.activeBoosts || []).forEach(b => {
-    if (b.limitedBoostName === "Sunshower" || b.limitedBoostName === "Bountiful Harvest") {
+    if (b.limitedBoostName === "Sunshower" || b.limitedBoostName === "Bountiful Harvest" || b.limitedBoostName === "Power hour") {
       const icon = IMAGE_ICONS[b.name];
       badgeHtml += `<span class="harvest-badge" style="background:rgba(255,196,0,0.18);color:#8a6300;">${icon ? `<img src="${icon}" style="width:12px;height:12px;vertical-align:-2px;image-rendering:pixelated;margin-right:2px;">` : "🌦️"} ${escapeHtml(b.name)} active</span>`;
     }

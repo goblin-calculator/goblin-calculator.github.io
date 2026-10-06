@@ -10,7 +10,7 @@ import { renderWorkbenchPanel } from "./workbench.js";
 
 import { sflbRefreshMyBuildIfOpen } from "./sfl_bubbles.js";
 
-import { SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeRestockCost24hDetailed, computeRestockCost24hDetailedIndividual, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, ensureCosmeticPricesLoaded, fetchLivePrices, findCosmeticPriceForName, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, isFishingBuyMode, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getActiveShrineDailyCost, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketplaceFlowerUsdPrice, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from "./prices.js";
+import { getFlowerSeedTypeCost, SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeRestockCost24hDetailed, computeRestockCost24hDetailedIndividual, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, ensureCosmeticPricesLoaded, fetchLivePrices, findCosmeticPriceForName, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, isFishingBuyMode, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getActiveShrineDailyCost, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketplaceFlowerUsdPrice, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from "./prices.js";
 
 import { loadBaseHoneyIfNeeded, profileBumpkinCachePersist, safeLSJSON, saveAnimalAffectionCounts, saveAnimalAffectionTools, saveAnimalBuds, saveAnimalCounts, saveAnimalSicknessEstimate, saveAoeSyncOverrides, saveAscensionState, saveBeeSwarmState, saveBoostState, saveBoosts, saveBudFloorPrice, saveCmOilTank, saveCmQueue, saveCookingCounts, saveCropBuds, saveCrustaceanChumSelection, saveFishBuds, saveFlowerVarietyOverrides, saveFruitBuds, saveFruitCounts, saveGlobalPlotCount, saveGlobalPlotCountTouched, saveGreenhouseBuds, saveGreenhouseCounts, saveHiveCount, saveManualCycleOverrides, saveMarketState, saveNodeCounts, saveNodeCountsTouched, savePetFloorPrice, savePetResourceCostOverride, savePetsData, saveResourceBuds, saveSaltFarmLevel, saveSaltUi, saveSculptureLevel, saveSelectedHoneyFlower, saveSelectedSwarmCrop, saveSkillState, saveSpiceUsage, saveState, saveSyncedSkillLevels, saveToolRecipes, saveTradeState, saveWeatherDestructionSync } from "./storage.js";
 
@@ -59,6 +59,7 @@ const AUTUMN_GUARDIAN_ICON = "data:image/webp;base64,UklGRpABAABXRUJQVlA4TIQBAAA
 const SPRING_GUARDIAN_ICON = "data:image/webp;base64,UklGRrYBAABXRUJQVlA4TKoBAAAvIoALEJ+gJpKt5pODgT94wARy8YKDnDpqWnQojSQp2rtDUedI4PUoUiYNQkGi0a/SSLaa/1WmBWpPZSGRDD7PCASSFBedMQAAAOXdvhi26cL/OqrfHPSlKzrjiHZ688NKXHboTVqBL5FwxGpikBjbVtg4BJFgELLZ7/6bFR9LOFvAfRH9d+C2bSTJEjD37jvCxQz/3NJsA8RiXbFrY7EUWdKS1OMW+yZsBSluuk+XpaEL67pzlKKRzEEyYro8OI9EPxWgM/9HrqPLfhw/1pWcl6FTPymmKxUHEn0e/o/oDrMsIObpisoxXZY+h0SvODLubxj6NEgS1MwjVMjF2T8K3VVyBURpqua9yGpTqRkK9cmhZk6ihIt26Ekt1FBHbW99kqne9jYkQBvHUuiWJhWT9dA0DlsYHNLeQN0SQ6WzFtB+SA3v7qjHUKOjOjQFkmCWOZDE1VQOp0mlhZtTHjLKt6nKr+MJeuVW71LC6clZKIH7hy8Af7xwOHqUsLYmPfSGsLy//LvNGybeWv/T0gJvheVJ4tfs6z/xiz/2Z94XjgC+Efw3uOjLjwA=";
 
 export const IMAGE_ICONS = {
+  "Power hour": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAAXNSR0IArs4c6QAAAaZJREFUOI21k7FPwkAYxR+moyPkAhMDYbGkCXHpYDoYDUzMDvwBuGm6MZoYEokjhJlRF6cSDINxMHFoIJSlOLioNBhdwMnkHNper6VowfCW9q7f/b73vVxjWEEknqH82np/ii2rFQBAVWR2oH73EFpM4hk6mY6Rs75g3LyCVIu+7wsMVZGpq4nWoHwBD6WUUnEyp2iNKVpjyrtXFZlOtAbjqIpMBTZWp8lA5d09dqj7/IaEMWBOAYBUizhMJ4F00qn7ZgxSqHhRuFBTHwIALs6OAABS+RIJYwAAPuigfeqbqF5rw9SHyOZzjCUgosRSym4ADVLZzjfYgFco2HUOAFNRYu8JYwCxlIIBDaRa9NVFAmfzOceR/QyLhK9Dt7/A2Fra0lHUnFcCrwtFlIyD0KuTg1+z9YFJoQKr07Qz6/a97HCLqSiBOKulTrkzpFABam3PsQvnFWVkXu7PwRzfnx/7CqKMGpSpD2HqHufPW7GuBGsu4PPFu5vBdRSFMTbmeHNRAMD148e/QUGGAAD7O9tsozeardUoyAj98/iiKOqNZgt7G8v4B+Gg2SgFy2zmAAAAAElFTkSuQmCC",
   "Fairy Circle": "data:image/webp;base64,UklGRuoAAABXRUJQVlA4TN0AAAAvIgAHEDdAJmCxFCTwKyW+PmQCFiuhiAxSK+GTR1EbKdDugge+pyr8G8CBQCAJbPvFAkDasvx9vmvCfOAokiS5mZEIbEsGcPsvC4FBmMDJH8NEd+tAENF/Bm7bNlLbm0aG84ugdWadW8d/RzrH+3wnneNyfgClc0zzCExzrzQ8XweQTiLCrjNFHBynf0etOSogRVQ4YKuIjtJGq4gKBQwsr9yLJWeK05IzQ2LZmcSyM4llZ5KdOVMEdqZJI6IDIqQR0SGDbjpfukdwI6JLHq+bL3TiZoUuNTfcau5rAAA=",
   "Wild Mushroom": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAAAAXNSR0IArs4c6QAAAN1JREFUGJWFjjFOwzAUhj9XlZmqDokULoDSybAEZWFDndi4AUMF9A4MSBwBAksOgjhAlCyQiaoXaKQwVEx4MUP0XMPSf/ptf+99VgQpZ5kLz1efjZI+DqH53Rna5ADYtqK8xwk88lA09RCANjnzaOotI4Fki0S6wOPaWS5eFsPDY4ul3X1yadAmp758GNS2rf5oQ71sVtfpsQM4VdqrAF6/tgDUzg4ggMDhgAAAz6sPpQ7joxuANJ48ZckB5ycJAG/vHU33w6r/vgXw4L4ogH3wpl8XKrz4P7Dp14X0X7MSUmuc1gdpAAAAAElFTkSuQmCC",
   "Crop Machine": "data:image/webp;base64,UklGRvgCAABXRUJQVlA4TOwCAAAvT0ARENegKJKk5sg5h+9ZQDZ6MIEDvthgEwBgkvnr2kDho6uWogcBHFTVtg29yTz8amCpIYbGvjSggAwWgmybio3+YA8A4P//I9YIRM6ZKS6kAFoIY4XHWmBZM4rwCOSjsJW4BkcAmzePbg2NKcu5pt0XL213P3C8cB0MEmzbjdsmtiMFHigzphWy3v9KSRAE6aFzix/Rfwhu20iSpO0aVM+VOZzsfOHtt5uuqb+7bm3o/Cp6NT+8jowTXR38JIo71KFgJdH71PFmBFS3ewAUC423n/NoNXyIVoDbQ+QWkqQeTFcrO5y9rHhszNj5zEYywbv2954WR9dvK8rOyJuJX2kAixkQN4Fdhk1caBMEUymuZVngKhw5PxHXvBMv4yWYXWK+oJtk0uQyM8msAmuDYHnHSMVoZsk0uVRR2SLEi1kMBT+Zpcsto8wlLR2LcDrdqpsgLXQkoJB0uRy1SdIndabjDGTSDBBWN27T5At5JxETBiF2LbTIK2eda7W5XGT8VUD63p9SrBZLJ5Zzduhz3kBapFxm7Fa0gq+gjC6XZ/0igRS5CSAhuQA0uew7LYEKZLrnFi3au8nf+5PQh7CQOLfum0sz47lszq2RqPtQ59zqQd+HeufMqNNiH1pGzK0MXQ1m0OdS7EPdc4tzddzmXND0oWE4kE5tH/IiyrlVNqtKEvqu2IeWQbk0wNCeaMIi96HuXNYbqxVKyCj70JBcGup3gkEAUFD2oQG5XCYTZksD4fQJSPWBEbk8TZKQFe4m1tKdS4Ze0/yZPd//dRNGawNI0SxNxh+pX1hnLhnhhkIAxtCby8ImMDZhEN253B8ZRzA+D/uj6Keqju5c7g+Md2Mc9nZ4F1XVMeB3D4PAeIzfPXMKCQT2SHeguTBgKMDwINAMEMAeaQjdOcJKmIk502PQytmIOrpz6Zs5G18HNYfT/VUgdza7Sx34QON2rtEW7lBHc8QX6veKYG58He3N/ZcHPL1rur27Lw8A",
@@ -3722,20 +3723,125 @@ export let flowerSeedOverrides = safeLSJSON(localStorage.getItem("hl_flower_seed
 
 export let flowerVarietyOverrides = safeLSJSON(localStorage.getItem("hl_flower_variety_overrides"), {});
 
+let flowerAutoPicks = null;
+
+let flowerAutoPickResolving = false;
+
+export function clearFlowerAutoPickMemo() {
+  flowerAutoPicks = null;
+}
+
+function readFlowerVarietyQty(name) {
+  const o = flowerVarietyOverrides[name];
+  return o && o.ingredientQty != null ? parseFloat(o.ingredientQty) : 1;
+}
+
+function readManualFlowerIngredient(name) {
+  const o = flowerVarietyOverrides[name];
+  const v = FLOWER_VARIETIES[name];
+  return o && o.manual && o.ingredient && v.ingredients.includes(o.ingredient) ? o.ingredient : null;
+}
+
+function resolveAllFlowerAutoPicks() {
+  const names = Object.keys(FLOWER_VARIETIES);
+  const picks = new Map;
+  const best = new Map;
+  const info = new Map;
+  names.forEach(n => {
+    const v = FLOWER_VARIETIES[n];
+    const own = computeBoostedFlowerVarietyStats(n);
+    const manual = readManualFlowerIngredient(n);
+    const pool = manual ? [ manual ] : v.ingredients.length > 1 ? v.ingredients.filter(c => c !== n) : v.ingredients.slice();
+    info.set(n, {
+      seedCost: getFlowerSeedTypeCost(v.seed),
+      yieldMult: own.expectedYield,
+      ownSec: own.timeVal,
+      qty: readFlowerVarietyQty(n),
+      pool: pool.length ? pool : v.ingredients.slice()
+    });
+    picks.set(n, v.ingredients[0]);
+  });
+  const unitCache = new Map;
+  const unitCost = (n, c) => {
+    const key = n + "|" + c;
+    if (!unitCache.has(key)) unitCache.set(key, getMaterialUnitCostCoins(c, getMaterialMode("FlowerVariety_" + n, c), new Set));
+    return unitCache.get(key);
+  };
+  for (let iter = 0; iter < names.length + 2; iter++) {
+    let changed = false;
+    names.forEach(n => {
+      const d = info.get(n);
+      d.pool.forEach(c => {
+        const isFlower = !!FLOWER_VARIETIES[c];
+        const mode = getMaterialMode("FlowerVariety_" + n, c);
+        let candCost, candSec = 0;
+        if (isFlower && mode !== "buy") {
+          const bc = best.get(c);
+          if (!bc) return;
+          candCost = bc.cost;
+          candSec = bc.sec;
+        } else {
+          candCost = unitCost(n, c);
+          if (isFlower) {
+            const bc = best.get(c);
+            candSec = bc ? bc.sec : 0;
+          }
+        }
+        const cost = (d.seedCost + d.qty * candCost) / d.yieldMult;
+        const sec = d.ownSec + candSec;
+        const cur = best.get(n);
+        const tol = cur ? 1e-9 * Math.max(1, Math.abs(cur.cost)) : 0;
+        if (!cur || cost < cur.cost - tol || Math.abs(cost - cur.cost) <= tol && sec < cur.sec - 1e-9) {
+          best.set(n, {
+            cost: cost,
+            sec: sec
+          });
+          picks.set(n, c);
+          changed = true;
+        }
+      });
+    });
+    if (!changed) break;
+  }
+  return picks;
+}
+
 export function getVarietyIngredient(name) {
   const v = FLOWER_VARIETIES[name];
-  const o = flowerVarietyOverrides[name];
-  const validSaved = o && o.ingredient && v.ingredients.includes(o.ingredient);
+  const qty = readFlowerVarietyQty(name);
+  const manual = readManualFlowerIngredient(name);
+  if (manual) return {
+    name: manual,
+    qty: qty
+  };
+  if (v.ingredients.length < 2) return {
+    name: v.ingredients[0],
+    qty: qty
+  };
+  if (flowerAutoPickResolving) return {
+    name: v.ingredients[0],
+    qty: qty
+  };
+  if (!flowerAutoPicks) {
+    flowerAutoPickResolving = true;
+    try {
+      flowerAutoPicks = resolveAllFlowerAutoPicks();
+    } finally {
+      flowerAutoPickResolving = false;
+    }
+  }
   return {
-    name: validSaved ? o.ingredient : v.ingredients[0],
-    qty: o && o.ingredientQty != null ? parseFloat(o.ingredientQty) : 1
+    name: flowerAutoPicks.get(name) || v.ingredients[0],
+    qty: qty
   };
 }
 
-export function setVarietyIngredient(name, ingName, qty) {
+export function setVarietyIngredient(name, ingName, qty, manual) {
   if (!flowerVarietyOverrides[name]) flowerVarietyOverrides[name] = {};
   flowerVarietyOverrides[name].ingredient = ingName;
   flowerVarietyOverrides[name].ingredientQty = parseFloat(qty) || 1;
+  if (manual === true) flowerVarietyOverrides[name].manual = true;
+  flowerAutoPicks = null;
   saveFlowerVarietyOverrides();
 }
 
@@ -4179,9 +4285,9 @@ function computeBoostedFruitStatsUncached(fruitName, baseYield, baseTimeSec, bas
   };
 }
 
-const GREENHOUSE_GLOBAL_EXCLUDED_FROM_GRAPE = new Set([ "tortoise_shrine", "skill_rice_and_shine" ]);
+const GREENHOUSE_GLOBAL_EXCLUDED_FROM_GRAPE = new Set([ "tortoise_shrine", "skill_rice_and_shine", "power_hour_greenhouse" ]);
 
-export const CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE = new Set([ "sir_goldensnout", "gnome", "sparrow_shrine", "faction_wings", "autumns_embrace", "frozen_heart", "solflare_aegis", "blossom_ward", "bee_swarm", "sunshower" ]);
+export const CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE = new Set([ "sir_goldensnout", "gnome", "sparrow_shrine", "faction_wings", "autumns_embrace", "frozen_heart", "solflare_aegis", "blossom_ward", "bee_swarm", "sunshower", "power_hour" ]);
 
 const GRAPE_ONLY_CROPS_GLOBAL_BOOSTS = new Set([ "time_warp_totem", "super_totem", "bountiful_harvest" ]);
 
@@ -5211,6 +5317,16 @@ const CORE_CROP_BOOSTS = [ {
   limitedBoostName: "Sunshower",
   syncDetected: true,
   note: "Seasonal weather event (once a week) - 2x crop growth speed for 24h while active. Winter & Autumn only. Crops tab only - does NOT affect the Greenhouse. Auto-detected via farm sync."
+}, {
+  id: "power_hour",
+  name: "Power hour",
+  scope: "global",
+  target: null,
+  timeMult: .5,
+  yieldAdd: .2,
+  limitedBoostName: "Power hour",
+  syncDetected: true,
+  note: "Daily chest Growth Boost (free, lasts 1 hour) - crop plots grow 2x faster (-50% growing time) and every crop harvest gives +0.2 yield while active. The speed part applies to Crop Plots only; the +0.2 yield also applies to Greenhouse Rice/Olive and Crop Machine harvests. Does not affect Fruits, Flowers or Grape. Auto-detected via farm sync."
 }, {
   id: "bountiful_harvest",
   name: "Bountiful Harvest",
@@ -8460,6 +8576,16 @@ FRUIT_BOOSTS.forEach(b => {
 });
 
 const GREENHOUSE_BOOSTS = [ {
+  id: "power_hour_greenhouse",
+  name: "Power hour",
+  scope: "global",
+  target: null,
+  yieldAdd: .2,
+  limitedBoostName: "Power hour",
+  syncDetected: true,
+  hiddenFromOwnPanel: true,
+  note: "Daily chest Growth Boost (free, lasts 1 hour) - +0.2 Greenhouse Rice/Olive yield while active. No speed effect in the Greenhouse. Auto-detected via farm sync. Toggle it from the Crops tab."
+}, {
   id: "pharaoh_gnome",
   name: "Pharaoh Gnome",
   scope: "global",
@@ -10684,6 +10810,7 @@ export function isSeasonLocked(boost) {
 
 export function isBoostActive(id) {
   if (id === "gnome" && farmPanelGameState && !farmPanelGnomeComboPresent()) return false;
+  if ((id === "power_hour" || id === "power_hour_greenhouse") && isPowerHourExpiredSinceSync()) return false;
   if (ALWAYS_ON_BOOST_IDS.has(id)) return true;
   if (id === "bee_swarm") return beeSwarmActiveCount > 0;
   if (!selectedSkills.includes(id) && !selectedBoosts.includes(id)) return false;
@@ -11158,6 +11285,12 @@ export const LIMITED_TIME_BOOSTS = [ {
   durationMs: 7 * 24 * 60 * 60 * 1e3,
   durationLabel: "7 days",
   group: "Animal Shrine"
+}, {
+  id: "lt_power_hour",
+  name: "Power hour",
+  durationMs: 60 * 60 * 1e3,
+  durationLabel: "1 hour",
+  group: "Buff"
 } ];
 
 export const SHRINE_RECIPES = {
@@ -11520,7 +11653,8 @@ function farmSyncRefreshLimitedBoostActiveState(g) {
     state[entry.name] = {
       active: status.activeCount > 0,
       expiresAt: status.activeCount > 0 ? now + status.remainingMs : 0,
-      durationMs: entry.durationMs
+      startedAt: status.activeCount > 0 && status.startedAt ? status.startedAt : 0,
+      durationMs: status.durationMs || entry.durationMs
     };
   });
   CALENDAR_SEASONAL_BOOSTS.forEach(entry => {
@@ -11540,6 +11674,20 @@ function farmSyncRefreshLimitedBoostActiveState(g) {
 
 export function hasLimitedBoostSyncData() {
   return Object.keys(limitedBoostActiveState).length > 0;
+}
+
+export function getPowerHourWindow() {
+  const st = limitedBoostActiveState["Power hour"];
+  if (!st || !st.active || !st.startedAt) return null;
+  return {
+    startedAt: st.startedAt,
+    expiresAt: st.expiresAt
+  };
+}
+
+export function isPowerHourExpiredSinceSync() {
+  const st = limitedBoostActiveState["Power hour"];
+  return !!(st && st.active && Date.now() >= st.expiresAt);
 }
 
 export function getLimitedBoostRemainingSec(bareName) {
@@ -13620,6 +13768,19 @@ export function farmSyncGetLimitedTimeBoostStatus(g, name, durationMs) {
   };
   if (!g) return status;
   const now = Date.now();
+  const buffsBag = asObj(farmPanelField(g, "buffs"));
+  const buffEntry = buffsBag ? asObj(buffsBag[name]) : null;
+  if (buffEntry && typeof buffEntry.startedAt === "number") {
+    const buffDuration = typeof buffEntry.durationMS === "number" ? buffEntry.durationMS : durationMs;
+    const buffRemaining = buffEntry.startedAt + buffDuration - now;
+    if (buffRemaining > 0) {
+      status.activeCount = 1;
+      status.remainingMs = buffRemaining;
+      status.startedAt = buffEntry.startedAt;
+      status.durationMs = buffDuration;
+    }
+    return status;
+  }
   const inv = asObj(farmPanelField(g, "inventory"));
   if (inv && inv[name] != null) {
     const q = typeof inv[name] === "string" ? parseFloat(inv[name]) : Number(inv[name]);
