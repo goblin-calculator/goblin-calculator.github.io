@@ -2,9 +2,9 @@ import { FACTION_BANNER_ICONS, FACTION_DISPLAY_NAMES, FACTION_PET_HAPPY_ICONS, F
 
 import { farmPanelGameState } from "./inprogress.js";
 
-import { craftingBoxClearCostCache, craftingBoxHasRecipe, craftingBoxUnitCostCoins } from "./crafting_box.js";
+import { craftingBoxClearCostCache, craftingBoxHasRecipe, craftingBoxUnitCostCoins, craftingBoxUnitCostCoinsForMode } from "./crafting_box.js";
 
-import { cookingCostMode, cookingIngredientUnitCostCoins } from "./prices.js";
+import { SFL_COMMUNITY_PROXY_BASE, cookingCostMode, cookingIngredientUnitCostCoins } from "./prices.js";
 
 import { safeLSJSON } from "./storage.js";
 
@@ -518,11 +518,7 @@ function factionDeliveryRelativeTime(ts) {
   return `${Math.floor(diffHr / 24)}d ago`;
 }
 
-const FACTION_LEADERBOARD_WORKER_BASE = "https://sfl-kingdom-leaderboard-cache.bossweki.workers.dev";
-
-const FACTION_LEADERBOARD_API_BASE = FACTION_LEADERBOARD_WORKER_BASE + "/kingdom/";
-
-const FACTION_LEADERBOARD_LIMIT = 100;
+const FACTION_LEADERBOARD_LIMIT = 500;
 
 const FACTION_LEADERBOARD_TIMEOUT_MS = 12000;
 
@@ -575,15 +571,15 @@ async function factionLeaderboardFetchData(farmId, force) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FACTION_LEADERBOARD_TIMEOUT_MS);
   try {
-    const url = FACTION_LEADERBOARD_API_BASE + encodeURIComponent(farmId) + "?limit=" + FACTION_LEADERBOARD_LIMIT;
+    const url = SFL_COMMUNITY_PROXY_BASE + "community/data?type=marksLeaderboard&farmId=" + encodeURIComponent(farmId) + "&limit=" + FACTION_LEADERBOARD_LIMIT;
     const res = await fetch(url, {
       cache: "no-store",
       signal: controller.signal
     });
     if (!res.ok) throw new Error("Request failed (" + res.status + ")");
     const json = await res.json();
-    if (!json || !json.marks) throw new Error("Unexpected response from leaderboard API");
-    factionLeaderboardData = json;
+    if (!json || !json.data || !json.data.factions) throw new Error("Unexpected response from leaderboard API");
+    factionLeaderboardData = json.data;
     factionLeaderboardFetchedForFarmId = farmId;
     factionLeaderboardFetchedAt = Date.now();
   } catch (e) {
@@ -602,6 +598,7 @@ function factionLeaderboardOwnUsername() {
 
 function factionLeaderboardIsOwnRow(row, farmId, username) {
   if (!row) return false;
+  if (farmId && row.accountId != null && String(row.accountId) === String(farmId)) return true;
   if (farmId && row.farmId != null && String(row.farmId) === String(farmId)) return true;
   if (username && typeof row.id === "string" && row.id.trim().toLowerCase() === username) return true;
   return false;
@@ -626,6 +623,68 @@ function factionLeaderboardRowHtml(row, index, isYou, useIndexRank) {
   return `<div class="fd-lb-row${isYou ? " is-you" : ""}">\n    <div class="fd-lb-row-top">\n      <span class="fd-lb-row-rank">${rank != null ? "#" + fmtInt(rank) : "—"}</span>\n      <span class="fd-lb-row-name">${escapeHtml(name)}${isYou ? ` <span class="fd-badge">★ You</span>` : ""}</span>\n      <span class="fd-lb-row-count">${markHtml} ${fmtXp(row.count)}</span>\n    </div>\n    ${metaHtml}\n  </div>`;
 }
 
+const FACTION_DELIVERY_ICON_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAABLklEQVR42nWSPUvDUBSGn1scxLpVEQdpKTQUsnQwq1M26eYPKEJDxkz9Ce3aMUQoroVCocXtTl3bwSUgEYpOIrWbFQchDiEhNx9nPs8573nPKzTdDElV4EtBQWX7jgC8R5f18wsAD2PCLKzpZth3HACMThurZ1MB8CYzjE4bgL7jKNOzkDeZAURgGVwGAVQCX4rNShbCZ5fNHLRZSQJfCpGWdH1jAmDd3yU3z6cLABqtZgIpUss2AwxHAwUCEFkT5tMFjVYk8e11y3A0SDk+TuBC22N5ZVBuY7d2YP35y9+VkYO6tQPLfVW9UdPN0K3vIgcvjvn62GL1bAUCcOu75Mcihp6+TwCUqZpuhoEvRawG4Pb0B/v9PNpYBKVzG/hSLPdV0r3JfdkQlwU97vsHE3e2F0JAyRgAAAAASUVORK5CYII=";
+
+const FACTION_LEADERBOARD_ICON_SRC = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAALCAYAAABPhbxiAAABJGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGAycHRxcmUSYGDIzSspCnJ3UoiIjFJgP8/AxsDMAAaJycUFjgEBPiB2Xn5eKgMG+HaNgRFEX9YFmYUpjxdwJRcUlQDpP0BslJJanMzAwGgAZGeXlxQAxRnnANkiSdlg9gYQuygkyBnIPgJk86VD2FdA7CQI+wmIXQT0BJD9BaQ+Hcxm4gCbA2HLgNglqRUgexmc8wsqizLTM0oUDC0tLRUcU/KTUhWCK4tLUnOLFTzzkvOLCvKLEktSU4BqIe4DA0GIQlCIaQA1WmiS6G+CABQPENbnQHD4MoqdQYghQHJpURmUychkTJiPMGOOBAOD/1IGBpY/CDGTXgaGBToMDPxTEWJqhgwMAvoMDPvmAADAxk/9GlU2EAAAAMFJREFUeNqNkjEKwkAQRd/Igr2VdYqkSGBbD5A07i08mLdIFbDVdtHGZmsre6ux0A0mbowfBoblff7wWVFVAIqqeS0zul46ATDRdL106G330yTrfWRlUVSNehcoqgaO52nX8UxRNbxZNSngH0le1gDqXQBguVklwcfpDoBtM7wLYgC8C2LbTL0LPZCSbTMAAZDY6mezMX1k6BsFQFW/Ji9rPWytHrZW87LW99uAGSTG1FTiIA1YzJni6eMPYiYKmNUTpTdxpOcI7zYAAAAASUVORK5CYII=";
+
+function factionDeliveryButtonIconHtml() {
+  return `<img src="${FACTION_DELIVERY_ICON_SRC}" alt="" style="width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px;">`;
+}
+
+function factionLeaderboardIconHtml() {
+  return `<img src="${FACTION_LEADERBOARD_ICON_SRC}" alt="" style="height:16px;width:auto;image-rendering:pixelated;vertical-align:-3px;">`;
+}
+
+const FACTION_STANDING_LABELS = [ "1st", "2nd", "3rd", "4th" ];
+
+function factionLeaderboardFmtMarks(n) {
+  if (n == null || !isFinite(n)) return "—";
+  return Number(n).toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 1
+  });
+}
+
+function factionLeaderboardStandings(data) {
+  if (!data || !data.factions) return [];
+  const list = FACTION_ORDER.map(f => {
+    const fd = data.factions[f];
+    if (!fd) return null;
+    const rows = Array.isArray(fd.top) ? fd.top : [];
+    const top100 = rows.slice(0, 100);
+    const summed = top100.reduce((acc, r) => acc + (Number(r && r.count) || 0), 0);
+    const total = isFinite(Number(fd.score)) && fd.score != null ? Number(fd.score) : summed;
+    const edge = top100.length ? top100[top100.length - 1] : null;
+    const threshold = edge && edge.count != null ? Number(edge.count) : null;
+    return { faction: f, total: total, threshold: threshold };
+  }).filter(Boolean);
+  list.sort((a, b) => b.total - a.total);
+  return list;
+}
+
+function factionLeaderboardStandingsHtml(data, ownFaction) {
+  const standings = factionLeaderboardStandings(data);
+  if (!standings.length) return "";
+  const markHtml = `<img src="${MARK_ICON_SRC}" alt="Mark" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:-2px;">`;
+  const cardsHtml = standings.map((st, i) => {
+    const bannerHtml = FACTION_BANNER_ICONS[st.faction] ? `<img src="${FACTION_BANNER_ICONS[st.faction]}" alt="" style="width:18px;height:18px;image-rendering:pixelated;">` : "";
+    const name = FACTION_DISPLAY_NAMES[st.faction] || st.faction;
+    return `<div class="fd-container fdrk-card${st.faction === ownFaction ? " is-own" : ""}">
+      <div class="fdrk-head">
+        <span class="fd-container-title">${bannerHtml} ${escapeHtml(name)}</span>
+        <span class="fd-badge fdrk-badge">${FACTION_STANDING_LABELS[i] || fmtInt(i + 1) + "th"}</span>
+      </div>
+      <div class="fd-section-label fdrk-label">Top 100 Total Marks</div>
+      <div class="fdrk-total">${factionLeaderboardFmtMarks(st.total)} ${markHtml}</div>
+      <div class="fd-stat fdrk-threshold"><span class="fd-stat-label" title="Marks needed to hold rank 100 in this faction">Top 100 Threshold ⓘ</span><span class="fd-stat-value">${factionLeaderboardFmtMarks(st.threshold)}</span></div>
+    </div>`;
+  }).join("");
+  return `<div class="fd-container fdm-gap">
+    <div class="fd-container-head"><span class="fd-container-title">${factionLeaderboardIconHtml()} Faction Standings</span></div>
+    <div class="fdrk-grid">${cardsHtml}</div>
+  </div>`;
+}
+
 function factionLeaderboardBodyHtml() {
   const farmId = factionLeaderboardOwnFarmId();
   const username = factionLeaderboardOwnUsername();
@@ -646,10 +705,11 @@ function factionLeaderboardBodyHtml() {
   } else if (!factionLeaderboardData) {
     listHtml = `<div class="fd-empty-note">No data yet.</div>`;
   } else {
-    const marks = factionLeaderboardData.marks || {};
-    const rows = (marks.topTens && marks.topTens[faction]) || [];
-    if (faction === ownFaction) {
-      const windowRows = Array.isArray(marks.marksRankingData) ? marks.marksRankingData.filter(Boolean) : [];
+    const factionData = factionLeaderboardData.factions[faction] || {};
+    const rows = Array.isArray(factionData.top) ? factionData.top : [];
+    const details = factionLeaderboardData.farmRankingDetails;
+    if (faction === ownFaction || (details && details.faction === faction)) {
+      const windowRows = details && details.faction === faction && Array.isArray(details.rankings) ? details.rankings.filter(Boolean) : [];
       const ownInTop = rows.find(r => factionLeaderboardIsOwnRow(r, farmId, username));
       const shown = windowRows.length ? windowRows : ownInTop ? [ownInTop] : [];
       const shownHtml = shown.length ? shown.map((r, i) => factionLeaderboardRowHtml(r, i, factionLeaderboardIsOwnRow(r, farmId, username), false)).join("") : `<div class="fd-empty-note">No ranking found for your farm this week yet.</div>`;
@@ -658,7 +718,8 @@ function factionLeaderboardBodyHtml() {
     listHtml = rows.length ? rows.map((r, i) => factionLeaderboardRowHtml(r, i, factionLeaderboardIsOwnRow(r, farmId, username), true)).join("") : `<div class="fd-empty-note">No ranking data yet for ${escapeHtml(factionLeaderboardSingularLabel(faction))}.</div>`;
     if (factionLeaderboardData.lastUpdated) updatedHtml = `<div class="fd-synced-note">Last updated ${escapeHtml(factionDeliveryRelativeTime(factionLeaderboardData.lastUpdated))}</div>`;
   }
-  return `<div class="fd-lb-tabs" id="factionLbTabs">${tabsHtml}</div>\n  ${ownRankHtml}\n  <div class="fd-container">\n    <div class="fd-container-head">\n      <span class="fd-container-title">🏆 ${escapeHtml(label)}</span>\n    </div>\n    <div class="fd-lb-list">${listHtml}</div>\n    ${updatedHtml}\n  </div>`;
+  const standingsHtml = !factionLeaderboardError && factionLeaderboardData ? factionLeaderboardStandingsHtml(factionLeaderboardData, ownFaction) : "";
+  return `${standingsHtml}\n  <div class="fd-container fdm-gap"><div class="fdm-factions" id="factionLbFactions">${tabsHtml}</div></div>\n  ${ownRankHtml}\n  <div class="fd-container">\n    <div class="fd-container-head">\n      <span class="fd-container-title">${factionLeaderboardIconHtml()} ${escapeHtml(label)}</span>\n    </div>\n    <div class="fd-lb-list fd-lb-scroll">${listHtml}</div>\n    ${updatedHtml}\n  </div>`;
 }
 
 function factionLeaderboardRenderBody() {
@@ -676,21 +737,419 @@ function factionLeaderboardRenderBody() {
 }
 
 function factionLeaderboardViewHtml() {
-  return `<div class="fd-lb-statement">Weekly Marks standings for each faction from Sunflower Land's official leaderboard (the game only publishes each faction's top 10, plus a few ranks around your own farm).</div>
+  return `<div class="fd-lb-statement">Weekly Marks standings for each faction from Sunflower Land's official leaderboard (top 500 members of each faction, plus a few ranks around your own farm).</div>
   <div class="fd-lb-label">Faction Leader Boards</div>
   <div id="factionLbBody"></div>`;
 }
 
+const FACTION_MARKS_KITCHEN_BASE = 20;
+
+const FACTION_MARKS_PET_BASES = [ 4, 8, 12, 20 ];
+
+const FACTION_MARKS_WEEK_DAYS = 7;
+
+const FACTION_MARKS_PARTS = [ [ "shirt", 0.2 ], [ "crown", 0.1 ], [ "hat", 0.1 ], [ "tool", 0.1 ], [ "pants", 0.05 ], [ "shoes", 0.05 ] ];
+
+const FACTION_MARKS_PAW_BOOST = 0.25;
+
+const FACTION_MARKS_OUTFITS = {
+  bumpkins: { crown: "Bumpkin Crown", hat: "Bumpkin Helmet", shirt: "Bumpkin Armor", pants: "Bumpkin Pants", shoes: "Bumpkin Sabatons", tool: "Bumpkin Sword" },
+  goblins: { crown: "Goblin Crown", hat: "Goblin Helmet", shirt: "Goblin Armor", pants: "Goblin Pants", shoes: "Goblin Sabatons", tool: "Goblin Axe" },
+  sunflorians: { crown: "Sunflorian Crown", hat: "Sunflorian Helmet", shirt: "Sunflorian Armor", pants: "Sunflorian Pants", shoes: "Sunflorian Sabatons", tool: "Sunflorian Sword" },
+  nightshades: { crown: "Nightshade Crown", hat: "Nightshade Helmet", shirt: "Nightshade Armor", pants: "Nightshade Pants", shoes: "Nightshade Sabatons", tool: "Nightshade Sword" }
+};
+
+const FACTION_MARKS_EMBLEMS = {
+  bumpkins: "Bumpkin Emblem",
+  goblins: "Goblin Emblem",
+  sunflorians: "Sunflorian Emblem",
+  nightshades: "Nightshade Emblem"
+};
+
+const FACTION_MARKS_EMBLEM_ICONS = {
+  bumpkins: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQBAMAAADUulMJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAeUExURQAAACYrROSmcrhvUHQ/OQCV6Sbd8z8oMhJOif///4izTG8AAAABdFJOUwBA5thmAAAAAWJLR0QJ8dml7AAAAAd0SU1FB+gGDgAhMh0U9b8AAABqSURBVAjXFczRDYMwEANQZ4McmQDRBWIqwX9CN7iWAWgmyAYIibG5+/GT/WGECIHFkANjGk2huHyzTKY2NjW/rba/e/DjzqW85hGp9r7UjHT9yra72tW9lXpnhPXifkbYQKtAsF+rgIgAD1DCFni81o/qAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA2LTE0VDAwOjMzOjUwKzAwOjAwpEOqQwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wNi0xNFQwMDozMzo1MCswMDowMNUeEv8AAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDYtMTRUMDA6MzM6NTArMDA6MDCCCzMgAAAAAElFTkSuQmCC",
+  goblins: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAeUExURQAAACYrROSmcrhvUHQ/OT6JSGPHTT8oMiZcQv///3uD4JYAAAABdFJOUwBA5thmAAAAAWJLR0QJ8dml7AAAAAd0SU1FB+gGDgAhM2oTxSkAAAB7SURBVAjXHY7BDYNADATXHRyYBg4dUb7k7sEXWUAB0UH+ECqgAxSJsmPzW61nRwYI5OAAlAX7wmvgWkLdaqAoIdqJ8/rI2hDP2/htHcpql7D3XtmUXqI0xWmSw+gqHyn3tvotw8c8fL2b6xZ25/M0IViCFab0dwF7A/gDFzESLuJNgaYAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjQtMDYtMTRUMDA6MzM6NTArMDA6MDCkQ6pDAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI0LTA2LTE0VDAwOjMzOjUwKzAwOjAw1R4S/wAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNC0wNi0xNFQwMDozMzo1MSswMDowMCR8OJQAAAAASUVORK5CYII=",
+  sunflorians: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAeUExURQAAACYrRIubtMDL3FppiP6uNP7nYTpEZvd2Iv///5NnjAAAAAABdFJOUwBA5thmAAAAAWJLR0QJ8dml7AAAAAd0SU1FB+gGDgAhMh0U9b8AAABzSURBVAjXY2BgYGAUYACRgoJChoKCAgzCRkpOJkrKhgyMIqFBpqGOQFmhsCSzVEUGECPFDcwQCXMySXUE6jJSUVF2UhZgYFRxd3cqcQIpbi1RiQArbg13BTMYNYJMm8CWCDVZgASAQk4mYAGgkCGEhjgDADkdEWSCmFzpAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA2LTE0VDAwOjMzOjUwKzAwOjAwpEOqQwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wNi0xNFQwMDozMzo1MCswMDowMNUeEv8AAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDYtMTRUMDA6MzM6NTArMDA6MDCCCzMgAAAAAElFTkSuQmCC",
+  nightshades: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQBAMAAADUulMJAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAeUExURQAAACYrRIubtMDL3FppiLVQiOJqfzpEZmg4bP///+R+LWkAAAABdFJOUwBA5thmAAAAAWJLR0QJ8dml7AAAAAd0SU1FB+gGDgAhMh0U9b8AAABtSURBVAjXTY3RCYAgGAY/N0htAfuLehVaILEGCP5qgGoCJwgEx86IoKeDe7gDBCQKAEqSNJm6JmcfMnGmaBY65gKKT3+yQbnsNB0DdOVcX1koH0Lrs4+rG7cBKnHgZCC6SNuVwzpRsr/u93m/N8ZmE71X/ksVAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI0LTA2LTE0VDAwOjMzOjUwKzAwOjAwpEOqQwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNC0wNi0xNFQwMDozMzo1MCswMDowMNUeEv8AAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjQtMDYtMTRUMDA6MzM6NTArMDA6MDCCCzMgAAAAAElFTkSuQmCC"
+};
+
+const FACTION_MARKS_RANK_BOOSTS = [ 0, 0.05, 1.5, 3, 3.5, 3.8, 4 ];
+
+const FACTION_MARKS_RANKS = {
+  bumpkins: [ [ "Forager", 0 ], [ "Rancher", 25 ], [ "Agrarian", 300 ], [ "Steward", 2500 ], [ "Sentinel", 5200 ], [ "Warden", 9700 ], [ "Overseer", 23300 ] ],
+  goblins: [ [ "Hobgoblin", 0 ], [ "Grunt", 20 ], [ "Marauder", 500 ], [ "Elite", 4200 ], [ "Commander", 8000 ], [ "Warchief", 13300 ], [ "Warlord", 23500 ] ],
+  sunflorians: [ [ "Initiate", 0 ], [ "Squire", 15 ], [ "Captain", 250 ], [ "Knight", 3000 ], [ "Guardian", 6000 ], [ "Paladin", 11000 ], [ "Archduke", 24000 ] ],
+  nightshades: [ [ "Pagan", 0 ], [ "Occultist", 20 ], [ "Enchanter", 290 ], [ "Raver", 2700 ], [ "Witch", 5500 ], [ "Sorcerer", 8700 ], [ "Lich", 16850 ] ]
+};
+
+let factionMarksState = null;
+
+let factionMarksScope = "today";
+
+let factionMarksCostMode = "buy";
+
+function factionMarksUnitCost(name) {
+  try {
+    const coins = craftingBoxHasRecipe(name) ? craftingBoxUnitCostCoinsForMode(name, factionMarksCostMode) : cookingIngredientUnitCostCoins(name, factionMarksCostMode);
+    if (!(coins > 0)) return 0;
+    return coinsToFlower(coins);
+  } catch (e) {
+    return 0;
+  }
+}
+
+function factionMarksCostIconHtml() {
+  return FLOWER_ICON;
+}
+
+function factionMarksTodayKey() {
+  const d = new Date().getUTCDay();
+  return d === 0 ? 7 : d;
+}
+
+function factionMarksEquippedSet(g) {
+  const names = new Set;
+  const add = b => {
+    const eq = farmSyncAsObj(b && b.equipped);
+    if (!eq) return;
+    Object.values(eq).forEach(v => {
+      if (typeof v === "string" && v) names.add(v);
+    });
+  };
+  add(g && g.bumpkin);
+  const hands = farmSyncAsObj(g && g.farmHands);
+  const bumpkins = hands ? hands.bumpkins : null;
+  const list = Array.isArray(bumpkins) ? bumpkins : Object.values(farmSyncAsObj(bumpkins) || {});
+  list.forEach(add);
+  return names;
+}
+
+function factionMarksBuildState(faction) {
+  const g = farmPanelGameState;
+  const own = g ? farmSyncGetFaction(g) : null;
+  const synced = !!(own && own.name === faction);
+  const st = { faction: faction, synced: synced, wear: {}, paw: false, emblems: 0, kitchen: [], pet: [] };
+  if (synced) {
+    const day = factionMarksTodayKey();
+    const doneOf = r => {
+      const o = farmSyncAsObj(r && r.dailyFulfilled);
+      if (!o) return 0;
+      return Number(o[day] != null ? o[day] : o[String(day)]) || 0;
+    };
+    const equipped = factionMarksEquippedSet(g);
+    const outfit = FACTION_MARKS_OUTFITS[faction];
+    FACTION_MARKS_PARTS.forEach(p => {
+      st.wear[p[0]] = equipped.has(outfit[p[0]]);
+    });
+    st.paw = equipped.has("Paw Shield");
+    const inv = farmSyncAsObj(g.inventory);
+    st.emblems = inv ? Math.max(0, Math.floor(Number(inv[FACTION_MARKS_EMBLEMS[faction]]) || 0)) : 0;
+    const kitchen = farmSyncAsObj(own.kitchen);
+    const pet = farmSyncAsObj(own.pet);
+    (kitchen && Array.isArray(kitchen.requests) ? kitchen.requests : []).forEach(r => {
+      st.kitchen.push({ item: r.item, amount: Number(r.amount) || 0, done: doneOf(r), deliver: 1 });
+    });
+    (pet && Array.isArray(pet.requests) ? pet.requests : []).forEach(r => {
+      st.pet.push({ item: r.food, amount: Number(r.quantity) || 0, done: doneOf(r), deliver: 1 });
+    });
+  } else {
+    const prediction = factionDeliveryPredict(faction, factionGetWeekKey());
+    const set = prediction && prediction.set;
+    ((set && set.kitchen) || []).forEach(r => {
+      st.kitchen.push({ item: r.item, amount: Number(r.amount) || 0, done: 0, deliver: 1 });
+    });
+    ((set && set.pet) || []).forEach(r => {
+      st.pet.push({ item: r.food, amount: Number(r.quantity) || 0, done: 0, deliver: 1 });
+    });
+  }
+  return st;
+}
+
+function factionMarksRankIndex(faction, emblems) {
+  let idx = 0;
+  FACTION_MARKS_RANKS[faction].forEach((r, i) => {
+    if (emblems >= r[1]) idx = i;
+  });
+  return idx;
+}
+
+function factionMarksFloorStart(base) {
+  return Math.ceil((base - 1) / 2) + 1;
+}
+
+function factionMarksSeriesSum(base, done, n) {
+  let sum = 0;
+  for (let i = 0; i < n; i++) sum += Math.max(base - (done + i) * 2, 1);
+  return sum;
+}
+
+function factionMarksCompute() {
+  const st = factionMarksState;
+  const week = factionMarksScope === "week";
+  const days = week ? FACTION_MARKS_WEEK_DAYS : 1;
+  let wear = 0;
+  FACTION_MARKS_PARTS.forEach(p => {
+    if (!st.wear[p[0]]) return;
+    if (p[0] === "hat" && st.wear.crown) return;
+    wear += p[1];
+  });
+  const rankIdx = factionMarksRankIndex(st.faction, st.emblems);
+  const rank = FACTION_MARKS_RANK_BOOSTS[rankIdx];
+  const kitchenMult = 1 + wear + rank;
+  const petMult = kitchenMult + (st.paw ? FACTION_MARKS_PAW_BOOST : 0);
+  const build = (reqs, baseOf, mult) => {
+    const rows = reqs.map((r, i) => {
+      const base = baseOf(i);
+      const done = 0;
+      const baseSum = factionMarksSeriesSum(base, done, r.deliver);
+      const unitCost = factionMarksUnitCost(r.item);
+      const lastNo = done + Math.max(r.deliver, 1);
+      return {
+        base: base,
+        done: done,
+        mult: mult,
+        lastNo: lastNo,
+        rate: Math.max(base - (lastNo - 1) * 2, 1) * mult,
+        items: r.amount * r.deliver * days,
+        marks: baseSum * mult * days,
+        cost: unitCost * r.amount * r.deliver * days,
+        next: Math.max(base - done * 2, 1),
+        floorStart: factionMarksFloorStart(base)
+      };
+    });
+    return {
+      rows: rows,
+      marks: rows.reduce((a, r) => a + r.marks, 0),
+      cost: rows.reduce((a, r) => a + r.cost, 0)
+    };
+  };
+  const kitchen = build(st.kitchen, () => FACTION_MARKS_KITCHEN_BASE, kitchenMult);
+  const pet = build(st.pet, i => FACTION_MARKS_PET_BASES[Math.min(i, FACTION_MARKS_PET_BASES.length - 1)], petMult);
+  return { wear: wear, rank: rank, rankIdx: rankIdx, kitchenMult: kitchenMult, petMult: petMult, days: days, week: week, kitchen: kitchen, pet: pet };
+}
+
+function factionMarksMarkIconHtml() {
+  return `<img src="${MARK_ICON_SRC}" alt="Marks" style="width:12px;height:12px;image-rendering:pixelated;vertical-align:-2px;">`;
+}
+
+function factionMarksRequestRowHtml(kind, i, req, calc) {
+  const stopAt = calc.floorStart - 1;
+  const planned = calc.done + req.deliver;
+  let hint = `Next pays ${fmtInt(calc.next)} · drops to 1 from delivery #${fmtInt(calc.floorStart)}`;
+  if (planned > stopAt) {
+    const extra = planned - Math.max(stopAt, calc.done);
+    hint = `${fmtInt(extra)} planned ${extra === 1 ? "delivery pays" : "deliveries pay"} only 1 · best stop is delivery #${fmtInt(stopAt)}`;
+  } else if (planned === stopAt) {
+    hint = `Stop point reached · next deliveries pay only 1`;
+  }
+  const doneText = `${fmtInt(req.amount)} per delivery`;
+  return `<div class="fd-item-row fdm-row">
+    <div class="fdm-line">
+      <span class="fd-item-main">${factionDeliveryIconHtml(req.item)} ${escapeHtml(req.item)}</span>
+      <span class="fdm-nums"><span class="fdm-marks-num"><b class="fdm-plus">+</b>${fmtXp(calc.marks)} ${factionMarksMarkIconHtml()}</span><span>${calc.cost.toFixed(2)} ${factionMarksCostIconHtml()}</span></span>
+    </div>
+    <div class="fdm-split">
+      <div class="fdm-main">
+        <span class="fd-item-cost">${doneText}</span>
+        <span class="fdm-stepper">
+          <input type="number" min="0" max="999" step="1" inputmode="numeric" class="fdm-count-input" data-act="deliver" data-kind="${kind}" data-i="${i}" value="${req.deliver}">
+          <span class="fdm-ctrls">
+            <button type="button" class="fd-lb-tab fdm-pm" data-act="dec" data-kind="${kind}" data-i="${i}">-</button>
+            <button type="button" class="fd-lb-tab fdm-pm" data-act="inc" data-kind="${kind}" data-i="${i}">+</button>
+            <button type="button" class="fd-lb-tab fdm-stop" data-act="stop" data-kind="${kind}" data-i="${i}">Stop</button>
+          </span>
+        </span>
+        <span class="fd-item-cost">${escapeHtml(hint)}</span>
+      </div>
+      <div class="fdm-side">
+        <div class="fdm-side-total">×${fmtInt(calc.items)} ${factionDeliveryIconHtml(req.item)} ${escapeHtml(req.item)}</div>
+        <div class="fdm-side-rate"><b class="fdm-plus">+</b>${fmtXp(calc.rate)} ${factionMarksMarkIconHtml()} Marks</div>
+        <div class="fd-item-cost">Delivery #${fmtInt(calc.lastNo)}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function factionMarksModeHtml() {
+  const label = factionMarksScope === "week" ? `Week (×${FACTION_MARKS_WEEK_DAYS})` : "1 Day";
+  return `<span class="fdm-mode"><span class="fd-item-cost">Calc Mode</span><span class="fd-badge">${label}</span></span>`;
+}
+
+function factionMarksSectionHtml(title, kind, reqs, result) {
+  const rowsHtml = reqs.length ? reqs.map((r, i) => factionMarksRequestRowHtml(kind, i, r, result.rows[i])).join("") : `<div class="fd-empty-note">No ${title.toLowerCase()} requests known yet.</div>`;
+  return `<div class="fd-container">
+    <div class="fd-container-head"><span class="fd-container-title">${title}</span>${factionMarksModeHtml()}</div>
+    ${rowsHtml}
+    <div class="fd-stat"><span class="fd-stat-label">Total:</span><span class="fd-stat-value">${fmtXp(result.marks)} ${factionMarksMarkIconHtml()} Marks</span></div>
+    <div class="fd-stat"><span class="fd-stat-label">Total Cost:</span><span class="fd-stat-value">${result.cost.toFixed(2)} ${factionMarksCostIconHtml()}</span></div>
+  </div>`;
+}
+
+function factionMarksBoostsHtml(calc) {
+  const st = factionMarksState;
+  const outfit = FACTION_MARKS_OUTFITS[st.faction];
+  const partsHtml = FACTION_MARKS_PARTS.map(p => {
+    const blocked = p[0] === "hat" && st.wear.crown;
+    const on = !!st.wear[p[0]] && !blocked;
+    return `<button type="button" class="fd-lb-tab fdm-opt${on ? " active" : ""}${blocked ? " fdm-off" : ""}" data-act="wear" data-part="${p[0]}"><span>${escapeHtml(outfit[p[0]])}</span><b>+${Math.round(p[1] * 100)}%</b></button>`;
+  }).join("");
+  const pawHtml = `<button type="button" class="fd-lb-tab fdm-opt${st.paw ? " active" : ""}" data-act="paw"><span>Paw Shield</span><b>+${Math.round(FACTION_MARKS_PAW_BOOST * 100)}%</b></button>`;
+  const ranksHtml = FACTION_MARKS_RANKS[st.faction].map((r, i) => {
+    return `<button type="button" class="fd-lb-tab fdm-rank${i === calc.rankIdx ? " active" : ""}" data-act="rank" data-idx="${i}"><span>${escapeHtml(r[0])}</span><span>${fmtInt(r[1])}</span><span>+${fmtInt(FACTION_MARKS_RANK_BOOSTS[i] * 100)}%</span></button>`;
+  }).join("");
+  const syncText = st.synced ? "Synced from your farm" : "Manual setup — sync your farm to auto-fill";
+  return `<div class="fd-container">
+    <div class="fd-container-head">
+      <span class="fd-container-title">Marks Boosts</span>
+      <button type="button" class="fd-lb-btn fdm-reset" data-act="reset">Reset</button>
+    </div>
+    <div class="fd-section-label">Outfit</div>
+    <div class="fdm-opts">${partsHtml}</div>
+    <div class="fd-section-label">Pet only</div>
+    <div class="fdm-opts">${pawHtml}</div>
+    <div class="fd-section-label">Emblems</div>
+    <div class="fdm-emblem-line"><img src="${FACTION_MARKS_EMBLEM_ICONS[st.faction]}" alt="${FACTION_MARKS_EMBLEMS[st.faction]}" style="width:20px;height:20px;image-rendering:pixelated;"><input type="number" min="0" step="1" inputmode="numeric" class="fdm-emblem-input" data-act="emblems" value="${st.emblems}"></div>
+    <div class="fdm-ranks">${ranksHtml}</div>
+    <div class="fd-own-stats">
+      <div class="fd-stat"><span class="fd-stat-label">Kitchen boost</span><span class="fd-stat-value">+${fmtInt((calc.kitchenMult - 1) * 100)}% · x${fmtXp(calc.kitchenMult)}</span></div>
+      <div class="fd-stat"><span class="fd-stat-label">Pet boost</span><span class="fd-stat-value">+${fmtInt((calc.petMult - 1) * 100)}% · x${fmtXp(calc.petMult)}</span></div>
+    </div>
+    <div class="fd-synced-note">${syncText}</div>
+  </div>`;
+}
+
+function factionMarksBodyHtml() {
+  const st = factionMarksState;
+  const calc = factionMarksCompute();
+  const tabsHtml = FACTION_ORDER.map(f => {
+    const bannerHtml = FACTION_BANNER_ICONS[f] ? `<img src="${FACTION_BANNER_ICONS[f]}" alt="" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:-2px;">` : "";
+    return `<button type="button" class="fd-lb-tab${f === st.faction ? " active" : ""}" data-act="faction" data-faction="${f}">${bannerHtml} ${escapeHtml(factionLeaderboardSingularLabel(f))}</button>`;
+  }).join("");
+  const modeHtml = `<div class="fd-container fdm-gap">
+    <div class="fd-container-head"><span class="fd-container-title">Calc Mode</span></div>
+    <div class="fdm-pair">
+      <button type="button" data-act="scope" data-scope="today" class="fd-lb-tab${calc.week ? "" : " active"}">1 Day</button>
+      <button type="button" data-act="scope" data-scope="week" class="fd-lb-tab${calc.week ? " active" : ""}">Week (×${FACTION_MARKS_WEEK_DAYS})</button>
+    </div>
+    <div class="fdm-inline">
+      <div class="fd-section-label">Materials</div>
+      <div class="fdm-pair">
+        <button type="button" data-act="cost" data-cost="collect" class="fd-lb-tab${factionMarksCostMode === "collect" ? " active" : ""}">Collect</button>
+        <button type="button" data-act="cost" data-cost="buy" class="fd-lb-tab${factionMarksCostMode === "buy" ? " active" : ""}">Buy</button>
+      </div>
+    </div>
+  </div>`;
+  const weekNote = calc.week ? `<div class="fd-week-info">Week view repeats your plan on each of the ${FACTION_MARKS_WEEK_DAYS} days, starting every day from 0 deliveries.</div>` : "";
+  const allMarks = calc.kitchen.marks + calc.pet.marks;
+  const allCost = calc.kitchen.cost + calc.pet.cost;
+  const totalHtml = `<div class="fd-container is-own">
+    <div class="fd-container-head"><span class="fd-container-title">${calc.week ? "Week Total" : "1 Day Total"}</span></div>
+    <div class="fd-stat"><span class="fd-stat-label">Total:</span><span class="fd-stat-value">${fmtXp(allMarks)} ${factionMarksMarkIconHtml()} Marks</span></div>
+    <div class="fd-stat"><span class="fd-stat-label">Total Cost:</span><span class="fd-stat-value">${allCost.toFixed(2)} ${factionMarksCostIconHtml()}</span></div>
+  </div>`;
+  return `<div class="fdm-layout">
+    <div class="fdm-row-top">
+      <div class="fd-container fdm-gap fdm-tabs-card"><div class="fdm-factions">${tabsHtml}</div></div>
+      ${modeHtml}
+    </div>
+    ${weekNote}
+    <div class="fdm-row-boost">${factionMarksBoostsHtml(calc)}</div>
+    <div class="fdm-row-sections">
+      ${factionMarksSectionHtml("Kitchen", "kitchen", st.kitchen, calc.kitchen)}
+      ${factionMarksSectionHtml("Pet", "pet", st.pet, calc.pet)}
+    </div>
+    <div class="fdm-row-total">${totalHtml}</div>
+  </div>`;
+}
+
+function factionMarksRender() {
+  const el = $("factionMarksCalcBody");
+  if (!el) return;
+  if (!factionMarksState) {
+    const own = farmPanelGameState ? farmSyncGetFaction(farmPanelGameState) : null;
+    const faction = own ? own.name : factionDeliveryGetOwnFaction() || FACTION_ORDER[0];
+    factionMarksState = factionMarksBuildState(faction);
+  }
+  el.innerHTML = factionMarksBodyHtml();
+}
+
+function factionMarksHandleClick(e) {
+  const btn = e.target.closest("[data-act]");
+  if (!btn || btn.tagName === "INPUT") return;
+  const st = factionMarksState;
+  if (!st) return;
+  const act = btn.dataset.act;
+  const list = btn.dataset.kind === "pet" ? st.pet : st.kitchen;
+  const req = list ? list[Number(btn.dataset.i)] : null;
+  if (act === "faction") {
+    if (btn.dataset.faction === st.faction) return;
+    factionMarksState = factionMarksBuildState(btn.dataset.faction);
+  } else if (act === "scope") {
+    factionMarksScope = btn.dataset.scope;
+  } else if (act === "cost") {
+    factionMarksCostMode = btn.dataset.cost === "collect" ? "collect" : "buy";
+  } else if (act === "wear") {
+    const part = btn.dataset.part;
+    if (part === "hat" && st.wear.crown) return;
+    st.wear[part] = !st.wear[part];
+  } else if (act === "paw") {
+    st.paw = !st.paw;
+  } else if (act === "rank") {
+    st.emblems = FACTION_MARKS_RANKS[st.faction][Number(btn.dataset.idx)][1];
+  } else if (act === "reset") {
+    factionMarksState = factionMarksBuildState(st.faction);
+  } else if (act === "inc" && req) {
+    req.deliver = Math.min(req.deliver + 1, 999);
+  } else if (act === "dec" && req) {
+    req.deliver = Math.max(req.deliver - 1, 0);
+  } else if (act === "stop" && req) {
+    const base = btn.dataset.kind === "pet" ? FACTION_MARKS_PET_BASES[Math.min(Number(btn.dataset.i), FACTION_MARKS_PET_BASES.length - 1)] : FACTION_MARKS_KITCHEN_BASE;
+    const done = 0;
+    req.deliver = Math.max(factionMarksFloorStart(base) - 1 - done, 0);
+  } else {
+    return;
+  }
+  factionMarksRender();
+}
+
+function factionMarksHandleChange(e) {
+  const input = e.target.closest("input[data-act]");
+  if (!input || !factionMarksState) return;
+  const value = Math.max(0, Math.floor(Number(input.value) || 0));
+  if (input.dataset.act === "emblems") {
+    factionMarksState.emblems = value;
+  } else if (input.dataset.act === "deliver") {
+    const list = input.dataset.kind === "pet" ? factionMarksState.pet : factionMarksState.kitchen;
+    const req = list[Number(input.dataset.i)];
+    if (!req) return;
+    req.deliver = Math.min(value, 999);
+  } else {
+    return;
+  }
+  factionMarksRender();
+}
+
+function factionMarksOpen() {
+  const el = $("factionMarksCalcBody");
+  if (!el) return;
+  if (!el.dataset.bound) {
+    el.dataset.bound = "1";
+    el.addEventListener("click", factionMarksHandleClick);
+    el.addEventListener("change", factionMarksHandleChange);
+  }
+  factionMarksRender();
+}
+
 function factionMarksCalcViewHtml() {
   return `<div class="fd-lb-label">Marks Calculator</div>
-  <div class="fd-container fd-mc-body" id="factionMarksCalcBody"><div class="fd-empty-note">Bro is still cooking comeback again soon...</div></div>`;
+  <div class="fd-mc-body" id="factionMarksCalcBody"></div>`;
 }
 
 const FACTION_SUB_PANELS = {
   leaderboard: {
     viewId: "factionLeaderboardView",
     btnId: "factionLeaderboardBtn",
-    label: () => "🏆 Leader Board"
+    label: () => `${factionLeaderboardIconHtml()} Leader Board`
   },
   marks: {
     viewId: "factionMarksCalcView",
@@ -726,7 +1185,7 @@ function factionSubApplyView() {
     if (view) view.style.display = factionSubOpen[k] ? "" : "none";
     if (btn) {
       btn.classList.toggle("active", factionSubOpen[k]);
-      btn.innerHTML = !factionSubOpen[k] ? cfg.label() : openKeys.length > 1 ? "✕ Close" : "📦 Back to Deliveries";
+      btn.innerHTML = !factionSubOpen[k] ? cfg.label() : openKeys.length > 1 ? "✕ Close" : `${factionDeliveryButtonIconHtml()} Back to Deliveries`;
     }
   });
 }
@@ -756,6 +1215,7 @@ function factionSubSetOpen(key, open, syncRoute) {
     factionLeaderboardRenderBody();
     factionLeaderboardFetchData(factionLeaderboardOwnFarmId(), false);
   }
+  if (open && factionSubOpen.marks) factionMarksOpen();
   if (syncRoute) syncFactionSubRoute(factionSubLast);
 }
 
@@ -815,14 +1275,19 @@ export function renderFactionDeliveryPanel() {
   body.innerHTML = `
     <div class="fd-title">Factions Deliveries</div>
     <div class="fd-note">Your connected farm sets the routine week and shows your faction's real requests. The other three factions follow the same routine for this week and next week.</div>
-    <div class="fd-lb-toggle-row">
-      <button type="button" class="fd-lb-btn" id="factionLeaderboardBtn">${FACTION_SUB_PANELS.leaderboard.label()}</button>
-      <button type="button" class="fd-lb-btn" id="factionMarksCalcBtn">${FACTION_SUB_PANELS.marks.label()}</button>
+    <div class="fd-container fdm-gap">
+      <div class="fdm-pair fdm-flush">
+        <button type="button" class="fd-lb-btn" id="factionLeaderboardBtn">${FACTION_SUB_PANELS.leaderboard.label()}</button>
+        <button type="button" class="fd-lb-btn" id="factionMarksCalcBtn">${FACTION_SUB_PANELS.marks.label()}</button>
+      </div>
     </div>
     <div id="factionDeliveryView">
-      <div class="pet-food-tab-toggle fd-week-filter" id="factionWeekFilter">
-        <button type="button" data-week="this" class="active">This Week</button>
-        <button type="button" data-week="next">Next Week</button>
+      <div class="fd-container fdm-gap">
+        <div class="fd-container-head"><span class="fd-container-title">Faction Request</span></div>
+        <div class="fdm-pair fdm-flush" id="factionWeekFilter">
+          <button type="button" data-week="this" class="fd-lb-tab active">This Week</button>
+          <button type="button" data-week="next" class="fd-lb-tab">Next Week</button>
+        </div>
       </div>
       <div class="fd-week-info" id="factionWeekInfo"></div>
       <div class="fd-grid" id="factionDeliveryGrid"></div>
