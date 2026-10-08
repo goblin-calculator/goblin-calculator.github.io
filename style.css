@@ -9753,6 +9753,15 @@ body.sfl-theme .bl-nav-tab.active{
 .fdm-opt{ flex:none; min-width:0; flex-direction:column; justify-content:center; gap:2px; padding:7px 3px; text-align:center; font-size:10px; line-height:1.2; }
 .fdm-opt span{ overflow-wrap:anywhere; }
 .fdm-off{ opacity:.45; }
+.fdm-boost-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+.fdm-boost-col{ min-width:0; }
+.fdm-boost-col:first-child{ grid-column:1; }
+.fdm-boost-col:last-child{ grid-column:2 / span 2; }
+.fdm-boost-col .fd-section-label{ white-space:nowrap; }
+.fdm-opts.fdm-opts-one{ grid-template-columns:repeat(2,1fr); }
+.fdm-boost-col:first-child .fdm-opts.fdm-opts-one{ grid-template-columns:1fr; }
+.fdm-faction-tab{ position:relative; }
+.fdm-champ-trophy{ position:absolute; top:-6px; right:-5px; width:15px; height:auto; image-rendering:pixelated; pointer-events:none; }
 .fdm-emblem-line{ display:flex; align-items:center; gap:8px; margin-bottom:6px; background:transparent !important; }
 .fdm-emblem-input{ flex:0 0 auto; width:110px; min-width:0; padding:6px 8px; font-size:12px; box-sizing:border-box; }
 .fdm-ranks{ display:flex; flex-direction:column; gap:4px; margin-bottom:6px; }
