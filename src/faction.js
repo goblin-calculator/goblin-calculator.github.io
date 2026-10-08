@@ -752,6 +752,77 @@ const FACTION_MARKS_PARTS = [ [ "shirt", 0.2 ], [ "crown", 0.1 ], [ "hat", 0.1 ]
 
 const FACTION_MARKS_PAW_BOOST = 0.25;
 
+const FACTION_MARKS_CHAMPION_BOOST = 0.1;
+
+const FACTION_CHAMPION_RETRY_MS = 60 * 1000;
+
+let factionChampionFaction = null;
+
+let factionChampionWeek = null;
+
+let factionChampionLoading = false;
+
+let factionChampionFailedAt = 0;
+
+function factionChampionPreviousWeekKey() {
+  return factionGetWeekKey(new Date(new Date(factionGetWeekKey() + "T00:00:00Z").getTime() - 7 * 24 * 60 * 60 * 1000));
+}
+
+function factionChampionPick(data) {
+  if (!data || !data.factions) return null;
+  let best = null;
+  let bestScore = 0;
+  FACTION_ORDER.forEach(f => {
+    const fd = data.factions[f];
+    const score = fd ? Number(fd.score) : NaN;
+    if (isFinite(score) && score > 0 && score >= bestScore) {
+      best = f;
+      bestScore = score;
+    }
+  });
+  return best;
+}
+
+function factionChampionApply() {
+  const st = factionMarksState;
+  if (!st || st.championTouched) return;
+  st.champion = !!factionChampionFaction && factionChampionFaction === st.faction;
+}
+
+async function factionChampionEnsure() {
+  const week = factionChampionPreviousWeekKey();
+  if (factionChampionWeek === week || factionChampionLoading) return;
+  if (factionChampionFailedAt && Date.now() - factionChampionFailedAt < FACTION_CHAMPION_RETRY_MS) return;
+  const farmId = factionLeaderboardOwnFarmId();
+  if (!farmId) return;
+  factionChampionLoading = true;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FACTION_LEADERBOARD_TIMEOUT_MS);
+  try {
+    const url = SFL_COMMUNITY_PROXY_BASE + "community/data?type=marksLeaderboard&farmId=" + encodeURIComponent(farmId) + "&date=" + week;
+    const res = await fetch(url, {
+      cache: "no-store",
+      signal: controller.signal
+    });
+    if (!res.ok) throw new Error("Request failed (" + res.status + ")");
+    const json = await res.json();
+    const data = json && json.data;
+    if (!data || data.week !== week || data.status !== "ready") throw new Error("Previous week result not ready");
+    const winner = factionChampionPick(data);
+    if (!winner) throw new Error("No champion found");
+    factionChampionFaction = winner;
+    factionChampionWeek = week;
+    factionChampionFailedAt = 0;
+  } catch (e) {
+    factionChampionFailedAt = Date.now();
+  } finally {
+    clearTimeout(timer);
+    factionChampionLoading = false;
+    factionChampionApply();
+    if ($("factionMarksCalcBody") && factionMarksState) factionMarksRender();
+  }
+}
+
 const FACTION_MARKS_OUTFITS = {
   bumpkins: { crown: "Bumpkin Crown", hat: "Bumpkin Helmet", shirt: "Bumpkin Armor", pants: "Bumpkin Pants", shoes: "Bumpkin Sabatons", tool: "Bumpkin Sword" },
   goblins: { crown: "Goblin Crown", hat: "Goblin Helmet", shirt: "Goblin Armor", pants: "Goblin Pants", shoes: "Goblin Sabatons", tool: "Goblin Axe" },
@@ -828,7 +899,7 @@ function factionMarksBuildState(faction) {
   const g = farmPanelGameState;
   const own = g ? farmSyncGetFaction(g) : null;
   const synced = !!(own && own.name === faction);
-  const st = { faction: faction, synced: synced, wear: {}, paw: false, emblems: 0, kitchen: [], pet: [] };
+  const st = { faction: faction, synced: synced, wear: {}, paw: false, champion: !!factionChampionFaction && factionChampionFaction === faction, championTouched: false, emblems: 0, kitchen: [], pet: [] };
   if (synced) {
     const day = factionMarksTodayKey();
     const doneOf = r => {
@@ -895,7 +966,8 @@ function factionMarksCompute() {
   });
   const rankIdx = factionMarksRankIndex(st.faction, st.emblems);
   const rank = FACTION_MARKS_RANK_BOOSTS[rankIdx];
-  const kitchenMult = 1 + wear + rank;
+  const champion = st.champion ? FACTION_MARKS_CHAMPION_BOOST : 0;
+  const kitchenMult = 1 + wear + rank + champion;
   const petMult = kitchenMult + (st.paw ? FACTION_MARKS_PAW_BOOST : 0);
   const build = (reqs, baseOf, mult) => {
     const rows = reqs.map((r, i) => {
@@ -925,7 +997,7 @@ function factionMarksCompute() {
   };
   const kitchen = build(st.kitchen, () => FACTION_MARKS_KITCHEN_BASE, kitchenMult);
   const pet = build(st.pet, i => FACTION_MARKS_PET_BASES[Math.min(i, FACTION_MARKS_PET_BASES.length - 1)], petMult);
-  return { wear: wear, rank: rank, rankIdx: rankIdx, kitchenMult: kitchenMult, petMult: petMult, days: days, week: week, kitchen: kitchen, pet: pet };
+  return { wear: wear, rank: rank, champion: champion, rankIdx: rankIdx, kitchenMult: kitchenMult, petMult: petMult, days: days, week: week, kitchen: kitchen, pet: pet };
 }
 
 function factionMarksMarkIconHtml() {
@@ -994,6 +1066,7 @@ function factionMarksBoostsHtml(calc) {
     return `<button type="button" class="fd-lb-tab fdm-opt${on ? " active" : ""}${blocked ? " fdm-off" : ""}" data-act="wear" data-part="${p[0]}"><span>${escapeHtml(outfit[p[0]])}</span><b>+${Math.round(p[1] * 100)}%</b></button>`;
   }).join("");
   const pawHtml = `<button type="button" class="fd-lb-tab fdm-opt${st.paw ? " active" : ""}" data-act="paw"><span>Paw Shield</span><b>+${Math.round(FACTION_MARKS_PAW_BOOST * 100)}%</b></button>`;
+  const championHtml = `<button type="button" class="fd-lb-tab fdm-opt${st.champion ? " active" : ""}" data-act="champion"><span>Bonus Marks</span><b>+${Math.round(FACTION_MARKS_CHAMPION_BOOST * 100)}%</b></button>`;
   const ranksHtml = FACTION_MARKS_RANKS[st.faction].map((r, i) => {
     return `<button type="button" class="fd-lb-tab fdm-rank${i === calc.rankIdx ? " active" : ""}" data-act="rank" data-idx="${i}"><span>${escapeHtml(r[0])}</span><span>${fmtInt(r[1])}</span><span>+${fmtInt(FACTION_MARKS_RANK_BOOSTS[i] * 100)}%</span></button>`;
   }).join("");
@@ -1005,8 +1078,16 @@ function factionMarksBoostsHtml(calc) {
     </div>
     <div class="fd-section-label">Outfit</div>
     <div class="fdm-opts">${partsHtml}</div>
-    <div class="fd-section-label">Pet only</div>
-    <div class="fdm-opts">${pawHtml}</div>
+    <div class="fdm-boost-row">
+      <div class="fdm-boost-col">
+        <div class="fd-section-label">Pet only</div>
+        <div class="fdm-opts fdm-opts-one">${pawHtml}</div>
+      </div>
+      <div class="fdm-boost-col">
+        <div class="fd-section-label">Champion faction</div>
+        <div class="fdm-opts fdm-opts-one">${championHtml}</div>
+      </div>
+    </div>
     <div class="fd-section-label">Emblems</div>
     <div class="fdm-emblem-line"><img src="${FACTION_MARKS_EMBLEM_ICONS[st.faction]}" alt="${FACTION_MARKS_EMBLEMS[st.faction]}" style="width:20px;height:20px;image-rendering:pixelated;"><input type="number" min="0" step="1" inputmode="numeric" class="fdm-emblem-input" data-act="emblems" value="${st.emblems}"></div>
     <div class="fdm-ranks">${ranksHtml}</div>
@@ -1023,7 +1104,8 @@ function factionMarksBodyHtml() {
   const calc = factionMarksCompute();
   const tabsHtml = FACTION_ORDER.map(f => {
     const bannerHtml = FACTION_BANNER_ICONS[f] ? `<img src="${FACTION_BANNER_ICONS[f]}" alt="" style="width:14px;height:14px;image-rendering:pixelated;vertical-align:-2px;">` : "";
-    return `<button type="button" class="fd-lb-tab${f === st.faction ? " active" : ""}" data-act="faction" data-faction="${f}">${bannerHtml} ${escapeHtml(factionLeaderboardSingularLabel(f))}</button>`;
+    const trophyHtml = f === factionChampionFaction ? `<img class="fdm-champ-trophy" src="${FACTION_LEADERBOARD_ICON_SRC}" alt="Champion">` : "";
+    return `<button type="button" class="fd-lb-tab fdm-faction-tab${f === st.faction ? " active" : ""}" data-act="faction" data-faction="${f}">${bannerHtml} ${escapeHtml(factionLeaderboardSingularLabel(f))}${trophyHtml}</button>`;
   }).join("");
   const modeHtml = `<div class="fd-container fdm-gap">
     <div class="fd-container-head"><span class="fd-container-title">Calc Mode</span></div>
@@ -1071,6 +1153,7 @@ function factionMarksRender() {
     factionMarksState = factionMarksBuildState(faction);
   }
   el.innerHTML = factionMarksBodyHtml();
+  factionChampionEnsure();
 }
 
 function factionMarksHandleClick(e) {
@@ -1094,6 +1177,9 @@ function factionMarksHandleClick(e) {
     st.wear[part] = !st.wear[part];
   } else if (act === "paw") {
     st.paw = !st.paw;
+  } else if (act === "champion") {
+    st.champion = !st.champion;
+    st.championTouched = true;
   } else if (act === "rank") {
     st.emblems = FACTION_MARKS_RANKS[st.faction][Number(btn.dataset.idx)][1];
   } else if (act === "reset") {
