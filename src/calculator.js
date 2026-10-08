@@ -18577,7 +18577,7 @@ const ES_NODE_TABLE = {
       "Oil Reserve": 0,
       "Flower Bed": 0,
       "Lava Pit": 0,
-      "Ascension Crystal": 0
+      "Ascension Crystal": 1
     },
     5: {
       "Crop Plot": 33,
@@ -18774,7 +18774,7 @@ const ES_NODE_TABLE = {
       "Lava Pit": 0,
       Beehive: 3,
       "Flower Bed": 3,
-      "Ascension Crystal": 1
+      "Ascension Crystal": 2
     },
     5: {
       "Crop Plot": 46,
@@ -19106,7 +19106,7 @@ const ES_NODE_TABLE = {
       "Lava Pit": 0,
       Beehive: 3,
       "Flower Bed": 3,
-      "Ascension Crystal": 2
+      "Ascension Crystal": 3
     },
     6: {
       "Crop Plot": 65,
@@ -20862,21 +20862,21 @@ const ES_ISLAND_MAX = {
 };
 
 const ES_ISLAND_MIN = {
-  basic: 4,
-  spring: 5,
-  desert: 5,
-  volcano: 6,
-  swamp: 31,
-  spooky: 31,
-  crystal: 31,
-  galaxy: 31,
-  marble5: 31,
-  marble6: 31,
-  marble7: 31,
-  marble8: 31,
-  marble9: 31,
-  marble10: 31,
-  marbleX: 31
+  basic: 3,
+  spring: 4,
+  desert: 4,
+  volcano: 5,
+  swamp: 30,
+  spooky: 30,
+  crystal: 30,
+  galaxy: 30,
+  marble5: 30,
+  marble6: 30,
+  marble7: 30,
+  marble8: 30,
+  marble9: 30,
+  marble10: 30,
+  marbleX: 30
 };
 
 const ES_CUSTOM_ASCENSION_MIN = 11;
@@ -24037,7 +24037,7 @@ function esRenderGrid(which) {
   let html = "";
   spiral.cells.forEach(cell => {
     const lvl = cell.num;
-    const owned = lvl <= min - 1;
+    const owned = lvl <= min;
     const revealed = owned || lvl <= s.level;
     const nodesHere = esGetNodesAt(s.island, lvl, s.customAsc);
     const nodesPrev = esGetNodesAt(s.island, lvl - 1, s.customAsc);
@@ -24273,7 +24273,7 @@ function esCalculateTotals() {
     }
     for (let i = startIdx; i <= targetIdx; i++) {
       const island = ES_ISLAND_ORDER[i];
-      const fromLevel = i === startIdx ? start.level : ES_ISLAND_MIN[island] - 1;
+      const fromLevel = i === startIdx ? start.level : ES_ISLAND_MIN[island];
       const toLevel = i === targetIdx ? target.level : ES_ISLAND_MAX[island];
       const leg = esSumRequirements(island, fromLevel, toLevel);
       Object.keys(leg.resources).forEach(k => {
@@ -24319,7 +24319,7 @@ function esCalculateTotals() {
   for (let a = Math.max(startAsc, 1); a <= targetAsc; a++) {
     const island = a === targetAsc && target.island === "marbleX" ? "marbleX" : a === startAsc && start.island === "marbleX" ? "marbleX" : esAscLevelToIsland(a) || "marbleX";
     const ascOverride = island === "marbleX" ? a : undefined;
-    const fromLevel = a === startAsc && startAsc >= 1 ? start.level : ES_ISLAND_MIN.marbleX - 1;
+    const fromLevel = a === startAsc && startAsc >= 1 ? start.level : ES_ISLAND_MIN.marbleX;
     const toLevel = a === targetAsc ? target.level : ES_ISLAND_MAX.marbleX;
     const leg = esSumRequirements(island, fromLevel, toLevel, ascOverride);
     Object.keys(leg.resources).forEach(k => {
@@ -24391,7 +24391,7 @@ function esSyncFromFarm() {
     return;
   }
   const expandingNow = !!(g && g.expansionConstruction && typeof g.expansionConstruction === "object");
-  let level = ascensionLevel > 0 ? Math.max(31, basicLand) : basicLand;
+  let level = ascensionLevel > 0 ? Math.max(30, basicLand) : basicLand;
   if (expandingNow) level += 1;
   level = Math.max(ES_ISLAND_MIN[matchedIsland], Math.min(ES_ISLAND_MAX[matchedIsland], level));
   esState.start.island = matchedIsland;

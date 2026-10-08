@@ -2,7 +2,7 @@ import { FLOWER_ICON, coinsToFlower, escapeHtml, farmSyncAsObj } from "./calcula
 
 import { farmPanelGameState } from "./inprogress.js";
 
-import { getItemCostByName } from "./prices.js";
+import { cookingIngredientUnitCostCoins, getItemCostByName } from "./prices.js";
 
 import { safeLSJSON } from "./storage.js";
 
@@ -356,6 +356,8 @@ function cbGetGrid(name) {
   return learned[name] ? learned[name].grid : null;
 }
 
+let cbCostMode = "collect";
+
 const cbCostCache = new Map();
 
 function cbClearCostCache() {
@@ -406,6 +408,43 @@ export function craftingBoxUnitCostCoins(name) {
   return cbUnitCostCoins(name);
 }
 
+function cbUnitCostCoinsForMode(name, mode, visited) {
+  if (!name) return 0;
+  visited = visited || new Set();
+  if (visited.has(name)) return 0;
+  const grid = cbGetGrid(name);
+  if (grid) {
+    visited.add(name);
+    let total = 0;
+    grid.forEach((slot) => {
+      if (slot) total += cbUnitCostCoinsForMode(slot, mode, visited);
+    });
+    visited.delete(name);
+    return total;
+  }
+  let cost = 0;
+  if (mode === "buy") {
+    try {
+      cost = cookingIngredientUnitCostCoins(name, "buy") || 0;
+    } catch (e) {
+      cost = 0;
+    }
+  }
+  if (!(cost > 0)) {
+    try {
+      cost = getItemCostByName(name) || 0;
+    } catch (e) {
+      cost = 0;
+    }
+  }
+  return cost;
+}
+
+export function craftingBoxUnitCostCoinsForMode(name, mode) {
+  cbIngestFarm();
+  return cbUnitCostCoinsForMode(name, mode);
+}
+
 export function craftingBoxClearCostCache() {
   cbClearCostCache();
 }
@@ -415,7 +454,7 @@ function cbItemTileHtml(name) {
   const hasIngredients = !!(grid && grid.some((s) => s));
   let costHtml;
   if (hasIngredients) {
-    const flowerCost = coinsToFlower(cbUnitCostCoins(name));
+    const flowerCost = coinsToFlower(cbUnitCostCoinsForMode(name, cbCostMode));
     costHtml = `<div class="cb-item-cost">${flowerCost.toFixed(2)} ${FLOWER_ICON}</div>`;
   } else {
     costHtml = `<div class="cb-item-cost cb-item-cost-unknown">— ${FLOWER_ICON}</div>`;
@@ -444,6 +483,24 @@ export function renderCraftingBoxPanel() {
   body.innerHTML = `
     <div class="cb-title">Crafting Box Recipes</div>
     <div class="cb-note">HOW THE COST IS COMPUTED: each item's cost is the sum of the unit cost of every filled slot in its 3x3 recipe. Every ingredient (crop, resource, fish, flower or another crafted item) is priced with this calculator's own cost engine — the same getItemCostByName cascade every other panel here already uses — and craftable ingredients (Doll, Basic Bear, Sturdy Bed, etc.) are resolved recursively through their own recipe first. The total coin cost is then converted to FLOWER at the current coin/FLOWER rate. An empty grid slot means that slot uses no ingredient.</div>
-    <div class="cb-columns" id="craftingBoxColumns">${CB_CATEGORY_ORDER.map(cbColumnHtml).join("")}</div>
+    <div class="cb-columns" id="craftingBoxColumns">
+      <div class="cb-column">
+        <div class="fdm-inline">
+          <div class="fd-section-label">Materials</div>
+          <div class="fdm-pair">
+            <button type="button" data-cb-cost="collect" class="fd-lb-tab${cbCostMode === "collect" ? " active" : ""}">Collect</button>
+            <button type="button" data-cb-cost="buy" class="fd-lb-tab${cbCostMode === "buy" ? " active" : ""}">Buy</button>
+          </div>
+        </div>
+      </div>
+      ${CB_CATEGORY_ORDER.map(cbColumnHtml).join("")}
+    </div>
   `;
+  body.querySelectorAll("[data-cb-cost]").forEach((btn) => {
+    btn.onclick = () => {
+      if (cbCostMode === btn.dataset.cbCost) return;
+      cbCostMode = btn.dataset.cbCost === "buy" ? "buy" : "collect";
+      renderCraftingBoxPanel();
+    };
+  });
 }
