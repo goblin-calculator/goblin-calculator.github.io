@@ -363,7 +363,7 @@ export function hasFreeCostBoost(cropName) {
   return getActiveBoostsForCrop(cropName).some(b => b.freeCost);
 }
 
-export let shrineCostMode = localStorage.getItem("hl_shrine_cost_mode") || "collect";
+export let shrineCostMode = localStorage.getItem("hl_shrine_cost_mode") || "buy";
 
 export function setShrineCostMode(mode) {
   shrineCostMode = mode === "buy" ? "buy" : "collect";
@@ -394,6 +394,7 @@ function getShrineIngredientCollectPrice(name) {
 function getShrineIngredientPrice(name, mode) {
   mode = mode || shrineCostMode;
   const marketPrice = getShrineIngredientMarketPrice(name);
+  if (name === "Acorn") return getShrineIngredientCollectPrice(name);
   if (mode === "buy") return marketPrice;
   const collectPrice = getShrineIngredientCollectPrice(name);
   return collectPrice > 0 ? collectPrice : marketPrice;

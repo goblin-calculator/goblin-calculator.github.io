@@ -559,11 +559,17 @@ function renderLimitedTimeBoostPanel(wrap, term) {
   const g = farmPanelGameState ? farmSyncExtractGameState(farmPanelGameState) : null;
   const synced = !!g;
   const intro = synced ? `<div class="field-hint" style="background:#eef3fb;border:1.5px solid #33507a;padding:8px 10px;border-radius:8px;margin-bottom:10px;font-weight:600;">⏳ Reference list of every temporary/expiring boost, how long it lasts, how many you're holding in your chest, and the time left on any currently active one — pulled from your last farm sync. Data-only for now — not wired into your active boosts yet, this is the basis for a future expiry-timer feature.</div>` : `<div class="field-hint" style="background:#fdf1c8;border:1.5px solid var(--sun-deep);padding:8px 10px;border-radius:8px;margin-bottom:10px;font-weight:600;">⏳ Reference list of every temporary/expiring boost and how long it lasts. Sync your Farm ID (⚡ Boosts panel above) to also see how many you own and the time remaining on any currently active one.</div>`;
-  const shrineModeToggleHtml = `\n    <div class="lib-section-title" style="margin-top:4px;">💰 Shrine Cost Basis</div>\n    <div style="display:flex;gap:6px;margin:4px 0 8px;">\n      <button type="button" class="seed-picker-btn" data-shrine-mode-btn="collect" style="flex:1;padding:6px 4px;${shrineCostMode === "collect" ? "outline:2px solid var(--profit);" : ""}">🧺 Collect</button>\n      <button type="button" class="seed-picker-btn" data-shrine-mode-btn="buy" style="flex:1;padding:6px 4px;${shrineCostMode === "buy" ? "outline:2px solid var(--profit);" : ""}">🪙 Buy</button>\n    </div>\n    <div class="field-hint" style="background:#f6efe0;border:1.5px solid var(--sun-deep);padding:6px 8px;border-radius:8px;margin-bottom:8px;font-size:11.4px;font-weight:600;">🧾 ${shrineCostMode === "collect" ? "Collect: each ingredient is valued at what it actually costs you to gather it (pet-fetch cost, Lava Pit cost) — automatically falls back to Marketplace Price if you have no pets or no cost data for an ingredient." : "Buy: every ingredient is valued at the shared Marketplace Price, as if bought from other players."}</div>`;
-  const body = shrineModeToggleHtml + groupOrder.map(cat => {
+  const shrineModeToggleHtml = `<div class="fd-container fdm-gap">
+    <div class="fd-container-head"><span class="fd-container-title">Shrine Material Cost</span></div>
+    <div class="fdm-pair fdm-flush">
+      <button type="button" class="fd-lb-tab${shrineCostMode === "collect" ? " active" : ""}" data-shrine-mode-btn="collect">Collect</button>
+      <button type="button" class="fd-lb-tab${shrineCostMode === "buy" ? " active" : ""}" data-shrine-mode-btn="buy">Buy</button>
+    </div>
+  </div>`;
+  const body = groupOrder.map(cat => {
     const rows = LIMITED_TIME_BOOSTS.filter(b => b.group === cat && (!term || b.name.toLowerCase().includes(term)));
     if (!rows.length) return "";
-    return `<div class="lib-section-title">${groupLabels[cat]}</div>` + rows.map(b => {
+    return `<div class="lib-section-title">${groupLabels[cat]}</div>` + (cat === "Shrine" ? shrineModeToggleHtml : "") + rows.map(b => {
       let statusHtml = "";
       if (synced) {
         const status = farmSyncGetLimitedTimeBoostStatus(g, b.name, b.durationMs);
