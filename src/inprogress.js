@@ -2095,7 +2095,7 @@ function farmPanelComputeInProgressRaw(json, opts) {
         const refTime = job.harvestedAt && job.harvestedAt > plantedAt ? job.harvestedAt : plantedAt;
         const growSec = farmPanelGrowTimeSec(name);
         let waitSec = growSec != null ? kind === "crop" ? farmPanelCropRemainingSec(job, refTime, now, growSec) : Math.max(0, growSec - (now - refTime) / 1e3) : 0;
-        if (kind === "crop" && waitSec > 0) {
+        if (kind === "crop" && waitSec > 0 && typeof job.baseDurationMs === "number") {
           const sunshowerMult = getCropPlotSunshowerSpeedMultiplier();
           if (sunshowerMult > 1) waitSec = waitSec / sunshowerMult;
         }
@@ -2118,7 +2118,7 @@ function farmPanelComputeInProgressRaw(json, opts) {
       const growSec = farmPanelGrowTimeSec(name);
       const elapsedSec = (now - refTime) / 1e3;
       let remainingSec = growSec != null ? kind === "crop" ? farmPanelCropRemainingSec(job, refTime, now, growSec) : Math.max(0, growSec - elapsedSec) : null;
-      if (kind === "crop" && remainingSec != null && remainingSec > 0) {
+      if (kind === "crop" && remainingSec != null && remainingSec > 0 && typeof job.baseDurationMs === "number") {
         const sunshowerMult = getCropPlotSunshowerSpeedMultiplier();
         if (sunshowerMult > 1) remainingSec = remainingSec / sunshowerMult;
       }
