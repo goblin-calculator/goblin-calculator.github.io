@@ -6022,7 +6022,6 @@ body.app-dark .expansion-sim-title-text{ background:#1c1208; color:#fff8e3; }
 }
 .es-boost-chip.active{ background:linear-gradient(180deg,#e0b24a,#a87a1f); border-color:#7a5410; }
 .es-boost-chip-icon{ width:20px; height:20px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
-body.sfl-theme .es-boost-chip{ border:2px solid var(--sfl-border); }
 body.sfl-theme .es-boost-chip-icon{ border:none; }
 body.sfl-theme .es-boost-chip.active{ background:var(--sfl-inner); border-color:var(--sfl-border); }
 .es-boost-chip-icon img{ width:20px; height:20px; image-rendering:pixelated; }
@@ -6035,8 +6034,14 @@ body.sfl-theme .es-boost-chip.active{ background:var(--sfl-inner); border-color:
 .es-boost-chip.active .es-boost-chip-synced{ color:#2b1a0f; }
 
 body.sfl-theme #esBoostsRow .es-boost-chip{
-  border:2px solid var(--sfl-border) !important;
-  border-image:none !important;
+  border-style:solid !important;
+  border-width:var(--sfl-card-corner-width) !important;
+  border-color:var(--sfl-outer-border) !important;
+  border-image:var(--sfl-panel-corner-image) 20% !important;
+  border-image-repeat:stretch !important;
+  border-radius:0 !important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.2) !important;
+  image-rendering:pixelated !important;
 }
 body.sfl-theme #esBoostsRow .es-boost-chip-icon,
 body.sfl-theme #esBoostsRow .es-boost-chip-icon img{
@@ -6060,7 +6065,7 @@ body.sfl-theme #esBoostsRow .es-boost-chip-synced{
 }
 body.sfl-theme #esBoostsRow .es-boost-chip.active{
   background-color:var(--sfl-inner) !important;
-  border-color:var(--sfl-border) !important;
+  border-color:var(--sfl-outer-border) !important;
 }
 body.sfl-theme #esBoostsRow .es-boost-chip.active .es-boost-chip-name,
 body.sfl-theme #esBoostsRow .es-boost-chip.active .es-boost-chip-effect,
@@ -8737,6 +8742,7 @@ body.sfl-theme #dismissBanner{
 .es-ascension-card,
 .es-bumpkin-card,
 .es-shards-card,
+.es-missing-section,
 .es-total-resources-card,
 .dprofit-card,
 .dprofit-node-card,
@@ -8831,6 +8837,7 @@ body.sfl-theme .dig-panel-card,
 body.sfl-theme .es-ascension-card,
 body.sfl-theme .es-bumpkin-card,
 body.sfl-theme .es-shards-card,
+body.sfl-theme .es-missing-section,
 body.sfl-theme .es-total-resources-card,
 body.sfl-theme .dprofit-card,
 body.sfl-theme .dprofit-node-card,
@@ -8992,6 +8999,9 @@ body.sfl-theme .rcm-item-row,
 body.sfl-theme .dig-pattern-chip,
 body.sfl-theme .dig-pattern-chip-badge,
 body.sfl-theme .es-boosts-bar,
+body.sfl-theme .es-boost-chip,
+body.sfl-theme .es-bumpkin-req-text,
+body.sfl-theme .es-bumpkin-level-value,
 body.sfl-theme .es-custom-asc-label,
 body.sfl-theme .es-custom-asc-input,
 body.sfl-theme .es-mode-row,
@@ -10106,7 +10116,8 @@ body.sfl-theme .at-mini-sync{
   border-color:var(--sfl-border) !important;
 }
 
-body.sfl-theme #factionPanel{
+body.sfl-theme #factionPanel,
+body.sfl-theme #beginnerPanel{
   background-color:var(--sfl-outer) !important;
   border-color:var(--sfl-border) !important;
 }
@@ -10150,7 +10161,9 @@ body.sfl-theme .fd-container:not(.is-own) .fd-item-row{
 }
 body.sfl-theme #factionPanel .fd-item-main,
 body.sfl-theme #factionPanel .fd-item-cost,
-body.sfl-theme #factionPanel .fd-item-fulfilled{
+body.sfl-theme #factionPanel .fd-item-fulfilled,
+body.sfl-theme #beginnerPanel .fd-item-main,
+body.sfl-theme #beginnerPanel .fd-item-cost{
   background-color:transparent !important;
 }
 
@@ -11299,6 +11312,7 @@ body:not(.sfl-theme) .dig-panel-card,
 body:not(.sfl-theme) .es-ascension-card,
 body:not(.sfl-theme) .es-bumpkin-card,
 body:not(.sfl-theme) .es-shards-card,
+body:not(.sfl-theme) .es-missing-section,
 body:not(.sfl-theme) .es-total-resources-card,
 body:not(.sfl-theme) .dprofit-card,
 body:not(.sfl-theme) .dprofit-node-card,
@@ -11440,6 +11454,9 @@ body:not(.sfl-theme) .rcm-item-row,
 body:not(.sfl-theme) .dig-pattern-chip,
 body:not(.sfl-theme) .dig-pattern-chip-badge,
 body:not(.sfl-theme) .es-boosts-bar,
+body:not(.sfl-theme) .es-boost-chip,
+body:not(.sfl-theme) .es-bumpkin-req-text,
+body:not(.sfl-theme) .es-bumpkin-level-value,
 body:not(.sfl-theme) .es-custom-asc-label,
 body:not(.sfl-theme) .es-custom-asc-input,
 body:not(.sfl-theme) .es-mode-row,
@@ -12311,6 +12328,7 @@ body:not(.sfl-theme) .fdm-emblem-input{
 }
 body.sfl-theme .fdm-side,
 body.sfl-theme #factionPanel input.fdm-count-input,
+body.sfl-theme #beginnerPanel input.fdm-count-input,
 body.sfl-theme #factionPanel input.fdm-emblem-input{
   background-color:var(--sfl-inner) !important;
   border-style:solid !important;
@@ -12324,6 +12342,184 @@ body.sfl-theme #factionPanel input.fdm-emblem-input{
   color:var(--sfl-text) !important;
 }
 body.sfl-theme #factionPanel input.fdm-count-input,
+body.sfl-theme #beginnerPanel input.fdm-count-input,
 body.sfl-theme #factionPanel input.fdm-emblem-input{
   background-color:var(--sfl-outer) !important;
 }
+
+
+.bg-grid,.bg-split{ display:grid; grid-template-columns:minmax(0,1fr); gap:10px; }
+.bg-cards{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; align-content:start; }
+.bg-tile{ padding:8px; min-width:0; }
+.bg-instr{ min-width:0; }
+.bg-hello{ font-size:13px; font-weight:800; margin-bottom:2px; }
+.bg-sub{ font-size:10.8px; opacity:.85; margin-bottom:6px; line-height:1.4; }
+.bg-steps{ margin:0; padding-left:0; list-style:none; display:flex; flex-direction:column; gap:7px; font-size:11px; line-height:1.45; }
+.bg-steps li{ overflow-wrap:anywhere; }
+.bg-step-tag{ display:inline-block; font-size:8.4px; font-weight:800; letter-spacing:.3px; padding:1px 5px; margin-right:3px; background:var(--sun-deep,#c98a3a); color:#fff; vertical-align:1px; }
+.bg-note{ font-size:9.6px; opacity:.75; }
+.bg-hl{ font-weight:900; }
+.bg-title-icon{ width:18px; height:18px; image-rendering:pixelated; }
+.bgx-costs{ display:flex; flex-wrap:wrap; gap:4px; margin:2px 0 4px; }
+.bgx-cost{ display:inline-flex; align-items:center; gap:3px; font-size:10px; font-weight:700; }
+.bg-mini{ font-size:9.2px; opacity:.8; margin-top:4px; line-height:1.4; }
+.bg-label{ font-size:8px; font-weight:800; text-transform:uppercase; padding:1px 4px; background:var(--sun-deep,#c98a3a); color:#fff; white-space:nowrap; }
+.bg-best{ background:var(--profit,#3d7a42); }
+.bg-why{ display:block; width:100%; font-size:9.2px; font-weight:400; opacity:.8; margin-top:1px; line-height:1.35; }
+.bg-right{ text-align:right; white-space:nowrap; }
+.bg-line .fd-item-main{ flex:1 1 auto; min-width:0; }
+.bg-link{ width:100%; margin-top:6px; }
+.bg-switcher{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; margin:2px 0 8px; }
+.bg-switcher .fd-lb-tab{ padding:7px 3px; line-height:1.25; }
+.bg-pane{ min-width:0; }
+.bg-overview{ font-size:10.4px; line-height:1.5; }
+.bg-overview p{ margin:0 0 6px; }
+.bg-farm{ display:flex; flex-direction:column; gap:8px; }
+.bg-modes{ grid-template-columns:repeat(2,minmax(0,1fr)); margin:0; }
+.bg-rep{ display:flex; flex-direction:column; gap:4px; }
+.bg-inputs{ display:flex; flex-wrap:wrap; gap:8px; align-items:flex-end; }
+.bg-field{ display:flex; flex-direction:column; gap:3px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.3px; }
+.bg-field input{ width:84px; }
+.bg-lands{ display:flex; gap:4px; }
+.bg-lands .fd-lb-tab{ padding:6px 7px; flex:0 0 auto; }
+.bg-sync-line{ font-size:9.4px; }
+.bg-sync-ok{ opacity:.75; }
+.bg-resync{ flex:0 0 auto; padding:5px 8px; font-size:8.4px; }
+.bg-goal{ font-size:12px; margin:4px 0 8px; }
+.bg-goal-stats{ padding:8px; }
+@media (min-width:900px){
+  .bg-grid{ grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); align-items:start; }
+}
+@media (min-width:640px){
+  .bg-split{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:start; }
+}
+
+body.sfl-theme #beginnerPanel .bg-grid,
+body.sfl-theme #beginnerPanel .bg-split,
+body.sfl-theme #beginnerPanel .bg-cards,
+body.sfl-theme #beginnerPanel .bg-switcher,
+body.sfl-theme #beginnerPanel .bg-pane,
+body.sfl-theme #beginnerPanel .bg-inputs,
+body.sfl-theme #beginnerPanel .bg-field,
+body.sfl-theme #beginnerPanel .bg-lands,
+body.sfl-theme #beginnerPanel .bg-rep,
+body.sfl-theme #beginnerPanel .bg-overview,
+body.sfl-theme #beginnerPanel .bg-steps,
+body.sfl-theme #beginnerPanel .bg-sync-line,
+body.sfl-theme #beginnerPanel .bgx-costs,
+body.sfl-theme #beginnerPanel .bgx-cost{
+  background-color:transparent !important;
+  background-image:none !important;
+}
+
+.bg-pill{ font-size:8px; font-weight:800; padding:1px 4px; color:#fff; white-space:nowrap; background:var(--profit,#3d7a42); }
+.bg-pill-buy{ background:var(--loss,#b0463c); }
+.bg-strat{ margin:6px 0; }
+body.sfl-theme #beginnerPanel .bg-strat{ background:transparent; }
+body.sfl-theme #beginnerPanel .bg-pill{ background:#3e8948 !important; color:#fff !important; }
+body.sfl-theme #beginnerPanel .bg-pill.bg-pill-buy{ background:#b0463c !important; color:#fff !important; }
+
+.bg-setlabel{ font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.4px; opacity:.85; margin-top:2px; }
+.bg-strats{ grid-template-columns:repeat(3,minmax(0,1fr)); margin:0; }
+.bg-layout{ display:grid; grid-template-columns:minmax(0,1fr); gap:10px; grid-template-areas:"farm" "goal" "dyn" "faction"; }
+.bg-area-farm{ grid-area:farm; align-self:start; }
+.bg-area-faction{ grid-area:faction; }
+.bg-area-goal{ grid-area:goal; }
+.bg-area-dyn{ grid-area:dyn; min-width:0; }
+@media (min-width:900px){
+  .bg-layout{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-areas:"farm faction" "goal goal" "dyn dyn"; align-items:start; }
+}
+.bg-faction{ min-width:0; }
+.bg-bar{ height:10px; border:2px solid #262b45; margin:3px 0 6px; background:rgba(0,0,0,.15); }
+.bg-bar > span{ display:block; height:100%; background:var(--profit,#3d7a42); }
+#beginnerPanel .bg-strat .fd-item-row,
+#beginnerPanel .bg-pane .fd-item-row{ background:color-mix(in srgb, currentColor 8%, transparent); padding:6px 7px; margin-bottom:4px; }
+body.sfl-theme #beginnerPanel .bg-strat .fd-item-row,
+body.sfl-theme #beginnerPanel .bg-pane .fd-item-row,
+body.sfl-theme #beginnerPanel .bg-faction .fd-item-row{ background-color:var(--sfl-inner) !important; }
+body.sfl-theme #beginnerPanel .bg-bar > span{ background:#3e8948; }
+
+.bg-guides{ margin-bottom:10px; }
+.bg-guides-desc{ font-size:10.4px; margin:2px 0 8px; }
+.bg-guide-tabs{ grid-template-columns:repeat(4,minmax(0,1fr)); margin:0; }
+.bg-guide-body{ display:flex; flex-direction:column; gap:10px; }
+.bg-cat{ min-width:0; }
+.bg-loss{ background:var(--loss,#b0463c); }
+body.sfl-theme #beginnerPanel .bg-loss{ background:#b0463c !important; color:#fff !important; }
+body.sfl-theme #beginnerPanel .bg-cat .fd-item-row{ background-color:var(--sfl-inner) !important; }
+#beginnerPanel .bg-cat .fd-item-row{ background:color-mix(in srgb, currentColor 8%, transparent); padding:6px 7px; margin-bottom:4px; }
+
+.bg-farm-top{ display:grid; grid-template-columns:minmax(0,1fr); gap:10px; align-items:start; }
+.bg-cat-grid{ display:grid; grid-template-columns:minmax(0,1fr); gap:10px; align-items:start; }
+.bg-farm-top .bg-strat,.bg-cat-grid .bg-cat{ margin:0; min-width:0; }
+.bg-tier{ margin-bottom:6px; }
+.bg-tier .fd-section-label{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+@media (min-width:900px){
+  .bg-farm-top{ grid-template-columns:minmax(0,1fr) minmax(0,2fr); }
+  .bg-cat-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .bg-strat-pick .bg-strats{ grid-template-columns:minmax(0,1fr); }
+}
+
+.es-reach-card{
+  position:fixed; inset:0; margin:auto; height:fit-content;
+  width:min(92vw,360px); max-height:80vh; overflow-y:auto;
+  z-index:1300; display:none; box-sizing:border-box; padding:10px; color:var(--es-ink);
+  background:var(--es-panel);
+  -webkit-overflow-scrolling:touch;
+}
+.es-reach-card.show{ display:block; }
+.es-reach-card .es-reach-close{
+  position:absolute; top:12px; right:12px; margin:0; z-index:1;
+  background:transparent; border:0; box-shadow:none; padding:0; color:var(--es-ink);
+}
+.es-reach-card .es-reach-close:active{ transform:none; }
+.es-reach-text{ font-size:13px; font-weight:600; line-height:1.55; padding-right:40px; color:var(--es-ink); }
+.es-reach-text b{ font-weight:900; }
+.es-reach-icon{ width:18px; height:18px; vertical-align:-4px; margin:0 3px; image-rendering:pixelated; }
+.es-reach-sub{ font-size:11px; font-weight:600; color:var(--es-ink-soft); margin:6px 0 8px; }
+.es-reach-sub b{ font-weight:900; }
+.es-reach-list{ display:flex; flex-direction:column; }
+.es-reach-card .es-cost-row-name span{ font-size:13px; font-weight:700; }
+.es-reach-card .es-cost-row-name img{ width:18px; height:18px; }
+.es-reach-val{ font-size:14px; font-weight:900 !important; }
+.es-reach-inner{ margin:0; padding:14px; background:var(--es-panel-2); }
+body.sfl-theme .es-reach-card{ background-color:var(--sfl-outer) !important; }
+body.sfl-theme .es-reach-inner{ background-color:var(--sfl-inner) !important; }
+body:not(.sfl-theme) .es-reach-card .es-reach-close{ border:0 !important; border-image:none !important; box-shadow:none !important; background:transparent !important; }
+body.sfl-theme .es-reach-list .es-cost-row,
+body.sfl-theme .es-reach-list .es-cost-row-name,
+body.sfl-theme .es-reach-list .es-cost-row-val{ background-color:var(--sfl-inner) !important; }
+.es-reach-text + .es-reach-list{ margin-top:10px; }
+body.sfl-theme #expansionSimOverlay .es-cost-row,
+body.sfl-theme #expansionSimOverlay .es-cost-row-name,
+body.sfl-theme #expansionSimOverlay .es-cost-row-val,
+body.sfl-theme #expansionSimOverlay .es-cost-total-row,
+body.sfl-theme #expansionSimOverlay .es-cost-total-label,
+body.sfl-theme #expansionSimOverlay .es-total-resources-item,
+body.sfl-theme #expansionSimOverlay .es-nodes-summary-item,
+body.sfl-theme #expansionSimOverlay .es-shards-item,
+body.sfl-theme #expansionSimOverlay .es-bumpkin-row,
+body.sfl-theme #expansionSimOverlay .es-bumpkin-req-text,
+body.sfl-theme #expansionSimOverlay .es-flower-total-row,
+body.sfl-theme #expansionSimOverlay .es-flower-total-label,
+body.sfl-theme #expansionSimOverlay .es-missing-title,
+body.sfl-theme #expansionSimOverlay .es-selected-req-title,
+body.sfl-theme #expansionSimOverlay .es-totals-title,
+body.sfl-theme #expansionSimOverlay .es-bumpkin-title{ background-color:var(--sfl-inner) !important; }
+body.sfl-theme #expansionSimOverlay .es-boosts-row,
+body.sfl-theme #expansionSimOverlay .es-mode-row,
+body.sfl-theme #expansionSimOverlay .es-mode-row-label,
+body.sfl-theme #expansionSimOverlay .es-shards-card,
+body.sfl-theme #expansionSimOverlay .es-shards-title,
+body.sfl-theme #expansionSimOverlay .es-start-target-row,
+body.sfl-theme #expansionSimOverlay .es-range-row,
+body.sfl-theme #expansionSimOverlay .es-range-stepper span,
+body.sfl-theme #expansionSimOverlay .es-tile-num,
+body.sfl-theme #expansionSimOverlay .es-tile-icon-item,
+body.sfl-theme #expansionSimOverlay .es-nodes-summary,
+body.sfl-theme #expansionSimOverlay .es-total-resources-card,
+body.sfl-theme #expansionSimOverlay .es-missing-toggle-card,
+body.sfl-theme #expansionSimOverlay .es-missing-toggle-label,
+body.sfl-theme #expansionSimOverlay .es-cost-row-sub,
+body.sfl-theme #expansionSimOverlay .es-cost-row-cycle,
+body.sfl-theme #expansionSimOverlay .es-cost-row-cycle-time{ background-color:var(--sfl-inner) !important; }

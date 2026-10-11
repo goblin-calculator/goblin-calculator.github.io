@@ -213,7 +213,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V6.7</span>
+  <span class="app-version-badge">V6.8</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -608,6 +608,10 @@
     <div class="library-body" id="mapBody"></div>
   </div>
 
+  <div class="library-panel main-tab-modal tab-hidden" id="beginnerPanel">
+    <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="beginner">✕</button><span><span id="beginnerTitleIcon"></span> Beginner Guide</span></div>
+    <div class="library-body" id="beginnerBody"></div>
+  </div>
   <div class="library-panel main-tab-modal tab-hidden" id="workbenchPanel">
     <div class="library-toggle"><button type="button" class="modal-close main-tab-modal-close" data-view="workbench">✕</button><span>🔨 Workbench Recipe</span></div>
     <div class="library-body" id="workbenchBody"></div>
@@ -1674,9 +1678,9 @@
         <span class="more-menu-item-label">Top 10 Most Profitable</span>
         <span class="more-menu-item-chev">›</span>
       </button>
-      <button type="button" class="more-menu-item" id="moreMenuSettingsBtn">
-        <span class="more-menu-item-icon">⚙️</span>
-        <span class="more-menu-item-label">Settings</span>
+      <button type="button" id="moreMenuBeginnerBtn" class="more-menu-item" aria-label="Beginner Guide">
+        <span class="more-menu-item-icon" id="moreMenuBeginnerIcon"></span>
+        <span class="more-menu-item-label">Beginner Guide</span>
         <span class="more-menu-item-chev">›</span>
       </button>
       <button type="button" id="appDarkToggleFab" class="more-menu-item" aria-label="Toggle dark mode" title="Toggle dark mode">
@@ -1687,6 +1691,11 @@
       <button type="button" id="sflThemeToggleFab" class="more-menu-item" aria-label="Toggle SFL theme" title="Toggle SFL theme">
         <span class="more-menu-item-icon" id="sflThemeToggleFabIcon">🌟</span>
         <span class="more-menu-item-label" id="sflThemeToggleFabLabel">SFL Theme [on]</span>
+        <span class="more-menu-item-chev">›</span>
+      </button>
+      <button type="button" class="more-menu-item" id="moreMenuSettingsBtn">
+        <span class="more-menu-item-icon">⚙️</span>
+        <span class="more-menu-item-label">Settings</span>
         <span class="more-menu-item-chev">›</span>
       </button>
       <button id="openDisclaimerBtn" type="button" class="more-menu-item" aria-label="About Goblin Calculator">
@@ -1781,6 +1790,10 @@
         <div class="es-flower-total-value" id="esFlowerTotal">0</div>
       </div>
     </div>
+  </div>
+  <div class="es-shards-card es-reach-card" id="esReachNote">
+    <button class="expansion-sim-close es-reach-close" id="esReachCloseBtn" type="button" aria-label="Close">✕</button>
+    <div class="es-shards-card es-reach-inner" id="esReachBody"></div>
   </div>
 </div>
 
@@ -2130,7 +2143,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="presence.js"></script>
-<script src="app.bfbefbec11.bundle.js"></script>
+<script src="app.c761807da5.bundle.js"></script>
 <script>
 (function(){
   function ready(fn){
