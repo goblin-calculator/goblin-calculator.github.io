@@ -8,6 +8,8 @@ import { renderCraftingBoxPanel } from "./crafting_box.js";
 
 import { renderWorkbenchPanel } from "./workbench.js";
 
+import { renderBeginnerPanel, syncBeginnerPanel } from "./beginner.js";
+
 import { sflbRefreshMyBuildIfOpen } from "./sfl_bubbles.js";
 
 import { getFlowerSeedTypeCost, SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeRestockCost24hDetailed, computeRestockCost24hDetailedIndividual, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, ensureCosmeticPricesLoaded, fetchLivePrices, findCosmeticPriceForName, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, isFishingBuyMode, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getActiveShrineDailyCost, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketplaceFlowerUsdPrice, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from "./prices.js";
@@ -5878,7 +5880,7 @@ const SKILL_FISHING = [ {
   name: "More With Less",
   skillTier: 3,
   notModeled: true,
-  note: "+25 daily fishing reels, but +1 Rod cost per cast"
+  note: "+10/+25/+50 daily fishing reels"
 } ];
 
 SKILL_FISHING.forEach(s => {
@@ -7241,7 +7243,7 @@ export const ASCENSION_RANK_DATA = {
   },
   skill_fast_feasts: {
     field: null,
-    values: [ 10, 20, 30 ],
+    values: [ 10, 15, 20 ],
     unit: "%",
     note: "Cook time reduction — Fire Pit & Kitchen"
   },
@@ -7914,23 +7916,199 @@ function getAscensionTotals() {
   };
 }
 
+const ASCENSION_FRUIT_FEED_LABELS = {
+  chicken: "Chicken feed",
+  sheep: "Sheep feed",
+  cow: "Cow feed"
+};
+
+const ASCENSION_ANIMAL_YIELD_LABELS = {
+  chicken: "Feather yield",
+  cow: "Leather yield",
+  sheep: "Merino Wool yield"
+};
+
+const ASCENSION_TIER_LABELS = {
+  "tierEffects.Advanced": "Advanced crop yield",
+  "tierEffects.Basic": "Basic crop yield",
+  "tierEffects.Medium": "Medium crop yield"
+};
+
+const ASCENSION_ROCK_LABELS = {
+  "resourceEffects.Stone": "Stone yield",
+  "resourceEffects.Iron": "Iron yield"
+};
+
+const ASCENSION_PART_META = {
+  skill_flowery_abode: {
+    labels: {
+      hiveGlobal: "Honey production speed",
+      flowerGlobal: "Flower growth time"
+    },
+    fmt: {
+      hiveGlobal: "add",
+      flowerGlobal: "x"
+    }
+  },
+  skill_long_pickings: {
+    unit: "×",
+    labels: {
+      buff: "Apple & Banana growth time",
+      debuff: "other fruit growth time"
+    }
+  },
+  skill_short_pickings: {
+    unit: "×",
+    labels: {
+      buff: "Blueberry & Orange growth time",
+      debuff: "other fruit growth time"
+    }
+  },
+  skill_zesty_vibes: {
+    labels: {
+      buff: "Tomato & Lemon yield",
+      debuff: "other fruit yield"
+    }
+  },
+  skill_clucky_grazing: {
+    unit: "×",
+    labels: ASCENSION_FRUIT_FEED_LABELS
+  },
+  skill_sheepwise_diet: {
+    unit: "×",
+    labels: ASCENSION_FRUIT_FEED_LABELS
+  },
+  skill_cow_smart_nutrition: {
+    unit: "×",
+    labels: ASCENSION_FRUIT_FEED_LABELS
+  },
+  skill_featherweight: {
+    labels: ASCENSION_ANIMAL_YIELD_LABELS
+  },
+  skill_merino_whisperer: {
+    labels: ASCENSION_ANIMAL_YIELD_LABELS
+  },
+  skill_leathercraft_mastery: {
+    labels: ASCENSION_ANIMAL_YIELD_LABELS
+  },
+  skill_acre_farm: {
+    labels: ASCENSION_TIER_LABELS
+  },
+  skill_hectare_farm: {
+    labels: ASCENSION_TIER_LABELS
+  },
+  skill_rocky_favor: {
+    labels: ASCENSION_ROCK_LABELS
+  },
+  skill_ferrous_favor: {
+    labels: ASCENSION_ROCK_LABELS
+  },
+  skill_greasy_plants: {
+    labels: {
+      yieldAdd: "produce yield",
+      oilQtyMult: "Oil consumption"
+    },
+    fmt: {
+      oilQtyMult: "x"
+    }
+  },
+  skill_crop_processor_unit: {
+    labels: {
+      timeMult: "Crop Machine time",
+      oilQtyMult: "Oil consumption"
+    },
+    fmt: {
+      timeMult: "x",
+      oilQtyMult: "x"
+    }
+  },
+  skill_rapid_rig: {
+    labels: {
+      timeMult: "Crop Machine time",
+      oilQtyMult: "Oil consumption"
+    },
+    fmt: {
+      timeMult: "x",
+      oilQtyMult: "x"
+    }
+  },
+  skill_composting_revamp: {
+    labels: {
+      fertAdd: "fertilisers",
+      wormAdd: "worms"
+    }
+  },
+  skill_no_axe_no_worries: {
+    template: v => `-${v} wood return from branches & stems`
+  },
+  skill_seeded_bounty: {
+    template: v => `+${v} produce, 2 seeds per planting`
+  }
+};
+
+function ascensionRound(v) {
+  return Math.round(v * 1e4) / 1e4;
+}
+
+function ascensionParts(id, rank) {
+  const data = ASCENSION_RANK_DATA[id];
+  if (!data) return [];
+  const meta = ASCENSION_PART_META[id] || {};
+  const labels = meta.labels || data.labels || {};
+  const fmt = meta.fmt || {};
+  const unit = meta.unit || data.unit;
+  const r = Math.min(Math.max(rank, 1), 3) - 1;
+  let src = null;
+  const grouped = data.byScope || data.byRole;
+  if (grouped) {
+    src = {};
+    Object.keys(grouped).forEach(k => {
+      src[k] = grouped[k].values;
+    });
+  } else if (data.values && !Array.isArray(data.values)) src = data.values;
+  if (!src) return [];
+  return Object.keys(src).map(k => {
+    const v = ascensionRound(src[k][r]);
+    const kind = fmt[k] || (unit === "×" ? "x" : "add");
+    const num = kind === "x" ? `×${v}` : v > 0 ? `+${v}` : `${v}`;
+    return `${num} ${labels[k] || k.split(".").pop()}`;
+  });
+}
+
 export function skillAoeNoteForRank(s, rank) {
   const clampedRank = Math.min(Math.max(rank, 1), 3);
+  const parts = ascensionParts(s.id, clampedRank);
+  if (parts.length && clampedRank > 1) return parts.join(" / ");
+  const meta = ASCENSION_PART_META[s.id];
   const ascData = ASCENSION_RANK_DATA[s.id];
-  if (ascData && !ascData.byScope && !ascData.byRole && !ascData.byTarget && !Array.isArray(ascData.values)) {
-    const fieldKeys = Object.keys(ascData.values);
-    if (fieldKeys.length > 1) {
-      return fieldKeys.map(f => {
-        const label = f.split(".").pop();
-        const v = ascData.values[f][clampedRank - 1];
-        return `${v > 0 ? "+" : ""}${v} ${label} yield`;
-      }).join(" / ");
-    }
+  if (meta && meta.template && ascData && Array.isArray(ascData.values) && clampedRank > 1) return meta.template(ascensionRound(ascData.values[clampedRank - 1]));
+  let note = s.note || "";
+  if (s.aoeSizeByRank && note) {
+    const size = s.aoeSizeByRank[clampedRank - 1];
+    note = note.replace(/\d+x\d+ \(\d+ plots\)/, `${size}x${size} (${size * size} plots)`);
   }
-  if (!s.aoeSizeByRank || !s.note) return s.note || "";
-  const size = s.aoeSizeByRank[clampedRank - 1];
-  const plots = size * size;
-  return s.note.replace(/\d+x\d+ \(\d+ plots\)/, `${size}x${size} (${plots} plots)`);
+  if (clampedRank > 1 && ascData && Array.isArray(ascData.values)) note = ascensionRewriteNote(note, ascData, clampedRank);
+  return note;
+}
+
+function ascensionRewriteNote(note, data, rank) {
+  const base = data.values[0];
+  const v = data.values[rank - 1];
+  const signed = x => `${x < 0 ? "-" : "+"}${ascensionRound(Math.abs(x))}`;
+  const same = (txt, ref) => Math.abs(parseFloat(txt) - ref) < 1e-6;
+  if (data.field === "yieldAdd") {
+    const m = note.match(/^[+-]?[\d.]+/);
+    if (m && same(m[0], base)) return note.replace(m[0], signed(v));
+  }
+  if (data.field === "extraYieldAdd") {
+    const m = note.match(/additional ([+-]?[\d.]+)/);
+    if (m && same(m[1], base)) return note.replace(m[0], `additional ${signed(v)}`);
+  }
+  if (data.field === "timeMult") {
+    const m = note.match(/^-([\d.]+)%/);
+    if (m && same(m[1], (1 - base) * 100)) return note.replace(m[0], `-${ascensionRound((1 - v) * 100)}%`);
+  }
+  return note;
 }
 
 export function ascensionDescribeRank(id, rank) {
@@ -7942,25 +8120,10 @@ export function ascensionDescribeRank(id, rank) {
     const v = displayScale === 1 ? raw : Math.round(raw * displayScale * 1e6) / 1e6;
     return unit === "%" ? `${v}%` : unit === "×" ? `×${v}` : unit === "d" ? `${v}d` : unit === "h" ? `${v}h` : v > 0 ? `+${v}` : `${v}`;
   };
+  const meta = ASCENSION_PART_META[id];
   let display;
-  if (data.byScope) {
-    const firstKey = Object.keys(data.byScope)[0];
-    display = formatValue(data.byScope[firstKey].values[rank - 1]);
-  } else if (data.byRole) {
-    const firstKey = Object.keys(data.byRole)[0];
-    display = formatValue(data.byRole[firstKey].values[rank - 1]);
-  } else if (data.byTarget) {
-    display = formatValue(data.values[Object.keys(data.values)[0]][rank - 1]);
-  } else if (Array.isArray(data.values)) {
-    display = formatValue(data.values[rank - 1]);
-  } else {
-    const fieldKeys = Object.keys(data.values);
-    display = fieldKeys.map(f => {
-      const label = data.labels && data.labels[f] || f.split(".").pop();
-      const v = data.values[f][rank - 1];
-      return `${formatValue(v)} ${label}`;
-    }).join(" / ");
-  }
+  const parts = ascensionParts(id, rank);
+  if (parts.length) display = parts.join(" / "); else if (meta && meta.template && Array.isArray(data.values)) display = meta.template(ascensionRound(data.values[rank - 1])); else display = formatValue(data.values[rank - 1]);
   return `Rank ${[ "I", "II", "III" ][rank - 1]}: ${display}${data.note ? ` · ${data.note}` : ""}`;
 }
 
@@ -16882,6 +17045,7 @@ async function performFarmPanelSync(farmId) {
     if ($("factionPanel") && $("factionPanel").classList.contains("open") && typeof renderFactionDeliveryPanel === "function") renderFactionDeliveryPanel();
     if ($("craftingBoxPanel") && $("craftingBoxPanel").classList.contains("open") && typeof renderCraftingBoxPanel === "function") renderCraftingBoxPanel();
     if ($("workbenchPanel") && $("workbenchPanel").classList.contains("open") && typeof renderWorkbenchPanel === "function") renderWorkbenchPanel();
+    syncBeginnerPanel();
     renderFarmPanelInfo();
     renderFarmPanelTabContent();
     __mark("info panel + tab content done");
@@ -19486,7 +19650,7 @@ const ES_NODE_TABLE = {
   }
 };
 
-const ES_REQ_TABLE = {
+export const ES_REQ_TABLE = {
   basic: {
     4: {
       resources: {
@@ -23096,7 +23260,7 @@ function esComputeAscensionExpansionReqFormula(ascLevel, e) {
 }
 
 function esResolvedAscLevel(which) {
-  const s = esState[which];
+  const s = typeof which === "string" ? esState[which] : which;
   if (s.island === "marbleX") return Math.max(ES_CUSTOM_ASCENSION_MIN, s.customAsc || ES_CUSTOM_ASCENSION_MIN);
   return ES_ASCENSION_LEVEL[s.island] || 0;
 }
@@ -23241,7 +23405,7 @@ function esPrevIslandOf(island) {
   return idx > 0 ? ES_ISLAND_ORDER[idx - 1] : null;
 }
 
-function esGetNodesAt(island, level, ascOverride) {
+export function esGetNodesAt(island, level, ascOverride) {
   if (ES_NODE_TABLE[island]) {
     const table = ES_NODE_TABLE[island];
     const keys = Object.keys(table).map(Number).sort((a, b) => a - b);
@@ -23905,12 +24069,12 @@ function esFormatBumpkinLevel(bumpkinLevel) {
   return "Level " + bumpkinLevel.level;
 }
 
-function esBuildUpgradeTransitions() {
-  const start = esState.start, target = esState.target;
+function esBuildUpgradeTransitions(startOverride, targetOverride) {
+  const start = startOverride || esState.start, target = targetOverride || esState.target;
   const startIdx = ES_ISLAND_ORDER.indexOf(start.island);
   const targetIdx = ES_ISLAND_ORDER.indexOf(target.island);
-  const startAsc = esResolvedAscLevel("start");
-  const targetAsc = esResolvedAscLevel("target");
+  const startAsc = esResolvedAscLevel(start);
+  const targetAsc = esResolvedAscLevel(target);
   const transitions = [];
   const volcanoIdx = ES_ISLAND_ORDER.indexOf("volcano");
   if (startAsc === 0 && startIdx >= 0 && startIdx <= volcanoIdx) {
@@ -24239,8 +24403,8 @@ function esSumRequirements(island, fromLevel, toLevel, ascOverride) {
   return totals;
 }
 
-function esCalculateTotals() {
-  const start = esState.start, target = esState.target;
+function esCalculateTotals(startOverride, targetOverride) {
+  const start = startOverride || esState.start, target = targetOverride || esState.target;
   let raw = {
     resources: {},
     coins: 0,
@@ -24297,8 +24461,8 @@ function esCalculateTotals() {
       crossNote: crossNote
     };
   }
-  const startAsc = esResolvedAscLevel("start");
-  const targetAsc = esResolvedAscLevel("target");
+  const startAsc = esResolvedAscLevel(start);
+  const targetAsc = esResolvedAscLevel(target);
   const sameBand = start.island === target.island && startAsc === targetAsc;
   if (sameBand && target.level <= start.level) {
     crossNote = "Target must be past Start on the same island for a total.";
@@ -24328,7 +24492,7 @@ function esCalculateTotals() {
     raw.coins += leg.coins;
     raw.seconds += leg.seconds;
   }
-  esBuildUpgradeTransitions().forEach(t => {
+  esBuildUpgradeTransitions(start, target).forEach(t => {
     Object.keys(t.req.resources || {}).forEach(k => {
       migration.resources[k] = (migration.resources[k] || 0) + t.req.resources[k];
     });
@@ -24364,19 +24528,15 @@ function esRenderTotals() {
   if (flowerEl) flowerEl.innerHTML = fmt(flowerTotal) + " " + FLOWER_ICON;
 }
 
-function esSyncFromFarm() {
-  if (!farmPanelGameState) {
-    toast("⚠️ Sync your farm first from the main Sync menu.");
-    return;
-  }
-  const g = farmSyncExtractGameState(farmPanelGameState);
+function esReadFarmPosition(g) {
   const islandType = g && g.island && typeof g.island.type === "string" ? g.island.type : null;
   const ascensionLevel = Number(g && g.island && g.island.ascensionLevel) || 0;
   const basicLandRaw = g && g.inventory ? g.inventory["Basic Land"] : undefined;
   const basicLand = typeof basicLandRaw === "string" ? parseFloat(basicLandRaw) : Number(basicLandRaw);
   if (!islandType || !Number.isFinite(basicLand)) {
-    toast("⚠️ Couldn't read island data from your synced farm.");
-    return;
+    return {
+      error: "⚠️ Couldn't read island data from your synced farm."
+    };
   }
   let matchedIsland = null;
   if (ascensionLevel > 10) {
@@ -24387,13 +24547,34 @@ function esSyncFromFarm() {
     matchedIsland = ES_ISLAND_ORDER.find(isl => isl === islandType);
   }
   if (!matchedIsland) {
-    toast("⚠️ Couldn't match your island to the simulator.");
-    return;
+    return {
+      error: "⚠️ Couldn't match your island to the simulator."
+    };
   }
   const expandingNow = !!(g && g.expansionConstruction && typeof g.expansionConstruction === "object");
   let level = ascensionLevel > 0 ? Math.max(30, basicLand) : basicLand;
   if (expandingNow) level += 1;
   level = Math.max(ES_ISLAND_MIN[matchedIsland], Math.min(ES_ISLAND_MAX[matchedIsland], level));
+  return {
+    island: matchedIsland,
+    level: level,
+    expandingNow: expandingNow,
+    ascensionLevel: ascensionLevel
+  };
+}
+
+function esSyncFromFarm() {
+  if (!farmPanelGameState) {
+    toast("⚠️ Sync your farm first from the main Sync menu.");
+    return;
+  }
+  const g = farmSyncExtractGameState(farmPanelGameState);
+  const pos = esReadFarmPosition(g);
+  if (pos.error) {
+    toast(pos.error);
+    return;
+  }
+  const matchedIsland = pos.island, level = pos.level, expandingNow = pos.expandingNow, ascensionLevel = pos.ascensionLevel;
   esState.start.island = matchedIsland;
   esState.start.level = level;
   esState.start.inProgress = expandingNow;
@@ -24406,6 +24587,171 @@ function esSyncFromFarm() {
   esSyncAutoBoostsFromFarm();
   esRenderAll();
   toast("✅ Synced to " + ES_ISLAND_LABEL[matchedIsland] + " #" + level + (expandingNow ? " (currently expanding)" : ""));
+}
+
+function esNextExpansionPosition(cur) {
+  const island = cur.island;
+  if (cur.level < ES_ISLAND_MAX[island]) {
+    return {
+      island: island,
+      level: cur.level + 1,
+      customAsc: cur.customAsc
+    };
+  }
+  if (island === "marbleX") {
+    return {
+      island: island,
+      level: ES_ISLAND_MIN.marbleX + 1,
+      customAsc: Math.max(ES_CUSTOM_ASCENSION_MIN, cur.customAsc || ES_CUSTOM_ASCENSION_MIN) + 1
+    };
+  }
+  const nextIsland = ES_ISLAND_ORDER[ES_ISLAND_ORDER.indexOf(island) + 1];
+  if (!nextIsland) return null;
+  return {
+    island: nextIsland,
+    level: ES_ISLAND_MIN[nextIsland] + 1,
+    customAsc: nextIsland === "marbleX" ? ES_CUSTOM_ASCENSION_MIN : cur.customAsc
+  };
+}
+
+function esBumpkinMeets(have, need) {
+  if (!need) return true;
+  if (have.ascension !== need.ascension) return have.ascension > need.ascension;
+  return have.level >= (need.level || 0);
+}
+
+function esBumpkinMax(a, b) {
+  if (!b) return a;
+  if (!a) return b;
+  return esBumpkinMeets(a, b) ? a : b;
+}
+
+function esComputeReachableExpansions() {
+  if (!farmPanelGameState) return {
+    state: "unsynced"
+  };
+  const g = farmSyncExtractGameState(farmPanelGameState);
+  if (!g) return {
+    state: "unsynced"
+  };
+  const pos = esReadFarmPosition(g);
+  if (pos.error) return {
+    state: "unsynced"
+  };
+  const startAsc = pos.island === "marbleX" ? pos.ascensionLevel : undefined;
+  const start = {
+    island: pos.island,
+    level: pos.level,
+    customAsc: startAsc || ES_CUSTOM_ASCENSION_MIN
+  };
+  const have = getAscensionLevelInfo(g.bumpkin && g.bumpkin.experience || 0, pos.ascensionLevel);
+  let cur = start;
+  let best = null;
+  let blocked = null;
+  let neededBumpkin = null;
+  for (let step = 1; step <= 200; step++) {
+    const next = esNextExpansionPosition(cur);
+    if (!next) break;
+    const req = esGetRequirementsAt(next.island, next.level, next.customAsc);
+    if (!req) break;
+    neededBumpkin = esBumpkinMax(neededBumpkin, req.bumpkinLevel);
+    let stepNeeded = neededBumpkin;
+    esBuildUpgradeTransitions(start, next).forEach(t => {
+      stepNeeded = esBumpkinMax(stepNeeded, t.req.bumpkinLevel);
+    });
+    const result = esCalculateTotals(start, next);
+    if (result.crossNote) break;
+    const boosted = esApplyBoosts(result.raw.resources, result.raw.coins, result.raw.seconds);
+    Object.keys(result.migration.resources).forEach(k => {
+      boosted.resources[k] = (boosted.resources[k] || 0) + result.migration.resources[k];
+    });
+    boosted.coins += result.migration.coins;
+    const missing = esMissingRowsData(boosted.resources, boosted.coins);
+    const bumpkinOk = esBumpkinMeets(have, stepNeeded);
+    if (missing.rows.length || missing.coinsMissing > 0 || !bumpkinOk) {
+      blocked = {
+        island: next.island,
+        level: next.level,
+        missingRows: missing.rows,
+        coinsMissing: missing.coinsMissing,
+        bumpkinNeeded: bumpkinOk ? null : stepNeeded
+      };
+      break;
+    }
+    best = {
+      island: next.island,
+      level: next.level,
+      customAsc: next.customAsc,
+      steps: step,
+      resources: boosted.resources,
+      coins: boosted.coins
+    };
+    cur = next;
+  }
+  if (best) return {
+    state: "reach",
+    best: best
+  };
+  if (blocked) return {
+    state: "missing",
+    blocked: blocked
+  };
+  return {
+    state: "none"
+  };
+}
+
+function esReachFmt(n) {
+  return (Math.round(n * 100) / 100).toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2
+  });
+}
+
+export function esHideReachNote() {
+  const el = $("esReachNote");
+  if (el) el.classList.remove("show");
+}
+
+function esReachRowHtml(name, label, qty) {
+  return '<div class="es-cost-row"><div class="es-cost-row-name">' + esGetIconHtml(name) + "<span>" + escapeHtml(label) + '</span></div><div class="es-cost-row-val es-reach-val">' + esReachFmt(qty) + "</div></div>";
+}
+
+function esReachListHtml(coins, resources) {
+  let html = "";
+  if (coins > 0) html += esReachRowHtml("Coins", "Coins", coins);
+  if (resources.Gem > 0) html += esReachRowHtml("Gem", "Gems", resources.Gem);
+  Object.keys(resources).forEach(k => {
+    if (k === "Gem" || !(resources[k] > 0)) return;
+    html += esReachRowHtml(k, k, resources[k]);
+  });
+  return html;
+}
+
+export function esRenderReachNote() {
+  const el = $("esReachNote");
+  const body = $("esReachBody");
+  if (!el || !body) return;
+  const out = esComputeReachableExpansions();
+  const hello = 'Hello <b>' + escapeHtml(profileGetDisplayName()) + "</b>!<br>";
+  const islandHtml = (island, level) => '<img class="es-reach-icon" src="' + esIslandIcon(island) + '" alt=""><b>' + escapeHtml(ES_ISLAND_LABEL[island]) + "</b> Expansion <b>" + level + "</b>";
+  if (out.state === "reach") {
+    const reach = out.best;
+    body.innerHTML = '<div class="es-reach-text">' + hello + "Your resources can reach you to " + islandHtml(reach.island, reach.level) + "</div>" + '<div class="es-reach-sub"><b>' + reach.steps + "</b> expansion" + (reach.steps === 1 ? "" : "s") + " in total, including upgrades</div>" + '<div class="es-reach-list">' + esReachListHtml(reach.coins, reach.resources) + "</div>";
+  } else if (out.state === "missing") {
+    const m = out.blocked;
+    const res = {};
+    m.missingRows.forEach(r => {
+      res[r.name] = r.qty;
+    });
+    const bumpkinHtml = m.bumpkinNeeded ? '<div class="es-cost-row"><div class="es-cost-row-name"><span>🧑‍🌾 Bumpkin Level</span></div><div class="es-cost-row-val es-reach-val">' + esFormatBumpkinLevel(m.bumpkinNeeded) + "</div></div>" : "";
+    body.innerHTML = '<div class="es-reach-text">' + hello + "Your next expansion is " + islandHtml(m.island, m.level) + ". You are still missing the following before you can expand:</div>" + '<div class="es-reach-list">' + esReachListHtml(m.coinsMissing, res) + bumpkinHtml + "</div>";
+  } else if (out.state === "none") {
+    body.innerHTML = '<div class="es-reach-text">' + hello + "There are no further expansions available for your farm.</div>";
+  } else {
+    body.innerHTML = '<div class="es-reach-text">Hello <b>Farmer</b>!<br>Sync your farm to see which expansion your resources can reach and what you are missing for the next one.</div>';
+  }
+  el.classList.add("show");
 }
 
 export function esRenderAll() {
@@ -24430,6 +24776,8 @@ export function esRenderAll() {
 }
 
 $("expansionSimCloseBtn").onclick = closeExpansionSim;
+
+$("esReachCloseBtn").onclick = esHideReachNote;
 
 $("expansionSimOverlay").addEventListener("click", e => {
   if (e.target.id === "expansionSimOverlay") closeExpansionSim();
@@ -24523,6 +24871,17 @@ $("moreMenuMapBtn").onclick = () => {
   closeMoreMenu();
   toggleMainView("map");
 };
+
+$("moreMenuBeginnerBtn").onclick = () => {
+  closeMoreMenu();
+  toggleMainView("beginner");
+};
+
+if (NPC_ICONS["pumpkin' pete"]) {
+  const peteImg = `<img src="${NPC_ICONS["pumpkin' pete"]}" alt="" style="width:13px;height:13px;image-rendering:pixelated;vertical-align:-2px;">`;
+  if ($("moreMenuBeginnerIcon")) $("moreMenuBeginnerIcon").innerHTML = peteImg;
+  if ($("beginnerTitleIcon")) $("beginnerTitleIcon").innerHTML = peteImg;
+}
 
 $("moreMenuWorkbenchBtn").onclick = () => {
   closeMoreMenu();
@@ -26083,7 +26442,7 @@ function top10ApplyIndividualRestock(proj, restockInfo, count) {
   });
 }
 
-export function gatherTop10ProfitItems() {
+export function gatherAllProfitItems() {
   const marketByLowerName = new Map;
   (marketItems || []).forEach(x => {
     const k = (x.name || "").toLowerCase();
@@ -26395,7 +26754,11 @@ export function gatherTop10ProfitItems() {
   });
   items.sort((a, b) => ((b.unitProfit24hIndividual ?? b.unitProfit24h) ?? -Infinity) - ((a.unitProfit24hIndividual ?? a.unitProfit24h) ?? -Infinity));
   __allProfitItemsCache = items;
-  return items.slice(0, 10);
+  return items;
+}
+
+export function gatherTop10ProfitItems() {
+  return gatherAllProfitItems().slice(0, 10);
 }
 
 $("top10CloseBtn").onclick = hideTop10Card;
@@ -26628,6 +26991,21 @@ function dailyProfitAveragePanelRestock(name, count, cycleCount, periodMult) {
   if (!ctx || !ctx.baseStock) return null;
   const det = computeRestockCost24hDetailed(ctx.baseStock, ctx.kind, count, cycleCount / periodMult, ctx.cyclesPerStockUnit, ctx.maxRestocksPerDay, ctx.itemName);
   return det.flowerCost * periodMult;
+}
+
+export function computeGuideResourceFallback(name) {
+  const m = (marketItems || []).find(x => (x.name || "").toLowerCase() === String(name).toLowerCase());
+  const sell = m ? m.flowerPrice || 0 : 0;
+  if (!(sell > 0)) return null;
+  if (name === "Obsidian") {
+    const lava = computeLavaPitFigures(previewSeason);
+    if (!lava) return null;
+    return computeObsidianWeeklyProfit(lava, sell).profit / 7;
+  }
+  const fig = computeResourceFigures(name);
+  if (!fig || !(fig.timeSec > 0)) return null;
+  const unitProfit = sell * (1 - (feePercent || 0) / 100) - coinsToFlower(fig.costPerUnit || 0);
+  return unitProfit * fig.yieldPer * (86400 / fig.timeSec);
 }
 
 export function computeDailyProfitProjection(card, cycleCount) {
