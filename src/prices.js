@@ -1,4 +1,4 @@
-import { __set_restockGemMode, clearFlowerAutoPickMemo, esReqUnitCoins, ANIMAL_DATA, BASE_COMPOSTERS, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_RECIPES, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_TRAP_TOOL_ID, ES_ASCENSION_UPGRADE_BASE_COINS, ES_ASCENSION_UPGRADE_BASE_ITEMS, ES_ISLAND_UPGRADE_COST, ES_SWAMP_EXPANSIONS_PER_ASCENSION, FARM_LEVELS, FEED_RECIPE, FISH_CATCH_DATA, FISH_MARKET_CRAB_STICK_P2P_REF, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_MARKET_META_DEFAULTS, FISH_MARKET_SEASON_RECIPES, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, GUNTER_FLOWER_COST_MODE_LS_KEY, GUNTER_UPGRADE_NODES, LIMITED_TIME_BOOSTS, PET_COST_TRACK_RESOURCES, PET_FOOD_LISTS, PET_NOT_TRADABLE, PET_RESOURCE_DEFAULT_MARKET, PET_TRADABLE_RESOURCES, PICKLED_VEG_DATA, PRICE_SOURCE_LABELS, RESOURCE_DATA, RESTOCK_GEM_COST, SCULPTURE_LEVELS, SHRINE_RECIPES, SPICE_RECIPES, __boostedCropStatsMemo, __boostedFruitStatsMemo, __boostedGreenhouseStatsMemo, __boostedLavaPitStatsMemo, __boostedResourceStatsMemo, __cookingFoodExpMemo, __cookingFoodTimeMemo, __fishAgedFiguresMemo, __fishBasicFiguresMemo, __fishCatchXPMemo, __petCardMemo, __profileTradableRowsCacheG, __set___crabFiguresMemo, __set___profileTradableRowsCacheByTab, __set___profileTradableRowsCacheG, __set___seaweedFiguresMemo, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalTypeFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCrustaceanFigures, computeFertilizerFigures, computeHiveEconomics, computeLavaPitFigures, computeResourceFigures, computeSaltFarmFigures, computeSeaweedFigures, cookingGuaranteedCatchOn, crustaceanTrapIsFree, currentSeason, esBigFloorDiv, esBigIntPow, esState, escapeHtml, findTool, fishCatchYieldMult, fishingBoostsActiveByScope, fishingRodIsFree, flowerPerGem, flowerSeedOverrides, fmt, fmtFlowerPrice, gemsToFlower, getActiveBoostsForCrop, getActiveBoostsForFruit, getActiveBoostsForGreenhouse, getActiveFermentationSpiceExpectedMult, getActiveSaltBoosts, getAgingMaxXPLocal, getAnimalCount, getBoostCoverageFraction, getBoostedMedicineRecipe, getBoostedToolRecipe, getGenericPlotOrNodeCount, getGlobalCureModifiers, getKaleMixKaleQty, getMaterialMode, getMedicineIngredientMode, getPoolIndex, getSharedPoolDivisor, getShrineAffectedItemCount, getSpiceLickDurationHarvests, getVarietyIngredient, gunterSelectedUpgrade, gunterUpgradeCounts, hasLimitedBoostSyncData, isAppDarkModeOn, isBoostActive, isBuildingBoostActive, isDigPanelNativeModeActive, isFertilizerTierEnabled, isPotionPanelNativeModeActive, isPetFoodChecked, normalizeItemName, normalizeSearch, petBoostActiveWithField, petComputeCardCached, petsData, previewSeason, profileState, restockGemMode, restockSharedExcluded, safeParse, saltFarmLevel, saltSculptureLevel, selectedHoneyFlower, setAppDarkMode, setPreviewSeason, shrineIdFromBoostName, spiceMaterialMode, toast, toolRecipes, updateCalcSummary, updateLiveSyncStatus, vegMaterialMode } from "./calculator.js";
+import { computeSpiceFigures, __set_restockGemMode, clearFlowerAutoPickMemo, esReqUnitCoins, ANIMAL_DATA, BASE_COMPOSTERS, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_RECIPES, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_TRAP_TOOL_ID, ES_ASCENSION_UPGRADE_BASE_COINS, ES_ASCENSION_UPGRADE_BASE_ITEMS, ES_ISLAND_UPGRADE_COST, ES_SWAMP_EXPANSIONS_PER_ASCENSION, FARM_LEVELS, FEED_RECIPE, FISH_CATCH_DATA, FISH_MARKET_CRAB_STICK_P2P_REF, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_MARKET_META_DEFAULTS, FISH_MARKET_SEASON_RECIPES, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, GUNTER_FLOWER_COST_MODE_LS_KEY, GUNTER_UPGRADE_NODES, LIMITED_TIME_BOOSTS, PET_COST_TRACK_RESOURCES, PET_FOOD_LISTS, PET_NOT_TRADABLE, PET_RESOURCE_DEFAULT_MARKET, PET_TRADABLE_RESOURCES, PICKLED_VEG_DATA, PRICE_SOURCE_LABELS, RESOURCE_DATA, RESTOCK_GEM_COST, SCULPTURE_LEVELS, SHRINE_RECIPES, SPICE_RECIPES, __boostedCropStatsMemo, __boostedFruitStatsMemo, __boostedGreenhouseStatsMemo, __boostedLavaPitStatsMemo, __boostedResourceStatsMemo, __cookingFoodExpMemo, __cookingFoodTimeMemo, __fishAgedFiguresMemo, __fishBasicFiguresMemo, __fishCatchXPMemo, __petCardMemo, __profileTradableRowsCacheG, __set___crabFiguresMemo, __set___profileTradableRowsCacheByTab, __set___profileTradableRowsCacheG, __set___seaweedFiguresMemo, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalTypeFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCrustaceanFigures, computeFertilizerFigures, computeHiveEconomics, computeLavaPitFigures, computeResourceFigures, computeSaltFarmFigures, computeSeaweedFigures, cookingGuaranteedCatchOn, crustaceanTrapIsFree, currentSeason, esBigFloorDiv, esBigIntPow, esState, escapeHtml, findTool, fishCatchYieldMult, fishingBoostsActiveByScope, fishingRodIsFree, flowerPerGem, flowerSeedOverrides, fmt, fmtFlowerPrice, gemsToFlower, getActiveBoostsForCrop, getActiveBoostsForFruit, getActiveBoostsForGreenhouse, getActiveFermentationSpiceExpectedMult, getActiveSaltBoosts, getAgingMaxXPLocal, getAnimalCount, getBoostCoverageFraction, getBoostedMedicineRecipe, getBoostedToolRecipe, getGenericPlotOrNodeCount, getGlobalCureModifiers, getKaleMixKaleQty, getMaterialMode, getMedicineIngredientMode, getPoolIndex, getSharedPoolDivisor, getShrineAffectedItemCount, getSpiceLickDurationHarvests, getVarietyIngredient, gunterSelectedUpgrade, gunterUpgradeCounts, hasLimitedBoostSyncData, isAppDarkModeOn, getSkillRankMult, isBoostActive, isBuildingBoostActive, isDigPanelNativeModeActive, isFertilizerTierEnabled, isPotionPanelNativeModeActive, isPetFoodChecked, normalizeItemName, normalizeSearch, petBoostActiveWithField, petComputeCardCached, petsData, previewSeason, profileState, restockGemMode, restockSharedExcluded, safeParse, saltFarmLevel, saltSculptureLevel, selectedHoneyFlower, setAppDarkMode, setPreviewSeason, shrineIdFromBoostName, spiceMaterialMode, toast, toolRecipes, updateCalcSummary, updateLiveSyncStatus, vegMaterialMode } from "./calculator.js";
 
 import { farmPanelGetBoostedYieldStats, farmPanelGetMarketPriceFlower, farmPanelGrowTimeSec } from "./inprogress.js";
 
@@ -31,6 +31,10 @@ export function getArtistCoinCostMult() {
   return b && b.coinCostMultAll || 1;
 }
 
+export function isMoonSeedItem(kind, itemName) {
+  return kind === "seed" && !!itemName && !!BASE_FRUITS[itemName] && !!BASE_FRUITS[itemName].moonOnly;
+}
+
 export function computeRestockCost24hDetailed(baseStock, kind, count, cyclesPerDay, cyclesPerStockUnit, maxRestocksPerDay, itemName) {
   const empty = {
     flowerCost: 0,
@@ -42,7 +46,7 @@ export function computeRestockCost24hDetailed(baseStock, kind, count, cyclesPerD
     stockKind: kind,
     name: itemName
   };
-  if (!baseStock || !count || !cyclesPerDay) return empty;
+  if (!baseStock || !count || !cyclesPerDay || isMoonSeedItem(kind, itemName)) return empty;
   const boostedStock = computeBoostedStock(baseStock, kind, itemName);
   const stockConsumingCyclesPerDay = cyclesPerDay / (cyclesPerStockUnit || 1);
   const itemsNeededPerDay = count * stockConsumingCyclesPerDay;
@@ -76,7 +80,7 @@ export function computeRestockCost24hDetailedIndividual(baseStock, kind, count, 
     stockKind: kind,
     name: itemName
   };
-  if (!baseStock || !count || !cyclesPerDay) return empty;
+  if (!baseStock || !count || !cyclesPerDay || isMoonSeedItem(kind, itemName)) return empty;
   const boostedStock = computeBoostedStock(baseStock, kind, itemName);
   const stockConsumingCyclesPerDay = cyclesPerDay / (cyclesPerStockUnit || 1);
   const itemsNeededPerDay = count * stockConsumingCyclesPerDay;
@@ -214,7 +218,7 @@ function getItemCostByNameUncached(name, visited) {
     if (visited.has(key)) return 0;
     visited.add(key);
     const fig = computeCrustaceanFigures(name, visited);
-    return fig ? fig.totalCoins : 0;
+    return fig ? fig.costCoins : 0;
   }
   if ((name || "") === "Crab") {
     const key = "crab";
@@ -351,7 +355,7 @@ export function getFlowerVarietyCostCoins(varietyName, visited) {
 }
 
 export function getSpiceCostPerUseFlower(key) {
-  return key === "saltLick" ? refinedSaltUnitCostFlower() : refinedSaltUnitCostFlower() + honeyCostFlowerForSpiceRack();
+  return computeSpiceFigures(key === "saltLick" ? "Salt Lick" : "Honey Treat").unitCost;
 }
 
 export function getSpiceHeadCost(key, type) {
@@ -555,6 +559,7 @@ export function setRestockCostMode(mode) {
 }
 
 export function getRestockGemCost(kind, itemName) {
+  if (isMoonSeedItem(kind, itemName)) return 0;
   let base;
   if (restockGemMode.has("all")) base = kind === "tool" ? RESTOCK_GEM_COST.tools : RESTOCK_GEM_COST.all / 2; else if (kind === "tool") base = restockGemMode.has("tools_only") ? RESTOCK_GEM_COST.tools : 0; else base = restockGemMode.has("seeds_only") ? RESTOCK_GEM_COST.seeds : 0;
   if (base <= 0) return 0;
@@ -577,11 +582,11 @@ export function getRestockGemCostIndividual(kind) {
 }
 
 export function hasFreeSaltRakeCost() {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "saltGlobal").some(b => b.freeCost);
+  return BOOSTS.filter(b => b.category === "salt" && isBoostActive(b.id) && b.scope === "saltGlobal").some(b => b.freeCost);
 }
 
 export function getActiveAgingSaltCostMult() {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "agingGlobal" && b.agingSaltCostMult).reduce((mult, b) => mult * b.agingSaltCostMult, 1);
+  return BOOSTS.filter(b => b.category === "salt" && isBoostActive(b.id) && b.scope === "agingGlobal" && b.agingSaltCostMult).reduce((mult, b) => mult * b.agingSaltCostMult, 1);
 }
 
 function getFertilizerCostCoins(fertName, visited) {
@@ -619,7 +624,7 @@ export function getFruitCostCoins(fruitName, visited) {
   const d = BASE_FRUITS[fruitName];
   if (!d) return 0;
   const boosted = computeBoostedFruitStats(fruitName, d.yieldPerHarvest || 1, d.timeSec, d.minHarvest || 1);
-  const seedCoinCost = (hasFreeCostBoostFruit(fruitName) ? 0 : d.seedCost || 0) * getArtistCoinCostMult();
+  const seedCoinCost = (hasFreeCostBoostFruit(fruitName) ? 0 : d.seedCost || 0) * getArtistCoinCostMult() * getSkillRankMult("skill_fruity_heaven");
   const axeQty = d.axeQty || 0;
   const woodReturnQty = Math.max(0, (d.woodReturnQty || 0) - (boosted.woodReturnPenalty || 0) + (boosted.woodReturnAdd || 0));
   const axeCoinCost = boosted.noWoodCost ? 0 : axeQty * (RESOURCE_DATA.Wood.toolCoinCost || 0);
@@ -635,7 +640,7 @@ export function getGreenhouseCostCoins(name) {
   const d = BASE_GREENHOUSE[name];
   if (!d) return 0;
   const boosted = computeBoostedGreenhouseStats(name, d.baseYield || 1, d.timeSec);
-  const seedCoinCost = (hasFreeCostBoostGreenhouse(name) ? 0 : (d.seedCost || 0) * (boosted.seedQtyMult || 1)) * getArtistCoinCostMult();
+  const seedCoinCost = (hasFreeCostBoostGreenhouse(name) ? 0 : (d.seedCost || 0) * (boosted.seedQtyMult || 1)) * getArtistCoinCostMult() * getSkillRankMult("skill_seedy_business");
   const oilQty = Math.max(0, (d.oilQty || 0) * (boosted.oilQtyMult || 1) - (boosted.oilFlatReduce || 0));
   const oilCoinCost = oilQty * getItemCostByName("Oil");
   return (seedCoinCost + oilCoinCost) / boosted.yieldVal;
@@ -3740,8 +3745,7 @@ function saltUnitCostFlower() {
 }
 
 export function refinedSaltUnitCostFlower() {
-  const r = SPICE_RECIPES["Refined Salt"];
-  return saltCostFlowerForSpiceRack() * r.saltQty / r.output;
+  return computeSpiceFigures("Refined Salt").unitCost;
 }
 
 export function saltCostFlowerForSpiceRack() {
@@ -3980,6 +3984,10 @@ export function fishMarketItemCostCoins(itemName, mode, season, visited) {
   return total;
 }
 
+export function fishMarketPanelCostCoins(itemName, season) {
+  return fishMarketItemCostCoins(itemName, fishMarketMode, season);
+}
+
 export function renderFishMarketMainTabs() {
   const wrap = $("fishMarketMainTabs");
   if (!wrap) return;
@@ -4009,7 +4017,7 @@ function renderFishMarketItemCard(itemName) {
     return `<div class="cook-ingredient-row"><span>${getIcon(name)}</span><span class="ing-name">${escapeHtml(name)} ×${qty}</span><span class="ing-cost">${fmt(coinsToFlower(lineCoins))}${FLOWER_ICON}</span></div>`;
   }).join("");
   const meta = getFishMarketMeta(itemName);
-  const totalFlower = coinsToFlower(totalCoins);
+  const totalFlower = coinsToFlower(fishMarketPanelCostCoins(itemName, season));
   const p2pNote = itemName === "Crab Stick" ? `<div class="fishmarket-p2p-note">Reference market price this season: ${fmt(FISH_MARKET_CRAB_STICK_P2P_REF[season] || 0)} (P2P)</div>` : ``;
   return `\n  <div class="cook-food-card fishmarket-card${isExpanded ? " expanded" : ""}" data-fm-item="${escapeHtml(itemName)}">\n    <div class="cook-food-toggle">\n      <span class="cook-food-icon">${getIcon(itemName)}</span>\n      <div class="cook-food-main">\n        <div class="cook-food-name">${escapeHtml(itemName)}</div>\n        <div class="cook-food-exp">${fmt(totalFlower)} ${FLOWER_ICON} total · ${escapeHtml(season)}</div>\n      </div>\n      <span class="cook-food-chev">▾</span>\n    </div>\n    <div class="cook-food-details">\n      <div class="cook-food-cost-line">Recipe — ${escapeHtml(season)}</div>\n      ${rows}\n      ${p2pNote}\n      <div class="fishmarket-meta-row">\n        <span>Yield: <b>${fmt(meta.yield)}</b></span>\n        <span>Time: <b>${fmt(meta.hours)}h</b></span>\n      </div>\n      <div style="font-size:9px;color:var(--ink-soft);margin-top:2px;">${meta.yieldMult !== 1 || meta.timeMult !== 1 ? `Base ${fmt(meta.baseYield)} yield / ${fmt(meta.baseHours)}h — boosted to ${fmt(meta.yield)} yield / ${fmt(meta.hours)}h (🎣 Fishing boosts applied).` : `Base yield/time shown above — turn on 🎣 Fishing boosts (e.g. Bubble Aura) to see them applied here.`}</div>\n    </div>\n  </div>`;
 }
