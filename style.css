@@ -12557,6 +12557,11 @@ body.sfl-theme #expansionSimOverlay .es-cost-row-cycle-time{ background-color:va
 .bg-oil-toggle{ display:flex; align-items:center; justify-content:space-between; gap:6px; width:100%; background:transparent; border:0; padding:0; margin:0; color:inherit; font:inherit; text-align:left; cursor:pointer; }
 .bg-oil-toggle.is-open .bg-sim-chev{ transform:rotate(180deg); }
 .bg-oil-body[hidden]{ display:none; }
+.bg-pet-card{ flex-wrap:wrap; }
+.bg-pet-row{ display:flex; flex-wrap:nowrap; align-items:stretch; gap:4px; flex:0 0 100%; margin:6px 0 0; padding:0; background:transparent !important; border:0 !important; box-shadow:none !important; }
+#beginnerPanel .bg-pet-row .bg-pet-pip.fd-lb-tab{ flex:1 1 0; min-width:0; flex-direction:column; gap:1px; padding:6px 1px; font-size:8px; letter-spacing:0; line-height:1.15; text-align:center; overflow:hidden; white-space:nowrap; }
+.bg-pet-val,.bg-pet-unit{ display:block; max-width:100%; }
+.bg-pet-unit{ font-size:7px; }
 .bg-sim-chev{ width:12px; height:12px; image-rendering:pixelated; transition:transform .25s ease; }
 .bg-sim-row.is-open [data-bg-ded] .bg-sim-chev,.bg-sim-row.is-mat-open [data-bg-mat] .bg-sim-chev{ transform:rotate(180deg); }
 .bg-sim-ded{ max-height:0; overflow:hidden; opacity:0; transition:max-height .28s ease, opacity .2s ease; padding-left:10px; }
@@ -12640,3 +12645,24 @@ body.sfl-theme #beginnerPanel .fd-container.is-own.bg-lsim-card{ background-colo
 .bg-rank-label{ font-family:var(--pixel-font); font-size:10px; color:var(--ink-soft); letter-spacing:.3px; margin-right:2px; white-space:nowrap; }
 .bg-rank-pip.fd-lb-tab{ flex:0 0 auto; width:30px; min-width:30px; height:30px; padding:0; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700; line-height:1; }
 body.sfl-theme #beginnerPanel .bg-rank-label{ color:var(--sfl-text) !important; }
+
+.bg-line.bg-owned{ position:relative; }
+.bg-line.bg-owned .fd-item-main strong{ margin-right:60px; }
+.bg-owned-badge{
+  position:absolute; top:6px; right:6px; padding:3px 6px;
+  font-family:var(--pixel-font); font-size:8px; line-height:1; text-transform:uppercase; white-space:nowrap;
+  background:var(--profit,#3d7a42); color:#fff; border:2px solid var(--sfl-border,#3e2731);
+}
+
+body.sfl-theme #beginnerPanel .bg-line.bg-skill-card{ padding:2px 7px !important; margin-bottom:3px !important; gap:1px 6px !important; flex-wrap:wrap; align-items:center; }
+#beginnerPanel .bg-line.bg-skill-card .fd-item-main{ flex:1 1 0; min-width:0; gap:1px 4px; }
+#beginnerPanel .bg-line.bg-skill-card.bg-has-rank .fd-item-main{ flex:1 0 100%; }
+#beginnerPanel .bg-line.bg-skill-card .fd-item-main strong{ font-size:12px; line-height:1.15; }
+#beginnerPanel .bg-line.bg-skill-card .bg-why{ margin-top:0; line-height:1.2; font-size:9px; }
+#beginnerPanel .bg-line.bg-skill-card .bg-sim-check{ order:10; width:22px; height:22px; margin-left:auto; }
+#beginnerPanel .bg-line.bg-skill-card .bg-sim-check input{ width:18px; height:18px; }
+#beginnerPanel .bg-line.bg-skill-card .bg-rank-picker{ flex:1 1 0; margin-top:0; gap:4px; }
+#beginnerPanel .bg-line.bg-skill-card .bg-rank-pip.fd-lb-tab{ width:24px; min-width:24px; height:24px; font-size:12px; }
+.bg-lsim-unit{ gap:8px; align-items:center; margin:2px 0 6px; }
+.bg-lsim-unit .bg-lsim-unit-name{ display:flex; align-items:center; gap:6px; min-width:0; }
+.bg-lsim-unit .bg-lsim-unit-exp{ flex:0 0 auto; font-weight:700; white-space:nowrap; }
