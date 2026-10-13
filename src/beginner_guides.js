@@ -1,4 +1,4 @@
-import { runWithSimulatedSetup, ANIMAL_DATA, ASCENSION_RANK_DATA, BASE_CROPS, BASE_CROP_MACHINE, BASE_FRUITS, BASE_GREENHOUSE, BOOSTS, SEASON_EMOJI, boostStrength, boostsConflict, getAnimalCount, getCropSeasons, getFruitSeasons, getPlotCount, simulateGuideRows, FEED_RECIPE, FLOWER_ICON, COIN_ICON, coinsToFlower, RESOURCE_DATA, SKILL_BOOSTS, computeCropMachineBatch, currentSeason, escapeHtml, fmtInt, fmtXp, formatDuration, gatherAllProfitItems, computeGuideResourceFallback, computeResourceFigures, isBoostActive, getSpiceChoiceForAnimalType, getSpiceLickDurationHarvests, computeSpiceFigures, isCropInSeason, isCropMachineUnlocked, isFruitInSeason, isSkillActive, profileBuildFilterMatches, profileGetG } from "./calculator.js";
+import { FACTION_PET_BOOST_TIERS, runWithSimulatedSetup, ANIMAL_DATA, ASCENSION_RANK_DATA, BASE_CROPS, BASE_CROP_MACHINE, BASE_FRUITS, BASE_GREENHOUSE, BOOSTS, SEASON_EMOJI, boostStrength, boostsConflict, getAnimalCount, getCropSeasons, getFruitSeasons, getPlotCount, simulateGuideRows, FEED_RECIPE, FLOWER_ICON, COIN_ICON, coinsToFlower, RESOURCE_DATA, SKILL_BOOSTS, computeCropMachineBatch, currentSeason, escapeHtml, fmtInt, fmtXp, formatDuration, gatherAllProfitItems, computeGuideResourceFallback, computeResourceFigures, isBoostActive, getSpiceChoiceForAnimalType, getSpiceLickDurationHarvests, computeSpiceFigures, isCropInSeason, isCropMachineUnlocked, isFruitInSeason, isSkillActive, profileBuildFilterMatches, profileGetG } from "./calculator.js";
 
 import { findCosmeticPriceForName, findLiveNftPriceForName, findLivePriceForName } from "./prices.js";
 
@@ -11,19 +11,19 @@ const FARM_STRATS = {
     label: "Balance Farming",
     tiers: [ "Basic", "Medium", "Advanced" ],
     desc: "A balanced crop setup with strong yield and speed for every crop tier. It uses most of the Crops skill tree, so it suits farms that grow a mix of crops.",
-    skills: [ [ "skill_old_farmer", 1 ], [ "skill_green_thumb", 1 ], [ "skill_bettys_friend", 1 ], [ "skill_young_farmer", 1 ], [ "skill_experienced_farmer", 1 ], [ "skill_lauries_gains", 1 ], [ "skill_strong_roots", 1 ], [ "skill_horror_mike", 1 ], [ "skill_instant_growth", 1 ], [ "skill_acre_farm", 1 ], [ "skill_hectare_farm", 1 ] ]
+    skills: [ [ "skill_green_thumb", 1 ], [ "skill_young_farmer", 1 ], [ "skill_old_farmer", 1 ], [ "skill_experienced_farmer", 1 ], [ "skill_lauries_gains", 1 ], [ "skill_strong_roots", 1 ], [ "skill_horror_mike", 1 ], [ "skill_acre_farm", 1 ], [ "skill_instant_growth", 1 ], [ "skill_hectare_farm", 1 ] ]
   },
   basic: {
     label: "Basic & Medium Farming",
     tiers: [ "Basic", "Medium" ],
     desc: "Built for Basic and Medium crops. It needs fewer skill points and puts your shards into Hectare Farm for a larger boosted area.",
-    skills: [ [ "skill_green_thumb", 1 ], [ "skill_bettys_friend", 1 ], [ "skill_young_farmer", 1 ], [ "skill_experienced_farmer", 1 ], [ "skill_chonky_scarecrow", 1 ], [ "skill_horror_mike", 1 ], [ "skill_instant_growth", 1 ], [ "skill_hectare_farm", 3 ] ]
+    skills: [ [ "skill_green_thumb", 1 ], [ "skill_young_farmer", 1 ], [ "skill_experienced_farmer", 1 ], [ "skill_horror_mike", 1 ], [ "skill_coin_swindler", 1 ], [ "skill_hectare_farm", 3 ], [ "skill_instant_growth", 1 ] ]
   },
   advance: {
     label: "Advance Farming",
     tiers: [ "Advanced" ],
     desc: "Built for Advanced crops. It focuses on Old Farmer, Laurie's Gains and Strong Roots, and puts your shards into Acre Farm.",
-    skills: [ [ "skill_green_thumb", 1 ], [ "skill_bettys_friend", 1 ], [ "skill_old_farmer", 1 ], [ "skill_lauries_gains", 1 ], [ "skill_strong_roots", 1 ], [ "skill_instant_growth", 1 ], [ "skill_acre_farm", 3 ] ]
+    skills: [ [ "skill_green_thumb", 1 ], [ "skill_old_farmer", 1 ], [ "skill_bettys_friend", 1 ], [ "skill_strong_roots", 1 ], [ "skill_lauries_gains", 1 ], [ "skill_acre_farm", 3 ], [ "skill_instant_growth", 1 ] ]
   }
 };
 
@@ -274,14 +274,15 @@ function simDirty(key) {
   return simNorm(simDraft(key)) !== simNorm(simBase(key));
 }
 
-export function simRegister(key, skills, boosts, defaultOn, defaultBoosts, defaultSkills) {
+export function simRegister(key, skills, boosts, defaultOn, defaultBoosts, defaultSkills, ownedSkills) {
   if (simDrafts[key] && !simDirty(key)) delete simDrafts[key];
   simAvail[key] = {
     skills: skills,
     boosts: boosts,
     defaultOn: defaultOn,
     defaultBoosts: defaultBoosts || null,
-    defaultSkills: defaultSkills || null
+    defaultSkills: defaultSkills || null,
+    owned: ownedSkills || []
   };
 }
 
@@ -310,9 +311,14 @@ export function simEffective(key) {
     boosts: []
   };
   const rankOf = new Map(a.skills.map(t => [ t[0], t[1] ]));
+  (a.owned || []).forEach(t => {
+    if (!rankOf.has(t[0])) rankOf.set(t[0], t[1]);
+  });
   const boostIds = new Set(a.boosts);
+  const ownedIds = new Set((a.owned || []).map(t => t[0]));
   const own = {
-    skills: base.s.filter(t => rankOf.has(t[0])).map(t => [ t[0], simClampRank(t[0], t[1], rankOf.get(t[0])) ]),
+    skills: base.s.filter(t => t[1] > 0 && rankOf.has(t[0])).map(t => [ t[0], simClampRank(t[0], t[1], rankOf.get(t[0])) ]),
+    off: base.s.filter(t => !t[1] && ownedIds.has(t[0])).map(t => t[0]),
     boosts: base.b.filter(id => boostIds.has(id)),
     q: base.q
   };
@@ -324,6 +330,9 @@ export function simEffective(key) {
   });
   cons.boosts.forEach(id => {
     if (own.boosts.indexOf(id) < 0) own.boosts.push(id);
+  });
+  cons.off.forEach(id => {
+    if (own.off.indexOf(id) < 0 && !have.has(id)) own.off.push(id);
   });
   return own;
 }
@@ -345,15 +354,15 @@ function simClampRank(id, picked, suggested) {
 
 export function simRankOf(key, id, suggested) {
   const hit = simDraft(key).s.find(t => t[0] === id);
-  if (!hit) return suggested;
+  if (!hit || !hit[1]) return suggested;
   return simClampRank(id, hit[1], suggested);
 }
 
-export function simRankPicker(key, id, suggested) {
+export function simRankPicker(key, id, suggested, ownedAt) {
   if (simRankMax(id) <= 1) return "";
   const cur = simRankOf(key, id, suggested);
-  const pips = [ 1, 2, 3 ].map(r => `<button type="button" class="fd-lb-tab bg-rank-pip${r === cur ? " active" : ""}" data-bg-rank="${escapeHtml(key)}|${escapeHtml(id)}|${r}|${suggested}" aria-label="Rank ${r}">${r}</button>`).join("");
-  return `<span class="bg-rank-picker" data-bg-rankbox="${escapeHtml(key)}|${escapeHtml(id)}" data-cur="${cur}"><span class="bg-rank-label">Rank</span>${pips}</span>`;
+  const pips = [ 1, 2, 3 ].map(r => `<button type="button" class="fd-lb-tab bg-rank-pip${r === cur ? " active" : ""}" data-bg-rank="${escapeHtml(key)}|${escapeHtml(id)}|${r}|${suggested}|${ownedAt || 0}" aria-label="Rank ${r}">${r}</button>`).join("");
+  return `<span class="bg-rank-picker" data-bg-rankbox="${escapeHtml(key)}|${escapeHtml(id)}" data-cur="${cur}" data-own="${ownedAt || 0}"><span class="bg-rank-label">Rank</span>${pips}</span>`;
 }
 
 export function simCheck(key, kind, id, rank) {
@@ -362,10 +371,48 @@ export function simCheck(key, kind, id, rank) {
   return `<label class="bg-sim-check"><input type="checkbox" data-bg-sel="${escapeHtml(key)}|${kind}|${escapeHtml(id)}|${rank}"${on ? " checked" : ""}></label>`;
 }
 
+export function simOwnedCheck(key, id) {
+  const off = simDraft(key).s.some(t => t[0] === id && !t[1]);
+  return `<label class="bg-sim-check"><input type="checkbox" data-bg-sel="${escapeHtml(key)}|so|${escapeHtml(id)}|1"${off ? "" : " checked"}></label>`;
+}
+
 export function simOilCheck(key, id) {
   const d = simDraft(key);
   const off = d.b.indexOf(`oiloff:${id}`) >= 0;
   return `<label class="bg-sim-check"><input type="checkbox" data-bg-sel="${escapeHtml(key)}|o|${escapeHtml(id)}|1"${off ? "" : " checked"}></label>`;
+}
+
+export const BG_PET_FLAG = "petexp:";
+
+export const BG_VIP_FLAG = "vipaccess";
+
+export function simVipCheck(key) {
+  const on = simDraft(key).b.indexOf(BG_VIP_FLAG) >= 0;
+  return `<label class="bg-sim-check"><input type="checkbox" data-bg-sel="${escapeHtml(key)}|v|vip|1"${on ? " checked" : ""}></label>`;
+}
+
+export function petOptions() {
+  return [ 0 ].concat(FACTION_PET_BOOST_TIERS.map(t => Math.round(t.boost * 100)));
+}
+
+export function petDefault() {
+  const o = petOptions();
+  return o[o.length - 1];
+}
+
+export function petFlagIds() {
+  return petOptions().map(v => BG_PET_FLAG + v);
+}
+
+export function simPetValue(key) {
+  const hit = simDraft(key).b.find(x => String(x).indexOf(BG_PET_FLAG) === 0);
+  return hit ? Number(String(hit).slice(BG_PET_FLAG.length)) : petDefault();
+}
+
+export function simPetButtons(key) {
+  const cur = simPetValue(key);
+  const btns = petOptions().map(v => `<button type="button" class="fd-lb-tab bg-pet-pip${v === cur ? " active" : ""}" data-bg-pet="${escapeHtml(key)}|${v}">${v ? `<span class="bg-pet-val">+${v}%</span><span class="bg-pet-unit">EXP</span>` : "None"}</button>`).join("");
+  return `<div class="bg-pet-row">${btns}</div>`;
 }
 
 export function simButtons(key) {
@@ -501,6 +548,7 @@ function simSetup(key) {
   const sel = simEffective(key);
   return {
     skills: sel.skills,
+    off: sel.off,
     boosts: sel.boosts,
     modes: matModes
   };
@@ -645,6 +693,19 @@ export function handleGuideClick(e, refresh) {
     host.scrollTop = top;
     return true;
   }
+  const petBtn = e.target.closest("[data-bg-pet]");
+  if (petBtn) {
+    const pp = petBtn.dataset.bgPet.split("|");
+    const pkey = pp[0];
+    const pval = Number(pp[1]) || 0;
+    const pd = simDraft(pkey);
+    pd.b = pd.b.filter(x => String(x).indexOf(BG_PET_FLAG) !== 0);
+    if (pval !== petDefault()) pd.b.push(BG_PET_FLAG + pval);
+    const prow = petBtn.parentElement;
+    if (prow) prow.querySelectorAll("[data-bg-pet]").forEach(el => el.classList.toggle("active", el === petBtn));
+    simRefreshUnsaved(pkey);
+    return true;
+  }
   const rankBtn = e.target.closest("[data-bg-rank]");
   if (rankBtn) {
     const p = rankBtn.dataset.bgRank.split("|");
@@ -652,11 +713,12 @@ export function handleGuideClick(e, refresh) {
     const rid = p[1];
     const picked = Number(p[2]) || 1;
     const suggested = Number(p[3]) || 1;
+    const ownedAt = Number(p[4]) || 0;
     const host = scrollHostOf(rankBtn);
     const top = host.scrollTop;
     const d = simDraft(rkey);
     d.s = d.s.filter(t => t[0] !== rid);
-    d.s.push([ rid, simClampRank(rid, picked, suggested) ]);
+    if (!(ownedAt && picked <= ownedAt)) d.s.push([ rid, simClampRank(rid, picked, suggested) ]);
     refresh();
     if (host.isConnected) host.scrollTop = top;
     return true;
@@ -751,16 +813,34 @@ export function handleGuideChange(e) {
   let rank = Number(parts[3]) || 1;
   if (kind === "s") {
     const box = Array.from(document.querySelectorAll("[data-bg-rankbox]")).find(el => el.getAttribute("data-bg-rankbox") === `${key}|${id}`);
-    if (box) rank = Number(box.dataset.cur) || rank;
+    if (box) {
+      const own = Number(box.dataset.own) || 0;
+      rank = Number(box.dataset.cur) || rank;
+      if (own && rank <= own) rank = Math.min(3, own + 1);
+      box.dataset.cur = String(rank);
+      box.querySelectorAll(".bg-rank-pip").forEach((el, i) => el.classList.toggle("active", i + 1 === rank));
+    }
   }
   const d = simDraft(key);
-  if (kind === "s") {
+  if (kind === "so") {
+    d.s = d.s.filter(t => t[0] !== id);
+    if (!cb.checked) d.s.push([ id, 0 ]);
+    const ownBox = Array.from(document.querySelectorAll("[data-bg-rankbox]")).find(el => el.getAttribute("data-bg-rankbox") === `${key}|${id}`);
+    if (ownBox) {
+      const own = Number(ownBox.dataset.own) || 1;
+      ownBox.dataset.cur = String(own);
+      ownBox.querySelectorAll(".bg-rank-pip").forEach((el, i) => el.classList.toggle("active", i + 1 === own));
+    }
+  } else if (kind === "s") {
     d.s = d.s.filter(t => t[0] !== id);
     if (cb.checked) d.s.push([ id, rank ]);
   } else if (kind === "o") {
     const flag = `oiloff:${id}`;
     d.b = d.b.filter(x => x !== flag);
     if (!cb.checked) d.b.push(flag);
+  } else if (kind === "v") {
+    d.b = d.b.filter(x => x !== BG_VIP_FLAG);
+    if (cb.checked) d.b.push(BG_VIP_FLAG);
   } else {
     d.b = d.b.filter(x => x !== id);
     if (cb.checked) {
@@ -774,7 +854,7 @@ export function handleGuideChange(e) {
       });
     }
   }
-  if (kind === "s") refreshBoostFx(key);
+  if (kind === "s" || kind === "so") refreshBoostFx(key);
   simRefreshUnsaved(key);
   return true;
 }
@@ -877,9 +957,11 @@ export function setSkillLevelLookup(fn) {
 function skillRow(s, suggested, showRank, key) {
   const rank = key ? simRankOf(key, s.id, suggested) : suggested;
   const have = ownedRank(s);
-  const lvText = skillLevelLookup ? skillLevelLookup(s.id, rank) : "";
-  const extra = rank > 1 && have >= 1 ? `Rank-up: ${fmtInt((rank - have) * s.skillTier)} shard${(rank - have) * s.skillTier > 1 ? "s" : ""}` : `${fmtInt(s.skillTier)} point${s.skillTier > 1 ? "s" : ""}`;
-  return row(`<span class="fd-item-main">${getBoostIcon(s.name)} <strong>${escapeHtml(s.name)}${showRank ? ` [Rank ${rank}]` : ""}</strong><span class="bg-why">${escapeHtml(skillNoteAtRank(s, rank))}</span><span class="bg-why">${escapeHtml(skillWhere(s))}</span></span><span class="fd-item-cost bg-right">${escapeHtml(extra)}${lvText ? `<br>${escapeHtml(lvText)}` : ""}</span>${key ? simCheck(key, "s", s.id, suggested) : ""}${key ? simRankPicker(key, s.id, suggested) : ""}`, key && simRankMax(s.id) > 1 ? "bg-has-rank" : "");
+  const isOwned = have >= 1 && suggested <= have;
+  const check = isOwned && key ? simOwnedCheck(key, s.id) : key ? simCheck(key, "s", s.id, suggested) : "";
+  const picker = key ? simRankPicker(key, s.id, suggested, isOwned ? have : 0) : "";
+  const badge = isOwned ? `<span class="bg-owned-badge">Owned</span>` : "";
+  return row(`<span class="fd-item-main">${getBoostIcon(s.name)} <strong>${escapeHtml(s.name)}${showRank ? ` [Rank ${rank}]` : ""}</strong><span class="bg-why">${escapeHtml(skillNoteAtRank(s, rank))}</span><span class="bg-why">${escapeHtml(skillWhere(s))}</span></span>${check}${picker}${badge}`, `bg-skill-card ${key && simRankMax(s.id) > 1 ? "bg-has-rank" : ""}${isOwned ? " bg-owned" : ""}`.trim());
 }
 
 function boostCostText(b) {
@@ -1072,31 +1154,50 @@ function boostsFor(category, tab, filterId) {
   });
 }
 
+const ownedByList = new WeakMap;
+
+function ownedOf(list) {
+  return ownedByList.get(list) || [];
+}
+
+function tagOwned(list, owned) {
+  const seen = new Set;
+  ownedByList.set(list, owned.filter(s => !seen.has(s.id) && seen.add(s.id)).sort((a, b) => a.skillTier - b.skillTier));
+  return list;
+}
+
 function skillsFor(skillCats, tab, filterId) {
   const seen = new Set;
-  return SKILL_BOOSTS.filter(s => {
+  const owned = [];
+  const out = SKILL_BOOSTS.filter(s => {
     if (seen.has(s.id)) return false;
     if (skillCats.indexOf(s.skillCategory) < 0 || s.hideInPanel || s.isActiveAbility) return false;
     if (/convenience|no yield\/time change/i.test(s.note || "")) return false;
-    if (ownedRank(s) >= 1) return false;
     if (filterId && !profileBuildFilterMatches(s, tab, filterId)) return false;
     seen.add(s.id);
+    if (ownedRank(s) >= 1) {
+      owned.push(s);
+      return false;
+    }
     return true;
   }).sort((a, b) => a.skillTier - b.skillTier);
+  return tagOwned(out, owned);
 }
 
 function skillGroups(list, key) {
-  if (!list.length) return `<div class="fd-empty-note">You already own every skill for this.</div>`;
+  const owned = ownedOf(list);
+  if (!list.length && !owned.length) return `<div class="fd-empty-note">No skills for this.</div>`;
   let html = "";
   [ 1, 2, 3 ].forEach(t => {
     const items = list.filter(s => s.skillTier === t);
-    if (items.length) html += `<div class="fd-section-label">Tier ${t}</div>${items.map(s => skillRow(s, 1, true, key)).join("")}`;
+    const have = owned.filter(s => s.skillTier === t);
+    if (items.length || have.length) html += `<div class="fd-section-label">Tier ${t}</div>${items.map(s => skillRow(s, 1, true, key)).join("")}${have.map(s => skillRow(s, 1, true, key)).join("")}`;
   });
   return html;
 }
 
 function registerFromLists(key, skills, boosts) {
-  simRegister(key, skills.map(s => [ s.id, 1 ]), shownBoosts(boosts).map(b => b.id), false);
+  simRegister(key, skills.map(s => [ s.id, 1 ]), shownBoosts(boosts).map(b => b.id), false, null, null, ownedOf(skills).map(s => [ s.id, ownedRank(s) ]));
 }
 
 function pickRow(it, mode, extra) {
@@ -1113,7 +1214,7 @@ function categoryHtml(cat, picks, verdictNote, skills, boosts, mode) {
   const tabs = [ [ "skills", "Must have skills" ], [ "boost", "Must have boosts" ] ].map(t => `<button type="button" data-bg-ctab="${escapeHtml(cat.id)}|${t[0]}" class="fd-lb-tab${tab === t[0] ? " active" : ""}">${t[1]}</button>`).join("");
   const status = profitable ? `<span class="bg-label bg-best">profitable</span>` : `<span class="bg-label bg-loss">not recommended</span>`;
   const body = profitable ? `<div class="fd-section-label">Most profitable right now</div>${picks.map(p => pickRow(p, mode)).join("")}<div class="bg-mini">${verdictNote}</div>` : `<div class="bg-mini"><strong>${escapeHtml(cat.title)} is not recommended on your current farm.</strong> ${skills.length || boosts.length ? "It loses money unless you get the skills and boosts below." : "It still loses money at current market prices, even with all your skills and boosts."}</div>`;
-  const need = profitable ? `These make ${escapeHtml(cat.title.toLowerCase())} even better. Skills and boosts you already own are hidden.` : `Get these first, then ${escapeHtml(cat.title.toLowerCase())} can become profitable.`;
+  const need = profitable ? `These make ${escapeHtml(cat.title.toLowerCase())} even better. Boosts you already own are hidden. Skills you own are marked Owned.` : `Get these first, then ${escapeHtml(cat.title.toLowerCase())} can become profitable.`;
   return `<div class="fd-container is-own bg-cat${tab === "boost" ? " bg-cat-wide" : ""}"><div class="fd-container-head"><span class="fd-container-title">${getIcon(cat.icon) || ""} ${escapeHtml(cat.title)} ${status}</span>${simButtons(key)}</div>${simUnsavedNote(key)}${body}<div class="bg-mini">${need}</div><div class="bg-switcher bg-modes">${tabs}</div><div class="bg-pane">${tab === "boost" ? boostRows(boosts, key) : skillGroups(skills, key)}</div></div>${simResultHtml(key, cat)}`;
 }
 
@@ -1130,12 +1231,17 @@ function topPicks(items, filter) {
 function tierSkills(tiers) {
   const seen = new Set;
   const out = [];
-  tiers.forEach(t => skillsFor([ "crops" ], "crops", t).forEach(s => {
-    if (seen.has(s.id)) return;
-    seen.add(s.id);
-    out.push(s);
-  }));
-  return out.sort((a, b) => a.skillTier - b.skillTier);
+  let owned = [];
+  tiers.forEach(t => {
+    const part = skillsFor([ "crops" ], "crops", t);
+    owned = owned.concat(ownedOf(part));
+    part.forEach(s => {
+      if (seen.has(s.id)) return;
+      seen.add(s.id);
+      out.push(s);
+    });
+  });
+  return tagOwned(out.sort((a, b) => a.skillTier - b.skillTier), owned);
 }
 
 function tierBoosts(tiers) {
@@ -1204,7 +1310,7 @@ function cropsHtml(items, ctx) {
   const key = `cat:${cat.id}`;
   registerFromLists(key, skills, boosts);
   const names = scope.map(t => t[1]).join(", ");
-  const need = losing.length ? `Get these first, then ${escapeHtml(names)} crops can become profitable.` : `These make your crops even better. Skills and boosts you already own are hidden.`;
+  const need = losing.length ? `Get these first, then ${escapeHtml(names)} crops can become profitable.` : `These make your crops even better. Boosts you already own are hidden. Skills you own are marked Owned.`;
   const tabs = [ [ "skills", "Must have skills" ], [ "boost", "Must have boosts" ] ].map(t => `<button type="button" data-bg-ctab="${escapeHtml(cat.id)}|${t[0]}" class="fd-lb-tab${tab === t[0] ? " active" : ""}">${t[1]}</button>`).join("");
   return `<div class="fd-container is-own bg-cat${tab === "boost" ? " bg-cat-wide" : ""}"><div class="fd-container-head"><span class="fd-container-title">${getIcon(cat.icon) || ""} ${escapeHtml(cat.title)}</span>${simButtons(key)}</div>${simUnsavedNote(key)}${blocks.map(b => b.res.html).join("")}<div class="bg-mini">Skills for your selected strategy are listed in the strategy box.</div><div class="bg-mini">${need}</div><div class="bg-switcher bg-modes">${tabs}</div><div class="bg-pane">${tab === "boost" ? boostRows(boosts, key) : skillGroups(skills, key)}</div></div>${simResultHtml(key, cat)}`;
 }
@@ -1214,21 +1320,22 @@ function farmingHtml(ctx) {
   const strat = FARM_STRATS[farmStrat];
   const stratTabs = [ [ "skills", "Skills" ], [ "boost", "Boost" ] ].map(t => `<button type="button" data-bg-fstab="${t[0]}" class="fd-lb-tab${farmStratTab === t[0] ? " active" : ""}">${t[1]}</button>`).join("");
   const stratButtons = farmStrategyButtons().map(b => `<button type="button" data-bg-fstrat="${b[0]}" class="fd-lb-tab${farmStrat === b[0] ? " active" : ""}">${escapeHtml(b[1])}</button>`).join("");
-  const missing = strat.skills.map(t => [ skillById(t[0]), t[1] ]).filter(t => t[0] && ownedRank(t[0]) < t[1]);
+  const stratAll = strat.skills.map(t => [ skillById(t[0]), t[1] ]).filter(t => t[0]);
+  const missing = stratAll.filter(t => ownedRank(t[0]) < t[1]);
   const owned = strat.skills.length - missing.length;
   const stratKey = `strat:${farmStrat}`;
   const stratBoosts = tierBoosts(strat.tiers);
-  simRegister(stratKey, missing.map(m => [ m[0].id, m[1] ]), stratBoosts.map(b => b.id), true, defaultBoostIds(stratBoosts));
+  simRegister(stratKey, missing.map(m => [ m[0].id, m[1] ]), stratBoosts.map(b => b.id), true, defaultBoostIds(stratBoosts), null, stratAll.filter(m => ownedRank(m[0]) >= m[1]).map(m => [ m[0].id, ownedRank(m[0]) ]));
   let stratBody;
   if (farmStratTab === "boost") stratBody = boostRows(stratBoosts, stratKey); else {
     let html = `<div class="fd-section-label">Crops</div>`;
     [ 1, 2, 3 ].forEach(t => {
-      const list = missing.filter(m => m[0].skillTier === t);
+      const list = stratAll.filter(m => m[0].skillTier === t);
       if (list.length) html += `<div class="fd-section-label">Tier ${t}</div>${list.map(m => skillRow(m[0], m[1], true, stratKey)).join("")}`;
     });
-    stratBody = missing.length ? html : `<div class="fd-empty-note">You already own every skill of this build.</div>`;
+    stratBody = stratAll.length ? html : `<div class="fd-empty-note">No skills in this build.</div>`;
   }
-  const stratBox = `<div class="fd-container is-own bg-strat"><div class="fd-container-head"><span class="fd-container-title">${escapeHtml(strat.label)}</span>${simButtons(stratKey)}</div>${simUnsavedNote(stratKey)}<div class="bg-mini bg-strat-desc">${escapeHtml(strat.desc)}</div><div class="bg-mini">You already own ${fmtInt(owned)} of ${fmtInt(strat.skills.length)} skills of this build. Skills you own are hidden. Higher tiers need points spent in the lower tiers of the same tree.</div><div class="bg-switcher bg-modes">${stratTabs}</div><div class="bg-pane">${stratBody}</div></div>`;
+  const stratBox = `<div class="fd-container is-own bg-strat"><div class="fd-container-head"><span class="fd-container-title">${escapeHtml(strat.label)}</span>${simButtons(stratKey)}</div>${simUnsavedNote(stratKey)}<div class="bg-mini bg-strat-desc">${escapeHtml(strat.desc)}</div><div class="bg-mini">You already own ${fmtInt(owned)} of ${fmtInt(strat.skills.length)} skills of this build. Skills you own are marked Owned. Higher tiers need points spent in the lower tiers of the same tree.</div><div class="bg-switcher bg-modes">${stratTabs}</div><div class="bg-pane">${stratBody}</div></div>`;
   const pickBox = `<div class="fd-container is-own bg-strat bg-strat-pick"><div class="fd-container-head"><span class="fd-container-title">Farming Strategy</span></div><div class="bg-switcher bg-strats">${stratButtons}</div></div>`;
   const top = `<div class="bg-farm-top">${pickBox}${stratBox}</div>`;
   const out = [];
@@ -1340,7 +1447,7 @@ function linkedCategoryHtml(cat, v, skills, boosts, note, unitLabel, key, topHtm
     body = `<div class="bg-mini"><strong>No profit data for ${lower} yet.</strong> Add some to your farm, then this will follow the average panel.</div>`;
   }
   const freeNote = v.freeNote ? `<div class="bg-mini">${escapeHtml(v.freeNote)}</div>` : "";
-  const need = v.status === "locked" ? `These only matter once you switch to Invested.` : v.profitable ? `These make ${lower} even better. Skills and boosts you already own are hidden.` : `Get these first, then ${lower} can become profitable.`;
+  const need = v.status === "locked" ? `These only matter once you switch to Invested.` : v.profitable ? `These make ${lower} even better. Boosts you already own are hidden. Skills you own are marked Owned.` : `Get these first, then ${lower} can become profitable.`;
   const whereTag = cat.where ? ` <span class="bg-mini">(${escapeHtml(cat.where)})</span>` : "";
   return `<div class="fd-container is-own bg-cat${tab === "boost" ? " bg-cat-wide" : ""}"><div class="fd-container-head"><span class="fd-container-title">${getIcon(cat.icon) || ""} ${title}${whereTag} ${status}</span>${simButtons(key)}</div>${topHtml || ""}${simUnsavedNote(key)}${body}${freeNote}<div class="bg-mini">${need}</div><div class="bg-switcher bg-modes">${tabs}</div><div class="bg-pane">${tab === "boost" ? boostRows(boosts, key) : skillGroups(skills, key)}</div></div>${simResultHtml(key, cat)}`;
 }
@@ -1371,11 +1478,17 @@ function miningHtml(ctx) {
 
 function consSkills() {
   const seen = new Set;
-  return SKILL_BOOSTS.filter(s => {
-    if (CONS_SKILL_IDS.indexOf(s.id) < 0 || seen.has(s.id) || ownedRank(s) >= 1) return false;
+  const owned = [];
+  const out = SKILL_BOOSTS.filter(s => {
+    if (CONS_SKILL_IDS.indexOf(s.id) < 0 || seen.has(s.id)) return false;
     seen.add(s.id);
+    if (ownedRank(s) >= 1) {
+      owned.push(s);
+      return false;
+    }
     return true;
   }).sort((a, b) => a.skillTier - b.skillTier);
+  return tagOwned(out, owned);
 }
 
 function consBoosts() {
@@ -1479,7 +1592,8 @@ function animalsHtml(ctx) {
       icon: label
     };
     const have = new Set;
-    const skills = skillsFor([ "animals" ], "animals", type).concat(consS).filter(x => !have.has(x.id) && have.add(x.id)).sort((a, b) => a.skillTier - b.skillTier);
+    const ownAnimal = skillsFor([ "animals" ], "animals", type);
+    const skills = tagOwned(ownAnimal.concat(consS).filter(x => !have.has(x.id) && have.add(x.id)).sort((a, b) => a.skillTier - b.skillTier), ownedOf(ownAnimal).concat(ownedOf(consS)));
     const boosts = boostsFor("animals", "animals", type).filter(b => CONS_BOOST_IDS.indexOf(b.id) < 0).concat(consB);
     const building = ANIMAL_BUILDINGS[type];
     let note = `Skills and boosts below increase the yield and speed of ${escapeHtml(label.toLowerCase())}. Salt Lick and Honey Treat follow your animal panel settings and their cost is included under Consumables in Total Deductions. ${consumablesNote()}`;
