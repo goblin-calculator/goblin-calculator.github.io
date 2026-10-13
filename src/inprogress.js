@@ -147,7 +147,7 @@ export function farmPanelGetMarketPriceFlower(name) {
   return 0;
 }
 
-function farmPanelGetCostPerUnitFlower(name) {
+export function farmPanelGetCostPerUnitFlower(name) {
   const coins = getItemCostByName(name);
   return (coins || 0) / (coinPerFlower || 1);
 }

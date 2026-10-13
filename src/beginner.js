@@ -1,12 +1,12 @@
-import { BASE_CROPS, BASE_FRUITS, BOOSTS, FACTION_DISPLAY_NAMES, FACTION_PET_BOOST_TIERS, FACTION_PET_HAPPY_ICONS, factionPetGetActiveTier, farmSyncAsObj, farmSyncGetFaction, farmSyncGetFactionPetInfo, isCropInSeason, isFruitInSeason, cookingGuaranteedCatchOn, fishCatchYieldMult, setCookingGuaranteedCatchOn, COIN_ICON, COOKING_BUILDING_ICONS, COOKING_RECIPES, COOK_LEVEL_XP, ES_ISLAND_UPGRADE_COST, ES_REQ_TABLE, FISH_CATCH_DATA, FISH_CATCH_NAMES, FLOWER_ICON, NPC_ICONS, SKILL_BOOSTS, cookGetLevelInfo, cookingComputeFoodExp, cookingComputeFoodTime, cookingFindRecipeForFood, currentSeason, escapeHtml, esGetNodesAt, farmSyncGetApiUsername, fishCatchComputeXP, fmt, fmtInt, formatDuration, isBoostActive, isFishInSeason, isSkillActive, coinsToFlower, profileGetG, profileGetInventoryAmount, setSkillTreeSectionOpen } from "./calculator.js";
+import { selectedBoosts, FISH_MARKET_SEASON_RECIPES, computeBasicFishFigures, previewSeason, BASE_CROPS, BASE_FRUITS, BOOSTS, FACTION_DISPLAY_NAMES, FACTION_PET_BOOST_TIERS, FACTION_PET_HAPPY_ICONS, factionPetGetActiveTier, farmSyncAsObj, farmSyncGetFaction, farmSyncGetFactionPetInfo, isCropInSeason, isFruitInSeason, cookingGuaranteedCatchOn, fishCatchYieldMult, setCookingGuaranteedCatchOn, COIN_ICON, COOKING_BUILDING_ICONS, COOKING_RECIPES, COOK_LEVEL_XP, ES_ISLAND_UPGRADE_COST, ES_REQ_TABLE, FISH_CATCH_DATA, FISH_CATCH_NAMES, FLOWER_ICON, NPC_ICONS, SKILL_BOOSTS, cookGetLevelInfo, cookingComputeFoodExp, cookingComputeFoodTime, cookingFindRecipeForFood, currentSeason, escapeHtml, esGetNodesAt, farmSyncGetApiUsername, fishCatchComputeXP, computeAgedFishFigures, fmt, fmtInt, formatDuration, boostsConflict, isBoostActive, isFishInSeason, isSkillActive, coinsToFlower, profileGetG, profileGetInventoryAmount, setSkillTreeSectionOpen } from "./calculator.js";
 
 import { farmPanelGetLastInfo } from "./inprogress.js";
 
-import { cookingIngredientUnitCostCoins, findCosmeticPriceForName, findLiveNftPriceForName, findLivePriceForName, fishCatchStageCostCoins, getMaterialUnitCostCoins, invalidateCostCache, runWithGuideRestock } from "./prices.js";
+import { cookingCostMode, isFishingBuyMode, fishMarketItemForFish, fishMarketPanelCostCoins, cookingIngredientUnitCostCoins, findCosmeticPriceForName, findLiveNftPriceForName, findLivePriceForName, fishCatchStageCostCoins, fishRodCostCoins, getMaterialUnitCostCoins, invalidateCostCache, runWithGuideRestock } from "./prices.js";
 
 import { WB_BUILDINGS, WB_TOOLS } from "./workbench.js";
 
-import { guideBodyHtml, guideSkillGroups, guideTabs, setCatTab, setFarmStrat, setFarmStratTab, setSkillLevelLookup } from "./beginner_guides.js";
+import { guideBodyHtml, guideSkillGroups, guideTabs, handleGuideChange, handleGuideClick, handleGuideInput, levelSimBox, setCatTab, setFarmStrat, setFarmStratTab, setLevelSimRenderer, setSkillLevelLookup, simButtons, simCheck, simOilCheck, simRankMax, simRankOf, simRankPicker, simRegister, simResultHtml, simUnsavedNote } from "./beginner_guides.js";
 
 import { $, cookFoodIcon, dailyProfitGuideSnapshot, getBoostIcon, getIcon, openBoostPanel, toggleMainView } from "./ui.js";
 
@@ -21,6 +21,8 @@ const BG_BASE_CASTS = 20;
 const BG_FISH_LEVEL = 5;
 
 const BG_ADV_FISH_LEVEL = 25;
+
+const BG_EXPERT_FISH_LEVEL = 25;
 
 const BG_STORE_KEY = "hl_beginner_state_v2";
 
@@ -123,6 +125,10 @@ const BG_SKILL_RANKS = {
     eff: [ .1, .125, .15 ],
     kind: "yield"
   },
+  skill_fishy_gamble: {
+    eff: [ .2, .25, .3 ],
+    kind: "yield"
+  },
   skill_fishermans_5_rod: {
     eff: [ 5, 7, 10 ],
     kind: "casts"
@@ -158,6 +164,28 @@ const BG_OIL_BASE = {
   Deli: .4
 };
 
+const BG_OIL_RANKS = {
+  "Fire Pit": {
+    skill: "skill_swift_sizzle",
+    name: "Swift Sizzle",
+    eff: [ .4, .45, .5 ]
+  },
+  Kitchen: {
+    skill: "skill_turbo_fry",
+    name: "Turbo Fry",
+    eff: [ .5, .55, .6 ]
+  },
+  Deli: {
+    skill: "skill_fry_frenzy",
+    name: "Fry Frenzy",
+    eff: [ .6, .65, .7 ]
+  }
+};
+
+const BG_OIL_BUILDINGS = [ "Fire Pit", "Kitchen", "Smoothie Shack", "Bakery", "Deli" ];
+
+const BG_OIL_OFF = "oiloff:";
+
 const BG_OIL_DAILY = {
   "Fire Pit": 1,
   Kitchen: 5,
@@ -170,7 +198,7 @@ const BG_STRATS = {
   less: {
     label: "Mid Cost Level",
     desc: "This offers a mid cost and a little faster leveling for your Bumpkin. Keep cooking Pizza Margherita in the Fire Pit: with Fiery Jackpot the pizza can give double the EXP, which cuts your cost per EXP.",
-    targets: [ [ "skill_fast_feasts", 1 ], [ "skill_munching_mastery", 3 ], [ "skill_drive_through_deli", 1 ], [ "skill_fiery_jackpot", 2 ] ]
+    targets: [ [ "skill_fast_feasts", 1 ], [ "skill_swift_sizzle", 1 ], [ "skill_munching_mastery", 3 ], [ "skill_drive_through_deli", 1 ], [ "skill_fiery_jackpot", 2 ] ]
   },
   rush: {
     label: "Rush Level",
@@ -194,6 +222,15 @@ const BG_FISH_GROUPS = [ {
   label: "Daily casts",
   ids: [ "skill_fishermans_5_rod", "skill_fishermans_10_fold", "skill_more_with_less" ]
 } ];
+
+const BG_FISH_RANK = {
+  skill_munching_mastery: 3,
+  skill_fishy_feast: 3
+};
+
+function fishTargetRank(id) {
+  return BG_FISH_RANK[id] || 1;
+}
 
 const BG_UPGRADE_POINTS = {
   1: 1,
@@ -390,6 +427,8 @@ let bgStratTab = "skills";
 
 let bgOverviewOpen = false;
 
+let bgOilOpen = false;
+
 function loadState() {
   try {
     const raw = JSON.parse(localStorage.getItem(BG_STORE_KEY) || "null");
@@ -544,7 +583,9 @@ function resolveState() {
     if (info && ranks[id] > 1) shardsUsed += (ranks[id] - 1) * (info.skillTier || 1);
   });
   const shardsTotal = crystals * BG_SHARDS_PER_CRYSTAL;
+  const shedLevel = useSynced && synced.g.agingShed && typeof synced.g.agingShed === "object" ? Math.floor(Number(synced.g.agingShed.level)) || 1 : 1;
   const st = {
+    agingSlots: Math.max(1, Math.min(6, shedLevel)),
     synced: synced,
     useSynced: useSynced,
     manual: bgState.manual,
@@ -816,40 +857,242 @@ function buildRawCooks(st) {
   return list;
 }
 
+const BG_SPEEDY_AGING = [ .1, .15, .2 ];
+
+const BG_GUARANTEED_FISH = new Set([ "Saw Shark", "Whale Shark", "White Shark", "Hammerhead shark" ]);
+
+const BG_CRUST_COST_IDS = [ "fish_crab_house", "fish_pistol_shrimp", "fish_royal_crab_pot", "fish_crab_hat" ];
+
+const BG_CRUST_TIME_IDS = [ "fish_crystal_altar", "fish_speed_trap" ];
+
+function withExtraBoosts(ids, fn) {
+  const added = ids.filter(id => selectedBoosts.indexOf(id) < 0);
+  added.forEach(id => selectedBoosts.push(id));
+  invalidateCostCache();
+  try {
+    return fn();
+  } finally {
+    added.forEach(id => selectedBoosts.splice(selectedBoosts.indexOf(id), 1));
+    invalidateCostCache();
+  }
+}
+
+function crustComboKey(ids) {
+  return ids.slice().sort().join(",");
+}
+
+let bgCrustCache = {
+  sig: "",
+  data: {},
+  dependent: null
+};
+
+function crustSubsets(free) {
+  const out = [];
+  for (let m = 1; m < 1 << free.length; m++) out.push(free.filter((x, i) => m & 1 << i));
+  return out;
+}
+
+function crustRun(ids, season, market, gear) {
+  const prevGuaranteed = cookingGuaranteedCatchOn;
+  setCookingGuaranteedCatchOn(false);
+  try {
+    return withExtraBoosts(ids, () => {
+      const itemMemo = {};
+      const res = {};
+      market.forEach(c => {
+        const item = c.setup.item;
+        if (itemMemo[item] === undefined) itemMemo[item] = fishMarketPanelCostCoins(item, season);
+        res[c.name + "|1"] = itemMemo[item];
+      });
+      gear.forEach(c => {
+        const bf = computeBasicFishFigures(c.name);
+        if (!bf) return;
+        res[c.name + "|0"] = {
+          catchCost: bf.costCoins,
+          setup: {
+            kind: "gear",
+            buy: c.setup.buy,
+            bait: bf.bait ? bf.bait.name : null,
+            baitCost: bf.baitCost,
+            chum: bf.chum ? {
+              name: bf.chum.name,
+              qty: bf.chum.qty,
+              cost: bf.chum.cost
+            } : null,
+            rodCost: bf.rodCost
+          }
+        };
+      });
+      return res;
+    });
+  } finally {
+    setCookingGuaranteedCatchOn(prevGuaranteed);
+  }
+}
+
+function applyCrustData(list, data) {
+  list.forEach(c => {
+    const key = c.name + (c.guaranteed ? "|1" : "|0");
+    Object.keys(data).forEach(ck => {
+      const v = data[ck][key];
+      if (v === undefined) return;
+      if (c.guaranteed) c.setup.itemCostCombos[ck] = v; else c.gearCombos[ck] = v;
+    });
+  });
+}
+
+let bgCrustLive = null;
+
+function fillCrustCombos(list, season) {
+  const free = BG_CRUST_COST_IDS.filter(id => !isBoostActive(id));
+  if (!free.length) {
+    bgCrustLive = null;
+    return;
+  }
+  const sig = JSON.stringify([ free, season, list.map(c => [ c.name, c.guaranteed ? 1 : 0, Math.round(c.catchCost * 1e6) ]) ]);
+  if (bgCrustCache.sig !== sig) bgCrustCache = {
+    sig: sig,
+    data: {},
+    dependent: null
+  };
+  bgCrustLive = {
+    list: list,
+    season: season,
+    free: free,
+    sig: sig,
+    market: list.filter(c => c.guaranteed),
+    gearAll: list.filter(c => !c.guaranteed)
+  };
+  Object.keys(bgCrustCache.data).forEach(ck => applyCrustData(list, {
+    [ck]: bgCrustCache.data[ck]
+  }));
+}
+
+function ensureCrustCombo(key, fish) {
+  const live = bgCrustLive;
+  const cache = bgCrustCache;
+  if (!live || !key || cache.sig !== live.sig) return;
+  if (cache.data[key]) {
+    if (fish && fish.guaranteed ? fish.setup.itemCostCombos[key] === undefined : fish && fish.gearCombos[key] === undefined) applyCrustData([ fish ], {
+      [key]: cache.data[key]
+    });
+    return;
+  }
+  const allKey = crustComboKey(live.free);
+  if (!cache.data[allKey]) {
+    cache.data[allKey] = crustRun(live.free, live.season, live.market, live.gearAll);
+    applyCrustData(live.list, {
+      [allKey]: cache.data[allKey]
+    });
+  }
+  if (!cache.dependent) cache.dependent = new Set(live.gearAll.filter(c => {
+    const g = cache.data[allKey][c.name + "|0"];
+    return g && Math.abs(g.catchCost - c.catchCost) > 1e-9;
+  }).map(c => c.name));
+  if (key !== allKey) {
+    const dependent = live.gearAll.filter(c => cache.dependent.has(c.name));
+    cache.data[key] = crustRun(key.split(","), live.season, live.market, dependent);
+    applyCrustData(live.list, {
+      [key]: cache.data[key]
+    });
+  }
+  if (fish) applyCrustData([ fish ], {
+    [key]: cache.data[key]
+  });
+}
+
 function buildRawFish(st) {
   const list = [];
   const prev = cookingGuaranteedCatchOn;
-  setCookingGuaranteedCatchOn(true);
-  invalidateCostCache();
+  const mode = st.rep.canBuy ? cookingCostMode : "collect";
+  const gearBuy = isFishingBuyMode();
   try {
-    FISH_CATCH_NAMES.forEach(fish => {
-      const d = FISH_CATCH_DATA[fish];
-      if (!d || d.tier === "expert") return;
-      if (!isFishInSeason(fish, currentSeason)) return;
-      [ "aged" ].forEach(stage => {
-        const xpInfo = fishCatchComputeXP(fish, stage);
-        const cost = fishCatchStageCostCoins(fish, stage, st.rep.canBuy ? "buy" : "collect");
-        if (!(xpInfo.xp > 0) || !(cost > 0) || !(xpInfo.baseXp > 0)) return;
-        const baseXp = fishCatchComputeXP(fish, "basic").baseXp;
-        const primeInfo = stage === "aged" ? fishCatchComputeXP(fish, "primeAged") : null;
-        list.push({
-          kind: "fish",
-          name: fish,
-          stage: stage,
-          tier: d.tier,
-          building: "Fire Pit",
-          chain: new Set(stage === "aged" ? [ "Aging Shed" ] : []),
-          baseXp: xpInfo.baseXp,
-          appXp: xpInfo.xp,
-          primeBase: primeInfo ? primeInfo.baseXp : 0,
-          primeApp: primeInfo ? primeInfo.xp : 0,
-          cost: cost,
-          appYield: fishCatchYieldMult(d.tier),
-          agingSec: stage === "aged" ? agingSeconds(baseXp) : 0,
-          planOk: true
+    [ true, false ].forEach(guaranteed => {
+      setCookingGuaranteedCatchOn(guaranteed);
+      invalidateCostCache();
+      FISH_CATCH_NAMES.forEach(fish => {
+        if (BG_GUARANTEED_FISH.has(fish) !== guaranteed) return;
+        const d = FISH_CATCH_DATA[fish];
+        if (!d) return;
+        if (!isFishInSeason(fish, currentSeason)) return;
+        [ "aged" ].forEach(stage => {
+          const xpInfo = fishCatchComputeXP(fish, stage);
+          const figs = computeAgedFishFigures(fish, mode);
+          if (!(xpInfo.xp > 0) || !(xpInfo.baseXp > 0) || !figs) return;
+          let catchCost;
+          let cost;
+          let setup;
+          if (guaranteed) {
+            const item = fishMarketItemForFish(fish);
+            if (!item) return;
+            const itemCost = fishMarketPanelCostCoins(item, previewSeason || currentSeason);
+            const fishYield = fishCatchYieldMult(d.tier);
+            catchCost = fishYield > 0 ? itemCost / fishYield : itemCost;
+            cost = catchCost + figs.saltCostCoins;
+            setup = {
+              kind: "market",
+              buy: mode === "buy",
+              item: item,
+              itemCost: itemCost,
+              itemCostCombos: {
+                "": itemCost
+              }
+            };
+          } else {
+            const bf = computeBasicFishFigures(fish);
+            if (!bf) return;
+            catchCost = bf.costCoins;
+            cost = catchCost + figs.saltCostCoins;
+            setup = {
+              kind: "gear",
+              buy: gearBuy,
+              bait: bf.bait ? bf.bait.name : null,
+              baitCost: bf.baitCost,
+              chum: bf.chum ? {
+                name: bf.chum.name,
+                qty: bf.chum.qty,
+                cost: bf.chum.cost
+              } : null,
+              rodCost: bf.rodCost
+            };
+          }
+          if (!(cost > 0)) return;
+          const baseXp = fishCatchComputeXP(fish, "basic").baseXp;
+          const primeInfo = fishCatchComputeXP(fish, "primeAged");
+          list.push({
+            kind: "fish",
+            name: fish,
+            stage: stage,
+            tier: d.tier,
+            building: "Fire Pit",
+            chain: new Set(guaranteed ? [ "Aging Shed", "Fish Market" ] : [ "Aging Shed" ]),
+            baseXp: xpInfo.baseXp,
+            appXp: xpInfo.xp,
+            primeBase: primeInfo.baseXp,
+            primeApp: primeInfo.xp,
+            cost: cost,
+            catchCost: catchCost,
+            saltCost: figs.saltCostCoins,
+            saltQty: figs.saltQty,
+            saltBuy: mode === "buy",
+            yieldScaled: true,
+            guaranteed: guaranteed,
+            gearCombos: {
+              "": {
+                catchCost: catchCost,
+                setup: setup
+              }
+            },
+            appYield: fishCatchYieldMult(d.tier),
+            agingSec: agingSeconds(baseXp),
+            setup: setup,
+            planOk: true
+          });
         });
       });
     });
+    fillCrustCombos(list, previewSeason || currentSeason);
   } finally {
     setCookingGuaranteedCatchOn(prev);
     invalidateCostCache();
@@ -857,12 +1100,57 @@ function buildRawFish(st) {
   return list;
 }
 
-function oilBoostFor(building, ranks) {
-  if (building === "Fire Pit") return skillEff("skill_swift_sizzle", ranks) || BG_OIL_BASE["Fire Pit"];
-  return BG_OIL_BASE[building] || 0;
+function oilSkillBoost(building, ranks) {
+  const cfg = BG_OIL_RANKS[building];
+  const r = cfg && ranks ? ranks[cfg.skill] : 0;
+  if (!cfg || !r) return 0;
+  return cfg.eff[Math.min(r, cfg.eff.length) - 1];
 }
 
-function scoreCook(r, st, ranks, oilUnit) {
+function oilBoostFor(building, ranks) {
+  return oilSkillBoost(building, ranks) || BG_OIL_BASE[building] || 0;
+}
+
+const BG_CLEAVER_CHANCE = .1;
+
+function boostFx(ids) {
+  const fx = {
+    food: 1,
+    fish: 1,
+    aged: 1,
+    cheese: 0,
+    specific: {},
+    time: 1,
+    fishYield: [],
+    crust: [],
+    crustTime: [],
+    rodFree: false,
+    cleaver: false,
+    oilOff: new Set
+  };
+  (ids || []).forEach(id => {
+    if (String(id).indexOf(BG_OIL_OFF) === 0) {
+      fx.oilOff.add(String(id).slice(BG_OIL_OFF.length));
+      return;
+    }
+    const b = BOOSTS.find(x => x.id === id);
+    if (!b || isBoostActive(b.id)) return;
+    if (b.agedFishXpMult) fx.aged *= b.agedFishXpMult;
+    if (b.scope === "foodGlobal" && b.expMult) fx.food *= b.expMult; else if (b.scope === "foodFish" && b.expMult) fx.fish *= b.expMult; else if (b.scope === "foodCheese" && b.expAdd) fx.cheese += b.expAdd; else if (b.scope === "foodSpecific" && b.expMult) fx.specific[b.target] = (fx.specific[b.target] || 1) * b.expMult; else if (b.scope === "cookTimeGlobal" && b.timeMult) {
+      fx.time *= b.timeMult;
+      if (b.id === "master_chefs_cleaver") fx.cleaver = true;
+    } else if (b.scope === "fishYield" && b.fishYieldAdd) {
+      if (b.season && b.season !== currentSeason) return;
+      fx.fishYield.push({
+        add: b.fishYieldAdd,
+        tier: b.tier || null
+      });
+    } else if (b.scope === "fishRod" && b.rodFreeCost) fx.rodFree = true; else if ((b.scope === "crustacean" || b.scope === "fishCrab") && BG_CRUST_COST_IDS.indexOf(b.id) >= 0) fx.crust.push(b.id); else if (b.scope === "crustacean" && BG_CRUST_TIME_IDS.indexOf(b.id) >= 0) fx.crustTime.push(b.id);
+  });
+  return fx;
+}
+
+function scoreCook(r, st, ranks, oilUnit, fx) {
   const O = st.useSynced ? st.ranks : {};
   const b = r.building;
   let xpMult = (1 + skillEff("skill_munching_mastery", ranks)) / (1 + skillEff("skill_munching_mastery", O));
@@ -875,14 +1163,21 @@ function scoreCook(r, st, ranks, oilUnit) {
   }
   const jackpot = b === "Fire Pit" ? skillEff("skill_fiery_jackpot", ranks) : 0;
   const nom = skillEff("skill_double_nom", ranks);
-  const foods = (1 + jackpot) * (1 + nom);
+  const cleaver = fx && fx.cleaver || isBoostActive("master_chefs_cleaver") ? BG_CLEAVER_CHANCE : 0;
+  const foods = 1 + nom + jackpot + cleaver;
   const ingMult = 1 + nom;
-  const xp = r.exp0 * ratio * xpMult * foods;
+  let xp = r.exp0 * ratio * xpMult * foods;
+  if (fx) {
+    xp *= fx.food * (fx.specific[r.name] || 1);
+    if (r.usesCheese) xp += fx.cheese * xpMult * foods;
+  }
   let time = st.useSynced ? r.appTime : r.time0;
   if (b === "Fire Pit" || b === "Kitchen") time *= 1 - skillEff("skill_fast_feasts", ranks);
+  if (fx) time *= fx.time;
   let oilCost = 0;
   let oilBoost = 0;
-  if (st.oil) {
+  const oilUsed = st.oil && !(fx && fx.oilOff && (fx.oilOff.has("all") || fx.oilOff.has(b)));
+  if (oilUsed) {
     oilBoost = oilBoostFor(b, ranks);
     time *= 1 - oilBoost;
     oilCost = (BG_OIL_DAILY[b] || 0) * r.time0 / BG_DAY * oilUnit;
@@ -913,6 +1208,8 @@ function scoreCook(r, st, ranks, oilUnit) {
     }
   });
   if (per24 < .25) return null;
+  per24 = seedLimited ? Math.floor(per24 + 1e-9) : Math.max(1, Math.floor(per24 + .4 + 1e-9));
+  if (per24 < 1) return null;
   const cost = baseCost * ingMult + oilCost;
   return {
     kind: "cook",
@@ -926,6 +1223,7 @@ function scoreCook(r, st, ranks, oilUnit) {
     xp: xp,
     foods: foods,
     time: time,
+    time0: r.time0,
     per24: per24,
     cost: cost,
     xpDay: per24 * xp,
@@ -933,15 +1231,17 @@ function scoreCook(r, st, ranks, oilUnit) {
     costPerXp: cost / xp,
     seedLimited: seedLimited,
     oilBoost: oilBoost,
-    oilPerDay: st.oil ? BG_OIL_DAILY[b] || 0 : 0,
+    oilPerDay: oilUsed ? BG_OIL_DAILY[b] || 0 : 0,
     jackpot: jackpot,
-    nom: nom
+    nom: nom,
+    cleaver: cleaver
   };
 }
 
 function fishSkillAdd(tier, ranks) {
   if (tier === "basic") return skillEff("skill_fishy_chance", ranks);
   if (tier === "advanced") return skillEff("skill_fishy_roll", ranks);
+  if (tier === "expert") return skillEff("skill_fishy_gamble", ranks);
   return 0;
 }
 
@@ -949,10 +1249,11 @@ function castsFor(ranks) {
   return BG_BASE_CASTS + skillEff("skill_fishermans_5_rod", ranks) + skillEff("skill_fishermans_10_fold", ranks) + skillEff("skill_more_with_less", ranks);
 }
 
-function scoreFish(r, st, ranks) {
+function scoreFish(r, st, ranks, fx) {
   const O = st.useSynced ? st.ranks : {};
   const stage = r.stage;
-  const xpMult = (1 + skillEff("skill_munching_mastery", ranks)) / (1 + skillEff("skill_munching_mastery", O)) * (1 + skillEff("skill_fishy_feast", ranks)) / (1 + skillEff("skill_fishy_feast", O));
+  let xpMult = (1 + skillEff("skill_munching_mastery", ranks)) / (1 + skillEff("skill_munching_mastery", O)) * (1 + skillEff("skill_fishy_feast", ranks)) / (1 + skillEff("skill_fishy_feast", O));
+  if (fx) xpMult *= fx.fish * fx.food * (stage === "aged" ? fx.aged : 1);
   let ratio = 1;
   if (st.useSynced) {
     ratio = r.appXp / r.baseXp;
@@ -962,11 +1263,37 @@ function scoreFish(r, st, ranks) {
   const primeXp = r.primeBase ? r.primeBase * (st.useSynced ? r.primeApp / r.primeBase : 1) * xpMult / (st.mode === "free" && st.synced && st.useSynced && st.synced.info.vipActive ? 1.1 : 1) : 0;
   const ownedAdd = fishSkillAdd(r.tier, O);
   const boostAdd = st.useSynced ? Math.max(0, r.appYield - 1 - ownedAdd) : 0;
-  const myYield = 1 + boostAdd + fishSkillAdd(r.tier, ranks);
+  let pickedAdd = 0;
+  if (fx) fx.fishYield.forEach(y => {
+    if (!y.tier || y.tier === r.tier) pickedAdd += y.add;
+  });
+  const myYield = 1 + boostAdd + fishSkillAdd(r.tier, ranks) + pickedAdd;
   const casts = castsFor(ranks);
   let perDay = casts * myYield;
-  if (stage === "aged") perDay = Math.min(perDay, BG_DAY / r.agingSec);
-  const cost = r.cost * r.appYield / myYield;
+  const agingMult = 1 - (BG_SPEEDY_AGING[(ranks.skill_speedy_aging || 0) - 1] || 0);
+  if (stage === "aged") perDay = Math.min(perDay, st.agingSlots * BG_DAY / (r.agingSec * agingMult));
+  let catchCost = r.yieldScaled ? r.catchCost * r.appYield / myYield : r.catchCost;
+  if (fx && fx.rodFree && !r.guaranteed) catchCost = Math.max(0, catchCost - fishRodCostCoins() / (r.yieldScaled ? myYield : r.appYield));
+  let setup = r.setup;
+  if (fx && fx.crust.length) {
+    const key = crustComboKey(fx.crust);
+    ensureCrustCombo(key, r);
+    if (r.guaranteed) {
+      const boosted = setup.itemCostCombos[key];
+      if (boosted >= 0) {
+        catchCost = boosted / myYield;
+        setup = Object.assign({}, setup, {
+          itemCost: boosted
+        });
+      }
+    } else if (r.gearCombos[key]) {
+      const g = r.gearCombos[key];
+      catchCost = g.catchCost * r.appYield / myYield;
+      if (fx.rodFree) catchCost = Math.max(0, catchCost - fishRodCostCoins() / myYield);
+      setup = g.setup;
+    }
+  }
+  const cost = catchCost + r.saltCost;
   if (!(perDay > 0)) return null;
   return {
     kind: "fish",
@@ -980,6 +1307,15 @@ function scoreFish(r, st, ranks) {
     primeXp: primeXp,
     per24: perDay,
     casts: casts,
+    castsUsed: perDay / myYield,
+    agingTime: r.agingSec * agingMult,
+    agingBase: r.agingSec,
+    rodFree: !!(fx && fx.rodFree),
+    setup: setup,
+    saltBuy: r.saltBuy,
+    catchCost: catchCost,
+    saltCost: r.saltCost,
+    saltQty: r.saltQty,
     cost: cost,
     xpDay: perDay * xp,
     costDay: perDay * cost,
@@ -995,17 +1331,17 @@ function ranksAt(path, st, level) {
   return R;
 }
 
-function scoreAll(raw, st, ranks, level) {
+function scoreAll(raw, st, ranks, level, fx) {
   const oilUnit = st.oil ? oilUnitCost(st) : 0;
   const cook = [];
   raw.cook.forEach(r => {
-    const c = scoreCook(r, st, ranks, oilUnit);
+    const c = scoreCook(r, st, ranks, oilUnit, fx);
     if (c) cook.push(c);
   });
   const fish = [];
   raw.fish.forEach(r => {
-    if (r.tier === "advanced" && level < BG_ADV_FISH_LEVEL) return;
-    const c = scoreFish(r, st, ranks);
+    if (r.tier === "advanced" && level < BG_ADV_FISH_LEVEL || r.tier === "expert" && level < BG_EXPERT_FISH_LEVEL) return;
+    const c = scoreFish(r, st, ranks, fx);
     if (c) fish.push(c);
   });
   return {
@@ -1057,11 +1393,13 @@ function composePlan(cook, fish) {
   let useCook = cook;
   let useFish = fish;
   let fishUnsuitable = false;
+  let altFish = null;
   if (fish && cook) {
-    const ratio = bgStrategy === "fish" ? 1 : .5;
+    const ratio = .5;
     const jackpotPizza = cook.name === "Pizza Margherita" && cook.jackpot > 0 && fish.xpDay < cook.xpDay;
-    if (jackpotPizza || fish.costPerXp > cook.costPerXp * ratio || bgStrategy === "fish" && fish.xpDay < cook.xpDay * .6) {
+    if (bgStrategy !== "fish" && (jackpotPizza || fish.costPerXp > cook.costPerXp * ratio)) {
       useFish = null;
+      altFish = fish;
       fishUnsuitable = true;
     } else if (fish.xpDay >= cook.xpDay * 5 && fish.costPerXp <= cook.costPerXp) useCook = null;
   }
@@ -1073,6 +1411,7 @@ function composePlan(cook, fish) {
     xpDay: xpDay,
     costDay: costDay,
     fishUnsuitable: fishUnsuitable,
+    altFish: altFish,
     label: (useCook ? useCook.name : "") + "|" + (useFish ? useFish.name + useFish.stage : "")
   };
 }
@@ -1175,12 +1514,12 @@ function simulate(ctx, st, builds, days) {
 const BG_OIL_SKILLS = new Set([ "skill_swift_sizzle" ]);
 
 function oilFilter(list, st) {
-  return st.oil ? list : list.filter(t => !BG_OIL_SKILLS.has(t[0]));
+  return list;
 }
 
 function strategyTargets(st) {
   const fishIds = [];
-  BG_FISH_GROUPS.forEach(g => g.ids.forEach(id => fishIds.push([ id, 1 ])));
+  BG_FISH_GROUPS.forEach(g => g.ids.forEach(id => fishIds.push([ id, fishTargetRank(id) ])));
   const sets = {
     less: oilFilter(BG_STRATS.less.targets, st),
     rush: oilFilter(BG_STRATS.rush.targets, st),
@@ -1448,6 +1787,7 @@ function boostPrice(name) {
 function boostGain(b, plan) {
   const cook = plan.cook;
   const fish = plan.fish;
+  if (b.agedFishXpMult) return fish && fish.stage === "aged" ? fish.xpDay * (b.agedFishXpMult - 1) : 0;
   if (b.scope === "foodGlobal") return (plan.xpDay || 0) * (b.expMult - 1);
   if (b.scope === "foodFish") return fish ? fish.xpDay * (b.expMult - 1) : 0;
   if (b.scope === "foodCheese") return cook && cook.usesCheese ? b.expAdd * cook.per24 : 0;
@@ -1502,7 +1842,7 @@ function strategyBoosts(st, plan) {
     if (/\(|Shrine|Totem|Hourglass/.test(b.name)) return;
     let group = null;
     if (st.strategy === "fish") {
-      if (b.scope === "fishYield") group = "Fish yield"; else if (b.scope === "foodFish") group = "Fish EXP"; else if (b.scope === "fishRod") group = "Fish rod (cheaper guaranteed catch)"; else if (b.scope === "fishMarket") group = "Fish Market output (yield and speed)";
+      if (b.scope === "fishYield") group = "Fish yield"; else if (b.scope === "foodGlobal" && b.expMult) group = "Food and fish EXP (affects both)"; else if (b.agedFishXpMult) group = "Fish EXP"; else if (b.scope === "foodFish") group = "Fish EXP"; else if (b.scope === "fishRod") group = "Fish rod (cheaper catches)"; else if (b.scope === "fishMarket") group = "Fish Market output (yield and speed)"; else if ((b.scope === "crustacean" || b.scope === "fishCrab") && (BG_CRUST_COST_IDS.indexOf(b.id) >= 0 || BG_CRUST_TIME_IDS.indexOf(b.id) >= 0)) group = "Crustacean and crab (cheaper Fish Market items and chum)";
     } else if (b.category === "cooking" && (b.expMult || b.expAdd)) {
       const cook = plan.cook;
       if (b.scope === "foodGlobal" || cook && (b.scope === "foodCheese" && cook.usesCheese || b.scope === "foodSpecific" && b.target === cook.name)) group = cook ? `${cook.name} EXP` : "Food EXP";
@@ -1516,6 +1856,10 @@ function strategyBoosts(st, plan) {
   all.forEach(x => {
     if (groupOrder.indexOf(x.group) < 0) groupOrder.push(x.group);
   });
+  if (st.strategy === "fish") {
+    const first = [ "Fish EXP", "Food and fish EXP (affects both)" ].filter(g => groupOrder.indexOf(g) >= 0);
+    groupOrder.splice(0, groupOrder.length, ...first, ...groupOrder.filter(g => first.indexOf(g) < 0));
+  }
   all.sort((a, b) => {
     if (a.group !== b.group) return groupOrder.indexOf(a.group) - groupOrder.indexOf(b.group);
     if (a.active !== b.active) return a.active ? 1 : -1;
@@ -1647,8 +1991,30 @@ function inGuideScope(fn) {
   return runWithGuideRestock(bgState.mode === "free", fn);
 }
 
-function computeAll() {
-  return inGuideScope(computeAllInner);
+let bgComputed = null;
+
+let bgJob = 0;
+
+let bgInputTimer = 0;
+
+function computeAll(reuse) {
+  if (reuse && bgComputed) return bgComputed;
+  bgComputed = inGuideScope(computeAllInner);
+  return bgComputed;
+}
+
+function bgDefer(boxId, fn) {
+  const id = ++bgJob;
+  const box = $(boxId);
+  if (box) box.classList.add("bg-busy");
+  requestAnimationFrame(() => setTimeout(() => {
+    if (id !== bgJob) return;
+    try {
+      fn();
+    } finally {
+      document.querySelectorAll(".bg-busy").forEach(el => el.classList.remove("bg-busy"));
+    }
+  }, 0));
 }
 
 function computeAllInner() {
@@ -1690,6 +2056,7 @@ function computeAllInner() {
   const land = expansionInfo(st);
   return {
     st: st,
+    raw: raw,
     cands: cands,
     ctx: ctx,
     nowPlan: nowPlan,
@@ -1707,8 +2074,8 @@ function computeAllInner() {
   };
 }
 
-function row(inner) {
-  return `<div class="fd-item-row bg-line">${inner}</div>`;
+function row(inner, extra) {
+  return `<div class="fd-item-row bg-line${extra ? ` ${extra}` : ""}">${inner}</div>`;
 }
 
 function card(title, icon, body) {
@@ -1731,13 +2098,14 @@ function instructionHtml(a) {
   if (plan.cook || plan.fish) {
     if (plan.cook) steps.push(`<li><span class="bg-step-tag">COOK</span> ${eatLine(plan.cook, st)}.</li>`);
     if (plan.fish) steps.push(`<li><span class="bg-step-tag">FISH</span> ${eatLine(plan.fish, st)}.</li>`);
+    if (plan.altFish) steps.push(`<li><span class="bg-step-tag">FISH</span> Best aged fish to add: ${eatLine(plan.altFish, st)}. It adds <strong class="bg-hl">+${fmtInt(plan.altFish.xpDay)} EXP</strong> a day for ${flowerCost(plan.altFish.costDay)} on top of the food above, so you can do both.</li>`);
     if (plan.cook && plan.fish) steps.push(`<li class="bg-note">Fish and food run side by side, so you earn both every day.</li>`); else if (plan.cook && !plan.fishUnsuitable && st.strategy !== "fish" && a.cands.fish.length && st.level >= BG_FISH_LEVEL) steps.push(`<li class="bg-note">Aged fish was skipped because food gives more EXP for less money on your farm.</li>`); else if (plan.fish && !plan.cook) steps.push(`<li class="bg-note">Fish gives far more EXP for the money than any food you can cook right now.</li>`);
     const seedNote = [ plan.cook, plan.fish ].some(c => c && c.seedLimited) ? " Limited by your daily seed stock." : "";
     steps.push(`<li>${planLevelLine(plan, st)} Daily cost ${st.rep.canBuy ? "at market price" : "to grow it yourself"}: <strong>${flowerCost(plan.costDay)}</strong>.${seedNote}</li>`);
   } else {
     steps.push(`<li class="bg-note">Market prices are still loading. Open the Prices or Cooking panel once, then come back.</li>`);
   }
-  if (plan.fishUnsuitable || st.strategy === "fish" && !plan.fish && plan.cook) steps.push(`<li class="bg-note">Fish Strat is not suitable for your farm right now: you do not have enough fish boosts or skills, so fish costs more than it gives. Cook ${plan.cook ? `<strong>${escapeHtml(plan.cook.name)}</strong>` : "better food"} instead.</li>`);
+  if (plan.fishUnsuitable) steps.push(`<li class="bg-note">Aged fish costs more per EXP than food on your farm, so the food above is your main plan and the fish is an optional extra. Check the Must cook for EXP tab for more aged fish choices.</li>`); else if (st.strategy === "fish" && !plan.fish) steps.push(`<li class="bg-note">No aged fish is available yet. Fishing needs Level ${BG_FISH_LEVEL} and the Aging Shed.</li>`);
   if (plan.cook && plan.cook.name === "Pizza Margherita") steps.push(plan.cook.jackpot > 0 ? `<li class="bg-note">Keep cooking <strong>Pizza Margherita</strong> in the Fire Pit: <strong>Fiery Jackpot</strong> gives a ${fmtInt(plan.cook.jackpot * 100)}% chance to double the output while you pay for one set of ingredients.</li>` : `<li class="bg-note">Keep cooking <strong>Pizza Margherita</strong> in the Fire Pit. It is the cheapest EXP and gets even better once you take Fiery Jackpot.</li>`);
   const offSeason = plan.cook ? plan.cook.parts.filter(x => x.offSeason) : [];
   if (offSeason.length) steps.push(`<li class="bg-note">Out of season right now: ${offSeason.map(x => escapeHtml(x.name)).join(", ")} cannot be grown, so ${st.rep.canBuy ? "buy them" : "this food is hard to make until the season changes"}.</li>`);
@@ -1772,13 +2140,13 @@ function instructionHtml(a) {
 
 function strategyNote(st) {
   if (st.strategy === "rush") return "Most EXP in 24 hours, using output skills.";
-  if (st.strategy === "fish") return "Aged fish at the guaranteed-catch cost, only if it is worth it.";
+  if (st.strategy === "fish") return "Aged fish at the cheapest catch cost, only if it is worth it.";
   return "Mid cost and a little faster leveling.";
 }
 
 function oilStepHtml(a) {
   const st = a.st;
-  if (!st.oil) return "";
+  if (!st.oil || st.strategy === "fish") return "";
   const unit = oilUnitCost(st);
   const list = [ "Fire Pit", "Deli", "Kitchen", "Bakery", "Smoothie Shack" ].filter(b => b === "Fire Pit" || st.owned.has(b) || a.builds.some(x => x.building === b));
   const parts = list.map(b => {
@@ -1812,40 +2180,119 @@ function skillWhere(info) {
   return `Skill tree: ${cat.charAt(0).toUpperCase()}${cat.slice(1)} · Tier ${info.skillTier}`;
 }
 
-function stratSkillRow(a, id, rank, showRank) {
+function stratSkillRow(a, id, suggested, showRank, key) {
   const info = skillInfo(id);
   if (!info) return "";
-  return row(`<span class="fd-item-main">${getBoostIcon(info.name)} <strong>${escapeHtml(info.name)}${showRank ? ` [${rank}]` : ""}</strong><span class="bg-why">${escapeHtml(bgWhyAt(id, info, rank))}</span><span class="bg-why">${escapeHtml(skillWhere(info))}</span></span><span class="fd-item-cost bg-right">${escapeHtml(stratStatus(a, id, rank))}</span>`);
+  const rank = key ? simRankOf(key, id, suggested) : suggested;
+  return row(`<span class="fd-item-main">${getBoostIcon(info.name)} <strong>${escapeHtml(info.name)}${showRank ? ` [${rank}]` : ""}</strong><span class="bg-why">${escapeHtml(bgWhyAt(id, info, rank))}</span><span class="bg-why">${escapeHtml(skillWhere(info))}</span></span><span class="fd-item-cost bg-right">${escapeHtml(stratStatus(a, id, rank))}</span>${key ? simCheck(key, "s", id, suggested) : ""}${key ? simRankPicker(key, id, suggested) : ""}`, key && simRankMax(id) > 1 ? "bg-has-rank" : "");
 }
 
-function stratSkillsBody(a) {
+function levelSimKey(st) {
+  return `lvl:${st.strategy}`;
+}
+
+function levelTargets(st) {
+  if (st.strategy === "fish") {
+    const ids = [];
+    BG_FISH_GROUPS.forEach(g => g.ids.forEach(id => ids.push([ id, fishTargetRank(id) ])));
+    return ids;
+  }
+  return strategyTargets(st).filter(t => !t[2]).map(t => [ t[0], t[1] ]);
+}
+
+function levelMissingSkills(a) {
+  const st = a.st;
+  return levelTargets(st).map(t => {
+    const have = st.skills.has(t[0]) ? st.ranks[t[0]] || 1 : 0;
+    const reach = a.alloc.rankNow[t[0]] || 0;
+    const rank = st.strategy === "fish" && reach > have && reach < t[1] ? reach : t[1];
+    return {
+      id: t[0],
+      rank: rank,
+      info: skillInfo(t[0]),
+      have: have
+    };
+  }).filter(m => m.info && m.have < m.rank);
+}
+
+function levelDefaultBoosts(list) {
+  const chosen = [];
+  list.forEach(entry => {
+    const me = BOOSTS.find(x => x.id === entry.id);
+    if (!me) return;
+    if (chosen.some(c => boostsConflict(c, me))) return;
+    if (BOOSTS.some(o => isBoostActive(o.id) && boostsConflict(o, me))) return;
+    chosen.push(me);
+  });
+  return chosen.map(b => b.id);
+}
+
+function oilFlagIds(st) {
+  return st.oil && st.strategy !== "fish" ? [ "all" ].concat(BG_OIL_BUILDINGS).map(x => BG_OIL_OFF + x) : [];
+}
+
+function levelRegister(a, key) {
+  const missing = levelMissingSkills(a);
+  const boosts = a.stratBoosts.slice(0, 60).filter(b => !b.active);
+  simRegister(key, missing.map(m => [ m.id, m.rank ]), boosts.map(b => b.id).concat(oilFlagIds(a.st)), true, levelDefaultBoosts(boosts), missing.filter(m => a.alloc.rankNow[m.id] >= m.rank).map(m => [ m.id, m.rank ]));
+  return missing;
+}
+
+function stratSkillsBody(a, key, missing) {
   const st = a.st;
   let html = "";
   if (st.strategy === "fish") {
-    BG_FISH_GROUPS.forEach(g => {
-      const rows = g.ids.map(id => stratSkillRow(a, id, 1, false)).join("");
-      if (rows) html += `<div class="fd-section-label">${escapeHtml(g.label)}</div>${rows}`;
-    });
-  } else {
-    html += `<div class="fd-section-label">Cooking</div>`;
     [ 1, 2, 3 ].forEach(t => {
-      const items = strategyTargets(st).filter(x => !x[2] && skillInfo(x[0]) && skillInfo(x[0]).skillTier === t);
+      const items = missing.filter(m => m.info.skillTier === t);
       if (!items.length) return;
-      html += `<div class="fd-section-label">Tier ${t}</div>${items.map(x => stratSkillRow(a, x[0], x[1], true)).join("")}`;
+      html += `<div class="fd-section-label">Tier ${t}</div>${items.map(m => stratSkillRow(a, m.id, m.rank, true, key)).join("")}`;
     });
+    if (html) html = `<div class="fd-section-label">Fishing</div>${html}`;
+  } else {
+    [ 1, 2, 3 ].forEach(t => {
+      const items = missing.filter(m => m.info.skillTier === t);
+      if (!items.length) return;
+      html += `<div class="fd-section-label">Tier ${t}</div>${items.map(m => stratSkillRow(a, m.id, m.rank, true, key)).join("")}`;
+    });
+    if (html) html = `<div class="fd-section-label">Cooking</div>${html}`;
   }
+  if (!html) html = `<div class="fd-empty-note">You already own every skill of this build.</div>`;
   return `${html}<div class="bg-mini">${shardLine(st)}</div>`;
 }
 
-function stratBoostBody(a) {
-  let html = "";
+function oilEffectNote(b, st) {
+  const cfg = BG_OIL_RANKS[b];
+  if (!cfg) return "";
+  const owned = st.useSynced && st.ranks[cfg.skill] ? st.ranks[cfg.skill] : 0;
+  const tiers = cfg.eff.map(v => fmtInt(v * 100)).join("% / ") + "%";
+  return `<span class="bg-why">Can be enhanced with ${escapeHtml(cfg.name)}: −${tiers}${owned ? ` (rank ${fmtInt(owned)} owned)` : ""}</span>`;
+}
+
+function oilBoostBody(a, key) {
+  const st = a.st;
+  if (!st.oil) return "";
+  const unit = oilUnitCost(st);
+  const ranks = st.useSynced ? st.ranks : {};
+  let html = `<button type="button" class="fd-section-label bg-oil-toggle${bgOilOpen ? " is-open" : ""}" data-bg-oil="1"><span>Oil Boost</span><img class="bg-sim-chev" src="icons/chevron_down.png" alt=""></button><div class="bg-oil-body"${bgOilOpen ? "" : " hidden"}>`;
+  html += row(`<span class="fd-item-main">${getIcon("Oil")} <strong>Add Oil</strong><span class="bg-why">Feed Oil to your cooking buildings so they cook faster. Untick it to simulate without any Oil.</span></span>${simOilCheck(key, "all")}`);
+  BG_OIL_BUILDINGS.forEach(b => {
+    const boost = oilBoostFor(b, ranks);
+    const daily = BG_OIL_DAILY[b];
+    const cost = unit > 0 ? ` ≈ ${flowerCost(daily * unit)}` : "";
+    html += row(`<span class="fd-item-main">${getIcon(b)} <strong>${escapeHtml(b)}</strong> <span class="bg-hl">−${fmtInt(boost * 100)}% cooking time</span>${oilEffectNote(b, st)}<span class="bg-why">${fmtInt(daily)} ${getIcon("Oil")} Oil per day of cooking${cost}</span></span>${simOilCheck(key, b)}`);
+  });
+  return `${html}</div>`;
+}
+
+function stratBoostBody(a, key) {
+  let html = a.st.strategy === "fish" ? "" : oilBoostBody(a, key);
   let last = "";
-  a.stratBoosts.slice(0, 30).forEach(b => {
+  a.stratBoosts.slice(0, 60).forEach(b => {
     if (b.group !== last) {
       html += `<div class="fd-section-label">${escapeHtml(b.group)}</div>`;
       last = b.group;
     }
-    html += row(`<span class="fd-item-main">${getIcon(b.name)} <strong>${escapeHtml(b.name)}</strong><span class="bg-why">${escapeHtml(b.note)}</span><span class="bg-why">${boostCostText(b)}</span></span><span class="fd-item-cost bg-right">${b.active ? "✔ Active" : b.gain > 0 ? `<strong>+${fmtInt(b.gain)} EXP/day</strong>` : ""}</span>`);
+    html += row(`<span class="fd-item-main">${getIcon(b.name)} <strong>${escapeHtml(b.name)}</strong><span class="bg-why">${escapeHtml(b.note)}</span><span class="bg-why">${boostCostText(b)}</span></span><span class="fd-item-cost bg-right">${b.active ? "✔ Active" : b.gain > 0 ? `<strong>+${fmtInt(b.gain)} EXP/day</strong>` : ""}</span>${b.active ? "" : simCheck(key, "b", b.id, 1)}`);
   });
   if (!html) html = `<div class="fd-empty-note">No boosts found.</div>`;
   return `${html}<button type="button" class="fd-lb-btn bg-link" data-bg-action="boost">Open Boost panel</button>`;
@@ -1854,21 +2301,151 @@ function stratBoostBody(a) {
 function stratSuggestHtml(a) {
   const st = a.st;
   if (st.strategy === "fish") {
-    const fishLine = a.plan.fish ? optionRow(a.plan.fish, st, a) : `<div class="bg-mini">Aged fish is not suitable for your farm right now (it costs more per EXP than food), so cook food instead.</div>`;
-    const market = st.owned.has("Fish Market") ? "" : `<div class="bg-mini">Fish costs use guaranteed catches. Build the Fish Market (Level ${BG_BUILD_LEVEL["Fish Market"]}) and use Bubble Aura to get more out of it.</div>`;
+    const picks = fishPicks(a);
+    const fishLine = a.plan.fish ? optionRow(a.plan.fish, st, a) : picks ? picks.map(x => optionRow(x.c, st, a, x.labels)).join("") : `<div class="bg-mini">No aged fish is available yet. Fishing needs Level ${BG_FISH_LEVEL} and the Aging Shed.</div>`;
+    const market = st.owned.has("Fish Market") ? "" : `<div class="bg-mini">Saw, Whale, White and Hammerhead sharks use guaranteed-catch costs; other fish use their normal fishing cost. Build the Fish Market (Level ${BG_BUILD_LEVEL["Fish Market"]}) and use Bubble Aura to get more out of it.</div>`;
     return `<div class="fd-section-label">Best aged fish</div>${fishLine}${market}`;
   }
   const food = a.plan.cook ? optionRow(a.plan.cook, st, a) : `<div class="bg-mini">No food found yet. Market prices may still be loading.</div>`;
   return `<div class="fd-section-label">Suggested food</div>${food}`;
 }
 
+const BG_SIM_TOP = 6;
+
+let bgSimCtx = null;
+
+function lvNum(v) {
+  const n = Number(v) || 0;
+  const a = Math.abs(n);
+  if (a >= 100) return fmtInt(n);
+  if (a >= 10) return String(Math.round(n * 10) / 10);
+  return String(Math.round(n * 100) / 100);
+}
+
+function levelTopPicks(list, ranks, strategy) {
+  if (!list.length) return [];
+  const best = pickBest(list, ranks);
+  const maxXp = Math.max(...list.map(c => c.xpDay));
+  const others = list.filter(c => c !== best);
+  let ordered;
+  if (strategy === "rush") ordered = others.sort((x, y) => y.xpDay - x.xpDay || x.costPerXp - y.costPerXp); else {
+    const near = others.filter(c => c.xpDay >= maxXp * bgPoolFactor).sort((x, y) => x.costPerXp - y.costPerXp || y.xpDay - x.xpDay);
+    const far = others.filter(c => c.xpDay < maxXp * bgPoolFactor).sort((x, y) => y.xpDay - x.xpDay);
+    ordered = near.concat(far);
+  }
+  const picked = [ best ].concat(ordered).slice(0, BG_SIM_TOP);
+  if (best.kind === "fish") {
+    const top = list.reduce((m, c) => c.xpDay > m.xpDay ? c : m, list[0]);
+    if (picked.indexOf(top) < 0) picked[picked.length - 1] = top;
+  }
+  return picked;
+}
+
+function dayMult(c) {
+  const per = Number(c.per24);
+  return (per > 0 ? per : 1) * (1 + (c.nom || 0));
+}
+
+function cookSimChips(c) {
+  return ingredientChips(c, dayMult(c), true);
+}
+
+function fishItemBuy(name, buyMode) {
+  if (!buyMode) return false;
+  if (name === "Fishing Lure") return true;
+  let price = 0;
+  try {
+    price = Number(findLivePriceForName(name)) || 0;
+  } catch (e) {}
+  return price > 0;
+}
+
+function fishSimChips(c, st) {
+  const s = c.setup || {};
+  const tag = (name, label) => {
+    const b = fishItemBuy(name, s.buy);
+    return `<span class="bg-pill ${b ? "bg-pill-buy" : "bg-pill-self"}">${b ? "Buy" : "Self Produce"} ${label}</span>`;
+  };
+  const pill = methodPill({
+    method: fishItemBuy("Salt", c.saltBuy) ? "buy" : "collect",
+    offSeason: false
+  });
+  const whole = v => Math.ceil(v - 1e-9);
+  const n = Number(c.per24) > 0 ? Number(c.per24) : 1;
+  const casts = Number(c.castsUsed) > 0 ? Number(c.castsUsed) : n;
+  let html = `<span class="bgx-cost">×${lvNum(n)} ${getIcon(c.name)} ${escapeHtml(c.name)} · catch ${flowerCost(c.catchCost * n)}</span>`;
+  if (s.kind === "gear") {
+    if (s.rodCost > 0 && !c.rodFree) html += `<span class="bgx-cost">×${whole(casts)} ${getIcon("Rod")} Rod · ${flowerCost(s.rodCost * casts)} <span class="bg-pill bg-pill-self">Self Produce rod</span></span>`;
+    if (s.bait) html += `<span class="bgx-cost">×${whole(casts)} ${getIcon(s.bait)} ${escapeHtml(s.bait)} bait · ${flowerCost(s.baitCost * casts)} ${tag(s.bait, "bait")}</span>`;
+    if (s.chum) html += `<span class="bgx-cost">×${whole(casts * s.chum.qty)} ${getIcon(s.chum.name)} ${escapeHtml(s.chum.name)} chum · ${flowerCost(s.chum.cost * casts)} ${tag(s.chum.name, "chum")}</span>`;
+  } else if (s.kind === "market" && s.item) {
+    html += `<span class="bgx-cost">×${whole(casts)} ${getIcon(s.item)} ${escapeHtml(s.item)} (guaranteed catch, made at the Fish Market) · ${flowerCost(s.itemCost * casts)}</span>`;
+  }
+  if (c.saltQty > 0) html += `<span class="bgx-cost">×${whole(c.saltQty * n)} ${getIcon("Salt")} Salt · ${flowerCost(c.saltCost * n)} ${pill}</span>`;
+  return html;
+}
+
+function timeText(actual, base) {
+  const a = formatDuration(actual);
+  return base > 0 && actual < base - 1 ? `${a} (base ${formatDuration(base)})` : a;
+}
+
+function levelSimCard(c, st, isBest, isTop) {
+  const fish = c.kind === "fish";
+  const missing = [];
+  c.chain.forEach(b => {
+    if (!st.owned.has(b)) missing.push(b);
+  });
+  const tags = (isBest ? `<span class="bg-label bg-best">best pick</span> ` : "") + (isTop && !isBest ? `<span class="bg-label bg-best">most EXP</span> ` : "") + missing.map(b => st.level >= BG_BUILD_LEVEL[b] ? `<span class="bg-label">build ${escapeHtml(b)}</span>` : `<span class="bg-label">${escapeHtml(b)} Lv ${BG_BUILD_LEVEL[b]}</span>`).join(" ");
+  const lvl = levelAfter(st, c.xpDay);
+  const output = fish ? c.per24 : c.per24 * c.foods;
+  const unitName = fish ? `Aged ${c.name}` : c.name;
+  const bonusFood = fish ? 0 : c.per24 * (c.jackpot + c.cleaver);
+  const stats = fish ? `<div class="bg-sim-stat"><span>Fish per 24h</span><span>${lvNum(c.per24)}</span></div><div class="bg-sim-stat"><span>Aging time each</span><span>${timeText(c.agingTime, c.agingBase)}</span></div><div class="bg-sim-stat"><span>EXP each</span><span>${fmtInt(c.xp)}</span></div><div class="bg-sim-stat"><span>Cost each</span><span>${flowerCost(c.cost)}</span></div>` : `<div class="bg-sim-stat"><span>Cooking time each</span><span>${timeText(c.time, c.time0)}</span></div><div class="bg-sim-stat"><span>Cooks per 24h</span><span>×${lvNum(c.per24)}</span></div><div class="bg-sim-stat"><span>Average food per cook</span><span>×${lvNum(c.foods)}</span></div>${bonusFood > 0 ? `<div class="bg-sim-stat"><span>Free bonus food in 24h</span><span>+${lvNum(bonusFood)}</span></div>` : ""}<div class="bg-sim-stat"><span>EXP per cook</span><span>${fmtInt(c.xp)}</span></div><div class="bg-sim-stat"><span>Cost per cook</span><span>${flowerCost(c.cost)}</span></div>`;
+  const avgParts = fish ? [] : [ c.nom > 0 ? `Double Nom +${fmtInt(c.nom)} food on every cook (ingredients ×${fmtInt(1 + c.nom)})` : "", c.jackpot > 0 ? `Fiery Jackpot ${fmtInt(c.jackpot * 100)}% chance of +1 food, free with no extra ingredients` : "", c.cleaver > 0 ? `Master Chef's Cleaver ${fmtInt(c.cleaver * 100)}% chance of +1 food, free with no extra ingredients` : "", c.oilBoost > 0 ? `Oil −${fmtInt(c.oilBoost * 100)}% cooking time` : "" ].filter(Boolean);
+  const wholeNote = !fish && c.per24 >= 1 ? `<div class="bg-mini">Cooks are rounded to whole cooks (0.6 and up rounds up), so ingredients are never partial.</div>` : "";
+  const avg = avgParts.length ? `<div class="bg-mini">${avgParts.join(" · ")}${c.jackpot > 0 || c.cleaver > 0 ? " (chances are averaged)" : ""}.</div>` : "";
+  const fishNote = fish && c.setup && c.setup.buy ? `<div class="bg-mini">Fish cannot be bought. "Buy" means buying the tradable bait and chum used to catch them. The rod and any non-tradable chum are priced from what it costs you to make them. This follows the Buy / Collect setting in your Fishing panel, and Salt follows the Cooking panel.</div>` : "";
+  return `<div class="fd-container is-own bg-lsim-card"><div class="bg-lsim-head"><span class="bg-lsim-title">${itemIcon(c)} <strong>${escapeHtml(itemLabel(c))}</strong></span>${tags ? `<span class="bg-lsim-tags">${tags}</span>` : ""}</div><div class="fd-section-label">${fish ? "Catch and aging supplies for 24h" : "Ingredients for 24h"}</div><div class="bgx-costs">${fish ? fishSimChips(c, st) : cookSimChips(c)}</div>${fishNote}${stats}${wholeNote}${avg}<div class="bg-sim-stat bg-sim-strong bg-lsim-out"><span>24hr Output</span><span>×${lvNum(output)} ${escapeHtml(unitName)}</span></div><div class="bg-mini bg-lsim-exp">+${fmtInt(c.xpDay)} EXP → Level ${fmtInt(lvl)}</div><div class="bg-sim-stat bg-sim-strong bg-lsim-cost"><span>Total cost</span><span>${flowerCost(c.costDay)}</span></div></div>`;
+}
+
+function levelSimInner(key, sel) {
+  const a = bgSimCtx;
+  if (!a) return "";
+  const st = a.st;
+  const fish = st.strategy === "fish";
+  const ranks = Object.assign({}, st.useSynced ? st.ranks : {});
+  sel.skills.forEach(t => {
+    ranks[t[0]] = Math.max(ranks[t[0]] || 0, t[1]);
+  });
+  const fx = boostFx(sel.boosts);
+  const scored = scoreAll(a.raw, st, ranks, st.level, fx);
+  const pool = availableAt(fish ? scored.fish : scored.cook, a.ownedPlus, st.level, false, true);
+  const picks = levelTopPicks(pool, ranks, st.strategy);
+  const topFish = fish && pool.length ? pool.reduce((m, c) => c.xpDay > m.xpDay ? c : m, pool[0]) : null;
+  const noun = fish ? "aged fish" : "foods";
+  const how = fish ? "catch and age only that one fish" : "cook only that one food";
+  const intro = `This simulation shows the top ${BG_SIM_TOP} ${noun} for ${escapeHtml(BG_STRATS[st.strategy].label)} if you ${how} for the full 24 hours with the skills and boosts you saved. Chance based skills such as Fiery Jackpot are averaged, so each number is what you get on average over many cooks.`;
+  let body;
+  if (!picks.length) body = `<div class="fd-empty-note">${fish ? `No aged fish is available yet. Fishing needs Level ${BG_FISH_LEVEL} and the Aging Shed.` : "No food found yet. Market prices may still be loading."}</div>`; else {
+    const more = picks.length < BG_SIM_TOP ? `<div class="bg-mini">Only ${fmtInt(picks.length)} ${noun} can be made at Level ${fmtInt(st.level)} with your buildings.</div>` : "";
+    body = `<div class="bg-lsim-grid">${picks.map((c, i) => levelSimCard(c, st, i === 0, c === topFish)).join("")}</div>${more}`;
+  }
+  const oilList = BG_OIL_BUILDINGS.filter(b => !fx.oilOff.has("all") && !fx.oilOff.has(b));
+  const oilText = st.oil && !fish ? ` Oil: ${oilList.length ? oilList.map(escapeHtml).join(", ") : "off"}.` : "";
+  return levelSimBox(key, body, `Simulated at Level ${fmtInt(st.level)}.${oilText}`, intro);
+}
+
 function stratHtml(a) {
   const st = a.st;
+  const key = levelSimKey(st);
+  const missing = levelRegister(a, key);
+  bgSimCtx = a;
   const tabs = [ [ "skills", "Skills" ], [ "boost", "Boost" ] ].map(t => `<button type="button" data-bg-stab="${t[0]}" class="fd-lb-tab${bgStratTab === t[0] ? " active" : ""}">${t[1]}</button>`).join("");
   const match = buildMatches(st);
   const best = Object.keys(match).sort((x, y) => match[y].have - match[x].have)[0];
-  const detected = match[best].have > 0 ? `<div class="bg-mini">Your farm already has ${match[best].have} of ${match[best].total} ${escapeHtml(BG_STRATS[best].label)} skills.${best !== st.strategy ? " The guide still follows the build you selected first." : ""}</div>` : "";
-  return `<div class="fd-container is-own bg-strat"><div class="fd-container-head"><span class="fd-container-title">${escapeHtml(BG_STRATS[st.strategy].label)}</span></div><div class="bg-mini bg-strat-desc">${escapeHtml(BG_STRATS[st.strategy].desc)}</div>${detected}${stratSuggestHtml(a)}<div class="bg-switcher bg-modes">${tabs}</div><div class="bg-pane">${bgStratTab === "boost" ? stratBoostBody(a) : stratSkillsBody(a)}</div></div>`;
+  const detected = match[best].have > 0 ? `<div class="bg-mini">Your farm already has ${match[best].have} of ${match[best].total} ${escapeHtml(BG_STRATS[best].label)} skills.${best !== st.strategy ? " The guide still follows the build you selected first." : ""} Skills you own are hidden below.</div>` : "";
+  return `<div class="fd-container is-own bg-strat"><div class="fd-container-head"><span class="fd-container-title">${escapeHtml(BG_STRATS[st.strategy].label)}</span>${simButtons(key)}</div>${simUnsavedNote(key)}<div class="bg-mini bg-strat-desc">${escapeHtml(BG_STRATS[st.strategy].desc)}</div>${detected}${stratSuggestHtml(a)}<div class="bg-switcher bg-modes">${tabs}</div><div class="bg-pane">${bgStratTab === "boost" ? stratBoostBody(a, key) : stratSkillsBody(a, key, missing)}</div></div>${simResultHtml(key)}`;
 }
 
 function shardLine(st) {
@@ -1964,20 +2541,12 @@ function tabsBody(a) {
   if (st.mode === "free") {
     buyRows = availableAt(a.cands.cook, a.ownedPlus, st.level, false, false).filter(c => !c.planOk).sort((x, y) => y.xpDay - x.xpDay).slice(0, 3).map(c => optionRow(c, st, a));
   }
-  let fishRows = [];
-  if (st.level >= BG_FISH_LEVEL && a.plan.fish) {
-    const fish = availableAt(a.cands.fish, a.ownedPlus, st.level, false, true);
-    const fishTop = fish.slice().sort((x, y) => y.xpDay - x.xpDay).slice(0, 8);
-    const fishCheap = fish.slice().sort((x, y) => x.costPerXp - y.costPerXp).slice(0, 4);
-    const set = new Map;
-    fishTop.concat(fishCheap).forEach(c => set.set(c.name + c.stage, c));
-    if (a.plan.fish) set.set(a.plan.fish.name + a.plan.fish.stage, a.plan.fish);
-    fishRows = [ ...set.values() ].sort((x, y) => y.xpDay - x.xpDay).slice(0, 6).map(c => optionRow(c, st, a));
-  }
-  const fishNote = st.level < BG_FISH_LEVEL ? `<div class="bg-mini">Fishing unlocks at Level ${BG_FISH_LEVEL}.</div>` : !a.plan.fish ? `<div class="bg-mini">Aged fish is not worth it for your farm right now: it costs more per EXP than food, so focus on cooking.</div>` : "";
-  if (!a.plan.fish) fishRows = [];
+  const picks = fishPicks(a, true);
+  const fishRows = picks ? picks.map(x => optionRow(x.c, st, a, x.labels)) : [];
+  const slotNote = picks ? `<div class="bg-mini">In season now: ${escapeHtml(String(currentSeason))}. Aging Shed slots: ${st.agingSlots}. ${a.plan.fish ? "" : "Food is still cheaper per EXP for your plan, but these are the best aged fish if you want to fish."}</div>` : "";
+  const fishNote = st.level < BG_FISH_LEVEL ? `<div class="bg-mini">Fishing unlocks at Level ${BG_FISH_LEVEL}.</div>` : !picks ? `<div class="bg-mini">No aged fish is available yet. It needs the Aging Shed.</div>` : slotNote;
   const foodHtml = `<div class="fd-section-label">Food</div>${cookRows.join("") || `<div class="fd-empty-note">No food found. Market prices may still be loading.</div>`}${buyRows.length ? `<div class="fd-section-label">Your farm cannot make these yet, buy the ingredients</div>${buyRows.join("")}` : ""}`;
-  const fishHtml = fishRows.length || fishNote ? `<div class="fd-section-label">Aged fish (needs the Aging Shed)</div>${fishRows.join("")}${fishNote}` : "";
+  const fishHtml = fishRows.length || fishNote ? `<div class="fd-section-label">Best aged fish this season (needs the Aging Shed)</div>${fishRows.join("")}${fishNote}` : "";
   return `${st.strategy === "fish" ? fishHtml + foodHtml : foodHtml + fishHtml}<button type="button" class="fd-lb-btn bg-link" data-bg-action="cooking">Open Cooking panel</button>`;
 }
 
@@ -1989,45 +2558,85 @@ function methodPill(p) {
   return `<span class="bg-pill ${p.method === "collect" ? "bg-pill-self" : "bg-pill-buy"}">${p.method === "collect" ? "Self Produce it" : p.offSeason ? "Buy it (out of season)" : "Buy it"}</span>`;
 }
 
-function rawChip(name, qty, p) {
-  return `${+qty.toFixed(2)} ${ingredientIcon(name)} ${escapeHtml(name)}${p ? " " + methodPill(p) : ""}`;
+function qtyText(v, whole) {
+  return `×${whole ? Math.ceil(Number(v) - 1e-9) : +Number(v).toFixed(2)}`;
 }
 
-function ingredientChips(c) {
+function rawChip(name, qty, p, whole) {
+  return `${qtyText(qty, whole)} ${ingredientIcon(name)} ${escapeHtml(name)}${p ? " " + methodPill(p) : ""}`;
+}
+
+function ingredientChips(c, mult, whole) {
+  const k = mult > 0 ? mult : 1;
   const rec = c.kind === "cook" && COOKING_RECIPES[c.building] ? COOKING_RECIPES[c.building][c.name] : null;
   const partOf = name => c.parts.find(x => x.name === name);
   if (!rec) {
-    return c.parts.map(p => `<span class="bgx-cost">${ingredientIcon(p.name)} ${+p.qty.toFixed(2)} ${escapeHtml(p.name)} ${methodPill(p)}</span>`).join("");
+    return c.parts.map(p => `<span class="bgx-cost">${qtyText(p.qty * k, whole)} ${ingredientIcon(p.name)} ${escapeHtml(p.name)} ${methodPill(p)}</span>`).join("");
   }
   return Object.keys(rec.ingredients).map(ing => {
-    const qty = rec.ingredients[ing];
+    const qty = rec.ingredients[ing] * k;
     const b = foodBuilding(ing);
     if (!b) {
       const p = partOf(ing);
       if (!p) return "";
-      return `<span class="bgx-cost">${ingredientIcon(ing)} ${+qty.toFixed(2)} ${escapeHtml(ing)} ${methodPill(p)}</span>`;
+      return `<span class="bgx-cost">${qtyText(qty, whole)} ${ingredientIcon(ing)} ${escapeHtml(ing)} ${methodPill(p)}</span>`;
     }
     const raws = rawNeeds(COOKING_RECIPES[b][ing], qty, {});
     const names = Object.keys(raws).filter(n => partOf(n));
     if (!names.length) return "";
     const first = partOf(names[0]);
     const same = names.every(n => partOf(n).method === first.method && !!partOf(n).offSeason === !!first.offSeason);
-    const inner = names.map(n => same ? `${+raws[n].toFixed(2)} ${ingredientIcon(n)} ${escapeHtml(n)}` : rawChip(n, raws[n], partOf(n))).join(", ");
-    return `<span class="bgx-cost">${ingredientIcon(ing)} ${+qty.toFixed(2)} ${escapeHtml(ing)} (${inner})${same ? " " + methodPill(first) : ""}</span>`;
+    const inner = names.map(n => same ? `${qtyText(raws[n], whole)} ${ingredientIcon(n)} ${escapeHtml(n)}` : rawChip(n, raws[n], partOf(n), whole)).join(", ");
+    return `<span class="bgx-cost">${qtyText(qty, whole)} ${ingredientIcon(ing)} ${escapeHtml(ing)} (${inner})${same ? " " + methodPill(first) : ""}</span>`;
   }).join("");
 }
 
-function optionRow(c, st, a) {
+function fishPicks(a, more) {
+  const st = a.st;
+  if (st.level < BG_FISH_LEVEL) return null;
+  const list = availableAt(a.cands.fish, a.ownedPlus, st.level, false, true);
+  if (!list.length) return null;
+  const best = pickBest(list, a.cands.ranks);
+  const topXp = list.slice().sort((x, y) => y.xpDay - x.xpDay || x.costPerXp - y.costPerXp)[0];
+  const cheap = list.slice().sort((x, y) => x.costPerXp - y.costPerXp || y.xpDay - x.xpDay)[0];
+  const picks = [];
+  [ [ best, "best value" ], [ topXp, "most EXP in 24h" ], [ cheap, "cheapest per EXP" ] ].forEach(pair => {
+    const found = picks.find(x => x.c === pair[0]);
+    if (found) found.labels.push(pair[1]); else picks.push({
+      c: pair[0],
+      labels: [ pair[1] ]
+    });
+  });
+  if (more) {
+    const taken = new Set(picks.map(x => x.c));
+    const extra = [];
+    let lowest = Infinity;
+    list.slice().sort((x, y) => y.xpDay - x.xpDay || x.costPerXp - y.costPerXp).forEach(c => {
+      if (c.costPerXp < lowest) {
+        lowest = c.costPerXp;
+        if (!taken.has(c)) extra.push(c);
+      }
+    });
+    const rest = list.filter(c => !taken.has(c) && extra.indexOf(c) < 0).sort((x, y) => x.costPerXp - y.costPerXp || y.xpDay - x.xpDay);
+    extra.concat(rest).slice(0, 5).sort((x, y) => y.xpDay - x.xpDay).forEach(c => picks.push({
+      c: c,
+      labels: []
+    }));
+  }
+  return picks;
+}
+
+function optionRow(c, st, a, labels) {
   const missing = [];
   c.chain.forEach(b => {
     if (!st.owned.has(b)) missing.push(b);
   });
   const tag = missing.length ? missing.map(b => st.level >= BG_BUILD_LEVEL[b] ? `<span class="bg-label">build ${escapeHtml(b)}</span>` : `<span class="bg-label">${escapeHtml(b)} Lv ${BG_BUILD_LEVEL[b]}</span>`).join(" ") : "";
-  const best = a.plan.cook === c || a.plan.fish === c ? `<span class="bg-label bg-best">best pick</span>` : "";
+  const best = labels ? labels.map(l => `<span class="bg-label bg-best">${escapeHtml(l)}</span>`).join(" ") : a.plan.cook === c || a.plan.fish === c ? `<span class="bg-label bg-best">best pick</span>` : "";
   const lvl = levelAfter(st, c.xpDay);
-  const per = c.kind === "fish" ? `${fmtInt(c.per24)} fish / 24h` : c.per24 >= 2 ? `${fmtInt(Math.floor(c.per24))}× / 24h` : `1 every ${formatDuration(c.time)}`;
+  const per = c.kind === "fish" ? `${fmtInt(c.per24)} fish / 24h · ages in ${formatDuration(c.agingTime)}` : c.per24 >= 2 ? `${fmtInt(Math.floor(c.per24))}× / 24h · ${formatDuration(c.time)} each` : `1 every ${formatDuration(c.time)}`;
   const prime = c.kind === "fish" && c.primeXp ? ` · prime aged ${fmtInt(c.primeXp)} EXP` : "";
-  const ing = c.parts && c.parts.length ? `<div class="bgx-costs">${ingredientChips(c)}</div>` : "";
+  const ing = c.parts && c.parts.length ? `<div class="fd-section-label">Ingredients for 24h</div><div class="bgx-costs">${ingredientChips(c, c.kind === "cook" ? dayMult(c) : 1, true)}</div>` : "";
   return row(`<span class="fd-item-main">${itemIcon(c)} <strong>${escapeHtml(itemLabel(c))}</strong> ${best} ${tag}<span class="bg-why">${fmtInt(c.xp)} EXP each · ${flowerCost(c.cost)} each · ${per}${prime}</span><span class="bg-why">24h: <strong class="bg-hl">+${fmtInt(c.xpDay)} EXP</strong> → <strong class="bg-hl">Level ${fmtInt(lvl)}</strong> · cost ${flowerCost(c.costDay)}</span>${ing}</span>`);
 }
 
@@ -2061,7 +2670,7 @@ function syncNoteHtml(st) {
 
 function modeHintHtml(st) {
   const m = st.mode === "free" ? "Free to Play: no VIP and no Gem restocks. Ingredients depend on what your farm can grow." : "Invested: VIP and Gem restocks are allowed.";
-  const f = st.strategy === "rush" ? "Rush Level guide: skills and boosts are picked for the most output in 24 hours within your shard budget." : st.strategy === "fish" ? "Fish Strat guide: skills and boosts are picked for aged fish at the guaranteed-catch cost." : "Mid Cost Level guide: skills and boosts are picked for a mid cost and a little faster leveling.";
+  const f = st.strategy === "rush" ? "Rush Level guide: skills and boosts are picked for the most output in 24 hours within your shard budget." : st.strategy === "fish" ? "Fish Strat guide: skills and boosts are picked for aged fish at the cheapest catch cost." : "Mid Cost Level guide: skills and boosts are picked for a mid cost and a little faster leveling.";
   return `${m} ${f}`;
 }
 
@@ -2166,18 +2775,32 @@ function refreshGuideInner() {
   });
 }
 
-function refreshDynamic() {
-  inGuideScope(refreshDynamicInner);
+function refreshStrat() {
+  inGuideScope(refreshStratInner);
 }
 
-function refreshDynamicInner() {
+function refreshStratInner() {
+  const box = $("bgStrat");
+  if (!box) return;
+  box.innerHTML = stratHtml(computeAll(true));
+}
+
+function refreshSim() {
+  if (bgState.guide === "leveling") refreshStrat(); else refreshGuide();
+}
+
+function refreshDynamic(reuse) {
+  inGuideScope(() => refreshDynamicInner(reuse));
+}
+
+function refreshDynamicInner(reuse) {
   if (bgState.guide !== "leveling") {
     refreshGuide();
     return;
   }
   const box = $("bgDynamic");
   if (!box) return;
-  const a = computeAll();
+  const a = computeAll(reuse);
   box.innerHTML = dynamicHtml(a);
   const sync = $("bgSyncLine");
   if (sync) {
@@ -2201,7 +2824,19 @@ function setManual() {
 }
 
 function bindBody(body) {
+  body.onchange = e => {
+    handleGuideChange(e);
+  };
   body.onclick = e => {
+    if (handleGuideClick(e, refreshSim)) return;
+    const oilHead = e.target.closest("[data-bg-oil]");
+    if (oilHead) {
+      bgOilOpen = !bgOilOpen;
+      oilHead.classList.toggle("is-open", bgOilOpen);
+      const ob = oilHead.nextElementSibling;
+      if (ob) ob.hidden = !bgOilOpen;
+      return;
+    }
     const head = e.target.closest("#bgOverviewHead");
     if (head) {
       bgOverviewOpen = !bgOverviewOpen;
@@ -2226,20 +2861,20 @@ function bindBody(body) {
       bgState.farmStrat = fstrat.dataset.bgFstrat;
       setFarmStrat(bgState.farmStrat);
       saveState();
-      refreshGuide();
+      bgDefer("bgGuideBody", refreshGuide);
       return;
     }
     const fstab = e.target.closest("[data-bg-fstab]");
     if (fstab) {
       setFarmStratTab(fstab.dataset.bgFstab);
-      refreshGuide();
+      bgDefer("bgGuideBody", refreshGuide);
       return;
     }
     const ctab = e.target.closest("[data-bg-ctab]");
     if (ctab) {
       const parts = ctab.dataset.bgCtab.split("|");
       setCatTab(parts[0], parts[1]);
-      refreshGuide();
+      bgDefer("bgGuideBody", refreshGuide);
       return;
     }
     const stratBtn = e.target.closest("[data-bg-strategy]");
@@ -2248,7 +2883,7 @@ function bindBody(body) {
       bgState.strategy = [ "less", "rush", "fish" ].indexOf(v) >= 0 ? v : "less";
       saveState();
       body.querySelectorAll("[data-bg-strategy]").forEach(b => b.classList.toggle("active", b === stratBtn));
-      refreshDynamic();
+      bgDefer("bgDynamic", () => refreshDynamic());
       return;
     }
     const modeBtn = e.target.closest("[data-bg-mode]");
@@ -2256,19 +2891,19 @@ function bindBody(body) {
       bgState.mode = modeBtn.dataset.bgMode === "invested" ? "invested" : "free";
       saveState();
       body.querySelectorAll("[data-bg-mode]").forEach(b => b.classList.toggle("active", b === modeBtn));
-      refreshDynamic();
+      bgDefer("bgDynamic", () => refreshDynamic());
       return;
     }
     const stab = e.target.closest("[data-bg-stab]");
     if (stab) {
       bgStratTab = stab.dataset.bgStab === "boost" ? "boost" : "skills";
-      refreshDynamic();
+      refreshDynamic(true);
       return;
     }
     const tab = e.target.closest("[data-bg-tab]");
     if (tab) {
       bgTab = tab.dataset.bgTab;
-      refreshDynamic();
+      refreshDynamic(true);
       return;
     }
     const land = e.target.closest("[data-bg-land]");
@@ -2280,7 +2915,7 @@ function bindBody(body) {
       body.querySelectorAll("[data-bg-land]").forEach(b => b.classList.toggle("active", b === land));
       const ex = $("bgExpansionInput");
       if (ex) ex.value = bgState.expansion;
-      refreshDynamic();
+      bgDefer("bgDynamic", () => refreshDynamic());
       return;
     }
     const act = e.target.closest("[data-bg-action]");
@@ -2304,14 +2939,17 @@ function bindBody(body) {
     }
   };
   body.oninput = e => {
+    if (handleGuideInput(e)) return;
     if (e.target.id === "bgLevelInput") {
       bgState.level = Math.max(0, Math.min(150, Math.floor(Number(e.target.value) || 0)));
       setManual();
-      refreshDynamic();
+      clearTimeout(bgInputTimer);
+      bgInputTimer = setTimeout(() => bgDefer("bgDynamic", () => refreshDynamic()), 350);
     } else if (e.target.id === "bgExpansionInput") {
       bgState.expansion = Math.max(0, Math.min(30, Math.floor(Number(e.target.value) || 0)));
       setManual();
-      refreshDynamic();
+      clearTimeout(bgInputTimer);
+      bgInputTimer = setTimeout(() => bgDefer("bgDynamic", () => refreshDynamic()), 350);
     }
   };
 }
@@ -2320,10 +2958,14 @@ export function renderBeginnerPanel() {
   const body = $("beginnerBody");
   if (!body) return;
   setFarmStrat(bgState.farmStrat);
+  setLevelSimRenderer(levelSimInner);
   const st = resolveState();
   body.innerHTML = shellHtml(st);
   bindBody(body);
-  refreshDynamic();
+  bgComputed = null;
+  const holder = $("bgDynamic") || $("bgGuideBody");
+  if (holder) holder.innerHTML = `<div class="fd-empty-note">Loading the guide...</div>`;
+  bgDefer(holder ? holder.id : "", () => refreshDynamic());
 }
 
 

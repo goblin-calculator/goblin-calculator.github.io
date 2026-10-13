@@ -1,4 +1,4 @@
-import { __set_farmPanelInProgressCategoryFilter, __set_farmPanelSyncInFlight, farmPanelAOEExtent, farmPanelCheckTurtleAOEBonus, farmPanelComputeEconomics, farmPanelComputeExactCrimstoneYield, farmPanelComputeExactCropYield, farmPanelComputeExactFlowerYield, farmPanelComputeExactFruitYield, farmPanelComputeExactGreenhouseYield, farmPanelCropTierLabel, farmPanelDebugFindShapes, farmPanelDetectNodeTier, farmPanelField, farmPanelGameState, farmPanelGetCollectiblePosition, farmPanelGetCropGrowDurationMsFromSync, farmPanelGetLastInfo, farmPanelGetMarketId, farmPanelGnomeAOEBonus, farmPanelGnomeComboPresent, farmPanelGrowTimeSec, farmPanelIsWithinTurtleAOE, farmPanelLoadCachedGameState, farmPanelMarkScrollActivity, farmPanelMergeAuthoritativeResourceData, farmPanelSaveGameState, farmPanelSaveLastInfo, farmPanelSyncInFlight } from "./inprogress.js";
+import { __set_farmPanelInProgressCategoryFilter, __set_farmPanelSyncInFlight, farmPanelAOEExtent, farmPanelCheckTurtleAOEBonus, farmPanelComputeEconomics, farmPanelComputeExactCrimstoneYield, farmPanelComputeExactCropYield, farmPanelComputeExactFlowerYield, farmPanelComputeExactFruitYield, farmPanelComputeExactGreenhouseYield, farmPanelCropTierLabel, farmPanelDebugFindShapes, farmPanelDetectNodeTier, farmPanelField, farmPanelGameState, farmPanelGetCollectiblePosition, farmPanelGetCropGrowDurationMsFromSync, farmPanelGetCostPerUnitFlower, farmPanelGetLastInfo, farmPanelGetMarketId, farmPanelGetMarketPriceFlower, farmPanelGnomeAOEBonus, farmPanelGnomeComboPresent, farmPanelGrowTimeSec, farmPanelIsWithinTurtleAOE, farmPanelLoadCachedGameState, farmPanelMarkScrollActivity, farmPanelMergeAuthoritativeResourceData, farmPanelSaveGameState, farmPanelSaveLastInfo, farmPanelSyncInFlight } from "./inprogress.js";
 
 import { POTION_ROOM_ICON } from "./potion_icon.js";
 
@@ -1860,8 +1860,10 @@ export function getAnimalCycleRecord(type, level, scales) {
     const last = steady[steady.length - 1] || cycles[cycles.length - 1];
     const meanFeeds = steady.reduce((sum, c) => sum + c.feeds, 0) / Math.max(1, steady.length);
     const meanLove = steady.reduce((sum, c) => sum + c.loveXp, 0) / Math.max(1, steady.length);
+    const th = ANIMAL_XP_THRESHOLDS[type];
+    const exactFeeds = last && last.boostedFoodXp > 0 ? Math.max(0, th[15] - th[14] - meanLove) / last.boostedFoodXp : meanFeeds;
     return Object.assign({}, last, {
-      feeds: meanFeeds,
+      feeds: exactFeeds,
       loveXp: meanLove
     });
   }
@@ -1885,7 +1887,8 @@ export function computeAnimalFeedFigures(type, level) {
     avgLoveXpPerCycle: record.loveXp,
     affection: affection,
     xpGap: Math.max(0, thresholds[Math.min(15, record.startLevel + 1)] - record.xpStart),
-    carryIn: Math.max(0, record.xpStart - thresholds[record.startLevel])
+    carryIn: Math.max(0, record.xpStart - thresholds[record.startLevel]),
+    expNeeded: record.isMax ? Math.max(0, thresholds[15] - thresholds[14] - record.loveXp) : Math.max(0, thresholds[Math.min(15, record.startLevel + 1)] - record.xpStart - record.loveXp)
   };
 }
 
@@ -3429,6 +3432,10 @@ export const LAVA_PIT_RECIPES = {
 
 export const SEASON_ORDER = [ "Spring", "Summer", "Autumn", "Winter" ];
 
+let simWeatherMode = false;
+
+const SIM_WEATHER_BOOST_NAMES = new Set([ "Bountiful Harvest", "Sunshower" ]);
+
 export const SEASON_EMOJI = {
   Spring: '<img src="icons/season_spring.png" alt="Spring" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
   Summer: '<img src="icons/season_summer.png" alt="Summer" style="width:14px;height:14px;vertical-align:-3px;image-rendering:pixelated;">',
@@ -3656,6 +3663,12 @@ export function getFruitCount(fruitName) {
   return parseFloat(fruitCounts[fruitName]) || 0;
 }
 
+export function getFruitPatchTotal() {
+  const synced = simFarmBagSize(g => g.fruitPatches);
+  if (synced > 0) return synced;
+  return Object.keys(BASE_FRUITS).reduce((sum, n) => sum + (parseFloat(fruitCounts[n]) || 0), 0);
+}
+
 export function setFruitCount(fruitName, val) {
   fruitCounts[fruitName] = val;
   saveFruitCounts();
@@ -3872,9 +3885,12 @@ export function findVarietiesBySeedIngredient(seedKey, ingredientName) {
 
 let resourceMaterialMode = safeLSJSON(localStorage.getItem("hl_resource_material_mode"), {});
 
+let simModeOverrides = null;
+
 export function getMaterialMode(resourceName, materialName) {
   if ((materialName || "").toLowerCase() === "oil") return "collect";
   const key = resourceName + ":" + materialName;
+  if (simModeOverrides && Object.prototype.hasOwnProperty.call(simModeOverrides, key)) return simModeOverrides[key];
   if (Object.prototype.hasOwnProperty.call(resourceMaterialMode, key)) return resourceMaterialMode[key];
   return resourceName === "AnimalFeed" ? "buy" : "collect";
 }
@@ -4087,7 +4103,7 @@ export function computeBoostedLavaPitStats(baseTimeSec) {
 }
 
 export function getActiveBoostsForResource(resourceName) {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "resources" && (b.scope === "resource" && (b.target || "").toLowerCase() === resourceName.toLowerCase() || b.scope === "resourceList" && (b.resources || []).some(r => r.toLowerCase() === resourceName.toLowerCase()) || b.scope === "resourceEffects"));
+  return BOOSTS.filter(b => b.category === "resources" && isBoostActive(b.id) && (b.scope === "resource" && (b.target || "").toLowerCase() === resourceName.toLowerCase() || b.scope === "resourceList" && (b.resources || []).some(r => r.toLowerCase() === resourceName.toLowerCase()) || b.scope === "resourceEffects"));
 }
 
 export function allocateAoeAcrossTiers(resourceName, plotCap) {
@@ -4224,7 +4240,7 @@ function computeBoostedResourceStatsUncached(resourceName, baseYield, baseTimeSe
 }
 
 export function getActiveBoostsForFruit(fruitName) {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "fruits" && (b.scope === "global" || b.scope === "fruit" && (b.target || "").toLowerCase() === (fruitName || "").toLowerCase() || b.scope === "fruitList" && Array.isArray(b.fruits) && b.fruits.some(f => f.toLowerCase() === (fruitName || "").toLowerCase())));
+  return BOOSTS.filter(b => b.category === "fruits" && isBoostActive(b.id) && (b.scope === "global" || b.scope === "fruit" && (b.target || "").toLowerCase() === (fruitName || "").toLowerCase() || b.scope === "fruitList" && Array.isArray(b.fruits) && b.fruits.some(f => f.toLowerCase() === (fruitName || "").toLowerCase()))).filter(b => weatherBoostAppliesToItem(b, fruitName, "fruit"));
 }
 
 function computeBoostedFruitStatsUncached(fruitName, baseYield, baseTimeSec, baseMinHarvest, nodeCountOverride, windowSec) {
@@ -4241,7 +4257,10 @@ function computeBoostedFruitStatsUncached(fruitName, baseYield, baseTimeSec, bas
   const budAddSum = {};
   active.forEach(b => {
     const coverageFraction = getBoostCoverageFraction(b, windowSec, haveSyncData);
-    const add = getEffectiveYieldAdd(b);
+    const add = getEffectiveYieldAdd(b, undefined, undefined, {
+      name: fruitName,
+      kind: "fruit"
+    });
     const budKey = b.isBud && b.budId ? b.budId : null;
     if (add) {
       if (b.plotCap) {
@@ -4296,14 +4315,14 @@ const GRAPE_ONLY_CROPS_GLOBAL_BOOSTS = new Set([ "time_warp_totem", "super_totem
 export function getActiveBoostsForGreenhouse(name) {
   const lname = (name || "").toLowerCase();
   const isGrape = lname === "grape";
-  let greenhouseOwn = BOOSTS.filter(b => isBoostActive(b.id) && b.category === "greenhouse" && (b.scope === "global" || b.scope === "greenhouse" && (b.target || "").toLowerCase() === lname));
+  let greenhouseOwn = BOOSTS.filter(b => b.category === "greenhouse" && isBoostActive(b.id) && (b.scope === "global" || b.scope === "greenhouse" && (b.target || "").toLowerCase() === lname));
   if (isGrape) {
     greenhouseOwn = greenhouseOwn.filter(b => !GREENHOUSE_GLOBAL_EXCLUDED_FROM_GRAPE.has(b.id));
   } else {
     greenhouseOwn = greenhouseOwn.filter(b => !b.isBud);
   }
-  const coreCropGlobal = isGrape ? BOOSTS.filter(b => isBoostActive(b.id) && b.category === "crops" && b.scope === "global" && GRAPE_ONLY_CROPS_GLOBAL_BOOSTS.has(b.id)) : BOOSTS.filter(b => isBoostActive(b.id) && b.category === "crops" && b.scope === "global" && !b.composterFertilizer && !CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE.has(b.id)).filter(b => b.id !== "hoot" || lname === "rice");
-  return greenhouseOwn.concat(coreCropGlobal);
+  const coreCropGlobal = isGrape ? BOOSTS.filter(b => b.category === "crops" && isBoostActive(b.id) && b.scope === "global" && GRAPE_ONLY_CROPS_GLOBAL_BOOSTS.has(b.id)) : BOOSTS.filter(b => b.category === "crops" && isBoostActive(b.id) && b.scope === "global" && !b.composterFertilizer && !CROPS_GLOBAL_EXCLUDED_FROM_GREENHOUSE.has(b.id)).filter(b => b.id !== "hoot" || lname === "rice");
+  return greenhouseOwn.concat(coreCropGlobal).filter(b => weatherBoostAppliesToItem(b, name, "greenhouse"));
 }
 
 function computeBoostedGreenhouseStatsUncached(name, baseYield, baseTimeSec, nodeCountOverride, windowSec) {
@@ -4318,13 +4337,17 @@ function computeBoostedGreenhouseStatsUncached(name, baseYield, baseTimeSec, nod
   active.forEach(b => {
     const coverageFraction = getBoostCoverageFraction(b, windowSec, haveSyncData);
     const budKey = b.isBud && b.budId ? b.budId : null;
-    if (b.yieldAdd) {
+    const ghYieldAdd = b.yieldAdd && b.limitedBoostName === "Bountiful Harvest" && weatherGuardianDoubles(b, {
+      name: name,
+      kind: "greenhouse"
+    }) ? b.yieldAdd * 2 : b.yieldAdd;
+    if (ghYieldAdd) {
       if (b.plotCap) {
         const fraction = totalNodes > 0 ? Math.min(totalNodes, b.plotCap) / totalNodes : 0;
-        const contribution = b.yieldAdd * fraction * coverageFraction;
+        const contribution = ghYieldAdd * fraction * coverageFraction;
         if (budKey) budAddSum[budKey] = (budAddSum[budKey] || 0) + contribution; else addSum += contribution;
       } else {
-        const contribution = b.yieldAdd * coverageFraction;
+        const contribution = ghYieldAdd * coverageFraction;
         if (budKey) budAddSum[budKey] = (budAddSum[budKey] || 0) + contribution; else addSum += contribution;
       }
     }
@@ -4361,7 +4384,7 @@ function computeBoostedGreenhouseStatsUncached(name, baseYield, baseTimeSec, nod
 }
 
 function getActiveBoostsForCropMachine() {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "cropmachine" && b.scope === "machineGlobal");
+  return BOOSTS.filter(b => b.category === "cropmachine" && isBoostActive(b.id) && b.scope === "machineGlobal");
 }
 
 function computeBoostedMachineTimeSec(baseTimeSec, windowSec) {
@@ -4485,11 +4508,11 @@ export function isCropMachineUnlocked(name) {
 }
 
 export function getActiveBoostsForHive() {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "honey" && b.scope === "hiveGlobal");
+  return BOOSTS.filter(b => b.category === "honey" && isBoostActive(b.id) && b.scope === "hiveGlobal");
 }
 
 function getActiveBoostsForFlower(flowerName) {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "honey" && (b.scope === "flowerGlobal" || b.scope === "flower" && (b.target || "").toLowerCase() === (flowerName || "").toLowerCase()));
+  return BOOSTS.filter(b => b.category === "honey" && isBoostActive(b.id) && (b.scope === "flowerGlobal" || b.scope === "flower" && (b.target || "").toLowerCase() === (flowerName || "").toLowerCase()));
 }
 
 export function computeBoostedFlowerVarietyStats(varietyName, windowSec) {
@@ -4758,7 +4781,7 @@ export function computeResourceFigures(name, visited) {
 }
 
 function getActiveBoostsForLavaPit() {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "resources" && b.scope === "lavaPit");
+  return BOOSTS.filter(b => b.category === "resources" && isBoostActive(b.id) && b.scope === "lavaPit");
 }
 
 function computeBoostedLavaPitStatsUncached(baseTimeSec) {
@@ -6908,7 +6931,6 @@ const SKILL_AGING = [ {
   id: "skill_refiner",
   name: "Refiner",
   skillTier: 2,
-  notModeled: true,
   note: "15% chance of +1 Refined Salt when making Refined Salt"
 }, {
   id: "skill_sea_blessed",
@@ -7146,7 +7168,7 @@ export const ASCENSION_RANK_DATA = {
     field: null,
     values: [ .9, .85, .8 ],
     unit: "×",
-    note: "Seed cost multiplier — not wired yet"
+    note: "Fruit seed cost multiplier"
   },
   skill_loyal_macaw: {
     field: "extraYieldAdd",
@@ -7633,7 +7655,7 @@ export const ASCENSION_RANK_DATA = {
     field: null,
     values: [ 2, 3, 4 ],
     unit: "×",
-    note: "Aging Shed output & input multiplier — not wired yet"
+    note: "Aging Shed output & input multiplier (wired into Spice Rack only)"
   },
   skill_bacalhau: {
     field: null,
@@ -7776,7 +7798,7 @@ export const ASCENSION_RANK_DATA = {
     field: null,
     values: [ .85, .8, .75 ],
     unit: "×",
-    note: "Greenhouse seed cost multiplier — not wired yet"
+    note: "Greenhouse seed cost multiplier"
   },
   skill_slick_saver: {
     field: "oilFlatReduce",
@@ -7831,6 +7853,14 @@ export function getAscensionRank(id) {
   return ascensionRanks[id] || 1;
 }
 
+export function getSkillRankMult(id) {
+  if (!isSkillActive(id)) return 1;
+  const data = ASCENSION_RANK_DATA[id];
+  if (!data || !Array.isArray(data.values)) return 1;
+  const v = data.values[Math.min(Math.max(getAscensionRank(id), 1), data.values.length) - 1];
+  return typeof v === "number" && v > 0 ? v : 1;
+}
+
 function setAscensionRank(id, rank) {
   if (rank <= 1) delete ascensionRanks[id]; else ascensionRanks[id] = rank;
   saveAscensionState();
@@ -7850,7 +7880,7 @@ function applyAscensionRanks() {
         if (!f) return;
         const valuesForTarget = data.values[entry.target];
         if (!valuesForTarget) return;
-        if (entry._ascBase[f] === undefined) entry._ascBase[f] = ascensionGetPath(entry, f);
+        if (!Object.prototype.hasOwnProperty.call(entry._ascBase, f)) entry._ascBase[f] = ascensionGetPath(entry, f);
         if (owned) {
           ascensionSetPath(entry, f, valuesForTarget[rank - 1]);
         } else {
@@ -7862,7 +7892,7 @@ function applyAscensionRanks() {
         const cfg = data.byScope[entry.scope];
         if (!cfg) return;
         const f = cfg.field;
-        if (entry._ascBase[f] === undefined) entry._ascBase[f] = ascensionGetPath(entry, f);
+        if (!Object.prototype.hasOwnProperty.call(entry._ascBase, f)) entry._ascBase[f] = ascensionGetPath(entry, f);
         if (owned) {
           ascensionSetPath(entry, f, cfg.values[rank - 1]);
         } else {
@@ -7874,7 +7904,7 @@ function applyAscensionRanks() {
         const cfg = data.byRole[entry._ascRole];
         if (!cfg) return;
         const f = cfg.field;
-        if (entry._ascBase[f] === undefined) entry._ascBase[f] = ascensionGetPath(entry, f);
+        if (!Object.prototype.hasOwnProperty.call(entry._ascBase, f)) entry._ascBase[f] = ascensionGetPath(entry, f);
         if (owned) {
           ascensionSetPath(entry, f, cfg.values[rank - 1]);
         } else {
@@ -7885,7 +7915,7 @@ function applyAscensionRanks() {
       if (!data.field) return;
       const fields = Array.isArray(data.field) ? data.field : [ data.field ];
       fields.forEach(f => {
-        if (entry._ascBase[f] === undefined) entry._ascBase[f] = ascensionGetPath(entry, f);
+        if (!Object.prototype.hasOwnProperty.call(entry._ascBase, f)) entry._ascBase[f] = ascensionGetPath(entry, f);
         const valuesForField = Array.isArray(data.values) ? data.values : data.values[f];
         if (!valuesForField) return;
         if (owned) {
@@ -10886,10 +10916,10 @@ function applySkillModifiers() {
   SKILL_BOOSTS.filter(s => s.modifiesId).forEach(s => {
     const target = BOOSTS.find(b => b.id === s.modifiesId);
     if (!target) return;
-    if (target._baseAoE === undefined) target._baseAoE = target.plotCap;
-    if (target._baseTimeMult === undefined) target._baseTimeMult = target.timeMult;
-    if (target._baseYieldAdd === undefined) target._baseYieldAdd = target.yieldAdd;
-    if (target._baseHarvestAdd === undefined) target._baseHarvestAdd = target.harvestAdd;
+    if (!Object.prototype.hasOwnProperty.call(target, "_baseAoE")) target._baseAoE = target.plotCap;
+    if (!Object.prototype.hasOwnProperty.call(target, "_baseTimeMult")) target._baseTimeMult = target.timeMult;
+    if (!Object.prototype.hasOwnProperty.call(target, "_baseYieldAdd")) target._baseYieldAdd = target.yieldAdd;
+    if (!Object.prototype.hasOwnProperty.call(target, "_baseHarvestAdd")) target._baseHarvestAdd = target.harvestAdd;
     const active = isSkillActive(s.id);
     let rankPlotCap = s.aoePlotCap;
     let ascensionAoeApplied = false;
@@ -10967,8 +10997,22 @@ export function isFertilizerTierEnabled(tier) {
 
 export function isSeasonLocked(boost) {
   if (!boost) return false;
+  if (simWeatherMode && (boost.guardianSeason || SIM_WEATHER_BOOST_NAMES.has(boost.limitedBoostName))) return false;
   if (boost.seasons && boost.seasons.length) return !boost.seasons.includes(previewSeason);
   return !!(boost.season && boost.season !== previewSeason);
+}
+
+let __boostIdMap = null;
+
+let __boostIdMapLen = -1;
+
+function boostById(id) {
+  if (!__boostIdMap || __boostIdMapLen !== BOOSTS.length) {
+    __boostIdMap = new Map;
+    for (let i = BOOSTS.length - 1; i >= 0; i--) __boostIdMap.set(BOOSTS[i].id, BOOSTS[i]);
+    __boostIdMapLen = BOOSTS.length;
+  }
+  return __boostIdMap.get(id);
 }
 
 export function isBoostActive(id) {
@@ -10977,7 +11021,7 @@ export function isBoostActive(id) {
   if (ALWAYS_ON_BOOST_IDS.has(id)) return true;
   if (id === "bee_swarm") return beeSwarmActiveCount > 0;
   if (!selectedSkills.includes(id) && !selectedBoosts.includes(id)) return false;
-  const boost = BOOSTS.find(b => b.id === id);
+  const boost = boostById(id);
   if (boost && boost.source === "skill") {
     if (!selectedSkills.includes(id)) return false;
     if (isSeasonLocked(boost)) return false;
@@ -11038,6 +11082,26 @@ function isSeasonGuardianActive() {
   return !!id && isBoostActive(id);
 }
 
+function isSimWeatherBoost(b) {
+  return !!b && SIM_WEATHER_BOOST_NAMES.has(b.limitedBoostName);
+}
+
+function simWeatherEligibleSeasons(b, itemName, kind) {
+  const itemSeasons = kind === "fruit" ? getFruitSeasons(itemName) : kind === "crop" ? getCropSeasons(itemName) : SEASON_ORDER;
+  return (b.seasons || []).filter(s => itemSeasons.includes(s));
+}
+
+export function weatherBoostAppliesToItem(b, itemName, kind) {
+  if (!simWeatherMode || !isSimWeatherBoost(b)) return true;
+  return simWeatherEligibleSeasons(b, itemName, kind).length > 0;
+}
+
+function weatherGuardianDoubles(b, ctx) {
+  if (!simWeatherMode) return isSeasonGuardianActive();
+  if (!ctx || !isSimWeatherBoost(b)) return false;
+  return simWeatherEligibleSeasons(b, ctx.name, ctx.kind).some(s => isBoostActive(SEASON_GUARDIAN_IDS[s]));
+}
+
 export function getActiveSeasonGuardianName() {
   const id = SEASON_GUARDIAN_IDS[currentSeason];
   return id && isBoostActive(id) ? id : null;
@@ -11051,7 +11115,7 @@ export function getCropPlotSunshowerSpeedMultiplier() {
 export function getActiveBoostsForCrop(cropName) {
   const base = BASE_CROPS[cropName];
   const tier = base ? base.tier : null;
-  return BOOSTS.filter(b => isBoostActive(b.id) && (b.category || "crops") === "crops" && (b.scope === "global" && (!b.composterFertilizer || isFertilizerTierEnabled(tier)) || b.scope === "skillGlobal" || b.scope === "tier" && b.target === tier || b.scope === "tierEffects" || b.scope === "crop" && (b.target || "").toLowerCase() === (cropName || "").toLowerCase())).filter(b => b.id !== "hoot" || isOvernightGroundCrop(cropName)).filter(b => b.id !== "blossom_ward" || currentSeason === "Spring" && isCropInSeason(cropName, "Spring")).filter(b => b.id !== "frozen_heart" || currentSeason === "Winter" && isCropInSeason(cropName, "Winter"));
+  return BOOSTS.filter(b => (b.category || "crops") === "crops" && isBoostActive(b.id) && (b.scope === "global" && (!b.composterFertilizer || isFertilizerTierEnabled(tier)) || b.scope === "skillGlobal" || b.scope === "tier" && b.target === tier || b.scope === "tierEffects" || b.scope === "crop" && (b.target || "").toLowerCase() === (cropName || "").toLowerCase())).filter(b => b.id !== "hoot" || isOvernightGroundCrop(cropName)).filter(b => b.id !== "blossom_ward" || currentSeason === "Spring" && isCropInSeason(cropName, "Spring")).filter(b => b.id !== "frozen_heart" || currentSeason === "Winter" && isCropInSeason(cropName, "Winter")).filter(b => b.id !== "solflare_aegis" || isCropInSeason(cropName, "Summer")).filter(b => b.id !== "autumns_embrace" || isCropInSeason(cropName, "Autumn")).filter(b => weatherBoostAppliesToItem(b, cropName, "crop"));
 }
 
 function getFertilizerPotencyMult(fertName) {
@@ -11075,7 +11139,7 @@ export function getBeeSwarmPerSwarmYield() {
   return perSwarm;
 }
 
-export function getEffectiveYieldAdd(b, tier, cropName) {
+export function getEffectiveYieldAdd(b, tier, cropName, ctx) {
   let add = b.resourceEffects ? b.resourceEffects[cropName] || 0 : b.yieldAdd || 0;
   if (b.beeSwarmStack) {
     const stats = getBeeSwarmStatsForCrop(cropName);
@@ -11092,7 +11156,10 @@ export function getEffectiveYieldAdd(b, tier, cropName) {
   if (b.composterFertilizer && b.fertilizer) {
     add *= getFertilizerPotencyMult(b.fertilizer);
   }
-  if (b.limitedBoostName === "Bountiful Harvest" && isSeasonGuardianActive()) {
+  if (b.limitedBoostName === "Bountiful Harvest" && weatherGuardianDoubles(b, ctx || {
+    name: cropName,
+    kind: "crop"
+  })) {
     add *= 2;
   }
   return add;
@@ -11149,7 +11216,10 @@ function computeBoostedCropStatsUncached(cropName, baseYield, baseTimeSec, plotC
     }
     if (b.yieldMult) multBonusSum += (b.yieldMult - 1) * coverageFraction;
     if (b.timeMult) {
-      const effectiveTimeMult = b.limitedBoostName === "Sunshower" && isSeasonGuardianActive() ? b.timeMult * .5 : b.timeMult;
+      const effectiveTimeMult = b.limitedBoostName === "Sunshower" && weatherGuardianDoubles(b, {
+        name: cropName,
+        kind: "crop"
+      }) ? b.timeMult * .5 : b.timeMult;
       if (b.plotCap) {
         aoeTimeBoosts.push(b);
       } else if (b.limitedBoostName && haveSyncData && getLimitedBoostRemainingSec(b.limitedBoostName) > 0) {
@@ -12683,23 +12753,23 @@ export function findTool(id) {
 }
 
 function getActiveBoostsForComposter(composterName) {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "composter" && (b.scope === "composterGlobal" || b.scope === "composter" && b.target === composterName));
+  return BOOSTS.filter(b => b.category === "composter" && isBoostActive(b.id) && (b.scope === "composterGlobal" || b.scope === "composter" && b.target === composterName));
 }
 
 export function getActiveSaltYieldBonus() {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "saltGlobal").reduce((sum, b) => sum + (b.saltYieldAdd || 0), 0);
+  return BOOSTS.filter(b => b.category === "salt" && isBoostActive(b.id) && b.scope === "saltGlobal").reduce((sum, b) => sum + (b.saltYieldAdd || 0), 0);
 }
 
 export function getActiveSaltRechargeMult() {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "saltGlobal" && b.saltRechargeTimeMult).reduce((mult, b) => mult * b.saltRechargeTimeMult, 1);
+  return BOOSTS.filter(b => b.category === "salt" && isBoostActive(b.id) && b.scope === "saltGlobal" && b.saltRechargeTimeMult).reduce((mult, b) => mult * b.saltRechargeTimeMult, 1);
 }
 
 function getActiveSaltPrimeChanceBonus() {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "agingGlobal").reduce((sum, b) => sum + (b.primeChanceAdd || 0), 0);
+  return BOOSTS.filter(b => b.category === "salt" && isBoostActive(b.id) && b.scope === "agingGlobal").reduce((sum, b) => sum + (b.primeChanceAdd || 0), 0);
 }
 
 function getActiveFermentationSpiceDoubleChancePct() {
-  return Math.min(100, BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "fermentationSpiceGlobal").reduce((sum, b) => sum + (b.doubleChancePct || 0), 0));
+  return Math.min(100, BOOSTS.filter(b => b.category === "salt" && isBoostActive(b.id) && b.scope === "fermentationSpiceGlobal").reduce((sum, b) => sum + (b.doubleChancePct || 0), 0));
 }
 
 export function getActiveFermentationSpiceExpectedMult() {
@@ -12707,20 +12777,43 @@ export function getActiveFermentationSpiceExpectedMult() {
 }
 
 function getActiveAgedFishXpMult() {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "fermentationSpiceGlobal" && b.agedFishXpMult).reduce((mult, b) => mult * b.agedFishXpMult, 1);
+  return BOOSTS.filter(b => b.category === "salt" && isBoostActive(b.id) && b.scope === "fermentationSpiceGlobal" && b.agedFishXpMult).reduce((mult, b) => mult * b.agedFishXpMult, 1);
 }
 
 function getActiveSpiceRackOutputAdd() {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && b.scope === "spiceRackGlobal").reduce((sum, b) => sum + (b.spiceOutputAdd || 0), 0);
+  return BOOSTS.filter(b => b.category === "salt" && isBoostActive(b.id) && b.scope === "spiceRackGlobal").reduce((sum, b) => sum + (b.spiceOutputAdd || 0), 0);
+}
+
+function getSkillRankValue(id, fallback) {
+  const data = ASCENSION_RANK_DATA[id];
+  const values = data && Array.isArray(data.values) ? data.values : null;
+  if (!values || !values.length) return fallback;
+  return values[Math.min(values.length, Math.max(1, getAscensionRank(id))) - 1];
+}
+
+export function getActiveRefinerChance() {
+  if (!isSkillActive("skill_refiner")) return 0;
+  return (getSkillRankValue("skill_refiner", 15) || 0) / 100;
+}
+
+export function getActiveAgerMult() {
+  if (!isSkillActive("skill_ager")) return 1;
+  return getSkillRankValue("skill_ager", 2) || 1;
+}
+
+export function getSpiceChoiceForAnimalType(type) {
+  if (spiceUsage.saltLick.active && spiceUsage.saltLick[type]) return "saltLick";
+  if (spiceUsage.honeyTreat.active && spiceUsage.honeyTreat[type]) return "honeyTreat";
+  return "none";
 }
 
 export function getActiveSaltBoosts(scopes) {
   const scopeList = Array.isArray(scopes) ? scopes : [ scopes ];
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "salt" && scopeList.includes(b.scope));
+  return BOOSTS.filter(b => b.category === "salt" && isBoostActive(b.id) && scopeList.includes(b.scope));
 }
 
 export function getSpiceLickDurationHarvests() {
-  return BOOSTS.some(b => isBoostActive(b.id) && b.id === "vibraphone") ? 6 : 3;
+  return BOOSTS.some(b => b.id === "vibraphone" && isBoostActive(b.id)) ? 6 : 3;
 }
 
 export function computeComposterFigures(composterName, visited) {
@@ -12761,7 +12854,7 @@ export function computeComposterFigures(composterName, visited) {
 }
 
 function getActiveBoostsForTool(toolName) {
-  return BOOSTS.filter(b => isBoostActive(b.id) && b.category === "tools" && (b.scope === "toolGlobal" || b.scope === "tool" && (b.target || "").toLowerCase() === (toolName || "").toLowerCase()));
+  return BOOSTS.filter(b => b.category === "tools" && isBoostActive(b.id) && (b.scope === "toolGlobal" || b.scope === "tool" && (b.target || "").toLowerCase() === (toolName || "").toLowerCase()));
 }
 
 export function getResourceForTool(toolName) {
@@ -13065,7 +13158,7 @@ export function getActiveFeedInfo(feedKey, visited) {
 }
 
 export function getActiveAnimalBoosts(type) {
-  const active = BOOSTS.filter(b => isBoostActive(b.id) && b.category === "animals" && (b.scope === "animalGlobal" || b.scope === "animalType" && b.target === type));
+  const active = BOOSTS.filter(b => b.category === "animals" && isBoostActive(b.id) && (b.scope === "animalGlobal" || b.scope === "animalType" && b.target === type));
   if ((type === "sheep" || type === "cow") && isBoostActive("bale") && isSkillActive("skill_bale_economy")) {
     const bale = BOOSTS.find(b => b.id === "bale");
     if (bale && bale.yieldAdd) {
@@ -13168,6 +13261,9 @@ export function computeAnimalTypeFigures(type, visited, levelOverride) {
     spiceActiveKey: spice.activeKey,
     costPerCureFlower: costPerCureFlower,
     sickHeads: sickHeads,
+    freeFeed: freeFeed,
+    expNeeded: feedFig.expNeeded,
+    feedQtyPerFeed: requiredQtyPerFeed * feedMultTotal,
     feedKeyUsed: feedKeyUsed,
     feedNameUsed: feedNameUsed,
     feedIconUsed: feedIconUsed,
@@ -13175,6 +13271,8 @@ export function computeAnimalTypeFigures(type, visited, levelOverride) {
     feedXpBase: feedXpBase,
     feedXpMult: feedXpMult,
     affectionFigures: feedFig.affection,
+    feedCount: feedFig.noOfFeeds,
+    loveXpPerCycle: feedFig.avgLoveXpPerCycle,
     shrineCostFlowerPerCyclePerAnimal: shrineCostFlowerPerCyclePerAnimal,
     shrineDailyCostTotal: animalShrineInfo.total,
     shrineNames: animalShrineInfo.shrines.map(x => x.name)
@@ -14407,13 +14505,10 @@ function applyFarmPlotsNodesOnly(json, hasFullData) {
   }
   {
     const fruitBag = asObj(g.fruitPatches) || {};
+    const patchTotal = Object.keys(fruitBag).length;
     const freshFruitCounts = {};
     Object.keys(BASE_FRUITS).forEach(n => {
-      freshFruitCounts[n] = 0;
-    });
-    Object.values(fruitBag).forEach(patch => {
-      const fname = patch && patch.fruit && patch.fruit.name;
-      if (fname && freshFruitCounts.hasOwnProperty(fname)) freshFruitCounts[fname]++;
+      freshFruitCounts[n] = patchTotal;
     });
     fruitCounts = freshFruitCounts;
     saveFruitCounts();
@@ -26023,7 +26118,7 @@ function computeCalcNodeInfo(name) {
     const perUnitYield = boosted.minHarvestVal * boosted.yieldVal;
     return {
       count: count,
-      unitLabel: count === 1 ? "Tree" : "Trees",
+      unitLabel: count === 1 ? "Fruit Patch" : "Fruit Patches",
       icon: getIcon(name),
       cycleYield: count * perUnitYield
     };
@@ -26497,7 +26592,7 @@ export function gatherAllProfitItems() {
     const m = marketByLowerName.get(name.toLowerCase());
     const sellFlower = m ? m.flowerPrice || 0 : 0;
     const boosted = computeBoostedFruitStats(name, d.yieldPerHarvest || 1, d.timeSec, d.minHarvest || 1);
-    const count = getFruitCount(name);
+    const count = isFruitInSeason(name) ? getFruitCount(name) : 0;
     const restockInfo = {
       baseStock: BASE_STOCK_FRUITS[name],
       kind: "seed",
@@ -26514,7 +26609,7 @@ export function gatherAllProfitItems() {
       category: "Fruit",
       icon: getIcon(name),
       boosts: getBuildDetailActiveEntries("fruits", name),
-      countLabel: "Tree",
+      countLabel: "Fruit Patch",
       count: count,
       cyclesPerDay: unitProj.cyclesPerDay,
       cycleTimeSec: boosted.timeVal,
@@ -27800,72 +27895,80 @@ export function computeFertilizerFigures(fertName) {
 export function computeSpiceFigures(name) {
   const astrolabeMult = typeof getActiveFermentationSpiceExpectedMult === "function" ? getActiveFermentationSpiceExpectedMult() : 1;
   const onesieAdd = typeof getActiveSpiceRackOutputAdd === "function" ? getActiveSpiceRackOutputAdd() : 0;
+  const agerMult = getActiveAgerMult();
+  const refinerChance = name === "Refined Salt" ? getActiveRefinerChance() : 0;
+  const activeBoosts = getActiveSaltBoosts([ "fermentationSpiceGlobal", "spiceRackGlobal" ]);
+  const outputFor = r => r.output * agerMult * astrolabeMult + refinerChance + onesieAdd;
   if (name === "Refined Salt") {
     const r = SPICE_RECIPES[name];
     const saltUnit = saltCostFlowerForSpiceRack();
-    const saltCost = saltUnit * r.saltQty;
-    const output = r.output * astrolabeMult + onesieAdd;
+    const saltQty = r.saltQty * agerMult;
+    const saltCost = saltUnit * saltQty;
+    const output = outputFor(r);
     return {
       cost: saltCost,
       unitCost: saltCost / output,
       output: output,
       ingredients: [ {
         name: "Salt",
-        qty: r.saltQty,
+        qty: saltQty,
         unitCostFlower: saltUnit,
         cost: saltCost,
         hasToggle: true,
         mode: spiceMaterialMode("Salt")
       } ],
-      activeBoosts: getActiveSaltBoosts([ "fermentationSpiceGlobal", "spiceRackGlobal" ])
+      activeBoosts: activeBoosts
     };
   }
   if (name === "Salt Lick") {
     const r = SPICE_RECIPES[name];
     const rsUnit = refinedSaltUnitCostFlower();
-    const rsCost = rsUnit * r.refinedSaltQty;
-    const output = r.output * astrolabeMult + onesieAdd;
+    const rsQty = r.refinedSaltQty * agerMult;
+    const rsCost = rsUnit * rsQty;
+    const output = outputFor(r);
     return {
       cost: rsCost,
       unitCost: rsCost / output,
       output: output,
       ingredients: [ {
         name: "Refined Salt",
-        qty: r.refinedSaltQty,
+        qty: rsQty,
         unitCostFlower: rsUnit,
         cost: rsCost,
         hasToggle: false
       } ],
-      activeBoosts: getActiveSaltBoosts([ "fermentationSpiceGlobal", "spiceRackGlobal" ])
+      activeBoosts: activeBoosts
     };
   }
   if (name === "Honey Treat") {
     const r = SPICE_RECIPES[name];
     const rsUnit = refinedSaltUnitCostFlower();
-    const rsCost = rsUnit * r.refinedSaltQty;
+    const rsQty = r.refinedSaltQty * agerMult;
+    const rsCost = rsUnit * rsQty;
     const honeyUnit = honeyCostFlowerForSpiceRack();
-    const honeyCost = honeyUnit * r.honeyQty;
+    const honeyQty = r.honeyQty * agerMult;
+    const honeyCost = honeyUnit * honeyQty;
     const cost = rsCost + honeyCost;
-    const output = r.output * astrolabeMult + onesieAdd;
+    const output = outputFor(r);
     return {
       cost: cost,
       unitCost: cost / output,
       output: output,
       ingredients: [ {
         name: "Refined Salt",
-        qty: r.refinedSaltQty,
+        qty: rsQty,
         unitCostFlower: rsUnit,
         cost: rsCost,
         hasToggle: false
       }, {
         name: "Honey",
-        qty: r.honeyQty,
+        qty: honeyQty,
         unitCostFlower: honeyUnit,
         cost: honeyCost,
         hasToggle: true,
         mode: spiceMaterialMode("Honey")
       } ],
-      activeBoosts: getActiveSaltBoosts([ "fermentationSpiceGlobal", "spiceRackGlobal" ])
+      activeBoosts: activeBoosts
     };
   }
   return {
@@ -35213,4 +35316,456 @@ export function __postinc_craftMaterialIdSeq() {
 
 export function __preinc_digPanelRenderToken() {
   return ++digPanelRenderToken;
+}
+
+function simWithTemporary(holder, key, value, fn) {
+  const had = Object.prototype.hasOwnProperty.call(holder, key);
+  const prev = holder[key];
+  holder[key] = value;
+  try {
+    return fn();
+  } finally {
+    if (had) holder[key] = prev; else delete holder[key];
+  }
+}
+
+function simWithPlotCount(value, fn) {
+  const prev = globalPlotCount;
+  globalPlotCount = value;
+  try {
+    return fn();
+  } finally {
+    globalPlotCount = prev;
+  }
+}
+
+export function boostStrength(b) {
+  if (!b) return 0;
+  let v = 0;
+  if (typeof b.yieldMult === "number") v += b.yieldMult - 1;
+  if (typeof b.timeMult === "number") v += 1 - b.timeMult;
+  if (typeof b.yieldAdd === "number") v += b.yieldAdd;
+  if (b.freeCost || b.noTool) v += .01;
+  if (/super/i.test(b.name || "")) v += .005;
+  return v;
+}
+
+export function boostsConflict(a, b) {
+  if (!a || !b || a.id === b.id) return false;
+  const asList = v => v == null ? [] : Array.isArray(v) ? v : [ v ];
+  if (a.group && a.group === b.group) return true;
+  return asList(a.exclusiveWith).indexOf(b.id) >= 0 || asList(b.exclusiveWith).indexOf(a.id) >= 0;
+}
+
+function simMergeBoosts(current, wanted) {
+  const all = Array.from(new Set(current.concat(wanted)));
+  const find = id => BOOSTS.find(b => b.id === id);
+  return all.filter(id => {
+    const b = find(id);
+    if (!b) return true;
+    return !all.some(o => {
+      if (o === id) return false;
+      const ob = find(o);
+      if (!boostsConflict(b, ob)) return false;
+      const diff = boostStrength(ob) - boostStrength(b);
+      return diff > 0 || diff === 0 && all.indexOf(o) > all.indexOf(id);
+    });
+  });
+}
+
+export function runWithSimulatedSetup(setup, fn) {
+  const skills = setup && Array.isArray(setup.skills) ? setup.skills : [];
+  const boosts = setup && Array.isArray(setup.boosts) ? setup.boosts : [];
+  const prev = {
+    skills: selectedSkills,
+    boosts: selectedBoosts,
+    ranks: ascensionRanks,
+    calc: dailyProfitCalcMode,
+    period: dailyProfitPeriodMode,
+    modes: simModeOverrides,
+    weather: simWeatherMode,
+    spice: JSON.stringify(spiceUsage)
+  };
+  const nextRanks = Object.assign({}, ascensionRanks);
+  skills.forEach(s => {
+    const rank = Number(s[1]) || 1;
+    if (rank > (nextRanks[s[0]] || 1)) nextRanks[s[0]] = rank;
+  });
+  selectedSkills = Array.from(new Set(selectedSkills.concat(skills.map(s => s[0]))));
+  selectedBoosts = simMergeBoosts(selectedBoosts, boosts);
+  ascensionRanks = nextRanks;
+  dailyProfitCalcMode = "average";
+  dailyProfitPeriodMode = "24h";
+  simModeOverrides = setup && setup.modes && typeof setup.modes === "object" ? setup.modes : null;
+  simWeatherMode = true;
+  if (setup && setup.spice && typeof setup.spice === "object") {
+    spiceUsage.saltLick.active = true;
+    spiceUsage.honeyTreat.active = true;
+    SPICE_ANIMAL_TYPES.forEach(t => {
+      if (setup.spice[t] === undefined) return;
+      spiceUsage.saltLick[t] = setup.spice[t] === "saltLick";
+      spiceUsage.honeyTreat[t] = setup.spice[t] === "honeyTreat";
+    });
+  }
+  applyAscensionRanks();
+  applySkillModifiers();
+  invalidateCostCache();
+  try {
+    return fn();
+  } finally {
+    const savedSpice = JSON.parse(prev.spice);
+    SPICE_ANIMAL_TYPES.forEach(t => {
+      spiceUsage.saltLick[t] = savedSpice.saltLick[t];
+      spiceUsage.honeyTreat[t] = savedSpice.honeyTreat[t];
+    });
+    spiceUsage.saltLick.active = savedSpice.saltLick.active;
+    spiceUsage.honeyTreat.active = savedSpice.honeyTreat.active;
+    selectedSkills = prev.skills;
+    selectedBoosts = prev.boosts;
+    ascensionRanks = prev.ranks;
+    dailyProfitCalcMode = prev.calc;
+    dailyProfitPeriodMode = prev.period;
+    simModeOverrides = prev.modes;
+    simWeatherMode = prev.weather;
+    applyAscensionRanks();
+    applySkillModifiers();
+    invalidateCostCache();
+  }
+}
+
+function simProjectionRow(name, price, costPerUnit, count, timeSec) {
+  const card = {
+    name: name,
+    price: price,
+    costPerUnit: costPerUnit,
+    count: count,
+    displayNodeCount: count,
+    cyclesPerDay: timeSec > 0 ? 86400 / timeSec : null,
+    avgYieldPerCycle: 0,
+    shrineCostPerCycle: 0,
+    shrineNames: []
+  };
+  const cycles = dailyProfitDefaultCycles(card);
+  const p = computeDailyProfitProjection(card, cycles);
+  return {
+    name: name,
+    price: price,
+    count: count,
+    cycles: cycles,
+    perCycle: p.yieldPerCycle,
+    yield24h: p.totalYield24h,
+    gross: p.gross24h,
+    cost: p.coinCost24h,
+    restock: p.restockCost24h,
+    shrine: p.shrineCost24h,
+    shrineNames: p.shrineNames || [],
+    fee: p.feeAmount24h,
+    deductions: p.totalDeductions24h,
+    net: p.netProfit24h,
+    timeSec: timeSec
+  };
+}
+
+function simCropRow(name) {
+  const build = () => {
+    const d = BASE_CROPS[name];
+    const boosted = computeBoostedCropStats(name, d.baseYield || 1, d.timeSec);
+    const plots = getPlotCount(name);
+    const row = simProjectionRow(name, farmPanelGetMarketPriceFlower(name), farmPanelGetCostPerUnitFlower(name), plots > 0 ? plots : 1, boosted.timeVal);
+    row.counts = [ {
+      label: "Plots",
+      value: plots > 0 ? plots : 1
+    } ];
+    return row;
+  };
+  return getPlotCount(name) > 0 ? build() : simWithPlotCount(1, build);
+}
+
+function simFarmBagSize(read) {
+  try {
+    const g = profileGetG();
+    const bag = g ? read(g) : null;
+    return bag && typeof bag === "object" ? Object.keys(bag).length : 0;
+  } catch (e) {
+    return 0;
+  }
+}
+
+function simFruitRow(name) {
+  const total = Math.max(1, getFruitPatchTotal());
+  return simWithTemporary(fruitCounts, name, total, () => {
+    const d = BASE_FRUITS[name];
+    const boosted = computeBoostedFruitStats(name, d.yieldPerHarvest || 1, d.timeSec, d.minHarvest || 1);
+    const row = simProjectionRow(name, farmPanelGetMarketPriceFlower(name), farmPanelGetCostPerUnitFlower(name), total, boosted.timeVal);
+    row.counts = [ {
+      label: "Fruit Patch",
+      value: total
+    } ];
+    return row;
+  });
+}
+
+function simGreenhouseRow(name) {
+  const synced = simFarmBagSize(g => g.greenhouse && g.greenhouse.pots);
+  const planted = Object.keys(BASE_GREENHOUSE).reduce((sum, n) => sum + getGreenhouseCount(n), 0);
+  const total = Math.max(1, synced, planted);
+  return simWithTemporary(greenhouseCounts, name, total, () => {
+    const d = BASE_GREENHOUSE[name];
+    const boosted = computeBoostedGreenhouseStats(name, d.baseYield || 1, d.timeSec);
+    const row = simProjectionRow(name, farmPanelGetMarketPriceFlower(name), farmPanelGetCostPerUnitFlower(name), total, boosted.timeVal);
+    row.counts = [ {
+      label: "Greenhouse Pots",
+      value: total
+    } ];
+    return row;
+  });
+}
+
+function simMachineRow(name) {
+  const base = BASE_CROP_MACHINE[name];
+  const packSeeds = base ? CROP_MACHINE_PACK_MAX[name] || base.seedQty : 0;
+  const batch = base ? computeCropMachineBatch(name, packSeeds) : null;
+  if (!batch) return null;
+  const cycles = batch.timeSec > 0 ? 86400 / batch.timeSec : 0;
+  const yield24h = batch.yieldQty * cycles;
+  const gross = batch.sellFlower * yield24h;
+  const fee = gross * ((feePercent || 0) / 100);
+  const cost = batch.costFlower * cycles;
+  const restock = computeMachineRestockGems(name, packSeeds * cycles).flowerCost || 0;
+  return {
+    name: name,
+    price: batch.sellFlower,
+    count: 1,
+    cycles: cycles,
+    perCycle: batch.yieldQty,
+    yield24h: yield24h,
+    gross: gross,
+    cost: cost,
+    restock: restock,
+    shrine: 0,
+    shrineNames: [],
+    fee: fee,
+    deductions: cost + restock + fee,
+    net: gross - fee - cost - restock,
+    timeSec: batch.timeSec,
+    counts: [ {
+      label: "Packs",
+      value: getCropMachineQueueSlots()
+    }, {
+      label: "Seeds per pack",
+      value: packSeeds,
+      sub: true
+    } ],
+    locked: !isCropMachineUnlocked(name)
+  };
+}
+
+function simMaterialList(scope, breakdown) {
+  return (breakdown || []).map(b => ({
+    scope: scope,
+    name: b.name,
+    qty: b.qty,
+    mode: b.mode,
+    unitCost: b.unitCost,
+    fixed: b.mode === "gem" || String(b.name || "").toLowerCase() === "oil"
+  }));
+}
+
+function simObsidianRow() {
+  const m = (marketItems || []).find(x => (x.name || "").toLowerCase() === "obsidian");
+  const sell = m ? m.flowerPrice || 0 : 0;
+  const lava = computeLavaPitFigures(previewSeason);
+  if (!lava) return null;
+  const w = computeObsidianWeeklyProfit(lava, sell);
+  const gross = w.sellable * sell / 7;
+  const fee = gross * ((feePercent || 0) / 100);
+  const cost = w.cost / 7;
+  return {
+    name: "Obsidian",
+    price: sell,
+    count: 1,
+    cycles: w.cyclesPerWeek / 7,
+    perCycle: lava.yieldVal,
+    yield24h: w.sellable / 7,
+    gross: gross,
+    cost: cost,
+    restock: 0,
+    shrine: 0,
+    shrineNames: [],
+    fee: fee,
+    deductions: cost + fee,
+    net: w.profit / 7,
+    materials: simMaterialList("Obsidian_" + previewSeason, lava.breakdown),
+    timeSec: lava.timeSec
+  };
+}
+
+function simResourceRow(name) {
+  if (name === "Obsidian") return simObsidianRow();
+  if (!RESOURCE_DATA[name]) return null;
+  const build = () => {
+    const fig = computeResourceFigures(name);
+    if (!fig) return null;
+    const row = simProjectionRow(name, farmPanelGetMarketPriceFlower(name), 0, Math.max(1, fig.nodeCount), fig.timeSec);
+    row.tradable = row.price > 0;
+    row.materials = simMaterialList(name, fig.breakdown);
+    row.counts = [ {
+      label: "Nodes",
+      value: Math.max(1, fig.nodeCount)
+    } ];
+    if (isTieredResource(name)) {
+      const tc = getNodeTierCounts(name);
+      const tiers = RESOURCE_NODE_TIERS[name];
+      const upgraded = tiers.some(t => t.key !== "base" && (parseFloat(tc[t.key]) || 0) > 0);
+      if (upgraded) tiers.forEach(t => {
+        const q = parseFloat(tc[t.key]) || 0;
+        if (q > 0) row.counts.push({
+          label: t.label,
+          value: q,
+          sub: true
+        });
+      });
+    }
+    return row;
+  };
+  if (getNodeCount(name) > 0) return build();
+  const one = isTieredResource(name) ? {
+    base: 1,
+    tier1: 0,
+    tier2: 0
+  } : 1;
+  return simWithTemporary(nodeCounts, name, one, build);
+}
+
+function simAnimalRow(type, qty, level) {
+  const cfg = ANIMAL_DATA[type];
+  if (!cfg) return null;
+  const q = Math.max(0, Number(qty) || 0);
+  const lv = Math.min(15, Math.max(1, parseInt(level) || 1));
+  const real = getAnimalCount(type);
+  const sameAsReal = (Number(real.qty) || 0) === q && Math.min(15, Math.max(1, parseInt(real.level) || 1)) === lv;
+  const build = () => simWithTemporary(animalCounts, type, {
+    level: lv,
+    qty: q
+  }, () => {
+    const fig = computeAnimalTypeFigures(type, undefined, lv);
+    const profit = computeAnimalProfit(fig);
+    const cycles = fig.cycleTimeSec > 0 ? ANIMAL_BASE_CYCLE_SEC / fig.cycleTimeSec : 0;
+    const units = fig.totalYieldUnits * q * cycles;
+    const gross = profit.totalRevenueGrossFlower * cycles;
+    const fee = (profit.totalRevenueGrossFlower - profit.totalRevenueFlower) * cycles;
+    const consumables = (fig.consumablesFlowerPerLevel || 0) * q * cycles;
+    const cost = coinsToFlower(fig.totalCostCoinsPerAnimal) * q * cycles - consumables;
+    const shrine = (fig.shrineCostFlowerPerCyclePerAnimal || 0) * q * cycles;
+    const aff = computeAnimalAffectionSummary(type);
+    const tools = Object.keys(ANIMAL_LOVE_ITEM_XP).map(k => ({
+      key: k,
+      owned: aff.tools[k].owned,
+      xpEach: aff.tools[k].xpEach,
+      count: aff.tools[k].count,
+      xp: aff.tools[k].xp
+    }));
+    const loveCycle = tools.reduce((sum, t) => sum + t.xp, 0);
+    const feedCycle = fig.feedXpPerFeed * fig.feedCount * q;
+    const products = fig.products.map((pname, idx) => ({
+      name: pname,
+      perCycle: fig.yields[idx] * q,
+      yield24h: fig.yields[idx] * q * cycles
+    })).filter(x => x.perCycle > 0);
+    return {
+      name: cfg.label,
+      price: units > 0 ? gross / units : 0,
+      count: q,
+      level: lv,
+      cycles: cycles,
+      perCycle: fig.totalYieldUnits * q,
+      yield24h: units,
+      gross: gross,
+      cost: cost,
+      consumables: consumables,
+      spiceKey: fig.spiceActiveKey,
+      restock: 0,
+      shrine: shrine,
+      shrineNames: fig.shrineNames || [],
+      fee: fee,
+      deductions: cost + consumables + shrine + fee,
+      net: profit.profitFlower * cycles,
+      materials: simMaterialList("AnimalFeed", fig.feedInfo.breakdown),
+      timeSec: fig.cycleTimeSec,
+      products: products,
+      animalExp: {
+        freeFeed: fig.freeFeed,
+        animalLabel: cfg.label,
+        feedName: fig.feedNameUsed,
+        expNeeded: fig.expNeeded,
+        feedNeeded: fig.feedCount,
+        feedTotal: fig.freeFeed ? 0 : fig.feedCount * fig.feedQtyPerFeed * q,
+        dayEach: q > 0 ? (feedCycle + loveCycle) * cycles / q : 0,
+        feedXp: fig.feedXpPerFeed,
+        feedXpBase: fig.feedXpBase,
+        feedXpMult: fig.feedXpMult,
+        feeds: fig.feedCount,
+        feedCycle: feedCycle,
+        loveCycle: loveCycle,
+        cycle: feedCycle + loveCycle,
+        day: (feedCycle + loveCycle) * cycles,
+        capacity: aff.capacity,
+        opportunities: aff.opportunities,
+        tools: tools
+      }
+    };
+  });
+  return sameAsReal ? build() : simWithTemporary(animalAffectionCounts, type, {}, build);
+}
+
+export function computeGuideAveragePanelItems() {
+  const items = new Map;
+  const plain = {
+    skills: [],
+    boosts: [],
+    modes: null
+  };
+  const nodeNames = Object.keys(RESOURCE_DATA).concat("Obsidian").filter(n => getNodeCount(n) > 0);
+  if (nodeNames.length) {
+    simulateGuideRows(plain, {
+      kind: "resource",
+      names: nodeNames
+    }).forEach(r => items.set(r.name, {
+      net24h: r.net,
+      count: getNodeCount(r.name)
+    }));
+  }
+  Object.keys(ANIMAL_DATA).forEach(type => {
+    const c = getAnimalCount(type);
+    const qty = Math.max(0, Math.floor(Number(c.qty) || 0));
+    if (qty <= 0) return;
+    const rows = simulateGuideRows(plain, {
+      kind: "animal",
+      names: [ type ],
+      qty: qty,
+      level: Math.min(15, Math.max(1, Math.floor(Number(c.level) || 1)))
+    });
+    if (rows[0]) items.set("animal:" + type, {
+      net24h: rows[0].net,
+      count: qty
+    });
+  });
+  return items;
+}
+
+export function simulateGuideRows(setup, spec) {
+  return runWithSimulatedSetup(setup, () => {
+    const names = spec.names || [];
+    const out = [];
+    names.forEach(name => {
+      let row = null;
+      try {
+        if (spec.kind === "crop") row = simCropRow(name); else if (spec.kind === "fruit") row = simFruitRow(name); else if (spec.kind === "greenhouse") row = simGreenhouseRow(name); else if (spec.kind === "machine") row = simMachineRow(name); else if (spec.kind === "resource") row = simResourceRow(name); else if (spec.kind === "animal") row = simAnimalRow(name, spec.qty, spec.level);
+      } catch (e) {
+        row = null;
+      }
+      if (row) out.push(row);
+    });
+    return out;
+  });
 }
