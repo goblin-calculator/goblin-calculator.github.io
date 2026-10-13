@@ -35391,7 +35391,8 @@ export function runWithSimulatedSetup(setup, fn) {
     const rank = Number(s[1]) || 1;
     if (rank > (nextRanks[s[0]] || 1)) nextRanks[s[0]] = rank;
   });
-  selectedSkills = Array.from(new Set(selectedSkills.concat(skills.map(s => s[0]))));
+  const offSkills = new Set(setup && Array.isArray(setup.off) ? setup.off : []);
+  selectedSkills = Array.from(new Set(selectedSkills.concat(skills.map(s => s[0])))).filter(id => !offSkills.has(id));
   selectedBoosts = simMergeBoosts(selectedBoosts, boosts);
   ascensionRanks = nextRanks;
   dailyProfitCalcMode = "average";
