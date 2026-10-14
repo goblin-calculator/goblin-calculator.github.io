@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<script>(function(){try{var t=localStorage.getItem("hl_sfl_theme");if(t!=="0")document.body.classList.add("sfl-theme");}catch(e){}})();</script>
+<script>(function(){try{var d=localStorage.getItem("hl_app_dark_mode")==="1";document.body.classList.add(d?"app-dark":"sfl-theme");}catch(e){}})();</script>
 
 
 <div id="appLoadingScreen" aria-hidden="true">
@@ -213,7 +213,7 @@
 </div>
 
 <header>
-  <span class="app-version-badge">V7.1</span>
+  <span class="app-version-badge">V7.2</span>
   <div class="live-users-badge" id="liveUsersBadge" title="Active users right now" aria-live="polite">
     <span class="live-users-dot"></span>
     <span id="liveUsersCount">–</span>
@@ -1683,14 +1683,14 @@
         <span class="more-menu-item-label">Beginner Guide</span>
         <span class="more-menu-item-chev">›</span>
       </button>
-      <button type="button" id="appDarkToggleFab" class="more-menu-item" aria-label="Toggle dark mode" title="Toggle dark mode">
-        <span class="more-menu-item-icon" id="appDarkToggleFabIcon">🌙</span>
-        <span class="more-menu-item-label">Dark Mode</span>
+      <button type="button" id="sflThemeToggleFab" class="more-menu-item" aria-label="SFL theme" title="SFL theme">
+        <span class="more-menu-item-icon" id="sflThemeToggleFabIcon">🌟</span>
+        <span class="more-menu-item-label" id="sflThemeToggleFabLabel">SFL Theme</span>
         <span class="more-menu-item-chev">›</span>
       </button>
-      <button type="button" id="sflThemeToggleFab" class="more-menu-item" aria-label="Toggle SFL theme" title="Toggle SFL theme">
-        <span class="more-menu-item-icon" id="sflThemeToggleFabIcon">🌟</span>
-        <span class="more-menu-item-label" id="sflThemeToggleFabLabel">SFL Theme [on]</span>
+      <button type="button" id="appDarkToggleFab" class="more-menu-item" aria-label="Dark mode" title="Dark mode">
+        <span class="more-menu-item-icon" id="appDarkToggleFabIcon">🌙</span>
+        <span class="more-menu-item-label">Dark Mode</span>
         <span class="more-menu-item-chev">›</span>
       </button>
       <button type="button" class="more-menu-item" id="moreMenuSettingsBtn">
@@ -2157,7 +2157,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 <script src="presence.js"></script>
-<script src="app.5c5de0647c.bundle.js"></script>
+<script src="app.2adb3b208a.bundle.js"></script>
 <script>
 (function(){
   function ready(fn){
