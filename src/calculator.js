@@ -3482,15 +3482,10 @@ export let previewSeason = currentSeason;
 
 let selectedSeason = previewSeason;
 
-function applySeasonTheme(season) {
-  document.body.setAttribute("data-season", season.toLowerCase());
-}
-
 export function setPreviewSeason(season) {
   previewSeason = season;
   selectedSeason = season;
   if (typeof invalidateCostCache === "function") invalidateCostCache();
-  applySeasonTheme(season);
   renderSeasonToggle();
   renderBoostPanel();
   if (typeof renderResourceList === "function") renderResourceList();
@@ -28069,7 +28064,7 @@ export function getIconSmall(name) {
 }
 
 export function runDeferredInitialRender() {
-  const steps = [ updateSettingsSummary, () => applySeasonTheme(previewSeason), renderSeasonToggle, renderBoostPanel, renderLibraryLists, renderMarketList, renderResourceList, renderHoneyList, renderAnimalsList, applyCalcModeVisibility, updateCalcSelectedDisplay, updateCalcSummary, initLivePricesOnLoad, renderBettyShop, farmPanelLoadCachedGameState, renderFarmPanelTabContent ];
+  const steps = [ updateSettingsSummary, renderSeasonToggle, renderBoostPanel, renderLibraryLists, renderMarketList, renderResourceList, renderHoneyList, renderAnimalsList, applyCalcModeVisibility, updateCalcSelectedDisplay, updateCalcSummary, initLivePricesOnLoad, renderBettyShop, farmPanelLoadCachedGameState, renderFarmPanelTabContent ];
   steps.forEach(step => {
     try {
       step();
@@ -32779,51 +32774,27 @@ export function isAppDarkModeOn() {
 
 function applyAppDarkMode(on) {
   document.body.classList.toggle("app-dark", on);
-  const toggleIcon = $("appDarkToggleFabIcon");
-  if (toggleIcon) toggleIcon.textContent = on ? "☀️" : "🌙";
+  const darkBtn = $("appDarkToggleFab");
+  if (darkBtn) darkBtn.classList.toggle("is-active", on);
+  const sflBtn = $("sflThemeToggleFab");
+  if (sflBtn) sflBtn.classList.toggle("is-active", !on);
+  [ "digPanelDarkToggle", "potionPanelDarkToggle" ].forEach(id => {
+    const btn = $(id);
+    if (btn) btn.textContent = on ? "☀️" : "🌙";
+  });
+  if (typeof refreshSflThemeClass === "function") refreshSflThemeClass();
 }
 
 export function setAppDarkMode(on) {
-  if (on && isSflThemeOn()) setSflTheme(false);
   localStorage.setItem("hl_app_dark_mode", on ? "1" : "0");
   applyAppDarkMode(on);
 }
 
 (function initAppDarkModeFeature() {
   const fab = $("appDarkToggleFab");
-  if (fab) fab.onclick = () => setAppDarkMode(!isAppDarkModeOn());
+  if (fab) fab.onclick = () => setAppDarkMode(true);
   applyAppDarkMode(isAppDarkModeOn());
 })();
-
-export function isDigPanelNativeModeActive() {
-  const panel = $("digSidePanel");
-  const panelOpen = !!(panel && panel.classList.contains("open"));
-  return panelOpen && isDigDarkModeOn();
-}
-
-export function isPotionPanelNativeModeActive() {
-  const panel = $("potionSidePanel");
-  const panelOpen = !!(panel && panel.classList.contains("open"));
-  return panelOpen && isPotionDarkModeOn();
-}
-
-function isDigDarkModeOn() {
-  return localStorage.getItem("hl_dig_dark_mode") === "1";
-}
-
-function applyDigDarkMode(on) {
-  const panel = $("digSidePanel");
-  if (!panel) return;
-  panel.classList.toggle("dig-dark", on);
-  const toggleBtn = $("digPanelDarkToggle");
-  if (toggleBtn) toggleBtn.textContent = on ? "☀️" : "🌙";
-  if (typeof refreshSflThemeClass === "function") refreshSflThemeClass();
-}
-
-function setDigDarkMode(on) {
-  localStorage.setItem("hl_dig_dark_mode", on ? "1" : "0");
-  applyDigDarkMode(on);
-}
 
 (function initDigTreasureFeature() {
   const fab = $("digTreasureFab");
@@ -32838,8 +32809,7 @@ function setDigDarkMode(on) {
   const syncBtn = $("digPanelSyncBtn");
   if (syncBtn) syncBtn.onclick = performDigOnlySync;
   const darkToggleBtn = $("digPanelDarkToggle");
-  if (darkToggleBtn) darkToggleBtn.onclick = () => setDigDarkMode(!isDigDarkModeOn());
-  applyDigDarkMode(isDigDarkModeOn());
+  if (darkToggleBtn) darkToggleBtn.onclick = () => setAppDarkMode(!isAppDarkModeOn());
   const mainSyncBtn = $("farmPanelSyncBtn");
   if (mainSyncBtn) {
     const originalOnClick = mainSyncBtn.onclick;
@@ -33288,24 +33258,6 @@ export function potionSetActiveGuessSlot(slot) {
   renderPotionRoomPanel();
 }
 
-function isPotionDarkModeOn() {
-  return localStorage.getItem("hl_potion_dark_mode") === "1";
-}
-
-function applyPotionDarkMode(on) {
-  const panel = $("potionSidePanel");
-  if (!panel) return;
-  panel.classList.toggle("potion-dark", on);
-  const toggleBtn = $("potionPanelDarkToggle");
-  if (toggleBtn) toggleBtn.textContent = on ? "☀️" : "🌙";
-  if (typeof refreshSflThemeClass === "function") refreshSflThemeClass();
-}
-
-function setPotionDarkMode(on) {
-  localStorage.setItem("hl_potion_dark_mode", on ? "1" : "0");
-  applyPotionDarkMode(on);
-}
-
 (function initPotionRoomFeature() {
   const fab = $("potionRoomFab");
   if (fab) {
@@ -33323,8 +33275,7 @@ function setPotionDarkMode(on) {
   const debugBtn = $("potionPanelDebugBtn");
   if (debugBtn) debugBtn.onclick = potionShowDebugDump;
   const darkToggleBtn = $("potionPanelDarkToggle");
-  if (darkToggleBtn) darkToggleBtn.onclick = () => setPotionDarkMode(!isPotionDarkModeOn());
-  applyPotionDarkMode(isPotionDarkModeOn());
+  if (darkToggleBtn) darkToggleBtn.onclick = () => setAppDarkMode(!isAppDarkModeOn());
   const trainerBackupBtn = $("potionTrainerBackupBtn");
   if (trainerBackupBtn) trainerBackupBtn.onclick = potionHandleTrainerBackup;
   const trainerRestoreBtn = $("potionTrainerRestoreBtn");
