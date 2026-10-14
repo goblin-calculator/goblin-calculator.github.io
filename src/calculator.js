@@ -12,7 +12,7 @@ import { renderBeginnerPanel, syncBeginnerPanel } from "./beginner.js";
 
 import { sflbRefreshMyBuildIfOpen } from "./sfl_bubbles.js";
 
-import { getFlowerSeedTypeCost, SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeRestockCost24hDetailed, computeRestockCost24hDetailedIndividual, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, ensureCosmeticPricesLoaded, fetchLivePrices, findCosmeticPriceForName, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, isFishingBuyMode, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getActiveShrineDailyCost, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketplaceFlowerUsdPrice, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from "./prices.js";
+import { getFlowerSeedTypeCost, getFlowerSeedEffectiveCost, SFL_COMMUNITY_API_BASE, SFL_COMMUNITY_PROXY_BASE, SFL_EXCHANGE_API, SFL_LAND_API_BASE, SFL_LAND_INFO_BASE, __set_animalFlowerCost, __set_bountyFlowerCost, __set_budFloorPrice, __set_choresFlowerCost, __set_marketActiveTab, __set_marketItems, __set_petFloorPrice, _priceIndexCache, animalFlowerCost, applyLivePricesToMarket, applyMarketSearchFilter, bettyMarketPrice, bountyFlowerCost, budFloorPrice, choresFlowerCost, computeCalcShrineCost, computeMedicineCostFlower, computeRestockCost24h, computeRestockCost24hDetailed, computeRestockCost24hDetailedIndividual, computeSaltUnitCostCoins, cookingCostMode, cookingIngredientUnitCostCoins, crustaceanOptionCosts, crustaceanTrapCostCoins, esComputeAscensionUpgradeCostGeneric, esGetIslandUpgradeCost, esResourceFlowerCost, esSwampCostBase, ensureCosmeticPricesLoaded, fetchLivePrices, findCosmeticPriceForName, findLiveNftPriceForName, findLivePriceForItem, findLivePriceForName, fishCatchStageCostCoins, fishChumUnitCostCoins, fishEffectiveBasicCostCoins, fishRodCostCoins, fishSaltCostFlower, isFishingBuyMode, getActiveAgingSaltCostMult, getAgingSaltCostLocal, getActiveShrineDailyCost, getArtistCoinCostMult, getCropCostCoins, getFeedUnitCost, getFlowerVarietyCostCoins, getFruitCostCoins, getGreenhouseCostCoins, getItemCostByName, getMaterialUnitCostCoins, getOmnifeedUnitCostCoins, getPetResourceMarket, getRestockGemCost, getRestockGemCostIndividual, getSpiceCostPerUseFlower, getToolCostCoins, gunterBuyCost, gunterBuyTotalCost, gunterRenderFlowerCost, hasFreeCostBoost, hasFreeSaltRakeCost, honeyCostFlowerForSpiceRack, initLivePricesOnLoad, invalidateCostCache, isSflThemeOn, liveNftPrices, livePriceSource, livePrices, livePricesUpdatedAt, marketplaceFlowerUsdPrice, marketItems, marketPriceEditId, npcFlowerCost, openMarketPriceEdit, petDailyFoodCostFlower, petFloorPrice, petResourceCostOverride, pickledVegCost, priceEditTargetId, priceSourceBadgeHtml, refinedSaltUnitCostFlower, refreshSflThemeClass, removeToolMarketEntry, renderFishMarketCardsList, renderMarketList, renderMedicineCostDisplay, restockCostMode, saltCostFlowerForSpiceRack, setLivePrices, setRestockCostMode, setSflTheme, syncToolMarketEntry, tradeMarketPrice } from "./prices.js";
 
 import { loadBaseHoneyIfNeeded, profileBumpkinCachePersist, safeLSJSON, saveAnimalAffectionCounts, saveAnimalAffectionTools, saveAnimalBuds, saveAnimalCounts, saveAnimalSicknessEstimate, saveAoeSyncOverrides, saveAscensionState, saveBeeSwarmState, saveBoostState, saveBoosts, saveBudFloorPrice, saveCmOilTank, saveCmQueue, saveCookingCounts, saveCropBuds, saveCrustaceanChumSelection, saveFishBuds, saveFlowerVarietyOverrides, saveFruitBuds, saveFruitCounts, saveGlobalPlotCount, saveGlobalPlotCountTouched, saveGreenhouseBuds, saveGreenhouseCounts, saveHiveCount, saveManualCycleOverrides, saveMarketState, saveNodeCounts, saveNodeCountsTouched, savePetFloorPrice, savePetResourceCostOverride, savePetsData, saveResourceBuds, saveSaltFarmLevel, saveSaltUi, saveSculptureLevel, saveSelectedHoneyFlower, saveSelectedSwarmCrop, saveSkillState, saveSpiceUsage, saveState, saveSyncedSkillLevels, saveToolRecipes, saveTradeState, saveWeatherDestructionSync } from "./storage.js";
 
@@ -3768,7 +3768,7 @@ function resolveAllFlowerAutoPicks() {
     const manual = readManualFlowerIngredient(n);
     const pool = manual ? [ manual ] : v.ingredients.length > 1 ? v.ingredients.filter(c => c !== n) : v.ingredients.slice();
     info.set(n, {
-      seedCost: getFlowerSeedTypeCost(v.seed),
+      seedCost: getFlowerSeedEffectiveCost(v.seed),
       yieldMult: own.expectedYield,
       ownSec: own.timeVal,
       qty: readFlowerVarietyQty(n),
@@ -4590,16 +4590,17 @@ export function isFlowerVarietySeasonLocked(name) {
 export function computeHiveStats(windowSec) {
   windowSec = windowSec || 86400;
   const active = getActiveBoostsForHive();
-  let speed = 1, honeyPerFill = 1, swarmChance = .1, swarmChanceMult = 1;
+  const BASE_SWARM_CHANCE = .1;
+  let speed = 1, honeyPerFill = 1, swarmChanceAddTotal = 0, swarmChanceMult = 1;
   const haveSyncData = hasLimitedBoostSyncData();
   active.forEach(b => {
     const coverageFraction = getBoostCoverageFraction(b, windowSec, haveSyncData);
     if (b.speedAdd) speed += b.speedAdd * coverageFraction;
     if (b.honeyYieldAdd) honeyPerFill += b.honeyYieldAdd * coverageFraction;
     if (b.swarmChanceMult) swarmChanceMult *= 1 + (b.swarmChanceMult - 1) * coverageFraction;
-    if (b.swarmChanceAdd) swarmChance += b.swarmChanceAdd * coverageFraction;
+    if (b.swarmChanceAdd) swarmChanceAddTotal += b.swarmChanceAdd * coverageFraction;
   });
-  swarmChance = Math.min(1, swarmChance * swarmChanceMult);
+  const swarmChance = Math.max(0, Math.min(1, BASE_SWARM_CHANCE * swarmChanceMult + swarmChanceAddTotal));
   const timeToFullSec = 86400 / speed;
   const honeyPerHiveDay = honeyPerFill * speed;
   return {
@@ -4675,7 +4676,7 @@ export function computeHiveEconomics(visited) {
   const netHoneySell = honeySellFlower * (1 - feePercent / 100);
   const revenuePerHiveDay = hiveStats.honeyPerHiveDay * netHoneySell;
   const grossRevenuePerHiveDay = hiveStats.honeyPerHiveDay * honeySellFlower;
-  const SWARM_BASE_BONUS = .2;
+  const SWARM_BASE_BONUS = getBeeSwarmPerSwarmYield();
   const cropPlots = getPlotCount();
   const cropData = BASE_CROPS[selectedSwarmCrop];
   const cropBoosted = cropData ? computeBoostedCropStats(selectedSwarmCrop, cropData.baseYield || 1, cropData.timeSec) : null;
@@ -4724,6 +4725,7 @@ export function computeHiveEconomics(visited) {
     bonusCropValuePerHiveDay: bonusCropValuePerHiveDay,
     bonusCropValueGrossPerHiveDay: bonusCropValueGrossPerHiveDay,
     bonusCropValuePerPlotPerHiveDay: bonusCropValuePerPlotPerHiveDay,
+    swarmYieldPerSwarm: SWARM_BASE_BONUS,
     cropPlots: cropPlots,
     cropSellFlower: cropSellFlower,
     cropSellFlowerGross: cropSellFlowerGross,
@@ -6160,8 +6162,7 @@ const SKILL_ANIMALS = [ {
   id: "skill_bountiful_bounties",
   name: "Bountiful Bounties",
   skillTier: 1,
-  notModeled: true,
-  note: "+50% coins from Animal Bounties (bounties aren't modeled in this app yet)"
+  note: "+50% coins from Animal Bounties"
 }, {
   id: "skill_fine_fibers",
   name: "Fine Fibers",
@@ -6489,8 +6490,7 @@ const SKILL_BEES = [ {
   id: "skill_flower_sale",
   name: "Flower Sale",
   skillTier: 1,
-  notModeled: true,
-  note: "-20% flower seed cost"
+  note: "-20% / -25% / -30% flower seed cost (ranked)"
 }, {
   id: "skill_buzzworthy_treats",
   name: "Buzzworthy Treats",
@@ -7321,7 +7321,7 @@ export const ASCENSION_RANK_DATA = {
     field: null,
     values: [ .8, .75, .7 ],
     unit: "×",
-    note: "Flower seed cost — not wired yet"
+    note: "Flower seed cost multiplier"
   },
   skill_petalled_perk: {
     field: "flowerExtraChance",
@@ -7672,7 +7672,7 @@ export const ASCENSION_RANK_DATA = {
     field: null,
     values: [ 50, 75, 100 ],
     unit: "%",
-    note: "Coins from Animal Bounties — not wired yet"
+    note: "Coins from Animal Bounties"
   },
   skill_composting_bonanza: {
     field: null,
@@ -13276,6 +13276,82 @@ export function computeAnimalTypeFigures(type, visited, levelOverride) {
     shrineCostFlowerPerCyclePerAnimal: shrineCostFlowerPerCyclePerAnimal,
     shrineDailyCostTotal: animalShrineInfo.total,
     shrineNames: animalShrineInfo.shrines.map(x => x.name)
+  };
+}
+
+const ANIMAL_BUY_COINS = {
+  chicken: 50,
+  cow: 100,
+  sheep: 120
+};
+
+const BOUNTIFUL_BOUNTIES_RANKS = [ .5, .75, 1 ];
+
+export function computeAnimalBountyFeedByLevel(type) {
+  const active = getActiveAnimalBoosts(type);
+  let feedMultTotal = 1, freeFeed = false;
+  active.forEach(b => {
+    if (b.feedMult) feedMultTotal *= b.feedMult;
+    if (b.feedMultAll) feedMultTotal *= b.feedMultAll;
+    if (b.freeFeed) freeFeed = true;
+  });
+  feedMultTotal *= getSpiceEffectForAnimalType(type).feedMultAll;
+  const qtyPerFeed = REQUIRED_FOOD_QTY_MAP[type];
+  const cycles = runAnimalCycleSim(type, getAffectionScales(type));
+  const byLevel = {};
+  let cumulative = 0;
+  for (const c of cycles) {
+    if (c.isMax) break;
+    if (!freeFeed) cumulative += c.feeds * qtyPerFeed * feedMultTotal * getActiveFeedInfo(c.favouriteFoodKey).cost;
+    for (let lvl = c.startLevel + 1; lvl <= c.claimLevel; lvl++) {
+      if (byLevel[lvl] == null) byLevel[lvl] = cumulative;
+    }
+  }
+  return byLevel;
+}
+
+export function computeAnimalBountyTable() {
+  const g = farmPanelGameState ? farmSyncExtractGameState(farmPanelGameState) : null;
+  const bounties = g && g.bounties && typeof g.bounties === "object" ? g.bounties : null;
+  const requests = bounties && Array.isArray(bounties.requests) ? bounties.requests : [];
+  const completed = new Set((bounties && Array.isArray(bounties.completed) ? bounties.completed : []).map(c => c && c.id));
+  const skillRank = isSkillActive("skill_bountiful_bounties") ? Math.min(Math.max(getAscensionRank("skill_bountiful_bounties"), 1), BOUNTIFUL_BOUNTIES_RANKS.length) : 0;
+  const multiplier = 1 + (skillRank ? BOUNTIFUL_BOUNTIES_RANKS[skillRank - 1] : 0);
+  const animals = Object.keys(ANIMAL_DATA).map(type => {
+    const cfg = ANIMAL_DATA[type];
+    const buyCost = ANIMAL_BUY_COINS[type];
+    const feedByLevel = computeAnimalBountyFeedByLevel(type);
+    const list = [];
+    requests.forEach(r => {
+      if (!r || completed.has(r.id)) return;
+      if (String(r.name).toLowerCase() !== type) return;
+      if (typeof r.coins !== "number" || !(r.coins > 0)) return;
+      const level = Math.min(15, Math.max(1, parseInt(r.level) || 1));
+      const feedCost = feedByLevel[level] != null ? feedByLevel[level] : 0;
+      const totalCost = buyCost + feedCost;
+      const coins = r.coins * multiplier;
+      list.push({
+        level: level,
+        baseCoins: r.coins,
+        coins: coins,
+        feedCost: feedCost,
+        totalCost: totalCost,
+        profit: coins - totalCost
+      });
+    });
+    const rows = list.sort((a, b) => a.level - b.level || a.baseCoins - b.baseCoins);
+    return {
+      type: type,
+      label: cfg.label,
+      buyCost: buyCost,
+      rows: rows
+    };
+  });
+  return {
+    synced: !!bounties,
+    multiplier: multiplier,
+    skillLevel: skillRank,
+    animals: animals
   };
 }
 
