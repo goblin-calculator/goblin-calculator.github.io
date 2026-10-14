@@ -1,4 +1,4 @@
-import { computeSpiceFigures, __set_restockGemMode, clearFlowerAutoPickMemo, esReqUnitCoins, ANIMAL_DATA, BASE_COMPOSTERS, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_RECIPES, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_TRAP_TOOL_ID, ES_ASCENSION_UPGRADE_BASE_COINS, ES_ASCENSION_UPGRADE_BASE_ITEMS, ES_ISLAND_UPGRADE_COST, ES_SWAMP_EXPANSIONS_PER_ASCENSION, FARM_LEVELS, FEED_RECIPE, FISH_CATCH_DATA, FISH_MARKET_CRAB_STICK_P2P_REF, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_MARKET_META_DEFAULTS, FISH_MARKET_SEASON_RECIPES, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, GUNTER_FLOWER_COST_MODE_LS_KEY, GUNTER_UPGRADE_NODES, LIMITED_TIME_BOOSTS, PET_COST_TRACK_RESOURCES, PET_FOOD_LISTS, PET_NOT_TRADABLE, PET_RESOURCE_DEFAULT_MARKET, PET_TRADABLE_RESOURCES, PICKLED_VEG_DATA, PRICE_SOURCE_LABELS, RESOURCE_DATA, RESTOCK_GEM_COST, SCULPTURE_LEVELS, SHRINE_RECIPES, SPICE_RECIPES, __boostedCropStatsMemo, __boostedFruitStatsMemo, __boostedGreenhouseStatsMemo, __boostedLavaPitStatsMemo, __boostedResourceStatsMemo, __cookingFoodExpMemo, __cookingFoodTimeMemo, __fishAgedFiguresMemo, __fishBasicFiguresMemo, __fishCatchXPMemo, __petCardMemo, __profileTradableRowsCacheG, __set___crabFiguresMemo, __set___profileTradableRowsCacheByTab, __set___profileTradableRowsCacheG, __set___seaweedFiguresMemo, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalTypeFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCrustaceanFigures, computeFertilizerFigures, computeHiveEconomics, computeLavaPitFigures, computeResourceFigures, computeSaltFarmFigures, computeSeaweedFigures, cookingGuaranteedCatchOn, crustaceanTrapIsFree, currentSeason, esBigFloorDiv, esBigIntPow, esState, escapeHtml, findTool, fishCatchYieldMult, fishingBoostsActiveByScope, fishingRodIsFree, flowerPerGem, flowerSeedOverrides, fmt, fmtFlowerPrice, gemsToFlower, getActiveBoostsForCrop, getActiveBoostsForFruit, getActiveBoostsForGreenhouse, getActiveFermentationSpiceExpectedMult, getActiveSaltBoosts, getAgingMaxXPLocal, getAnimalCount, getBoostCoverageFraction, getBoostedMedicineRecipe, getBoostedToolRecipe, getGenericPlotOrNodeCount, getGlobalCureModifiers, getKaleMixKaleQty, getMaterialMode, getMedicineIngredientMode, getPoolIndex, getSharedPoolDivisor, getShrineAffectedItemCount, getSpiceLickDurationHarvests, getVarietyIngredient, gunterSelectedUpgrade, gunterUpgradeCounts, hasLimitedBoostSyncData, isAppDarkModeOn, getSkillRankMult, isBoostActive, isBuildingBoostActive, isDigPanelNativeModeActive, isFertilizerTierEnabled, isPotionPanelNativeModeActive, isPetFoodChecked, normalizeItemName, normalizeSearch, petBoostActiveWithField, petComputeCardCached, petsData, previewSeason, profileState, restockGemMode, restockSharedExcluded, safeParse, saltFarmLevel, saltSculptureLevel, selectedHoneyFlower, setAppDarkMode, setPreviewSeason, shrineIdFromBoostName, spiceMaterialMode, toast, toolRecipes, updateCalcSummary, updateLiveSyncStatus, vegMaterialMode } from "./calculator.js";
+import { computeSpiceFigures, __set_restockGemMode, clearFlowerAutoPickMemo, esReqUnitCoins, ANIMAL_DATA, BASE_COMPOSTERS, BASE_CROPS, BASE_FRUITS, BASE_GREENHOUSE, BOOSTS, COIN_ICON, COOKING_BUILDINGS, COOKING_RECIPES, CRUSTACEAN_CATCH_DATA, CRUSTACEAN_TRAP_TOOL_ID, ES_ASCENSION_UPGRADE_BASE_COINS, ES_ASCENSION_UPGRADE_BASE_ITEMS, ES_ISLAND_UPGRADE_COST, ES_SWAMP_EXPANSIONS_PER_ASCENSION, FARM_LEVELS, FEED_RECIPE, FISH_CATCH_DATA, FISH_MARKET_CRAB_STICK_P2P_REF, FISH_MARKET_GUARANTEED_CATCH, FISH_MARKET_ITEM_NAMES, FISH_MARKET_META_DEFAULTS, FISH_MARKET_SEASON_RECIPES, FLOWER_ICON, FLOWER_SEEDS, FLOWER_VARIETIES, GUNTER_FLOWER_COST_MODE_LS_KEY, GUNTER_UPGRADE_NODES, LIMITED_TIME_BOOSTS, PET_COST_TRACK_RESOURCES, PET_FOOD_LISTS, PET_NOT_TRADABLE, PET_RESOURCE_DEFAULT_MARKET, PET_TRADABLE_RESOURCES, PICKLED_VEG_DATA, PRICE_SOURCE_LABELS, RESOURCE_DATA, RESTOCK_GEM_COST, SCULPTURE_LEVELS, SHRINE_RECIPES, SPICE_RECIPES, __boostedCropStatsMemo, __boostedFruitStatsMemo, __boostedGreenhouseStatsMemo, __boostedLavaPitStatsMemo, __boostedResourceStatsMemo, __cookingFoodExpMemo, __cookingFoodTimeMemo, __fishAgedFiguresMemo, __fishBasicFiguresMemo, __fishCatchXPMemo, __petCardMemo, __profileTradableRowsCacheG, __set___crabFiguresMemo, __set___profileTradableRowsCacheByTab, __set___profileTradableRowsCacheG, __set___seaweedFiguresMemo, coinPerFlower, coinsToFlower, computeAgedFishFigures, computeAnimalTypeFigures, computeBaitFigures, computeBasicFishFigures, computeBoostedCropStats, computeBoostedFlowerVarietyStats, computeBoostedFruitStats, computeBoostedGreenhouseStats, computeBoostedStock, computeComposterFigures, computeCrabFigures, computeCrustaceanFigures, computeFertilizerFigures, computeHiveEconomics, computeLavaPitFigures, computeResourceFigures, computeSaltFarmFigures, computeSeaweedFigures, cookingGuaranteedCatchOn, crustaceanTrapIsFree, currentSeason, esBigFloorDiv, esBigIntPow, esState, escapeHtml, findTool, fishCatchYieldMult, fishingBoostsActiveByScope, fishingRodIsFree, flowerPerGem, flowerSeedOverrides, fmt, fmtFlowerPrice, gemsToFlower, getActiveBoostsForCrop, getActiveBoostsForFruit, getActiveBoostsForGreenhouse, getActiveFermentationSpiceExpectedMult, getActiveSaltBoosts, getAgingMaxXPLocal, getAnimalCount, getBoostCoverageFraction, getBoostedMedicineRecipe, getBoostedToolRecipe, getGenericPlotOrNodeCount, getGlobalCureModifiers, getKaleMixKaleQty, getMaterialMode, getMedicineIngredientMode, getPoolIndex, getSharedPoolDivisor, getShrineAffectedItemCount, getSpiceLickDurationHarvests, getVarietyIngredient, gunterSelectedUpgrade, gunterUpgradeCounts, hasLimitedBoostSyncData, isAppDarkModeOn, getSkillRankMult, isBoostActive, isBuildingBoostActive, isFertilizerTierEnabled, isPetFoodChecked, normalizeItemName, normalizeSearch, petBoostActiveWithField, petComputeCardCached, petsData, previewSeason, profileState, restockGemMode, restockSharedExcluded, safeParse, saltFarmLevel, saltSculptureLevel, selectedHoneyFlower, setAppDarkMode, setPreviewSeason, shrineIdFromBoostName, spiceMaterialMode, toast, toolRecipes, updateCalcSummary, updateLiveSyncStatus, vegMaterialMode } from "./calculator.js";
 
 import { farmPanelGetBoostedYieldStats, farmPanelGetMarketPriceFlower, farmPanelGrowTimeSec } from "./inprogress.js";
 
@@ -110,6 +110,10 @@ export function computeRestockCost24h(baseStock, kind, count, cyclesPerDay, cycl
 export function getFlowerSeedTypeCost(seedKey) {
   const o = flowerSeedOverrides[seedKey];
   return o && o.seedCost != null ? parseFloat(o.seedCost) : FLOWER_SEEDS[seedKey].seedCost || 0;
+}
+
+export function getFlowerSeedEffectiveCost(seedKey) {
+  return getFlowerSeedTypeCost(seedKey) * getSkillRankMult("skill_flower_sale") * getArtistCoinCostMult();
 }
 
 export function setFlowerSeedTypeCost(seedKey, val) {
@@ -346,7 +350,7 @@ export function getFlowerVarietyCostCoins(varietyName, visited) {
   visited.add(key);
   const v = FLOWER_VARIETIES[varietyName];
   if (!v) return 0;
-  const seedCoinCost = getFlowerSeedTypeCost(v.seed);
+  const seedCoinCost = getFlowerSeedEffectiveCost(v.seed);
   const ing = getVarietyIngredient(varietyName);
   const mode = getMaterialMode("FlowerVariety_" + varietyName, ing.name);
   const ingCoinCost = ing.name ? (ing.qty || 0) * getMaterialUnitCostCoins(ing.name, mode, visited) : 0;
@@ -4197,11 +4201,11 @@ export function petDailyFoodCostFlower(pet) {
 }
 
 export function isSflThemeOn() {
-  return localStorage.getItem("hl_sfl_theme") !== "0";
+  return localStorage.getItem("hl_app_dark_mode") !== "1";
 }
 
 export function refreshSflThemeClass() {
-  const shouldApply = isSflThemeOn() && !isDigPanelNativeModeActive() && !isPotionPanelNativeModeActive();
+  const shouldApply = isSflThemeOn();
   document.body.classList.toggle("sfl-theme", shouldApply);
   syncSflSearchPlaceholders();
 }
@@ -4221,24 +4225,14 @@ function syncSflSearchPlaceholders() {
   });
 }
 
-function applySflTheme(on) {
-  refreshSflThemeClass();
-  const toggleIcon = $("sflThemeToggleFabIcon");
-  if (toggleIcon) toggleIcon.textContent = on ? "🌟" : "🌻";
-  const toggleLabel = $("sflThemeToggleFabLabel");
-  if (toggleLabel) toggleLabel.textContent = on ? "SFL Theme [on]" : "SFL Theme [off]";
-}
-
 export function setSflTheme(on) {
-  if (on && isAppDarkModeOn()) setAppDarkMode(false);
-  localStorage.setItem("hl_sfl_theme", on ? "1" : "0");
-  applySflTheme(on);
+  setAppDarkMode(!on);
 }
 
 (function initSflThemeFeature() {
   const fab = $("sflThemeToggleFab");
-  if (fab) fab.onclick = () => setSflTheme(!isSflThemeOn());
-  applySflTheme(isSflThemeOn());
+  if (fab) fab.onclick = () => setSflTheme(true);
+  refreshSflThemeClass();
 })();
 
 export const SFL_EXCHANGE_API = SFL_PROXY_BASE + "/api/v1.1/exchange";
