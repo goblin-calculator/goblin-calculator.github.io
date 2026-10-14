@@ -116,7 +116,7 @@
     --trade-glow:transparent;
     --trade-accent-1:#2a3542; --trade-accent-2:#2a3542; --trade-accent-3:#2a3542;
   }
-  body.app-dark #expansionSimOverlay, body.app-dark #settingsModalOverlay{ --es-glow:transparent; }
+  body.app-dark #expansionSimOverlay, body.app-dark #settingsModalOverlay, body.app-dark #animalBountyOverlay{ --es-glow:transparent; }
   body.app-dark #profileOverlay{ --pf-glow:transparent; }
   body.app-dark #gunterShopOverlay{ --gs-glow:transparent; --gs-lava:#1c2530; --gs-lava-deep:#1c2530; }
   body.app-dark #ticketCalcOverlay{ --estimate-panel-1:#1c2530; --estimate-panel-2:#1c2530; --estimate-panel-3:#1c2530; }
@@ -5939,7 +5939,7 @@ body.sfl-theme #chapterFishMutantsOverlay{
   }
 }
 
-#expansionSimOverlay, #settingsModalOverlay{
+#expansionSimOverlay, #settingsModalOverlay, #animalBountyOverlay{
   --es-bg-1:var(--moss); --es-bg-2:var(--moss-deep); --es-bg-3:var(--moss-deep);
   --es-glow:rgba(200,230,150,.35);
   --es-ink:var(--ink); --es-ink-soft:var(--ink-soft); --es-line:var(--line);
@@ -5949,7 +5949,7 @@ body.sfl-theme #chapterFishMutantsOverlay{
   position:fixed; inset:0; background:rgba(10,8,6,.72);
   display:none; align-items:center; justify-content:center; z-index:1210;
 }
-#expansionSimOverlay.show, #settingsModalOverlay.show{ display:flex; animation:top10FadeIn .2s ease both; }
+#expansionSimOverlay.show, #settingsModalOverlay.show, #animalBountyOverlay.show{ display:flex; animation:top10FadeIn .2s ease both; }
 .expansion-sim-card{
   width:100%; height:100%; max-width:100%; max-height:100%;
   background:
@@ -7926,13 +7926,16 @@ body.sfl-theme .es-material-cost-subtitle{
   border-color:var(--sfl-label-border) !important;
 }
 
-body.sfl-theme #settingsModalOverlay{
+body.sfl-theme #settingsModalOverlay,
+body.sfl-theme #animalBountyOverlay{
   background:var(--sfl-outer) !important;
 }
-body.sfl-theme #settingsModalCard{
+body.sfl-theme #settingsModalCard,
+body.sfl-theme #animalBountyCard{
   background-color:var(--sfl-outer) !important;
 }
-body.sfl-theme #settingsModalCard .es-section{
+body.sfl-theme #settingsModalCard .es-section,
+body.sfl-theme #animalBountyCard .es-section{
   background-color:var(--sfl-inner) !important;
 }
 
@@ -10890,6 +10893,29 @@ body.sfl-theme #sflBubblesPanel .sfl-bubble-value.loss{ color:#e74c3c !important
 body.sfl-theme #sflBubblesPanel .sfl-bub-detail-close{
   background:var(--sfl-inner) !important; color:#3a2412 !important; border-color:var(--sfl-outer-border) !important;
 }
+body.sfl-theme #sflBubblesPanel .sfl-bub-detail .sfl-bub-detail-row,
+body.sfl-theme #sflBubblesPanel .sfl-bub-detail .sfl-bub-product-row{
+  background:transparent !important; background-color:transparent !important;
+}
+body.sfl-theme #sflBubblesPanel .sfl-bub-detail,
+body.sfl-theme #sflBubblesPanel .sfl-bub-detail *:not(img){
+  font-family:inherit !important;
+}
+body.sfl-theme #sflBubblesPanel .sfl-bub-detail-name{ font-size:13px !important; font-weight:800 !important; }
+body.sfl-theme #sflBubblesPanel .sfl-bub-detail-row,
+body.sfl-theme #sflBubblesPanel .sfl-bub-detail-row span,
+body.sfl-theme #sflBubblesPanel .sfl-bub-detail-note-text,
+body.sfl-theme #sflBubblesPanel .sfl-bub-detail-note-explain,
+body.sfl-theme #sflBubblesPanel .sfl-bub-node-name,
+body.sfl-theme #sflBubblesPanel .sfl-bub-node-count{ font-size:11px !important; }
+body.sfl-theme #sflBubblesPanel .sfl-bub-product-row,
+body.sfl-theme #sflBubblesPanel .sfl-bub-product-row span,
+body.sfl-theme #sflBubblesPanel .sfl-bub-boost-chip,
+body.sfl-theme #sflBubblesPanel .sfl-bub-boost-none{ font-size:10px !important; }
+body.sfl-theme #sflBubblesPanel .sfl-bub-product-name,
+body.sfl-theme #sflBubblesPanel .sfl-bub-boosts-title,
+body.sfl-theme #sflBubblesPanel .sfl-bub-detail-note-label{ font-size:11.5px !important; }
+body.sfl-theme #sflBubblesPanel .sfl-bub-boost-group-title{ font-size:9.6px !important; }
 #sflBubblesPanel .sfl-bub-stage-wrap{ background:#000 !important; }
 #sflBubblesPanel .sfl-bub-stage-wrap .sfl-bub-stage{ background:#000 !important; }
 body.sfl-theme #sflBubblesPanel .sfl-bub-status{ color:#ffffff !important; }
@@ -12666,3 +12692,67 @@ body.sfl-theme #beginnerPanel .bg-line.bg-skill-card{ padding:2px 7px !important
 .bg-lsim-unit{ gap:8px; align-items:center; margin:2px 0 6px; }
 .bg-lsim-unit .bg-lsim-unit-name{ display:flex; align-items:center; gap:6px; min-width:0; }
 .bg-lsim-unit .bg-lsim-unit-exp{ flex:0 0 auto; font-weight:700; white-space:nowrap; }
+
+.animals-intro-row{ display:flex; align-items:flex-end; gap:8px; }
+.animals-intro-row > span{ flex:1; min-width:0; }
+.animal-bounty-open-btn{
+  flex-shrink:0; width:auto; min-width:0; height:auto;
+  padding:4px 9px; font-family:var(--pixel-font); font-size:10.8px; line-height:1.4;
+  letter-spacing:.4px; white-space:nowrap; cursor:pointer; touch-action:manipulation;
+  background:var(--wheat, #f5e6c8); color:#b0442f;
+  border:2px solid #b0442f; border-radius:4px;
+}
+.animal-bounty-open-btn:active{ transform:translate(1px,1px); }
+
+#animalBountyBody .ab-grid{ display:block; }
+#animalBountyBody .ab-card{ margin-bottom:10px; }
+@media (min-width:700px){
+  #animalBountyBody .ab-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px; align-items:start;
+  }
+  #animalBountyBody .ab-card{ margin-bottom:0; }
+}
+.ab-card-title{ display:flex; align-items:center; gap:6px; }
+.ab-card-title img{ width:18px; height:18px; image-rendering:pixelated; }
+.ab-card-title .ab-buy{ margin-left:auto; display:inline-flex; align-items:center; gap:3px; color:#d8f0b8; text-transform:none; }
+.ab-card-title .ab-buy img{ width:12px; height:12px; }
+.ab-row{
+  display:grid; grid-template-columns:70px 1fr 1fr 1.25fr; column-gap:10px; row-gap:4px; align-items:center;
+  padding:5px 2px; border-bottom:1px dashed var(--es-line); font-size:11px; color:var(--es-ink);
+}
+.ab-row:last-child{ border-bottom:0; }
+.ab-row.ab-head{
+  font-size:9.6px; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--es-ink-soft); border-bottom:2px solid var(--es-line);
+}
+.ab-cell{ display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:2px; min-width:0; }
+.ab-cell img{ width:12px; height:12px; image-rendering:pixelated; vertical-align:middle; flex-shrink:0; }
+.ab-level{ flex-direction:row; align-items:center; gap:3px; font-weight:800; white-space:nowrap; }
+.ab-level img{ width:16px; height:16px; }
+.ab-count{ font-size:9.6px; opacity:.7; }
+.ab-val{ display:inline-flex; align-items:center; gap:3px; white-space:nowrap; }
+.ab-num{ font-family:inherit; font-size:11px; font-weight:700; letter-spacing:0; }
+.ab-base{ display:flex; align-items:center; gap:3px; font-size:9.6px; color:var(--es-ink-soft); white-space:nowrap; }
+.ab-base .ab-val{ gap:2px; }
+.ab-base .ab-num{ font-size:9.6px; font-weight:600; }
+.ab-profit{ font-weight:800; }
+.ab-profit.is-profit{ color:var(--profit); }
+.ab-profit.is-loss{ color:var(--loss); }
+.ab-empty{ font-size:11.4px; color:var(--es-ink-soft); padding:4px 2px; }
+.ab-card-title .ab-num{ font-size:11px; }
+body.sfl-theme #animalsBody .animals-intro-row,
+body.sfl-theme #animalsBody .animals-intro-row > span{ background:transparent !important; background-color:transparent !important; background-image:none !important; }
+body.sfl-theme #animalBountyCard .ab-row,
+body.sfl-theme #animalBountyCard .ab-cell,
+body.sfl-theme #animalBountyCard .ab-val,
+body.sfl-theme #animalBountyCard .ab-base,
+body.sfl-theme #animalBountyCard .ab-level,
+body.sfl-theme #animalBountyCard .ab-empty,
+body.sfl-theme #animalBountyCard .ab-card-title{ background-color:var(--sfl-inner) !important; background-image:none !important; }
+body.sfl-theme #animalBountyCard .ab-card-title .ab-val{ background-color:transparent !important; }
+body.sfl-theme #animalBountyCard .ab-profit.is-profit,
+body.sfl-theme #animalBountyCard .ab-profit.is-profit .ab-num{ color:var(--profit, #2e8b3d) !important; }
+body.sfl-theme #animalBountyCard .ab-profit.is-loss,
+body.sfl-theme #animalBountyCard .ab-profit.is-loss .ab-num{ color:var(--loss, #d63a3a) !important; }
+.ab-level{ justify-content:flex-start; }
+.ab-row.ab-head .ab-cell{ white-space:nowrap; letter-spacing:.02em; }

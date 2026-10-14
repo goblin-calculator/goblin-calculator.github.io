@@ -1,8 +1,8 @@
-const CACHE_VERSION = "v018251a996";
+const CACHE_VERSION = "vd2c5941892";
 
 const CACHE_NAME = `goblin-calc-${CACHE_VERSION}`;
 
-const PRECACHE_URLS = [ "./", "./index.html", "./style.css", "./app.a07ffb23fd.bundle.js", "./presence.js", "./manifest.json", "./icons/goblin-logo.png" ];
+const PRECACHE_URLS = [ "./", "./index.html", "./style.css", "./app.5c5de0647c.bundle.js", "./presence.js", "./manifest.json", "./icons/goblin-logo.png" ];
 
 const NAVIGATE_NETWORK_TIMEOUT_MS = 3e3;
 
@@ -120,7 +120,7 @@ self.addEventListener("fetch", event => {
   }
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
-    if (request.mode === "navigate") {
+    if (request.mode === "navigate" || new URL(request.url).pathname.endsWith("/presence.js")) {
       return networkFirstForNavigation(request, cache);
     }
     try {
