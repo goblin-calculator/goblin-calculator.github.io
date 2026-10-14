@@ -1,4 +1,4 @@
-const CACHE_VERSION = "vd2c5941892";
+const CACHE_VERSION = "vbe46b8b46b";
 
 const CACHE_NAME = `goblin-calc-${CACHE_VERSION}`;
 
