@@ -192,8 +192,14 @@ const firebaseConfig = {
       return;
     }
     try {
+      try {
+        localStorage.removeItem("firebase:previous_websocket_failure");
+      } catch (e) {}
       getApp();
       db = window.firebase.database();
+      try {
+        db.INTERNAL.forceWebSockets();
+      } catch (e) {}
       presenceRef = db.ref("presence");
       myPresenceRef = presenceRef.push();
       connectedRef = db.ref(".info/connected");
