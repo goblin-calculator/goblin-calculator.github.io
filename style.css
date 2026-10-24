@@ -12671,3 +12671,39 @@ body:not(.sfl-theme) .dig-panel-title{
 .dig-side-panel .dig-panel-card{ padding-top:41px !important; }
 body.sfl-theme .dig-side-panel .dig-panel-header,
 .dig-side-panel .dig-panel-header{ margin-top:0 !important; }
+
+#goblinAnnouncement{
+  position:fixed; inset:0; z-index:100000;
+  display:none; align-items:center; justify-content:center;
+  background:rgba(10,8,6,.72); padding:12px;
+}
+#goblinAnnouncement.show{ display:flex; }
+#goblinAnnouncement .gb-announce-card{
+  width:320px; max-width:calc(100vw - 24px); height:380px; max-height:calc(100vh - 24px);
+  box-sizing:border-box; display:flex; flex-direction:column; overflow:hidden;
+}
+.gb-announce-close{
+  position:absolute; top:6px; right:6px; width:26px; height:26px; z-index:2;
+  display:flex; align-items:center; justify-content:center; padding:0;
+  font-size:14px; line-height:1; cursor:pointer;
+  background:var(--soil-dark); color:var(--wheat); border:2px solid rgba(0,0,0,.4); border-radius:0;
+  box-shadow:2px 2px 0 rgba(0,0,0,.4);
+}
+.gb-announce-close:active{ transform:translate(2px,2px); box-shadow:none; }
+.gb-announce-body{
+  flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px; text-align:center; padding-top:10px;
+  font-family:var(--pixel-font); font-size:10.5px; line-height:1.7; color:var(--wheat, #f5e6c8);
+}
+.gb-announce-body p{ margin:0; }
+.gb-announce-link{
+  font-family:var(--pixel-font); font-size:16px; letter-spacing:1px; color:var(--sun, #f5c542);
+  text-decoration:underline; text-shadow:2px 2px 0 rgba(0,0,0,.4); cursor:pointer;
+}
+.gb-announce-url{
+  font-family:var(--pixel-font); font-size:9px; color:var(--sun, #f5c542); text-decoration:underline; word-break:break-all; cursor:pointer;
+}
+body.sfl-theme .gb-announce-body{ color:var(--sfl-text) !important; }
+body.sfl-theme .gb-announce-link, body.sfl-theme .gb-announce-url{ color:var(--sfl-text) !important; text-shadow:none !important; }
+body.sfl-theme .gb-announce-close{ color:var(--sfl-text) !important; background:var(--sfl-inner) !important; box-shadow:none !important; }
+#goblinAnnouncement .gb-announce-card .sync-modal-titlebar{ margin-left:30px; margin-right:30px; }
